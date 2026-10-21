@@ -1,0 +1,22 @@
+# Episode 01–08 Recovery & Narrative Roadmap
+
+19 October 2026 — provisional planning overlay for Phase 06F. Only Episode 01 is implemented. Existing approved Episode 02 authoring and its source/character boundaries remain authoritative. Episodes 03–08 below are design proposals, not canon, authored scenes, evidence promises or unlock schedules.
+
+The existing ten-episode proposal remains intact in docs/narrative/phase-01/09_SEASON_01_TEN_EPISODE_OUTLINE.md. Compressing it into eight episodes requires explicit author approval, particularly for protected welfare/provenance/preservation and ending material. This table does not silently relocate any of those events. Unsupplied Story Bible v2 cannot be reconstructed from these targets.
+
+| Episode | Status and narrative focus | Potential access, conditional on approved sources | Boundary |
+| --- | --- | --- | --- |
+| 01 — THE MISSING ENTRY | Current implemented canon: Sophie first contact, note, recovery, mirror/index observation, Sophie follow-up, Maya/Bulletin, Bus 4, GCRO, S30 | Initial Daniel snapshot, ordinary history and limited records; four optional per-item passwords | 14/13 remains unverified and separate from Bus 4; S30 role class only. No fate/sender/culprit answer. |
+| 02 — THE PEOPLE HE LEFT BEHIND | Existing approved authoring takes precedence: personal network, conflicting accounts, last-contact/source verification | Additional existing conversations/contact context/selected metadata only after authored introductions, permissions and source checks | Preserve existing E02 prose and knowledge boundaries. Sophie-first continuity needs author reconciliation. No playable E02 or promised package added. |
+| 03 — Provisional | Incomplete communications | Audio/voicemail fragments only if surviving bytes and a legitimate recovery source are authored | Missing audio stays unavailable until technically and narratively justified; no invented speaker identification. |
+| 04 — Provisional | Locations and historical activity | Saved routes, Maps context or image metadata from a separately established source | Saved pin, search, device position and person location remain different claims. No real GPS. |
+| 05 — Provisional | Revision history and document provenance | Protected correspondence or historical records under a scoped authorized source | Password access does not authenticate a record or establish motive. Preserve existing source/privacy contracts. |
+| 06 — Provisional | Origin and trustworthiness of The Archive | Recovery logs or authorization metadata, only if lawful access and provenance are authored | No package-sender identity inferred from recovery token, artwork or matching labels. |
+| 07 — Provisional | Testing connections between separate evidence | Selected protected files or incomplete communications with independently approved prerequisites | Correlation stays a hypothesis until authenticated sources connect it; no automatic cross-record proof. |
+| 08 — Provisional finale | Test final hypotheses and resolve the central mystery according to eventual approval | Only records needed and supported by the approved finale | No new outcome, culprit or Daniel-fate answer is authored by this plan. Existing approved constraints cannot be dropped to fit eight episodes. |
+
+No episode receives an automatic recovery package. A new source needs a stable source/item ID, owner/app, provenance limits, nonempty approved event prerequisites, explicit permission where relevant, an authored player action or delivered source event, idempotent receipt and regression coverage. Episode numbers describe editorial boundaries; they are never sufficient unlock conditions.
+
+Maintain the distinction between device restoration, optional password solving, missing-data recovery, permission restrictions and unavailable external backups. A record may remain inaccessible indefinitely. Search, related links, counts, notification copy, thumbnails and full images all need the same visibility boundary. A password cannot bypass it.
+
+Future development must preserve all existing puzzles and receipts, retain completed-player access and save compatibility, avoid legacy automatic migration, and keep every NPC disclosure recipient-specific and explicitly sent. Narrative retention should come from ordinary personal details, unresolved but precisely framed questions and contrasting sourced testimony, without granting access or facts as a reward for guessing protected answers.

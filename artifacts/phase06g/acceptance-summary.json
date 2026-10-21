@@ -1,0 +1,25 @@
+{
+  "scene_count": 30,
+  "authored_choices": 56,
+  "units": {
+    "status": "PASS",
+    "passed": 161,
+    "failed": 0,
+    "pending": 0
+  },
+  "browser": {
+    "status": "PASS",
+    "startTime": "2026-10-19T05:22:31.459Z",
+    "duration": 237678.226,
+    "expected": 43,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "android_build": "PASS",
+  "apk_integrity": "PASS",
+  "physical_uat": "NOT TESTED",
+  "human_pacing": "NOT TESTED",
+  "author_reconciliation": "BLOCKED",
+  "production_release": "BLOCKED"
+}

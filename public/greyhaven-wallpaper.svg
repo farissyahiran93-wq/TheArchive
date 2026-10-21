@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1800" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#718c9d"/><stop offset=".42" stop-color="#c8bcb2"/><stop offset=".68" stop-color="#8e9da6"/><stop offset="1" stop-color="#344d5b"/></linearGradient>
+    <linearGradient id="water" x2="0" y2="1"><stop stop-color="#7b949d"/><stop offset=".36" stop-color="#455d6c"/><stop offset="1" stop-color="#162c3b"/></linearGradient>
+    <linearGradient id="left" x2="0" y2="1"><stop stop-color="#d6c7ae"/><stop offset="1" stop-color="#59646a"/></linearGradient>
+    <linearGradient id="right" x2="0" y2="1"><stop stop-color="#c3a993"/><stop offset="1" stop-color="#465a65"/></linearGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="14"/></filter>
+    <pattern id="ripples" width="180" height="42" patternUnits="userSpaceOnUse"><path d="M-20 12Q36 0 84 12T188 10M12 31q44-9 92 0t92-4" fill="none" stroke="#c9d2cc" stroke-opacity=".18" stroke-width="2"/></pattern>
+  </defs>
+  <rect width="900" height="1800" fill="url(#sky)"/>
+  <circle cx="650" cy="365" r="150" fill="#fff4df" opacity=".28" filter="url(#soft)"/>
+  <path d="M0 595 130 540 195 552 300 490 360 525 480 480 570 518 680 448 760 492 900 443v462H0" fill="#6f8288" opacity=".43"/>
+  <path d="M0 420 92 382v542H0m20-437 145-75v518H20m135-455 120-34v486H155m60-580 68-20v562h-68" fill="url(#left)" stroke="#364e5a" stroke-width="4"/>
+  <path d="M900 418 786 376v572h114m-55-510-152-70v564h152m-138-482-127-26v506h127m-67-570-79-16v586h79" fill="url(#right)" stroke="#344955" stroke-width="4"/>
+  <g fill="#263d4b" opacity=".62">
+    <path d="M42 490h14v29H42zm39-15h14v29H81zm74 18h14v29h-14zm39-15h14v29h-14zm73 28h12v25h-12zm350-40h16v30h-16zm38 9h16v30h-16zm77-26h14v28h-14zm43 16h14v28h-14z"/>
+    <path d="M42 555h14v29H42zm39-15h14v29H81zm74 18h14v29h-14zm39-15h14v29h-14zm73 28h12v25h-12zm350-40h16v30h-16zm38 9h16v30h-16zm77-26h14v28h-14zm43 16h14v28h-14z"/>
+  </g>
+  <path d="M0 845q223-83 450-19t450-18v188H0" fill="#526976"/>
+  <path d="M0 920q225-70 450-10t450-20v910H0" fill="url(#water)"/>
+  <path d="M0 960q190 45 380-12t520-12" fill="none" stroke="#dfd7c5" stroke-opacity=".3" stroke-width="12"/>
+  <path d="M0 1014q240 42 453-24t447-16" fill="none" stroke="#9caeb1" stroke-opacity=".29" stroke-width="6"/>
+  <rect y="1000" width="900" height="800" fill="url(#ripples)"/>
+  <path d="M0 792q187-79 412-10t488-7v27q-245 85-458 5T0 824" fill="#2b4653"/>
+  <path d="M0 780q187-79 412-10t488-7" fill="none" stroke="#c9b89e" stroke-width="8"/>
+  <g fill="none" stroke="#263d4a" stroke-width="13"><path d="M102 820v86m211-80v74m250-76v73m225-83v79"/></g>
+  <g fill="#e4c8a2" opacity=".22"><path d="M0 990q190 10 310-8l-120 250L0 1200zm570-10q160-20 330 0v210l-190-22z"/></g>
+  <path d="M0 0h900v1800H0z" fill="#142536" opacity=".13"/>
+</svg>

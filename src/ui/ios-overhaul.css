@@ -1,0 +1,114 @@
+/* The Archive · iPhone-inspired design system. Original artwork, no Apple assets. */
+:root{font-family:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif;font-synthesis:none}
+.app-root{--phone-bg:#f2f2f7;--surface:#fff;--raised:#e9e9ef;--text:#101014;--muted:#74747c;--line:#dedee5;--accent:#007aff;--button-accent:#007aff;--incoming:#e9e9eb;--outgoing:#007aff;--header:#f9f9fbeb;letter-spacing:-.012em}
+.app-root.theme-dark{--phone-bg:#000;--surface:#1c1c1e;--raised:#2c2c2e;--text:#f5f5f7;--muted:#9a9aa0;--line:#38383a;--accent:#0a84ff;--button-accent:#0a84ff;--incoming:#262628;--outgoing:#0a84ff;--header:#161618ee}
+.device{box-shadow:0 24px 85px #0008;overflow:hidden}
+.status-bar{background:var(--header);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);height:calc(54px + env(safe-area-inset-top));}
+.device-island{height:29px;width:96px;top:calc(9px + env(safe-area-inset-top))}
+.system-nav{height:calc(24px + env(safe-area-inset-bottom));display:flex;justify-content:center;align-items:center}
+.system-nav button{height:23px}.gesture-line{width:108px;height:5px}
+.surface-home .status-bar,.surface-lock .status-bar{background:transparent;backdrop-filter:none}
+.surface-home .device-island,.surface-lock .device-island{box-shadow:0 1px 5px #0003}
+.lock-clock h1{font-size:clamp(76px,22vw,100px);font-weight:550;letter-spacing:-.075em}
+.lock-clock p{font-size:19px;font-weight:450}
+.opening-lock-message{background:#f8f9facc;color:#202126;border:1px solid #fff9;border-radius:21px;backdrop-filter:blur(30px) saturate(170%);padding:15px 17px;box-shadow:0 8px 34px #0003}
+.opening-lock-message span{color:#526071;font-weight:700}.opening-lock-message small{color:#3d4a59}
+.home-content{padding-left:20px;padding-right:20px}.home-apps{gap:17px 6px}.app-tile{font-size:11px;text-shadow:0 1px 8px #0008}.native-icon{box-shadow:0 3px 9px #0003}
+.dock{background:#e5ebf35a!important;backdrop-filter:blur(36px) saturate(175%);-webkit-backdrop-filter:blur(36px) saturate(175%);border:1px solid #fff4;border-radius:29px!important}
+.widgets .widget{border-radius:24px}.story-home-alert{backdrop-filter:blur(22px)}
+.app-header,.native-chat-header,.opening-chat-header{background:var(--header);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-bottom:1px solid var(--line)}
+.app-header h1{font-size:30px;font-weight:700;letter-spacing:-.045em}.app-header p{font-size:11px;letter-spacing:.055em}
+.utility-card,.settings-group,.empty-card{border-radius:17px;box-shadow:none;border-color:var(--line)}
+.utility-content{background:var(--phone-bg)}.settings-row{min-height:55px}.setting-icon{border-radius:9px}
+.note-editor{border-radius:14px;background:var(--surface);font-size:16px;line-height:1.6}
+.search-field{border-radius:12px;background:var(--raised)}
+.native-messenger{background:var(--phone-bg)}.chat-area{background:var(--phone-bg)}
+.bubble{border-radius:19px;max-width:min(78%,330px);font-size:15px;line-height:1.4}
+.bubble.player{background:var(--outgoing);color:white}.bubble.fixture,.bubble.maya{background:var(--incoming);color:var(--text)}
+.composer{background:var(--header);backdrop-filter:blur(22px);border-top:1px solid var(--line)}.choice{border-radius:17px}
+/* Sophie: native-message layout while maintaining existing story/save actions. */
+.opening-screen{background:var(--phone-bg)!important;color:var(--text)!important}
+.opening-chat-header{padding:11px 18px;min-height:75px;justify-content:center;position:relative}
+.opening-chat-header>div{display:flex;flex-direction:column;align-items:center;gap:2px}.opening-chat-header>svg{position:absolute;right:20px;color:var(--accent)}
+.opening-avatar{background:linear-gradient(145deg,#a4b5c8,#596d83);color:white;box-shadow:0 2px 10px #0002}
+.opening-chat-header strong{font-size:14px;font-weight:650}.opening-chat-header small{font-size:10px;color:var(--muted)!important}
+.opening-thread{background:var(--phone-bg);padding:22px 15px!important;scroll-behavior:smooth}
+.opening-timestamp{color:var(--muted)!important;font-weight:600;font-size:11px;letter-spacing:.02em}
+.opening-bubble{background:var(--incoming)!important;color:var(--text)!important;border:0!important;border-radius:19px!important;font-size:15px;line-height:1.43;max-width:83%}
+.opening-bubble.player{background:var(--outgoing)!important;color:white!important;margin-left:auto;border-bottom-right-radius:6px!important}
+.opening-bubble.sophie{border-bottom-left-radius:6px!important}
+.opening-actions{background:var(--header)!important;border-top:1px solid var(--line)!important;backdrop-filter:blur(20px);padding:11px 15px calc(14px + env(safe-area-inset-bottom))!important}
+.opening-action-heading{color:var(--muted)!important;font-size:10px;letter-spacing:.08em}
+.opening-choice{border:1px solid var(--line)!important;border-radius:17px!important;background:var(--surface)!important;color:var(--text)!important;min-height:45px}
+.opening-choice.selected{border-color:var(--accent)!important;background:color-mix(in srgb,var(--accent) 10%,var(--surface))!important}
+.opening-primary{border-radius:15px!important;background:var(--accent)!important;color:#fff!important;min-height:47px}
+.opening-help{color:var(--muted)!important}.opening-attachment{background:var(--surface)!important;color:var(--text)!important;border-radius:18px!important;border:1px solid var(--line)!important}
+.opening-note{background:#fff6d9!important;color:#342e20!important;border-radius:16px!important;box-shadow:0 8px 24px #0001}
+.opening-recovery,.opening-mirror-stage,.opening-found{background:#08090d!important;color:#f4f5f9!important}
+.opening-stage-top{background:#14151a!important;border-bottom:1px solid #292930!important;color:#d4d5dc!important}
+.opening-recovery .opening-properties,.opening-legal,.opening-mismatch,.opening-hook{border-radius:18px!important}
+.opening-recovery .opening-primary,.opening-mirror-stage .opening-primary{background:#0a84ff!important}
+/* Mirror becomes a separate iOS-like home screen, with authentic document navigation. */
+.mirror{background:linear-gradient(155deg,#25374b 0%,#141a2b 49%,#0d1019 100%)!important;color:#f6f7fa!important}
+.mirror-top{background:#0e141dbb!important;backdrop-filter:blur(18px);border-bottom:1px solid #ffffff1d}
+.mirror-hero{border:0!important;background:transparent!important;padding:20px 10px 12px!important}
+.mirror-hero>svg{padding:10px;width:56px;height:56px;background:#ffffff14;border-radius:16px}
+.mirror-hero strong{font-size:27px;font-weight:700;letter-spacing:-.04em;margin-top:9px}
+.mirror-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:19px 8px;padding:12px 8px}
+.mirror-icon>span{border:1px solid #ffffff2b!important;background:linear-gradient(155deg,#4085c6,#1b4c7d)!important;border-radius:17px!important;width:61px!important;height:61px!important;box-shadow:0 4px 15px #0003}
+.mirror-icon:nth-child(2n)>span{background:linear-gradient(150deg,#707c90,#343d56)!important}
+.mirror-icon:nth-child(3n)>span{background:linear-gradient(150deg,#cca14a,#99733d)!important}
+.mirror-icon strong{font-weight:500!important;font-size:11px!important}.mirror-icon small{font-size:9px!important}
+.mirror-detail{background:#101115!important}.mirror-file{background:#25252b!important;border:0!important;border-bottom:1px solid #38383d!important;border-radius:12px!important;font-size:14px!important;min-height:52px}
+.mirror-file.is-active{background:#203e5d!important}.mirror-document{background:#1c1c21!important;border-color:#35353a!important;border-radius:18px!important}
+.mirror-compare{background:#0a84ff!important;border-radius:15px!important}
+@media(prefers-reduced-motion:reduce){.opening-thread{scroll-behavior:auto}.phone-content{animation:none}}
+
+/* Phase UI 02 · iMessage-inspired Messages experience (original game UI). */
+.native-messenger.inbox-screen,.native-messenger.chat-screen{background:var(--phone-bg)}
+.native-inbox-header{background:var(--phone-bg);padding:7px 18px 12px}
+.native-inbox-header h1{font-size:35px;font-weight:750;letter-spacing:-.05em}
+.native-inbox-search{background:var(--raised);border:0;border-radius:12px;min-height:37px}
+.native-messenger .inbox-content{background:var(--surface);padding:0 0 20px 16px}
+.thread-row{width:100%;padding:10px 18px 10px 0;min-height:82px;gap:12px;border-bottom:1px solid var(--line);text-align:left}
+.thread-row .contact-avatar{width:50px;height:50px;font-size:20px;border-radius:50%;background:linear-gradient(145deg,#849bad,#354d65);color:#fff}
+.thread-row .thread-text{min-width:0;flex:1}.thread-row .thread-text strong{font-size:16px}.thread-row .thread-text small{font-size:13px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.thread-meta{color:var(--muted)}.inbox-footnote{margin:20px 17px 0 0}
+.native-chat-header{min-height:89px;background:var(--header);border-bottom:1px solid var(--line);padding-bottom:10px}
+.native-chat-contact .contact-avatar{width:39px;height:39px;background:linear-gradient(145deg,#849bad,#354d65);color:white;border-radius:50%}
+.native-chat-contact .chat-title{text-align:center}.native-chat-contact .chat-title strong{font-size:13px}
+.native-chat-header .native-back-button{color:var(--accent);top:16px}
+.chat-scroll{padding:13px 12px 22px}.chat-date{color:var(--muted);text-align:center;font-size:11px}
+.bubble-row{margin:3px 0}.bubble-row.group-start{margin-top:12px}
+.bubble-row .bubble{max-width:82%;border:0;box-shadow:none;padding:10px 13px 8px;border-radius:18px}
+.bubble-row .bubble p{font-size:16px;line-height:1.38;white-space:pre-wrap}
+.bubble-row .bubble small{display:flex;gap:5px;align-items:center;justify-content:flex-end;font-size:10px;opacity:.68;margin-top:3px}
+.bubble-row .bubble.player{background:var(--outgoing);color:#fff;border-bottom-right-radius:5px}
+.bubble-row .bubble.maya,.bubble-row .bubble.fixture{background:var(--incoming);color:var(--text);border-bottom-left-radius:5px}
+.typing-dots{background:var(--incoming);border-radius:20px;padding:11px 14px}
+.composer{border-top:1px solid var(--line);background:var(--header);padding:10px 13px calc(11px + env(safe-area-inset-bottom));max-height:min(46vh,340px)}
+.composer-title{font-size:10px;color:var(--muted)}
+.composer .choices{gap:7px}.composer .choice{min-height:43px;background:var(--surface);border:1px solid var(--line);border-radius:18px;text-align:left;padding:11px 13px;font-size:14px}
+.composer .choice.selected{border:2px solid var(--accent);padding:10px 12px;background:color-mix(in srgb,var(--accent) 9%,var(--surface))}
+.composer .send-button{margin-top:9px;width:100%;min-height:43px;border-radius:22px;background:var(--accent);font-size:14px}
+/* Sophie is the opening iMessage thread; all existing reply permissions are preserved. */
+.opening-chat-header{min-height:91px;padding:5px 54px 9px;display:flex;justify-content:center;align-items:center;gap:5px;position:relative}
+.opening-chat-header .opening-avatar{width:38px;height:38px;flex:none}
+.opening-chat-header>div{flex:0 1 auto;min-width:0;text-align:center;display:flex;align-items:center;flex-direction:column}
+.opening-chat-header>svg{right:18px;top:19px;color:var(--accent)}
+.opening-chat-header .opening-chat-back{position:absolute;left:12px;top:18px;border:0;background:none;color:var(--accent);padding:7px}
+.opening-chat-header strong{font-size:13px}.opening-chat-header small{font-size:10px;max-width:210px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.opening-thread{padding:14px 13px 25px!important;gap:5px}
+.opening-timestamp{font-size:11px;letter-spacing:0;text-transform:none;padding:7px 0 10px}
+.opening-bubble{padding:10px 13px!important;font-size:16px!important;line-height:1.4!important;white-space:pre-wrap;max-width:83%!important}
+.opening-bubble.sophie{align-self:flex-start;background:var(--incoming)!important;border-bottom-left-radius:5px!important}
+.opening-bubble.player{align-self:flex-end;background:var(--accent)!important;border-bottom-right-radius:5px!important}
+.opening-actions{padding:10px 13px calc(12px + env(safe-area-inset-bottom))!important}
+.opening-action-heading{color:var(--muted);font-size:11px!important;letter-spacing:0!important}
+.opening-choice{font-size:14px;border-radius:20px!important;text-align:left!important;line-height:1.4}
+.opening-primary{border-radius:23px!important;background:var(--accent)!important}
+.opening-attachment{align-self:flex-start;max-width:87%;text-align:left}
+.opening-thread .opening-note{align-self:flex-start;max-width:96%}
+.imessage-preserved{padding:12px 15px;min-height:51px;border-top:1px solid var(--line);background:var(--header);display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px}
+.imessage-preserved .imessage-pill{flex:1;border:1px solid var(--line);border-radius:21px;padding:10px 14px;color:var(--muted);background:var(--surface)}
+@media(max-width:360px){.opening-chat-header small{max-width:164px}.thread-row .contact-avatar{width:43px;height:43px}}

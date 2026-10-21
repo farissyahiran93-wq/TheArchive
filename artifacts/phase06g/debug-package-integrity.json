@@ -1,0 +1,211 @@
+{
+  "status": "PASS",
+  "apk": "android/app/build/outputs/apk/debug/app-debug.apk",
+  "bytes": 16794161,
+  "sha256": "c2e706d89b0fd11640c628a8bf20f5761eb6d299c634e8193b8b139ad4edd01e",
+  "dist_files": 40,
+  "all_dist_files_match": true,
+  "gallery_pngs": 6,
+  "files": [
+    {
+      "path": "archive-mark.svg",
+      "sha256": "e20f9e963242393029d8eff3d3646a1d7098ddf45b86cd393e138fe665f7878d",
+      "matches_dist": true
+    },
+    {
+      "path": "assets/index-8AX7O5lZ.js",
+      "sha256": "b020781cc9cdbf9b80df766f67ed47609f06b483528138d82078d055ddefc7f8",
+      "matches_dist": true
+    },
+    {
+      "path": "assets/index-DdzetXEt.css",
+      "sha256": "d9f3911cf257c8a16d98f7e9b984795943d69f0bee822bbbbcac04a8e5c97bb2",
+      "matches_dist": true
+    },
+    {
+      "path": "daniel-note.svg",
+      "sha256": "d8f03ac6bd0a6dd99822ea947615808e27c6cb9565000f5a4f98cd1559926d9c",
+      "matches_dist": true
+    },
+    {
+      "path": "e001-public-escort-row.svg",
+      "sha256": "b4610f9b29753ea5cd21e0388dc7810a8b21dad6927f6eddda2415597d4ab1db",
+      "matches_dist": true
+    },
+    {
+      "path": "greyhaven-phone-wallpaper.png",
+      "sha256": "891d14e7010765817d424a3b482e05b36b2bd1e20638936a0cc3f2a470bf1397",
+      "matches_dist": true
+    },
+    {
+      "path": "greyhaven-wallpaper.svg",
+      "sha256": "992fe5ca3fa7c604850ff5c8478d9b2b3e56ad08bf65fd45ac2c3e7440237a61",
+      "matches_dist": true
+    },
+    {
+      "path": "index.html",
+      "sha256": "a30b14b34f2e378a57dadb557ea63df8c3c04121b16ad6085827d18b2872f992",
+      "matches_dist": true
+    },
+    {
+      "path": "media/gallery/01-shelf-photo-thumb.webp",
+      "sha256": "1a78800f4d590f3ce62843d0e11c3604b59825c745c927f76d8b7ad39fdda726",
+      "matches_dist": true
+    },
+    {
+      "path": "media/gallery/01-shelf-photo.png",
+      "sha256": "23b4a6953151a14f6dc96535d9c94f4722411279cdd370abc5282ac1ef684cf1",
+      "matches_dist": true
+    },
+    {
+      "path": "media/gallery/02-message-crop-thumb.webp",
+      "sha256": "5e7cf2508d0aa14417ebe49d83b0d716ae31bfdd759a2b0ef70554d6c2ab7c20",
+      "matches_dist": true
+    },
+    {
+      "path": "media/gallery/02-message-crop.png",
+      "sha256": "6f9c74e362e0de8103f175fa44a1fbb76bf9b4cbb5c68d0d9b38c2e0eee64e07",
+      "matches_dist": true
+    },
+    {
+      "path": "media/gallery/03-index-crop-1-thumb.webp",
+      "sha256": "0854abf93fb0eb5bdabd37b8746445e868913ea73b771a6555b69555d07dfe2d",
+      "matches_dist": true
+    },
+    {
+      "path": "media/gallery/03-index-crop-1.png",
+      "sha256": "4bd59aba4902ece0f98e2d4481db0b946b9c9b9c08a71fd45794522ee1e69b4c",
+      "matches_dist": true
+    },
+    {
+      "path": "media/gallery/04-index-crop-2-thumb.webp",
+      "sha256": "2ff9f4dee0a3d28b7e91bbafbbf152ceff1dbfbdc4136d0a38f878170f9dd590",
+      "matches_dist": true
+    },
+    {
+      "path": "media/gallery/04-index-crop-2.png",
+      "sha256": "d7e3e49e6323e0b3411906fe596c7cdb45025e36402802d208a0f1bae2450696",
+      "matches_dist": true
+    },
+    {
+      "path": "media/gallery/05-notice-board-photo-thumb.webp",
+      "sha256": "b128756a2983bc7561627a3255f3890163c4ac3d833e2149f96dff201d68761c",
+      "matches_dist": true
+    },
+    {
+      "path": "media/gallery/05-notice-board-photo.png",
+      "sha256": "8aa571afc0d8e246b9f40111ea06d059361e1e58726008615e5009dce936ff66",
+      "matches_dist": true
+    },
+    {
+      "path": "media/gallery/06-map-screenshot-thumb.webp",
+      "sha256": "14f2765cbaaefda61e04e1077883269b2416e9ff8d275c104b7ee27cd1537677",
+      "matches_dist": true
+    },
+    {
+      "path": "media/gallery/06-map-screenshot.png",
+      "sha256": "db89341304af318e3de426be08ce032328e57a6af612247ab2829d06c56251cf",
+      "matches_dist": true
+    },
+    {
+      "path": "media/portraits/ana-avatar.webp",
+      "sha256": "dc9f960d5c37d96fce26ec15c7a670dd5e7a2d828d3d634310fa363a99f2e8c9",
+      "matches_dist": true
+    },
+    {
+      "path": "media/portraits/ana.webp",
+      "sha256": "b1b9f631504946c0120918457de8a18e0a89f7d0c97df8d3369ab0aa934babe3",
+      "matches_dist": true
+    },
+    {
+      "path": "media/portraits/daniel-avatar.webp",
+      "sha256": "993e7e2f02b3447ec53ef856b5d4198992243bdab788baee4add84ecd9d529f5",
+      "matches_dist": true
+    },
+    {
+      "path": "media/portraits/daniel.webp",
+      "sha256": "2fe323886724d3cbd327182fa237e7121a3269badf2eceaf36b9bc5df8d40318",
+      "matches_dist": true
+    },
+    {
+      "path": "media/portraits/eli-avatar.webp",
+      "sha256": "8ab15bb9d418397795787360deffdc5d7a11c78f9fff66e78cdf74b387040ecc",
+      "matches_dist": true
+    },
+    {
+      "path": "media/portraits/eli.webp",
+      "sha256": "589ab6d6efa24156a9343ea2292bc20bd783822db3f15768452cda2118c84d32",
+      "matches_dist": true
+    },
+    {
+      "path": "media/portraits/june-avatar.webp",
+      "sha256": "09bb8408c8063aba829c25a55e09e37d053973858dbc411538e968b98988bee2",
+      "matches_dist": true
+    },
+    {
+      "path": "media/portraits/june.webp",
+      "sha256": "a760ffbb8585c08be87bdeffda32271115b84d2576e992473188688b0dbc6786",
+      "matches_dist": true
+    },
+    {
+      "path": "media/portraits/lucas-avatar.webp",
+      "sha256": "34ff22b09bb06a6e3d813d8abaf937428e870b66876c82a6ac4c1088136ac517",
+      "matches_dist": true
+    },
+    {
+      "path": "media/portraits/lucas.webp",
+      "sha256": "c00db87230f167aa6ae1a9c18882639c1cf8f527d3876226829d6308c83e1bdd",
+      "matches_dist": true
+    },
+    {
+      "path": "media/portraits/maya-avatar.webp",
+      "sha256": "645f68de2f2c46f0345d4c1019fe7704af4ab6efa15d0be715f9947758ad0d00",
+      "matches_dist": true
+    },
+    {
+      "path": "media/portraits/maya.webp",
+      "sha256": "8f8d38c81c8f02e05d695be19f9a8b5ea329e81e634b4408879b590bb63fc702",
+      "matches_dist": true
+    },
+    {
+      "path": "media/portraits/nora-avatar.webp",
+      "sha256": "d4202e8ac7eb593ed45154915c5547908a2ad553b7ed0785f604f591c3b590b7",
+      "matches_dist": true
+    },
+    {
+      "path": "media/portraits/nora.webp",
+      "sha256": "fa150b16419eae73be8b0f515a6f576df6ae905d1834b29cf5e6189f821c3170",
+      "matches_dist": true
+    },
+    {
+      "path": "media/portraits/rowan-avatar.webp",
+      "sha256": "5ccd355d9aa9db281642d1ccda1d59ee51f844cba2833d7344ab7fc38bd8bc23",
+      "matches_dist": true
+    },
+    {
+      "path": "media/portraits/rowan.webp",
+      "sha256": "9958804ace97dc81212545605b7ff71762d118bc8787b39ca62e0a0108a1ad4c",
+      "matches_dist": true
+    },
+    {
+      "path": "media/portraits/sophie-avatar.webp",
+      "sha256": "bef8919169e1f50ed85ca8914b34afc9efdeb1da25c9a3e1e6845f0ccceda3ca",
+      "matches_dist": true
+    },
+    {
+      "path": "media/portraits/sophie.webp",
+      "sha256": "aa0218c60030412e3e3f30846f1a5689353ba97ca6de1be79700d2ce19fb2171",
+      "matches_dist": true
+    },
+    {
+      "path": "media/portraits/vivian-avatar.webp",
+      "sha256": "c1041e4d46ffd108fcf6d16623d43d98e2cf7071313cc63db0b91c7a2efe5c9a",
+      "matches_dist": true
+    },
+    {
+      "path": "media/portraits/vivian.webp",
+      "sha256": "309f99e45fe8ddc39bef0aa7d1bdd1ae78db9b64d34a7692cdabc9fbfdf4fed2",
+      "matches_dist": true
+    }
+  ]
+}

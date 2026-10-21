@@ -1,0 +1,34 @@
+{
+  "apk_bytes": 16793109,
+  "apk_sha256": "906e9debb83ee8572b4b6a614d611f650f4862a14051d6c2e32d76490bad9950",
+  "gallery_png_bytes": 9027047,
+  "gallery_thumbnail_bytes": 51964,
+  "apk_gallery_checks": [
+    {
+      "path": "assets/public/media/gallery/01-shelf-photo.png",
+      "matches_source": true
+    },
+    {
+      "path": "assets/public/media/gallery/02-message-crop.png",
+      "matches_source": true
+    },
+    {
+      "path": "assets/public/media/gallery/03-index-crop-1.png",
+      "matches_source": true
+    },
+    {
+      "path": "assets/public/media/gallery/04-index-crop-2.png",
+      "matches_source": true
+    },
+    {
+      "path": "assets/public/media/gallery/05-notice-board-photo.png",
+      "matches_source": true
+    },
+    {
+      "path": "assets/public/media/gallery/06-map-screenshot.png",
+      "matches_source": true
+    }
+  ],
+  "crop_zip_entries": 6,
+  "physical_device_uat": false
+}

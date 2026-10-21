@@ -1,0 +1,225 @@
+THE ARCHIVE — COMPLETE REBOOT
+CODEX FINAL OWNER DIRECTIVE
+01G-RC1 OWNER APPROVAL + NARRATIVE DEPENDENCY CLOSURE + TWO-GATE DECISION
+Date of owner instruction: 14 October 2026 (Asia/Kuala_Lumpur)
+
+====================================================================
+0. AUTHORITY, PRIORITY, AND NON-NEGOTIABLE BOUNDARIES
+====================================================================
+
+You are Codex acting as the project's Principal Game Developer, Narrative Systems Architect, Narrative QA Lead, Evidence/Continuity Auditor, and Technical QA Lead.
+
+This is a DIRECT INSTRUCTION FROM THE PROJECT OWNER. The owner's explicit statement is:
+
+"Saya sebagai owner THE ARCHIVE meluluskan secara jelas D03, D06, D09, D16 dan D21 mengikut skop tepat 01G-RC1. Sediakan prompt Codex final untuk merekod kelulusan, menyelesaikan baki kebergantungan dan memisahkan gate penulisan skrip daripada ujian runtime."
+
+Treat the five listed decisions as OWNER-APPROVED, at the exact 01G-RC1 scope, AFTER verifying that the local 01G-RC1 policy texts match that scope. Do not demand that the owner repeat this approval. Do not interpret the older recommendations-only attachments, blank approval-sheet fields, or previous CONDITIONAL statuses as overriding this newer explicit owner instruction.
+
+The owner is approving DESIGN POLICY SCOPE, not falsely asserting that an in-world artifact has been issued, signed, served, delivered, independently reviewed, or technically tested. Maintain separate fields for owner approval, editorial acceptance, policy/asset verification, and runtime verification.
+
+If a local 01G-RC1 policy contains a MATERIAL difference from the stated scope, preserve the exact source and record that specific scope discrepancy. Do not fabricate an approval for the differing clause. Continue unaffected tasks without restarting the entire project. Record the narrowly affected decision as "OWNER APPROVED FOR STATED RC1 SCOPE — SOURCE DISCREPANCY BLOCKS FINAL RECONCILIATION" pending resolution; do not automatically mark the broader changed revision approved.
+
+Do not modify or delete legacy files, existing saves, story engine, phone UI, the separate UI-01 visual overhaul, or the Android packaging. Do not write full Episode 1 dialogue or implement its runtime in this task. Do not migrate saves. Limit edits to necessary narrative/design/verification documentation and optional non-invasive validation fixtures/scripts if appropriate; state any code/test files added.
+
+Avoid generating another open-ended narrative-documentation phase. CLOSE DECISIONS AND DEFINE ACTIONABLE GATES. Preserve canon and approved choices.
+
+====================================================================
+1. READ AND ESTABLISH SOURCE OF TRUTH
+====================================================================
+
+Start in the current reboot workspace. Inspect, at minimum:
+
+- docs/narrative/phase-01g/00_INDEX.md
+- docs/narrative/phase-01g/01_OWNER_APPROVAL_SHEET.md
+- docs/narrative/phase-01g/02_GCRO_POLICY_AND_E012_R04_CONTRACT.md
+- docs/narrative/phase-01g/03_PRESERVATION_POLICY_AND_ALTERNATIVE_B.md
+- docs/narrative/phase-01g/04_DANIEL_WELFARE_PROTOCOL.md
+- docs/narrative/phase-01g/05_SEPARATE_RECORDS_POLICY.md
+- docs/narrative/phase-01g/06_FIRST_CONTACT_AND_SAVE_ACCEPTANCE.md
+- docs/narrative/phase-01g/08_REGRESSION_AND_PHASE_02_GATE.md
+- docs/narrative/phase-01f/01_CROSS_PHASE_DECISION_MATRIX.md
+- docs/narrative/phase-01f/02_CONDITIONAL_APPROVAL_TRACKER.md
+- docs/narrative/phase-01f/03_RELATIONSHIP_FIRST_CONTACT_APPENDIX.md
+- docs/narrative/phase-01f/06_INVESTIGATION_CONTRACT_AUDIT.md
+- docs/narrative/phase-01e/03_CONDITIONAL_POLICIES_AND_RECEIPTS.md
+- docs/narrative/phase-01e/04_SCENE_TRIGGER_REPAIR_MANIFEST.md
+- docs/narrative/phase-01e/06_PHASE_02_AUTHORIZATION_REVIEW.md
+- docs/narrative/phase-01/07_EVIDENCE_LEDGER_AND_PROVENANCE.md
+- docs/narrative/phase-01/09_SEASON_01_TEN_EPISODE_OUTLINE.md
+- docs/narrative/phase-01/10_EPISODE_01_SCENE_BLUEPRINT.md
+- docs/narrative/phase-01/11_CHOICE_RELATIONSHIP_AND_BRANCH_RULES.md
+- docs/narrative/phase-01/12_NARRATIVE_QA_AND_DECISION_LOG.md
+- docs/narrative/phase-01/13_PHASE_02_ENTRY_GATE.md
+- Story Bible v2, wherever the reboot workspace stores its canonical copy
+- PHASE_00_REPORT.md and relevant save/episode source definitions for READ-ONLY checks
+
+Discover any superseding documents from 01B–01G. If an expected path is absent, report the exact missing file and use the next authoritative source. Do not invent its contents.
+
+SOURCE PRECEDENCE:
+A. The owner's current explicit approval of EXACT 01G-RC1 scope;
+B. The reviewed FINAL local 01G-RC1 policies and original approval sheet;
+C. Existing previously approved decisions/canon;
+D. Earlier candidate policies, drafts, sample props, and recommendations as historical evidence only.
+
+Create a short source-to-decision traceability table with file paths, revisions and any conflicts. State explicitly that the owner's instruction was supplied via ChatGPT conversation and is a textual owner declaration, not a cryptographic signature.
+
+====================================================================
+2. RECORD THE FIVE INDIVIDUAL OWNER APPROVALS
+====================================================================
+
+DO NOT lump them into one generic approval. Update the Phase 01G owner sheet, D01–D21 matrix, conditional tracker/status view, and latest gate report to record EACH of these decisions with: ID; APPROVED owner-design status; exact 01G-RC1 policy version; scope; source of instruction/date; limitations; required editorial, artifact and technical proof; and preserved regression IDs.
+
+D03 — OWNER APPROVED — GH-CR-01 v1 / E012 / R04 / K02
+- A valid non-transferable one-use civilian request token can obtain a SAME-DAY redacted v1 lineage view from the independent GCRO on 8 October 2026.
+- The view retains June Ellis's escort field needed for K02, with appropriate identity redaction, original-to-export lineage, issuer identity, requester-only R04, transfer/delivery receipt, and verification of the final issued asset.
+- The previously proposed request and export IDs/times are design placeholders until substantiated in final fictional assets; any integrity digest must be computed from the actual final asset bytes.
+- Maya's image/thumbnail is a clue, not independent proof. Never grant K02 based on it alone. E012 and R04 plus valid provenance and authorized receipt must precede K02.
+- Missing, late, invalid or declined release invokes a qualified alternate path, not fabricated proof.
+
+D06 — OWNER APPROVED — GH-RS-04 v1 / GH-IR-02 v1 / Alternative B
+- Adopt CRCU's maximum 48-hour pause or supervised-copy mechanism; GIRRO's separate RISK-ONLY preservation direction; signed refusal/service forms; and the Alternative B QUALIFIED Season 1 ending if preservation fails or no effective direction exists.
+- Define delegated in-world authority, charter/competence, eligibility, notification/service, refusal, expiry, and CRCU acknowledgment (ACK). A GIRRO direction alone is NOT effective without required CRCU service and ACK.
+- The proposed 13 October pause, 14 October direction, and 15 October 09:00 pause expiry must be checked against timeline and policy: pause expiry is NOT proof of the actual destruction time.
+- Never grant E009 without a lawful supervised copy. Never grant E020, R15 or K14 without the required issued direction PLUS CRCU ACK.
+- Distinguish pause granted, pause denied, GIRRO denied, direction unserved, no ACK, confirmed loss, and unknown record status. A lost-record ending is not a full-preservation ending or guaranteed legal conviction.
+- Editorial acceptance of the Alternative B loss epilogue is required independently of the owner's approval.
+
+D09 — OWNER APPROVED — CNSL-GH-04 / GH-WV-01 v1 / R12
+- Use a seeded independent counsel identity, directory verification plus callback, fresh time-bound LIVE-PERSON challenge, second reviewer, Daniel's explicit consent, and named-recipient disclosure scope.
+- Do not infer Daniel's welfare or whereabouts from a GPS ping, device location, unverifiable message, or counsel assertion alone.
+- Only after a documented successful check AND specifically authorized delivery may Sophie receive the precise time-bound statement:
+  "Daniel was personally confirmed alive and able to respond on 14 October. His location is not being shared."
+- No future-safety warranty, public identity leak, or reveal of hiding place.
+- A failed or incomplete welfare check leaves status UNRESOLVED; Episode 09's independent records-investigation route must remain reachable.
+- Proposed sample verification/attestation times are scene plans, not proof an asset was completed.
+
+D16 — OWNER APPROVED — GH-TS-03 v1 / GH-SH-02 v1 / E013 / E014
+- Two DISTINCT original custodians for transit E013 and shelter E014. Define who may request/read each, coded redaction, source independence, completeness/missing-page policy, issuer identity, transfer receipts and reader restrictions.
+- Authorized certified-summary fallback can preserve a narrower investigation route, with appropriately reduced evidentiary claims; a summary is not automatically equivalent to an original record.
+- Rowan Bell and Ana Pierce remain protected. Do not publicly infer their identity from time/location combinations.
+- The low-trust/decline route works without Lucas's OPTIONAL photo, Ana's identifying testimony, or romance gates. Absence of a record is NOT proof that the person was absent.
+- Do not mislabel D16 as a generic Maps/GPS decision. It is specifically the separate shelter/dispatch records for Rowan/Ana movement.
+
+D21 — OWNER APPROVED — FIRST DIRECT CONTACT / SAVE SAFETY CONTRACT
+Relationship tuple order: Trust / Affinity / Suspicion / Romance.
+  Maya Chen:     50 / 45 / 20 / 0
+  Lucas Grey:    42 / 40 / 30 / 0
+  Sophie Mercer: 38 / 35 / 25 / 0
+  Eli Ward:      50 / 48 / 15 / 0  (female)
+  Nora Vance:    40 / 38 / 30 / 0
+  Daniel Mercer: 45 / 40 / 25 / 0
+- Apply a baseline only upon FIRST DIRECT CONTACT, not at boot or mere mention. Preserve typed boundaries for unintroduced / introduced / contacted. An unintroduced person has no negative opinion inferred from an uninitialized value.
+- Romance starts at 0 for all; consent and optionality are mandatory. No mandatory evidence depends on romance or optional social participation.
+- Approve the DESIGN of v1 save safeguards: raw backup, separate destination slot, idempotence, interruption recovery, quarantine of ambiguous shapes, rollback, and integrity checks. This does NOT authorize executing or deploying a migration.
+- NEVER overwrite, delete or silently reinterpret legacy key `the-archive:game-save:v1`. Inventory supported variants and run technical acceptance tests BEFORE any separate future migration authorization.
+
+After successful scope comparison, expected decision summary is 21/21 OWNER-APPROVED at design-policy level: existing 16 plus the five above, with independent proof states remaining separate. If source comparison reveals material differences, report exact exceptions instead of falsely claiming 21/21.
+
+====================================================================
+3. CLOSE REMAINING SCRIPT-CRITICAL DEPENDENCIES
+====================================================================
+
+For each issue below: locate the relevant existing document, repair any narrative contract/scene dependency that can safely be repaired from established canon and approved 01G-RC1 scope; validate; and write a single actionable status (CLOSED / NEEDS SPECIFIC EDITOR ACCEPTANCE / NEEDS VERIFIED ASSET / DEFERRED TO RUNTIME). Do not invent external or in-world approvals. Do not reopen approved D decisions unnecessarily.
+
+A. E01-S30 correction-role card: record its authorized source, reader scope, timing, source lineage and required receipt. The active correction ROLE is NOT evidence of the human operator or Vivian's culpability.
+B. Insurer A01/A02: specify justified release, permitted recipient, redaction and transfer/provenance constraints; do not expose protected witnesses through public results.
+C. E015/E019 correction and work-order artifacts: finalize canonical issuer/source, revision, release rights, timestamp validity, content constraints, and what inference they can/cannot support. No invented issued signature or delivery.
+D. GCRO E012/R04: ensure the initial civilian tip, one-use token, release policy and skeptical/no-release path are consistent with the Episode 1 opening and K02 knowledge threshold.
+E. D06 E009/E020/R15/K14 and T07: validate in-world authority and all preservation/loss states, including refusal, no service/ACK, confirmed destruction, unknown status; adopt or revise the Alternative B loss epilogue editorially.
+F. D09 R12: adopt or revise the counsel/second-reviewer scene variants; failed welfare verification does not block unrelated Episode 09 records work.
+G. D16 E013/E014: true source independence, low-trust/decline alternatives, coded identity protection and certified-summary weaker-proof fallback.
+H. Scene-trigger manifest: narrative editor must expressly adopt/revise the candidate repairs into the authoritative scene/episode blueprints, respecting chronology and knowledge receipts.
+I. Deadline and calendar: preserve the corrected Oct 8–14 day count (14 October is Day 7), and do not turn planning estimates into known destruction hours. Ensure no character knows facts prematurely.
+J. Episode length: maintain the intended substantial Episode 1 pacing (~185 minutes as a DESIGN ESTIMATE). Do not fill it with repeated filler chats or claim measured playtime.
+
+If editorial sign-off is unavailable, produce a ready-for-acceptance exact scene amendment with a named blocker; DO NOT self-assign human editor acceptance. If the team workflow authorizes Codex itself to act as narrative editor, explicitly record that authority and independent critical review; otherwise leave editor sign-off outstanding.
+
+For fictional source props, author a complete in-world FINAL DRAFT ASSET when appropriate, with validity conditions and appropriate redaction; distinguish FINAL DRAFT ASSET from ISSUED / SIGNED / SERVED / ACKNOWLEDGED STORY EVENT. The actual story event must still be triggered and receipted by the game, not assumed to have happened merely because the author wrote a prop.
+
+====================================================================
+4. REPLACE THE SINGLE CIRCULAR GATE WITH TWO DISTINCT GATES
+====================================================================
+
+GATE A — PHASE 02: EPISODE 1 FULL SCRIPT AUTHORING
+Purpose: determine whether writers may produce complete Episode 1 dialogue, choices, evidence beats, scene sequencing, investigations, and the end hook. This is NOT approval to deploy gameplay.
+
+Gate A can be READY only if:
+1. All D01–D21 relevant design policies are owner-approved at the correct final scope, with no unresolved MATERIAL conflicting clause relevant to Episode 1.
+2. Episode 1 canon and chronology are consistent, including June's escort field, tip mechanics, Maya's legitimate reply path, E012/R04 provenance and access restrictions, K02 knowledge gate, and correction ROLE versus identity distinction.
+3. Scene manifest and Episode 1 triggers have a coherent editorially accepted design, including plausible low-trust, declined-sharing and missing-evidence variants.
+4. Required assets have sufficiently precise, source-valid SCRIPT CONTRACTS to be written without inventing permissions, signatures or knowledge; asset binary production and in-game delivery may be separately scheduled if they are not needed to decide script logic.
+5. No unresolved script-critical T07 logic can retroactively invalidate Episode 1's promise/foreshadowing; Alternative B ending and preservation branches are narratively coherent, even though full Season 1 runtime does not yet exist.
+6. Each remaining issue has a named responsible role, explicit closure evidence, and is classified as script-blocking or safely deferred.
+
+Gate A must NOT require the following as preconditions: playable Episode 1, 185 minutes of measured playtime, production APK, Android physical-device UAT, runtime E01–E10 scene graph, complete live asset issuance, migration execution, or Playwright tests of unimplemented narrative paths.
+
+Gate B — PHASE 03/04: GAMEPLAY INTEGRATION & RUNTIME ACCEPTANCE
+Purpose: determine whether implemented gameplay really satisfies story, save, UI and device behavior.
+
+Gate B remains NOT TESTED / NOT READY until corresponding code exists and all applicable test suites run. Required later checks include:
+- Actual scene/branch graph reachability (including declined, skeptical, low-trust and loss routes).
+- Condition/knowledge/receipt idempotence on repeat, resume and reload.
+- Player-choice explicit Send, typing delay, app navigation, scroll/keyboard stability, UI-01 preservation.
+- Save backup, separate-slot migration staging, interruption/quarantine/rollback behavior if migration is separately authorized.
+- Evidence provenance, permission/disclosure gates, K02 / R12 / E009 / E020 / R15 / K14 guards.
+- Mobile browser and target Android APK/device performance/UAT.
+- Actual observed episode playtime, pacing, accessibility and narrative comprehension.
+
+Keep authoring readiness independent from runtime readiness. NEVER label documentation-only checks "gameplay PASS".
+
+====================================================================
+5. REGRESSION: T01–T10 WITH HONEST EVIDENCE LEVELS
+====================================================================
+
+Begin from the previously reported 0 PASS / 9 PARTIAL / 1 BLOCKED (T07), unless newer REPRODUCIBLE evidence supersedes it.
+
+For each T01–T10, report TWO separate cells:
+- Narrative/Editorial: PASS / PARTIAL / BLOCKED / NOT RUN (with precise document/scene/asset references);
+- Runtime: PASS / FAIL / NOT IMPLEMENTED / NOT RUN (with test names and actual run output).
+
+Do not roll one level into the other. In particular:
+T01: date/source chronology versus destruction time unknown.
+T02: manual Send, one-use tip token, Archive opt-in and Maya response.
+T03: skeptical route, authentic GCRO E012/R04 before K02.
+T04: witness-consent/redaction and insurer release constraints.
+T05: independent transit/shelter paths with no optional photo/identity requirement.
+T06: device-only, failed-counsel, and successfully attested/delivered R12 variants.
+T07: pause granted, refusal, GIRRO denial, no service/ACK, confirmed loss, unknown status, Alternative B; prohibit illicit evidence and unearned knowledge.
+T08: role-versus-operator distinction; valid source E01-S30 and E015/E019.
+T09: documentary graph/receipt-contract consistency; later real runtime graph/idempotence.
+T10: plausible Episode 1 pacing and save design; later measured playtime, actual persistence.
+
+For graph design, perform a STATIC reachability proof using the complete scene conditions and explicit mock transitions if feasible; record "STATIC MODEL PASS" instead of pretending the real game graph was run. For migration/read-only verification, inspect old fixtures and current schema WITHOUT mutating saves. Technical migration acceptance must remain pending until real tests on supported save shapes are executed in a separately authorized implementation phase.
+
+Do not assign a higher quality score merely because the owner approved policies. Report editorial design quality and gameplay quality separately, with supporting evidence.
+
+====================================================================
+6. REQUIRED DELIVERABLES — REUSE THE EXISTING 01G LOCATION
+====================================================================
+
+Avoid new 01H/01I/01J documentation loops. Prefer updating or appending within:
+  docs/narrative/phase-01g/
+
+Produce or update:
+1. 01_OWNER_APPROVAL_SHEET.md — five separate recorded approvals; status/history with owner statement; no fictitious signature.
+2. Phase 01F/01G cross-phase D01–D21 master matrix — current owner-level statuses and independent evidence/verification fields.
+3. A compact OWNER_APPROVAL_AND_SCOPE_RECORD.md — scope match, policy versions, date, limitations, any exceptions.
+4. SCRIPT_CRITICAL_DEPENDENCY_CLOSURE.md — the A–J closure list, responsible roles, source docs, precise outstanding evidence.
+5. GATE_A_SCRIPT_AUTHORING_AND_GATE_B_RUNTIME.md — separate acceptance criteria and actual readiness decisions.
+6. UPDATED T01–T10 REGRESSION TABLE — narrative/editorial versus runtime result, exact evidence pointers and no inflated claims.
+7. Update 00_INDEX.md, latest gate report and relevant episode/scene appendix cross-links with working relative links.
+8. A concise FINAL_HANDOFF_REPORT.md answering: What closed? What is still blocked? Can Episode 1 script authoring start? What is the single next action if not?
+
+In final console report, state:
+- Repository/worktree and files changed, with no unrelated file modifications.
+- Before/after decision counts: previous 16 APPROVED + 5 CONDITIONAL; current owner-policy statuses after exact-scope review.
+- Gate A verdict: READY or NOT READY, with no ambiguity and explicit unresolved script-critical items.
+- Gate B verdict: NOT READY/NOT TESTED unless real code was previously implemented and proven.
+- T01–T10 breakdown by narrative and runtime proof types.
+- Exact checks run (typecheck, lint, tests, build, docs, static graph) and their real results; do not claim them if not run.
+- Unissued fictional artifacts, editor-review dependencies, source permissions and migration hazards still outstanding.
+- The next production task once Gate A passes: Phase 02 full Episode 1 script and investigation authoring, NOT immediate Season 1 implementation.
+
+STOP when this scope is complete. Do not write the Episode 1 full dialogue in this run. Do not implement game runtime, package an APK, or deploy.
+
+START NOW: inspect the actual local 01G-RC1 policies; register the owner's five explicit approvals accurately; close the remaining non-runtime narrative dependencies; split Gate A from Gate B; document an evidence-based readiness decision.

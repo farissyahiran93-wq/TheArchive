@@ -1,0 +1,38 @@
+[
+  {
+    "path": "src/game/slice.ts",
+    "expected": "23919af9c1894e62f2f9f1db41ddea10bebb9bfca28e2f019cbac67e19ca3135",
+    "actual": "23919af9c1894e62f2f9f1db41ddea10bebb9bfca28e2f019cbac67e19ca3135",
+    "match": true
+  },
+  {
+    "path": "src/game/phase03b.ts",
+    "expected": "78e76b442d163b34936399e8fe4e1f94adac039796fddae905ad0bba2bca012b",
+    "actual": "78e76b442d163b34936399e8fe4e1f94adac039796fddae905ad0bba2bca012b",
+    "match": true
+  },
+  {
+    "path": "src/ui/Phase03bScenes.tsx",
+    "expected": "96e5ada4b6e75082bc67b8535396be34a017e43efaab08cb32d1486998223017",
+    "actual": "96e5ada4b6e75082bc67b8535396be34a017e43efaab08cb32d1486998223017",
+    "match": true
+  },
+  {
+    "path": "src/game/episode01Branches.test.ts",
+    "expected": "8dd5f1525b9b8559f59087b44aa6777ca3ef694ab504c533f9950b13f83ebe45",
+    "actual": "8dd5f1525b9b8559f59087b44aa6777ca3ef694ab504c533f9950b13f83ebe45",
+    "match": true
+  },
+  {
+    "path": "src/game/episode01Presentation.test.tsx",
+    "expected": "1025309c5df46feb03c151d96c22ae6e67ed7d8fb865618293187f2a9c18d2a3",
+    "actual": "1025309c5df46feb03c151d96c22ae6e67ed7d8fb865618293187f2a9c18d2a3",
+    "match": true
+  },
+  {
+    "path": "tests/e2e/foundation.spec.ts",
+    "expected": "002b197abbc381ea1dcf0d20e7a8d26ee02f20a013a2f7dc9e7cb9061c40734c",
+    "actual": "002b197abbc381ea1dcf0d20e7a8d26ee02f20a013a2f7dc9e7cb9061c40734c",
+    "match": true
+  }
+]

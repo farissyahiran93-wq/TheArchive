@@ -1,0 +1,92 @@
+import { completeOpening } from './opening-helper'
+import { mkdirSync } from 'node:fs'
+import { expect, test, type Page } from '@playwright/test'
+
+const evidence = 'qa/ui-01'
+mkdirSync(evidence, { recursive: true })
+
+async function start(page: Page, name = 'Rae') {
+  await page.goto('/?devtools=1&legacyopening=1')
+  await page.getByRole('button', { name: /Enter the archive/i }).click()
+  await page.getByLabel('Your name').fill(name)
+  await page.getByRole('button', { name: /Set up phone/i }).click()
+  await completeOpening(page)
+}
+
+test('home, inbox, themes, explicit send, persistence and rendered screenshots', async ({ page }) => {
+  test.setTimeout(60_000)
+  await page.setViewportSize({ width: 390, height: 844 })
+  await start(page)
+  await page.evaluate(() => localStorage.setItem('the-archive:game-save:v1', 'legacy-sentinel'))
+  await expect(page.getByRole('main', { name: "Rae's home screen" })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Open The Archive' })).toHaveCount(1)
+  await expect(page.getByRole('button', { name: 'Open Mail' })).toHaveCount(0)
+  await page.screenshot({ animations: 'disabled', scale: 'css', path: `${evidence}/home-390x844.png` })
+  await page.getByRole('button', { name: 'Open Messages' }).first().click()
+  await expect(page.getByRole('button', { name: 'Open Test channel conversation' })).toBeVisible()
+  await page.screenshot({ animations: 'disabled', scale: 'css', path: `${evidence}/inbox-390x844.png` })
+  await page.getByRole('button', { name: 'Open Test channel conversation' }).click()
+  await expect(page.getByText('I am checking that messages arrive in order.')).toBeVisible()
+  await page.getByRole('button', { name: 'I can read you clearly.' }).click()
+  await expect(page.locator('.bubble.player')).toHaveCount(0)
+  await page.screenshot({ animations: 'disabled', scale: 'css', path: `${evidence}/light-chat-390x844.png` })
+  await page.getByLabel('Find an available reply').focus()
+  await page.setViewportSize({ width: 390, height: 560 })
+  await expect(page.getByRole('button', { name: /^Send$/ })).toBeVisible()
+  await page.screenshot({ animations: 'disabled', scale: 'css', path: `${evidence}/focused-composer-resized-390x560.png` })
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.getByRole('button', { name: /^Send$/ }).click()
+  await expect(page.locator('.bubble.player')).toHaveCount(1)
+  const closingMessage = page.getByText('The test is complete. Your conversation will be here when you return.')
+  await expect(closingMessage).toBeVisible()
+  await expect(closingMessage).toBeInViewport()
+  await expect.poll(() => page.locator('.chat-scroll').evaluate(element => element.scrollHeight - element.scrollTop - element.clientHeight)).toBeLessThan(4)
+  await page.getByRole('button', { name: 'Back to inbox' }).click()
+  await page.getByRole('button', { name: 'Back to home' }).click()
+  await page.getByRole('button', { name: 'Show home page 2' }).click()
+  await page.getByRole('button', { name: 'Open Settings' }).click()
+  await page.getByLabel('Appearance').selectOption('dark')
+  await expect(page.locator('.theme-dark')).toBeVisible()
+  await page.screenshot({ animations: 'disabled', scale: 'css', path: `${evidence}/settings-dark-390x844.png` })
+  await page.getByRole('button', { name: 'Back to home' }).click()
+  await page.getByRole('button', { name: 'Open Messages' }).first().click()
+  await page.getByRole('button', { name: 'Open Test channel conversation' }).click()
+  await page.screenshot({ animations: 'disabled', scale: 'css', path: `${evidence}/dark-chat-390x844.png` })
+  await page.reload()
+  await page.getByRole('button', { name: /Enter the archive/i }).click()
+  expect(await page.evaluate(() => localStorage.getItem('the-archive:game-save:v1'))).toBe('legacy-sentinel')
+  await expect(page.getByRole('main', { name: "Rae's home screen" })).toBeVisible()
+  await expect(page.locator('.theme-dark')).toBeVisible()
+  await page.getByRole('button', { name: 'Open Messages' }).first().click()
+  await expect(page.locator('.thread-meta b')).toHaveCount(0)
+  await page.getByRole('button', { name: 'Open Test channel conversation' }).click()
+  await expect(page.locator('.bubble.player')).toHaveCount(1)
+  await expect(page.locator('.bubble.fixture')).toHaveCount(4)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true)
+})
+
+for (const [width, height] of [[320, 720], [375, 812], [430, 932]] as const) {
+  test(`layout at ${width}x${height}`, async ({ page }) => {
+    await page.setViewportSize({ width, height })
+    await start(page, 'Alex')
+    await expect(page.getByRole('button', { name: 'Open Messages' }).first()).toBeVisible()
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true)
+    await page.getByRole('button', { name: 'Open Messages' }).first().click()
+    await page.getByRole('button', { name: 'Open Test channel conversation' }).click()
+    await expect(page.getByText('Hello, Alex. This is a development conversation.')).toBeVisible()
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true)
+    await page.screenshot({ animations: 'disabled', scale: 'css', path: `${evidence}/chat-${width}x${height}.png` })
+  })
+}
+
+test('desktop browser navigation remains contained', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 })
+  await start(page, 'Sam')
+  await page.getByRole('button', { name: 'Open Search' }).click()
+  await page.getByLabel('Search Greyhaven').fill('library')
+  await expect(page.getByText('Library local history desk')).toBeVisible()
+  await page.getByRole('button', { name: 'Go home' }).click()
+  await expect(page.getByRole('main', { name: "Sam's home screen" })).toBeVisible()
+  await page.screenshot({ animations: 'disabled', scale: 'css', path: `${evidence}/home-desktop-1280x900.png` })
+})
+

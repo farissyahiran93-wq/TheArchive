@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="180" viewBox="0 0 680 180" role="img" aria-labelledby="title desc">
+  <title id="title">E001 public escort row extract</title>
+  <desc id="desc">A visual extract of the public preview showing North Quay evacuation, Bus 4, Escort: June Ellis. It is not a certified original record.</desc>
+  <rect width="680" height="180" fill="#f3f0e8"/>
+  <rect x="18" y="16" width="644" height="148" fill="#fffdf7" stroke="#c9c3b5" stroke-width="2"/>
+  <text x="42" y="49" fill="#5e665f" font-family="Arial,sans-serif" font-size="14" letter-spacing="2">E001 · PUBLIC PREVIEW ROW EXTRACT</text>
+  <line x1="42" y1="66" x2="638" y2="66" stroke="#a7aa9f" stroke-width="2"/>
+  <text x="42" y="97" fill="#283936" font-family="Consolas,monospace" font-size="17">NORTH QUAY EVACUATION / BUS 4</text>
+  <text x="42" y="136" fill="#283936" font-family="Consolas,monospace" font-size="20">Escort: JUNE ELLIS</text>
+</svg>

@@ -1,0 +1,83 @@
+import { completeOpening } from './opening-helper'
+import { expect, test } from '@playwright/test'
+
+test('mobile setup, explicit send, refresh, search and map', async ({ page }) => {
+  await page.goto('/?devtools=1&legacyopening=1')
+  await page.getByRole('button', { name: /Enter the archive/i }).click()
+  await page.getByLabel('Your name').fill('Rae')
+  await page.getByRole('button', { name: /Set up phone/i }).click()
+  await completeOpening(page)
+  await expect(page.getByRole('main', { name: "Rae's home screen" })).toBeVisible()
+  await page.getByRole('button', { name: 'Open Messages' }).first().click()
+  await page.getByRole('button', { name: 'Open Test channel conversation' }).click()
+  await expect(page.getByText('Hello, Rae. This is a development conversation.')).toBeVisible()
+  await expect(page.getByText('I am checking that messages arrive in order.')).toBeVisible()
+  await expect(page.locator('.bubble.player')).toHaveCount(0)
+  await page.getByRole('button', { name: 'I can read you clearly.' }).click()
+  await expect(page.locator('.bubble.player')).toHaveCount(0)
+  await page.getByRole('button', { name: /^Send$/ }).click()
+  await expect(page.locator('.bubble.player')).toHaveCount(1)
+  await expect(page.getByText('The test is complete. Your conversation will be here when you return.')).toBeVisible()
+  await expect(page.locator('.bubble.player small')).toContainText('read')
+  await page.reload()
+  await page.getByRole('button', { name: /Enter the archive/i }).click()
+  await page.getByRole('button', { name: 'Open Messages' }).first().click()
+  await page.getByRole('button', { name: 'Open Test channel conversation' }).click()
+  await expect(page.locator('.bubble.player')).toHaveCount(1)
+  await expect(page.locator('.bubble.fixture')).toHaveCount(4)
+  await page.getByRole('button', { name: 'Back to inbox' }).click()
+  await page.getByRole('button', { name: 'Back to home' }).click()
+  await page.getByRole('button', { name: 'Open Search' }).click()
+  await page.getByLabel('Search Greyhaven').fill('library')
+  await expect(page.getByText('Library local history desk')).toBeVisible()
+  await page.getByRole('button', { name: 'Back to home' }).click()
+  await page.getByRole('button', { name: 'Open Maps' }).click()
+  await page.getByRole('button', { name: 'Show North Station' }).click()
+  await expect(page.getByRole('heading', { name: 'North Station' })).toBeVisible()
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true)
+})
+
+test('narrow phone layout and message history indicator', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  await page.goto('/?devtools=1&legacyopening=1')
+  await page.getByRole('button', { name: /Enter the archive/i }).click()
+  await page.getByLabel('Your name').fill('Alex')
+  await page.getByRole('button', { name: /Set up phone/i }).click()
+  await completeOpening(page)
+  await page.screenshot({ path: 'test-results/home-320.png' })
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true)
+  await page.evaluate(async () => {
+    const db = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = indexedDB.open('the-archive-reboot', 1)
+      request.onsuccess = () => resolve(request.result)
+      request.onerror = () => reject(request.error)
+    })
+    await new Promise<void>((resolve, reject) => {
+      const tx = db.transaction('saves', 'readwrite')
+      const request = tx.objectStore('saves').get('primary')
+      request.onsuccess = () => {
+        const save = request.result
+        // Seed fixture events without erasing the opening's required recovery receipts.
+        save.deliveredEvents = [...new Set([...save.deliveredEvents, 'fixture.hello', 'fixture.check'])]
+        save.pendingEvents = [{ id: 'fixture.reply', dueAt: Date.now() + 4000 }]
+        save.messages = Array.from({ length: 24 }, (_, i) => ({ id: `history.${i}`, sender: 'fixture', text: `Earlier test message ${i + 1}`, at: Date.now() - (24 - i) * 1000, delivery: 'read' }))
+        tx.objectStore('saves').put(save, 'primary')
+      }
+      tx.oncomplete = () => resolve()
+      tx.onerror = () => reject(tx.error)
+    })
+    db.close()
+  })
+  await page.reload()
+  await page.getByRole('button', { name: /Enter the archive/i }).click()
+  await page.getByRole('button', { name: 'Open Messages' }).first().click()
+  await page.getByRole('button', { name: 'Open Test channel conversation' }).click()
+  await page.locator('.chat-scroll').evaluate(el => { el.scrollTop = 0; el.dispatchEvent(new Event('scroll', { bubbles: true })) })
+  const oldPosition = await page.locator('.chat-scroll').evaluate(el => el.scrollTop)
+  await expect(page.getByRole('button', { name: /new message/ })).toBeVisible()
+  expect(await page.locator('.chat-scroll').evaluate(el => el.scrollTop)).toBe(oldPosition)
+  await page.getByRole('button', { name: /new message/ }).click()
+  await expect.poll(() => page.locator('.chat-scroll').evaluate(el => el.scrollHeight - el.scrollTop - el.clientHeight)).toBeLessThan(4)
+  await page.screenshot({ path: 'test-results/chat-320.png' })
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true)
+})

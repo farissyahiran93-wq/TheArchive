@@ -1,0 +1,379 @@
+{
+  "asOf": "2026-10-17",
+  "verdict": "browser-playable-candidate; Gate B in progress",
+  "sourceActs": {
+    "1": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_01.md",
+    "2": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_02.md",
+    "3": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_03.md",
+    "4": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_04.md",
+    "5": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_05.md",
+    "6": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_06.md"
+  },
+  "runtimeGroups": {
+    "opening": [
+      "src/game/slice.ts",
+      "src/ui/BulletinSlice.tsx"
+    ],
+    "research": [
+      "src/game/phase03b.ts",
+      "src/ui/Phase03bScenes.tsx",
+      "src/ui/Phase03bResearch.tsx"
+    ],
+    "release": [
+      "src/game/phase03b.ts",
+      "src/ui/Phase03bRelease.tsx"
+    ]
+  },
+  "scenes": [
+    {
+      "id": "E01-S01",
+      "act": 1,
+      "runtime": "opening",
+      "entry": "setup",
+      "exit": "E01-S02",
+      "receipt": "EV-E01-S01-IDENTITY",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S02",
+      "act": 1,
+      "runtime": "opening",
+      "entry": "E01-S01",
+      "exit": "E01-S03",
+      "receipt": "",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S03",
+      "act": 1,
+      "runtime": "opening",
+      "entry": "E01-S02",
+      "exit": "E01-S04",
+      "receipt": "",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S04",
+      "act": 1,
+      "runtime": "opening",
+      "entry": "E01-S03",
+      "exit": "E01-S05",
+      "receipt": "E001 collected",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S05",
+      "act": 1,
+      "runtime": "opening",
+      "entry": "E01-S04",
+      "exit": "E01-S06",
+      "receipt": "E002 collected",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S06",
+      "act": 1,
+      "runtime": "opening",
+      "entry": "E01-S05",
+      "exit": "E01-S07",
+      "receipt": "escort-field comparison",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S07",
+      "act": 1,
+      "runtime": "opening",
+      "entry": "E01-S06",
+      "exit": "E01-S08",
+      "receipt": "K01 observed lead",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S08",
+      "act": 2,
+      "runtime": "opening",
+      "entry": "E01-S07",
+      "exit": "E01-S09 or E01-S18 no-tip",
+      "receipt": "",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S09",
+      "act": 2,
+      "runtime": "opening",
+      "entry": "E01-S08",
+      "exit": "E01-S10",
+      "receipt": "R01 after explicit Send",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S10",
+      "act": 2,
+      "runtime": "opening",
+      "entry": "E01-S09",
+      "exit": "E01-S11",
+      "receipt": "return route",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S11",
+      "act": 2,
+      "runtime": "opening",
+      "entry": "E01-S10",
+      "exit": "E01-S12",
+      "receipt": "Maya reply after R01",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S12",
+      "act": 2,
+      "runtime": "research",
+      "entry": "E01-S11 or late-tip recovery",
+      "exit": "E01-S13",
+      "receipt": "editor channel checked",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S13",
+      "act": 2,
+      "runtime": "research",
+      "entry": "E01-S12",
+      "exit": "E01-S14",
+      "receipt": "",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S14",
+      "act": 2,
+      "runtime": "research",
+      "entry": "E01-S13",
+      "exit": "E01-S15",
+      "receipt": "optional R02 only after Send",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S15",
+      "act": 2,
+      "runtime": "research",
+      "entry": "E01-S14",
+      "exit": "E01-S16",
+      "receipt": "editor note",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S16",
+      "act": 3,
+      "runtime": "research",
+      "entry": "E01-S15",
+      "exit": "E01-S17",
+      "receipt": "optional connection offer",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S17",
+      "act": 3,
+      "runtime": "research",
+      "entry": "E01-S16",
+      "exit": "E01-S18",
+      "receipt": "CONN-E01-01 and R03 independent",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S18",
+      "act": 3,
+      "runtime": "research",
+      "entry": "E01-S17 or no-tip public route",
+      "exit": "E01-S19",
+      "receipt": "source-status answer",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S19",
+      "act": 4,
+      "runtime": "research",
+      "entry": "E01-S18",
+      "exit": "E01-S20",
+      "receipt": "date carriers labelled",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S20",
+      "act": 4,
+      "runtime": "research",
+      "entry": "E01-S19",
+      "exit": "E01-S21",
+      "receipt": "EV-E01-S20-NOTICE",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S21",
+      "act": 4,
+      "runtime": "research",
+      "entry": "E01-S20",
+      "exit": "E01-S22",
+      "receipt": "tentative order only",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S22",
+      "act": 4,
+      "runtime": "research",
+      "entry": "E01-S21",
+      "exit": "E01-S23",
+      "receipt": "alternative considered",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S23",
+      "act": 4,
+      "runtime": "research",
+      "entry": "E01-S22",
+      "exit": "E01-S24",
+      "receipt": "SR-02/SR-04/SR-01 source map",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S24",
+      "act": 4,
+      "runtime": "research",
+      "entry": "E01-S23",
+      "exit": "E01-S27",
+      "receipt": "optional N01 only with R03",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S25",
+      "act": 5,
+      "runtime": "research",
+      "entry": "optional from E01-S27",
+      "exit": "E01-S26 or E01-S27",
+      "receipt": "optional social chat",
+      "status": "playable-optional"
+    },
+    {
+      "id": "E01-S26",
+      "act": 5,
+      "runtime": "research",
+      "entry": "optional from E01-S25",
+      "exit": "E01-S27",
+      "receipt": "optional framing",
+      "status": "playable-optional"
+    },
+    {
+      "id": "E01-S27",
+      "act": 5,
+      "runtime": "release",
+      "entry": "E01-S24 or E01-S25/26",
+      "exit": "E01-S28",
+      "receipt": "scoped request, not R04",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S28",
+      "act": 6,
+      "runtime": "release",
+      "entry": "E01-S27 issue",
+      "exit": "E01-S29",
+      "receipt": "R04 after four checks",
+      "status": "playable-normal-release"
+    },
+    {
+      "id": "E01-S29",
+      "act": 6,
+      "runtime": "release",
+      "entry": "E01-S28/R04",
+      "exit": "E01-S30",
+      "receipt": "K02 after E012/E003/E002 citation",
+      "status": "playable"
+    },
+    {
+      "id": "E01-S30",
+      "act": 6,
+      "runtime": "release",
+      "entry": "E01-S29/K02",
+      "exit": "Episode 01 complete",
+      "receipt": "EV-E01-S30-QUESTION; E01.complete",
+      "status": "playable"
+    }
+  ],
+  "investigations": [
+    {
+      "id": "I01",
+      "scenes": "E01-S04..E01-S07",
+      "required": "E001/E002 visible escort comparison",
+      "status": "playable"
+    },
+    {
+      "id": "I02",
+      "scenes": "E01-S08..E01-S15",
+      "required": "explicit Send, editor channel, optional R02",
+      "status": "playable"
+    },
+    {
+      "id": "I03",
+      "scenes": "E01-S16..E01-S18",
+      "required": "independent optional Messages and Archive permissions",
+      "status": "playable"
+    },
+    {
+      "id": "I04",
+      "scenes": "E01-S19..E01-S21",
+      "required": "four date carriers, E003, tentative chronology",
+      "status": "playable"
+    },
+    {
+      "id": "I05",
+      "scenes": "E01-S22..E01-S24",
+      "required": "ordinary correction considered, SR source map",
+      "status": "playable"
+    },
+    {
+      "id": "I06",
+      "scenes": "E01-S27..E01-S28",
+      "required": "civilian redacted request, four-page and byte checks",
+      "status": "playable-normal-release"
+    },
+    {
+      "id": "I07",
+      "scenes": "E01-S29..E01-S30",
+      "required": "R04, K02 citation, role-only public card",
+      "status": "playable"
+    }
+  ],
+  "tests": [
+    "tests/e2e/phase03b-opening.spec.ts",
+    "tests/e2e/phase03b-complete-route.spec.ts",
+    "tests/e2e/phase03b-social-route.spec.ts",
+    "tests/e2e/phase03b-late-tip.spec.ts",
+    "src/game/phase03b.test.ts",
+    "src/game/phase03bFull.test.ts",
+    "src/game/board.test.ts"
+  ],
+  "deferred": [
+    "physical Android UAT",
+    "human playtest and measured active duration",
+    "production GCRO reissue/recovery UX",
+    "save stress and accessibility review"
+  ],
+  "sophieIntegration": {
+    "asOf": "2026-10-19",
+    "canonicalSceneCount": 30,
+    "placement": "After E01-S01 identity; before E01-S02 home/Bulletin. Bible S14 is an outline hook; canonical finale remains E01-S30.",
+    "runtime": [
+      "src/content/opening.ts",
+      "src/game/opening.ts",
+      "src/ui/OpeningPrologue.tsx",
+      "src/ui/DanielMirror.tsx",
+      "src/ui/SophieConversation.tsx"
+    ],
+    "crosswalk": "docs/EP01_FULL_INTEGRATION_REPORT_2026-10-19.md",
+    "tests": [
+      "src/game/opening.integration.test.ts",
+      "src/game/opening.test.ts",
+      "tests/e2e/sophie-opening.spec.ts",
+      "tests/e2e/sophie-optional-locks.spec.ts",
+      "tests/e2e/sophie-resume.spec.ts"
+    ],
+    "provenance": "OPEN-INDEX and Bus 4 remain distinct. No Maya mirror knowledge without explicit disclosure. Sophie receives only the sent scope."
+  }
+}

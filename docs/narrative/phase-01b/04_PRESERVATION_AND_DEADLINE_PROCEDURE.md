@@ -1,0 +1,26 @@
+# 04 — 13–15 October preservation procedure
+
+**Fictional institutional proposal, pending D05/D06 process approval.** SB2 fixes the 26 Sep disposal notice, Daniel's 2 Oct report and the 15 Oct deadline; it does not specify a legal regime or office. The owner directs a short administrative pause and a separate independent preservation direction. No claim here is a statement of real-world law.
+
+## Proposed Greyhaven governance
+
+- **Crestline Records Custody Unit (CRCU)** stores Box 7/Folder 14 under a municipal service contract. Its named duty custodian may log a *temporary disposal pause* under a proposed Retention Schedule exception for a documented authenticity challenge. It can stop an imminent destruction task and authorize **supervised** inspection/certified copying; it cannot adjudicate liability or issue a legal hold. The policy must specify one-time use, reviewer signature, access scope and expiry. D06 must approve this contract clause.
+- **Greyhaven Independent Records Review Office (GIRRO)** is a proposed municipal independent oversight body with authority, under the same contract, to issue a scoped preservation direction to CRCU. It must have a named duty signatory independent of Crestline, published callback channel and logged service receipt. D06 must approve whether GIRRO or an alternative legal authority has this power.
+- **Player** assembles chronology, record IDs and contradictions. **Counsel or eligible requester** signs and sends formal requests. Player cannot sign for an authority, enter storage alone, or turn “submitted” into “accepted.”
+
+## Event ledger; local fictional time proposals
+
+| Date/time | Document and actor | Effect and visible state |
+|---|---|---|
+| 2 Oct, hour unspecified (`C` filing) | Daniel's preliminary report reaches oversight intake. Proposed deficiency: no verified folder locator and no authorized requester/grounds packet. | D05 conditional. Intake acknowledgment is **not** a pause or hold; 15 Oct schedule remains. Avoid implying the report was ignored unlawfully. |
+| 12 Oct E07 | Player obtains retention footer and 26 Sep notice; compares source and deadline. | `7-14` remains a lead until the storage index maps Box 7/Folder 14 at R11. |
+| 13 Oct, proposed 10:30–11:00 | Counsel/requester sends index-linked challenge; CRCU duty custodian signs `PAUSE-13-...` with reason, affected box/folder, start, **expiry 15 Oct 09:00**, no destruction/reboxing, supervised access scope and staff signature. | **DISPOSAL PAUSE ACTIVE**; 15 Oct scheduled job is suspended only until expiry. Pause does not cure an invalid formal request. |
+| 13 Oct, proposed 11:30–13:30 | CRCU witness and requester inspect folder in place. Custodian logs seal, page count, scan/copy ID, transfer and reseal; E009 carbon order is released as a redacted certified working copy or sealed copy to GIRRO. | Player receives only permitted derivative, not unrestricted originals. `V.H.` is an unproved initials lead. |
+| 14 Oct E09-S19/S20, by proposed 15:55 | Evidence packet with locator, verified E012, route/cause sources, E009 and redaction scope is submitted to GIRRO. | Receipt says **PENDING**. Incomplete field returns an actionable deficiency, never a false hold badge. |
+| 14 Oct E10-S11, proposed 18:30 | Authorized signer repairs any deficiency and explicitly resubmits. | Pending review, no forced real-world wait; parallel case-board work remains possible. |
+| 14 Oct, proposed 19:10 issue / 19:20 acknowledgment, latest authored gate 20:00 | Independent GIRRO duty signatory issues `DIR-14-...`; CRCU duty custodian verifies signature/callback and signs `ACK-14-...` (E020/R15). | **PRESERVATION DIRECTION ACCEPTED** before 15 Oct. Box/folder original, carbon sheets, index and related transfer logs are frozen; access logged; routine disposal job cancelled. Public portal records are addressed by a separate notice, not magically frozen by a folder hold. |
+| 15 Oct scheduled task | CRCU checks status and documents job cancellation. | No destruction. Investigation/review continues; no automatic correction or conviction. |
+
+**Fallbacks:** A missing optional Lucas photo, Ana identity or Daniel call never prevents the packet: E012/E013/E014/E018/E009/E015/E019 provide independent grounds. If supervised access is delayed, CRCU seals a certified copy for GIRRO during the pause; player sees the receipt, not stolen folder pages. If a request field is wrong, the deficiency names it and returns to a sourced repair. A duty deputy can sign only if the published authority roster records that delegation. The game clock cannot advance past the 14 Oct acceptance gate while the request is pending; it offers other substantive tasks, not a real-time wait. The narrative cannot claim success if GIRRO denies the direction; a denial requires a designed independent review path before the deadline or a revised ending, and is currently a **Phase 02 blocker**, not a hidden bad ending.
+
+**Outstanding approval:** owner/process reviewer must confirm CRCU's temporary-pause policy, GIRRO contract authority, eligible requestor, exact expiry, supervised-copy scope and the denial/escalation branch. The exact proposed hours are design scheduling, not SB2 canon.

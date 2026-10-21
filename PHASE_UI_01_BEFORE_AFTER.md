@@ -1,0 +1,13 @@
+# Phase UI-01 before and after
+
+| Area | Phase 00 baseline observed | UI-01 result | Remaining limit |
+|---|---|---|---|
+| Phone shell | Desktop-style rounded device frame, one dark palette, simulated status/home bars on every platform. | Full mobile viewport, web-only fictional chrome, safe-area rules and responsive desktop canvas. | Real Android native bars and hardware back not tested. |
+| Home | Large greeting card and 11 app tiles; no dock, wallpaper or widgets. | Original Greyhaven canal SVG, two functional widgets, four-column icons, two pages, translucent dock and page indicators. | Case artwork is vector illustration, not commissioned final art; Archive stays hidden until an authored gate. |
+| Messages | One direct fixture conversation opened with the app. | Inbox plus shared light/dark conversation view, grouped bubbles, date/time, state-backed typing, explicit choice Send, retained near-bottom scroll and older-history jump. | Only one non-canonical thread exists; no real group/media authored content. |
+| Composer/viewport | Choices and Send below scroll, 160ms polling within Messages. | Reply filter and explicit Send; next due engine event scheduled at state time; VisualViewport height keeps composer in the flex layout. | Physical mobile keyboard/IME and native WebView need UAT. |
+| Settings | Reduce Motion and backup in a sparse dark screen. | Grouped appearance, Reduce Motion, save status and backup rows. Appearance persists separately from narrative state. | Sound and notification controls omitted because no engine support exists. |
+| Other apps | Mixed placeholder cards, fictional Search/Maps. | Shared headers/cards/empty states; functional month browser and personal note; preserved Search/Maps fixture content. | Calls/contacts/mail/evidence remain gated or empty until authored story. |
+| Save safety | IndexedDB v1 `the-archive-reboot`, legacy localStorage key untouched. | Same game schema/key and engine logic; new appearance/note localStorage keys are separate. | Abrupt-kill and cross-device behavior remain untested. |
+
+**Files:** [App.tsx](src/App.tsx), [App.css](src/App.css), [phone.ts](src/content/phone.ts), [PhoneShell.tsx](src/ui/PhoneShell.tsx), [HomeScreen.tsx](src/ui/HomeScreen.tsx), [Messenger.tsx](src/ui/Messenger.tsx), [UtilityApps.tsx](src/ui/UtilityApps.tsx), [useAppearance.ts](src/ui/useAppearance.ts), [wallpaper](public/greyhaven-wallpaper.svg), [HTML title/theme](index.html), [browser tests](tests/e2e/ui01.spec.ts) and adjusted [foundation browser tests](tests/e2e/foundation.spec.ts). No `src/game` runtime file, game save or legacy app source was edited.

@@ -1,0 +1,11 @@
+.opening-v4 .opening-thread{min-height:0;overflow-y:auto;scroll-behavior:smooth}
+.opening-v4-attachment{display:block;width:min(62%,220px);margin:8px 15px 15px auto;padding:0;border:0;border-radius:12px;overflow:hidden;background:#202a36;color:white;text-align:left;box-shadow:0 4px 14px #0003}
+.opening-v4-attachment img{display:block;width:100%;max-height:250px;object-fit:cover;object-position:top}
+.opening-v4-attachment span{display:block;padding:8px 10px;font-size:12px}
+.opening-v4-full-photo{display:block;max-width:100%;max-height:75vh;object-fit:contain;margin:auto}
+.opening-v4-typing{display:flex;align-items:center;gap:8px;margin:10px 15px;font-size:12px;color:#7e8792}
+.opening-v4-name-row{display:flex;gap:8px;align-items:center}
+.opening-v4-name-row input{min-width:0;flex:1;border:1px solid #aeb8c4;border-radius:10px;padding:10px 12px;font:inherit}
+.opening-v4-name-row .opening-primary{width:auto;white-space:nowrap}
+.opening-v4-idle{display:block;text-align:center;padding:8px;color:#7e8792;font-size:13px}
+@media (prefers-reduced-motion:reduce){.opening-v4 .opening-thread{scroll-behavior:auto}.opening-v4 .typing-dots i{animation:none}}

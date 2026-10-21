@@ -1,0 +1,156 @@
+{
+  "status": "PASS",
+  "count": 30,
+  "scenes": [
+    {
+      "id": "E01-S01",
+      "title": "A name on the screen",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_01.md"
+    },
+    {
+      "id": "E01-S02",
+      "title": "A quiet morning",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_01.md"
+    },
+    {
+      "id": "E01-S03",
+      "title": "Daniel's empty chair",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_01.md"
+    },
+    {
+      "id": "E01-S04",
+      "title": "The older preview",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_01.md"
+    },
+    {
+      "id": "E01-S05",
+      "title": "The current copy",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_01.md"
+    },
+    {
+      "id": "E01-S06",
+      "title": "One line apart",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_01.md"
+    },
+    {
+      "id": "E01-S07",
+      "title": "A sentence you can defend",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_01.md"
+    },
+    {
+      "id": "E01-S08",
+      "title": "The shape of a tip",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_02.md"
+    },
+    {
+      "id": "E01-S09",
+      "title": "Press Send",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_02.md"
+    },
+    {
+      "id": "E01-S10",
+      "title": "The return route",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_02.md"
+    },
+    {
+      "id": "E01-S11",
+      "title": "Someone answers",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_02.md"
+    },
+    {
+      "id": "E01-S12",
+      "title": "A name is not a channel",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_02.md"
+    },
+    {
+      "id": "E01-S13",
+      "title": "The exact row",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_02.md"
+    },
+    {
+      "id": "E01-S14",
+      "title": "What to share",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_02.md"
+    },
+    {
+      "id": "E01-S15",
+      "title": "The thing Maya chose to post",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_02.md"
+    },
+    {
+      "id": "E01-S16",
+      "title": "Two invitations",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_03.md"
+    },
+    {
+      "id": "E01-S17",
+      "title": "The permission sheet",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_03.md"
+    },
+    {
+      "id": "E01-S18",
+      "title": "What a workspace holds",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_03.md"
+    },
+    {
+      "id": "E01-S19",
+      "title": "The date printed on an image",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_04.md"
+    },
+    {
+      "id": "E01-S20",
+      "title": "A notice about change",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_04.md"
+    },
+    {
+      "id": "E01-S21",
+      "title": "Put the cards in order",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_04.md"
+    },
+    {
+      "id": "E01-S22",
+      "title": "The boring explanation",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_04.md"
+    },
+    {
+      "id": "E01-S23",
+      "title": "Search without a secret door",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_04.md"
+    },
+    {
+      "id": "E01-S24",
+      "title": "A note with a closed door",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_04.md"
+    },
+    {
+      "id": "E01-S25",
+      "title": "A question that isn't about the file",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_05.md"
+    },
+    {
+      "id": "E01-S26",
+      "title": "What to say aloud",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_05.md"
+    },
+    {
+      "id": "E01-S27",
+      "title": "Ask the office that holds the past",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_05.md"
+    },
+    {
+      "id": "E01-S28",
+      "title": "Four pages, one claim",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_06.md"
+    },
+    {
+      "id": "E01-S29",
+      "title": "After verification",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_06.md"
+    },
+    {
+      "id": "E01-S30",
+      "title": "The part that is still open",
+      "source": "docs/narrative/phase-02/01_EPISODE_01_SCREENPLAY_ACT_06.md"
+    }
+  ]
+}

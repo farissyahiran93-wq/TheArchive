@@ -1,0 +1,444 @@
+{
+  "primaryStart": "2026-10-19T05:46:07.531Z",
+  "primaryEnd": "2026-10-19T06:00:02.163Z",
+  "primaryWallSeconds": 834.632,
+  "timings": [
+    {
+      "phase": "Opening Sophie conversation",
+      "from": "2026-10-19T05:46:07.531Z",
+      "to": "2026-10-19T05:47:07.758Z",
+      "wallSeconds": 60.227,
+      "loggedApiSeconds": 5.022
+    },
+    {
+      "phase": "Recovery and installation",
+      "from": "2026-10-19T05:47:07.758Z",
+      "to": "2026-10-19T05:47:18.224Z",
+      "wallSeconds": 10.466,
+      "loggedApiSeconds": 0.578
+    },
+    {
+      "phase": "Initial iPhone investigation",
+      "from": "2026-10-19T05:47:18.224Z",
+      "to": "2026-10-19T05:48:01.960Z",
+      "wallSeconds": 43.736,
+      "loggedApiSeconds": 9.173
+    },
+    {
+      "phase": "Optional puzzles (interleaved Gallery viewing)",
+      "from": "2026-10-19T05:48:01.960Z",
+      "to": "2026-10-19T05:48:47.393Z",
+      "wallSeconds": 45.433,
+      "loggedApiSeconds": 11.924
+    },
+    {
+      "phase": "Further mirror investigation and Index",
+      "from": "2026-10-19T05:48:47.393Z",
+      "to": "2026-10-19T05:50:09.178Z",
+      "wallSeconds": 81.785,
+      "loggedApiSeconds": 19.165
+    },
+    {
+      "phase": "Sophie follow-up and bridge",
+      "from": "2026-10-19T05:50:09.178Z",
+      "to": "2026-10-19T05:50:52.790Z",
+      "wallSeconds": 43.612,
+      "loggedApiSeconds": 3.692
+    },
+    {
+      "phase": "Bulletin investigation, detours and optional scenes",
+      "from": "2026-10-19T05:50:52.790Z",
+      "to": "2026-10-19T05:59:10.432Z",
+      "wallSeconds": 497.642,
+      "loggedApiSeconds": 25.53
+    },
+    {
+      "phase": "GCRO verification and citation",
+      "from": "2026-10-19T05:59:10.432Z",
+      "to": "2026-10-19T05:59:44.291Z",
+      "wallSeconds": 33.859,
+      "loggedApiSeconds": 4.776
+    },
+    {
+      "phase": "Ending",
+      "from": "2026-10-19T05:59:44.291Z",
+      "to": "2026-10-19T06:00:02.163Z",
+      "wallSeconds": 17.872,
+      "loggedApiSeconds": 1.948
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "01-lock-390.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "02-first-contact.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "03-sophie-number-reply.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "04-note-photo.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "05-repeated-originals-choice.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "06-recovery.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "07-permission.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "08-mirror-home-390.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "09-messages.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "10-mail.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "11-maps-text-only.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "12-note-lock.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "13-revision-unlocked.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "14-comparison-note.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "15-gallery-public-and-locked.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "16-full-shelf.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "17-index-zoom.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "18-index-timestamp.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "19-quay-map.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "20-calls.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "21-contacts.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "22-files-container.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "23-browser.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "24-index-observation.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "25-private-workspace.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "26-sophie-followup.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "27-player-home.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "28-bulletin-article.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "29-old-bus4.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "30-comparison.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "31-tip-receipt.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "32-maya-first-contact.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "33-maya-source-and-tea.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "34-channel-copy-repetition.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "35-maya-personal-detail.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "36-independent-permissions.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "37-memory-project-workspace.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "38-messages-inbox.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "39-date-carriers.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "40-unsupported-Daniel-distractor.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "41-correction-theory.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "42-search-results.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "43-public-map.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "44-case-board.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "45-check-in-time-backwards.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "46-gcro-pages.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "47-standard-S30-complete.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "48-lock-320.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "49-recovery-postponed-320.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "50-password-375.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "51-hint-tiers-375.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "52-no-tip-route.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "53-no-tip-ending-boundary.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "54-late-tip-stale-draft.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "55-alternate-S30-complete.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "56-resumed-complete.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "57-home-430.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "58-protected-status-430.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "59-home-430-actual.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "60-mirror-430.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "61-gallery-430.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "62-loaded-quay-map-390.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "63-notice-board-loaded.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "64-message-crop-loaded.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "65-sophie-320.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "65-sophie-375.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "65-sophie-390.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "65-sophie-430.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "66-case-board-320.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "66-case-board-375.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "66-case-board-390.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "66-case-board-430.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "67-final-completion.png",
+      "width": 65536,
+      "height": 4292542531
+    }
+  ],
+  "limitations": [
+    "Raw primary phase stayed lock because the original UI helper captured its initial binding. Use timestamp/observation boundaries above, not that phase field.",
+    "Fresh alternate lock observation at 06:00:16.615Z accidentally captured the primary tab; exclude it. 48-lock-320.png was replaced with the actual alternate lock screenshot.",
+    "57-home-430.png and 58-protected-status-430.png are actually 390px. 59-home-430-actual.png onward supplies the verified 430px alternate-tab audit.",
+    "Wall time includes model/tool/logging overhead and an approximately 151 second resumption gap after second home page; active reading time was not measured.",
+    "Logged API time is only timed successful click/fill calls; it excludes reading, waits, screenshots, tool transport and some direct locator actions. It is not active gameplay time."
+  ]
+}

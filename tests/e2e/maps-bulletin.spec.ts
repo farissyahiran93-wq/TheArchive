@@ -1,0 +1,108 @@
+import { completeOpening } from './opening-helper'
+import { mkdirSync } from 'node:fs'
+import { expect, test, type Page } from '@playwright/test'
+import { briefParagraphs, currentText, previewText } from '../../src/content/e01Slice'
+
+const output = 'qa/maps-bulletin'
+mkdirSync(output, { recursive: true })
+
+async function start(page: Page) {
+  await page.goto('/?legacyopening=1')
+  await page.getByRole('button', { name: /Enter the archive/i }).click()
+  await page.getByLabel('Your name').fill('Rae')
+  await page.getByRole('button', { name: /Set up phone/i }).click()
+  await completeOpening(page)
+}
+async function screenshot(page: Page, name: string) {
+  expect(await page.locator('.device').evaluate(el => el.scrollWidth <= el.clientWidth + 1)).toBe(true)
+  await page.screenshot({ path: `${output}/${name}.png`, animations: 'disabled', scale: 'css' })
+}
+
+test('map search, categories, pan, zoom and overview work without advancing the case', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await start(page)
+  await page.getByRole('button', { name: 'Open Maps', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Civic Square' })).toBeVisible()
+  await screenshot(page, 'maps-390x844')
+  const art = page.locator('.city-map-art')
+  const initial = await art.getAttribute('viewBox')
+  await page.getByRole('button', { name: 'Zoom in', exact: true }).click()
+  await expect(art).not.toHaveAttribute('viewBox', initial!)
+  const zoomed = await art.getAttribute('viewBox')
+  const region = page.getByRole('region', { name: /Illustrated map of Greyhaven/ })
+  await region.focus()
+  await page.keyboard.press('ArrowRight')
+  await expect(art).not.toHaveAttribute('viewBox', zoomed!)
+  const beforeDrag = await art.getAttribute('viewBox')
+  const bounds = await region.boundingBox()
+  await page.mouse.move(bounds!.x + 50, bounds!.y + bounds!.height - 60)
+  await page.mouse.down()
+  await page.mouse.move(bounds!.x + 110, bounds!.y + bounds!.height - 90, { steps: 5 })
+  await page.mouse.up()
+  await expect(art).not.toHaveAttribute('viewBox', beforeDrag!)
+  await page.getByRole('button', { name: 'Show all places', exact: true }).click()
+  await expect(art).toHaveAttribute('viewBox', initial!)
+  await page.getByRole('button', { name: 'Show Greyhaven Library', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Greyhaven Library' })).toBeVisible()
+  await page.getByRole('button', { name: 'Transit', exact: true }).click()
+  await expect(page.getByRole('button', { name: 'Show Greyhaven Library', exact: true })).toHaveCount(0)
+  await expect(page.getByRole('button', { name: 'Show North Station', exact: true })).toHaveCount(1)
+  await page.getByRole('button', { name: 'Show all places', exact: true }).click()
+  await page.getByLabel('Search map places').fill('library')
+  await page.getByRole('button', { name: 'Greyhaven Library Local history collection', exact: true }).first().click()
+  await expect(page.getByRole('heading', { name: 'Greyhaven Library' })).toBeVisible()
+  await page.getByLabel('Search map places').fill('unlisted place')
+  await expect(page.getByText('No places found. Try library, station or square.')).toBeVisible()
+  await page.getByRole('button', { name: 'Clear map search' }).click()
+  await page.getByRole('button', { name: 'Back to home', exact: true }).click()
+  await page.getByRole('button', { name: 'Open Bulletin', exact: true }).last().click()
+  await expect(page.getByRole('button', { name: 'Read public brief' })).toBeVisible()
+})
+
+for (const mode of ['light', 'dark', 'small'] as const) {
+  test(`Bulletin source fidelity and responsive reading: ${mode}`, async ({ page }) => {
+    const width = mode === 'small' ? 320 : 390, height = mode === 'small' ? 568 : 844
+    await page.setViewportSize({ width, height })
+    await start(page)
+    if (mode === 'dark') {
+      await page.getByRole('button', { name: 'Show home page 2' }).click()
+      await page.getByRole('button', { name: 'Open Settings', exact: true }).click()
+      await page.getByLabel('Appearance').selectOption('dark')
+      await page.getByRole('button', { name: 'Back to home', exact: true }).click()
+    }
+    await page.getByRole('button', { name: 'Open Maps', exact: true }).click()
+    await expect(page.getByRole('button', { name: 'Zoom in', exact: true })).toBeInViewport()
+    await screenshot(page, `maps-${mode}`)
+    await page.getByRole('button', { name: 'Back to home', exact: true }).click()
+    await page.getByRole('button', { name: 'Open Bulletin', exact: true }).last().click()
+    await screenshot(page, `bulletin-cover-${mode}`)
+    await page.getByRole('button', { name: 'Read public brief' }).click()
+    await page.getByRole('button', { name: 'Read full brief' }).click()
+    const article = page.getByRole('article', { name: 'Full Daniel Mercer brief' })
+    for (const paragraph of briefParagraphs) await expect(article.getByText(paragraph, { exact: true })).toHaveCount(1)
+    await expect(page.getByText(briefParagraphs[0], { exact: true })).toHaveCount(1)
+    await screenshot(page, `bulletin-article-${mode}`)
+    await page.getByRole('button', { name: 'Older preview' }).click()
+    await expect(page.getByRole('button', { name: 'View current copy' })).toBeDisabled()
+    await page.getByText('Plain text transcription', { exact: true }).click()
+    await expect(page.locator('.source-text-view pre')).toHaveText(previewText)
+    await page.getByText('Plain text transcription', { exact: true }).click()
+    await page.locator('.slice-content').evaluate(el => { el.scrollTop = 0 })
+    await screenshot(page, `bulletin-preview-${mode}`)
+    await page.getByRole('button', { name: 'Pin June row as an observation' }).click()
+    await page.getByRole('button', { name: 'View current copy' }).click()
+    await page.getByText('Plain text transcription', { exact: true }).click()
+    await expect(page.locator('.source-text-view pre')).toHaveText(currentText)
+    await page.getByText('Plain text transcription', { exact: true }).click()
+    await page.locator('.slice-content').evaluate(el => { el.scrollTop = 0 })
+    await screenshot(page, `bulletin-current-${mode}`)
+    await page.getByRole('button', { name: 'Compare copies' }).click()
+    await screenshot(page, `bulletin-comparison-${mode}`)
+    await page.getByRole('button', { name: 'The bus number', exact: true }).click()
+    await expect(page.getByRole('status')).toContainText('Both headers say Bus 4.')
+    await page.getByRole('button', { name: 'Hint 1', exact: true }).click()
+    await expect(page.getByText('Match the record title and date first.')).toBeVisible()
+    await page.getByRole('button', { name: 'Escort: June Ellis → blank', exact: true }).click()
+    await expect(page.getByText('Not yet established: which complete version was certified', { exact: false })).toBeVisible()
+  })
+}

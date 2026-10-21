@@ -1,0 +1,16 @@
+# Phase 02 screenplay handoff — Episode 01: *The Missing Entry*
+
+**16 October 2026. Verdict: SCRIPT COMPLETE / INTERNALLY QA-READY for a narrow Phase 03 content-integration handoff.** This is an internal AI editorial and script-level decision, **not** independent human editorial acceptance, a measured duration or gameplay acceptance. Gate A remains READY; Gate B remains NOT IMPLEMENTED / NOT TESTED. [The detailed Phase 02C acceptance report](14_PHASE_02C_ACCEPTANCE_REPORT.md) states the evidence, limits and next actions.
+
+## Integration input
+
+- [Six Act screenplay files](00_INDEX.md#scene-coverage-ledger): E01-S01–S30 in order, complete visible English lines, response/choice conditions, wrong answers and source-limited finale. Optional scenes S16/S17/S25/S26 can be skipped on the quiet public route.
+- [56-ID choice/knowledge coverage](13_PHASE_02C_BRANCH_AND_KNOWLEDGE_COVERAGE.md), [I01–I07 investigation pack](03_EPISODE_01_INVESTIGATION_PACK.md), [14 route cases](12_PHASE_02C_INVESTIGATION_ACCEPTANCE.md), [receipts](05_EPISODE_01_EVENTS_KNOWLEDGE_RECEIPTS.md) and [state transitions](06_EPISODE_01_STATE_TRANSITION_MATRIX.md). `P-` IDs remain proposed E01-local implementation identifiers; approved C01–C03 and all canonical scene/evidence IDs are unchanged.
+- [Fictional asset text and briefs](04_EPISODE_01_IN_WORLD_ASSETS.md), including the actual [2,012-byte E012 master](assets/GCRO-EXP-20261008-041.txt). Its repository SHA-256 protects those text bytes only. A delivered in-fiction export needs its own eligibility, issuer, recipient, revision and delivered-byte checks before R04.
+- [Two complete internal paper traces](11_PHASE_02C_PAPER_PLAY_TRACES.md) and [narrative QA](08_EPISODE_01_NARRATIVE_QA.md). SOCIAL and QUIET both reach S30 under stated valid-issue assumptions. Quiet reaches every mandatory investigation without optional Maya intimacy, Messages, Archive, screenshot disclosure or romance.
+
+## Phase 03 build contract
+
+Implement scene/event triggers and one-time receipt commits from the manuscript, including separate composer/Send, public Bulletin return-token replies, independent Messages and Archive consent, public Search/Maps and their text alternatives, source/citation states, wrong-answer recovery, saved drafts/re-entry and idempotence. The no-tip-first path may save independent private K02 but cannot finish S30 until actual R01 and S12; returning to S30 must not replay a request or disclose E012. E012→R04→K02 requires an eligible fictional issue followed by player verification and explicit Board Save. S30 role-card validation must never name an operator. Keep all old saves and legacy code untouched until a separately reviewed migration exists.
+
+**Human review and timing remain open:** commission a blind Narrative Director/table read for Maya's voice, the S19–S24 question density and S30's emotional payoff; record precise redlines if needed. Time actual readers and later playable routes. The current [~75–120-minute hypothesis](07_EPISODE_01_TIMING_AND_PACING_MODEL.md) makes the older 185-minute aspiration doubtful, not false by measurement. Phase 03 integration may use this internally accepted script as content source while these quality observations are gathered. Do not report a shipping or runtime PASS until Gate B executes on the integrated phone interface and Android device.

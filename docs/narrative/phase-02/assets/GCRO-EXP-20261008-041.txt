@@ -1,0 +1,41 @@
+PAGE 1 OF 4
+GREYHAVEN CIVIC RECORDS OFFICE
+Public-interest redacted version lineage / Bus 4
+Request reference: REQ-20261008-041
+Export reference: GCRO-EXP-20261008-041
+Record: GH-NQ-BUS4-2019-11-23
+Scope: v1 snapshot and v2 correction lineage; public escort field only
+Source custody: GCRO archived snapshot, separately controlled from the current civic portal
+Reader: originating one-use request session only
+Pages: 1–4 of 4
+Resident names, contacts, care details and private destinations: REDACTED
+This release certifies the lineage shown here, not every event described in a 2019 record.
+
+PAGE 2 OF 4
+ARCHIVED SNAPSHOT / SNAP-20191124-1520
+Record GH-NQ-BUS4-2019-11-23 / v1
+Event date: 23 NOV 2019
+Residents: 12 / identifying fields [REDACTED]
+Escort: JUNE ELLIS
+Destination fields: [REDACTED]
+v1 verification recorded: 24 NOV 2019 15:20
+Source note: field text retained in GCRO's archived v1 snapshot.
+
+PAGE 3 OF 4
+VERSION EVENT CHAIN
+v1: GH-NQ-BUS4-2019-11-23/v1 / snapshot SNAP-20191124-1520
+Correction reference: COR-20191125-B4
+Correction approval recorded: 25 NOV 2019 08:40
+Public reason supplied to portal: route reconciliation
+v2 public reference: GH-NQ-BUS4-2019-11-23/v2
+Escort field in current public v2: blank
+Approval and publication are distinct events. This public derivative does not identify individual actors.
+
+PAGE 4 OF 4
+REDACTION AND RELEASE STATEMENT / RED-041
+Suppressed: resident names, contacts, care details and private destination fields.
+Retained: record/version IDs, event date, public escort field, verification and correction-approval times.
+Issuer class: GCRO duty records officer / independent archive release.
+Verification: compare this issue against GCRO-REG-01 office directory, source lineage, page count, field suppression statement and final-file integrity record.
+Transfer scope: originating request session only; one retrieval; onward disclosure requires a new selected-fact action.
+An intact file is not proof that all events recorded in 2019 happened as written.

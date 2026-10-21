@@ -1,0 +1,284 @@
+{
+  "source_collage": {
+    "file": "gambar dalam phone daniel.png",
+    "sha256": "3ae30082bd06768a4f358b5f9cc2cb3b5a70e474a89de10528b11f4a553a4ca4"
+  },
+  "crops": [
+    {
+      "file": "artifacts/phase05/daniel-collage-crops/01-shelf-photo.png",
+      "box": [
+        0,
+        0,
+        507,
+        517
+      ],
+      "size": [
+        507,
+        517
+      ],
+      "sha256": "b61f985027407694f7237c3eb9a0fec75b7de63ddc38a9cf9e64803ab4648eca"
+    },
+    {
+      "file": "artifacts/phase05/daniel-collage-crops/02-message-crop.png",
+      "box": [
+        514,
+        0,
+        1021,
+        517
+      ],
+      "size": [
+        507,
+        517
+      ],
+      "sha256": "c3cba70074f1be7837aacdc71dba5778734a0297ff6a09bfcf6bb6e0386643e2"
+    },
+    {
+      "file": "artifacts/phase05/daniel-collage-crops/03-index-crop-1.png",
+      "box": [
+        1028,
+        0,
+        1536,
+        517
+      ],
+      "size": [
+        508,
+        517
+      ],
+      "sha256": "268871b559647098dcc5668f1a41448565476fb0005817a6ad8adb11af907a49"
+    },
+    {
+      "file": "artifacts/phase05/daniel-collage-crops/04-index-crop-2.png",
+      "box": [
+        0,
+        522,
+        507,
+        1024
+      ],
+      "size": [
+        507,
+        502
+      ],
+      "sha256": "1060e2b8be13834a90f704bfc458bbe34a0573d978c9d689b30c8e9d03ee97e8"
+    },
+    {
+      "file": "artifacts/phase05/daniel-collage-crops/05-notice-board-photo.png",
+      "box": [
+        514,
+        522,
+        1021,
+        1024
+      ],
+      "size": [
+        507,
+        502
+      ],
+      "sha256": "3f9856f062fe5aa2e039fdd04c07c3bd5a8a3a168467432259588ce14d4b9353"
+    },
+    {
+      "file": "artifacts/phase05/daniel-collage-crops/06-map-screenshot.png",
+      "box": [
+        1028,
+        522,
+        1536,
+        1024
+      ],
+      "size": [
+        508,
+        502
+      ],
+      "sha256": "cd456b6081665162788c4b002f6245b53d302d2393373ac32e4e7a6bbaef75ae"
+    }
+  ],
+  "gallery": [
+    {
+      "source": "daniel_gallery_01_shelf.png",
+      "source_sha256": "23b4a6953151a14f6dc96535d9c94f4722411279cdd370abc5282ac1ef684cf1",
+      "runtime": "/media/gallery/01-shelf-photo.png",
+      "thumbnail": "/media/gallery/01-shelf-photo-thumb.webp",
+      "width": 1425,
+      "height": 1230,
+      "bytes": 2044318,
+      "runtime_sha256": "23b4a6953151a14f6dc96535d9c94f4722411279cdd370abc5282ac1ef684cf1",
+      "pixel_identical_to_source": true,
+      "capture_timestamp": null,
+      "gps": null
+    },
+    {
+      "source": "daniel_gallery_02_message_crop.png",
+      "source_sha256": "6f9c74e362e0de8103f175fa44a1fbb76bf9b4cbb5c68d0d9b38c2e0eee64e07",
+      "runtime": "/media/gallery/02-message-crop.png",
+      "thumbnail": "/media/gallery/02-message-crop-thumb.webp",
+      "width": 1080,
+      "height": 1420,
+      "bytes": 963183,
+      "runtime_sha256": "6f9c74e362e0de8103f175fa44a1fbb76bf9b4cbb5c68d0d9b38c2e0eee64e07",
+      "pixel_identical_to_source": true,
+      "capture_timestamp": null,
+      "gps": null
+    },
+    {
+      "source": "daniel_gallery_03_index_crop_a.png",
+      "source_sha256": "4bd59aba4902ece0f98e2d4481db0b946b9c9b9c08a71fd45794522ee1e69b4c",
+      "runtime": "/media/gallery/03-index-crop-1.png",
+      "thumbnail": "/media/gallery/03-index-crop-1-thumb.webp",
+      "width": 1120,
+      "height": 1450,
+      "bytes": 1343823,
+      "runtime_sha256": "4bd59aba4902ece0f98e2d4481db0b946b9c9b9c08a71fd45794522ee1e69b4c",
+      "pixel_identical_to_source": true,
+      "capture_timestamp": null,
+      "gps": null
+    },
+    {
+      "source": "daniel_gallery_04_index_crop_b.png",
+      "source_sha256": "d7e3e49e6323e0b3411906fe596c7cdb45025e36402802d208a0f1bae2450696",
+      "runtime": "/media/gallery/04-index-crop-2.png",
+      "thumbnail": "/media/gallery/04-index-crop-2-thumb.webp",
+      "width": 1120,
+      "height": 1450,
+      "bytes": 1358052,
+      "runtime_sha256": "d7e3e49e6323e0b3411906fe596c7cdb45025e36402802d208a0f1bae2450696",
+      "pixel_identical_to_source": true,
+      "capture_timestamp": null,
+      "gps": null
+    },
+    {
+      "source": "daniel_gallery_05_notice_board.png",
+      "source_sha256": "8aa571afc0d8e246b9f40111ea06d059361e1e58726008615e5009dce936ff66",
+      "runtime": "/media/gallery/05-notice-board-photo.png",
+      "thumbnail": "/media/gallery/05-notice-board-photo-thumb.webp",
+      "width": 1425,
+      "height": 1178,
+      "bytes": 2159483,
+      "runtime_sha256": "8aa571afc0d8e246b9f40111ea06d059361e1e58726008615e5009dce936ff66",
+      "pixel_identical_to_source": true,
+      "capture_timestamp": null,
+      "gps": null
+    },
+    {
+      "source": "daniel_gallery_06_map_screenshot.png",
+      "source_sha256": "db89341304af318e3de426be08ce032328e57a6af612247ab2829d06c56251cf",
+      "runtime": "/media/gallery/06-map-screenshot.png",
+      "thumbnail": "/media/gallery/06-map-screenshot-thumb.webp",
+      "width": 1080,
+      "height": 1550,
+      "bytes": 1158188,
+      "runtime_sha256": "db89341304af318e3de426be08ce032328e57a6af612247ab2829d06c56251cf",
+      "pixel_identical_to_source": true,
+      "capture_timestamp": null,
+      "gps": null
+    }
+  ],
+  "portraits": [
+    {
+      "id": "daniel",
+      "source": "daniel.png",
+      "source_sha256": "16451d3e09c712f3f8ea8d61f94b121eb8b473fbfa24286ac1133728924d78fd",
+      "runtime": "/media/portraits/daniel.webp",
+      "avatar": "/media/portraits/daniel-avatar.webp",
+      "width": 720,
+      "height": 720,
+      "bytes": 48708,
+      "runtime_sha256": "2fe323886724d3cbd327182fa237e7121a3269badf2eceaf36b9bc5df8d40318"
+    },
+    {
+      "id": "sophie",
+      "source": "sophie mercer.png",
+      "source_sha256": "5ba8cb5a747881347a6b353f1fb9c501ef48e40f8942dc7a4c6007b5b66cbe6b",
+      "runtime": "/media/portraits/sophie.webp",
+      "avatar": "/media/portraits/sophie-avatar.webp",
+      "width": 576,
+      "height": 720,
+      "bytes": 43092,
+      "runtime_sha256": "aa0218c60030412e3e3f30846f1a5689353ba97ca6de1be79700d2ce19fb2171"
+    },
+    {
+      "id": "maya",
+      "source": "maya chen.png",
+      "source_sha256": "4f37067b5b3066e4e5906b9d69c0755bec26678f2639a59533bd489694b81cd9",
+      "runtime": "/media/portraits/maya.webp",
+      "avatar": "/media/portraits/maya-avatar.webp",
+      "width": 720,
+      "height": 720,
+      "bytes": 92244,
+      "runtime_sha256": "8f8d38c81c8f02e05d695be19f9a8b5ea329e81e634b4408879b590bb63fc702"
+    },
+    {
+      "id": "lucas",
+      "source": "lucas grey.png",
+      "source_sha256": "20364a953769aede64d1a5f2be2111ee119ae64f6afd7b97ce9b3ae413a04bf8",
+      "runtime": "/media/portraits/lucas.webp",
+      "avatar": "/media/portraits/lucas-avatar.webp",
+      "width": 720,
+      "height": 720,
+      "bytes": 57940,
+      "runtime_sha256": "c00db87230f167aa6ae1a9c18882639c1cf8f527d3876226829d6308c83e1bdd"
+    },
+    {
+      "id": "eli",
+      "source": "eli ward.png",
+      "source_sha256": "90396505e61fbbe9a1fa1355249d8335a921a7a35e5e059364de5f8d4f7b4fe8",
+      "runtime": "/media/portraits/eli.webp",
+      "avatar": "/media/portraits/eli-avatar.webp",
+      "width": 720,
+      "height": 720,
+      "bytes": 41856,
+      "runtime_sha256": "589ab6d6efa24156a9343ea2292bc20bd783822db3f15768452cda2118c84d32"
+    },
+    {
+      "id": "nora",
+      "source": "nora vance.png",
+      "source_sha256": "0b7bb3a282de840ad7798c3c2d36424e9353cada0e36f8c57d6e4f2ebb300224",
+      "runtime": "/media/portraits/nora.webp",
+      "avatar": "/media/portraits/nora-avatar.webp",
+      "width": 720,
+      "height": 720,
+      "bytes": 95060,
+      "runtime_sha256": "fa150b16419eae73be8b0f515a6f576df6ae905d1834b29cf5e6189f821c3170"
+    },
+    {
+      "id": "ana",
+      "source": "Ana Pierce.png",
+      "source_sha256": "16bc68536c32beaecd4111577598cb18e3773e59464da599f4377efe8ba2bcb1",
+      "runtime": "/media/portraits/ana.webp",
+      "avatar": "/media/portraits/ana-avatar.webp",
+      "width": 720,
+      "height": 720,
+      "bytes": 79462,
+      "runtime_sha256": "b1b9f631504946c0120918457de8a18e0a89f7d0c97df8d3369ab0aa934babe3"
+    },
+    {
+      "id": "rowan",
+      "source": "rowan bell.png",
+      "source_sha256": "5979a56cefd38f69ffa9b569eed0056877348f5e74a7349e891c351a06e60f7d",
+      "runtime": "/media/portraits/rowan.webp",
+      "avatar": "/media/portraits/rowan-avatar.webp",
+      "width": 720,
+      "height": 720,
+      "bytes": 69836,
+      "runtime_sha256": "9958804ace97dc81212545605b7ff71762d118bc8787b39ca62e0a0108a1ad4c"
+    },
+    {
+      "id": "vivian",
+      "source": "vivian hale.png",
+      "source_sha256": "8ba4128d8f96c2153c4c6dbd7aa7cf969fc0efa4c1a1fa469d20ecaeb390960d",
+      "runtime": "/media/portraits/vivian.webp",
+      "avatar": "/media/portraits/vivian-avatar.webp",
+      "width": 720,
+      "height": 720,
+      "bytes": 42974,
+      "runtime_sha256": "309f99e45fe8ddc39bef0aa7d1bdd1ae78db9b64d34a7692cdabc9fbfdf4fed2"
+    },
+    {
+      "id": "june",
+      "source": "June Ellis.png",
+      "source_sha256": "8d488352191fa12a2f08417338cbfb85192158bfb30af020b26ede3f36790c85",
+      "runtime": "/media/portraits/june.webp",
+      "avatar": "/media/portraits/june-avatar.webp",
+      "width": 720,
+      "height": 720,
+      "bytes": 166646,
+      "runtime_sha256": "a760ffbb8585c08be87bdeffda32271115b84d2576e992473188688b0dbc6786"
+    }
+  ]
+}
