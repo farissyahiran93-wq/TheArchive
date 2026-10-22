@@ -1,3 +1,8 @@
+import { ReunionChat } from './Chapter2Reunion'
+import type { Active } from '../game/chapter2Reunion'
+import { AccessChat, RelaySheet } from './Chapter2Access'
+import { openingPresence } from '../game/phonePresentation'
+import { Scene01Chat } from './Scene01Chat'
 import { CharacterAvatar } from './CharacterAvatar'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { ArrowDown, Check, ChevronLeft, ChevronRight, LockKeyhole, Search, Send } from 'lucide-react'
@@ -123,16 +128,23 @@ function GroupHistory({ onBack }: { onBack: () => void }) {
   const social = useGameStore(state => state.save.prologue?.social)
   const readOpening = useGameStore(state => state.readOpening)
   useEffect(() => { readOpening('group') }, [readOpening])
-  return <section className="chat-screen native-messenger" aria-label="FIND DANIEL group conversation"><header className="chat-header native-chat-header"><button className="icon-button bare native-back-button" onClick={onBack} aria-label="Back to inbox"><ChevronLeft size={29}/><span>Messages</span></button><div className="native-chat-contact"><span className="contact-avatar">FD</span><span className="chat-title"><strong>FIND DANIEL</strong><small>{social?.members.filter(id => id !== 'player').join(', ') || 'Group inactive'}</small></span></div></header><div className="chat-scroll">{social?.messages.map(message => message.sender === 'system' ? <div className="opening-group-system" key={message.id}>{message.text}</div> : <div key={message.id} className={`opening-group-line ${message.sender === 'player' ? 'player' : ''}`}><strong>{message.sender === 'player' ? 'You' : message.sender[0].toUpperCase() + message.sender.slice(1)}</strong><div className={`opening-bubble ${message.sender === 'player' ? 'player' : 'sophie'}`}>{message.text}</div></div>)}</div><div className="composer composer-wait">No one is writing in this group right now.</div></section>
+  return <section className="chat-screen native-messenger" aria-label="FIND DANIEL group conversation"><header className="chat-header native-chat-header"><button className="icon-button bare native-back-button" onClick={onBack} aria-label="Back to inbox"><ChevronLeft size={29}/><span>Messages</span></button><div className="native-chat-contact"><span className="contact-avatar">FD</span><span className="chat-title"><strong>FIND DANIEL</strong><small>{social?.members.filter(id => id !== 'player').join(', ') || 'Group inactive'}</small></span></div></header><div className="chat-scroll">{social?.messages.map(message => message.sender === 'system' ? <div className="opening-group-system" key={message.id}>{message.text}</div> : <div key={message.id} className={`opening-group-line ${message.sender === 'player' ? 'player' : ''}`}><strong>{message.sender === 'player' ? 'You' : message.sender[0].toUpperCase() + message.sender.slice(1)}</strong><div className={`opening-bubble ${message.sender === 'player' ? 'player' : 'sophie'}`}>{message.text}</div></div>)}</div><div className="composer composer-wait">Offline</div></section>
 }
 
-export function Messenger({ onHome, initialThread = null }: { onHome: () => void; initialThread?: 'maya' | 'sophie' | FollowupContact | null }) {
-  const [threadOpen, setThreadOpen] = useState<'fixture' | 'maya' | 'sophie' | 'group' | FollowupContact | null>(initialThread)
+export function Messenger({ onHome, initialThread = null }: { onHome: () => void; initialThread?: 'unknown' | 'group' | 'eli-lucas' | 'maya-lucas' | 'maya' | 'sophie' | FollowupContact | null }) {
+  const [threadOpen, setThreadOpen] = useState<'unknown' | 'eli-lucas' | 'maya-lucas' | 'fixture' | 'maya' | 'sophie' | 'group' | FollowupContact | null>(initialThread)
+  const [relay, setRelay] = useState(false)
+  const openSophiePrivate=useGameStore(s=>s.openSophiePrivate)
   const [query, setQuery] = useState('')
   const save = useGameStore(state => state.save)
   const openFixture = useGameStore(state => state.openFixture)
   const devTools = import.meta.env.DEV && new URLSearchParams(window.location.search).has('devtools')
   useEffect(() => { if (devTools) openFixture() }, [openFixture, devTools])
+  const reunion=save.chapter2Access?.story
+  if (reunion && threadOpen && (threadOpen==='group'||threadOpen==='eli-lucas'||threadOpen==='maya-lucas'||Object.hasOwn(reunion.sessions,threadOpen))) return <ReunionChat key={threadOpen} thread={threadOpen as Active} onBack={() => setThreadOpen(null)} onThread={setThreadOpen}/>
+  if (threadOpen === 'unknown' && save.chapter2Access?.unknownCreated) return <AccessChat onBack={() => setThreadOpen(null)}/>
+  if (threadOpen === 'group' && save.chapter2Access?.groupQueued) return <AccessChat group onBack={() => setThreadOpen(null)}/>
+  if ((threadOpen === 'sophie' || threadOpen === 'group') && save.prologue?.scene01) return <Scene01Chat thread={threadOpen === 'group' && save.prologue.scene01.invitation === 'joined' ? 'group' : 'sophie'} onBack={() => setThreadOpen(null)}/>
   if (threadOpen === 'sophie' && save.prologue?.dialogueVersion === 4 && save.prologue.stage !== 'complete') return <OpeningV4Chat thread="sophie" onBack={() => setThreadOpen(null)}/>
   if (threadOpen === 'group' && save.prologue?.dialogueVersion === 4) return <OpeningV4Chat thread="group" onBack={() => setThreadOpen(null)}/>
   if (threadOpen === 'sophie' && save.prologue && !['complete','mirror'].includes(save.prologue.stage)) return <OpeningPrologue onHome={() => setThreadOpen(null)}/>
@@ -141,37 +153,42 @@ export function Messenger({ onHome, initialThread = null }: { onHome: () => void
   if (threadOpen === 'group') return <GroupHistory onBack={() => setThreadOpen(null)}/>
   if (threadOpen === 'fixture') return <Conversation onBack={() => setThreadOpen(null)}/>
   if (threadOpen === 'maya') return <MayaConversation onBack={() => setThreadOpen(null)}/>
-  if (threadOpen === 'lucas' || threadOpen === 'eli' || threadOpen === 'nora') return <CharacterFollowupChat contact={threadOpen} onBack={() => setThreadOpen(null)}/>
+  if (threadOpen === 'lucas' || threadOpen === 'eli' || threadOpen === 'nora') return <CharacterFollowupChat contact={threadOpen} readOnly={!!save.prologue?.scene01} onBack={() => setThreadOpen(null)}/>
   const messages = save.messages.filter(belongsToFixture)
   const latest = messages.at(-1)
   const unread = messages.filter(message => message.sender === 'fixture' && message.delivery !== 'read').length
   const matches = devTools && `Test channel ${latest?.text ?? ''}`.toLowerCase().includes(query.trim().toLowerCase())
-  const mayaConnected = save.deliveredEvents.includes('CONN-E01-01')
+  const mayaConnected = !save.prologue?.scene01 && save.deliveredEvents.includes('CONN-E01-01')
   const sophieConnected = !!save.prologue
-  const sophieLatest = save.prologue?.messages.at(-1)?.text ?? ''
-  const sophieLabel = save.prologue?.dialogueVersion === 4 && !save.deliveredEvents.some(id => id.startsWith('OPEN-V4-FIRST-ANSWER-')) ? 'Unknown number' : 'Sophie Mercer'
+  const sophieLatest = reunion?.privateMessages.sophie.at(-1)?.text ?? save.prologue?.scene01?.messages.at(-1)?.text ?? save.prologue?.messages.at(-1)?.text ?? ''
+  const sophieLabel = save.prologue?.scene01 ? save.prologue.scene01.introduced ? 'Sophie' : 'Unknown number' : save.prologue?.dialogueVersion === 4 && !(save.prologue.flow === 'mirror-first' && save.prologue.restored) && !save.deliveredEvents.some(id => id.startsWith('OPEN-V4-FIRST-ANSWER-')) ? 'Unknown number' : 'Sophie Mercer'
   const sophieMatches = sophieConnected && `${sophieLabel} ${sophieLatest}`.toLowerCase().includes(query.trim().toLowerCase())
-  const groupLatest = save.prologue?.social?.messages.at(-1)?.text ?? ''
-  const groupMatches = !!save.prologue?.social?.messages.length && `FIND DANIEL ${groupLatest}`.toLowerCase().includes(query.trim().toLowerCase())
-  const groupUnread = save.notifications.some(item => (item.id === 'OPEN-GROUP-ADD' || item.id.startsWith('OPEN-GROUP-') || item.id.startsWith('ARC-E01-GROUP-')) && !item.read)
-  const sophieUnread = save.notifications.some(item => (item.id === 'OPEN-V4-FIRST-CONTACT' || item.id.startsWith('OPEN-SECOND-') || item.id.startsWith('OPEN-V4-') && item.id !== 'OPEN-V4-PENDING-RECOVERY') && !item.read)
+  const groupLatest = save.chapter2Access?.groupMessages.at(-1)?.text ?? save.prologue?.scene01?.groupMessages.at(-1)?.text ?? save.prologue?.social?.messages.at(-1)?.text ?? ''
+  const groupMatches = (save.prologue?.scene01 ? save.prologue.scene01.invitation === 'joined' : !!save.prologue?.social?.messages.length) && `FIND DANIEL ${groupLatest}`.toLowerCase().includes(query.trim().toLowerCase())
+  const groupUnread = save.notifications.some(n=>!n.read&&(save.chapter2Access?.groupMessages.some(m=>m.id===n.id)||save.prologue?.scene01?.groupMessages.some(m=>m.id===n.id))) || save.notifications.some(item => (item.id === 'OPEN-GROUP-ADD' || item.id.startsWith('OPEN-GROUP-') || item.id.startsWith('ARC-E01-GROUP-')) && !item.read)
+  const sophieUnread = save.notifications.some(n=>!n.read&&(reunion?.privateMessages.sophie.some(m=>m.id===n.id)||save.prologue?.scene01?.messages.some(m=>m.id===n.id)||['OPEN-S01-INVITATION','OPEN-S01-DECLINED'].includes(n.id))) || save.notifications.some(item => (item.id === 'OPEN-V4-FIRST-CONTACT' || item.id.startsWith('OPEN-SECOND-') || item.id.startsWith('OPEN-V4-') && item.id !== 'OPEN-V4-PENDING-RECOVERY') && !item.read)
   const mayaMessages = messagesForMaya(save)
   const mayaLatest = mayaMessages.at(-1)
   const mayaMatches = mayaConnected && `Maya Chen ${mayaLatest?.text ?? ''}`.toLowerCase().includes(query.trim().toLowerCase())
-  const followups = (['lucas','eli','nora'] as FollowupContact[]).filter(contact => followupAvailable(save, contact) && `${contact} ${save.messages.filter(message => message.sender === contact || message.recipient === contact).at(-1)?.text ?? ''}`.toLowerCase().includes(query.trim().toLowerCase()))
+  const followups = (save.prologue?.scene01 ? ['lucas'] as FollowupContact[] : ['lucas','eli','nora'] as FollowupContact[]).filter(contact => followupAvailable(save, contact) && `${contact} ${save.messages.filter(message => message.sender === contact || message.recipient === contact).at(-1)?.text ?? ''}`.toLowerCase().includes(query.trim().toLowerCase()))
+  const extraMatches = !!save.chapter2Access?.unknownCreated && `UNKNOWN ${save.chapter2Access.messages.map(m=>m.text).join(' ')}`.toLowerCase().includes(query.trim().toLowerCase()) || !!reunion && ((['eli-lucas','maya-lucas'] as const).some(id=>reunion.spy[id]?.unlocked&&id.replace('-',' ').includes(query.toLowerCase())) || (['maya','eli'] as const).some(who=>reunion.privateMessages[who].length&&who.includes(query.toLowerCase())))
   return <section className="inbox-screen native-messenger" aria-label="Messages inbox">
     <header className="native-inbox-header">
       <div className="native-inbox-toolbar"><button className="icon-button bare native-back-button" onClick={onHome} aria-label="Back to home"><ChevronLeft size={27}/><span>Home</span></button></div>
-      <h1>Messages</h1>
+      <h1>Messages</h1>{save.chapter2Access?.spyInstalled && <button className="relay-indicator" aria-label={`Relay status: ${save.chapter2Access?.relayAvailable?'available':'standby'}`} onClick={() => {useGameStore.getState().accessAction({type:'read-integration'});setRelay(true)}}>◌ {save.chapter2Access.relayAvailable?'AVAILABLE':'STANDBY'}</button>}
       <label className="search-field native-inbox-search"><Search size={18}/><input aria-label="Search conversations" placeholder="Search" value={query} onChange={event => setQuery(event.target.value)}/></label>
     </header>
     <div className="inbox-content">
-      {sophieMatches && <button className="thread-row" onClick={() => setThreadOpen('sophie')} aria-label={`Open ${sophieLabel} conversation`}>{sophieLabel === 'Unknown number' ? <span className="contact-avatar">?</span> : <CharacterAvatar character="sophie" fallback="S" className="contact-avatar"/>}<span className="thread-text"><strong>{sophieLabel}</strong><small>{sophieLatest}</small></span><span className="thread-meta"><ChevronRight size={15}/>{sophieUnread && <b>1</b>}</span></button>}
+      {reunion&&(['eli-lucas','maya-lucas'] as const).filter(id=>reunion.spy[id]?.unlocked&&id.replace('-',' ').includes(query.toLowerCase())).map(id=><button key={id} className="thread-row" aria-label={`Open ${id} interception`} onClick={()=>setThreadOpen(id)}><span className="contact-avatar">◌</span><span className="thread-text"><strong>SPY · {id.replace('-',' ↔ ').toUpperCase()}</strong><small>{reunion.spy[id]?.complete?'Interception ended · Read only':'Private thread · Read only'}</small></span><span className="thread-meta"><ChevronRight size={15}/>{!reunion.spy[id]?.viewed&&<b>1</b>}</span></button>)}
+      {reunion&&(['maya','eli'] as const).filter(who=>reunion.privateMessages[who].length&&who.includes(query.toLowerCase())).map(who=><button key={who} className="thread-row" aria-label={`Open ${who==='maya'?'Maya Chen':'Eli Ward'} conversation`} onClick={()=>setThreadOpen(who)}><CharacterAvatar character={who} fallback={who[0]} className="contact-avatar"/><span className="thread-text"><strong>{who==='maya'?'Maya Chen':'Eli Ward'}</strong><small>{reunion.privateMessages[who].at(-1)?.text}</small></span><span className="thread-meta"><ChevronRight size={15}/>{reunion.privateMessages[who].some(m=>save.notifications.some(n=>n.id===m.id&&!n.read))&&<b>1</b>}</span></button>)}
+      {save.chapter2Access?.unknownCreated && `UNKNOWN ${save.chapter2Access.messages.map(m=>m.text).join(' ')}`.toLowerCase().includes(query.toLowerCase())&&<button className="thread-row" aria-label="Open UNKNOWN conversation" onClick={()=>setThreadOpen('unknown')}><CharacterAvatar character="unknown" fallback="?" className="contact-avatar"/><span className="thread-text"><strong>UNKNOWN</strong><small>{save.chapter2Access.messages.at(-1)?.text}</small></span><span className="thread-meta"><ChevronRight size={15}/>{save.notifications.some(n=>!n.read&&save.chapter2Access?.messages.some(m=>m.id===n.id))&&<b>1</b>}</span></button>}
+
+      {sophieMatches && <button className="thread-row" onClick={() => {openSophiePrivate();setThreadOpen('sophie')}} aria-label={`Open ${sophieLabel} conversation`}>{sophieLabel === 'Unknown number' ? <span className="contact-avatar">?</span> : <CharacterAvatar character="sophie" fallback="S" className="contact-avatar"/>}{openingPresence(save,'sophie')==='online'&&<i className="thread-online" aria-label="Sophie online"/>}<span className="thread-text"><strong>{sophieLabel}</strong><small>{sophieLatest}</small></span><span className="thread-meta"><ChevronRight size={15}/>{sophieUnread && <b>1</b>}</span></button>}
       {groupMatches && <button className="thread-row" onClick={() => setThreadOpen('group')} aria-label="Open FIND DANIEL group conversation"><span className="contact-avatar">FD</span><span className="thread-text"><strong>FIND DANIEL</strong><small>{groupLatest}</small></span><span className="thread-meta"><ChevronRight size={15}/>{groupUnread && <b>1</b>}</span></button>}
       {mayaMatches && <button className="thread-row" onClick={() => setThreadOpen('maya')} aria-label="Open Maya Chen conversation"><CharacterAvatar character="maya" fallback="M" className="contact-avatar"/><span className="thread-text"><strong>Maya Chen</strong><small>{mayaLatest?.text ?? 'Case connection · no new messages yet'}</small></span><span className="thread-meta"><span className="thread-timestamp"><time>{mayaLatest ? storyClock(mayaLatest.at) : ''}</time><ChevronRight size={15}/></span></span></button>}
       {followups.map(contact => { const latest = save.messages.filter(message => message.sender === contact || message.recipient === contact).at(-1); const name = contact === 'lucas' ? 'Lucas Grey' : contact === 'eli' ? 'Eli Ward' : 'Nora Vance'; const unreadContact = save.notifications.some(item => item.id.startsWith(`ARC-E01-${contact.toUpperCase()}-`) && !item.read); return <button key={contact} className="thread-row" onClick={() => setThreadOpen(contact)} aria-label={`Open ${name} conversation`}><CharacterAvatar character={contact} fallback={name[0]} className="contact-avatar"/><span className="thread-text"><strong>{name}</strong><small>{latest?.text ?? 'Case contact · send a private question'}</small></span><span className="thread-meta"><ChevronRight size={15}/>{unreadContact && <b>1</b>}</span></button> })}
-      {matches ? <button className="thread-row" onClick={() => setThreadOpen('fixture')} aria-label="Open Test channel conversation"><span className="contact-avatar" aria-hidden="true">T</span><span className="thread-text"><strong>Test channel</strong><small>{latest?.text ?? 'Local development conversation'}</small></span><span className="thread-meta"><span className="thread-timestamp"><time>{latest ? clock(latest.at) : ''}</time><ChevronRight size={15}/></span>{unread > 0 && <b>{unread}</b>}</span></button> : !mayaMatches && !sophieMatches && !groupMatches && !followups.length && <p className="inbox-no-results" role="status">No conversations found.</p>}
+      {matches ? <button className="thread-row" onClick={() => setThreadOpen('fixture')} aria-label="Open Test channel conversation"><span className="contact-avatar" aria-hidden="true">T</span><span className="thread-text"><strong>Test channel</strong><small>{latest?.text ?? 'Local development conversation'}</small></span><span className="thread-meta"><span className="thread-timestamp"><time>{latest ? clock(latest.at) : ''}</time><ChevronRight size={15}/></span>{unread > 0 && <b>{unread}</b>}</span></button> : !mayaMatches && !sophieMatches && !groupMatches && !followups.length && !extraMatches && <p className="inbox-no-results" role="status">No conversations found.</p>}
       {devTools && <div className="inbox-footnote"><LockKeyhole size={15}/><span>Developer test channel</span></div>}
-    </div>
+    </div>{relay&&<RelaySheet onClose={()=>setRelay(false)}/>}
   </section>
 }

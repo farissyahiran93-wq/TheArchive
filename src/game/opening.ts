@@ -1,8 +1,11 @@
 import { canInspectMirrorEntry, recoverMirrorSource } from './mirror'
+import { beginScene01 } from './scene01'
+import { disclosureFollowups, privateBeatOrder, privateConversation, recoveredDisclosureChoices, recoveredDisclosureLines, recoveredCopyWarning, recoveryCards, secondPrivateV4, mirrorContinuationChoices } from '../content/recoverySequence'
+import { beginConnectionConversation, beginReferenceInvestigation, beginRecoverySequence, deliverRecoverySequence } from './recoverySequence'
 import { mirrorCatalog } from '../content/mirror'
 import { openingLines, danielNote, mirrorLocks, mirrorRecords, recoveryToken, sophieChoices, sophieExpansion, sophieOpening, type MirrorArea, type MirrorLockId } from '../content/opening'
 import { groupArrival, groupConflict, groupConflictChoices, groupConflictReplies, groupDeparture, groupFirstChoices, groupFirstReplies, groupInvitation, secondPrivate, secondPrivateChoices } from '../content/socialOpening'
-import { addressChoices, firstContactChoices, firstPageMessage, firstQuestionChoices, offlineMessage, publicBridgeV4, recoveryConversationV4 } from '../content/openingV4'
+import { addressChoices, firstContactChoices, firstQuestionChoices, offlineMessage, publicBridgeV4, recoveryConversationV4, readyForGroupChoice } from '../content/openingV4'
 import { groupArrivalV4, groupDepartureV4 } from '../content/groupV4'
 import { npcDeliveryDelay } from './npcDelivery'
 import { beginSlice } from './slice'
@@ -24,11 +27,7 @@ export function deliverPhoneOpeningEvent(state: GameSave, now: number): GameSave
   if (!event) return state
   const base = { ...state, pendingEvents: state.pendingEvents.filter(item => item.id !== event.id) }
   if (state.deliveredEvents.includes(event.id)) return base
-  if (event.id === firstContactId) return {
-    ...base, deliveredEvents: [...state.deliveredEvents, event.id],
-    notifications: [...state.notifications, { id: event.id, text: 'New message · Unknown number', read: false }],
-    prologue: { dialogueVersion: 4, v4Beat: 'first', stage: 'chat', step: 0, messages: [{ id: event.id, sender: 'sophie', text: "Hi. Sorry to message out of nowhere. Is this a bad time?", at: now }], noteSeen: false, offerInspected: false, restored: false, viewed: [], indexCompared: false, inspectedRecords: [], unlockedMirrorRecords: [], mirrorHints: {} },
-  }
+  if (event.id === firstContactId) return beginScene01({ ...base, deliveredEvents: [...base.deliveredEvents, event.id] }, now)
   const opening = state.prologue
   if (!opening || opening.dialogueVersion !== 4 || !state.deliveredEvents.includes('OPEN-V4-SOPHIE-OFFLINE')) return base
   if (event.id === pendingRecoveryId) return { ...base, deliveredEvents: [...state.deliveredEvents, event.id], notifications: [...state.notifications, { id: event.id, text: 'Protected connection request · Pending review', read: false }], prologue: { ...opening, pendingRecovery: 'pending' } }
@@ -38,7 +37,8 @@ export function deliverPhoneOpeningEvent(state: GameSave, now: number): GameSave
     { id: 'OPEN-V4-GROUP-MEMBERS', sender: 'system' as const, text: 'Sophie added Maya Chen, Lucas Grey and Eli Ward.', at: now + 1 },
     { id: 'OPEN-V4-GROUP-PLAYER', sender: 'system' as const, text: 'Sophie added you.', at: now + 2 },
   ]
-  const queue = groupArrivalV4.map((line, index) => ({ ...line, dueAt: now + 2_200 + index * 3_100 }))
+  let dueAt = now + 1200
+  const queue = groupArrivalV4.map((line, index) => ({ ...line, dueAt: dueAt += npcDeliveryDelay(line.sender, line.text, index) }))
   return { ...base, deliveredEvents: [...state.deliveredEvents, event.id, ...system.map(line => line.id)], notifications: [...state.notifications, { id: 'OPEN-GROUP-ADD', text: 'Sophie added you to FIND DANIEL', read: false }], prologue: { ...opening, stage: 'group', social: { creator: 'sophie', createdAt: now, phase: 'first', members: ['sophie','maya','lucas','eli','player'], messages: system, queue } } }
 }
 
@@ -78,6 +78,8 @@ function queueSophie(state: GameSave, lines: { id: string; text: string }[], now
 }
 
 export function deliverOpening(state: GameSave, now: number): GameSave {
+  const recoveryDelivered = deliverRecoverySequence(state, now)
+  if (recoveryDelivered !== state) return recoveryDelivered
   const opening = state.prologue
   if (!opening) return state
   if (opening.social?.queue?.length) {
@@ -93,7 +95,7 @@ export function deliverOpening(state: GameSave, now: number): GameSave {
     const numberClaim = delivered.some(line => line.id === 'OPEN-GROUP-SOPHIE-1') && opening.dialogueVersion === 4
     const mayaContact = opening.dialogueVersion === 4 && delivered.some(line => line.sender === 'maya') && opening.social.messages.some(message => message.sender === 'player') && !state.deliveredEvents.includes('ARC-E01-MAYA-FIRST-CONTACT')
     const next = { ...state, deliveredEvents: [...new Set([...state.deliveredEvents, ...delivered.map(line => line.id), ...(numberClaim ? ['OPEN-GROUP-SOPHIE-1:maya','OPEN-GROUP-SOPHIE-1:lucas','OPEN-GROUP-SOPHIE-1:eli'] : []), ...(mayaContact ? ['ARC-E01-MAYA-FIRST-CONTACT'] : [])])], relationships: mayaContact ? { ...state.relationships, maya: { ...state.relationships.maya, trust: 50 + state.relationships.maya.trust, affinity: 45 + state.relationships.maya.affinity, suspicion: 20 + state.relationships.maya.suspicion } } : state.relationships, knowledge: numberClaim ? { ...state.knowledge, characters: { ...state.knowledge.characters, maya: [...new Set([...state.knowledge.characters.maya, 'OPEN.NUMBER_CLAIM_FROM_SOPHIE'])], lucas: [...new Set([...state.knowledge.characters.lucas, 'OPEN.NUMBER_CLAIM_FROM_SOPHIE'])], eli: [...new Set([...state.knowledge.characters.eli, 'OPEN.NUMBER_CLAIM_FROM_SOPHIE'])] } } : state.knowledge, notifications: opening.dialogueVersion === 4 ? [...state.notifications, ...delivered.filter(line => line.sender !== 'system').map(line => ({ id: line.id, text: `${line.sender} · FIND DANIEL: ${line.text}`, read: false }))] : state.notifications, prologue: { ...opening, stage: ended ? 'chat' as const : opening.stage, social: { ...social, phase: ended ? 'second' as const : social.phase } } }
-    return ended ? queueSophie(next, secondPrivate.map((text, i) => ({ id: `OPEN-SECOND-SOPHIE-${i + 1}`, text })), Math.min(now, Date.now()) + 1000) : next
+    return ended ? queueSophie(next, (opening.dialogueVersion === 4 ? secondPrivateV4 : secondPrivate).map((text, i) => ({ id: `OPEN-SECOND-SOPHIE-${i + 1}`, text })), Math.min(now, Date.now()) + 1000) : next
   }
   if (!opening.queue?.length) return state
   const due = opening.dialogueVersion === 4 ? opening.queue[0]?.dueAt <= now ? [opening.queue[0]] : [] : opening.queue.filter(line => line.dueAt <= now)
@@ -114,14 +116,18 @@ export function deliverOpening(state: GameSave, now: number): GameSave {
 }
 
 export function openingChoices(opening: OpeningState) {
+  if (opening.scene01) return []
   if (opening.queue?.length) return []
+  if (opening.disclosureFollowup) return disclosureFollowups[opening.disclosureFollowup]
+  if (opening.recoverySequence?.restored && opening.stage === 'found' && opening.beat === 'disclosure') return recoveredDisclosureChoices.filter(choice => choice.id !== 'counts' || opening.indexCompared)
+  if (opening.privateBeat) return privateConversation[opening.privateBeat].choices
   if (opening.dialogueVersion === 4) {
     if (opening.social?.phase === 'second') return secondPrivateChoices
     if (opening.v4Beat === 'first') return firstContactChoices
     if (opening.v4Beat === 'address') return addressChoices
-    if (opening.v4Beat === 'question') return firstQuestionChoices
+    if (opening.v4Beat === 'question') return [...firstQuestionChoices.filter(choice => !opening.preGroupQuestions?.includes(choice.id)), ...(opening.preGroupQuestions?.length ? [readyForGroupChoice] : [])]
     if (opening.beat === 'offer') return recoveryConversationV4.choices
-    if (opening.beat === 'bridge') return publicBridgeV4
+    if (opening.beat === 'bridge') return opening.recoverySequence ? mirrorContinuationChoices : publicBridgeV4
   }
   if (opening.social?.phase === 'invitation') return groupInvitation.choices
   if (opening.social?.phase === 'second') return secondPrivateChoices
@@ -131,8 +137,11 @@ export function openingChoices(opening: OpeningState) {
 }
 
 export function replyToSophie(state: GameSave, choiceId: string, now = Date.now()): GameSave {
+  if (state.prologue?.scene01) return state
   const opening = state.prologue
   if (!opening || opening.queue?.length || !['chat', 'found'].includes(opening.stage)) return state
+  if (opening.disclosureFollowup || opening.recoverySequence?.restored && opening.stage === 'found' && opening.beat === 'disclosure') return answerRecoveredDisclosure(state, choiceId, now)
+  if (opening.privateBeat) return answerPrivateConversation(state, choiceId, now)
   if (opening.social?.phase === 'invitation') return answerGroupInvitation(state, choiceId, now)
   if (opening.social?.phase === 'second') return answerSecondPrivate(state, choiceId, now)
   if (opening.dialogueVersion === 4) {
@@ -144,10 +153,15 @@ export function replyToSophie(state: GameSave, choiceId: string, now = Date.now(
     }
     if (opening.v4Beat === 'address') return sendOpeningAddress(state, choiceId, now)
     if (opening.v4Beat === 'question') {
+      if (choiceId === readyForGroupChoice.id && opening.preGroupQuestions?.length) {
+        const id = 'OPEN-V4-GROUP-CONSENT'
+        return queueSophie({ ...state, choices: { ...state.choices, 'OPEN-V4-GROUP-CONSENT': choiceId }, deliveredEvents: [...state.deliveredEvents, id], prologue: { ...opening, v4Beat: 'offline', messages: [...opening.messages, { id, sender: 'player', text: readyForGroupChoice.text, at: now }] } }, [{ id: 'OPEN-V4-SOPHIE-OFFLINE', text: offlineMessage }], now)
+      }
       const choice = firstQuestionChoices.find(item => item.id === choiceId)
-      if (!choice) return state
-      const next = { ...state, choices: { ...state.choices, 'OPEN-V4-QUESTION': choiceId }, deliveredEvents: [...state.deliveredEvents, 'OPEN-V4-QUESTION-SENT'], prologue: { ...opening, v4Beat: 'offline' as const, messages: [...opening.messages, { id: 'OPEN-V4-QUESTION-SENT', sender: 'player' as const, text: choice.text, at: now }] } }
-      return queueSophie(next, [{ id: `OPEN-V4-QUESTION-ANSWER-${choiceId}`, text: choice.answer }, { id: 'OPEN-V4-FIRST-PAGE', text: firstPageMessage }, { id: 'OPEN-V4-SOPHIE-OFFLINE', text: offlineMessage }], now)
+      if (!choice || opening.preGroupQuestions?.includes(choiceId)) return state
+      const id = opening.preGroupQuestions?.length ? `OPEN-V4-QUESTION-SENT-${choiceId}` : 'OPEN-V4-QUESTION-SENT'
+      const next: GameSave = { ...state, choices: { ...state.choices, 'OPEN-V4-QUESTION': state.choices['OPEN-V4-QUESTION'] ?? choiceId, [`OPEN-V4-QUESTION-${choiceId}`]: choiceId }, deliveredEvents: [...state.deliveredEvents, id], prologue: { ...opening, preGroupQuestions: [...(opening.preGroupQuestions ?? []), choiceId], messages: [...opening.messages, { id, sender: 'player', text: choice.text, at: now }] } }
+      return queueSophie(next, [{ id: `OPEN-V4-QUESTION-ANSWER-${choiceId}`, text: choice.answer }], now)
     }
   }
   if (opening.dialogueVersion === 3 && opening.step === 0) return answerFirstContact(state, choiceId, now)
@@ -209,6 +223,7 @@ export function groupChoices(opening: OpeningState) {
 }
 
 export function sendGroupChoice(state: GameSave, choiceId: string, now = Date.now()): GameSave {
+  if (state.prologue?.scene01) return state
   const opening = state.prologue
   const social = opening?.social
   if (!opening || !social || opening.stage !== 'group' || social.queue?.length) return state
@@ -233,14 +248,27 @@ function answerSecondPrivate(state: GameSave, choiceId: string, now: number): Ga
   if (!choice) return state
   const playerId = `OPEN-P-SECOND-${choiceId}`
   const next: GameSave = { ...state, choices: { ...state.choices, 'OPEN-SECOND-PRIVATE': choiceId }, deliveredEvents: [...state.deliveredEvents, playerId], prologue: { ...opening, step: opening.dialogueVersion === 4 ? 1 : opening.step, social: { ...opening.social!, phase: 'done' }, messages: [...opening.messages, { id: playerId, sender: 'player', text: choice.text }] } }
+  if (opening.dialogueVersion === 4) return queueSophie({ ...next, prologue: { ...next.prologue!, privateBeat: 'apology' } }, [{ id: `OPEN-S-SECOND-${choiceId}`, text: choice.answer }, ...privateConversation.apology.prompt.map((text, i) => ({ id: `OPEN-PRIVATE-apology-${i}`, text }))], now)
   return queueSophie(next, [{ id: `OPEN-S-SECOND-${choiceId}`, text: choice.answer }, { id: 'OPEN-SOPHIE-NOTE', text: openingLines.note }], now)
+}
+
+function answerPrivateConversation(state: GameSave, choiceId: string, now: number): GameSave {
+  const opening = state.prologue!
+  const beat = opening.privateBeat!
+  const choice = privateConversation[beat].choices.find(item => item.id === choiceId)
+  if (!choice) return state
+  const nextBeat = privateBeatOrder[privateBeatOrder.indexOf(beat) + 1]
+  const id = `OPEN-PRIVATE-P-${beat}`
+  const lines = choice.lines.map((text, i) => ({ id: `OPEN-PRIVATE-R-${beat}-${choiceId}-${i}`, text }))
+  lines.push(...(nextBeat ? privateConversation[nextBeat].prompt.map((text, i) => ({ id: `OPEN-PRIVATE-${nextBeat}-${i}`, text })) : [{ id: 'OPEN-SOPHIE-NOTE', text: openingLines.note }]))
+  return queueSophie({ ...state, choices: { ...state.choices, [`OPEN-PRIVATE-${beat}`]: choiceId }, deliveredEvents: [...new Set([...state.deliveredEvents, id])], relationships: { ...state.relationships, sophie: { ...state.relationships.sophie, trust: Math.min(100, state.relationships.sophie.trust + (choice.trust ?? 0)) } }, prologue: { ...opening, privateBeat: nextBeat, messages: [...opening.messages, { id, sender: 'player', text: choice.text, at: now }] } }, lines, now)
 }
 
 function replyExpansion(state: GameSave, choiceId: string, now: number): GameSave {
   const opening = state.prologue!
   const beat = opening.beat!
   if (beat === 'ready') return state
-  const choice = opening.dialogueVersion === 4 && beat === 'offer' ? recoveryConversationV4.choices.find(item => item.id === choiceId) : opening.dialogueVersion === 4 && beat === 'bridge' ? publicBridgeV4.find(item => item.id === choiceId) : sophieExpansion[beat].find(item => item.id === choiceId)
+  const choice = opening.dialogueVersion === 4 && beat === 'offer' ? recoveryConversationV4.choices.find(item => item.id === choiceId) : opening.dialogueVersion === 4 && beat === 'bridge' ? (opening.recoverySequence ? mirrorContinuationChoices : publicBridgeV4).find(item => item.id === choiceId) : sophieExpansion[beat].find(item => item.id === choiceId)
   if (!choice) return state
   const id = `OPEN-P-${beat}-${choiceId}`
   const fact = beat === 'disclosure' ? choiceId === 'counts' ? 'OPEN-INDEX-DISCREPANCY' : choiceId === 'uncertain' ? 'OPEN-UNVERIFIED-FINDING' : undefined : undefined
@@ -262,8 +290,57 @@ function replyExpansion(state: GameSave, choiceId: string, now: number): GameSav
   return queueSophie(next, lines, now)
 }
 
+function answerRecoveredDisclosure(state: GameSave, choiceId: string, now: number): GameSave {
+  const opening = state.prologue!
+  const followup = opening.disclosureFollowup
+  const choice = (followup ? disclosureFollowups[followup] : recoveredDisclosureChoices.filter(item => item.id !== 'counts' || opening.indexCompared)).find(item => item.id === choiceId)
+  if (!choice) return state
+  const phase = followup ?? 'choice'
+  const id = `OPEN-RECOVERY-DISCLOSURE-${phase}`
+  const facts: string[] = []
+  let text: string = choice.text
+  let lines: string[]
+  let nextFollowup: OpeningState['disclosureFollowup'] = 'human'
+  if (!followup) {
+    if (choiceId === 'full') {
+      lines = recoveredDisclosureLines.full
+      nextFollowup = 'proof'
+    } else if (choiceId === 'clue') {
+      facts.push('OPEN-RECOVERY-REMOVAL-CLAIM')
+      lines = recoveredDisclosureLines.clue
+    } else if (choiceId === 'counts') {
+      facts.push('OPEN-INDEX-DISCREPANCY')
+      lines = recoveredDisclosureLines.counts
+    } else if (choiceId === 'question') lines = recoveredDisclosureLines.question
+    else lines = recoveredDisclosureLines.withhold
+  } else if (followup === 'proof') {
+    if (choiceId === 'send') {
+      facts.push('OPEN-RECOVERED-CHAT-001')
+      text = recoveredCopyWarning + '\n' + recoveryCards.map(card => `${card.speaker}: ${card.text}`).join('\n')
+      lines = recoveredDisclosureLines.sent
+    } else lines = recoveredDisclosureLines.unsent
+  } else if (followup === 'human') {
+    if (choiceId === 'later') {
+      lines = recoveredDisclosureLines.later
+      nextFollowup = undefined
+    } else {
+      lines = [...(choiceId === 'joke' ? recoveredDisclosureLines.joke : []), ...recoveredDisclosureLines.personalQuestion]
+      nextFollowup = 'closing'
+    }
+  } else {
+    lines = choiceId === 'daniel' ? recoveredDisclosureLines.daniel : choiceId === 'uncertain' ? recoveredDisclosureLines.uncertain : recoveredDisclosureLines.hide
+    lines = [...lines, ...recoveredDisclosureLines.close]
+    nextFollowup = undefined
+  }
+  if (nextFollowup === 'human') lines = [...lines, ...recoveredDisclosureLines.ask]
+  const next: GameSave = { ...state, choices: { ...state.choices, [`OPEN-RECOVERY-DISCLOSURE-${phase}`]: choiceId }, deliveredEvents: [...new Set([...state.deliveredEvents, id])], messages: [...state.messages, { id, sender: 'player', recipient: 'sophie', channel: 'messages', text, at: now, delivery: 'delivered', disclosedFactIds: facts }], knowledge: { ...state.knowledge, characters: { ...state.knowledge.characters, sophie: [...new Set([...state.knowledge.characters.sophie, ...facts])] } }, relationships: { ...state.relationships, sophie: { ...state.relationships.sophie, trust: Math.min(100, state.relationships.sophie.trust + (facts.length ? followup === 'proof' ? 4 : 2 : 0)) } }, prologue: { ...opening, beat: nextFollowup ? 'disclosure' : 'bridge', disclosureFollowup: nextFollowup, disclosure: !followup ? choiceId === 'counts' ? 'counts' : choiceId === 'withhold' ? 'withhold' : 'uncertain' : opening.disclosure, messages: [...opening.messages, { id, sender: 'player', text, at: now }] } }
+  return queueSophie(next, lines.map((line, i) => ({ id: `${id}-S-${i}`, text: line })), now)
+}
+
 export function readDanielNote(state: GameSave, now = Date.now()): GameSave {
+  if (state.prologue?.scene01) return state
   const opening = state.prologue
+  if (opening?.privateBeat) return state
   if (!opening || opening.stage !== 'chat' || opening.step !== 1 || opening.queue?.length || opening.noteSeen || (opening.dialogueVersion === 3 || opening.dialogueVersion === 4) && opening.social?.phase !== 'done') return state
   return {
     ...state,
@@ -274,21 +351,24 @@ export function readDanielNote(state: GameSave, now = Date.now()): GameSave {
 }
 
 export function inspectRecoveryOffer(state: GameSave): GameSave {
+  if (state.prologue?.scene01) return state
   const opening = state.prologue
   if (!opening || opening.stage !== 'recovery' || opening.offerInspected) return state
   return { ...state, prologue: { ...opening, offerInspected: true } }
 }
 
 export function restoreDanielMirror(state: GameSave): GameSave {
+  if (state.prologue?.scene01) return state
   const opening = state.prologue
   if (!opening || opening.stage !== 'recovery' || !opening.offerInspected || !opening.noteSeen || opening.restored) return state
-  return recoverMirrorSource({
+  const next = recoverMirrorSource({
     ...state,
     prologue: { ...opening, stage: 'mirror', restored: true },
     deliveredEvents: [...state.deliveredEvents, 'OPEN-MIRROR-RESTORED'],
     knowledge: { ...state.knowledge, player: [...new Set([...state.knowledge.player, 'OPEN-DANIEL-MIRROR-RESTORED', 'OPEN-RECOVERY-TOKEN-USED'])] },
     notifications: [...state.notifications, { id: 'OPEN-MIRROR-RESTORED', text: 'The Archive restored: Daniel Mercer (read-only mirror)', read: false }],
   }, 'DANIEL-SNAPSHOT-01')
+  return opening.dialogueVersion === 4 && state.choices['OPEN-PRIVATE-stay'] ? beginRecoverySequence(next) : next
 }
 
 export function inspectMirrorRecord(state: GameSave, area: MirrorArea): GameSave {
@@ -331,8 +411,10 @@ export function revealMirrorHint(state: GameSave, lockId: MirrorLockId): GameSav
 }
 
 export function compareMirrorIndex(state: GameSave, now = Date.now()): GameSave {
+  if (state.prologue?.scene01) return state
   const opening = state.prologue
   if (!opening || opening.stage !== 'mirror' || opening.indexCompared || !opening.inspectedRecords?.includes('notes:Untitled — last saved 22:30') || !opening.inspectedRecords?.includes('index:Archive Index — integrity report')) return state
+  if (opening.recoverySequence && (opening.recoverySequence.beat !== 'done' || opening.recoverySequence.queue.length)) return state
   const next: GameSave = {
     ...state,
     prologue: { ...opening, stage: 'found', indexCompared: true, beat: opening.dialogueVersion ? 'disclosure' : undefined },
@@ -340,11 +422,14 @@ export function compareMirrorIndex(state: GameSave, now = Date.now()): GameSave 
     evidence: { ...state.evidence, 'OPEN-INDEX': { id: 'OPEN-INDEX', source: 'Recovered device: signed index 14, visible records 13, deletion entries 0. Origin unverified.', collectedAt: now, verified: false } },
     knowledge: { ...state.knowledge, player: [...new Set([...state.knowledge.player, 'OPEN-INDEX-DISCREPANCY'])] },
   }
+  if (opening.referenceStarted) return beginConnectionConversation({ ...next, prologue: { ...next.prologue!, stage: 'mirror', beat: undefined } }, now)
   return opening.dialogueVersion ? queueSophie(next, openingLines.followup.map((text, i) => ({ id: `OPEN-FOLLOWUP-${i + 1}`, text })), now) : next
 }
 
 export function finishOpening(state: GameSave): GameSave {
+  if (state.prologue?.scene01) return state
   const opening = state.prologue
+  if (opening?.recoverySequence?.restored && opening.stage === 'found' && opening.beat === 'ready' && !opening.queue?.length) return beginReferenceInvestigation(state)
   if (!opening || opening.stage !== 'found' || !opening.indexCompared || opening.queue?.length || (opening.dialogueVersion && opening.beat !== 'ready')) return state
   const completed = { ...state, prologue: { ...opening, stage: 'complete' as const }, deliveredEvents: [...state.deliveredEvents, 'OPEN-CHAPTER1-STARTED'] }
   return beginSlice(completed)

@@ -168,7 +168,7 @@ test('second tab is stopped on a stale save and can download before an explicit 
     db.close(); return revision
   })).toBeGreaterThan(0)
   const other = await context.newPage()
-  await other.goto('/')
+  await other.goto('/?legacyopening=1')
   await other.getByRole('button',{ name: /Enter the archive/i }).click()
   await page.getByRole('button',{ name: 'Open Bulletin' }).last().click()
   await other.getByRole('button',{ name: 'Open Bulletin' }).last().click()

@@ -20,8 +20,8 @@ export function MirrorEvidenceBoard({ onOpen }: { onOpen?: (id: string) => void 
   const sources = visibleMirrorEntries(save).filter(record => !!save.evidence[record.id])
   const links = save.prologue?.mirrorLinks ?? []
   return <section className="mirror-evidence-board" aria-label="Recovered evidence workspace">
-    <div className="mirror-identity"><CharacterAvatar character="daniel" fallback="D" className="contact-avatar"/><h2>Recovered evidence</h2></div><p>Private observations and hypotheses. Opening or linking a recovered record cannot verify it or tell Sophie or Maya.</p>
-    {!sources.length && <p>Open a record and choose Save recovered observation to retain its source here.</p>}
+    <div className="mirror-identity"><CharacterAvatar character="daniel" fallback="D" className="contact-avatar"/><h2>Case Board</h2></div><p>Private observations and hypotheses. Opening or linking a recovered record cannot verify it or tell Sophie or Maya.</p>
+    {!sources.length && <p>Open an item’s More options menu and choose Save to Case Board.</p>}
     <div className="mirror-board-sources">{sources.map(record => <div key={record.id}><button aria-pressed={selected.includes(record.id)} className={selected.includes(record.id) ? 'selected' : ''} onClick={() => { setFeedback(''); setSelected(current => current.includes(record.id) ? current.filter(id => id !== record.id) : [...current.slice(-1), record.id]) }}>{record.title}<small>{record.area} / OBSERVATION / UNVERIFIED</small></button>{onOpen && <button onClick={() => onOpen(record.id)} aria-label={`Reopen ${record.title}`}>Open source</button>}{galleryMediaForRecord(record.id).length > 0 && canInspectMirrorEntry(save, record.id) && <button onClick={() => setMediaRecord(record.id)} aria-label={`View retained ${record.title}`}>View images</button>}</div>)}</div>
     <button disabled={selected.length !== 2} onClick={() => {
       if (selected.length !== 2) return

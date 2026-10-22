@@ -1,4 +1,6 @@
 import { mirrorConnections, mirrorEntry, mirrorPairKey, recoverySources } from '../content/mirror'
+import { validateAccessState } from './chapter2Access'
+import { scene01Nodes } from '../content/scene01'
 import { beginOpening, deliverPhoneOpeningEvent } from './opening'
 import { fixtureChoices, fixtureLine, type FixtureEventId } from './fixture'
 import { episodeRequirements } from '../content/episodes'
@@ -99,6 +101,7 @@ export function canUnlockEpisode(state: GameSave, episodeId: string): boolean {
 export function normalizeSave(input: unknown): GameSave {
   const record = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null && !Array.isArray(value)
   if (!record(input) || input.schemaVersion !== 1) throw new Error('Unsupported save schema')
+  validateAccessState(input.chapter2Access)
   if (input.saveRevision !== undefined && (!Number.isSafeInteger(input.saveRevision) || Number(input.saveRevision) < 0)) throw new Error('Invalid save revision')
   if (input.player !== null && (!record(input.player) || typeof input.player.name !== 'string')) throw new Error('Invalid player identity')
   if (input.episodeId !== 'phase-00' || !['home', 'fixture'].includes(String(input.sceneId))) throw new Error('Invalid story position')
@@ -149,6 +152,50 @@ export function normalizeSave(input: unknown): GameSave {
     if (prologue.mirrorLinks !== undefined && (!Array.isArray(prologue.mirrorLinks) || prologue.mirrorLinks.some(key => typeof key !== 'string' || !mirrorConnections.some(link => mirrorPairKey(link.a, link.b) === key)))) throw new Error('Invalid mirror connections')
     if (prologue.dialogueVersion !== undefined && ![2,3,4].includes(Number(prologue.dialogueVersion))) throw new Error('Invalid opening dialogue version')
     if (prologue.v4Beat !== undefined && !['first','name','address','question','offline','waiting-group'].includes(String(prologue.v4Beat))) throw new Error('Invalid new opening beat')
+    if (prologue.privateBeat !== undefined && !['apology','questions','checking','stay'].includes(String(prologue.privateBeat))) throw new Error('Invalid private conversation beat')
+    if (prologue.scene01 !== undefined) {
+      const scene = prologue.scene01
+      if (!record(scene) || scene.version !== 1 || typeof scene.nodeId !== 'string' || !scene01Nodes[scene.nodeId] || !Number.isFinite(scene.startedAt) ||
+        typeof scene.introduced !== 'boolean' || typeof scene.nameDisclosed !== 'boolean' || typeof scene.invitationDismissed !== 'boolean' || typeof scene.complete !== 'boolean' ||
+        !['none','declined','ready','joined'].includes(String(scene.invitation)) || scene.invitationApproved !== undefined && typeof scene.invitationApproved !== 'boolean' ||
+        scene.disclosedName !== undefined && (typeof scene.disclosedName !== 'string' || scene.disclosedName.length < 1 || scene.disclosedName.length > 40) || scene.nameDisclosed && !scene.disclosedName ||
+        !Array.isArray(scene.queue) || scene.queue.length > 1 || scene.queue.some(line => !record(line) || typeof line.id !== 'string' || !scene01Nodes[line.id] || !Number.isFinite(line.dueAt) || typeof line.typing !== 'boolean') ||
+        !Array.isArray(scene.messages) || scene.messages.some(line => !record(line) || typeof line.id !== 'string' || !['sophie','player'].includes(String(line.sender)) || typeof line.text !== 'string' || !Number.isFinite(line.at)) ||
+        !Array.isArray(scene.groupMessages) || scene.groupMessages.some(line => !record(line) || typeof line.id !== 'string' || !['sophie','maya','lucas','player','system'].includes(String(line.sender)) || typeof line.text !== 'string' || !Number.isFinite(line.at)) ||
+        scene.groupScript !== undefined && scene.groupScript !== 'ch01_sc02_uninvited_guest' ||
+        scene.groupSourceBoundary !== undefined && typeof scene.groupSourceBoundary !== 'boolean' ||
+        scene.lucasLeftGroup !== undefined && typeof scene.lucasLeftGroup !== 'boolean' ||
+        scene.groupComplete !== undefined && typeof scene.groupComplete !== 'boolean' ||
+        scene.groupCompletedAt !== undefined && !Number.isFinite(scene.groupCompletedAt) ||
+        scene.groupMembers !== undefined && (!record(scene.groupMembers) || ['sophie','maya','lucas'].some(actor => typeof (scene.groupMembers as Record<string, unknown>)[actor] !== 'boolean')) ||
+        scene.privateHandoff !== undefined && (!record(scene.privateHandoff) || scene.privateHandoff.sceneId !== 'ch01_sc03_just_between_us' || !Number.isFinite(scene.privateHandoff.dueAt) || scene.privateHandoff.deliveredAt !== undefined && !Number.isFinite(scene.privateHandoff.deliveredAt) || scene.privateHandoff.openedAt !== undefined && (!Number.isFinite(scene.privateHandoff.openedAt) || scene.privateHandoff.deliveredAt === undefined) || scene.groupComplete !== true) ||
+        scene.groupPresence !== undefined && (!record(scene.groupPresence) || ['sophie','maya','lucas'].some(actor => typeof (scene.groupPresence as Record<string, unknown>)[actor] !== 'boolean')) ||
+        scene.groupReceipts !== undefined && (!Array.isArray(scene.groupReceipts) || scene.groupReceipts.some(receipt => !record(receipt) || typeof receipt.eventId !== 'string' || !['player','sophie','maya','lucas'].includes(String(receipt.recipient)) || !Array.isArray(receipt.factIds) || receipt.factIds.some(fact => typeof fact !== 'string')))) throw new Error('Invalid Scene 01 progress')
+      if (scene.privateScene03 !== undefined) {
+        const privateScene = scene.privateScene03
+        if (!record(privateScene) || privateScene.version !== 1 || !Number.isFinite(privateScene.startedAt) || typeof privateScene.reading !== 'boolean' || typeof privateScene.complete !== 'boolean' || typeof privateScene.nextEventReady !== 'boolean' || privateScene.completedAt !== undefined && !Number.isFinite(privateScene.completedAt) ||
+          !Array.isArray(privateScene.receipts) || privateScene.receipts.some(receipt => !record(receipt) || typeof receipt.eventId !== 'string' || !['player','sophie'].includes(String(receipt.recipient)) || !Array.isArray(receipt.factIds) || receipt.factIds.some(fact => typeof fact !== 'string'))) throw new Error('Invalid Scene 03 progress')
+        const paused = privateScene.paused, draft = privateScene.draft
+        if (paused !== undefined && (!record(paused) || typeof paused.id !== 'string' || !paused.id.startsWith('OPEN-S03-') || !['npc','wait'].includes(scene01Nodes[paused.id]?.kind) || !Number.isFinite(paused.remainingMs) || Number(paused.remainingMs) < 0 || typeof paused.typing !== 'boolean' || privateScene.reading)) throw new Error('Invalid Scene 03 checkpoint')
+        if (draft !== undefined) {
+          if (!record(draft) || typeof draft.nodeId !== 'string' || typeof draft.choiceId !== 'string' || !draft.nodeId.startsWith('OPEN-S03-')) throw new Error('Invalid Scene 03 draft')
+          const node = scene01Nodes[draft.nodeId]
+          if (node?.kind !== 'choice' || !node.choices.some(choice => choice.id === draft.choiceId)) throw new Error('Invalid Scene 03 draft')
+        }
+      }
+    }
+    if (prologue.preGroupQuestions !== undefined && (!Array.isArray(prologue.preGroupQuestions) || new Set(prologue.preGroupQuestions).size !== prologue.preGroupQuestions.length || prologue.preGroupQuestions.some(id => !['daniel','number','help','proof'].includes(String(id))))) throw new Error('Invalid pre-group questions')
+    if (prologue.flow !== undefined && prologue.flow !== 'mirror-first' || prologue.referenceStarted !== undefined && typeof prologue.referenceStarted !== 'boolean' || prologue.connectionReviewed !== undefined && typeof prologue.connectionReviewed !== 'boolean') throw new Error('Invalid message flow progress')
+    if (prologue.disclosureFollowup !== undefined && !['proof','human','closing'].includes(String(prologue.disclosureFollowup))) throw new Error('Invalid disclosure followup')
+    if (prologue.recoverySequence !== undefined) {
+      const recovery = prologue.recoverySequence
+      if (!record(recovery) || !['identity','source','interpretation','keep','reference','connection','done'].includes(String(recovery.beat)) ||
+        !Array.isArray(recovery.order) || recovery.order.length !== 4 || new Set(recovery.order).size !== 4 || recovery.order.some(id => !['change','history','question','answer'].includes(String(id))) ||
+        !Number.isSafeInteger(recovery.attempts) || Number(recovery.attempts) < 0 || !Number.isSafeInteger(recovery.hints) || Number(recovery.hints) < 0 || Number(recovery.hints) > 3 || typeof recovery.restored !== 'boolean' ||
+        recovery.assisted !== undefined && typeof recovery.assisted !== 'boolean' || recovery.feedback !== undefined && typeof recovery.feedback !== 'string' ||
+        !Array.isArray(recovery.messages) || recovery.messages.some(line => !record(line) || typeof line.id !== 'string' || !['relay','player'].includes(String(line.sender)) || typeof line.text !== 'string') ||
+        !Array.isArray(recovery.queue) || recovery.queue.some(line => !record(line) || typeof line.id !== 'string' || typeof line.text !== 'string' || !Number.isFinite(line.dueAt))) throw new Error('Invalid recovery sequence')
+    }
     if (prologue.addressPreference !== undefined && !['mr','ms','name'].includes(String(prologue.addressPreference))) throw new Error('Invalid form of address')
     if (prologue.pendingRecovery !== undefined && !['waiting','pending','accepted','rejected','retry'].includes(String(prologue.pendingRecovery))) throw new Error('Invalid pending recovery state')
     if (prologue.social !== undefined) {

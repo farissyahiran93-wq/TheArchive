@@ -15,11 +15,12 @@ export const addressChoices = [
 export const firstQuestionChoices = [
   { id: 'daniel', text: 'Who is Daniel?', answer: "Daniel is my older brother. I haven't heard from him in three days." },
   { id: 'number', text: 'Why did he leave you my number?', answer: "He wouldn't tell me. He only asked me to keep it safe." },
-  { id: 'help', text: 'What can I do?', answer: "For now, just look at the page he left me. I don't know what it means." },
+  { id: 'help', text: 'What can I do?', answer: "For now, help me understand why he left your number. I'll show you what I have when you're ready." },
   { id: 'proof', text: 'How do I know this came from him?', answer: "You don't. I watched him write the page, but I can't prove that to you." },
 ] as const
 
 export const firstPageMessage = "He wrote this for the person at your number. I'll send the first page. Please don't assume it proves anything."
+export const readyForGroupChoice = { id: 'ready-group', text: "Okay. You can add me to the group when you're ready." }
 export const offlineMessage = "I have to step away for a little while. I'll add you to a small chat so the others know I contacted you. You can decide whether to answer them."
 
 export const recoveryConversationV4 = {

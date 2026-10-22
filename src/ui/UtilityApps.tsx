@@ -14,7 +14,7 @@ import { DanielMirror } from './DanielMirror'
 import { CharacterAvatar } from './CharacterAvatar'
 import { followupAvailable } from '../game/characterFollowups'
 import type { FollowupContact } from '../content/characterFollowups'
-import { DanielNoteContent } from './DanielNoteContent'
+import { ChatPhotoViewer } from './ChatPhotoViewer'
 import { useCaseNavigation } from './CaseNavigation'
 import './opening.css'
 
@@ -39,7 +39,7 @@ function SearchApp() {
     return <div className="utility-content"><label className="search-field"><Search size={19}/><input aria-label="Search Greyhaven" placeholder="Bus 4 2019 version" value={caseQuery} onChange={event => slice.sceneId === 'E01-S23' ? setStoryQuery(event.target.value) : setQuery(event.target.value)}/></label><p className="section-caption">{matches.length} RESULTS · PUBLIC INDEX</p>{matches.map(result => <article className="utility-card result-card" key={result.id}><small>{result.id} · {result.source}</small><h2>{result.title}</h2><p>{result.detail}</p>{slice.sceneId === 'E01-S23' && <button className="choice" onClick={() => openStoryResult(result.id)}>Inspect publisher · {result.id}</button>}</article>)}{caseQuery && !matches.length && <p className="utility-note">No public result for that wording. Try the record title, year or office; private records are not indexed here.</p>}</div>
   }
   const matches = searchResults.filter(result => `${result.title} ${result.excerpt} ${result.tags}`.toLowerCase().includes(query.toLowerCase()))
-  return <div className="utility-content"><label className="search-field"><Search size={19}/><input aria-label="Search Greyhaven" placeholder="Search the local index" value={query} onChange={event => setQuery(event.target.value)}/></label><p className="section-caption">{matches.length} RESULTS · FICTIONAL GREYHAVEN INDEX</p>{matches.map(result => <article className="utility-card result-card" key={result.id}><small>{result.source}</small><h2>{result.title}</h2><p>{result.excerpt}</p></article>)}{!matches.length && <EmptyCard Icon={Search} title="No local results" text="Try transit, library or bulletin."/>}</div>
+  return <div className="utility-content"><label className="search-field"><Search size={19}/><input aria-label="Search Greyhaven" placeholder="Search the local index" value={query} onChange={event => setQuery(event.target.value)}/></label><p className="section-caption">{matches.length} RESULTS</p>{matches.map(result => <article className="utility-card result-card" key={result.id}><small>{result.source}</small><h2>{result.title}</h2><p>{result.excerpt}</p></article>)}{!matches.length && <EmptyCard Icon={Search} title="No local results" text="Try transit, library or bulletin."/>}</div>
 }
 
 function CaseFiles() {
@@ -79,28 +79,16 @@ function NotesApp() {
 function ContactsApp() {
   const save = useGameStore(state => state.save)
   const { openSophie, openMaya, openCharacter } = useCaseNavigation()
-  const sophie = !!save.prologue && (save.prologue.dialogueVersion !== 4 || save.deliveredEvents.some(id => id.startsWith('OPEN-V4-FIRST-ANSWER-')))
-  const maya = save.deliveredEvents.includes('CONN-E01-01')
-  const followups = (['lucas','eli','nora'] as FollowupContact[]).filter(contact => followupAvailable(save, contact))
-  return <div className="utility-content"><p className="section-caption">CONTACTS</p>{sophie && <button className="contact-entry" onClick={openSophie}><CharacterAvatar character="sophie" fallback="S" className="contact-avatar"/><span><strong>Sophie Mercer</strong><small>Messages</small></span><ChevronRight size={18}/></button>}{maya && <button className="contact-entry" onClick={openMaya}><CharacterAvatar character="maya" fallback="M" className="contact-avatar"/><span><strong>Maya Chen</strong><small>Messages</small></span><ChevronRight size={18}/></button>}{followups.map(contact => { const name = contact === 'lucas' ? 'Lucas Grey' : contact === 'eli' ? 'Eli Ward' : 'Nora Vance'; return <button key={contact} className="contact-entry" onClick={() => openCharacter(contact)}><CharacterAvatar character={contact} fallback={name[0]} className="contact-avatar"/><span><strong>{name}</strong><small>{contact === 'lucas' ? 'From FIND DANIEL' : 'Maya’s case-contact referral'}</small></span><ChevronRight size={18}/></button> })}{!sophie && !maya && !followups.length && <p className="utility-note">No contacts yet.</p>}</div>
+  const sophie = save.prologue?.scene01 ? save.prologue.scene01.introduced : !!save.prologue && (save.prologue.dialogueVersion !== 4 || save.deliveredEvents.some(id => id.startsWith('OPEN-V4-FIRST-ANSWER-')))
+  const maya = !save.prologue?.scene01 && save.deliveredEvents.includes('CONN-E01-01')
+  const followups = (save.prologue?.scene01 ? ['lucas'] as FollowupContact[] : ['lucas','eli','nora'] as FollowupContact[]).filter(contact => followupAvailable(save, contact))
+  return <div className="utility-content"><p className="section-caption">CONTACTS</p>{sophie && <button className="contact-entry" onClick={openSophie}><CharacterAvatar character="sophie" fallback="S" className="contact-avatar"/><span><strong>{save.prologue?.scene01 ? 'Sophie' : 'Sophie Mercer'}</strong><small>Messages</small></span><ChevronRight size={18}/></button>}{maya && <button className="contact-entry" onClick={openMaya}><CharacterAvatar character="maya" fallback="M" className="contact-avatar"/><span><strong>Maya Chen</strong><small>Messages</small></span><ChevronRight size={18}/></button>}{followups.map(contact => { const name = contact === 'lucas' ? 'Lucas Grey' : contact === 'eli' ? 'Eli Ward' : 'Nora Vance'; return <button key={contact} className="contact-entry" onClick={() => openCharacter(contact)}><CharacterAvatar character={contact} fallback={name[0]} className="contact-avatar"/><span><strong>{name}</strong><small>{contact === 'lucas' ? 'From FIND DANIEL' : 'Maya’s case-contact referral'}</small></span><ChevronRight size={18}/></button> })}{!sophie && !maya && !followups.length && <p className="utility-note">No contacts yet.</p>}</div>
 }
 
 function PhotosApp() {
-  const prologue = useGameStore(state => state.save.prologue)
-  const firstPage = useGameStore(state => state.save.deliveredEvents.includes('OPEN-V4-FIRST-PAGE'))
-  const publicPreview = useGameStore(state => !!state.save.evidence.E001)
-  const [photoOpen, setPhotoOpen] = useState<'first' | 'note' | 'preview' | null>(null)
-  const close = useRef<HTMLButtonElement>(null)
-  useEffect(() => { if (photoOpen) close.current?.focus() }, [photoOpen])
-  return <div className="utility-content"><p className="section-caption">PHOTOS</p><div className="photos-grid"><figure><img src="/greyhaven-phone-wallpaper.png" alt="Greyhaven canal wallpaper"/><figcaption>Wallpaper</figcaption></figure>{firstPage && <button className="photo-tile" onClick={() => setPhotoOpen('first')}><img src="/daniel-first-page.svg" alt="First page shared by Sophie"/><span>From unknown number</span></button>}{prologue?.noteSeen && <button className="photo-tile" onClick={() => setPhotoOpen('note')}><img src="/daniel-note.svg" alt="Handwritten note from Sophie"/><span>From Sophie</span></button>}{publicPreview && <button className="photo-tile" onClick={() => setPhotoOpen('preview')}><img src="/e001-public-escort-row.svg" alt="Older public Bus 4 record crop"/><span>Greyhaven Bulletin</span></button>}</div>{photoOpen && <div className="settings-dialog-backdrop"><div className="photo-viewer" role="dialog" aria-modal="true" aria-label={photoOpen === 'first' ? 'First page photo' : photoOpen === 'note' ? 'Photo from Sophie' : 'Older public Bus 4 preview'} onKeyDown={event => {
-    if (event.key === 'Escape') setPhotoOpen(null)
-    if (event.key === 'Tab') {
-      const controls = event.currentTarget.querySelectorAll<HTMLElement>('button, summary')
-      const first = controls[0], last = controls[controls.length - 1]
-      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus() }
-      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus() }
-    }
-  }}><button className="opening-note-close" ref={close} onClick={() => setPhotoOpen(null)}>Close photo</button>{photoOpen === 'first' ? <img className="opening-v4-full-photo" src="/daniel-first-page.svg" alt="Sophie — if I stop answering, use the number I gave you. Show them this page, not the originals."/> : photoOpen === 'note' ? <DanielNoteContent/> : <figure className="public-preview-photo"><img src="/e001-public-escort-row.svg" alt="Older Bus 4 public record crop"/><figcaption>Greyhaven Bulletin · older public preview. Publication and version history are not verified by this image.</figcaption></figure>}</div></div>}</div>
+  const noteSeen = useGameStore(state => !state.save.prologue?.scene01 && state.save.prologue?.noteSeen)
+  const [photo, setPhoto] = useState<string | null>(null)
+  return <div className="utility-content"><div className="photos-grid"><button className="photo-tile" onClick={() => setPhoto('/greyhaven-phone-wallpaper.png')} aria-label="Open wallpaper"><img src="/greyhaven-phone-wallpaper.png" alt="Greyhaven canal wallpaper"/></button>{noteSeen && <button className="photo-tile" onClick={() => setPhoto('/daniel-note.svg')} aria-label="Open photo from Sophie"><img src="/daniel-note.svg" alt="Handwritten note from Sophie"/></button>}</div>{photo && (!photo.includes('daniel-note') || noteSeen) && <ChatPhotoViewer src={photo} alt={photo.includes('daniel-note') ? 'Handwritten note from Sophie' : 'Greyhaven canal wallpaper'} onClose={() => setPhoto(null)}/>}</div>
 }
 
 function AlertsApp() {
@@ -162,7 +150,7 @@ export function UtilityApp({ app, back, appearance, setAppearance, audio, setAud
   const title = apps.find(item => item.id === app)?.label ?? app
   if (app === 'maps') return <MapsApp back={back}/>
   if (app === 'archive' && save.prologue?.restored) return <section className="utility-screen"><DanielMirror onExit={back}/></section>
-  return <section className="utility-screen"><AppHeader title={title} detail={app === 'search' ? 'FICTIONAL GREYHAVEN' : undefined} back={back}/>
+  return <section className="utility-screen"><AppHeader title={title}  back={back}/>
     {app === 'search' ? <SearchApp/> : app === 'board' ? <CaseBoardApp/> : app === 'calendar' ? <CalendarApp/> : app === 'notes' ? <NotesApp/> : app === 'contacts' ? <ContactsApp/> : app === 'photos' ? <PhotosApp/> : app === 'settings' ? <SettingsApp appearance={appearance} setAppearance={setAppearance} audio={audio} setAudio={setAudio} onRestart={onRestart}/> : <div className="utility-content">
       {app === 'calls' && <><p className="section-caption">RECENT CALLS</p><EmptyCard Icon={Phone} title="No calls yet" text="Calls appear when a conversation actually becomes available."/></>}
       {app === 'bulletin' && <><p className="section-caption">PUBLIC BULLETIN</p><article className="utility-card bulletin-card"><span>GREYHAVEN CIVIC DESK</span><h2>A city of records</h2><p>Public notices and historical documents are indexed for residents. Check back for new records.</p></article></>}

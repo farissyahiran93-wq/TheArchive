@@ -6,6 +6,9 @@ test('public-fact private contacts and consented group reunion persist without d
   await page.getByRole('button', { name: "Open Sophie's new message" }).click()
   await page.getByLabel('Your name').fill('Alex')
   await page.getByRole('button', { name: 'Set up phone' }).click()
+  // Stop authored timers and finish the registration write before replacing the fixture.
+  await page.clock.pauseAt(await page.evaluate(() => Date.now()))
+  await expect.poll(() => page.evaluate(() => sessionStorage.getItem('the-archive-reboot:pending-save:v1'))).toBeNull()
   await page.evaluate(async () => {
     const db = await new Promise<IDBDatabase>((resolve, reject) => { const request = indexedDB.open('the-archive-reboot', 1); request.onsuccess = () => resolve(request.result); request.onerror = () => reject(request.error) })
     await new Promise<void>((resolve, reject) => {
@@ -21,7 +24,7 @@ test('public-fact private contacts and consented group reunion persist without d
     })
     db.close()
   })
-  await page.goto('/')
+  await page.goto('/?legacyopening=1')
   await page.getByRole('button', { name: 'Enter the archive' }).click()
   await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')))
   await page.clock.runFor(15_000)
@@ -91,7 +94,7 @@ test('declining Maya Messages keeps her referral readable in the Bulletin inbox'
     })
     db.close()
   })
-  await page.goto('/')
+  await page.goto('/?legacyopening=1')
   await page.getByRole('button', { name: 'Enter the archive' }).click()
   await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')))
   await page.clock.runFor(15_000)

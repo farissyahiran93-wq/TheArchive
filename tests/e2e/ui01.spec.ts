@@ -75,7 +75,7 @@ for (const [width, height] of [[320, 720], [375, 812], [430, 932]] as const) {
     await page.getByRole('button', { name: 'Open Test channel conversation' }).click()
     await expect(page.getByText('Hello, Alex. This is a development conversation.')).toBeVisible()
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true)
-    await page.screenshot({ animations: 'disabled', scale: 'css', path: `${evidence}/chat-${width}x${height}.png` })
+    await page.screenshot({ animations: 'disabled', scale: 'css', path: test.info().outputPath(`chat-${width}x${height}.png`) })
   })
 }
 

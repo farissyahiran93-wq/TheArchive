@@ -80,6 +80,58 @@ export interface Episode01Slice {
 }
 
 export interface OpeningState {
+  scene01?: {
+    version: 1
+    nodeId: string
+    startedAt: number
+    introduced: boolean
+    nameDisclosed: boolean
+    disclosedName?: string
+    invitation: 'none' | 'declined' | 'ready' | 'joined'
+    invitationDismissed: boolean
+    invitationApproved?: boolean
+    complete: boolean
+    queue: { id: string; dueAt: number; typing: boolean }[]
+    messages: { id: string; sender: 'sophie' | 'player'; text: string; at: number }[]
+    groupMessages: { id: string; sender: 'sophie' | 'maya' | 'lucas' | 'player' | 'system'; text: string; at: number }[]
+    groupScript?: 'ch01_sc02_uninvited_guest'
+    groupPresence?: { sophie: boolean; maya: boolean; lucas: boolean }
+    groupSourceBoundary?: boolean
+    groupMembers?: { sophie: boolean; maya: boolean; lucas: boolean }
+    lucasLeftGroup?: boolean
+    groupComplete?: boolean
+    groupCompletedAt?: number
+    privateHandoff?: { sceneId: 'ch01_sc03_just_between_us'; dueAt: number; deliveredAt?: number; openedAt?: number }
+    privateScene03?: {
+      version: 1
+      startedAt: number
+      reading: boolean
+      complete: boolean
+      completedAt?: number
+      nextEventReady: boolean
+      paused?: { id: string; remainingMs: number; typing: boolean }
+      draft?: { nodeId: string; choiceId: string }
+      receipts: { eventId: string; recipient: 'player' | 'sophie'; factIds: string[] }[]
+    }
+    groupReceipts?: { eventId: string; recipient: 'player' | 'sophie' | 'maya' | 'lucas'; factIds: string[] }[]
+  }
+  flow?: 'mirror-first'
+  preGroupQuestions?: string[]
+  referenceStarted?: boolean
+  connectionReviewed?: boolean
+  privateBeat?: import('../content/recoverySequence').PrivateBeat
+  disclosureFollowup?: 'proof' | 'human' | 'closing'
+  recoverySequence?: {
+    beat: import('../content/recoverySequence').RelayBeat
+    messages: { id: string; sender: 'relay' | 'player'; text: string }[]
+    queue: { id: string; text: string; dueAt: number }[]
+    order: string[]
+    attempts: number
+    hints: number
+    restored: boolean
+    assisted?: boolean
+    feedback?: string
+  }
   dialogueVersion?: 2 | 3 | 4
   v4Beat?: 'first' | 'name' | 'address' | 'question' | 'offline' | 'waiting-group'
   addressPreference?: 'mr' | 'ms' | 'name'
@@ -117,6 +169,7 @@ export interface OpeningState {
 }
 
 export interface GameSave {
+  chapter2Access?: import('./chapter2Access').Chapter2Access
   schemaVersion: 1
   saveRevision?: number
   player: { name: string; pronouns?: Pronouns } | null

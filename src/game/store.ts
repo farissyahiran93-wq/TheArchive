@@ -1,5 +1,10 @@
+import { playtestEnabled } from './playtest'
+import { reunionAction } from './chapter2Reunion'
 import { saveMirrorEvidence, linkMirrorEvidence, unlinkMirrorEvidence, navigateMirror } from './mirror'
-import { deliverOpening, compareMirrorIndex, finishOpening, inspectMirrorDetail, revealMirrorHint, unlockMirrorRecord, inspectMirrorRecord, inspectRecoveryOffer, readDanielNote, replyToSophie, restoreDanielMirror, sendGroupChoice, markOpeningRead, startPhoneOpening, sendOpeningName, decidePendingRecovery } from './opening'
+import { chapter2Access, type AccessAction } from './chapter2Access'
+import { beginScene01, beginScene02, deliverScene01, draftScene03Choice, markScene01Read, openScene03, pauseScene03, resumeScene02, scene01Invitation, sendScene01Choice } from './scene01'
+import { continueMessageFlow, sendRecoveryReply, swapRecoveryCards, hintRecovery, assistRecovery, resetRecovery, verifyRecovery, retainRecovery } from './recoverySequence'
+import { deliverPhoneOpeningEvent, deliverOpening, compareMirrorIndex, finishOpening, inspectMirrorDetail, revealMirrorHint, unlockMirrorRecord, inspectMirrorRecord, inspectRecoveryOffer, readDanielNote, replyToSophie, restoreDanielMirror, sendGroupChoice, markOpeningRead, startPhoneOpening, sendOpeningName, decidePendingRecovery } from './opening'
 import type { MirrorArea, MirrorLockId } from '../content/opening'
 import { create } from 'zustand'
 import { dueEvent, enterFixture, markMessagesRead, registerPlayer, sendFixtureChoice } from './engine'
@@ -15,6 +20,20 @@ import { answerGroupFollowup, readFollowup, scheduleGroupProposal, scheduleMayaR
 import type { FollowupContact } from '../content/characterFollowups'
 
 interface GameStore {
+  accessAction: (action: AccessAction) => void
+  sendScene01: (id: string, name?: string) => void
+  scene01Invitation: (action: 'accept' | 'join' | 'dismiss' | 'show') => void
+  openSophiePrivate: () => void
+  pauseSophiePrivate: () => void
+  draftSophiePrivate: (choiceId: string) => void
+  continueMessageFlow: () => void
+  sendRecoveryReply: (id: string) => void
+  swapRecoveryCards: (a: number, b: number) => void
+  hintRecovery: () => void
+  assistRecovery: () => void
+  resetRecovery: () => void
+  verifyRecovery: () => void
+  retainRecovery: () => void
   save: GameSave
   ready: boolean
   saveError: string | null
@@ -122,6 +141,7 @@ interface GameStore {
 }
 
 let writeQueue = Promise.resolve()
+let hydration: Promise<void> | undefined
 let restarting = false
 function commit(next: GameSave) {
   if (restarting) return
@@ -138,19 +158,47 @@ function commit(next: GameSave) {
 }
 
 export const useGameStore = create<GameStore>((set, get) => ({
+  accessAction: action => commit(chapter2Access(get().save, action, Date.now(), playtestEnabled)),
+  sendScene01: (id, name) => commit(sendScene01Choice(get().save, id, name, playtestEnabled)),
+  scene01Invitation: action => commit(scene01Invitation(get().save, action)),
+  openSophiePrivate: () => commit(openScene03(get().save)),
+  pauseSophiePrivate: () => commit(pauseScene03(get().save)),
+  draftSophiePrivate: choiceId => commit(draftScene03Choice(get().save, choiceId)),
+  continueMessageFlow: () => commit(continueMessageFlow(get().save)),
+  sendRecoveryReply: id => commit(sendRecoveryReply(get().save, id)),
+  swapRecoveryCards: (a, b) => commit(swapRecoveryCards(get().save, a, b)),
+  hintRecovery: () => commit(hintRecovery(get().save)),
+  assistRecovery: () => commit(assistRecovery(get().save)),
+  resetRecovery: () => commit(resetRecovery(get().save)),
+  verifyRecovery: () => commit(verifyRecovery(get().save)),
+  retainRecovery: () => commit(retainRecovery(get().save)),
   save: newGame(), ready: false, saveError: null, recoveryRequired: false, recoveryRaw: undefined,
   hydrate: async () => {
     if (get().ready) return
-    const result = await loadGame()
-    set({ save: result.save, ready: true, saveError: result.error ?? null, recoveryRequired: result.recoveryRequired ?? false, recoveryRaw: result.raw })
-    if (!result.recoveryRequired && result.save.prologue?.dialogueVersion === 4 && result.save.prologue.stage === 'complete' && !result.save.e01) commit(beginSlice(result.save))
+    if (hydration) return hydration
+    hydration = (async () => {
+      const result = await loadGame()
+      set({ save: result.save, ready: true, saveError: result.error ?? null, recoveryRequired: result.recoveryRequired ?? false, recoveryRaw: result.raw })
+      if (!result.recoveryRequired && result.save.prologue?.scene01?.invitation === 'joined' && !result.save.prologue.scene01.groupScript) { commit(beginScene02(result.save)); return }
+      if (!result.recoveryRequired && result.save.prologue?.scene01?.nodeId === 'OPEN-S02-SOURCE-BOUNDARY') { commit(resumeScene02(result.save)); return }
+      if (!result.recoveryRequired && result.save.prologue?.scene01?.privateScene03?.reading) { commit(pauseScene03(result.save)); return }
+    if (!result.recoveryRequired && result.save.chapter2Access?.story?.active) { commit(reunionAction(result.save,{type:'story-close',thread:result.save.chapter2Access.story.active},Date.now())); return }
+      if (!result.recoveryRequired && !(import.meta.env.DEV && new URLSearchParams(window.location.search).has('legacyopening')) && (result.save.prologue || result.save.player) && !result.save.prologue?.scene01) commit(beginScene01(result.save))
+      else if (!result.recoveryRequired && !result.save.prologue?.scene01 && result.save.prologue?.dialogueVersion === 4 && result.save.prologue.stage === 'complete' && !result.save.e01) commit(beginSlice(result.save))
+    })()
+    try { await hydration } finally { hydration = undefined }
   },
   reloadPersisted: async () => {
     await writeQueue
     discardPendingSave()
     const result = await loadGame()
     set({ save: result.save, ready: true, saveError: result.error ?? null, recoveryRequired: result.recoveryRequired ?? false, recoveryRaw: result.raw })
-    if (!result.recoveryRequired && result.save.prologue?.dialogueVersion === 4 && result.save.prologue.stage === 'complete' && !result.save.e01) commit(beginSlice(result.save))
+    if (!result.recoveryRequired && result.save.prologue?.scene01?.invitation === 'joined' && !result.save.prologue.scene01.groupScript) { commit(beginScene02(result.save)); return }
+    if (!result.recoveryRequired && result.save.prologue?.scene01?.nodeId === 'OPEN-S02-SOURCE-BOUNDARY') { commit(resumeScene02(result.save)); return }
+    if (!result.recoveryRequired && result.save.prologue?.scene01?.privateScene03?.reading) { commit(pauseScene03(result.save)); return }
+    if (!result.recoveryRequired && result.save.chapter2Access?.story?.active) { commit(reunionAction(result.save,{type:'story-close',thread:result.save.chapter2Access.story.active},Date.now())); return }
+    if (!result.recoveryRequired && !(import.meta.env.DEV && new URLSearchParams(window.location.search).has('legacyopening')) && (result.save.prologue || result.save.player) && !result.save.prologue?.scene01) commit(beginScene01(result.save))
+    else if (!result.recoveryRequired && !result.save.prologue?.scene01 && result.save.prologue?.dialogueVersion === 4 && result.save.prologue.stage === 'complete' && !result.save.e01) commit(beginSlice(result.save))
   },
   register: (name, pronouns) => commit(registerPlayer(get().save, name, pronouns)),
   startPhone: () => commit(startPhoneOpening(get().save)),
@@ -159,7 +207,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   openFixture: () => commit(enterFixture(get().save, Date.now())),
   replySophie: choice => commit(replyToSophie(get().save, choice)),
   sendGroup: choice => commit(choice === 'public' || choice === 'wait' && get().save.prologue?.social?.reactivation ? answerGroupFollowup(get().save, choice, Date.now()) : sendGroupChoice(get().save, choice)),
-  readOpening: thread => commit(markOpeningRead(get().save, thread)),
+  readOpening: thread => commit(get().save.prologue?.scene01 ? markScene01Read(get().save, thread) : markOpeningRead(get().save, thread)),
   readDanielNote: () => commit(readDanielNote(get().save)),
   inspectRecovery: () => commit(inspectRecoveryOffer(get().save)),
   restoreMirror: () => commit(restoreDanielMirror(get().save)),
@@ -176,8 +224,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
   tick: () => {
     const current = get().save
     const now = Date.now()
+    if (current.prologue?.scene01) { commit(chapter2Access(deliverScene01(current, now), { type: 'tick' }, now)); return }
+    if (current.prologue?.flow === 'mirror-first') {
+      const next = deliverOpening(current, now)
+      commit(next === current ? deliverPhoneOpeningEvent(current, now) : next)
+      return
+    }
     const primed = scheduleGroupProposal(scheduleMayaReferral(current, now), now)
-    const openingDue = Math.min(primed.prologue?.queue?.[0]?.dueAt ?? Infinity, primed.prologue?.social?.queue?.[0]?.dueAt ?? Infinity)
+    const openingDue = Math.min(primed.prologue?.queue?.[0]?.dueAt ?? Infinity, primed.prologue?.social?.queue?.[0]?.dueAt ?? Infinity, primed.prologue?.recoverySequence?.queue[0]?.dueAt ?? Infinity)
     const eventDue = primed.pendingEvents.reduce((earliest, event) => Math.min(earliest, event.dueAt), Infinity)
     const delivered = primed.prologue?.dialogueVersion === 4
       ? openingDue <= eventDue ? deliverOpening(primed, now) : dueEvent(primed, now)

@@ -1,7 +1,8 @@
 import { RecoveredThumbnail } from './RecoveredThumbnail'
+import { RecoverySequence } from './RecoverySequence'
 import { galleryMediaForRecord } from '../content/galleryMedia'
 import { useEffect, useRef, useState } from 'react'
-import { ArrowLeft, ArrowRight, LockKeyhole, Search, Info, LayoutGrid, type LucideIcon, MessageCircle, Mail, Images, PhoneCall, NotebookPen, Folder, Globe, ContactRound, Database, MapPinned, KeyRound, Lock, CheckCircle2, Lightbulb, Eye, FileImage } from 'lucide-react'
+import { ArrowLeft, ArrowRight, LockKeyhole, Search, LayoutGrid, type LucideIcon, MessageCircle, Mail, Images, PhoneCall, NotebookPen, Folder, Globe, ContactRound, Database, MapPinned, KeyRound, Lock, Lightbulb, FileImage, ChevronLeft, Bookmark, Settings, Home } from 'lucide-react'
 import { mirrorAreas, mirrorLocks, type MirrorArea } from '../content/opening'
 import { mirrorEntry, mirrorFolders, recordFolder, mirrorUnavailableDescriptions } from '../content/mirror'
 import { canInspectMirrorEntry, mirrorAvailability, visibleMirrorEntries } from '../game/mirror'
@@ -9,6 +10,9 @@ import { useGameStore } from '../game/store'
 import { MirrorRecordView } from './MirrorRecordView'
 import { MirrorMediaViewer } from './MirrorMediaViewer'
 import { MirrorEvidenceBoard } from './MirrorEvidenceBoard'
+import { MirrorRecordActions } from './MirrorRecordActions'
+import { CharacterAvatar } from './CharacterAvatar'
+import { mirrorAppNames, mirrorDisplayStamp } from '../content/mirrorPresentation'
 
 const icons: Record<MirrorArea, LucideIcon> = { messages: MessageCircle, mail: Mail, gallery: Images, calls: PhoneCall, notes: NotebookPen, files: Folder, browser: Globe, contacts: ContactRound, protected: LockKeyhole, maps: MapPinned, index: Database }
 
@@ -35,6 +39,7 @@ export function DanielMirror({ opening = false, onExit }: { opening?: boolean; o
   const [mediaId, setMediaId] = useState<string>()
   const [boardOpen, setBoardOpen] = useState(false)
   const [deviceInfo, setDeviceInfo] = useState(false)
+  const [reviewRecovery, setReviewRecovery] = useState(false)
   const [reading, setReading] = useState(prologue?.stage === 'mirror' && !!initial)
   const [trail, setTrail] = useState<string[]>([])
   const scroller = useRef<HTMLDivElement>(null)
@@ -52,6 +57,8 @@ export function DanielMirror({ opening = false, onExit }: { opening?: boolean; o
   useEffect(() => { if (entry && readable && reading) inspectDetail(entry.area, entry.title) }, [entry, readable, reading, inspectDetail])
   useEffect(() => { scroller.current?.scrollTo({ top: 0 }) }, [area, record, boardOpen, reading])
   if (!prologue?.restored) return null
+  if (prologue.recoverySequence && (prologue.recoverySequence.beat !== 'done' || prologue.recoverySequence.queue.length || prologue.stage === 'found')) return <RecoverySequence onExit={onExit}/>
+  if (reviewRecovery && prologue.recoverySequence) return <RecoverySequence onExit={() => setReviewRecovery(false)}/>
 
   function resetTools() { setPassphrase(''); setUnlockError(''); setShowHelp(false); setQuery(''); setFolder('All'); setMediaOpen(false) }
   function goTo(id: string) {
@@ -82,42 +89,41 @@ export function DanielMirror({ opening = false, onExit }: { opening?: boolean; o
     setReading(false); setRecord(-1); resetTools(); navigate()
   }
   function appIcon(id: MirrorArea) {
-    const item = mirrorAreas.find(item => item.id === id)!
     const Icon = icons[id]
-    return <button key={id} className={`mirror-icon mirror-app-${id}`} onClick={() => openArea(id)}><span><Icon size={29} strokeWidth={1.8}/></span><strong>{item.label}</strong></button>
+    return <button key={id} className={`mirror-icon mirror-app-${id}`} onClick={() => openArea(id)}><span>{id === 'gallery' ? <span className="mirror-photos-flower" aria-hidden="true">{Array.from({ length: 8 }, (_, i) => <i key={i} style={{ transform: `rotate(${i * 45}deg)`, background: ['#ff453a','#ff9f0a','#ffd60a','#a8d73d','#32d7bd','#32ade6','#7d7aff','#ff6482'][i] }}/>)}</span> : <Icon size={29} strokeWidth={1.8}/>}</span><strong>{mirrorAppNames[id]}</strong></button>
   }
   const AppIcon = area ? icons[area] : icons.index
   const dock: MirrorArea[] = ['calls', 'messages', 'mail', 'browser']
-  return <div className={`mirror ${area || boardOpen || deviceInfo ? 'mirror-in-app' : 'mirror-on-home'} ${reading ? 'mirror-reading' : ''} mirror-area-${area ?? 'home'}`} ref={scroller} onKeyDown={event => { if (event.key === 'Escape') { event.stopPropagation(); if ((event.target as HTMLElement).closest('.mirror-media-viewer')) return; if (!mediaOpen) { if (reading && !boardOpen && !deviceInfo) backToList(); else home() } } }} aria-label="Recovered mirror of Daniel Mercer's phone">
-    <div className="mirror-device-switch"><span>Daniel · recovered copy</span>{onExit && <button onClick={onExit}>Exit to your phone <ArrowRight size={14}/></button>}</div>
-    {deviceInfo ? <div className="mirror-detail"><button className="mirror-back" onClick={() => setDeviceInfo(false)}><ArrowLeft size={18}/> Daniel's Phone</button><h2>Device information</h2><p>Daniel Mercer's recovered snapshot</p><dl><dt>Integrity</dt><dd>Unverified</dd><dt>Coverage</dt><dd>Partial</dd><dt>Access</dt><dd>Read only · offline</dd></dl><p>Original metadata and other backups are unavailable. Passwords unlock individual items; they cannot recover missing data. No messages or calls can be sent from this copy.</p></div> :
-    boardOpen ? <div className="mirror-detail"><button className="mirror-back" onClick={() => setBoardOpen(false)}><ArrowLeft size={18}/> Back to recovered app</button><MirrorEvidenceBoard onOpen={goTo}/></div>
-    : !area ? <div className="mirror-main">
-      <div className="mirror-wallpaper-date"><span>Thursday, 8 October</span><strong>Daniel's recovered copy</strong></div>
+  return <div className={`mirror ${area || boardOpen || deviceInfo ? 'mirror-in-app' : 'mirror-on-home'} ${reading ? 'mirror-reading' : ''} mirror-area-${area ?? 'home'}`} onKeyDown={event => { if (event.key === 'Escape') { event.stopPropagation(); if ((event.target as HTMLElement).closest('.mirror-media-viewer')) return; if (!mediaOpen) { if (reading && !boardOpen && !deviceInfo) backToList(); else home() } } }} aria-label="Daniel Mercer's phone">
+    <div className="mirror-device-switch">{onExit && <button onClick={onExit}><ChevronLeft size={14}/> My phone</button>}<span>Daniel’s iPhone</span></div>
+    {deviceInfo ? <div className="mirror-detail" ref={scroller}><button className="mirror-back" onClick={() => setDeviceInfo(false)}><ArrowLeft size={18}/> Daniel's Phone</button><h2>Device information</h2><p>Daniel Mercer’s iPhone</p><dl><dt>Integrity</dt><dd>Unverified</dd><dt>Coverage</dt><dd>Partial</dd><dt>Access</dt><dd>Read only · offline</dd></dl><p>Original metadata and other backups are unavailable. Passwords unlock individual items; they cannot recover missing data. Messaging and calling are unavailable.</p></div> :
+    boardOpen ? <div className="mirror-detail" ref={scroller}><button className="mirror-back" onClick={() => setBoardOpen(false)}><ArrowLeft size={18}/> Back to app</button><MirrorEvidenceBoard onOpen={goTo}/></div>
+    : !area ? <div className="mirror-main" ref={scroller}>
+      <div className="mirror-widgets"><div className="mirror-calendar-widget"><small>THURSDAY</small><strong>8</strong><span>October</span></div><div className="mirror-photo-widget" aria-label="Decorative Greyhaven wallpaper"><span>Greyhaven</span></div></div>
       <div className="mirror-grid">{mirrorAreas.filter(item => !dock.includes(item.id)).map(item => appIcon(item.id))}</div>
-      <div className="mirror-home-tools"><button onClick={() => setDeviceInfo(true)}><Info size={16}/> Device information</button><button onClick={() => setBoardOpen(true)}><LayoutGrid size={16}/> Recovered evidence workspace</button></div>
-      {initial && <button className="mirror-workspace-button" onClick={() => goTo(initial.id)}>Resume recovered {initial.area}</button>}
+      <div className="mirror-home-tools"><button onClick={() => setDeviceInfo(true)}><Settings size={16}/> Settings</button><button onClick={() => setBoardOpen(true)}><LayoutGrid size={16}/> Case Board</button></div>
+      {initial && <button className="mirror-workspace-button" onClick={() => goTo(initial.id)}>Resume {mirrorAppNames[initial.area]}</button>}
+      {prologue.recoverySequence?.restored && <button className="mirror-workspace-button" onClick={() => setReviewRecovery(true)}>Review recovered conversation · Unverified</button>}
       <div className="mirror-dock" aria-label="Daniel's app dock">{dock.map(appIcon)}</div>
-    </div> : <div className="mirror-detail">
-      <div className="mirror-app-toolbar">{reading && <button className="mirror-back" onClick={backToList}><ArrowLeft size={18}/> Back</button>}<button className="mirror-back" onClick={home}><ArrowLeft size={18}/> Daniel's Phone</button><button className="mirror-workspace-button" onClick={() => setBoardOpen(true)}>Evidence</button></div>
-      <h2>{mirrorAreas.find(item => item.id === area)?.label}</h2>
-      {!reading && <small>{mirrorAreas.find(item => item.id === area)?.summary}</small>}
+    </div> : <div className="mirror-detail" ref={scroller}>
+      <div className="mirror-app-toolbar">{reading && <button className="mirror-back" onClick={backToList}><ChevronLeft size={23}/> Back</button>}<button className="mirror-back" aria-label="Daniel's Phone" onClick={home}>{reading ? <Home size={20}/> : <><ChevronLeft size={23}/>Daniel’s iPhone</>}</button><div className="mirror-toolbar-actions"><button className="mirror-workspace-button" aria-label="Evidence" onClick={() => setBoardOpen(true)}><Bookmark size={20}/></button>{reading && entry && readable && <MirrorRecordActions key={entry.id} entry={entry} onNavigate={goTo}/>}</div></div>
+      <h2>{mirrorAppNames[area]}</h2>
       {!reading && <>
-      <label className="mirror-search"><Search size={17}/><input type="search" aria-label={`Search recovered ${mirrorAreas.find(item => item.id === area)?.label}`} placeholder="Search" value={query} onChange={event => setQuery(event.target.value)}/></label>
-      {mirrorFolders[area] && <nav className="mirror-tabs" aria-label="Recovered folders">{mirrorFolders[area]!.map(name => <button key={name} aria-pressed={folder === name} onClick={() => setFolder(name)}>{name}</button>)}</nav>}
-      {hasOtherUnlocked && <p className="mirror-folder-count">{unlockedCount} accessible · {sources.length - unlockedCount} locked · Tap any item to inspect</p>}
-      {area === 'gallery' && <div className="mirror-photo-grid" aria-label="Recovered album thumbnails">{visible.map(item => { const locked = !canInspectMirrorEntry(save, item.id); return <button key={item.id} className={record === item.index ? 'mirror-photo-tile selected' : 'mirror-photo-tile'} onClick={() => selectRecord(item.index)} aria-label={`Open ${item.title}`}><span className="mirror-photo-art">{locked ? <Lock size={25}/> : galleryMediaForRecord(item.id)[0] ? <RecoveredThumbnail src={galleryMediaForRecord(item.id)[0].thumbnail} alt=""/> : <FileImage size={25}/>}<small>{locked ? 'Locked album' : `${galleryMediaForRecord(item.id).length} image(s)`}</small></span><small>{item.title}</small></button> })}</div>}
-      <div className="mirror-items">{visible.map(item => { const locked = !canInspectMirrorEntry(save, item.id); return <button key={item.id} aria-label={item.title} className={record === item.index ? 'mirror-file is-active' : 'mirror-file'} onClick={() => selectRecord(item.index)}>{locked ? <Lock size={17}/> : ['messages', 'contacts'].includes(item.area) ? <span className="mirror-list-initial" aria-hidden="true">{item.title[0]}</span> : <AppIcon size={20}/>}<span className="mirror-file-copy"><strong>{item.title}</strong><small>{locked ? 'Locked · Content unavailable' : item.stamp}</small>{!locked && ['mail', 'messages', 'calls', 'browser'].includes(item.area) && !item.stamp.includes('ENCRYPTED') && <span className="mirror-file-preview">{item.body.slice(0, 85)}</span>}</span><ArrowRight size={15}/></button> })}</div>
-      {!visible.length && <p role="status">No matching recovered records. Locked text is excluded from search.</p>}
+      <label className="mirror-search"><Search size={17}/><input type="search" aria-label={`Search ${mirrorAppNames[area]}`} placeholder="Search" value={query} onChange={event => setQuery(event.target.value)}/></label>
+      {mirrorFolders[area] && <nav className="mirror-tabs" aria-label="Folders">{mirrorFolders[area]!.map(name => <button key={name} aria-pressed={folder === name} onClick={() => setFolder(name)}>{name}</button>)}</nav>}
+      {hasOtherUnlocked && <p className="mirror-folder-count">{unlockedCount} items · {sources.length - unlockedCount} locked</p>}
+
+      <div aria-label={area === 'gallery' ? 'Albums' : undefined} className={`mirror-items ${area === 'gallery' ? 'mirror-album-list' : ''}`}>{visible.map(item => { const locked = !canInspectMirrorEntry(save, item.id); return <button key={item.id} aria-label={item.title} className={record === item.index ? 'mirror-file is-active' : 'mirror-file'} onClick={() => selectRecord(item.index)}>{area === 'gallery' ? <span className="mirror-album-cover">{locked ? <Lock size={28}/> : galleryMediaForRecord(item.id)[0] ? <RecoveredThumbnail src={galleryMediaForRecord(item.id)[0].thumbnail} alt=""/> : <FileImage size={28}/>}</span> : locked ? <Lock size={17}/> : ['messages', 'contacts'].includes(item.area) ? <CharacterAvatar character={item.title.split(' · ')[0]} fallback={item.title[0]} className="mirror-list-initial"/> : <AppIcon size={20}/>}<span className="mirror-file-copy"><strong>{item.title}</strong><small>{locked ? 'Locked' : mirrorDisplayStamp(item.stamp)}</small>{!locked && ['mail', 'messages', 'calls', 'browser'].includes(item.area) && !item.stamp.includes('ENCRYPTED') && <span className="mirror-file-preview">{item.body.slice(0, 85)}</span>}</span><ArrowRight size={15}/></button> })}</div>
+      {!visible.length && <p role="status">No results</p>}
       </>}
-      {reading && entry && <article className="mirror-document"><small>{entry.stamp === 'LOCKED' && lockOpen ? 'RECOVERED / UNLOCKED' : entry.stamp}</small><h3>{entry.title}</h3>
+      {reading && entry && <article className="mirror-document">{mirrorDisplayStamp(entry.stamp) && <small>{mirrorDisplayStamp(entry.stamp)}</small>}<h3>{entry.title}</h3>
         {containerLocked ? <div className="mirror-lock-panel"><LockKeyhole size={37}/><strong>{entry ? mirrorAvailability(save, entry).toUpperCase().replaceAll('-', ' ') : 'Unavailable'}</strong><p>{mirrorUnavailableDescriptions[mirrorAvailability(save, entry)]}</p></div>
-        : lockId && !lockOpen ? <form className="mirror-lock-panel" onSubmit={event => { event.preventDefault(); unlockRecord() }}><LockKeyhole size={37}/><strong>{area === 'notes' ? 'This Note Is Locked' : 'This Hidden Album Is Locked'}</strong><p>Other items remain readable. Its clue is in accessible recovered content.</p>
+        : lockId && !lockOpen ? <form className="mirror-lock-panel" onSubmit={event => { event.preventDefault(); unlockRecord() }}><LockKeyhole size={37}/><strong>{area === 'notes' ? 'This Note Is Locked' : 'This Hidden Album Is Locked'}</strong><p>Enter the password to view this item.</p>
           <label htmlFor="mirror-passphrase">Password</label><input id="mirror-passphrase" type="password" value={passphrase} onChange={event => {setPassphrase(event.target.value);setUnlockError('')}} autoComplete="off" autoCapitalize="characters" spellCheck={false}/>
           <button type="submit"><KeyRound size={16}/> Unlock</button>{unlockError && <p role="alert">{unlockError}</p>}
           <button type="button" className="mirror-hint-toggle" onClick={() => {setShowHelp(true);hint(lockId)}}><Lightbulb size={16}/> {hintCount === 0 ? 'Need a hint?' : hintCount < mirrorLocks[lockId].hints.length ? 'Another hint' : 'Review hints'}</button>
           {(showHelp || hintCount > 0) && <ol className="mirror-hints" aria-label="Password hints">{mirrorLocks[lockId].hints.slice(0,hintCount).map((text,i) => <li key={i}>{text}</li>)}</ol>}
-        </form> : <>{lockId && <p className="mirror-success" role="status"><CheckCircle2 size={16}/> Unlocked · saved on this device</p>}<MirrorRecordView key={entry.id} entry={entry} onNavigate={goTo} onMedia={id => { setMediaId(id); setMediaOpen(true) }}/><p className="mirror-source-note"><Eye size={15}/> Recovered observation / not independently verified.</p><button className="mirror-save-record" disabled={!!save.evidence[entry.id]} onClick={() => retain(entry.id)}>{save.evidence[entry.id] ? 'Observation saved - unverified' : 'Save recovered observation'}</button></>}
+        </form> : <><MirrorRecordView key={entry.id} entry={entry} onMedia={id => { setMediaId(id); setMediaOpen(true) }}/></>}
       </article>}
       {area === 'index' && <p className="mirror-guidance">Zero deletion entries does not establish what happened. Compare the signed count with the ordinary Untitled Note.</p>}
       {area === 'index' && opening && <button className="mirror-compare" disabled={!readyToCompare} onClick={compare}>{readyToCompare ? 'Record the missing-entry discrepancy' : 'Read the Untitled Note and Index report'} <ArrowRight size={17}/></button>}

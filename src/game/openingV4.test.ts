@@ -12,9 +12,12 @@ function drain(state: GameSave): GameSave {
   throw new Error('Opening queue did not drain')
 }
 
+function archivedFirst(): GameSave {
+  return { ...newGame(), prologue: { dialogueVersion: 4, v4Beat: 'first', stage: 'chat', step: 0, messages: [{ id: 'OPEN-V4-FIRST-CONTACT', sender: 'sophie', text: 'Archived first contact.' }], noteSeen: false, offerInspected: false, restored: false, viewed: [], indexCompared: false } }
+}
+
 function firstExchange(): GameSave {
-  let state = startPhoneOpening(newGame(), 1_000)
-  state = dueEvent(state, 21_000)
+  let state = archivedFirst()
   state = replyToSophie(state, 'who', 22_000)
   state = drain(state)
   state = sendOpeningName(state, '  Rae  ', 30_000)
@@ -24,7 +27,7 @@ function firstExchange(): GameSave {
   return state
 }
 
-describe('new phone-first opening', () => {
+describe('archived v4 compatibility and current first-contact timer', () => {
   it('starts the existing S02 investigation when a new-game prologue closes', () => {
     const base = newGame()
     const ready: GameSave = { ...base, player: { name: 'Rae' }, prologue: { dialogueVersion: 4, stage: 'found', step: 2, beat: 'ready', messages: [], noteSeen: true, offerInspected: true, restored: true, viewed: [], indexCompared: true } }
@@ -41,14 +44,13 @@ describe('new phone-first opening', () => {
     expect(dueEvent(state, 20_999)).toBe(state)
     state = dueEvent(state, 21_000)
     expect(state.prologue?.dialogueVersion).toBe(4)
-    expect(state.notifications).toEqual([{ id: 'OPEN-V4-FIRST-CONTACT', text: 'New message · Unknown number', read: false }])
+    expect(state.notifications).toEqual([{ id: 'OPEN-S01-OPENING-1', text: 'Unknown number: Hey', read: false }])
     expect(dueEvent(state, 25_000)).toBe(state)
-    expect(state.prologue?.messages).toHaveLength(1)
+    expect(state.prologue?.scene01?.messages).toHaveLength(1)
   })
 
   it('requires explicit name and address sends and persists the selected form separately', () => {
-    let state = startPhoneOpening(newGame(), 1_000)
-    state = dueEvent(state, 21_000)
+    let state = archivedFirst()
     expect(openingChoices(state.prologue!)).toHaveLength(4)
     state = replyToSophie(state, 'who', 22_000)
     expect(state.player).toBeNull()
@@ -64,11 +66,15 @@ describe('new phone-first opening', () => {
     expect(replyToSophie(state, 'name', 41_000)).toBe(state)
   })
 
-  it('stages only a partial page, then a recoverable pending request before the group', () => {
+  it('waits for explicit group consent after optional Sophie questions and sends no teaser photo', () => {
     let state = firstExchange()
     state = replyToSophie(state, 'number', 50_000)
     state = drain(state)
-    expect(state.deliveredEvents).toContain('OPEN-V4-FIRST-PAGE')
+    expect(state.deliveredEvents).not.toContain('OPEN-V4-FIRST-PAGE')
+    expect(state.pendingEvents).toEqual([])
+    expect(openingChoices(state.prologue!).some(choice => choice.id === 'ready-group')).toBe(true)
+    expect(replyToSophie(state, 'number')).toBe(state)
+    state = drain(replyToSophie(state, 'ready-group', 70_000))
     expect(state.prologue?.messages.map(message => message.text).join(' ')).not.toContain('ECHO-7/14')
     expect(state.prologue?.restored).toBe(false)
     const pending = state.pendingEvents.find(event => event.id === 'OPEN-V4-PENDING-RECOVERY')!
@@ -98,6 +104,7 @@ describe('new phone-first opening', () => {
   it('keeps group departures durable, prevents duplicate choices and returns to Sophie', () => {
     let state = firstExchange()
     state = drain(replyToSophie(state, 'help', 50_000))
+    state = drain(replyToSophie(state, 'ready-group', 70_000))
     state = dueEvent(state, state.pendingEvents.find(event => event.id === 'OPEN-V4-PENDING-RECOVERY')!.dueAt)
     state = dueEvent(state, state.pendingEvents.find(event => event.id === 'OPEN-V4-GROUP-CREATE')!.dueAt)
     state = drain(state)

@@ -1,9 +1,6 @@
 import { completeOpening } from './opening-helper'
-import { mkdirSync } from 'node:fs'
 import { expect, test, type Page } from '@playwright/test'
 
-const evidence = 'qa/ui-02'
-mkdirSync(evidence, { recursive: true })
 
 async function expectContained(page: Page) {
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true)
@@ -24,7 +21,7 @@ test('phone lock, two home pages and app navigation at 390x844', async ({ page }
   await page.goto('/?legacyopening=1')
   await expect(page.getByRole('button', { name: /Enter the archive/i })).toBeVisible()
   await expectContained(page)
-  await page.screenshot({ animations: 'disabled', scale: 'css', path: `${evidence}/lock-390x844.png` })
+  await page.screenshot({ animations: 'disabled', scale: 'css', path: test.info().outputPath(`lock-390x844.png`) })
   await setUpPhone(page)
   await expectContained(page)
   const calendarFits = await page.locator('.month-widget').evaluate(element => {
@@ -32,11 +29,11 @@ test('phone lock, two home pages and app navigation at 390x844', async ({ page }
     return last.getBoundingClientRect().bottom <= element.getBoundingClientRect().bottom - 8
   })
   expect(calendarFits).toBe(true)
-  await page.screenshot({ animations: 'disabled', scale: 'css', path: `${evidence}/home-390x844.png` })
+  await page.screenshot({ animations: 'disabled', scale: 'css', path: test.info().outputPath(`home-390x844.png`) })
   await page.getByRole('button', { name: 'Show home page 2' }).click()
   await expect(page.getByRole('button', { name: 'Open Settings' })).toBeVisible()
   await expectContained(page)
-  await page.screenshot({ animations: 'disabled', scale: 'css', path: `${evidence}/home-page2-390x844.png` })
+  await page.screenshot({ animations: 'disabled', scale: 'css', path: test.info().outputPath(`home-page2-390x844.png`) })
 
   for (const label of ['Settings', 'Calls', 'Bulletin']) {
     await page.getByRole('button', { name: `Open ${label}`, exact: true }).last().click()
@@ -76,17 +73,17 @@ for (const [width, height] of [[320, 568], [1280, 900]] as const) {
     await page.goto('/?devtools=1&legacyopening=1')
     await expect(page.getByRole('button', { name: /Enter the archive/i })).toBeVisible()
     await expectContained(page)
-    await page.screenshot({ animations: 'disabled', scale: 'css', path: `${evidence}/lock-${width}x${height}.png` })
+    await page.screenshot({ animations: 'disabled', scale: 'css', path: test.info().outputPath(`lock-${width}x${height}.png`) })
     await setUpPhone(page, 'Sam')
     await expect(page.getByRole('button', { name: 'Open Messages', exact: true }).first()).toBeVisible()
     await expect(page.getByRole('button', { name: 'Read Daniel Mercer brief' })).toBeInViewport({ ratio: 1 })
     await expectContained(page)
-    await page.screenshot({ animations: 'disabled', scale: 'css', path: `${evidence}/home-${width}x${height}.png` })
+    await page.screenshot({ animations: 'disabled', scale: 'css', path: test.info().outputPath(`home-${width}x${height}.png`) })
     await page.getByRole('button', { name: 'Open Messages', exact: true }).first().click()
     await page.getByRole('button', { name: 'Open Test channel conversation' }).click()
     await expect(page.getByText('Hello, Sam. This is a development conversation.')).toBeVisible()
     await expectContained(page)
-    await page.screenshot({ animations: 'disabled', scale: 'css', path: `${evidence}/messages-${width}x${height}.png` })
+    await page.screenshot({ animations: 'disabled', scale: 'css', path: test.info().outputPath(`messages-${width}x${height}.png`) })
     await page.getByRole('button', { name: 'Go home', exact: true }).click()
     await expect(page.getByRole('main', { name: "Sam's home screen" })).toBeVisible()
   })

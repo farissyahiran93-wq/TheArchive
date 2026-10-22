@@ -15,7 +15,7 @@ async function start(page: Page) {
 }
 async function screenshot(page: Page, name: string) {
   expect(await page.locator('.device').evaluate(el => el.scrollWidth <= el.clientWidth + 1)).toBe(true)
-  await page.screenshot({ path: `${output}/${name}.png`, animations: 'disabled', scale: 'css' })
+  await page.screenshot({ path: test.info().outputPath(`${name}.png`), animations: 'disabled', scale: 'css' })
 }
 
 test('map search, categories, pan, zoom and overview work without advancing the case', async ({ page }) => {
