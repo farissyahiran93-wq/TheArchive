@@ -54,10 +54,11 @@ const event = (s: GameSave, id: string): GameSave => s.deliveredEvents.includes(
 const notice = (s: GameSave, id: string, text: string): GameSave => s.notifications.some(n => n.id === id) ? s : { ...s, notifications: [...s.notifications, { id, text, read: false }] }
 const read = (s: GameSave, prefix: string): GameSave => s.notifications.some(n => n.id.startsWith(prefix) && !n.read) ? { ...s, notifications: s.notifications.map(n => n.id.startsWith(prefix) ? { ...n, read: true } : n) } : s
 export const accessDelay = (text: string) => Math.min(3800, Math.max(900, 650 + text.split(/\s+/).length * 110))
-export function accessNextDue(s: GameSave): number {
+export function accessNextDue(s: GameSave, testing=false): number {
   const c = s.chapter2Access
+  if (!c && s.narrativePlan !== 'legacy-access') return Infinity
   if (!c) return s.prologue?.scene01?.privateScene03?.complete && s.prologue.scene01.groupComplete && s.prologue.scene01.lucasLeftGroup ? (s.prologue.scene01.privateScene03.completedAt ?? Date.now()) + 7000 : Infinity
-  return Math.min(reunionNextDue(s),!c.unknownCreated ? c.unknownDueAt : Infinity, c.queue?.dueAt ?? Infinity, c.groupDueAt ?? Infinity, !c.mirrorOpened ? c.hintDueAt ?? Infinity : Infinity, c.recovery && c.recovery.readyAt === undefined ? c.recovery.dueAt : Infinity)
+  return Math.min(reunionNextDue(s,testing),!c.unknownCreated ? c.unknownDueAt : Infinity, c.queue?.dueAt ?? Infinity, c.groupDueAt ?? Infinity, !c.mirrorOpened ? c.hintDueAt ?? Infinity : Infinity, c.recovery && c.recovery.readyAt === undefined ? c.recovery.dueAt : Infinity)
 }
 
 function append(s: GameSave, id: string, text: string, sender: string, now: number, group = false): GameSave {
@@ -97,17 +98,19 @@ export function accessChoices(s: GameSave): AccessOption[] {
 }
 
 export function chapter2Access(s: GameSave, action: AccessAction, now = Date.now(), testing = false): GameSave {
-  if (action.type.startsWith('story-')) return reunionAction(s,action as ReunionAction,now)
+  if ((action.type.startsWith('story-')||action.type.startsWith('continuation-'))) return reunionAction(s,action as ReunionAction,now,testing)
   if (action.type.startsWith('life-')) return noteReunionExploration(reduceLife(s, action as LifeAction))
   let c = s.chapter2Access
   if (!c) {
+    // The new editorial route awaits approved Scenes 04–18. Existing access saves resume unchanged.
+    if (s.narrativePlan !== 'legacy-access') return s
     const completed = s.prologue?.scene01?.privateScene03
     if (action.type !== 'tick' || !completed?.complete || !s.prologue?.scene01?.groupComplete || !s.prologue.scene01.lucasLeftGroup) return s
     c = { version: 1, phase: 'pending', unknownDueAt: (completed.completedAt ?? now) + 7000, unknownCreated: false, unknownOffline: false, node: 'U01', messages: [], choices: {}, unknownStance: 'neutral', privacyStance: 'neutral', questionsAsked: [], installAuthorized: false, installCompleted: false, mirrorUnlocked: false, spyInstalled: false, relayAvailable: false, mirrorOpened: false, viewed: [], groupQueued: false, groupOpened: false, groupMessages: [], complete: false, receipts: [] }
     s = put(s, c)
   }
   if (action.type === 'tick') {
-    const directed=tickReunion(s,now)
+    const directed=tickReunion(s,now,testing)
     if(directed!==s)return directed
     if (c.recovery && c.recovery.readyAt === undefined && now >= c.recovery.dueAt) return event(put(s,{...c,recovery:{...c.recovery,readyAt:now}}),'C2-RECOVERY-READY')
     if (!c.unknownCreated && now >= c.unknownDueAt) return append(put(s, { ...c, unknownCreated: true, phase: 'unknown' }), 'C2-UNKNOWN-FIRST', "You're looking in the wrong place.", 'unknown', now)
@@ -218,4 +221,14 @@ export function validateAccessState(value: unknown): void {
   if (obj(c.recovery) && (c.recovery.readyAt !== undefined && !Number.isFinite(c.recovery.readyAt) || c.recovery.testOpened !== undefined && typeof c.recovery.testOpened !== 'boolean')) return fail()
   if (obj(c.recovery) && c.recovery.readyAt !== undefined && (Number(c.recovery.readyAt)<Number(c.recovery.startedAt) || Number(c.recovery.readyAt)<Number(c.recovery.dueAt) && c.recovery.testOpened!==true)) return fail()
   if ((c.mirrorUnlocked || c.spyInstalled || c.installCompleted) && (!c.installAuthorized || c.packageStatus !== 'accepted') || c.complete && c.story===undefined && (!c.groupOpened || (c.groupMessages as unknown[]).length !== accessGroupLines.length)) return fail()
+}
+
+/** Explicit chapter continuation; never called by a mount, timer or chapter-end action. */
+export function continueFromChapter1(s:GameSave, now:number):GameSave {
+  if(s.chapter2Access||!s.chapter1?.chapterComplete||!s.deliveredEvents.includes('CH1-COMPLETE'))return s
+  const first=s.prologue?.scene01
+  if(!first?.privateScene03?.complete)return s
+  const bootstrap={...s,narrativePlan:'legacy-access' as const,prologue:{...s.prologue!,scene01:{...first,privateScene03:{...first.privateScene03,completedAt:now}}}}
+  const started=chapter2Access(bootstrap,{type:'tick'},now)
+  return started.chapter2Access?{...s,chapter2Access:started.chapter2Access,deliveredEvents:[...s.deliveredEvents,'CH1-CONTINUE-C2']}:s
 }

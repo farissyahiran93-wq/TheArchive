@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { scene01Nodes } from '../content/scene01'
 import { scene03Facts, scene03Nodes, scene03DeliveryDelay } from '../content/scene03'
 import { scene03Script } from '../content/scene03Script'
-import { beginScene01, deliverScene01, draftScene03Choice, openScene03, pauseScene03, scene01Choices, scene01Invitation, sendScene01Choice } from './scene01'
+import { beginLegacyScene01 as beginScene01, deliverScene01, draftScene03Choice, openScene03, pauseScene03, scene01Choices, scene01Invitation, sendScene01Choice } from './scene01'
 import { newGame, type GameSave } from './types'
 import { normalizeSave } from './engine'
 import { openingPresence } from './phonePresentation'
@@ -189,9 +189,9 @@ describe('owner Scene 03 — Just Between Us', () => {
     expect(scene01Choices(save)[0].text).toBe("That's your problem.")
     expect(save.prologue!.scene01!.privateScene03!.complete).toBe(false)
   })
-  it('finishes all nineteen gates on Goodnight, marks Sophie offline, and enables readiness without scheduling MIRROR or Chapter 2', () => {
+  it('finishes all nineteen gates on Goodbye, marks Sophie offline, and enables readiness without scheduling MIRROR or Chapter 2', () => {
     const before = at('19'), save = finishBranch(before, 'a')
-    expect(save.prologue!.scene01!.messages.at(-1)?.text).toBe('Goodnight :)')
+    expect(save.prologue!.scene01!.messages.at(-1)?.text).toBe('Goodbye.')
     expect(save.prologue!.scene01!.privateScene03).toMatchObject({ complete: true, reading: false, nextEventReady: true })
     expect(openingPresence(save, 'sophie')).toBe('offline')
     expect(scene01Choices(save)).toEqual([])

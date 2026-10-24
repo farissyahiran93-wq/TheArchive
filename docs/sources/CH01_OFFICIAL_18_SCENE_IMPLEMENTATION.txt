@@ -1,0 +1,239 @@
+CODEX IMPLEMENTATION PROMPT
+THE ARCHIVE — CHAPTER 1: THE MISSING ENTRY
+OFFICIAL 18-SCENE / 5-ACT FLOW ALIGNMENT
+
+GOAL
+Audit the EXISTING repository, then align Chapter 1's narrative structure, progression, investigation UI and persistent state with the official 18-scene outline below. Implement the structural gameplay flow and any required transition/interaction plumbing without discarding existing hand-authored dialogue. The owner will provide the full revised Scene 02 conversation separately for a later dialogue polish pass. Do NOT attempt to replace Scene 02 with newly invented full dialogue now.
+
+SOURCE OF TRUTH AND PRIORITIES
+1. This prompt's 18 scene names and order are authoritative for Chapter 1. Chapter 2 remains a separate subsequent chapter.
+2. The current repository is authoritative for existing files, code patterns, exact IDs, story assets, choice IDs and save migrations. Inspect it before editing. Preserve working material where it does not contradict this new flow.
+3. Scenes 01–03 already have implementation/content: make only minimal surgical compatibility changes there. Preserve original dialogue, existing meaningful choices and character introductions. Unknown Sender must now intrude in Scene 02, but must not replace the Lucas confrontation.
+4. Scenes 04–18 may be partially unimplemented. Add typed scene definitions, story conditions, interaction sequences, evidence/knowledge transitions and safe, playable provisional transitions. Explicitly mark dialogue that still awaits authoring; do not invent extensive canonical conversations or silently claim the dialogue is final.
+5. Do NOT overwrite Chapter 2 or any existing FIND DANIEL group history, other save slots, or unrelated game systems. Do not introduce a new timeline that contradicts earlier validated events.
+6. If repository facts conflict with this instruction, prefer this updated Chapter 1 sequence, describe each conflict in the final report and make the smallest migration-safe change.
+
+CANON AND MYSTERY RULES (NON-NEGOTIABLE)
+- The player is an ordinary human investigator in a believable chat-driven mystery; they are not secretly a super-hacker. Identity/name is gathered naturally during conversation, not auto-sent or invented by the system.
+- Daniel Mercer is missing. His location, fate, intentions and the identity of the person responsible are NOT revealed during Chapter 1. Do not send casual live chats from Daniel that resolve his disappearance.
+- Sophie Mercer is Daniel's younger sister. Maya Chen is Daniel's fiancée, Lucas Grey is Daniel's long-time friend, Eli Ward is a WOMAN and Axiom Recovery technical colleague, and Nora Vance is an external investigative journalist/verification contact. Do not swap their roles, genders or knowledge.
+- Scenes 01–03: Sophie may mention that the player's number was found in Daniel's contacts marked with a star (★). She must NOT claim to have discovered Daniel's mysterious note or disclose its contents yet.
+- Scene 02: an UNKNOWN SENDER sends an intrusive warning during or around Lucas's uninvited/confrontational appearance. Lucas's scene arc, choices, and eventual departure must remain coherent. UNKNOWN SENDER identity and motives are not confirmed.
+- The Archive is a RECOVERED-DATA INVESTIGATION SYSTEM, not a magic live feed or guaranteed access to Daniel's original phone. It may contain a limited Recovered Device Snapshot, recovered files, version history/diffs, evidence board, timeline and source-verification views. Every record has provenance/confidence limitations.
+- Preserve existing phone/onboarding exploration (Messages, Calls, Contacts) and any established simulated Archive installation. If the icon appears during onboarding, it remains EMPTY/DORMANT/LOCKED FOR INVESTIGATION until Scene 04. In Scene 04 the first usable investigation record becomes available. Do not replay installation or claim two separate Archive apps were installed.
+- Unknown Sender (an unverified messaging identity) is NOT automatically the same thing as Unknown Source (unverified origin/provenance of an artifact). Never conflate or identify them.
+- A recovered copy, screenshot, cache or document is not automatically the original. Preserve the distinction between recovered device, The Archive, PHONE MIRROR, SPY MODE, and Daniel's real phone; do not merge subsystems or grant unsupported new access.
+- "7-14" and the 14-versus-13 discrepancy are leads, not proof of who altered a record. If June Ellis/Bus 4, Greyhaven Bulletin or any previously authored record changes exist, retain them consistently without assuming all discrepancies share one cause.
+- The recovered note's claim that an entry was removed AFTER verification must remain an attributed, incompletely sourced finding; it is not by itself a proven culprit/motive.
+- Any E—I authorization fragment remains unresolved; NEVER normalize it to 'Eli' or imply her guilt.
+- Distinguish PLAYER knowledge from each NPC's knowledge. A character learns private information ONLY if the player shares it in a visible conversation, unless the narrative separately establishes how that character found out.
+- No mandatory evidence can be locked behind romance/affinity. Relationships are nuanced (trust, affinity, suspicion, romance if existing). Avoid arbitrary auto-replies and artificial dialogue spam.
+- No early reveal of Daniel's location, the culprit, unknown sender's identity, an original unaltered file, Participant B, Session 02, or final authorization ownership.
+
+OFFICIAL ACT AND SCENE STRUCTURE
+
+ACT I — THE STRANGER
+Tagline: The Beginning of a Mystery
+01 — A Message from Sophie
+02 — The Uninvited Guest
+03 — Just Between Us
+
+ACT II — THE FIRST CRACK
+Tagline: Something Doesn't Add Up
+04 — The Public Story
+05 — An Older Copy
+06 — The Missing Line
+07 — The Woman Behind the Byline
+
+ACT III — WHAT DANIEL LEFT BEHIND
+Tagline: Some Things Were Never Meant to Be Found
+08 — The Page She Kept
+09 — Unknown Source
+10 — A Life in Fragments
+11 — Fourteen / Thirteen
+12 — The Technician's Warning
+
+ACT IV — THE PEOPLE WHO KNEW HIM
+Tagline: Everyone Has Their Own Version of the Truth
+13 — The Woman He Loved
+14 — The Friend Who Walked Away
+15 — After Verification
+
+ACT V — THE TRUTH IN THE RECORD
+Tagline: The Evidence Changes Everything
+16 — A Request for the Original
+17 — What We Can Prove
+18 — The Role Still Active
+
+SCENE-BY-SCENE IMPLEMENTATION BLUEPRINT
+
+01 — A Message from Sophie
+Purpose: Human first contact, why the player is involved, Daniel's missing-person context, early emotional stakes.
+Interaction: Sophie messages player; player must open her thread, choose/send replies, and may give a natural name/handle. Sophie says only the player's contact was ★-starred in Daniel's contacts. No note, no 'after verification' evidence, no Archive content reveal.
+On completion: Persist first-contact and initial knowledge flags. Enable Scene 02 through the normal scene event queue, not a silent player reply.
+Protect: Keep existing Scene 01 dialogue and choices unless needed to repair a true continuity issue.
+
+02 — The Uninvited Guest
+Purpose: Introduce skepticism and interpersonal friction, and add the first unmistakable intrusive external signal.
+Interaction: Preserve the existing Lucas uninvited/confrontational encounter and existing branches; inject one paced UNKNOWN SENDER incoming message at a deterministic valid pause during or after the confrontation, not in a way that interrupts or invalidates any pending Lucas choice. Example tone only (not final canonical dialogue): 'You shouldn't be talking to her.' The player may ignore it, question the sender, or later disclose it to Sophie. No forced disclosure, no identified sender. Ensure Lucas's departure still happens through authored choices, not by skipping his scene.
+On completion: Persist sender_contacted, sender_reply_option, sender_disclosed_to_sophie (if applicable), and Lucas scene-resolution state. Branches reconverge safely into Scene 03.
+Protect: Full Scene 02 dialogue will be supplied for a later pass. DO NOT rewrite existing conversations or invent the missing choice-by-choice script in this pass.
+
+03 — Just Between Us
+Purpose: Sophie privately contextualizes Daniel's relationships and decides how far to trust the player.
+Interaction: Respect the existing private thread and conditional references to Unknown Sender (only if disclosed). Sophie may establish Maya as Daniel's fiancée, Lucas as his old friend, and Eli as a female Axiom colleague if the current authored material does so. Do not expose Daniel's note or The Archive's secret records. Any information withheld by the player remains withheld from Sophie.
+On completion: Create a natural transition to an external/public lead, not an unsupported evidence download.
+Protect: Preserve authored Scene 03 dialogue and choices.
+
+04 — The Public Story
+Purpose: Turn interpersonal mystery into the first testable investigation.
+Interaction: A publicly accessible Greyhaven Bulletin article credited to Nora Vance (consistent with existing canon) is shared/opened through an organic conversation or device Browser; player reads the PUBLIC version. A timed/triggered Unknown Sender hint may allude to version differences, but must not prove access or authorship. The Archive becomes useful here: one limited recovered record or version-index entry is made available after the player has encountered the article. If installation already happened, activate/reveal the record instead of reinstalling the app. Require the player to open/inspect it manually.
+Evidence: Public article as a source with URL/title/date/attribution if existing data provides these; Archive record labeled 'recovered / provenance unverified'.
+On completion: Public version inspected + Archive first record acknowledged. Unlock Scene 05.
+
+05 — An Older Copy
+Purpose: Show that records have versions and that a difference can be examined without asserting the reason.
+Interaction: Player opens The Archive's version history and compares the public article with an older recovered copy, using a human-readable diff with identifiable added/removed sections. Allow manual scrolling, expandable metadata and an evidence-save action. Make it clear the older copy may not be the original.
+Evidence: older_article_copy, comparison_observation, with confidence/source metadata.
+On completion: comparison inspected, not merely app opened. Unlock Scene 06.
+
+06 — The Missing Line
+Purpose: A specific line is absent/changed; turn vague suspicion into a precise question.
+Interaction: Player can tap changed section, view side-by-side context and record an observation. Choices: accidental edit, deliberate omission, or insufficient evidence. All lead forward; classification affects player interpretation, NOT objective proof. Do not identify an editor.
+Evidence: missing_line_diff and player's interpretation, stored separately.
+On completion: missing-line observation recorded. Unlock Scene 07.
+
+07 — The Woman Behind the Byline
+Purpose: Introduce Nora Vance as a person, not a magical verifier.
+Interaction: Player contacts/interviews Nora via a credible route. She can acknowledge authorship/publication practices and explain that printed, cached and archived versions are distinct. She must not know private Archive material until told. Dialogue choices establish cooperation/skepticism without hard-locking progression.
+Evidence: Nora testimony separately labeled 'testimony', not an authenticated original.
+On completion: Nora contact established + path to the copy she kept. Unlock Scene 08.
+
+08 — The Page She Kept
+Purpose: Introduce an independently retained comparison source.
+Interaction: Nora provides or describes a page, screenshot, clipping or retained draft only if that matches assets/source chronology. Player manually views it; UI identifies what Nora claims about its origin and what remains unverified. Compare to public and older Archive copy.
+Evidence: nora_retained_page; source: Nora; original status: NOT ESTABLISHED.
+On completion: page viewed/compared. Unlock Scene 09.
+
+09 — Unknown Source
+Purpose: Shift focus from 'what changed' to 'where did the recovered item come from?'
+Interaction: Player inspects available metadata/provenance in The Archive. The system shows missing, inconsistent or unknown source fields. Unknown Sender may intrude again, but the sender's identity is NOT proven by a source label. Player can flag source uncertainty and seek a second independent corroboration.
+Evidence: provenance_gap/source_trace, with unknown fields explicitly represented as UNKNOWN, not guessed.
+On completion: provenance limitation acknowledged. Unlock Scene 10.
+
+10 — A Life in Fragments
+Purpose: Humanize Daniel through partial recovery without presenting his complete phone or live correspondence.
+Interaction: Player explores a curated subset of Recovered Device Snapshot objects (e.g., fragment previews of files/notes/photos/history only where corresponding assets exist), each with visible timestamps and uncertainty labels. Avoid claiming full access to PHONE MIRROR or SPY MODE. Player chooses order and may note personal/contextual clues; one core clue must remain attainable on every route.
+Evidence: fragment bundle, each artifact with provenance/read status.
+On completion: inspect mandatory core fragment(s), optional artifacts may remain open. Unlock Scene 11.
+
+11 — Fourteen / Thirteen
+Purpose: Reveal a measurable index/count inconsistency, not a complete solution.
+Interaction: An index or entry list suggests fourteen positions versus thirteen visible items. The reference '7-14' can appear as a contested link or shared reference, but the game must avoid claiming that this alone proves a deliberate deletion or the same event as the article difference. UI shows count/positions plainly and lets player compare records.
+Evidence: index_count_discrepancy, reference_7_14 (if actually discovered), with tentative relations only.
+On completion: count verified from displayed evidence; player may choose interpretation without locking route. Unlock Scene 12.
+
+12 — The Technician's Warning
+Purpose: Explain technical limits and create tension about corrupt/reconstructed data.
+Interaction: Eli Ward, a female Axiom Recovery colleague, gives a plain-language caution about incomplete recovery, copied metadata, field corruption, and false confidence. She must not automatically know the player's private files or see them remotely. Show damaged field(s) only if legitimately recovered, including E—I if already canonical; do NOT resolve it to Eli. Technical exposition should be concise and playable.
+Evidence: technical_limitations, partial_field_trace as uncertain.
+On completion: warning heard/acknowledged. Unlock Scene 13.
+
+13 — The Woman He Loved
+Purpose: Bring Maya Chen's personal relationship with Daniel into focus; testimony adds nuance, not an automatic solution.
+Interaction: Maya's conversation centers on her relationship with Daniel and one emotionally meaningful discrepancy or withheld detail, following existing authored canon. Player may share limited selected findings, ask carefully, or refrain. Maya cannot infer unshared Archive findings.
+Evidence: Maya testimony; potentially a new lead, not proven alteration.
+On completion: Maya scene completes regardless of trust choice. Unlock Scene 14.
+
+14 — The Friend Who Walked Away
+Purpose: Recontextualize Lucas's skepticism and the history between Lucas and Daniel.
+Interaction: Lucas's private perspective explains distance/conflict, or refusal to speak fully, without establishing his guilt. Previous Scene 02 treatment/disclosure may affect tone. He may have access to an earlier copy or know about one, but that possession is NOT proved until it is shown/authenticated. Avoid forced reconciliation.
+Evidence: Lucas testimony and possible_original_copy_lead (a lead only).
+On completion: even refusal/defensiveness has a safe alternate path; unlock Scene 15.
+
+15 — After Verification
+Purpose: Present the strongest but still incomplete recovered claim about timing.
+Interaction: The player discovers/opens the recovered note/fragment stating 'One entry was removed after verification, not before.' Preserve its damaged signature/data-lost footer and partial reconstruction confidence if supported by existing assets. Let the player highlight/select 'after verification', examine links, and compare with index evidence. Do not treat the statement's authorship, truth, or mechanism as already confirmed.
+Evidence: post_verification_claim with reconstruction source/confidence, distinct from objective proof.
+On completion: claim inspected and correctly flagged as an unverified recovered statement. Unlock Scene 16.
+
+16 — A Request for the Original
+Purpose: Distinguish requests for originals from claims that a copy is original.
+Interaction: Player can ask Maya, Nora or Lucas through an already established and plausible route for the earliest/original file. If existing canon says Maya relays that Lucas might have an earlier copy, preserve it as an attributed lead; the actual object's provenance and date remain unverified. Player chooses whom to ask and how much to disclose. Any response/no-response must not soft-lock the game.
+Evidence: original_requested, response_state, lead_source; no original_verified flag unless authentic proof actually exists.
+On completion: request sent or credible route exhausted, regardless of immediate reply. Unlock Scene 17.
+
+17 — What We Can Prove
+Purpose: Let the player actively separate facts, reports, unknowns and hypotheses.
+Interaction: Interactive evidence board/checklist. Distinguish (A) verified observations of differences/counts from the displayed records; (B) testimony/recovered claims; (C) provenance gaps; (D) interpretations not yet established. Player makes an explicit conclusion such as 'some versions differ; source and actor remain unproven.' Prevent selectable choices that magically establish identities/guilt. No single romance/trust score is a gate.
+Evidence: chapter_1_reasoned_summary plus player interpretation choices.
+On completion: required findings considered; unlock Scene 18.
+
+18 — The Role Still Active
+Purpose: Chapter 1 cliffhanger; the system may still have capability to change/correct records.
+Interaction: The Archive exposes a narrowly scoped trace/status, e.g. 'CORRECTION ROLE: ACTIVE' and 'OPERATOR: UNVERIFIED' only if consistent with established record vocabulary. This is evidence that a role may still be active, NOT proof of who controls it, when it was used, why, or its link to Daniel. Give a natural final choice/reaction and a deliberate 'End Chapter' action.
+Evidence: role_active_trace, provenance/operator unresolved.
+On completion: Chapter 1 end-state persists, Chapter 2 becomes available (THE PEOPLE HE LEFT BEHIND), without auto-playing Chapter 2 or erasing Chapter 1 evidence/relationships.
+
+PLAYER EXPERIENCE / INTERACTION REQUIREMENTS
+- Messages must feel like people texting, not bots: different typing rhythms, credible pauses, no instant uninterrupted NPC wall-of-text. In multi-person chat, every sender has separate typing status and plausible sequencing. All player messages require explicit tap/choice/submit; no spontaneous self-authored player replies.
+- Keep scroll near bottom only if player was already near bottom. If reading earlier messages, do not yank them down; provide unread/new-message affordance. On opening a thread, show the latest relevant message without demanding repeated manual scrolling to continue.
+- All crucial attachments, article views, version diffs, Archive records and evidence decisions open on a user action. Keep a functional back path to the conversation/home; state should survive navigation and reload.
+- Use the existing visual language; no bright yellow highlight overlays on ordinary messages, excessive duplicated profile photos, or intrusive oversized 'Open FIND DANIEL' CTAs. Preserve existing design resources/assets.
+- Chapter/act reveal should be concise, readable and skippable/replay-safe; do not stall on every scene with redundant title cards.
+- Notifications should never reveal hidden content before its prerequisite event. Avoid stacking 10 notifications at once.
+- Archive can be revisited; evidence read flags should be idempotent. Present metadata such as SOURCE: UNKNOWN, COPY TYPE: RECOVERED, VERIFIED: NO, where supported, with clear player-facing wording.
+- No dependency on external network, real hacking, user-device permissions, or server access for story functionality. All recovery and installation events are simulated game mechanics.
+
+TECHNICAL IMPLEMENTATION STRATEGY
+A. First inventory the repository: scene files/IDs, dialogue graph, act/chapter registry, event queue, delay scheduler, routes, app registry, recovered data components, evidence and timeline, relationship/knowledge store, save schema and tests. Read existing content before replacing anything. Write a concise implementation map.
+B. Define a SINGLE ordered typed Chapter 1 scene registry: 18 stable scene IDs and immutable display titles/act assignments. Preserve old IDs wherever possible; if necessary, introduce explicit aliases/migrations instead of silently renumbering saves. Do not add duplicate story triggers.
+C. Add a small, testable scene completion gate for each scene with visible prerequisite checks. Avoid scene transitions solely because a component rendered. Progression should occur after relevant player interaction (read/choice/save evidence) and never deadlock on optional dialogue, a refusal, an unavailable asset, or notification order.
+D. Model the Archive lifecycle explicitly using existing systems, e.g. installed_dormant -> first_record_available -> investigation_active. Keep historical installation behavior compatible. Opening it before Scene 04 must not leak investigative records; after Scene 04, previously found records stay readable.
+E. Add version-comparison, evidence classification, provenance flags and manual view acknowledgements using existing UI components. Build new UI only where necessary and compatible. Keep public article, recovered older copy, Nora's retained page, post-verification note and role trace as distinct evidence objects with different source/confidence statuses.
+F. Preserve relationship values, character-knowledge boundaries, all choices (including refuse/ignore/disclose), timers, unread status and events through save/load. Follow the existing save schema version and migration convention; do not blindly reset or hardcode version numbers. Do not leak future findings into old saves.
+G. Use deterministic timing/event ordering in tests. If timers exist, fake timers for tests; no flaky real-time waits. If an event is scheduled twice due to reopen/save-load, deduplicate by stable event ID.
+H. Keep Chapter 2 continuation intact: chapter_01_complete is the only intended transition gate; Chapter 2 content and history must not be silently overwritten. If an older route starts Chapter 2 in the wrong place, repair gating with backwards-compatible handling.
+I. Do not fabricate missing image/audio assets. Respect existing asset references; render accessible fallbacks when an asset is absent.
+J. No new major feature such as live spy access, full remote device unlock, background OS hooks, romance-only clues or a definitive culprit reveal.
+
+REQUIRED STATE / DATA (MAP TO EXISTING SCHEMA; DO NOT DUPLICATE)
+- chapter_1: current_scene_id, unlocked_scene_ids, completed_scene_ids, act_id, chapter_complete.
+- unknown_sender: first_contact_seen, reply_branch, disclosed_to_sophie, identity_unverified.
+- contacts: Sophie/Lucas/Maya/Eli/Nora introduced flags and any existing trust/affinity/suspicion values; every NPC gets separately tracked knowledge.
+- archive: installed/available/active lifecycle, available_record_ids, inspected_record_ids, version_compare_completed.
+- player_knowledge: evidence read/viewed, what conclusions the player actually chose, requested original, share receipts.
+- evidence: stable ID, artifact type, found_at_scene, displayed content/ref, claimed source, evidence source class, provenance status, confidence if known, player_inspected flag, and support/contradiction links where necessary.
+- event queue: stable IDs for scene transitions, message arrivals, attachment unlocks, notification delivery.
+IMPORTANT: The list above is conceptual. Reuse the project's existing types/stores where possible, avoiding parallel conflicting truth sources or double-written counters.
+
+TESTS / ACCEPTANCE CRITERIA
+1. Fresh new game can complete Scenes 01 through 18 in order without an impossible gate, soft-lock or hidden auto-response.
+2. Existing Scenes 01–03 dialogue and Lucas choices survive. Unknown Sender occurs in Scene 02 exactly once per new run; it cannot pre-empt Lucas's pending choice. Scene 03 reacts to disclosure only if it occurred.
+3. Sophie gives ONLY the ★-starred contact lead in Scenes 01–03; the post-verification note appears no earlier than Scene 15.
+4. Archive may show a previously installed icon early, but the first usable investigation record is only unlocked in Scene 04. Public article must be encountered before related recovered evidence becomes actionable.
+5. Scene 05's older copy is NOT presented as an authenticated original. Scene 08's retained page is separately attributed to Nora. Scene 09 'unknown source' never identifies Unknown Sender.
+6. Scene 11 index discrepancy is visible and examinable; it does not auto-assign a culprit or equate unrelated record changes.
+7. Eli is female; E—I remains unresolved. Maya, Lucas, Nora and Sophie do not gain information the player has not disclosed.
+8. Ignore/refuse/defensive/cooperative choices converge and permit completion, with meaningful local relationship/knowledge consequences but no blocked core evidence.
+9. Save/load at mid-chat, mid-diff, after Scene 04 activation, after Scene 11 and before Scene 18 preserves pending choices, read flags and exact scene progression; reloading triggers no duplicate sender message.
+10. Clicking back, reopening Archive, navigating apps and repeated taps do not duplicate evidence/events or skip scenes.
+11. Evidence-board conclusion only labels supported observations as observed/proven; testimony and recovered claims remain attributed; culprit, Daniel's fate, original file and sender identity remain unresolved.
+12. Scene 18 ends with an ACTIVE ROLE / UNVERIFIED OPERATOR cliffhanger and a manual finish action, unlocking Chapter 2 without auto-launching it.
+13. Run available unit tests, lint, type-check and production build. Report command/results truthfully; if a command cannot run, state exactly why instead of claiming PASS.
+14. Include tests for data migrations and existing completed save states. No destructive reset of existing users' progress.
+
+EXPECTED DELIVERABLES FROM CODEX
+- Brief audit table: present Chapter 1 scene structure, missing components, conflicting legacy triggers.
+- Changed-files list and implementation summary with explicit scene-to-file mapping.
+- Playable, typed 18-scene Chapter 1 structural flow; minimal preservation edits to Scenes 01–03.
+- Working Archive activation in Scene 04, the subsequent investigation interactions, evidence/knowledge state and Chapter 1 end gate.
+- Tests and their exact results; enumerate untested runtime/UI behavior.
+- A concise list of provisional dialogue or missing assets for Scenes 04–18 and any unfinished Scene 02 text; DO NOT mark them final.
+- Explicit note that full Scene 02 conversation is awaiting author review; keep IDs stable for subsequent replacement.
+
+WORK PROCESS
+Proceed in order: AUDIT -> IMPLEMENT MINIMAL SAFE CHANGES -> TEST -> REPORT. Do not ask the user to re-explain these 18 scenes. If important implementation ambiguities remain, choose the interpretation that preserves existing hand-written content, player agency, saved games and mystery integrity; document it. Make best effort to complete code changes in this working session, rather than stopping at a prose plan.
+
+FINAL REMINDER
+These are the authoritative scene titles and their exact order. No renaming, rearranging, merging or silently omitting any of the 18 scenes. Full Scene 02 dialogue will arrive in a later separate review, so do not overwrite it now.

@@ -1,0 +1,889 @@
+# THE ARCHIVE
+## CHAPTER 1 — THE MISSING ENTRY
+### ACT I — THE STRANGER
+### SCENE 03 — JUST BETWEEN US
+
+**Script:** Final full interactive screenplay · Scene 03 only · English dialogue and English implementation notes  
+**Genre / pacing:** Intimate slow-burn mystery; understated grief, vulnerable humor, growing uncertainty  
+**Main choices:** `OPEN-S03-C01`–`OPEN-S03-C19` (19 choices, 10 optional ★ extended choices)  
+**Additional interaction:** `OPEN-S03-SENDER-DISCLOSURE` and optional sender follow-ups  
+**Entry:** Scene 02 ends with Lucas leaving FIND DANIEL. One Sophie notification occurs after the existing 5.5-second handoff. Player must open her private thread.  
+**Exit:** Sophie gives a *promise of a public article*, not the article itself. Scene 04 starts later when Sophie sends the article and the player opens it.
+
+> **IN-GAME LANGUAGE:** All messages and player response options are English. `SYSTEM`, `CONVERGE`, pause and typing instructions are non-dialogue directions for the runtime.
+>
+> **REPLY CONTRACT:** `PLAYER` text never sends automatically. Each selectable response and each additional player follow-up requires a tap and a separate Send. A branch rejoins its `CONVERGE` once; no duplicated bubbles or relationship effects.
+>
+> **KNOWLEDGE RULE:** Everything Sophie says about others is her own testimony, not independent proof. Characters cannot magically know the Unknown Number message; Sophie learns it *only* from deliberate player disclosure. No evidence, article contents or original Archive record is unlocked here.
+
+## DIRECTOR'S NOTES
+- Slow-burn does not mean padding. Leave room for a memory, a joke, a silence and a choice to land; no machine-like flood of all three at once.
+- Sophie reveals **Daniel is her older brother** because intimacy has been earned, not as an exposition dump. His ruined birthday cake and “I'll explain later” habit make the absence personal.
+- Maya Chen is **Daniel's fiancée**, Lucas Grey is Daniel's childhood friend, Eli Ward is a **woman** and technical colleague at Axiom Recovery. This scene introduces their human roles but does not pre-judge them.
+- Optional sender disclosure is available ONLY if player actually opened the private message request. If not, Sophie never mentions it. If player shares it, she knows what the player quotes, NOT the sender's identity.
+- Keep **Nora Vance**, the article's byline and contents, the older copy and recovered records for Scene 04–07. Scene 03 has only Sophie's mention of a public article; the link is deliberately withheld until the next scene.
+- Sophie can be wrong about events, but she is not written as lying by default. Lucas does not become a villain simply by leaving the group; Maya's deleted draft does not become an incriminating file.
+- No romantic foreshadowing with Sophie is implied by a warm conversation. Affinity changes measure rapport, not consent or romance.
+- If Sophie does not know player name from Scene 01, use no [PLAYER_NAME] substitutions in her dialogue. Future conditional address only if knowledge flag true.
+
+---
+
+## HANDOFF — one private notification
+*[After Scene 02 end event, 5.5s or existing stable delay. Notification only once.]*
+
+**NOTIFICATION — Sophie:** Hey. You got a minute?
+
+*[Player must tap or open Messages → Sophie. No automatic navigation. If Scene 02's C13-D deferred the private talk, keep this notification non-urgent and never force-opening it. The thread retains exactly one initial incoming message; the opened thread does not duplicate the notification.]*
+
+## OPENING — After the group
+*[Screen: Sophie private thread. The previous Scene 01 messages remain visible in history. Entering resumes at the first unopened message.]*
+
+**SOPHIE:** Hey.
+
+*[Pause 1.2s; she types, pauses, then sends.]*
+
+**SOPHIE:** I'm sorry about earlier.
+
+**SOPHIE:** Not because Lucas disagreed with me.
+
+**SOPHIE:** I knew he would.
+
+*[1.9s]*
+
+**SOPHIE:** Because I put you in the middle of it.
+
+*[Pause 2.4s]*
+
+**SOPHIE:** I could actually feel myself making it worse and somehow kept talking.
+
+**SOPHIE:** Impressive, really.
+
+### CHOICE OPEN-S03-C01 — Setting the tone
+A. **PLAYER:** That was a lot for a first meeting.
+   - **SOPHIE:** Yeah.
+   - **SOPHIE:** We usually try to save the group meltdown for the second meeting.
+   - **SOPHIE:** Sorry. Bad joke.
+B. **PLAYER:** You don't have to apologize for everyone.
+   - **SOPHIE:** Maybe not.
+   - **SOPHIE:** But I do have to own the part that was mine.
+   - *[Effect: Sophie trust +1]*
+C. **PLAYER:** Lucas made it clear he doesn't trust me.
+   - **SOPHIE:** He doesn't.
+   - **SOPHIE:** He doesn't know you. And he's scared.
+   - **SOPHIE:** I'm not asking you to excuse how he spoke to you.
+D. **PLAYER:** I still don't really understand why you invited me.
+   - **SOPHIE:** That's fair.
+   - **SOPHIE:** I've been explaining everything except the part that matters.
+E. ★ **PLAYER:** You asked me to trust you with a lot, without telling me much about yourself.
+   - *[2.7s]*
+   - **SOPHIE:** You're right.
+   - **SOPHIE:** I've been so focused on the number I forgot there's a person on the other end of it.
+   - **SOPHIE:** Let me do this properly.
+   - *[Effect: Sophie trust +2]*
+
+**CONVERGE**
+
+**SOPHIE:** There's something I should've told you before I invited you.
+
+**SOPHIE:** Daniel isn't just someone I'm trying to find.
+
+*[3.0s]*
+
+**SOPHIE:** He's my brother.
+
+**SOPHIE:** My older brother.
+
+*[2.0s]*
+
+**SOPHIE:** That's why I couldn't leave the contact list alone.
+
+*[Pause 2.0s]*
+
+**SOPHIE:** I wasn't trying to trick you into joining us.
+
+**SOPHIE:** I just kept thinking: what if this is the one person I don't ask?
+
+### CHOICE OPEN-S03-C02 — A brother, not a case
+A. **PLAYER:** Daniel is your brother?
+   - **SOPHIE:** Yeah.
+   - **SOPHIE:** I should've led with that.
+B. **PLAYER:** That makes more sense now.
+   - **SOPHIE:** I thought it might.
+   - **SOPHIE:** It doesn't make inviting you without asking the others right, though.
+C. **PLAYER:** Why didn't you say so before?
+   - **SOPHIE:** I didn't know if I should tell a stranger that much.
+   - **SOPHIE:** Then I asked the same stranger to join our group.
+   - **SOPHIE:** So yes. Not my most consistent thinking.
+D. **PLAYER:** I'm sorry you're going through this.
+   - *[2.2s]*
+   - **SOPHIE:** Thanks.
+   - **SOPHIE:** I don't really know what to say when people say that.
+
+**CONVERGE**
+
+**SOPHIE:** It's funny.
+
+**SOPHIE:** I've spent so much time saying his name lately.
+
+**SOPHIE:** Daniel did this. Daniel said that. Has anyone heard from Daniel?
+
+*[2.1s]*
+
+**SOPHIE:** I haven't told you what he's actually like.
+
+*[Sophie begins typing. Stops; 2.0s pass.]*
+
+**SOPHIE:** Which is a strange thing to realise when he's the person I've known longest.
+
+### CHOICE OPEN-S03-C03 — Who Daniel is to Sophie
+A. **PLAYER:** Tell me about him.
+   - **SOPHIE:** That's a harder question than it should be.
+   - **SOPHIE:** He's thoughtful. And unbelievably annoying.
+B. **PLAYER:** Are you two close?
+   - **SOPHIE:** Close enough to know exactly how to get on each other's nerves.
+   - **SOPHIE:** And close enough to know when something's wrong.
+C. **PLAYER:** Does he disappear sometimes?
+   - **SOPHIE:** He gets caught up in work.
+   - **SOPHIE:** But he normally lets somebody know he's alright.
+   - **SOPHIE:** This is different.
+D. **PLAYER:** What was the last normal thing you two did?
+   - *[2.4s]*
+   - **SOPHIE:** We argued over whether you can call instant coffee 'coffee'.
+   - **SOPHIE:** I was right. Obviously.
+E. ★ **PLAYER:** Forget what might have happened for a minute. What's the first thing you think of when you think of your brother?
+   - *[3.4s]*
+   - **SOPHIE:** His keys.
+   - **SOPHIE:** He remembers things you said years ago, but he loses his keys three times a week.
+   - **SOPHIE:** Last Christmas he called me to ask if I'd seen them.
+   - **SOPHIE:** I live across town.
+   - **PLAYER (extra tap + Send):** Did you have them?
+   - **SOPHIE:** ...yes.
+   - **SOPHIE:** Don't ask.
+   - *[Effect: Sophie affinity +2, trust +1]*
+
+**CONVERGE**
+
+**SOPHIE:** He'll spend an entire afternoon fixing something that would've been cheaper to replace.
+
+**SOPHIE:** Then he'll act offended if you suggest it was a waste of time.
+
+**SOPHIE:** It's not always easy being his sister.
+
+**SOPHIE:** But it is very rarely boring.
+
+### CHOICE OPEN-S03-C04 — Small details
+A. **PLAYER:** He sounds stubborn.
+   - **SOPHIE:** Incredibly.
+   - **SOPHIE:** He'd give you a twenty-minute lecture on why he isn't.
+B. **PLAYER:** Sounds like you two tease each other a lot.
+   - **SOPHIE:** Relentlessly.
+   - **SOPHIE:** It's basically our family language.
+C. **PLAYER:** Is he good with computers?
+   - **SOPHIE:** He likes figuring out how things work.
+   - **SOPHIE:** Which doesn't mean everything he touches survives.
+D. **PLAYER:** You really miss him.
+   - *[2.7s]*
+   - **SOPHIE:** Yeah.
+   - **SOPHIE:** It's strange what you end up missing.
+   - *[Effect: Sophie trust +1]*
+
+**CONVERGE**
+
+**SOPHIE:** And whenever he gets busy, he says the same thing.
+
+**SOPHIE:** “I'll explain later.”
+
+**SOPHIE:** It's become a joke between us.
+
+*[3.0s]*
+
+**SOPHIE:** It used to be funny.
+
+*[Typing appears for 1.8s, vanishes; pause 2.4s.]*
+
+**SOPHIE:** Sorry. That sounds more dramatic than I meant it to.
+
+**SOPHIE:** I was going to tell you a better story.
+
+**SOPHIE:** One year he told me he couldn't make it to my birthday.
+
+**SOPHIE:** He said he was working late.
+
+**SOPHIE:** I was furious.
+
+**SOPHIE:** Then he turned up after dinner with a cake.
+
+**SOPHIE:** The icing had slid to one side.
+
+**SOPHIE:** Half of “Happy Birthday” was stuck to the inside of the box.
+
+**SOPHIE:** He looked so proud of it. 😭
+
+*[Pause 1.6s]*
+
+**SOPHIE:** The cake was leaning. Somehow *he* was the one acting offended when I laughed.
+
+### CHOICE OPEN-S03-C05 — The ruined cake
+A. **PLAYER:** It's the thought that counts.
+   - **SOPHIE:** That's exactly what he said!
+   - **SOPHIE:** I swear he practised that line in the car.
+B. **PLAYER:** Please tell me you have a picture.
+   - **SOPHIE:** Somewhere, yes.
+   - **SOPHIE:** I should try to find it.
+C. **PLAYER:** That's kind of sweet.
+   - **SOPHIE:** It was.
+   - **SOPHIE:** I refused to let him know that for at least ten minutes.
+D. **PLAYER:** Did you forgive him?
+   - **SOPHIE:** Eventually.
+   - **SOPHIE:** After making him explain why the cake looked like it had survived a car accident.
+
+**CONVERGE**
+
+*[4.0s]*
+
+**SOPHIE:** That's the part I keep thinking about.
+
+**SOPHIE:** Daniel always turned up eventually.
+
+**SOPHIE:** Late, usually. With a terrible excuse.
+
+**SOPHIE:** But he turned up.
+
+*[2.2s]*
+
+**SOPHIE:** And now I can't get him to answer one message.
+
+*[Sophie typing appears for 2.6s, then stops without sending. Leave a full 3.4s of silence. No ominous music sting.]*
+
+**SOPHIE:** Sorry.
+
+**SOPHIE:** You didn't come here to be sad with me.
+
+### CHOICE OPEN-S03-C06 — The disappearance
+A. **PLAYER:** How long has it been?
+   - **SOPHIE:** A few days without a proper answer.
+   - **SOPHIE:** I keep counting them like it'll change something.
+B. **PLAYER:** Has anyone reported him missing?
+   - **SOPHIE:** Yes. We reported it.
+   - **SOPHIE:** I know this group isn't a substitute for that.
+C. **PLAYER:** Could he have left on purpose?
+   - *[3.0s]*
+   - **SOPHIE:** I think about that a lot.
+   - **SOPHIE:** I don't have a good answer.
+   - **SOPHIE:** I wish I could tell you it's impossible.
+D. **PLAYER:** When did you last hear from him?
+   - **SOPHIE:** I have a message from him.
+   - **SOPHIE:** But I can't tell you it was the last message he sent anyone.
+E. ★ **PLAYER:** What was the first moment you stopped thinking he was just busy?
+   - *[3.1s]*
+   - **SOPHIE:** There wasn't one big moment.
+   - **SOPHIE:** I sent him something stupid. A picture of a burnt piece of toast.
+   - **SOPHIE:** He would've made fun of me for days.
+   - **SOPHIE:** He didn't answer.
+   - **SOPHIE:** Then he didn't answer the next thing, either.
+   - *[2.4s]*
+   - **SOPHIE:** That's when I started checking my phone every time it moved.
+   - *[Effect: Sophie trust +3]*
+
+**CONVERGE**
+
+**SOPHIE:** I've been rereading our last chat.
+
+**SOPHIE:** I know it isn't going to grow a new message if I stare long enough.
+
+*[2.2s]*
+
+**SOPHIE:** Doesn't stop me.
+
+**SOPHIE:** I still know where the conversation ends. Every time I open it.
+
+*[Pause 2.5s]*
+
+**SOPHIE:** I keep expecting to be wrong.
+
+### CHOICE OPEN-S03-C07 — Last conversation
+A. **PLAYER:** What did he say?
+   - **SOPHIE:** Nothing dramatic.
+   - **SOPHIE:** Normal things. That's almost worse.
+B. **PLAYER:** Maybe you missed something.
+   - **SOPHIE:** Maybe.
+   - **SOPHIE:** After the twentieth reread, even “see you later” starts looking like a clue.
+C. **PLAYER:** It probably makes him feel close for a minute.
+   - *[2.4s]*
+   - **SOPHIE:** Yeah.
+   - **SOPHIE:** Like we're still in the middle of a conversation.
+   - *[Effect: Sophie affinity +1]*
+D. **PLAYER:** You don't have to tell me what he wrote.
+   - **SOPHIE:** Thank you.
+   - **SOPHIE:** Maybe another time. When I can look at it without thinking the worst.
+
+**CONVERGE**
+
+**SOPHIE:** There's somebody else I worry about just as much.
+
+**SOPHIE:** Maya.
+
+**SOPHIE:** You met her at a pretty terrible moment.
+
+**SOPHIE:** She's usually the one with a plan.
+
+**SOPHIE:** And a backup plan if the plan goes wrong.
+
+**SOPHIE:** She also remembers to feed the rest of us.
+
+**SOPHIE:** Which probably sounds like a small thing.
+
+**SOPHIE:** Lately it's not.
+
+### CHOICE OPEN-S03-C08 — Maya's relationship to Daniel
+A. **PLAYER:** Why is this so personal for her?
+   - *[2.8s]*
+   - **SOPHIE:** She's Daniel's fiancée.
+   - **SOPHIE:** They were planning a wedding.
+B. **PLAYER:** She seemed to be holding everyone together.
+   - **SOPHIE:** She is.
+   - **SOPHIE:** While dealing with her own nightmare.
+   - **SOPHIE:** Daniel's her fiancé.
+C. **PLAYER:** Is she family?
+   - **SOPHIE:** Nearly.
+   - **SOPHIE:** She and Daniel are engaged.
+   - **SOPHIE:** They were supposed to get married.
+D. **PLAYER:** She sounded worried about you too.
+   - **SOPHIE:** She is.
+   - **SOPHIE:** She's my future sister-in-law, assuming life would stop being cruel for five minutes.
+E. ★ **PLAYER:** She kept everybody else focused. That doesn't mean she wasn't frightened.
+   - *[3.0s]*
+   - **SOPHIE:** No. It doesn't.
+   - **SOPHIE:** She's Daniel's fiancée.
+   - **SOPHIE:** She had wedding ideas saved on her phone last week.
+   - **SOPHIE:** Now she's trying to work out whether he's safe.
+   - **SOPHIE:** I don't think she's had much room to fall apart.
+   - *[Effect: Sophie trust +2]*
+
+**CONVERGE**
+
+**SOPHIE:** Maya Chen.
+
+**SOPHIE:** That's her full name, by the way.
+
+**SOPHIE:** She's frighteningly good at spreadsheets.
+
+**SOPHIE:** Daniel once said dating her was like having an extremely attractive project manager.
+
+*[2.1s]*
+
+**SOPHIE:** He said that in front of her.
+
+**SOPHIE:** He was lucky to survive dinner.
+
+*[Pause 2.0s]*
+
+**SOPHIE:** I can still hear her saying, "I am *not* managing you as a project, Daniel."
+
+**SOPHIE:** He said, "Well, the results speak for themselves."
+
+**SOPHIE:** And she threw a napkin at him.
+
+### CHOICE OPEN-S03-C09 — The woman he loves
+A. **PLAYER:** Did they seem happy together?
+   - **SOPHIE:** As far as I could tell, yes.
+   - **SOPHIE:** I wasn't there for every private conversation, though.
+B. **PLAYER:** She doesn't seem convinced I'm safe.
+   - **SOPHIE:** She doesn't know you.
+   - **SOPHIE:** Right now I think she's trying not to get anything wrong.
+C. **PLAYER:** Do you think she knows something?
+   - **SOPHIE:** She knows things about Daniel that I don't.
+   - **SOPHIE:** That's normal. She's his fiancée.
+   - **SOPHIE:** It doesn't mean she's hiding something terrible.
+D. **PLAYER:** I feel bad for her.
+   - **SOPHIE:** Me too.
+   - **SOPHIE:** I wish she didn't feel she had to look after everyone.
+
+**CONVERGE**
+
+**SOPHIE:** You probably noticed she deleted a message.
+
+**SOPHIE:** In the group.
+
+**SOPHIE:** She's been very strict about not calling guesses facts.
+
+**SOPHIE:** She said she was trying to put a guess into words and couldn't stand behind it.
+
+**SOPHIE:** I only know that because she said it in the chat.
+
+**SOPHIE:** I didn't see what she'd deleted.
+
+### CHOICE OPEN-S03-C10 — Deleted isn't the same as guilty
+A. **PLAYER:** Did you see what it said?
+   - **SOPHIE:** No.
+   - **SOPHIE:** And I won't pretend I did.
+B. **PLAYER:** That could be completely innocent.
+   - **SOPHIE:** It could.
+   - **SOPHIE:** Most deleted messages are just embarrassing drafts.
+C. **PLAYER:** It could still matter.
+   - **SOPHIE:** Yes.
+   - **SOPHIE:** We could ask her later instead of filling in the blank ourselves.
+D. **PLAYER:** I'd rather hear Maya's version directly.
+   - **SOPHIE:** Good.
+   - **SOPHIE:** I think she'd respect that.
+   - *[Effect: Sophie trust +2]*
+
+**CONVERGE**
+
+**SOPHIE:** And Lucas...
+
+*[2.0s]*
+
+**SOPHIE:** Where do I even start with Lucas?
+
+**SOPHIE:** He and Daniel have known each other since they were kids.
+
+**SOPHIE:** Lucas used to come over so often my mum stopped asking if he was staying for dinner.
+
+**SOPHIE:** She just put out another plate.
+
+**SOPHIE:** He'd complain about being treated like family.
+
+**SOPHIE:** Then turn up the next day anyway.
+
+*[Pause 2.0s]*
+
+**SOPHIE:** I don't know when the arguing stopped being the fun kind.
+
+### CHOICE OPEN-S03-C11 — The friend who walked away
+A. **PLAYER:** He sounded very protective.
+   - **SOPHIE:** He is.
+   - **SOPHIE:** His timing needs work. So does his delivery.
+B. **PLAYER:** He acted like I was a criminal.
+   - **SOPHIE:** I know.
+   - **SOPHIE:** I'm not going to ask you to like him after that.
+C. **PLAYER:** He had some fair questions.
+   - **SOPHIE:** He did.
+   - **SOPHIE:** That's what makes arguing with him so exhausting sometimes.
+D. **PLAYER:** Why would he leave the group?
+   - **SOPHIE:** He's scared of saying something he can't take back.
+   - **SOPHIE:** At least, I think that's part of it.
+E. ★ **PLAYER:** It sounded less like he distrusted me personally and more like he's terrified of losing control of the situation.
+   - *[2.9s]*
+   - **SOPHIE:** That sounds like Lucas.
+   - **SOPHIE:** When he's frightened he starts trying to control whatever he still can.
+   - **SOPHIE:** It doesn't excuse him.
+   - **SOPHIE:** But he loves Daniel like a brother.
+   - **SOPHIE:** In his own impossible way.
+   - *[Effect: Sophie trust +2]*
+
+**CONVERGE**
+
+**SOPHIE:** He and Daniel used to fight about music.
+
+**SOPHIE:** And football.
+
+**SOPHIE:** And things neither of them had the slightest idea about.
+
+**SOPHIE:** Then they'd share a pizza an hour later.
+
+*[2.3s]*
+
+**SOPHIE:** I think what's hurting Lucas is that Daniel isn't here for them to argue with.
+
+### CHOICE OPEN-S03-C12 — Will Lucas return?
+A. **PLAYER:** Do you think he'll come back?
+   - **SOPHIE:** I hope so.
+   - **SOPHIE:** He left a chat. I don't think he stopped caring.
+B. **PLAYER:** Give him some time.
+   - **SOPHIE:** Yeah.
+   - **SOPHIE:** Messaging him right now would probably go badly.
+C. **PLAYER:** He should apologise.
+   - **SOPHIE:** Probably.
+   - **SOPHIE:** Just maybe not tonight.
+D. **PLAYER:** Do you trust him?
+   - **SOPHIE:** Yes.
+   - **SOPHIE:** And there are things I disagree with him about.
+   - **SOPHIE:** Both can be true.
+
+**CONVERGE**
+
+**SOPHIE:** There is someone you haven't really met yet.
+
+**SOPHIE:** Eli.
+
+**SOPHIE:** She doesn't usually say much in the group.
+
+**SOPHIE:** Then she'll respond to a question from six hours ago like it was posted five seconds ago.
+
+**SOPHIE:** It's oddly impressive.
+
+**SOPHIE:** She once answered a question two days late with "Technically, no," and nothing else.
+
+**SOPHIE:** We had to ask her which question she meant.
+
+### CHOICE OPEN-S03-C13 — Eli Ward
+A. **PLAYER:** Who is she?
+   - **SOPHIE:** Eli Ward.
+   - **SOPHIE:** She works with Daniel at Axiom Recovery.
+B. **PLAYER:** Why wasn't she there?
+   - **SOPHIE:** I think she's busy.
+   - **SOPHIE:** I don't want to turn someone not opening a chat into another mystery.
+C. **PLAYER:** Is she close to Daniel?
+   - **SOPHIE:** They work together.
+   - **SOPHIE:** I don't know every part of their friendship outside work.
+D. **PLAYER:** What's she like?
+   - **SOPHIE:** Quiet.
+   - **SOPHIE:** Clever. Very exact about things.
+   - **SOPHIE:** The kind of person who can fix your laptop and tell you three ways you broke it.
+E. ★ **PLAYER:** Maybe it's good that someone takes time to think before replying.
+   - **SOPHIE:** It probably is.
+   - **SOPHIE:** Eli doesn't say much until she's sure she has something useful to say.
+   - **SOPHIE:** Then you get a five-paragraph explanation with diagrams.
+   - **PLAYER (extra tap + Send):** Could be useful later.
+   - **SOPHIE:** Definitely.
+   - *[Effect: Sophie affinity +1]*
+
+**CONVERGE**
+
+**SOPHIE:** She knows much more about Daniel's work than I do.
+
+**SOPHIE:** I'm the person who calls tech support and says, “the thing won't do the thing.”
+
+### CHOICE OPEN-S03-C14 — Axiom Recovery
+A. **PLAYER:** What's Axiom Recovery?
+   - **SOPHIE:** Where Daniel works.
+   - **SOPHIE:** They do data recovery and related technical work.
+   - **SOPHIE:** That's about as far as my expertise goes.
+B. **PLAYER:** Did Daniel like his job?
+   - **SOPHIE:** He liked problems he could solve.
+   - **SOPHIE:** Whether he liked every part of the job is another question.
+C. **PLAYER:** Could his work be involved in this?
+   - *[2.8s]*
+   - **SOPHIE:** I don't know.
+   - **SOPHIE:** I've thought about it, of course.
+   - **SOPHIE:** But I don't have evidence for that.
+D. **PLAYER:** Maybe Eli can explain the contact export.
+   - **SOPHIE:** Maybe.
+   - **SOPHIE:** I'll ask her when it makes sense to.
+   - **SOPHIE:** But she might not know just because she works with Daniel.
+
+**CONVERGE**
+
+**SOPHIE:** So that's Maya, Lucas and Eli.
+
+**SOPHIE:** In the least useful introduction tour imaginable.
+
+**SOPHIE:** They have one thing in common.
+
+**SOPHIE:** They want Daniel back.
+
+*[2.5s]*
+
+**SOPHIE:** And they disagree about almost everything else.
+
+**SOPHIE:** I guess that's what happens when you ask five people to be scared in exactly the same way.
+
+### CHOICE OPEN-S03-C15 — Choosing not to choose sides
+A. **PLAYER:** Maya seems the easiest to talk to.
+   - **SOPHIE:** She's good at making people feel heard.
+   - **SOPHIE:** Unless she's very tired. Then the sarcasm comes out.
+B. **PLAYER:** I'm not sure about Lucas.
+   - **SOPHIE:** Fair.
+   - **SOPHIE:** You don't need to decide what you think of him tonight.
+C. **PLAYER:** Eli sounds interesting.
+   - **SOPHIE:** She is.
+   - **SOPHIE:** If you don't mind long gaps between replies.
+D. **PLAYER:** I don't know enough about any of you yet.
+   - **SOPHIE:** Honestly? Good.
+   - **SOPHIE:** Don't take my descriptions as the final word.
+   - *[Effect: Sophie trust +1]*
+
+**CONVERGE**
+
+**SOPHIE:** Including what I say about myself.
+
+**SOPHIE:** I'm not some impartial narrator here.
+
+**SOPHIE:** I'm his sister.
+
+**SOPHIE:** And right now I want anything that might bring him home to mean something.
+
+*[3.0s]*
+
+*[Optional reactivity: if `sophie_knows_player_name=true` from Scene 01, Sophie may type and send one additional personalized sentence: "I'm glad you stayed, [PLAYER_NAME]." Otherwise omit this sentence entirely. Never show the literal placeholder; never expose the player's codename through other NPCs. Only use it once at this beat, not repeatedly.]*
+
+## OPTIONAL INTERLUDE — ONLY if player has opened the Unknown Number message
+*This is an explicit player-initiated disclosure affordance at this safe beat, NOT Sophie's automatic deduction. If `unknown_sender_opened=false`, do not show this interlude; proceed to C16. If opened later, the affordance may remain in a contextual “Mention strange message” option in Sophie's thread until end of Scene 03 or be deferred for future scenes. Do not silently mark it shared.*
+
+**UI — private action:** `TELL SOPHIE ABOUT THE MESSAGE` / `KEEP IT TO YOURSELF`
+
+### OPTIONAL CHOICE `OPEN-S03-SENDER-DISCLOSURE`
+**KEEP IT TO YOURSELF** *(UI action, no player chat message)*
+- *[Keep `unknown_sender_disclosed_to_sophie=false`. No dialogue, no player message, no relationship effects. Continue C16.]*
+
+**TELL SOPHIE ABOUT THE MESSAGE** *(reveals below choices; requires Send)*
+A. **PLAYER:** Something strange happened while we were in the group.
+   - **SOPHIE:** What happened?
+   - **PLAYER (extra tap + Send):** A number I don't know sent me: “You shouldn't be talking to her.”
+B. **PLAYER:** Someone texted me while Lucas was arguing with you.
+   - **SOPHIE:** Who?
+   - **PLAYER (extra tap + Send):** Unknown number. It said: “You shouldn't be talking to her.”
+C. **PLAYER:** I need to show you a message I received.
+   - **SOPHIE:** Okay. I'm listening.
+   - **PLAYER (extra tap + Send):** “You shouldn't be talking to her.” No name. No explanation.
+
+**DISCLOSURE CONVERGE**
+
+*[Sophie typing 2.6s, stops. 3.2s]*
+
+**SOPHIE:** What?
+
+**SOPHIE:** When did that arrive?
+
+**PLAYER — secondary tap choice `OPEN-S03-SENDER-TIMING`:**
+1. **PLAYER:** During the group chat.
+2. **PLAYER:** Around the time everyone was arguing.
+3. **PLAYER:** I only opened it after it arrived. I can't tell you what it means.
+
+**SOPHIE:** Okay.
+
+**SOPHIE:** We don't know who sent it.
+
+**SOPHIE:** Or who “her” is supposed to mean.
+
+*[2.7s]*
+
+**SOPHIE:** Please don't assume it's about me. Or Maya.
+
+**SOPHIE:** And please don't send them anything personal.
+
+**PLAYER — secondary tap choice `OPEN-S03-SENDER-RESPONSE`:**
+1. **PLAYER:** I didn't give them anything.
+   - **SOPHIE:** Good.
+2. **PLAYER:** I replied, but they haven't answered. *[Show only if `unknown_sender_reply` is a sent reply.]*
+   - **SOPHIE:** Then maybe leave it there for now.
+3. **PLAYER:** I didn't reply. *[Show only if `unknown_sender_reply=ignored` or empty.]*
+   - **SOPHIE:** Probably wise.
+4. **PLAYER:** I don't plan to reply again. *[Always available.]*
+   - **SOPHIE:** Okay. Just be careful.
+
+**SOPHIE:** Thanks for telling me.
+
+**SOPHIE:** I don't like it.
+
+*[Pause 2.0s. Her typing indicator starts, stops.]*
+
+**SOPHIE:** I'm trying not to make it about me just because I want to understand it.
+
+**SOPHIE:** But I don't want us inventing an explanation before we know anything.
+
+*[Set `unknown_sender_disclosed_to_sophie=true` and `sophie_knows_unknown_sender_quote=true` only after the quote-bearing Player line was actually sent; apply Sophie trust +1 once. No other NPC knowledge changes, no clue gate. C16 follows.]*
+
+---
+
+## MAINLINE RESUMES — The number that brought them together
+**SOPHIE:** I keep coming back to the number I found.
+
+**SOPHIE:** Your number.
+
+**SOPHIE:** I don't want to turn it into something it isn't.
+
+**SOPHIE:** But I can't make myself ignore it either.
+
+### CHOICE OPEN-S03-C16 — Describe what the record really says
+A. **PLAYER:** Could've been saved by mistake.
+   - **SOPHIE:** It could.
+   - **SOPHIE:** I hope there turns out to be a boring answer.
+B. **PLAYER:** Where exactly was this copy found?
+   - **SOPHIE:** In files we were checking through.
+   - **SOPHIE:** The filename labels it as Daniel's contacts.
+   - **SOPHIE:** I don't know who originally exported it.
+C. **PLAYER:** What if someone else added my number?
+   - **SOPHIE:** That's possible.
+   - **SOPHIE:** The file doesn't tell us who did it.
+D. **PLAYER:** Does the star prove he knew me?
+   - **SOPHIE:** No.
+   - **SOPHIE:** It tells us how that entry appears in the copy I found. Not who put it there.
+E. ★ **PLAYER:** Let's separate what you saw from what you think it means.
+   - *[2.7s]*
+   - **SOPHIE:** Okay.
+   - **SOPHIE:** A file labelled as Daniel's contacts.
+   - **SOPHIE:** Your number, without a name.
+   - **SOPHIE:** One star.
+   - *[2.0s]*
+   - **SOPHIE:** Everything else is something I've been telling myself.
+   - **PLAYER (extra tap + Send):** That's still a place to start.
+   - **SOPHIE:** Yeah. I think it is.
+   - *[Effect: Sophie trust +3]*
+
+**CONVERGE**
+
+**SOPHIE:** I didn't bring you here because I thought you were a detective.
+
+**SOPHIE:** I don't know what you do. You don't have to tell me.
+
+**SOPHIE:** I just thought somebody outside all of this might notice when we're getting ahead of ourselves.
+
+*[2.0s]*
+
+**SOPHIE:** Maybe you've noticed already.
+
+### CHOICE OPEN-S03-C17 — How much to offer
+A. **PLAYER:** I can try to help.
+   - **SOPHIE:** Thank you.
+   - **SOPHIE:** Just don't feel like you have to promise more than that.
+B. **PLAYER:** I'm not a detective, Sophie.
+   - **SOPHIE:** Neither am I.
+   - **SOPHIE:** You've probably noticed. 😅
+C. **PLAYER:** I still don't know if I trust you.
+   - *[2.1s]*
+   - **SOPHIE:** You shouldn't trust me just because I'm worried about somebody.
+   - **SOPHIE:** Take your time.
+D. **PLAYER:** What do you actually want me to do?
+   - **SOPHIE:** Ask questions.
+   - **SOPHIE:** Tell me when something doesn't make sense.
+   - **SOPHIE:** And tell me when we're calling an assumption a fact.
+E. ★ **PLAYER:** I can't promise I'll find Daniel. But I can listen, and I can help you tell an observation from a guess.
+   - *[3.0s]*
+   - **SOPHIE:** ...
+   - **SOPHIE:** That might be exactly what we need.
+   - **SOPHIE:** Somebody who isn't already angry at everyone else.
+   - **PLAYER (extra tap + Send):** Give me time. I might get there.
+   - **SOPHIE:** Please don't. We have enough of that. 😄
+   - *[Effect: Sophie trust +3, affinity +1]*
+
+**CONVERGE**
+
+*[3.0s]*
+
+**SOPHIE:** There's something I haven't shown you yet.
+
+**SOPHIE:** Not a private file or anything.
+
+**SOPHIE:** A public article.
+
+**SOPHIE:** People have been sharing it since Daniel stopped answering.
+
+**SOPHIE:** It talks about him as if it explains everything.
+
+*[2.8s]*
+
+**SOPHIE:** Maybe it does to some people.
+
+**SOPHIE:** It doesn't to me.
+
+**SOPHIE:** I'll find the link when I've had a chance to rest.
+
+**SOPHIE:** I don't think I can talk about it properly tonight.
+
+*[Pause 2.2s]*
+
+**SOPHIE:** And I want you to read it without me telling you what to think first.
+
+*[Do NOT reveal link, Nora Vance byline, article text, recovered file, or Archive UI yet. Scene 04 begins with an intentional later article share/event and requires player to open the public link.]*
+
+### CHOICE OPEN-S03-C18 — Give the conversation somewhere soft to land
+A. **PLAYER:** That's fine. No rush.
+   - **SOPHIE:** Thanks.
+B. **PLAYER:** You should get some sleep.
+   - **SOPHIE:** Now you sound like Maya.
+   - **SOPHIE:** Which, irritatingly, is probably a good thing.
+C. **PLAYER:** I'm glad you told me about Daniel.
+   - *[2.3s]*
+   - **SOPHIE:** Me too.
+   - **SOPHIE:** It's nice to talk about him without making a list of questions.
+D. **PLAYER:** I'll keep an open mind about the article.
+   - **SOPHIE:** That's all I ask.
+   - **SOPHIE:** You don't have to agree with me.
+E. ★ **PLAYER:** I think he'd laugh at how hard you were trying not to worry everybody tonight.
+   - *[3.0s]*
+   - **SOPHIE:** Oh, he'd be unbearable about it.
+   - **SOPHIE:** He'd tell me to eat something and then steal my fries.
+   - **SOPHIE:** ...
+   - **SOPHIE:** I really want him to do that again.
+   - *[Effect: Sophie affinity +2, trust +1]*
+
+**CONVERGE**
+
+**SOPHIE:** I'm going to make tea.
+
+**SOPHIE:** Maybe find something to eat before Maya stages an intervention.
+
+**SOPHIE:** You've been really patient.
+
+*[1.5s]*
+
+**SOPHIE:** You can tell me to stop messaging, by the way.
+
+**SOPHIE:** I'm not always very good at knowing when to leave people alone.
+
+### CHOICE OPEN-S03-C19 — Goodbye is a choice
+A. **PLAYER:** Talk later, Sophie.
+   - **SOPHIE:** Talk later.
+B. **PLAYER:** Thanks for telling me.
+   - **SOPHIE:** Thanks for listening.
+C. **PLAYER:** Get some rest.
+   - **SOPHIE:** I'll try.
+   - **SOPHIE:** No promises I'll be good at it.
+D. **PLAYER:** Take care of yourself.
+   - **SOPHIE:** You too.
+E. ★ **PLAYER:** Only if you promise to actually eat something. Deal?
+   - **SOPHIE:** You're all ganging up on me now.
+   - **PLAYER (extra tap + Send):** It's a very small conspiracy.
+   - **SOPHIE:** Fine. Deal.
+   - *[Effect: Sophie affinity +2]*
+
+**CONVERGE**
+
+*[2.5s]*
+
+**SOPHIE:** Hey.
+
+*[2.0s]*
+
+**SOPHIE:** I'm glad you stayed.
+
+*[Typing appears, disappears; no further bubble for 2.8s.]*
+
+**SOPHIE:** Goodnight.
+
+**SYSTEM:** Sophie is offline.
+
+*[Scene 03 complete. Do not auto-launch Scene 04. Schedule later public-article lead as a normal message or notification, whose open/view action begins Scene 04.]*
+
+## ROUTE TO SCENE 04 — DO NOT PLAY HERE
+
+The scene ends after the final Sophie bubble and offline indicator. On a later authored event, Sophie sends an actual **public article link** into this private thread. The notification preview should contain only her normal message text, not future investigative findings. Player opens the message, chooses to view the article, and only then enters **Scene 04 — THE PUBLIC STORY**. Opening the article is a real player action, not an automated slide or time-gated forced transition. The author for Scene 04 will supply the actual byline, article contents, Archive activation and evidence inspection. There is **no source file or Archive investigation record** attached to this scene.
+
+## SCENE 03 RECEIPTS / KNOWLEDGE
+- Player learns `sophie_is_daniels_sister=true`, `maya_is_daniels_fiancee=true`, `lucas_is_daniels_childhood_friend=true`, `eli_is_female_axiom_colleague=true` from Sophie's testimony, not independently verified evidence.
+- `daniel_disappearance_reported_by_sophie=true`; distinguish concern/report from proven cause.
+- `sophie_knows_unknown_sender_quote=true` **only after explicit disclosure and corresponding Player Send.** Otherwise false even if player saw it or replied.
+- Sophie has NOT seen The Archive, unknown originals, Daniel's missing note or the full article via player disclosure.
+- `scene04_public_article_lead_scheduled=true` after C19, once; `scene04_public_article_lead_delivered` and `scene04_article_opened` are later, distinct player/event states.
+- `scene03_completed=true` only after C19 and closing bubbles complete, not on C19 selection. The Scene 02 notification, Sophie offline event, later article notification and relationship effects are idempotent.
+- `sophie_knows_player_name` is a preexisting private relationship-knowledge flag, not inferred from the player's codename setting. Show her personalized line only if true; never display `[PLAYER_NAME]` literally.
+- Player relationships persist; no forced romance or premium clue gate.
+
+## PACE / PERFORMANCE
+- The emotional peak is **“Daniel always turned up eventually”**, not an explosive reveal. Leave a believable silence before and after it.
+- Maya's engagement reveal deserves one unhurried beat. No sound sting.
+- Avoid repetitive “sorry” ping-pong and repeated reminders to take a breath. Use humor as a break, not to undermine grief.
+- Don't display all 19 choice prompts immediately. They become available only after their preceding dialogue arrives; queue one at a time.
+- Follow-up Player lines within a selected option also require an explicit Send. If the UI supports chained choices, display them as tap-to-send continuations.
+- Distinguish `unknown_sender_arrived`, `unknown_sender_opened`, `unknown_sender_reply` and `unknown_sender_disclosed_to_sophie`. Unread message previews must not count as an open. Player can disclose only the message actually read; the option to share must not make Sophie infer its wording.
+- Never send a message, choose an option, open an app, or share the Unknown Sender message on the player's behalf. Save and load safely from any choice, typing delay, or optional disclosure; no duplicate bubbles on resume.
+- No evidence/relationship stat rewards for accusing Maya, Lucas or Eli. Social choices alter rapport, not facts. All mandatory information is available through non-premium branches.
+
+## FINAL CODEX ACCEPTANCE CHECKLIST
+
+- [ ] Enters from **Scene 02** after the existing 5.5s notification; Scene 03 does not auto-open when the notification arrives.
+- [ ] All **19 main choice IDs** are unique, stable and reachable; every branch converges once.
+- [ ] All ★ premium choices only extend dialogue/rapport; no essential clue is paywalled.
+- [ ] Sophie reveals she is Daniel's sister **here**, not retroactively in Scenes 01 or 02.
+- [ ] Maya's engagement, Lucas's childhood friendship and Eli's female identity are delivered as Sophie's testimony; they do not retroactively alter what others knew in the group.
+- [ ] Sender disclosure can appear only after the player actually opens Unknown Number; choosing Keep it to yourself sends no message and sets no shared-knowledge flag.
+- [ ] A sent sender disclosure updates only **Sophie**, not Maya/Lucas/Eli or the entire group; a sent reply to Unknown Number does not create a fabricated response.
+- [ ] Sophie never supplies a sender identity, a definite "her", the original article, a byline, recovered note, or authenticated evidence.
+- [ ] Player names do not appear in NPC bubbles unless the NPC explicitly learned that name in Scene 01.
+- [ ] Navigation between private messages and group preserves cursors, choice selections, unread status and scroll position.
+- [ ] Return from save/load at any branch or during pauses does not duplicate messages, effects or the later article lead.
+- [ ] Scene 04's **public article** is introduced later with a player open/view action; The Archive records remain locked throughout Scene 03.
+
+**END — SCENE 03 / JUST BETWEEN US**

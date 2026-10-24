@@ -8,7 +8,7 @@ function completed() {
   let s = settleScene(sendScene01Choice(sceneAt('G13'), 'a', '', true, sceneNow(sceneAt('G13'))))
   s = settleScene(openScene03(s, sceneNow(s)))
   for (let i = 0; i < 60; i++) {
-    if (s.prologue!.scene01!.privateScene03?.complete) return s
+    if (s.prologue!.scene01!.privateScene03?.complete) return { ...s, narrativePlan: 'legacy-access' }
     const options = scene01Choices(s)
     s = settleScene(sendScene01Choice(s, options[0].id, '', true, sceneNow(s)))
   }
@@ -52,7 +52,7 @@ for (const app of ['Home','Contacts','The Archive','Messages']) test(`Unknown ar
   await expect(page.getByRole('region', { name: 'UNKNOWN conversation', exact: true })).toHaveCount(0)
   const s = await stored(page)
   expect(s.chapter2Access?.messages).toHaveLength(1)
-  expect(s.prologue!.scene01!.messages.at(-1)?.text).toBe('Goodnight :)')
+  expect(s.prologue!.scene01!.messages.at(-1)?.text).toBe('Goodbye.')
 })
 
 test('Unknown branches, explicit Send, retained decline, consented install, recovery and group readiness', async ({ page }) => {

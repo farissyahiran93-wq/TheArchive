@@ -1,5 +1,7 @@
 # Chapter 2 — reunion, private loyalties and intercepted context
 
+**Current revision:** the owner's subsequent Nora invitation replaces the reunion opening and Scenes 10–15 extend the former endpoint. See [current continuity and implementation](CHAPTER_2_SCENES_10_15.md). The historical Nora-omission and unspecified-recovery notes below describe the earlier implementation.
+
 Owner direction: 22 October 2026. The priority is attachment to FIND DANIEL before suspicion. This replaces the earlier access-arc endpoint at “Can we start?” for new play. Chapter 1 remains unchanged.
 
 ## Playable order

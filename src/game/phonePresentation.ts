@@ -7,12 +7,14 @@ export function phoneNotices(save: GameSave): PhoneNotice[] {
   const scene = save.prologue?.scene01
   if (scene) {
     const incoming: PhoneNotice[] = scene.messages.filter(line => line.sender === 'sophie').map(line => ({ id: line.id, title: scene.introduced ? 'Sophie' : 'Unknown number', text: line.text, thread: 'sophie', avatar: scene.introduced ? 'sophie' : 'unknown' }))
+    for(const line of save.chapter1?.sender.messages??[])if(line.sender==='unknown')incoming.push({id:line.id,title:scene.scriptRevision?'Unknown Number':'Unknown Sender',text:line.text,thread:'unknown',avatar:'unknown'})
+    for(const line of save.messages)if(line.id.startsWith('CH1-')&&line.sender!=='player'&&['nora','eli','maya','lucas'].includes(line.sender))incoming.push({id:line.id,title:names[line.sender],text:line.text,thread:line.sender as PhoneNotice['thread'],avatar:line.sender})
     incoming.push(...scene.groupMessages.filter(line => line.sender !== 'system' && line.sender !== 'player').map(line => ({ id: line.id, title: 'FIND DANIEL', text: `${line.sender[0].toUpperCase() + line.sender.slice(1)}: ${line.text}`, thread: 'group' as const, avatar: line.sender })))
     if (scene.invitation === 'ready' || scene.invitation === 'declined') incoming.push({ id: scene.invitation === 'ready' ? 'OPEN-S01-INVITATION' : 'OPEN-S01-DECLINED', title: 'Sophie', text: 'Group invitation · FIND DANIEL', thread: 'sophie', avatar: 'sophie' })
     for (const line of save.chapter2Access?.messages ?? []) if (line.sender === 'unknown') incoming.push({ id: line.id, title: 'Unknown', text: line.text, thread: 'unknown', avatar: 'unknown' })
     for (const line of save.chapter2Access?.groupMessages ?? []) if(!['system','player'].includes(line.sender)) incoming.push({ id: line.id, title: 'FIND DANIEL', text: `${names[line.sender] ?? line.sender}: ${line.text}`, thread: 'group', avatar: line.sender })
-    for (const n of save.notifications) if (['C2-INTEGRATION','C2-MIRROR-HINT'].includes(n.id)) incoming.push({ id: n.id, title: n.id === 'C2-INTEGRATION' ? 'Messages' : 'THE ARCHIVE', text: n.text, thread: n.id === 'C2-INTEGRATION' ? 'alerts' : 'archive', avatar: 'unknown' })
-    for(const who of ['maya','eli','sophie'] as const)for(const line of save.chapter2Access?.story?.privateMessages[who]??[])if(line.sender===who)incoming.push({id:line.id,title:names[who],text:line.text,thread:who,avatar:who})
+    for (const n of save.notifications) if (['scene04_archive_index_available','C2-INTEGRATION','C2-MIRROR-HINT','C2S11_AVAILABLE','C2S13_RECOVERY_READY'].includes(n.id)) incoming.push({ id: n.id, title: n.id === 'C2-INTEGRATION' ? 'Messages' : 'THE ARCHIVE', text: n.text, thread: n.id === 'C2-INTEGRATION' ? 'alerts' : 'archive', avatar: 'unknown' })
+    for(const who of ['maya','eli','sophie','lucas','nora'] as const)for(const line of save.chapter2Access?.story?.privateMessages[who]??[])if(line.sender===who)incoming.push({id:line.id,title:names[who],text:line.text,thread:who,avatar:who})
     for(const id of ['eli-lucas','maya-lucas'] as const){const notice=save.notifications.find(n=>n.id===(id==='eli-lucas'?'C2-SPY-ELI-UNLOCK':'C2-SPY-MAYA-UNLOCK'));if(notice)incoming.push({id:notice.id,title:'SPY · READ ONLY',text:notice.text,thread:id,avatar:'unknown'})}
     return incoming
   }
@@ -29,10 +31,12 @@ export function phoneNotices(save: GameSave): PhoneNotice[] {
 export function openingPresence(save: GameSave, person: string): 'online' | 'offline' {
   const presence=save.chapter2Access?.story?.presence
   if(presence && Object.hasOwn(presence,person))return presence[person as 'maya']?'online':'offline'
+  if(person==='sophie'&&!save.chapter2Access&&save.pendingEvents.some(e=>['CH1-SENDER-SOPHIE','CH1-ELI-INTRO','CH1-S04-LEAD','CH1-S04-FOLLOWUP'].includes(e.id)))return 'online'
   const opening = save.prologue
   if (!opening) return 'offline'
   if (opening.scene01) {
     if (save.chapter2Access?.groupMessages.some(m => m.sender === person)) return 'online'
+    if (person === 'sophie' && !!save.chapter1?.publicStory?.reading && !save.chapter1.publicStory.complete && !['OPEN-S04-ARCHIVE-GATE','OPEN-S04-FOLLOWUP-WAIT','OPEN-S04-C10','OPEN-S04-C11','OPEN-S04-INDEX-ACK','OPEN-S04-RETURN-DEVICE'].includes(opening.scene01.nodeId)) return 'online'
     if (person === 'sophie' && opening.scene01.privateScene03?.complete) return 'offline'
     if (person === 'sophie' && opening.scene01.privateHandoff?.deliveredAt !== undefined) return 'online'
     if (opening.scene01.groupScript && ['sophie','maya','lucas'].includes(person)) return opening.scene01.groupPresence?.[person as 'sophie'] ? 'online' : 'offline'

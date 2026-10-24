@@ -44,7 +44,7 @@ describe('archived v4 compatibility and current first-contact timer', () => {
     expect(dueEvent(state, 20_999)).toBe(state)
     state = dueEvent(state, 21_000)
     expect(state.prologue?.dialogueVersion).toBe(4)
-    expect(state.notifications).toEqual([{ id: 'OPEN-S01-OPENING-1', text: 'Unknown number: Hey', read: false }])
+    expect(state.notifications).toEqual([{ id: 'OPEN-S01-FINAL-OPENING-1', text: 'Unknown number: Hi.', read: false }])
     expect(dueEvent(state, 25_000)).toBe(state)
     expect(state.prologue?.scene01?.messages).toHaveLength(1)
   })

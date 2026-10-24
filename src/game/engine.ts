@@ -1,6 +1,7 @@
+import { validateChapter1 } from './chapter1'
 import { mirrorConnections, mirrorEntry, mirrorPairKey, recoverySources } from '../content/mirror'
 import { validateAccessState } from './chapter2Access'
-import { scene01Nodes } from '../content/scene01'
+import { actINodes } from '../content/actIRegistry'
 import { beginOpening, deliverPhoneOpeningEvent } from './opening'
 import { fixtureChoices, fixtureLine, type FixtureEventId } from './fixture'
 import { episodeRequirements } from '../content/episodes'
@@ -101,6 +102,8 @@ export function canUnlockEpisode(state: GameSave, episodeId: string): boolean {
 export function normalizeSave(input: unknown): GameSave {
   const record = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null && !Array.isArray(value)
   if (!record(input) || input.schemaVersion !== 1) throw new Error('Unsupported save schema')
+  validateChapter1(input.chapter1)
+  if (input.narrativePlan !== undefined && !['ch01-master-18','legacy-access'].includes(String(input.narrativePlan))) throw new Error('Invalid narrative plan')
   validateAccessState(input.chapter2Access)
   if (input.saveRevision !== undefined && (!Number.isSafeInteger(input.saveRevision) || Number(input.saveRevision) < 0)) throw new Error('Invalid save revision')
   if (input.player !== null && (!record(input.player) || typeof input.player.name !== 'string')) throw new Error('Invalid player identity')
@@ -155,7 +158,8 @@ export function normalizeSave(input: unknown): GameSave {
     if (prologue.privateBeat !== undefined && !['apology','questions','checking','stay'].includes(String(prologue.privateBeat))) throw new Error('Invalid private conversation beat')
     if (prologue.scene01 !== undefined) {
       const scene = prologue.scene01
-      if (!record(scene) || scene.version !== 1 || typeof scene.nodeId !== 'string' || !scene01Nodes[scene.nodeId] || !Number.isFinite(scene.startedAt) ||
+      const scene01Nodes = actINodes(scene as never)
+      if (!record(scene) || scene.version !== 1 || scene.scriptRevision !== undefined && scene.scriptRevision !== 'final-2026-10-23' || typeof scene.nodeId !== 'string' || !scene01Nodes[scene.nodeId] || !Number.isFinite(scene.startedAt) ||
         typeof scene.introduced !== 'boolean' || typeof scene.nameDisclosed !== 'boolean' || typeof scene.invitationDismissed !== 'boolean' || typeof scene.complete !== 'boolean' ||
         !['none','declined','ready','joined'].includes(String(scene.invitation)) || scene.invitationApproved !== undefined && typeof scene.invitationApproved !== 'boolean' ||
         scene.disclosedName !== undefined && (typeof scene.disclosedName !== 'string' || scene.disclosedName.length < 1 || scene.disclosedName.length > 40) || scene.nameDisclosed && !scene.disclosedName ||
@@ -171,6 +175,12 @@ export function normalizeSave(input: unknown): GameSave {
         scene.privateHandoff !== undefined && (!record(scene.privateHandoff) || scene.privateHandoff.sceneId !== 'ch01_sc03_just_between_us' || !Number.isFinite(scene.privateHandoff.dueAt) || scene.privateHandoff.deliveredAt !== undefined && !Number.isFinite(scene.privateHandoff.deliveredAt) || scene.privateHandoff.openedAt !== undefined && (!Number.isFinite(scene.privateHandoff.openedAt) || scene.privateHandoff.deliveredAt === undefined) || scene.groupComplete !== true) ||
         scene.groupPresence !== undefined && (!record(scene.groupPresence) || ['sophie','maya','lucas'].some(actor => typeof (scene.groupPresence as Record<string, unknown>)[actor] !== 'boolean')) ||
         scene.groupReceipts !== undefined && (!Array.isArray(scene.groupReceipts) || scene.groupReceipts.some(receipt => !record(receipt) || typeof receipt.eventId !== 'string' || !['player','sophie','maya','lucas'].includes(String(receipt.recipient)) || !Array.isArray(receipt.factIds) || receipt.factIds.some(fact => typeof fact !== 'string')))) throw new Error('Invalid Scene 01 progress')
+      if (scene.draft !== undefined) {
+        const draft = scene.draft
+        if (!record(draft) || typeof draft.nodeId !== 'string' || typeof draft.choiceId !== 'string') throw new Error('Invalid Act I draft')
+        const node = scene01Nodes[draft.nodeId]
+        if (node?.kind !== 'choice' || !node.choices.some(c => c.id === draft.choiceId)) throw new Error('Invalid Act I draft')
+      }
       if (scene.privateScene03 !== undefined) {
         const privateScene = scene.privateScene03
         if (!record(privateScene) || privateScene.version !== 1 || !Number.isFinite(privateScene.startedAt) || typeof privateScene.reading !== 'boolean' || typeof privateScene.complete !== 'boolean' || typeof privateScene.nextEventReady !== 'boolean' || privateScene.completedAt !== undefined && !Number.isFinite(privateScene.completedAt) ||

@@ -1,10 +1,10 @@
 import { reunionChoiceText, reunionSource } from './reunionSource'
-export type StoryActor = 'maya'|'lucas'|'sophie'|'eli'|'unknown'|'player'|'system'
-export type StoryThread = 'group'|'unknown'|'maya'|'eli'|'sophie'
-export type Guard = 'note'|'image'|'clues'|'full'|'recovery-ready'
+export type StoryActor = 'maya'|'lucas'|'sophie'|'eli'|'unknown'|'nora'|'player'|'system'
+export type StoryThread = 'group'|'unknown'|'maya'|'eli'|'sophie'|'lucas'|'nora'
+export type Guard = `next:${string}`|'note'|'image'|'clues'|'full'|'recovery-ready'
 export type StoryLine = {actor:StoryActor;text:string;facts?:string[]}
-export type StoryOption = {id:string;text:string;next:string;guard?:Guard;disclosure?:'full'|'clues'|'none';facts?:string[];support?:'sophie'|'lucas'|'group'}
-export type StoryNode = {kind:'npc';actor:StoryActor;text:string;next:string}|{kind:'choice';options:StoryOption[]}|{kind:'if';guard:Guard;yes:string;no:string}|{kind:'event';event:'members'|'group-done'|'followup-done'|'spy-offer'|'spy-post-done'|'reflection-done';next?:string}
+export type StoryOption = {id:string;text:string;next:string;guard?:Guard;disclosure?:'full'|'clues'|'none';facts?:string[];silent?:boolean;support?:'sophie'|'lucas'|'group'}
+export type StoryNode = {kind:'npc';actor:StoryActor;text:string;next:string;delay?:number;typing?:boolean}|{kind:'wait';duration:number;typingActor?:StoryActor;next:string}|{kind:'choice';options:StoryOption[]}|{kind:'if';guard:Guard;yes:string;no:string}|{kind:'event';event:'members'|'group-done'|'followup-done'|'spy-offer'|'spy-post-done'|'reflection-done'|'continuation'|'nora-join';flag?:string;next?:string}
 export const reunionNodes:Record<string,StoryNode>={}
 const say=(actor:StoryActor,...text:string[]):StoryLine[]=>text.map(text=>({actor,text}))
 const player=(text:string,facts?:string[]):StoryLine=>({actor:'player',text,facts})

@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
-import { scene01Script } from '../../src/content/scene01Script'
+import { actIFinalManifest } from '../../src/content/actIFinal'
 import { sceneAt, seedScene } from './scene01-helper'
 import type { GameSave } from '../../src/game/types'
 
@@ -38,8 +38,9 @@ test('whole Scene 01 → all 13 group choices → Lucas leaves → delayed Hey, 
   await page.clock.runFor(20_000)
   await page.getByRole('button', { name: 'Open unknown message', exact: true }).click()
   await page.clock.runFor(120_000)
-  for (const beat of scene01Script.choices) {
-    await expect(page.locator('.scene01-chat')).toHaveAttribute('data-scene-node', `OPEN-S01-C${beat.id}`)
+  for (const entry of actIFinalManifest.filter(m=>m.id.startsWith('OPEN-S01-'))) {
+    const beat={id:entry.id.slice(-2)}
+    await expect(page.locator('.scene01-chat')).toHaveAttribute('data-scene-node', entry.id)
     const before = await page.locator('.opening-bubble.player').count()
     await page.locator('.scene01-options .opening-choice').first().click()
     if (beat.id === '08') await page.getByLabel('Your codename', { exact: true }).fill('Rae')
@@ -48,6 +49,7 @@ test('whole Scene 01 → all 13 group choices → Lucas leaves → delayed Hey, 
     await page.clock.runFor(60_000)
   }
   await page.getByRole('button', { name: 'JOIN GROUP', exact: true }).click()
+  await page.getByRole('button', { name: 'Open FIND DANIEL →', exact: true }).click()
   await page.clock.runFor(180_000)
   const group = page.getByRole('region', { name: 'FIND DANIEL group conversation' })
   for (let number = 1; number <= 12; number++) {
@@ -65,18 +67,20 @@ test('whole Scene 01 → all 13 group choices → Lucas leaves → delayed Hey, 
       await page.getByRole('button', { name: 'Send', exact: true }).click()
       await page.clock.runFor(180_000)
     }
+    if(number===9){await page.getByRole('button',{name:'LATER',exact:true}).click();await page.clock.runFor(180_000)}
   }
   await expect(group).toHaveAttribute('data-scene-node', 'OPEN-S02-C13')
   await expect(page.getByLabel('Group participants')).toContainText('3 members')
   await expect(page.getByLabel('Group participants')).not.toContainText('Lucas')
   await expect(group.getByText('Lucas left the group.', { exact: true })).toHaveCount(1)
-  await expect(group.getByText('Maya deleted a message.', { exact: true })).toHaveCount(2)
-  await expect(group.getByText('Can we talk privately?', { exact: true })).toBeVisible()
+  await expect(group.getByText('Maya deleted a message.', { exact: true })).toHaveCount(1)
+  await expect(group.getByText('Could we talk somewhere else?', { exact: true })).toBeVisible()
   await expect(group).not.toHaveAttribute('data-group-complete', 'true')
-  await reply(page, 'Sure.', false)
+  await reply(page, 'Sure. Message me.', false)
   await group.locator('.opening-thread').evaluate(node => { node.scrollTop = 0; node.dispatchEvent(new Event('scroll', { bubbles: true })) })
   await reachPending(page)
   expect(await group.locator('.opening-thread').evaluate(node => node.scrollTop)).toBe(0)
+  await page.clock.pauseAt(await page.evaluate(() => Date.now()))
   const pending = (await stored(page)).prologue!.scene01!.privateHandoff!
   const remaining = pending.dueAt - await page.evaluate(() => Date.now())
   expect(remaining).toBeGreaterThan(4500)
@@ -94,7 +98,7 @@ test('whole Scene 01 → all 13 group choices → Lucas leaves → delayed Hey, 
   await page.screenshot({ path: test.info().outputPath('private-handoff-banner.png'), animations: 'disabled' })
   await page.getByRole('button', { name: 'Open notification from Sophie', exact: true }).click()
   await expect(page.getByRole('region', { name: 'Sophie private conversation', exact: true })).toBeVisible()
-  await expect(page.locator('.opening-bubble').filter({ hasText: /^Hey\.$/ })).toHaveCount(1)
+  await expect(page.locator('.opening-bubble').filter({ hasText: /^Hey\. You got a minute\?$/ })).toHaveCount(1)
   expect((await stored(page)).deliveredEvents.filter(id => id === 'OPEN-S03-ACTIVATED')).toHaveLength(1)
   await expect(page.getByRole('button', { name: 'Send', exact: true })).toHaveCount(0)
 })

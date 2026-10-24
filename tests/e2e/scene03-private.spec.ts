@@ -64,7 +64,7 @@ test('all nineteen private choices preserve canonical disclosures, explicit Send
   }
   const save = await stored(page), scene = save.prologue!.scene01!
   expect(scene.privateScene03).toMatchObject({ complete: true, reading: false, nextEventReady: true })
-  expect(scene.messages.at(-1)?.text).toBe('Goodnight :)')
+  expect(scene.messages.at(-1)?.text).toBe('Goodbye.')
   expect(scene.groupMessages).toEqual(groupHistory)
   expect(scene.groupMembers!.lucas).toBe(false)
   expect(save.knowledge.player).toContain(scene03Facts.policeReported)
@@ -74,10 +74,12 @@ test('all nineteen private choices preserve canonical disclosures, explicit Send
   await expect(page.getByRole('button', { name: 'Send', exact: true })).toHaveCount(0)
   await page.getByRole('button', { name: 'Back to inbox', exact: true }).click()
   await page.getByRole('button', { name: 'Back to home', exact: true }).click()
-  // Chapter 2 makes the installed shell reachable, while its mirror remains locked until consent.
+  // Official Chapter 1 exposes Scene 04, while all recovered records and PHONE MIRROR remain gated.
   await expect(page.getByRole('button', { name: 'Open The Archive', exact: true })).toHaveCount(1)
   await page.getByRole('button', { name: 'Open The Archive', exact: true }).click()
-  await expect(page.getByText('Access extension not activated.', { exact: true })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Chapter 1 investigation' })).toHaveAttribute('data-chapter1-scene', '4')
+  await expect(page.getByRole('button', { name: 'Activate recovered reference', exact: true })).toBeDisabled()
+  await expect(page.getByText('Post-verification statement — partial reconstruction', { exact: true })).toHaveCount(0)
   await expect(page.getByRole('button', { name: 'OPEN PHONE MIRROR', exact: true })).toHaveCount(0)
   expect(save.pendingEvents.some(event => /C2_|RELAY|RECOVER/.test(event.id))).toBe(false)
 })

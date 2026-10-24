@@ -2,12 +2,14 @@ import { scene01Script } from './scene01Script'
 import { scene02Nodes } from './scene02'
 import { scene03Nodes } from './scene03'
 
-export type Scene01Choice = { id: string; text: string; next: string; premiumChoice?: boolean; discloseName?: boolean }
+export type Scene01Choice = { id: string; text: string; next: string; premiumChoice?: boolean; discloseName?: boolean; requires?: 'sender-replied' | 'sender-not-replied' }
 export type Scene01Node =
+  | { id: string; kind: 'gate'; action: 'sender-request' | 'disclosure' | 'deferred' | 's04-article' | 's04-group' | 's04-return-sophie' | 's04-archive' | 's04-index-ack' | 's04-device' | 's04-followup'; next: string; skip?: string }
+  | { id: string; kind: 'condition'; test: 'name-disclosed' | 'sender-seen' | 's04-group-opened'; next: string; otherwise: string }
   | { id: string; kind: 'npc'; text: string; sender?: 'sophie' | 'maya' | 'lucas'; next: string; channel: 'sophie' | 'group'; introducesSophie?: boolean; heardFacts?: string[] }
   | { id: string; kind: 'wait'; duration: number; typing: boolean; actor?: 'sophie' | 'maya' | 'lucas'; next: string }
-  | { id: string; kind: 'choice'; choices: Scene01Choice[]; number?: string }
-  | { id: string; kind: 'event'; event: 'declined' | 'invitation' | 'complete' | 'reward' | 'effects' | 'presence' | 'source-boundary' | 'deleted' | 'leave' | 'group-complete' | 'private-ready' | 'private-effects' | 'private-complete'; next?: string; trust?: number; affinity?: number; actor?: 'sophie' | 'maya' | 'lucas'; online?: boolean; effects?: Partial<Record<'sophie' | 'maya' | 'lucas', { trust?: number; affinity?: number; suspicion?: number }>>; privateEffects?: { trust?: number; affinity?: number; suspicion?: number } }
+  | { id: string; kind: 'choice'; choices: Scene01Choice[]; number?: string; channel?: 'sophie' | 'group' | 'archive'; uiChoice?: boolean }
+  | { id: string; kind: 'event'; event: 's04-complete' | 's04-feedback' | 's04-group-notice' | 's04-index-available' | 'route' | 'sender-arrival' | 'declined' | 'invitation' | 'complete' | 'reward' | 'effects' | 'presence' | 'source-boundary' | 'deleted' | 'leave' | 'group-complete' | 'private-ready' | 'private-effects' | 'private-complete'; next?: string; text?: string; trust?: number; affinity?: number; actor?: 'sophie' | 'maya' | 'lucas'; online?: boolean; effects?: Partial<Record<'sophie' | 'maya' | 'lucas', { trust?: number; affinity?: number; suspicion?: number }>>; privateEffects?: { trust?: number; affinity?: number; suspicion?: number } }
 type Turn = { speaker: 'sophie' | 'player'; text: string } | { speaker: 'wait'; duration: number; typing: boolean }
 
 export const scene01Nodes: Record<string, Scene01Node> = { ...scene02Nodes, ...scene03Nodes }
@@ -17,7 +19,7 @@ function chain(turns: readonly Turn[], prefix: string, next: string, channel: 's
     const turn = turns[i], id = `OPEN-S01-${prefix}-${i + 1}`
     if (turn.speaker === 'wait') next = add({ id, kind: 'wait', duration: turn.duration, typing: turn.typing, next })
     else if (turn.speaker === 'player') next = add({ id, kind: 'choice', choices: [{ id: 'continue', text: turn.text, next }] })
-    else next = add({ id, kind: 'npc', text: turn.text, channel, next, introducesSophie: /I'm Sophie|Sophie\.|My name's Sophie/.test(turn.text), heardFacts: turn.text === 'Daniel Mercer.' ? ['OPEN-S01-DANIEL-NAME'] : turn.text === "Daniel hasn't been answering anyone." ? ['OPEN-S01-DANIEL-UNREACHABLE'] : turn.text === 'The contact list belonged to someone named Daniel.' ? ['OPEN-S01-SOPHIE-CONTACT-LIST-CLAIM'] : turn.text === "Most of it wasn't readable." ? ['OPEN-S01-SOPHIE-UNREADABLE-NOTE-CLAIM'] : [] })
+    else next = add({ id, kind: 'npc', text: turn.text, channel, next, introducesSophie: /I'm Sophie|Sophie\.|My name's Sophie/.test(turn.text), heardFacts: turn.text === 'Daniel Mercer.' ? ['OPEN-S01-DANIEL-NAME'] : turn.text === "Daniel hasn't been answering anyone." ? ['OPEN-S01-DANIEL-UNREACHABLE'] : turn.text === "The copy is labelled as Daniel's contact export." ? ['OPEN-S01-SOPHIE-CONTACT-LIST-CLAIM'] : turn.text === 'And a star next to it.' ? ['OPEN-CONTACT-STAR-REPORTED'] : turn.text === "I can't tell who marked it." ? ['OPEN-CONTACT-AUTHOR-UNKNOWN'] : [] })
   }
   return next
 }

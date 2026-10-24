@@ -1,7 +1,7 @@
 import { expect, type Page } from '@playwright/test'
 import { newGame, type GameSave } from '../../src/game/types'
 import { scene01Nodes } from '../../src/content/scene01'
-import { beginScene01, deliverScene01, scene01Invitation, sendScene01Choice } from '../../src/game/scene01'
+import { beginLegacyScene01 as beginScene01, deliverScene01, scene01Invitation, sendScene01Choice } from '../../src/game/scene01'
 
 export const sceneTime = Date.parse('2026-10-21T12:00:00Z')
 export function sceneNow(save: GameSave): number { return Math.max(sceneTime, ...(save.prologue?.scene01?.messages.map(line => line.at) ?? []), ...(save.prologue?.scene01?.groupMessages.map(line => line.at) ?? [])) + 100 }

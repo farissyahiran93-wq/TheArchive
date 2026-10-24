@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import { accessNodes } from '../content/chapter2Access'
 import { accessChoices, accessMirrorItems, accessNextDue, chapter2Access, validateAccessState } from './chapter2Access'
-import { beginScene01 } from './scene01'
+import { beginLegacyScene01 as beginScene01 } from './scene01'
 import { normalizeSave } from './engine'
 import { newGame, type GameSave } from './types'
 import { phoneNotices } from './phonePresentation'
 
 const time = 1800000000000
 function completed() {
-  const s = beginScene01(newGame(), time)
+  const s = beginScene01({ ...newGame(), narrativePlan: 'legacy-access' }, time)
   s.prologue!.scene01 = { ...s.prologue!.scene01!, queue: [], groupComplete: true, lucasLeftGroup: true, privateScene03: { version: 1, startedAt: time, reading: false, complete: true, completedAt: time, nextEventReady: true, receipts: [] } }
   return s
 }
@@ -116,7 +116,7 @@ describe('Chapter 2 access arc', () => {
     expect(chapter2Access(s, { type: 'start-recovery' }, time+1000001)).toBe(s)
     s = normalizeSave(JSON.parse(JSON.stringify(s)))
     s = chapter2Access(s, { type: 'tick' }, time+1018000)
-    expect(s.chapter2Access?.groupMessages[0].text).toBe('Eli?')
+    expect(s.chapter2Access?.groupMessages[0].text).toBe('I think we need to get everyone on the same page.')
     expect(s.chapter2Access?.story?.sessions.group?.queue?.dueAt).toBeUndefined()
     expect(s.chapter2Access?.complete).toBe(false)
     s = chapter2Access(s, { type: 'open-group' }, time+1018001)

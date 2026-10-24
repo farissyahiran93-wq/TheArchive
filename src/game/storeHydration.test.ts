@@ -21,7 +21,7 @@ it('shares one in-flight load so duplicate startup effects cannot replay a pendi
   finish({ save: stored })
   await Promise.all([first, second])
   expect(useGameStore.getState().ready).toBe(true)
-  expect(useGameStore.getState().save.prologue?.scene01?.messages.map(line => line.text)).toEqual(['Hey'])
+  expect(useGameStore.getState().save.prologue?.scene01?.messages.map(line => line.text)).toEqual(['Hi.'])
   expect(useGameStore.getState().save.saveRevision).toBe(5)
   expect(stagePendingSave).toHaveBeenCalledTimes(1)
   await useGameStore.getState().hydrate()

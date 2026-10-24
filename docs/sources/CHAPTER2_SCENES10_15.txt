@@ -1,0 +1,1214 @@
+THE ARCHIVE — CHAPTER 2: THE PEOPLE HE LEFT BEHIND
+SCENES 10–15 | FULL INTERACTIVE DIALOGUE & IMPLEMENTATION SCRIPT
+Edition: Narrative production handoff v1.0 | 22 October 2026
+Dialogue: ENGLISH | Implementation notes: BAHASA MELAYU
+
+======================================================================
+00. KONTRAK KANON & CONTINUITY (WAJIB)
+======================================================================
+
+Titik sambungan yang SUDAH WUJUD dalam game:
+Phone Mirror / recovery started -> reunion FIND DANIEL -> private followup
+-> SPY Eli–Lucas -> eksplorasi Mirror -> Scene 09 Maya–Lucas
+-> pilihan tafsiran player -> SCENE 10 bermula.
+
+JANGAN replay reunion, private followup atau SPY Eli–Lucas.
+Scene 09 sudah diimplementasi: JANGAN overwrite dialog, choice ID atau save receipt Scene 09.
+Gunakan adapter scene09_interpretation = empathic | skeptical | neutral,
+dipetakan daripada pilihan tafsiran player yang SEBENAR dalam repository.
+Jika tiada mapping sah: neutral; jangan tebak pilihan yang player tidak buat.
+
+Watak:
+- MAYA CHEN: tunang Daniel; cuba mengekalkan kumpulan, tetapi semakin penat.
+- LUCAS GREY: kawan Daniel; defensif bila dipojok, humor kering, tetap ambil berat.
+- SOPHIE MERCER: adik Daniel; ingatan peribadi, bukan alat penyampai clue.
+- ELI WARD: bantuan teknikal; teliti, berempati, tidak mengesahkan tekaan.
+- NORA VANCE: mengasingkan sumber, tafsiran, dan kesimpulan.
+- DANIEL MERCER: tidak menghubungi player secara langsung dalam Scenes 10–15 ini.
+- UNKNOWN: kekal unavailable; tiada pengesahan identiti, jantina atau niat.
+
+Pengetahuan NPC ialah state yang dibina hanya daripada bubble PLAYER yang dihantar:
+- Apa yang PLAYER lihat dalam Mirror / SPY bukan automatik diketahui NPC.
+- Tiada NPC sedar SPY Eli–Lucas berlaku melainkan player MENGAKU sendiri.
+- Tiada NPC tahu tentang item Recently Deleted kecuali player mengongsinya.
+- Jika player telah mendedahkan Mirror dalam Scene 09 atau scene terdahulu,
+  gunakan variation 'already disclosed', bukan buat reaksi terkejut berulang.
+- SPY: relay hanya available apabila syarat runtime dipenuhi, bukan on sepanjang masa.
+  Tolak, hentikan, sambung = pilihan sah; kegagalan SPY tidak menyekat Scenes 10–15.
+- Sumber phone mirror/Recently Deleted: reconstructed, partial, unverified,
+  tidak boleh terus dianggap mesej asal yang autentik.
+- 7-14 ialah SHARED REFERENCE, bukan nama orang / tarikh yang disahkan.
+- E—I adalah token tidak lengkap: BUKAN bukti identiti Eli Ward.
+- Sama ada Daniel hilang, sengaja menghilang, diculik atau siapa pelaku: UNRESOLVED.
+
+FORMAT:
+NPC (MAYA/LUCAS/SOPHIE/ELI/NORA): bubble sebenar.
+PLAYER CHOICE: player mesti memilih SATU pilihan dan tekan SEND untuk bubble dihantar.
+PLAYER: ayat exact dalam bubble untuk choice itu sahaja; BUKAN auto-send.
+[IF], [ELSE], [REJOIN], [STATE], [UI], [PACE], [NOTIFICATION], [SYSTEM]:
+  arahan implementasi / sistem, BUKAN mesej watak.
+[OPTIONAL]: kandungan boleh diteroka; kelajuan user tidak boleh memecahkan sequence.
+
+PRINSIP PROSA:
+- Tiada watak bercakap seperti mesin eksposisi.
+- Bubble pendek dan bertempo, dengan jeda, subteks dan kesilapan manusia.
+- Gurauan kecil sebagai nafas; setiap gurauan ada fungsi emosi.
+- Setiap player choice ada konsekuensi sosial atau epistemik, bukan kosmetik.
+- Silent/hold = pilihan sebenar; tidak pernah auto-fabricate player bubble.
+- Pemain tidak dihukum kerana menjaga privasi / menolak SPY.
+
+======================================================================
+SCENE 10 — AFTER THE ARGUMENT
+ID: C2_SOCIAL_010 | THREAD: FIND DANIEL, optional LUCAS PRIVATE
+TRIGGER: Scene 09 interpretation choice SENT and Scene 09 completed
+DURATION: variable, ~6–10 min active play
+======================================================================
+
+[UI] Buka thread FIND DANIEL hanya jika player sendiri membuka Messages.
+[IF player masih di Scene 09] Jangan potong typing / choice terdahulu.
+[PACE] 3–5s after the last Scene 09 NPC bubble, not a jump cut.
+
+[IF scene09_interpretation == empathic]
+MAYA: Thank you.
+MAYA: I know I'm not making this easy.
+LUCAS: Neither am I, apparently.
+SOPHIE: Can we retire that sentence before it starts another argument?
+LUCAS: Which one?
+SOPHIE: All of them.
+[IF scene09_interpretation == skeptical]
+LUCAS: You don't have to believe me.
+LUCAS: I'd just appreciate being asked before I'm put on trial.
+MAYA: Nobody's putting you on trial.
+LUCAS: Could've fooled me.
+NORA: Then we slow the conversation down. No verdicts.
+[IF scene09_interpretation == neutral]
+MAYA: Okay.
+MAYA: We got a little off track.
+LUCAS: A little?
+ELI: I was trying to think of a polite unit of measurement for it.
+SOPHIE: Don't encourage him.
+
+[REJOIN]
+MAYA: I don't want us to spend another night arguing about who remembers him best.
+MAYA: I want to know what actually happened.
+LUCAS: That's what I want too.
+MAYA: Then help me understand something.
+MAYA: That evening... Daniel said he needed to make a call before he came over.
+MAYA: I assumed it was you, Lucas.
+LUCAS: He didn't call me.
+LUCAS: He sent a message. Said he couldn't make it.
+MAYA: You never mentioned that.
+LUCAS: Because until now, I didn't think it mattered.
+SOPHIE: He used to cancel things when he was overwhelmed.
+SOPHIE: That wasn't unusual.
+NORA: We need to be careful here.
+NORA: Maya knows what Daniel told her. Lucas knows what he received.
+NORA: We don't yet know whether those were about the same thing.
+ELI: Or even the same time.
+LUCAS: Thank you.
+ELI: Don't frame that. It might be my only useful contribution tonight.
+
+PLAYER CHOICE G10_01 — WHAT DO YOU ASK THE GROUP?
+  G10_01_A: Lucas, do you still have the message?
+  G10_01_B: Maya, did Daniel say who he was calling?
+  G10_01_C: Maybe these are two different conversations.
+  G10_01_D: I don't want anyone feeling interrogated.
+[UI] Submit only upon CHOICE + SEND.
+
+[BRANCH G10_01_A]
+PLAYER: Lucas, do you still have the message?
+LUCAS: I think so.
+LUCAS: I haven't deleted our thread.
+MAYA: Can you check?
+LUCAS: Not right this second. I'm out, and my phone's on its last few percent.
+SOPHIE: The charger you keep saying you don't need?
+LUCAS: Betrayed by my own technology. And my friends.
+LUCAS: I'll look when I get home.
+NORA: Good. Keep the original thread if you can. Don't crop away dates or surrounding messages.
+[STATE] lucas_message_check_requested = true; lucas_promised_check = true.
+[REJOIN G10_01]
+
+[BRANCH G10_01_B]
+PLAYER: Maya, did Daniel say who he was calling?
+MAYA: No.
+MAYA: I was tired. He was distracted.
+MAYA: I heard 'I need to make a call' and filled in the rest myself.
+MAYA: I do that more often than I'd like.
+LUCAS: Well, that makes two of us.
+NORA: That's useful. We're correcting an assumption, not accusing anyone.
+[STATE] maya_call_assumption_clarified = true.
+[REJOIN G10_01]
+
+[BRANCH G10_01_C]
+PLAYER: Maybe these are two different conversations.
+ELI: They could be.
+ELI: A call and a text can happen on the same night without being related.
+MAYA: I know.
+MAYA: I'm trying not to force them into one story.
+LUCAS: Thank you.
+NORA: Let's leave the relationship between those events open.
+[STATE] player_group_position = cautious_comparison.
+[REJOIN G10_01]
+
+[BRANCH G10_01_D]
+PLAYER: I don't want anyone feeling interrogated.
+SOPHIE: Neither do I.
+LUCAS: I'd appreciate that, actually.
+MAYA: Me too.
+MAYA: But if I stop asking questions, I feel like I'm giving up on him.
+NORA: Asking isn't the problem. Deciding the answer before anyone speaks is.
+[STATE] player_group_position = supportive.
+[REJOIN G10_01]
+
+[REJOIN G10_01]
+MAYA: All right. One fact at a time.
+MAYA: Daniel said he needed to call someone. I don't know who.
+LUCAS: Daniel messaged me to cancel. I can try to retrieve it.
+NORA: And the date and context are still open.
+ELI: That's an actual list. Look at us.
+SOPHIE: Almost functioning adults.
+LUCAS: Speak for yourself.
+[PACE] 2.4–3.6s; no rapid-fire joke after this.
+MAYA: I keep replaying little conversations.
+MAYA: Stuff I didn't think mattered when he was here.
+SOPHIE: Yeah.
+SOPHIE: Me too.
+
+PLAYER CHOICE G10_02 — HOW DO YOU CLOSE THE DISCUSSION?
+  G10_02_A: You don't have to remember everything tonight.
+  G10_02_B: Let's keep a list of what we can actually check.
+  G10_02_C: Lucas, please look for that message when you can.
+  G10_02_D: [Read without replying]
+
+[BRANCH G10_02_A]
+PLAYER: You don't have to remember everything tonight.
+MAYA: I needed to hear that.
+MAYA: Even if I won't listen to it.
+SOPHIE: I can remind you tomorrow.
+MAYA: You'll have to.
+[STATE] group_tone = compassionate.
+[REJOIN G10_02]
+[BRANCH G10_02_B]
+PLAYER: Let's keep a list of what we can actually check.
+NORA: Yes. With the original source beside every item.
+ELI: I can help format it. Not interpret it.
+LUCAS: The second part sounds harder for you.
+ELI: You know me too well.
+[STATE] group_tone = methodical.
+[REJOIN G10_02]
+[BRANCH G10_02_C]
+PLAYER: Lucas, please look for that message when you can.
+LUCAS: I said I would.
+[PACE] Brief pause.
+LUCAS: Sorry. That came out sharper than I meant.
+LUCAS: I will check.
+[STATE] lucas_message_check_requested = true; lucas_promised_check = true.
+[REJOIN G10_02]
+[BRANCH G10_02_D]
+[UI] No player bubble. Player selects [KEEP READING], not SEND.
+SOPHIE: It's okay if we don't solve everything in one conversation.
+[STATE] group_tone = quiet; player_message_count unchanged.
+[REJOIN G10_02]
+
+[REJOIN G10_02]
+MAYA: Let's stop here for a bit.
+MAYA: Thank you for staying.
+LUCAS: Night, Maya.
+MAYA: It's not night where you are.
+LUCAS: Then I've started early.
+[UI] Group naturally quiets down. No simulated typing infinitely.
+
+[OPTIONAL PRIVATE FOLLOWUP — NEW BEAT, NOT THE EARLIER IMPLEMENTED PRIVATE FOLLOWUP]
+[TRIGGER] If player has finished group Scene 10; deliver LUCAS private notification
+          ~8–20 seconds later, only once, even if player stays in another app.
+[NOTIFICATION] Lucas Grey — new message
+[IF player never opens] Remains unread, Scene 11 is NOT blocked.
+
+[THREAD: LUCAS PRIVATE]
+LUCAS: Hey.
+LUCAS: I was an ass in there.
+LUCAS: That's not an excuse. Just an observation.
+
+PLAYER CHOICE L10_01
+  A: You sounded worried, not cruel.
+  B: You were hard on Maya.
+  C: You don't owe me an explanation.
+
+[L10_01_A]
+PLAYER: You sounded worried, not cruel.
+LUCAS: Those aren't mutually exclusive, unfortunately.
+LUCAS: She looked exhausted even through a text screen.
+[REJOIN L10_01]
+[L10_01_B]
+PLAYER: You were hard on Maya.
+LUCAS: I know.
+LUCAS: She used to call me when Daniel forgot dinner plans.
+LUCAS: Now every call feels like it could be bad news.
+[REJOIN L10_01]
+[L10_01_C]
+PLAYER: You don't owe me an explanation.
+LUCAS: Maybe not.
+LUCAS: But I don't want you thinking I don't care where he is.
+[REJOIN L10_01]
+
+[REJOIN L10_01]
+LUCAS: I'll check that message.
+LUCAS: I'd rather be embarrassed by what I missed than keep pretending I remember every detail.
+PLAYER CHOICE L10_02
+  A: Thanks. That helps.
+  B: Check the surrounding messages too, if you're comfortable.
+  C: Take care of yourself first.
+[L10_02_A]
+PLAYER: Thanks. That helps.
+LUCAS: We'll see. Hopefully I didn't just promise to find a dead phone.
+[L10_02_B]
+PLAYER: Check the surrounding messages too, if you're comfortable.
+LUCAS: Yeah. Context. Nora would approve.
+LUCAS: Don't tell her I said that.
+[L10_02_C]
+PLAYER: Take care of yourself first.
+LUCAS: You sound like Sophie.
+LUCAS: ...That's a compliment, by the way.
+[END OPTIONAL CHAT] Lucas presence shifts away naturally.
+[STATE] lucas_private_10_completed=true only if thread opened and player sent L10_02.
+
+[SCENE COMPLETE]
+scene10_complete=true after group G10_02 resolved, even if Lucas private unread.
+FACT RECEIPTS in group (ALL receive because their thread messages delivered):
+  maya_reported_call_unspecified = true
+  lucas_reported_cancel_text = true
+  calls_related_to_same_night = UNKNOWN
+  lucas_original_message_available = UNKNOWN (promise is not proof)
+Scene 11 becomes eligible on player returning to The Archive / Phone Mirror.
+
+======================================================================
+SCENE 11 — COMPARE THE STORIES
+ID: C2_INVESTIGATION_011 | LOCATION: THE ARCHIVE > PHONE MIRROR
+TRIGGER: scene10_complete; mirror available
+DURATION: nonlinear, ~5–9 min active play
+======================================================================
+
+[NOTIFICATION] THE ARCHIVE — Indexed conversations available for comparison.
+[IMPORTANT] Notification does NOT auto-open app or mirror.
+[IF earlier player read mirror fragments] Preserve read receipts, don't reset evidence.
+
+[UI] THE ARCHIVE > PHONE MIRROR > MESSAGES
+[UI] SOURCE: MIRROR/02 | PARTIAL RECONSTRUCTION | UNVERIFIED
+[UI] Search index status: LIMITED
+[UI] Tool unlocked: COMPARE OBSERVATIONS (not AI verdict or guilt score).
+
+[THREAD: LUCAS — PREVIOUSLY AVAILABLE SNAPSHOT]
+[UI] Some earlier lines missing. Timestamp not recovered.
+LUCAS: You coming or not?
+DANIEL: Can't tonight. Sorry.
+LUCAS: Another time, then.
+[SYSTEM] Sequence integrity: PARTIAL.
+
+[PLAYER ACTION] [SAVE OBSERVATION] [BACK] [OPEN SOURCE DETAILS]
+[ON SAVE] journal entry: "A recovered exchange shows a cancellation.
+Date and surrounding context have not been verified."
+
+[THREAD: MAYA — PREVIOUSLY AVAILABLE SNAPSHOT]
+[UI] Timestamp incomplete. Earlier messages missing.
+MAYA: I wasn't asking you to explain everything.
+MAYA: I was asking if you're okay.
+DANIEL: I know.
+DANIEL: I can't do this properly over messages.
+[SYSTEM] Earlier messages unavailable.
+[PLAYER ACTION] [SAVE OBSERVATION] [BACK] [OPEN SOURCE DETAILS]
+[ON SAVE] journal entry: "Maya's surviving messages show concern,
+not the reason for it."
+
+[MAIL — PREVIOUSLY AVAILABLE SNAPSHOT]
+[ENTRY] Unsent draft
+To: [not specified]
+Subject: [empty]
+Body: I should call instead.
+[SYSTEM] Draft timestamp unavailable. Sending status: NOT SENT.
+[ON SAVE] journal entry: "Daniel considered calling someone, but the draft
+cannot identify a recipient or prove a call happened."
+
+[UI] COMPARE OBSERVATIONS
+  SOURCE A: Lucas's claim in FIND DANIEL — 'He messaged me. Said he couldn't make it.'
+  SOURCE B: Mirror Lucas chat — 'Can't tonight. Sorry.'
+  SOURCE C: Maya's claim — 'He said he needed to make a call.'
+  SOURCE D: Unsent draft — 'I should call instead.'
+  DATA GAPS: Missing dates, partial sequence, unverified provenance.
+
+PLAYER CHOICE C11_01 — INTERPRET WHAT YOU HAVE (PRIVATE JOURNAL ONLY)
+  C11_01_A: The mirror is consistent with Lucas's account.
+  C11_01_B: Maya and Lucas could both be remembering correctly.
+  C11_01_C: Something here feels inconsistent.
+  C11_01_D: There isn't enough context yet.
+
+[C11_01_A]
+[PLAYER JOURNAL — authored internal note, not outgoing chat]
+"Lucas described a cancellation by message. A reconstructed message shows one.
+That supports the outline of his account, not its date or completeness."
+[SYSTEM] TAG: PARTIAL CORROBORATION | CONFIDENCE: LIMITED.
+[STATE] comparison_11_tag = partial_support.
+[C11_01_B]
+[PLAYER JOURNAL]
+"A planned call and a cancelled visit can coexist. Maya's assumption about
+who Daniel meant to call remains unverified."
+[SYSTEM] TAG: COMPATIBLE ACCOUNTS | CONFIDENCE: LIMITED.
+[STATE] comparison_11_tag = compatible.
+[C11_01_C]
+[PLAYER JOURNAL]
+"There may be a mismatch, but this export has no reliable timeline. A feeling
+of inconsistency is a question, not evidence of deception."
+[SYSTEM] TAG: REQUIRES VERIFICATION | CONFIDENCE: INSUFFICIENT.
+[STATE] comparison_11_tag = questioned.
+[C11_01_D]
+[PLAYER JOURNAL]
+"Without dates and full threads, these fragments cannot establish sequence
+or intent. Keep both possibilities open."
+[SYSTEM] TAG: UNRESOLVED | CONFIDENCE: INSUFFICIENT.
+[STATE] comparison_11_tag = unresolved.
+
+[REJOIN C11_01]
+[UI] Additional compare actions available:
+  [INSPECT METADATA] [CHECK NOTES] [CLOSE COMPARISON]
+
+[INSPECT METADATA]
+[SYSTEM] SOURCE DETAILS
+  Dataset: MIRROR/02
+  Message thread timestamp: missing
+  Message sequence: partial
+  Sender labels: reconstructed
+  Original database checksum: unavailable
+  Authenticity verdict: cannot be established
+[UI] 'Not found' means absent from THIS recovered copy, not absent originally.
+
+[CHECK NOTES]
+[ENTRY] Check the index (unchanged from earlier Mirror)
+  Compare originals against the export list.
+  Don't assume the file order is the event order.
+  Modification history missing.
+[UI] [ADD TO COMPARISON]
+[IF ADD]
+[PLAYER JOURNAL] "Daniel's note directly warns against treating export order
+as event order. The note is also part of an unverified copy."
+[STATE] note_index_compared=true.
+
+[OPTIONAL PLAYER CHOICE C11_02 — PRIVATE ACTION, NOT CHAT]
+  C11_02_A: Save all source references for later.
+  C11_02_B: Save only the cancellation exchange.
+  C11_02_C: Leave without saving anything new.
+[C11_02_A]
+[SYSTEM] 4 compare refs bookmarked. Original data unchanged.
+[STATE] comparison_saved_scope=all.
+[C11_02_B]
+[SYSTEM] 1 compare ref bookmarked. Original data unchanged.
+[STATE] comparison_saved_scope=lucas_only.
+[C11_02_C]
+[SYSTEM] No additional bookmarks created. Previous observations retained.
+[STATE] comparison_saved_scope=none_new.
+
+[SCENE COMPLETE]
+scene11_complete=true after C11_01 and leaving Compare or C11_02.
+No group NPC learns these references merely because they are in the journal.
+
+======================================================================
+SCENE 12 — THE PICTURE SOPHIE REMEMBERS
+ID: C2_PERSONAL_012 | THREAD: SOPHIE PRIVATE
+TRIGGER: scene11_complete; safe delivery on Messages open
+DURATION: ~6–10 min player-led
+======================================================================
+
+[NOTIFICATION] Sophie Mercer — Hey, are you busy?
+[IMPORTANT] No auto-open. Maintain existing Sophie chat; don't overwrite older private messages.
+
+[THREAD: SOPHIE PRIVATE]
+SOPHIE: Hey, are you busy?
+SOPHIE: I know everyone keeps telling each other to get some sleep.
+SOPHIE: I'm terrible at following my own advice.
+
+PLAYER CHOICE S12_01 — OPENING
+  S12_01_A: I'm here. What's going on?
+  S12_01_B: Is everything okay?
+  S12_01_C: You really should get some rest.
+
+[S12_01_A]
+PLAYER: I'm here. What's going on?
+SOPHIE: Nothing urgent.
+SOPHIE: I just remembered something embarrassingly ordinary.
+[REJOIN S12_01]
+[S12_01_B]
+PLAYER: Is everything okay?
+SOPHIE: Yeah. Or... as okay as I get lately.
+SOPHIE: Sorry. That's a terrible answer.
+SOPHIE: I was thinking about Daniel.
+[REJOIN S12_01]
+[S12_01_C]
+PLAYER: You really should get some rest.
+SOPHIE: I know.
+SOPHIE: I will. In a minute.
+SOPHIE: Can I tell you one thing first?
+[REJOIN S12_01]
+
+[REJOIN S12_01]
+SOPHIE: When we were kids, our mum had this horrible yellow clock in the kitchen.
+SOPHIE: It was shaped like a sunflower.
+SOPHIE: The second hand made this tiny clicking noise that drove me insane.
+SOPHIE: Daniel loved it.
+SOPHIE: Which probably tells you everything you need to know about him.
+
+PLAYER CHOICE S12_02 — TONE
+  S12_02_A: A sunflower clock? He had interesting taste.
+  S12_02_B: Why did he love it?
+  S12_02_C: That sounds like the kind of detail people remember.
+
+[S12_02_A]
+PLAYER: A sunflower clock? He had interesting taste.
+SOPHIE: That's a generous way of saying 'awful'.
+SOPHIE: He said it looked like the sun had given up and taken an office job.
+SOPHIE: I hated that he made me laugh every time.
+[STATE] sophie_tone12=playful.
+[REJOIN S12_02]
+[S12_02_B]
+PLAYER: Why did he love it?
+SOPHIE: He said it made the kitchen sound like somebody was always home.
+SOPHIE: I thought that was ridiculous when I was fourteen.
+SOPHIE: I don't anymore.
+[STATE] sophie_tone12=tender.
+[REJOIN S12_02]
+[S12_02_C]
+PLAYER: That sounds like the kind of detail people remember.
+SOPHIE: Funny thing is, I remembered the clock.
+SOPHIE: I couldn't remember what Mum's kitchen looked like without it.
+SOPHIE: Daniel could.
+[STATE] sophie_tone12=reflective.
+[REJOIN S12_02]
+
+[REJOIN S12_02]
+SOPHIE: There was a photo of that kitchen before we moved.
+SOPHIE: Nothing special. Empty mugs on the table. That stupid clock on the wall.
+SOPHIE: I asked Daniel for it ages ago.
+SOPHIE: He said he'd find it.
+SOPHIE: Then, later, I asked him again.
+SOPHIE: He said, 'Not yet. I haven't forgotten.'
+
+[IF player_inspected_mirror_sophie_thread == true]
+[UI ONLY, NOT NPC] 'Did you ever find the picture?' matches the previously
+recovered Sophie fragment. Player knowledge only. Sophie does not know you read it.
+[ELSE]
+[UI ONLY] Journal can link to Sophie fragment IF player discovers it later.
+
+PLAYER CHOICE S12_03 — HOW FAR DO YOU GO?
+  S12_03_A: Was that picture important to him?
+  S12_03_B: It sounds like he kept promises, even small ones.
+  S12_03_C: Have you tried finding the photo yourself?
+  S12_03_D: I found an old message about a picture in a recovered copy.
+
+[S12_03_A]
+PLAYER: Was that picture important to him?
+SOPHIE: I don't know.
+SOPHIE: Maybe he just didn't want to disappoint me.
+SOPHIE: We weren't always good at saying the big things.
+SOPHIE: So we'd say the small ones instead.
+[STATE] sophie_mirror_knowledge unchanged.
+[REJOIN S12_03]
+
+[S12_03_B]
+PLAYER: It sounds like he kept promises, even small ones.
+SOPHIE: He tried.
+SOPHIE: He also forgot my birthday once and bought me petrol-station flowers at midnight.
+SOPHIE: So let's not make him a saint just because he's missing.
+[PACE] 2.2s.
+SOPHIE: Sorry.
+SOPHIE: I just want you to know he was a person.
+[STATE] sophie_mirror_knowledge unchanged.
+[REJOIN S12_03]
+
+[S12_03_C]
+PLAYER: Have you tried finding the photo yourself?
+SOPHIE: In the old family boxes, a little.
+SOPHIE: There are more of them than I remembered.
+SOPHIE: Mostly Christmas decorations and things nobody wanted to throw away.
+SOPHIE: I'll look again when I can.
+[STATE] sophie_mirror_knowledge unchanged; sophie_photo_search_intent=true.
+[REJOIN S12_03]
+
+[S12_03_D — DISCLOSURE GUARD]
+[IF player has actually viewed a recovered Sophie message OR mirror already shared]
+PLAYER: I found an old message about a picture in a recovered copy.
+SOPHIE: Wait.
+SOPHIE: A copy of Daniel's messages?
+PLAYER CHOICE S12_03D_FOLLOWUP
+  A: Yes. It's incomplete, and I can't verify it.
+  B: I shouldn't have read it without asking you.
+  C: I only know the message mentions a picture.
+[S12_03D_A]
+PLAYER: Yes. It's incomplete, and I can't verify it.
+SOPHIE: Okay.
+SOPHIE: I don't love that somebody has it.
+SOPHIE: But thank you for being clear about what you know.
+[STATE] sophie_knows_mirror=true; sophie_knows_specific_fragment=true.
+[S12_03D_B]
+PLAYER: I shouldn't have read it without asking you.
+SOPHIE: I wish you hadn't.
+SOPHIE: But I also know why you're looking.
+SOPHIE: Just... please don't send our old conversations around.
+[STATE] sophie_knows_mirror=true; sophie_knows_specific_fragment=true; sophie_privacy_boundary=true.
+[S12_03D_C]
+PLAYER: I only know the message mentions a picture.
+SOPHIE: Then let's keep it there.
+SOPHIE: That part really was about the kitchen. Not a hidden code.
+SOPHIE: At least, not as far as I know.
+[STATE] sophie_knows_mirror=true; sophie_knows_specific_fragment=true.
+[REJOIN S12_03]
+[ELSE]
+[UI] S12_03_D not displayed when player has no legitimate basis to say it.
+[UI] Offer A/B/C only. No fabricated player bubble.
+[END IF]
+
+[REJOIN S12_03]
+SOPHIE: I don't even know why I brought this up.
+SOPHIE: We have all these serious conversations and I keep thinking about a clock.
+
+PLAYER CHOICE S12_04 — EMOTIONAL RESOLUTION
+  S12_04_A: Maybe ordinary things are worth remembering too.
+  S12_04_B: Tell me more about what he was like before all this.
+  S12_04_C: You don't need to justify missing him.
+  S12_04_D: If it hurts too much, we can stop here.
+
+[S12_04_A]
+PLAYER: Maybe ordinary things are worth remembering too.
+SOPHIE: I think so.
+SOPHIE: I'm glad someone else thinks so.
+[REJOIN S12_04]
+[S12_04_B]
+PLAYER: Tell me more about what he was like before all this.
+SOPHIE: He could make a supermarket trip last two hours.
+SOPHIE: Not because he was indecisive.
+SOPHIE: Because he'd stop to help somebody find the rice aisle.
+SOPHIE: Then he'd forget why he went in the first place.
+SOPHIE: It drove me absolutely mad.
+[REJOIN S12_04]
+[S12_04_C]
+PLAYER: You don't need to justify missing him.
+SOPHIE: I know.
+SOPHIE: I keep acting like I do, though.
+SOPHIE: Thank you.
+[REJOIN S12_04]
+[S12_04_D]
+PLAYER: If it hurts too much, we can stop here.
+SOPHIE: It hurts either way.
+SOPHIE: But thank you for giving me a choice.
+[REJOIN S12_04]
+
+[REJOIN S12_04]
+SOPHIE: I should sleep.
+SOPHIE: If I find that photo, I'll show you.
+SOPHIE: The clock, I mean. Not a conspiracy board.
+[IF sophie_tone12 == playful]
+SOPHIE: Although I might draw a red circle around how ugly it is.
+[ELSE]
+SOPHIE: Goodnight. And... thanks for listening.
+[SCENE END]
+
+[OPTIONAL MIRROR CROSS-LINK — PLAYER-INITIATED]
+[WHEN player next opens Mirror > Media > IMG_0419]
+[UI] Reconstructed thumbnail: ordinary kitchen interior; blurred yellow wall clock.
+[UI] Original photo unavailable. Date/location/authorship cannot be established.
+[UI] Context link: Sophie described an old kitchen photo with a yellow clock.
+PLAYER CHOICE M12_01 (PRIVATE JOURNAL; no outgoing bubble)
+  A: This could be the picture Sophie remembers.
+  B: Similar details don't prove the photo's identity.
+[M12_01_A] [JOURNAL] "Possible match to Sophie's memory; unverified image."
+[M12_01_B] [JOURNAL] "Image may be unrelated; missing original and timestamp."
+[STATE] photo_context_link_observed=true if player chooses A or B.
+[NO NPC NOTIFICATION] Sophie does not gain photo knowledge by this action.
+
+[SCENE COMPLETE]
+scene12_complete=true after S12_04 chosen and final Sophie bubble received.
+
+======================================================================
+SCENE 13 — RECOVERY RESULTS
+ID: C2_RECOVERY_013 | LOCATION: RECENTLY DELETED
+TRIGGER: scene12_complete AND wall-clock due_at reached
+======================================================================
+
+[RUNTIME GATE]
+Recovery started in older access arc, duration REAL 25 minutes (1500 seconds).
+If recovery_due_at > current persisted wall-clock time:
+  [UI] RECENTLY DELETED — RECOVERY RUNNING
+  [UI] Remaining time: hh:mm:ss / mm:ss, derived from due_at.
+  [UI] "You can return when the process finishes. Other apps remain available."
+  [UI] [BACK TO MIRROR] [CHECK MESSAGES]
+  [NO SCENE 13 completion bubbles or rewards before due time]
+  [OPTIONAL] Player may read existing chats and Mirror content.
+  [TESTING ONLY] Existing preview immediate-complete switch may be used
+  ONLY in preview/test builds with explicit developer authorization.
+  [RELEASE] No time skip, repeated-click acceleration, or reload exploit.
+
+[WHEN due_at is reached]
+[STATE] recovery_complete=true, set once (atomic; idempotent).
+[NOTIFICATION] THE ARCHIVE — Recently Deleted recovery complete.
+[NOTIFICATION SUBTEXT] 3 partial items reconstructed. Some data unavailable.
+[IMPORTANT] Does not auto-open Mirror; notification queues until read.
+
+[OPEN THE ARCHIVE > PHONE MIRROR > RECENTLY DELETED]
+[UI] RECOVERY COMPLETE
+[UI] Reconstructed: 3 items | Unrecoverable: unknown
+[UI] SOURCE: RECOVERED SNAPSHOT / UNVERIFIED
+[UI] Timestamps may be reconstructed; original deletion reason unavailable.
+[UI] [REVIEW RESULTS] [LATER]
+[IF LATER] Preserve notification/state, don't force player into a viewer.
+
+[REVIEW RESULTS]
+[UI] RESTORED ITEMS
+  RD-01  index_history.part  [PARTIAL]
+  RD-02  unsent_note.txt     [PARTIAL]
+  RD-03  IMG_0419.thumb     [LOW RESOLUTION]
+[UI] These are snapshots, not authenticated originals.
+
+[PLAYER ACTION: OPEN RD-02]
+[UI] unsent_note.txt — recovered text fragment
+[CONTENT EXACTLY]
+"I've rehearsed this conversation so many times that every version sounds
+worse than the last. I should have called instead."
+[UI] Author attribution: from mirror index only, NOT verified.
+[UI] Saved state: UNSENT / uncertain.
+[UI] No addressee, timestamp or surrounding paragraphs survived.
+PLAYER CHOICE R13_NOTE — PRIVATE JOURNAL
+  A: This sounds personal, but I can't tell who it's about.
+  B: It resembles the unsent mail draft.
+  C: I shouldn't infer a recipient.
+[R13_NOTE_A] [JOURNAL] "Personal anxiety apparent; subject and recipient unknown."
+[R13_NOTE_B] [JOURNAL] "Phrase resembles 'I should call instead.' Possible duplicate
+or revision; cannot prove origin."
+[R13_NOTE_C] [JOURNAL] "Treat unsent content as unsent. Recipient unknown."
+[STATE] rd02_viewed=true. No NPC learns content.
+
+[PLAYER ACTION: OPEN RD-03]
+[UI] IMG_0419.thumb — recovered low-resolution thumbnail
+[CONTENT DESCRIPTION] A kitchen wall, edge of a table and out-of-focus yellow clock.
+[UI] The image itself must be rendered from an approved in-app asset. If absent,
+      use accessible placeholder + description. Do not silently substitute random image.
+[UI] Metadata: original filename fragment only; date unavailable.
+[IF scene12_complete]
+[SYSTEM] Possible visual overlap with Sophie's memory of a kitchen clock.
+[SYSTEM] NOT PROOF this is the same photo.
+PLAYER CHOICE R13_PHOTO — PRIVATE JOURNAL
+  A: Tag as a possible match to Sophie's memory.
+  B: Leave unlinked pending a source check.
+[R13_PHOTO_A] [JOURNAL] "Possible family photo match. No provenance yet."
+[R13_PHOTO_B] [JOURNAL] "Low-resolution image cannot identify location or date."
+[STATE] rd03_viewed=true; photo_match_tag chosen.
+
+[PLAYER ACTION: OPEN RD-01]
+[UI] index_history.part — recovered partial export
+[UI] WARNING — ORDER MAY BE RECONSTRUCTED INCORRECTLY
+[DATA VIEW]
+  SHARED REFERENCE   : 7-14
+  ENTRY STATE A      : VERIFIED
+  HISTORY GAP        : [BYTES MISSING]
+  ENTRY STATE B      : OMITTED FROM EXPORT
+  VERIFIED SOURCE    : [UNAVAILABLE]
+  OPERATOR           : [NOT RECOVERED]
+  ORIGINAL TIMESTAMPS: [NOT RECOVERED]
+  RECONSTRUCTION     : 51% of this file fragment (NOT truth-confidence)
+[UI] A separate Chapter 1 note suggested removal happened after verification.
+[UI] This fragment may align with that sequence but cannot prove order
+     while original timestamps and source verification are missing.
+
+PLAYER CHOICE R13_01 — FIRST REACTION (PRIVATE JOURNAL)
+  R13_01_A: This looks like the missing step in 7-14.
+  R13_01_B: The export may have omitted something after verification.
+  R13_01_C: The history is too damaged to settle what happened.
+
+[R13_01_A]
+[JOURNAL] "7-14 appears in two recorded states. The missing segment is exactly
+where I would need a verified change sequence."
+[STATE] recovery_interpretation=missing_step.
+[R13_01_B]
+[JOURNAL] "A verified state and an omitted export coexist in this fragment.
+That suggests a question about sequence, not a confirmed deletion motive."
+[STATE] recovery_interpretation=possible_omission.
+[R13_01_C]
+[JOURNAL] "The recovered order may be wrong. The safest claim is only that
+7-14 has divergent states in this partial export."
+[STATE] recovery_interpretation=unresolved.
+
+[REJOIN R13_01]
+[UI] NEW COMPARE VIEW: '7-14 — TWO STATES'
+  Record: Chapter 1 note — "removed after verification, not before"
+  Record: recovered index_history.part — VERIFIED ... [GAP] ... OMITTED
+  Known: two labels in recovered material.
+  Unknown: authentic order, who changed it, why, relation to Daniel's fate.
+
+[OPTIONAL PLAYER CHOICE R13_02 — WHAT DO YOU PRESERVE?]
+  A: Bookmark the exact fragment with warnings attached.
+  B: Save only a short question for later.
+  C: Leave it unbookmarked.
+[R13_02_A] [SYSTEM] Evidence bookmark created: RD-01 + provenance + caveats.
+[R13_02_B] [JOURNAL] "Why does 7-14 appear verified in one state and absent
+in the export? Need original index history."
+[R13_02_C] [SYSTEM] No new bookmark. Recovered file stays accessible.
+
+[SCENE COMPLETE]
+scene13_complete=true after RD-01 viewed and R13_01 chosen.
+RD-02/RD-03 optional, can be read before/after RD-01.
+No automatic disclosure to FIND DANIEL or to Unknown Sender.
+
+======================================================================
+SCENE 14 — THE INCOMPLETE NAME
+ID: C2_MYSTERY_014 | LOCATION: THE ARCHIVE > SOURCE CROSS-REFERENCE
+TRIGGER: scene13_complete
+DURATION: ~4–8 min active play
+======================================================================
+
+[UI] AFTER RD-01 inspection, subtle new link:
+  [VIEW CROSS-REFERENCE]
+[UI] No sudden static/glitch; treat as a forensic index, not a supernatural reveal.
+
+[ON PLAYER TAP]
+[SYSTEM] CROSS-REFERENCE INDEX / RECONSTRUCTED
+  Parent file: index_history.part
+  External reference token: E—I
+  Token completeness: UNKNOWN
+  Data type: UNKNOWN
+  Human identity: NOT ESTABLISHED
+  Shared 7-14 file context: PRESENT
+  Direct link to entry 7-14: NOT RESOLVED
+  Creator / owner / sender: UNKNOWN
+  Verified timestamp: NONE
+[SYSTEM] 'E—I' is an incomplete token. It may represent a person, system,
+       document prefix or corrupted string. Context alone cannot determine which.
+
+[OPTIONAL APP INTERACTION: TAP E—I]
+[UI] "Text restoration unavailable. Missing characters cannot be inferred."
+[UI] [SEARCH EXISTING INDEX] [BACK]
+[IF SEARCH EXISTING INDEX]
+[SYSTEM] SEARCH: E—I
+[SYSTEM] 1 reconstructed token reference; no exact verified match.
+[SYSTEM] Approximate name matches are intentionally NOT auto-suggested.
+
+PLAYER CHOICE E14_01 — PRIVATE HYPOTHESIS
+  E14_01_A: Could this be someone's initials?
+  E14_01_B: It could be a file or system reference.
+  E14_01_C: The similarity to a name may be coincidence.
+  E14_01_D: I need the original metadata before interpreting it.
+
+[E14_01_A]
+[JOURNAL] "Possible initials. No basis yet to attach E—I to any known person."
+[STATE] e14_hypothesis=initials_unverified.
+[E14_01_B]
+[JOURNAL] "Could be an external key or corrupted label; entity type missing."
+[STATE] e14_hypothesis=system_reference.
+[E14_01_C]
+[JOURNAL] "A familiar-looking fragment can invite confirmation bias.
+Do not turn resemblance into attribution."
+[STATE] e14_hypothesis=coincidence_possible.
+[E14_01_D]
+[JOURNAL] "No source checksum, field definition, or authenticated parent
+record. Identification deferred."
+[STATE] e14_hypothesis=needs_original.
+
+[REJOIN E14_01]
+[UI] CROSS-REFERENCE STATUS: UNRESOLVED
+[UI] Option to seek process help WITHOUT sending private recovered messages:
+  [ASK ELI ABOUT FILE FORMATS]
+  [ASK NORA HOW TO VERIFY]
+  [KEEP THIS PRIVATE]
+These actions open drafting panels; no background message is sent.
+
+PLAYER CHOICE E14_02 — SEEK HELP OR HOLD
+  E14_02_A: Ask Eli a general technical question.
+  E14_02_B: Ask Nora a general source-verification question.
+  E14_02_C: Keep the token private for now.
+
+[E14_02_A — ELI PRIVATE; DOES NOT MENTION E—I / 7-14]
+[UI] Messages > Eli (existing thread). Show player draft; requires SEND.
+PLAYER: Can a damaged export turn an ID into something that looks like a person's name?
+ELI: Oh, absolutely.
+ELI: Half the time you don't even know whether a field was a name to begin with.
+ELI: People see letters they recognize and their brains do the rest.
+ELI: Mine does it too. Usually at three in the morning.
+PLAYER CHOICE E14_02A_FOLLOWUP
+  A: So resemblance is a weak lead?
+  B: What would you check first?
+[E14_02A_A]
+PLAYER: So resemblance is a weak lead?
+ELI: It's a lead to check. Not a person to accuse.
+ELI: If it points somewhere real, the original field definition should help.
+[E14_02A_B]
+PLAYER: What would you check first?
+ELI: Field type. Source. Whether the characters are actually missing or just
+masked by how the export displays them.
+ELI: Then I'd check if two snapshots reproduce the same token.
+[STATE] eli_knows_general_corrupt_id_question=true;
+        eli_knows_EI_token stays unchanged.
+[REJOIN E14_02]
+
+[E14_02_B — NORA PRIVATE; DOES NOT REVEAL MIRROR]
+[UI] Messages > Nora (existing thread); requires SEND.
+PLAYER: If two copies disagree but neither has reliable timestamps, what can I actually conclude?
+NORA: That they disagree.
+NORA: It's less satisfying than an answer, I know.
+NORA: Identify which source produced each copy, what survived and what may have
+changed during recovery.
+PLAYER CHOICE E14_02B_FOLLOWUP
+  A: What would count as stronger evidence?
+  B: Should I avoid mentioning it until then?
+[E14_02B_A]
+PLAYER: What would count as stronger evidence?
+NORA: An independently preserved original. Or a separate source with matching
+provenance.
+NORA: Not five screenshots of the same damaged export.
+[E14_02B_B]
+PLAYER: Should I avoid mentioning it until then?
+NORA: You can mention a question without presenting an answer.
+NORA: Just label the uncertainty in the same breath.
+[STATE] nora_knows_general_conflicting_copies_question=true;
+        nora_knows_EI_token stays unchanged.
+[REJOIN E14_02]
+
+[E14_02_C]
+[UI] No outgoing message. Player has explicitly chosen to hold.
+[JOURNAL] "E—I saved privately as unverified external reference."
+[STATE] e14_help=none; NPC knowledge unchanged.
+[REJOIN E14_02]
+
+[REJOIN E14_02]
+[SYSTEM] REFERENCE ADDED TO PERSONAL JOURNAL
+  7-14: conflicting reconstructed states
+  E—I: incomplete token, type unknown
+  Association between them: unverified
+[SCENE COMPLETE]
+scene14_complete=true when E14_02 path resolves or player chooses keep private.
+
+======================================================================
+SCENE 15 — WHAT DO YOU TELL THEM?
+ID: C2_DISCLOSURE_015 | THREAD: FIND DANIEL OR NORA PRIVATE OR NONE
+TRIGGER: scene14_complete
+GOAL: true player agency, no global omniscient NPC knowledge
+DURATION: ~6–12 min active play; END Chapter 2 beat
+======================================================================
+
+[UI] THE ARCHIVE > EVIDENCE JOURNAL
+[UI] "You have information that other people may not know.
+It comes from a source whose authenticity is unverified.
+You control what, if anything, you share."
+[UI] Knowledge preview per choice must be accurate; do not say 'everyone knows'
+     for a private share or for a silent decision.
+
+PLAYER CHOICE D15_01 — DISCLOSURE DECISION (EXPLICIT)
+  D15_01_A: Share only the 7-14 discrepancy with FIND DANIEL.
+  D15_01_B: Ask Nora privately to review the source limitations.
+  D15_01_C: Tell FIND DANIEL that a Phone Mirror exists.
+  D15_01_D: Keep the recovered material private for now.
+
+[CHOICE D15_01_A — LIMITED GROUP DISCLOSURE]
+[UI] PRE-SEND PREVIEW:
+"Group receives: a PARTIAL recovered index for 7-14, plus the warning that
+its source/order cannot be authenticated. No private texts or E—I token sent."
+[UI] [SEND TO GROUP] [CANCEL]
+[IF CANCEL] Return to choice; no bubble, no state change.
+[IF SEND]
+PLAYER: I found a partial recovered index for 7-14. One state is marked
+'VERIFIED', another says 'OMITTED FROM EXPORT'. I can't verify the order
+or who changed it.
+NORA: Thank you for including the limits.
+NORA: Do you have the original index, or only a reconstruction?
+PLAYER CHOICE D15_A2
+  A: Only a reconstruction. Some data is missing.
+  B: I can share the exact fragment, but not the private messages around it.
+  C: I'd rather not distribute the file yet.
+[D15_A2_A]
+PLAYER: Only a reconstruction. Some data is missing.
+NORA: Then it stays a lead, not a conclusion.
+ELI: I can tell you what metadata might help if we ever find a cleaner copy.
+[D15_A2_B]
+PLAYER: I can share the exact fragment, but not the private messages around it.
+NORA: That's a reasonable boundary.
+ELI: If you send it later, please keep the missing sections visible.
+[D15_A2_C]
+PLAYER: I'd rather not distribute the file yet.
+NORA: That's your call.
+NORA: We can still agree on what needs independent verification.
+[REJOIN D15_A2]
+MAYA: 'Omitted' doesn't tell us why, does it?
+NORA: No.
+LUCAS: Good. Because I'd rather not see another headline written from one word.
+SOPHIE: Same.
+[STATE] group_knows_714_discrepancy=true;
+        group_knows_source_unverified=true;
+        group_knows_mirror=UNCHANGED;
+        group_knows_EI=UNCHANGED;
+        nora_knows_714_discrepancy=true;
+        disclosure15=limited_group.
+[REJOIN D15_01]
+
+[CHOICE D15_01_B — PRIVATE, NARROW DISCLOSURE]
+[UI] PRE-SEND PREVIEW:
+"Only Nora receives a question about partial 7-14 index records and unreliable
+ordering. Group, Maya, Lucas, Sophie and Eli are NOT informed."
+[UI] [SEND TO NORA] [CANCEL]
+[IF CANCEL] No send; return to D15_01.
+[IF SEND]
+[THREAD: NORA PRIVATE]
+PLAYER: I have a partial recovered index for 7-14. It contains 'VERIFIED'
+and 'OMITTED FROM EXPORT', but the order may be wrong. How do I check that
+without treating it as proof?
+NORA: First, keep the file exactly as you found it.
+NORA: Don't clean up the missing parts to make the sequence look complete.
+NORA: Second, look for a record that was preserved independently.
+NORA: And third, write down which parts you're inferring.
+PLAYER CHOICE D15_B2
+  A: Could someone have removed it deliberately?
+  B: Would you tell the whole group now?
+  C: I want to verify it before I name anyone.
+[D15_B2_A]
+PLAYER: Could someone have removed it deliberately?
+NORA: Could have. Could also be a faulty export, missing permissions or a
+recovery artifact.
+NORA: It's too soon to choose the most frightening explanation.
+[D15_B2_B]
+PLAYER: Would you tell the whole group now?
+NORA: Not as an accusation.
+NORA: As a lead with caveats? Maybe. That's a decision for you, not me.
+[D15_B2_C]
+PLAYER: I want to verify it before I name anyone.
+NORA: Good.
+NORA: Names are harder to take back than hypotheses.
+[REJOIN D15_B2]
+NORA: If you want me to check the document itself later, we can talk about
+what to redact first.
+NORA: Especially anything that isn't relevant to finding Daniel.
+[STATE] nora_knows_714_discrepancy=true;
+        nora_knows_source_unverified=true;
+        group_knows_714_discrepancy=UNCHANGED;
+        group_knows_mirror=UNCHANGED;
+        nora_knows_EI=UNCHANGED;
+        disclosure15=private_nora.
+[REJOIN D15_01]
+
+[CHOICE D15_01_C — GROUP DISCLOSURE OF ACCESS]
+[UI] PRE-SEND PREVIEW:
+"The group will learn that you have access to an unverified Phone Mirror of
+some of Daniel's data. This does NOT automatically share records, SPY content,
+private messages, E—I or 7-14 reconstruction."
+[UI] [SEND TO GROUP] [CANCEL]
+[IF CANCEL] No send; return to D15_01.
+[IF SEND]
+[THREAD: FIND DANIEL]
+[IF group_knows_mirror == false]
+PLAYER: There's something I need to tell you. I was given access to a partial
+copy of Daniel's phone data. It's called a Phone Mirror. It's not his actual
+device, and I can't verify its source.
+[ELSE group_knows_mirror == true]
+PLAYER: I need to be clearer about the Phone Mirror I mentioned earlier.
+It's an incomplete, unverified reconstruction, not a live connection to
+Daniel's phone.
+[END IF]
+[IF group_knows_mirror == false]
+[PACE] Allow responses to arrive unevenly, not in a simultaneous chorus.
+MAYA: Who gave you access to that?
+LUCAS: Sorry, what?
+LUCAS: We're just hearing about this now?
+SOPHIE: Are our messages in there?
+ELI: A mirror from where? Do you have the source info?
+NORA: One at a time. They said the source is unverified.
+[ELSE]
+MAYA: All right. Then I need to know what it contains before I react to a piece of it.
+SOPHIE: And whether it includes our conversations.
+NORA: The warning about provenance still matters.
+[END IF]
+
+PLAYER CHOICE D15_C2 — HOW TRANSPARENT ARE YOU?
+  A: Some personal conversations may be present. I haven't shared them.
+  B: I won't distribute anyone's private messages without thinking carefully.
+  C: I don't know who prepared this copy. That's what worries me.
+[D15_C2_A]
+PLAYER: Some personal conversations may be present. I haven't shared them.
+SOPHIE: I don't like it.
+SOPHIE: But thank you for telling us instead of pretending you haven't seen anything.
+MAYA: I need a minute with that.
+[D15_C2_B]
+PLAYER: I won't distribute anyone's private messages without thinking carefully.
+MAYA: 'Thinking carefully' needs to mean something.
+MAYA: Ask before sending anything personal, if you can.
+LUCAS: Agreed.
+[D15_C2_C]
+PLAYER: I don't know who prepared this copy. That's what worries me.
+ELI: That's the first question I'd want answered.
+NORA: And it means we should be very careful about conclusions drawn from it.
+LUCAS: Yeah. We don't know whose version of the story we're looking at.
+[REJOIN D15_C2]
+NORA: Let's not turn this into an argument about things nobody's actually read.
+MAYA: Agreed.
+MAYA: But I want us to be careful with Daniel's life. Not just the case.
+SOPHIE: Me too.
+[STATE] group_knows_mirror=true;
+        group_knows_mirror_unverified=true;
+        group_knows_714_discrepancy=UNCHANGED;
+        group_knows_EI=UNCHANGED;
+        disclosure15=group_access.
+[REJOIN D15_01]
+
+[CHOICE D15_01_D — WITHHOLD]
+[UI] [KEEP PRIVATE FOR NOW] [CANCEL]
+[IF CANCEL] Return to D15_01.
+[IF KEEP PRIVATE]
+[SYSTEM] No messages sent. Information remains in your private journal.
+[JOURNAL] "I am withholding an unverified reconstructed record until I know
+whether sharing it would help more than harm."
+[STATE] disclosure15=withheld;
+        all NPC knowledge flags UNCHANGED;
+        player_message_count unchanged.
+[REJOIN D15_01]
+
+[REJOIN D15_01 — COMMON AFTER EXPLICIT COMPLETION]
+[UI] Player may return to Messages or stay in The Archive.
+[PACE] 10–18 seconds of ordinary gameplay after decision, with no fake
+       mandatory player text. The next beat comes by notification.
+[NOTIFICATION] FIND DANIEL — Maya: There's something I need to tell you.
+[UI] Do NOT auto-open group; message can remain unread until player taps it.
+
+[THREAD: FIND DANIEL — FINAL BEAT]
+[IF disclosure15 == limited_group]
+MAYA: I've been thinking about what you found.
+MAYA: And about all the things we've been asking each other to remember.
+[ELSE IF disclosure15 == group_access]
+MAYA: I've been thinking about what you told us.
+MAYA: We keep asking for honesty and then acting shocked when it's difficult.
+[ELSE]
+MAYA: I've been thinking about our conversation earlier.
+MAYA: There's something I've avoided saying out loud.
+[END IF]
+
+LUCAS: Maya?
+MAYA: There was one more message from Daniel.
+MAYA: I didn't tell anyone about it.
+[PACE] 2.0–3.0s.
+MAYA: Not because I thought it was evidence.
+MAYA: Because I thought it might be the last thing he'd ever say to me.
+SOPHIE: Maya...
+MAYA: I know.
+MAYA: I should have said something earlier.
+[PACE] 2.5s typing, then stop indicator before next message.
+MAYA: I still have it.
+MAYA: I just don't know if I'm ready to read it in front of everyone.
+
+[SCENE HARD STOP]
+[STATE] scene15_complete=true after the final Maya group beat is delivered
+and viewed in the existing group thread; queue state persists if unopened.
+- NO player option auto-selected. NO player bubble generated.
+- Do not show content of Maya's withheld message in these scenes.
+- Do not imply she concealed a crime; reason given is fear and grief.
+- Player may inspect previous group history; next player response is Scene 16.
+- Recovery results, 7-14, E—I, Unknown identity, Daniel's fate still unresolved.
+
+[NEXT SCENE HOOK]
+C2_SOCIAL_016 — "THE MESSAGE SHE KEPT"
+Starts only when player chooses how to respond to Maya, and Maya elects
+whether to share the original with context. No forced confession.
+
+======================================================================
+STATE, RECEIPTS & UI IMPLEMENTATION HANDOFF
+======================================================================
+
+MINIMAL FLAGS / SOURCE-OF-TRUTH GUIDANCE:
+scene09_interpretation: empathic | skeptical | neutral (map existing choice)
+scene10_complete, scene11_complete, scene12_complete, scene13_complete,
+scene14_complete, scene15_complete: boolean, once-only receipts
+lucas_message_check_requested, lucas_promised_check: boolean
+lucas_private_10_completed: boolean (optional)
+scene10_claims: {maya_call_someone: true, lucas_cancel_text: true}
+comparison_11_tag: partial_support | compatible | questioned | unresolved
+comparison_saved_scope: all | lucas_only | none_new
+sophie_knows_mirror, sophie_knows_specific_fragment: boolean
+sophie_privacy_boundary: boolean; sophie_photo_search_intent: boolean
+photo_context_link_observed: boolean
+recovery_due_at: existing persisted timestamp; NEVER reset for Scene 13
+recovery_complete: boolean (atomic)
+rd01_viewed, rd02_viewed, rd03_viewed: boolean
+recovery_interpretation: missing_step | possible_omission | unresolved
+e14_hypothesis: initials_unverified | system_reference |
+                coincidence_possible | needs_original
+eli_knows_general_corrupt_id_question: boolean
+nora_knows_general_conflicting_copies_question: boolean
+eli_knows_EI_token, nora_knows_EI_token: boolean, NEVER auto-set here
+group_knows_mirror, group_knows_714_discrepancy,
+group_knows_source_unverified, group_knows_EI: persistent per-receipt booleans
+nora_knows_714_discrepancy, nora_knows_source_unverified: boolean
+disclosure15: limited_group | private_nora | group_access | withheld
+scene15_final_group_notification_queued, scene15_final_group_read: boolean
+
+EXISTING STATE MUST BE REUSED (NO DUPLICATE FIELDS IF ALREADY PRESENT):
+- typed story graph + dialogue runner, player codename,
+  NPC knowledge, message receipts, event queue, relationships,
+  SPY toggle/relay, recovery timer and save schema.
+- Never replace schema with a simplified parallel store.
+- Never hardcode old save schema version. Follow current repository version.
+- Eli–Lucas SPY prior scene remains as-is; no new hidden relay in 10–15.
+
+IDEMPOTENCY:
+- Each NPC message has stable event ID C2S10_M001 etc (derive deterministically
+  from scene, branch, and sequence; never use random IDs for story receipts).
+- Branch events that never fired do not appear in read history on restore.
+- A response is dispatched exactly once after player SELECT + SEND.
+- Back, minimize, app reopen and delayed event queue cannot change choices.
+- No group/private notification opens conversation on its own.
+- Read receipts ≠ player consent to share.
+- Player can leave and return to any Mirror panel without duplicating journal.
+- Release timer remains a real 25-minute recovery started earlier.
+- Timer completion is independent of Scene 12: if the deadline passes before
+  scene12_complete, set recovery_complete in persistence once; only defer the
+  Scene 13 presentation until the player reaches it. Never extend the timer.
+- For multiline PLAYER text, newline wraps ONE outgoing message bubble after
+  one explicit SEND; it is not permission to send several player bubbles.
+
+PACING / IMMERSION:
+- 0.8–1.8s chat bubble delay for short messages, 1.5–3.0s for emotional beats.
+- Never delay dialogue while a player-choice menu is active.
+- Rejoin conditions wait until existing branch truly finishes.
+- Lucas uses short dry humor; do not make him a joke machine.
+- Maya occasionally edits her thought across two bubbles; human, not a lecture.
+- Sophie's memory scene is an emotional pause, not an obvious clue-dump.
+- Technical outputs are concise and visibly marked UNVERIFIED.
+- Keep avatars/presence, bottom auto-scroll, accessible reduced motion,
+  notification sounds, and chat composer behaviour from current implementation.
+- 25-minute timer uses persisted deadline; preview-only bypass visibly labelled.
+
+MINIMUM ACCEPTANCE TESTS (SUPPLEMENT TO EXISTING 558 UNIT + 83 BROWSER TESTS):
+T01. Scene 10 begins exactly after current Scene 09 choice; no overwritten lines.
+T02. All 4 G10_01 and all 4 G10_02 branches send only chosen bubble.
+T03. Silent G10_02_D produces ZERO player bubble, even after save/load.
+T04. Optional Lucas private unread cannot block Scene 11.
+T05. Existing partial Lucas/Maya/Mail Mirror excerpts remain byte-for-byte.
+T06. C11 interpretations create internal journal only, not NPC knowledge.
+T07. Sophie disclosure option appears only if legally available from player history.
+T08. Sophie boundary change persists; no automatic release of personal texts.
+T09. Scene 13 cannot finish before due_at in production.
+T10. Recovery notification stays unopened until player taps it.
+T11. Recovery artifacts all visibly carry provenance warnings.
+T12. Preview immediate-complete works only under test flag.
+T13. E—I cannot be resolved as Eli by UI search/autocomplete.
+T14. Asking Eli/Nora general questions does not tell them the E—I token.
+T15. Cancel on Scene 15 preview sends nothing and changes no NPC knowledge.
+T16. Limited group share discloses 7-14 only, not mirror/private texts/E—I.
+T17. Private Nora share remains invisible to other group members.
+T18. Group mirror disclosure reuses earlier knowledge; no duplicated reveal.
+T19. Withhold path still progresses, with all NPC knowledge untouched.
+T20. Final Maya message appears as ordinary user-opened group notification;
+     never auto-opens, never leaks the withheld message itself.
+T21. All scenes survive interrupted typing, app switch, restart, and replay.
+T22. No outcome labels Maya/Lucas/Eli/Unknown as guilty or Daniel dead/alive.
+
+CONTINUITY ASSERTIONS FOR WRITER/QA:
+1. Maya's call claim, Lucas's cancellation, reconstructed text and unsent draft
+   MAY all coexist. There is not enough verified chronology to call it a lie.
+2. Sophie's childhood anecdote humanizes Daniel; photo similarity is optional,
+   not a supernatural breadcrumb or proof of family involvement.
+3. The 7-14 fragment deepens Chapter 1 'after verification' warning WITHOUT
+   inventing the verified actor or authentic removal sequence.
+4. E—I may be a token, not a person; no automatic accusation of Eli Ward.
+5. Player's disclosure choices have distinct, persistent recipients.
+6. Maya's new message in Scene 15 is hers to share; the player cannot compel it
+   by an automatic modal. It is the hook, not a solved mystery.
+
+END OF SCENES 10–15 — NEXT: SCENE 16 / THE MESSAGE SHE KEPT

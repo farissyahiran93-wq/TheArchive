@@ -1,4 +1,6 @@
-import { followupEntry, mayaLucasInterception, reunionG01, reunionNodes, reunionOpening, scene09Reflection, spyUnknownEntry, spyUnknownPost, type Guard, type StoryOption, type StoryThread } from '../content/chapter2Reunion'
+import { revisedReunionOpening,noraInviteReceiptId } from '../content/noraReunion'
+import { continuationAction,continuationEvent,continuationGuard,continuationNextDue,tickContinuation,validateContinuation,type ContinuationAction,type ContinuationState } from './chapter2Continuation'
+import { followupEntry, mayaLucasInterception, reunionG01, reunionNodes, scene09Reflection, spyUnknownEntry, spyUnknownPost, type Guard, type StoryOption, type StoryThread } from '../content/chapter2Reunion'
 import { eliLucasInterception } from '../content/reunionSource'
 import type { GameSave } from './types'
 import type { AccessMessage } from './chapter2Access'
@@ -8,14 +10,14 @@ export type Active=StoryThread|SpyId
 export interface StorySession {node:string;queue?:{remaining:number;dueAt?:number};draft?:string;finished?:boolean}
 export interface Interception {unlocked:boolean;viewed:boolean;complete:boolean;declined:boolean;index:number;phase:'gap'|'typing'|'cancel'|'final'|'ended';remaining:number;dueAt?:number;messages:AccessMessage[];fullDisclosure:boolean}
 export interface ReunionState {
- version:1;revision:number;active?:Active;sessions:Partial<Record<StoryThread,StorySession>>
- members:Record<'maya'|'lucas'|'sophie'|'eli'|'nora',boolean>;presence:Record<'maya'|'lucas'|'sophie'|'eli',boolean>
- groupComplete:boolean;disclosure:'full'|'clues'|'none'|null;choices:Record<string,string>;privateMessages:Record<'maya'|'eli'|'sophie',AccessMessage[]>
+ version:1;revision:number;continuation?:ContinuationState;backlog?:Partial<Record<StoryThread,StorySession[]>>;active?:Active;sessions:Partial<Record<StoryThread,StorySession>>
+ members:Record<'maya'|'lucas'|'sophie'|'eli'|'nora',boolean>;presence:Record<'maya'|'lucas'|'sophie'|'eli',boolean>&{nora?:boolean}
+ groupComplete:boolean;disclosure:'full'|'clues'|'none'|null;choices:Record<string,string>;privateMessages:Record<'maya'|'eli'|'sophie',AccessMessage[]>&Partial<Record<'lucas'|'nora',AccessMessage[]>>
  followup?:'maya'|'eli'|'sophie';followupDueAt?:number;unknownDueAt?:number;scene09DueAt?:number;exploredAfterGroup:boolean
  spy:Partial<Record<SpyId,Interception>>;postSpyStarted:boolean;firstResolved:boolean;reflectionStarted:boolean;complete:boolean
  receipts:{eventId:string;recipient:string;source:'group-recollection'|'private-message'|'player-disclosure'|'spy-unverified';facts:string[]}[]
 }
-export type ReunionAction={type:'story-open'|'story-close';thread:Active}|{type:'story-draft'|'story-send';thread:StoryThread;id:string}|{type:'story-skip-first'|'story-skip-second'}
+export type ReunionAction=ContinuationAction|{type:'story-resume-earlier';thread:StoryThread}|{type:'story-open'|'story-close';thread:Active}|{type:'story-draft'|'story-send';thread:StoryThread;id:string}|{type:'story-skip-first'|'story-skip-second'}
 const relay=(r:ReunionState)=>Object.values(r.spy).some(spy=>spy.unlocked&&!spy.complete&&!spy.declined)
 function put(s:GameSave,r:ReunionState):GameSave {return {...s,chapter2Access:{...s.chapter2Access!,relayAvailable:relay(r),story:{...r,revision:r.revision+1}}}}
 const mark=(s:GameSave,id:string)=>s.deliveredEvents.includes(id)?s:{...s,deliveredEvents:[...s.deliveredEvents,id]}
@@ -24,7 +26,7 @@ const pause=(session:StorySession,now:number):StorySession=>session.queue?{...se
 const delay=(text:string)=>Math.min(3300,Math.max(950,650+text.split(/\s+/).length*100))
 const blankSpy=(full:boolean):Interception=>({unlocked:true,viewed:false,complete:false,declined:false,index:0,phase:'gap',remaining:2000,messages:[],fullDisclosure:full})
 const isThread=(id:Active):id is StoryThread=>!['eli-lucas','maya-lucas'].includes(id)
-export function reunionGuard(s:GameSave,g:Guard){const c=s.chapter2Access!,r=c.story!;return g==='note'?c.viewed.includes('LIFE-N1'):g==='image'?c.viewed.includes('LIFE-PH5'):g==='clues'?c.viewed.includes('LIFE-N1')||c.viewed.includes('LIFE-PH5'):g==='full'?r.disclosure==='full':c.recovery?.readyAt!==undefined}
+export function reunionGuard(s:GameSave,g:Guard){const c=s.chapter2Access!,r=c.story!;if(g.startsWith('next:'))return continuationGuard(s,g.slice(5));return g==='note'?c.viewed.includes('LIFE-N1'):g==='image'?c.viewed.includes('LIFE-PH5'):g==='clues'?c.viewed.includes('LIFE-N1')||c.viewed.includes('LIFE-PH5'):g==='full'?r.disclosure==='full':c.recovery?.readyAt!==undefined}
 export function storyText(s:GameSave,text:string){const scene=s.prologue?.scene01;const name=scene?.nameDisclosed&&s.knowledge.characters.maya.includes('OPEN-S01-PLAYER-CODENAME')?scene.disclosedName:undefined;return text==='[PLAYER_NAME]?'?(name?`${name}?`:'Are you there?'):text.replaceAll('[PLAYER_NAME]',name??'you')}
 
 function enter(s:GameSave,thread:StoryThread,id:string,now:number):GameSave {
@@ -33,15 +35,29 @@ function enter(s:GameSave,thread:StoryThread,id:string,now:number):GameSave {
  let session:StorySession={node:id}
  s=put(s,{...r,sessions:{...r.sessions,[thread]:session}});r=s.chapter2Access!.story!
  if(node.kind==='if')return enter(s,thread,reunionGuard(s,node.guard)?node.yes:node.no,now)
- if(node.kind==='npc')return put(s,{...r,sessions:{...r.sessions,[thread]:{...session,queue:{remaining:delay(node.text),...(r.active===thread?{dueAt:now+delay(node.text)}:{})}}}})
+ if(node.kind==='wait')return put(s,{...r,sessions:{...r.sessions,[thread]:{...session,queue:{remaining:node.duration,...(r.active===thread?{dueAt:now+node.duration}:{})}}}})
+ if(node.kind==='npc')return put(s,{...r,sessions:{...r.sessions,[thread]:{...session,queue:{remaining:node.delay??delay(node.text),...(r.active===thread?{dueAt:now+(node.delay??delay(node.text))}:{})}}}})
  if(node.kind==='choice')return s
  const eid=`C2-STORY-EVENT-${id}`
  if(s.deliveredEvents.includes(eid))return node.next?enter(s,thread,node.next,now):s
  s=mark(s,eid);r=s.chapter2Access!.story!
- if(node.event==='members'){
+ if(node.event==='nora-join'){
+  if(!r.members.nora&&s.deliveredEvents.includes(noraInviteReceiptId)){
+   s=append(s,'group','C2S08_NORA_JOIN','system','Maya Chen added Nora Vance to FIND DANIEL.',now);r=s.chapter2Access!.story!;s=put(s,{...r,members:{...r.members,nora:true},presence:{...r.presence,nora:true}})
+  }
+ } else if(node.event==='continuation'){
+   s=continuationEvent(s,node.flag??'',thread,now);r=s.chapter2Access!.story!
+   if(['10-done','15-final-done'].includes(node.flag??''))s=put(s,{...r,presence:{maya:false,lucas:false,sophie:false,eli:false,nora:false}})
+   else if(['12-done','lucas-done','14-done'].includes(node.flag??''))s=put(s,{...r,presence:{...r.presence,[thread]:false}})
+ } else if(node.event==='members'){
    for(const who of ['lucas','sophie'] as const)if(!r.members[who]){
      s=append(s,'group',`C2-STORY-REJOIN-${who}`,'system',`Maya added ${who==='lucas'?'Lucas Grey':'Sophie Mercer'}.`,now)
      r=s.chapter2Access!.story!;s=put(s,{...r,members:{...r.members,[who]:true},presence:{...r.presence,[who]:true}})
+   }
+   if(!r.members.eli){
+     s=append(s,'group','C2S08_ELI_INTRO','maya',"I've asked Eli Ward to join us. She's Daniel's technical colleague at Axiom Recovery.",now)
+     s=append(s,'group','C2S08_ELI_JOIN','system','Eli Ward joined FIND DANIEL',now)
+     r=s.chapter2Access!.story!;s=put(s,{...r,members:{...r.members,eli:true},presence:{...r.presence,eli:true}})
    }
  } else if(node.event==='group-done'){
    r=s.chapter2Access!.story!;s=put(s,{...r,groupComplete:true,presence:{maya:false,lucas:false,eli:false,sophie:false},followup:r.disclosure==='full'?'maya':r.disclosure==='clues'?'eli':'sophie',followupDueAt:now+7000,unknownDueAt:now+30000})
@@ -61,20 +77,23 @@ function enter(s:GameSave,thread:StoryThread,id:string,now:number):GameSave {
 
 function append(s:GameSave,thread:StoryThread,id:string,actor:string,text:string,now:number,facts:string[]=[]):GameSave {
  if(s.deliveredEvents.includes(id))return s
+ if(actor==='maya'&&text==="That evening... Daniel said he needed to make a call before he came over.")facts=['C2S10-MAYA-CALL-CLAIM']
+ if(actor==='lucas'&&text==="He sent a message. Said he couldn't make it.")facts=['C2S10-LUCAS-CANCEL-TEXT-CLAIM']
  const c=s.chapter2Access!,r=c.story!,line={id,sender:actor,text:storyText(s,text),at:now}
- const recipients=actor==='player'?thread==='group'?(['maya','lucas','sophie','eli'] as const).filter(who=>r.members[who]):[thread]:thread==='group'?['player',...(['maya','lucas','sophie','eli'] as const).filter(who=>r.members[who]&&who!==actor)]:['player']
+ const recipients=actor==='player'?thread==='group'?(['maya','lucas','sophie','eli','nora'] as const).filter(who=>r.members[who]):[thread]:thread==='group'?['player',...(['maya','lucas','sophie','eli','nora'] as const).filter(who=>r.members[who]&&who!==actor)]:['player']
  const receipts=recipients.map(recipient=>({eventId:id,recipient,source:actor==='player'?'player-disclosure' as const:thread==='group'?'group-recollection' as const:'private-message' as const,facts}))
- let next=put(s,{...r,receipts:[...r.receipts,...receipts],...(thread!=='group'&&thread!=='unknown'?{privateMessages:{...r.privateMessages,[thread]:[...r.privateMessages[thread],line]}}:{})})
+ let next=put(s,{...r,receipts:[...r.receipts,...receipts],...(thread!=='group'&&thread!=='unknown'?{privateMessages:{...r.privateMessages,[thread]:[...(r.privateMessages[thread]??[]),line]}}:{})})
  if(thread==='group')next={...next,chapter2Access:{...next.chapter2Access!,groupMessages:[...c.groupMessages,line]}}
  if(thread==='unknown')next={...next,chapter2Access:{...next.chapter2Access!,messages:[...c.messages,line]}}
- if(actor==='player'&&facts.length&&thread==='group'){
+ if(actor==='player'&&facts.length){
   const characters={...s.knowledge.characters}
-  for(const who of ['maya','lucas','sophie','eli'] as const)if(r.members[who])characters[who]=[...new Set([...characters[who],...facts])]
+  for(const who of ['maya','lucas','sophie','eli','nora'] as const)if((thread==='group'&&r.members[who])||thread===who)characters[who]=[...new Set([...characters[who],...facts])]
   next={...next,knowledge:{...next.knowledge,characters}}
  }
+ if(actor!=='player'&&facts.length){const characters={...next.knowledge.characters};if(thread==='group')for(const who of ['maya','lucas','sophie','eli','nora'] as const)if(r.members[who])characters[who]=[...new Set([...characters[who],...facts])];next={...next,knowledge:{...next.knowledge,player:[...new Set([...next.knowledge.player,...facts])],characters}}}
  if(actor!=='player'&&actor!=='system'){
   const story=next.chapter2Access!.story!
-  if(['maya','eli','sophie','lucas'].includes(actor))next=put(next,{...story,presence:{...story.presence,[actor]:true}})
+  if(['maya','eli','sophie','lucas','nora'].includes(actor))next=put(next,{...story,presence:{...story.presence,[actor]:true}})
   if(actor==='unknown')next={...next,chapter2Access:{...next.chapter2Access!,unknownOffline:false}}
   next=notify(next,id,line.text)
  }
@@ -85,9 +104,10 @@ export function startReunion(s:GameSave,now:number,legacy=false):GameSave {
  const c=s.chapter2Access
  if(!c||c.story)return s
  const old=s.prologue?.scene01
- const r:ReunionState={version:1,revision:0,sessions:{},receipts:[],members:{maya:true,eli:true,lucas:legacy||old?.groupMembers?.lucas!==false,sophie:old?.groupMembers?.sophie!==false,nora:legacy&&c.groupMessages.some(m=>m.sender==='nora')},presence:{maya:true,eli:true,lucas:legacy,sophie:old?.groupMembers?.sophie!==false},groupComplete:false,disclosure:null,choices:{},privateMessages:{maya:[],eli:[],sophie:[]},exploredAfterGroup:false,spy:{},postSpyStarted:false,firstResolved:false,reflectionStarted:false,complete:false}
+ const r:ReunionState={version:1,revision:0,sessions:{},receipts:[],members:{maya:true,eli:legacy,lucas:legacy||old?.groupMembers?.lucas!==false,sophie:old?.groupMembers?.sophie!==false,nora:legacy&&c.groupMessages.some(m=>m.sender==='nora')},presence:{maya:true,eli:legacy,lucas:legacy,sophie:old?.groupMembers?.sophie!==false},groupComplete:false,disclosure:null,choices:{},privateMessages:{maya:[],eli:[],sophie:[]},exploredAfterGroup:false,spy:{},postSpyStarted:false,firstResolved:false,reflectionStarted:false,complete:false}
  let next=put({...s,chapter2Access:{...c,groupQueued:true,groupDueAt:undefined,queue:undefined}},r)
- next=enter(next,'group',legacy?reunionG01:reunionOpening,now)
+ if(legacy)next=upgradeNoraMembership(next)
+ next=enter(next,'group',legacy?reunionG01:revisedReunionOpening,now)
  // One incoming message calls the player back; later turns wait for opening the chat.
  const session=next.chapter2Access!.story!.sessions.group!,node=reunionNodes[session.node]
  if(node.kind==='npc')next=enter(append(next,'group',`C2-STORY-group-${session.node}`,node.actor,node.text,now), 'group',node.next,now)
@@ -101,14 +121,18 @@ export function reunionChoices(s:GameSave,thread:StoryThread):StoryOption[]{
  return n?.kind==='choice'?n.options.filter(o=>!o.guard||reunionGuard(s,o.guard)):[]
 }
 function waitingChoice(s:GameSave){const r=s.chapter2Access?.story;if(!r?.active||!isThread(r.active))return false;return reunionChoices(s,r.active).length>0}
-export function reunionNextDue(s:GameSave):number {
+export function reunionNextDue(s:GameSave,testing=false):number {
  const r=s.chapter2Access?.story
- if(!r||waitingChoice(s))return Infinity
+ if(!r)return Infinity
+ if(!r.members.nora&&!r.sessions.group?.node.startsWith('N08_'))return 0
+ if(waitingChoice(s))return Infinity
  const due=Object.values(r.sessions).map(v=>v.queue?.dueAt??Infinity)
- return Math.min(...due,...Object.values(r.spy).map(v=>v.dueAt??Infinity),r.followupDueAt??Infinity,r.unknownDueAt??Infinity,r.firstResolved&&r.exploredAfterGroup&&r.active!=='eli-lucas'&&!r.spy['maya-lucas']?r.scene09DueAt??Infinity:Infinity)
+ return Math.min(continuationNextDue(s,testing),...due,...Object.values(r.spy).map(v=>v.dueAt??Infinity),r.followupDueAt??Infinity,r.unknownDueAt??Infinity,r.members.nora&&r.firstResolved&&r.exploredAfterGroup&&r.active!=='eli-lucas'&&!r.spy['maya-lucas']?r.scene09DueAt??Infinity:Infinity)
 }
 
 function startSession(s:GameSave,thread:StoryThread,entry:string,now:number,incoming=false){
+ const previous=s.chapter2Access!.story!.sessions[thread],r=s.chapter2Access!.story!
+ if(previous&&!previous.finished)s=put(s,{...r,backlog:{...r.backlog,[thread]:[...(r.backlog?.[thread]??[]),pause(previous,now)]}})
  let next=enter(s,thread,entry,now)
  const session=next.chapter2Access!.story!.sessions[thread]!,node=reunionNodes[session.node]
  if(incoming&&node.kind==='npc')next=enter(append(next,thread,`C2-STORY-${thread}-${session.node}`,node.actor,node.text,now),thread,node.next,now)
@@ -122,7 +146,7 @@ function openThread(s:GameSave,thread:Active,now:number):GameSave {
  for(const [key,spy]of Object.entries(spies))if(spy.dueAt!==undefined)spies[key as SpyId]={...spy,remaining:Math.max(0,spy.dueAt-now),dueAt:undefined}
  s=put(s,{...r,active:thread,sessions,spy:spies});r=s.chapter2Access!.story!
  if(isThread(thread)){
-  if(thread==='unknown'){
+  if(thread==='unknown'&&!r.continuation){
    if(r.spy['eli-lucas']?.complete&&!r.postSpyStarted&&!r.reflectionStarted){s=put(s,{...r,postSpyStarted:true});s=startSession(s,'unknown',spyUnknownPost,now)}
    else if(r.spy['maya-lucas']?.complete&&!r.reflectionStarted){s=put(s,{...r,reflectionStarted:true});s=startSession(s,'unknown',scene09Reflection,now)}
   }
@@ -137,15 +161,19 @@ function openThread(s:GameSave,thread:Active,now:number):GameSave {
 }
 function readThread(s:GameSave,thread:Active){
  const c=s.chapter2Access!,r=c.story!
- const ids=new Set(isThread(thread)?thread==='group'?c.groupMessages.map(m=>m.id):thread==='unknown'?c.messages.map(m=>m.id):r.privateMessages[thread].map(m=>m.id):[thread==='eli-lucas'?'C2-SPY-ELI-UNLOCK':'C2-SPY-MAYA-UNLOCK'])
+ const ids=new Set(isThread(thread)?thread==='group'?c.groupMessages.map(m=>m.id):thread==='unknown'?c.messages.map(m=>m.id):(r.privateMessages[thread]??[]).map(m=>m.id):[thread==='eli-lucas'?'C2-SPY-ELI-UNLOCK':'C2-SPY-MAYA-UNLOCK'])
  return s.notifications.some(n=>ids.has(n.id)&&!n.read)?{...s,notifications:s.notifications.map(n=>ids.has(n.id)?{...n,read:true}:n)}:s
 }
 
-export function tickReunion(s:GameSave,now:number):GameSave {
+export function tickReunion(s:GameSave,now:number,testing=false):GameSave {
  let r=s.chapter2Access?.story
- if(!r||waitingChoice(s))return s
+ if(!r)return s
+ const upgraded=upgradeNoraMembership(s);if(upgraded!==s)return upgraded
+ if(waitingChoice(s))return s
+ const advanced=tickContinuation(s,now,{start:startSession,append,testing});if(advanced!==s)return advanced
  for(const [thread,session]of Object.entries(r.sessions))if(session.queue?.dueAt!==undefined&&session.queue.dueAt<=now){
   const node=reunionNodes[session.node]
+  if(node.kind==='wait')return enter(s,thread as StoryThread,node.next,now)
   if(node.kind==='npc')return enter(append(s,thread as StoryThread,`C2-STORY-${thread}-${session.node}`,node.actor,node.text,now),thread as StoryThread,node.next,now)
  }
  for(const id of ['eli-lucas','maya-lucas'] as const){
@@ -174,16 +202,19 @@ export function tickReunion(s:GameSave,now:number):GameSave {
   const who=r.followup;s=put(s,{...r,followupDueAt:undefined});return startSession(s,who,followupEntry[who],now,true)
  }
  if(r.unknownDueAt!==undefined&&r.unknownDueAt<=now){s=put(s,{...r,unknownDueAt:undefined});return startSession(s,'unknown',spyUnknownEntry,now,true)}
- if(r.firstResolved&&r.exploredAfterGroup&&r.active!=='eli-lucas'&&!r.spy['maya-lucas']&&r.scene09DueAt!==undefined&&r.scene09DueAt<=now){
+ if(r.members.nora&&r.firstResolved&&r.exploredAfterGroup&&r.active!=='eli-lucas'&&!r.spy['maya-lucas']&&r.scene09DueAt!==undefined&&r.scene09DueAt<=now){
   s=put(s,{...r,scene09DueAt:undefined,spy:{...r.spy,'maya-lucas':blankSpy(r.disclosure==='full')}})
   return notify(mark(s,'C2-SPY-MAYA-UNLOCK'),'C2-SPY-MAYA-UNLOCK','New intercepted thread · MAYA ↔ LUCAS · READ ONLY')
  }
  return s
 }
 
-export function reunionAction(s:GameSave,a:ReunionAction,now:number):GameSave{
+export function reunionAction(s:GameSave,a:ReunionAction,now:number,testing=false):GameSave{
+ s=upgradeNoraMembership(s)
  let r=s.chapter2Access?.story
  if(!r)return s
+ if(a.type.startsWith('continuation-'))return continuationAction(s,a as ContinuationAction,now,{start:startSession,append,testing})
+ if(a.type==='story-resume-earlier'){const list=r.backlog?.[a.thread];if(!list?.length||!r.sessions[a.thread]?.finished)return s;const resumed=list[0];s=put(s,{...r,sessions:{...r.sessions,[a.thread]:resumed},backlog:{...r.backlog,[a.thread]:list.slice(1)},active:undefined});return openThread(s,a.thread,now)}
  if(a.type==='story-open')return openThread(s,a.thread,now)
  if(a.type==='story-close'){
   if(r.active!==a.thread)return s
@@ -197,10 +228,11 @@ export function reunionAction(s:GameSave,a:ReunionAction,now:number):GameSave{
   if(r.active!==a.thread||!session||!option)return s
   if(a.type==='story-draft')return session.draft===a.id?s:put(s,{...r,sessions:{...r.sessions,[a.thread]:{...session,draft:a.id}}})
   if(session.draft!==a.id)return s
-  s=append(s,a.thread,`C2-STORY-PLAYER-${session.node}-${a.id}`,'player',option.text,now,option.facts)
+  let target=option.next;const fork=reunionNodes[target];if(fork?.kind==='if')target=reunionGuard(s,fork.guard)?fork.yes:fork.no
+  if(!option.silent)s=append(s,a.thread,`C2-STORY-PLAYER-${session.node}-${a.id}`,'player',option.text,now,option.facts)
   r=s.chapter2Access!.story!;s=put(s,{...r,choices:{...r.choices,[session.node]:a.id},...(option.disclosure?{disclosure:option.disclosure}:{})})
   if(option.support){const who=option.support==='group'?['maya','sophie','lucas','eli'] as const:[option.support];const relationships={...s.relationships};for(const id of who)relationships[id]={...relationships[id],trust:Math.min(100,Math.max(0,relationships[id].trust+1))};s={...s,relationships}}
-  return enter(s,a.thread,option.next,now)
+  return enter(s,a.thread,target,now)
  }
  if(a.type==='story-skip-first'&&r.spy['eli-lucas']&&!r.firstResolved){const spy=r.spy['eli-lucas'];return put(s,{...r,firstResolved:true,scene09DueAt:now+12000,spy:{...r.spy,'eli-lucas':{...spy,declined:true,dueAt:undefined}},sessions:{...r.sessions,unknown:r.sessions.unknown?{...r.sessions.unknown,finished:true,queue:undefined}:undefined}})}
  if(a.type==='story-skip-second'&&r.spy['maya-lucas'])return put(s,{...r,complete:true,spy:{...r.spy,'maya-lucas':{...r.spy['maya-lucas'],declined:true,dueAt:undefined}}})
@@ -217,7 +249,8 @@ export function validateReunion(value:unknown):void {
  const finite=(v:unknown)=>typeof v==='number'&&Number.isFinite(v)&&v>=0
  if(!obj(value))return fail()
  const r=value
- const threads=['group','unknown','maya','eli','sophie']
+ const threads=['group','unknown','maya','eli','sophie','lucas','nora']
+ validateContinuation(r.continuation)
  if(r.version!==1||!Number.isInteger(r.revision)||!finite(r.revision)||r.active!==undefined&&![...threads,'eli-lucas','maya-lucas'].includes(String(r.active)))return fail()
  for(const key of ['groupComplete','exploredAfterGroup','postSpyStarted','firstResolved','reflectionStarted','complete'])if(typeof r[key]!=='boolean')return fail()
  if(![null,'full','clues','none'].includes(r.disclosure as string|null))return fail()
@@ -231,13 +264,14 @@ export function validateReunion(value:unknown):void {
   if(v===undefined)continue
   if(!threads.includes(thread)||!obj(v)||!reunionNodes[String(v.node)])return fail()
   const node=reunionNodes[String(v.node)]
-  if(v.queue!==undefined&&(!obj(v.queue)||node.kind!=='npc'||!finite(v.queue.remaining)||v.queue.dueAt!==undefined&&!finite(v.queue.dueAt)))return fail()
+  if(v.queue!==undefined&&(!obj(v.queue)||!['npc','wait'].includes(node.kind)||!finite(v.queue.remaining)||v.queue.dueAt!==undefined&&!finite(v.queue.dueAt)))return fail()
   if(v.draft!==undefined&&(node.kind!=='choice'||!node.options.some(o=>o.id===v.draft)))return fail()
   if(v.finished!==undefined&&typeof v.finished!=='boolean')return fail()
  }
+ if(r.backlog!==undefined){if(!obj(r.backlog))return fail();for(const [thread,list]of Object.entries(r.backlog)){if(!threads.includes(thread)||!Array.isArray(list))return fail();for(const v of list){if(!obj(v)||!reunionNodes[String(v.node)])return fail();const n=reunionNodes[String(v.node)];if(v.draft!==undefined&&(n.kind!=='choice'||!n.options.some(o=>o.id===v.draft))||v.queue!==undefined&&(!obj(v.queue)||!['npc','wait'].includes(n.kind)||!finite(v.queue.remaining)||v.queue.dueAt!==undefined))return fail()}}}
  for(const [node,id]of Object.entries(r.choices as Record<string,unknown>)){const n=reunionNodes[node];if(n?.kind!=='choice'||!n.options.some(o=>o.id===id))return fail()}
  const messages=(v:unknown,actors:string[])=>Array.isArray(v)&&v.every(m=>obj(m)&&typeof m.id==='string'&&typeof m.text==='string'&&finite(m.at)&&actors.includes(String(m.sender)))&&new Set(v.map(m=>m.id)).size===v.length
- for(const who of ['maya','eli','sophie'])if(!messages((r.privateMessages as Record<string,unknown>)[who],[who,'player','system']))return fail()
+ for(const who of ['maya','eli','sophie','lucas','nora'])if(!(['lucas','nora'].includes(who)&&(r.privateMessages as Record<string,unknown>)[who]===undefined)&&!messages((r.privateMessages as Record<string,unknown>)[who],[who,'player','system']))return fail()
  for(const [id,v]of Object.entries(r.spy as Record<string,unknown>)){
   if(!['eli-lucas','maya-lucas'].includes(id)||!obj(v))return fail()
   for(const key of ['unlocked','viewed','complete','declined','fullDisclosure'])if(typeof v[key]!=='boolean')return fail()
@@ -246,4 +280,11 @@ export function validateReunion(value:unknown):void {
   if((v.messages as AccessMessage[]).length!==v.index||(v.messages as AccessMessage[]).some((m,i)=>m.text!==script[i].text||m.sender!==script[i].actor))return fail()
  }
  if(!Array.isArray(r.receipts)||r.receipts.some(v=>!obj(v)||typeof v.eventId!=='string'||typeof v.recipient!=='string'||!['group-recollection','private-message','player-disclosure','spy-unverified'].includes(String(v.source))||!Array.isArray(v.facts)||v.facts.some(f=>typeof f!=='string')))return fail()
+}
+
+export function upgradeNoraMembership(s:GameSave):GameSave {
+ const r=s.chapter2Access?.story
+ if(!r||r.members.nora||r.sessions.group?.node.startsWith('N08_'))return s
+ const updated=put(s,{...r,members:{...r.members,nora:true}})
+ return mark(updated,'C2S08_NORA_MEMBERSHIP_ADAPTER')
 }

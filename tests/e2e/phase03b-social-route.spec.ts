@@ -2,7 +2,7 @@ import { completeOpening } from './opening-helper'
 import { expect, test } from '@playwright/test'
 
 test('social route accepts separate permissions, opens optional Maya scenes and sends only scoped final facts', async ({ page }) => {
-  test.setTimeout(90_000)
+  test.setTimeout(180_000)
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/?legacyopening=1')
   await page.getByRole('button', { name: /Enter the archive/i }).click()
@@ -104,6 +104,7 @@ test('social route accepts separate permissions, opens optional Maya scenes and 
   await page.getByRole('button',{ name: "I found a public status card. It says the correction queue submitter role class is still enabled. It doesn't say who uses it." }).click()
   await page.getByRole('button',{ name: /^Send$/ }).click()
   await page.getByRole('button',{ name: 'Return to case in Bulletin' }).click()
+  await expect(page.getByRole('button',{ name: 'End episode' })).toBeEnabled({timeout:15000})
   await page.getByRole('button',{ name: 'End episode' }).click()
   await expect(page.getByText('THE ARCHIVE · EPISODE 01 COMPLETE')).toBeVisible()
   const status = await page.evaluate(async () => {

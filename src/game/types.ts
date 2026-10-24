@@ -82,6 +82,8 @@ export interface Episode01Slice {
 export interface OpeningState {
   scene01?: {
     version: 1
+    scriptRevision?: 'final-2026-10-23'
+    draft?: { nodeId: string; choiceId: string }
     nodeId: string
     startedAt: number
     introduced: boolean
@@ -169,6 +171,9 @@ export interface OpeningState {
 }
 
 export interface GameSave {
+  chapter1?: import('./chapter1').Chapter1State
+  /** Absent in historical saves; never inferred from editorial scene numbers. */
+  narrativePlan?: 'ch01-master-18' | 'legacy-access'
   chapter2Access?: import('./chapter2Access').Chapter2Access
   schemaVersion: 1
   saveRevision?: number
@@ -194,7 +199,7 @@ const neutral = (): Relationship => ({ trust: 0, affinity: 0, suspicion: 0, roma
 
 export function newGame(): GameSave {
   return {
-    schemaVersion: 1, player: null, episodeId: 'phase-00', sceneId: 'home', unlockedEpisodes: [],
+    schemaVersion: 1, narrativePlan: 'ch01-master-18', player: null, episodeId: 'phase-00', sceneId: 'home', unlockedEpisodes: [],
     choices: {}, messages: [], pendingEvents: [], deliveredEvents: [],
     knowledge: { player: [], characters: { maya: [], daniel: [], lucas: [], sophie: [], eli: [], nora: [] } },
     relationships: { maya: neutral(), daniel: neutral(), lucas: neutral(), sophie: neutral(), eli: neutral(), nora: neutral() },

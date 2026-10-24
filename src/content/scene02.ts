@@ -19,7 +19,7 @@ function chain(script: string, prefix: string, target: string): string {
     else {
       const sender: Actor = actor === 'S' ? 'sophie' : actor === 'M' ? 'maya' : 'lucas'
       target = add({ id, kind: 'npc', sender, channel: 'group', text, next: target,
-        heardFacts: text === "Because that was the last time anyone could confirm where Daniel was." ? ['OPEN-S02-LUCAS-TIMELINE-CLAIM'] : ["We don't agree on what was confirmed.", "We don't even agree about what happened that night."].includes(text) ? ['OPEN-S02-DISPUTED-TIMELINE'] : text === 'Then maybe we need to try differently.' ? ['OPEN-S02-NO-VERIFIED-SHARED-TIMELINE'] : text === "I don't have a clear copy." ? ['OPEN-S02-SOPHIE-NO-CLEAR-COPY'] : text === "Some kind of note." ? ['OPEN-S02-SOPHIE-NOTE-CLAIM'] : [],
+        heardFacts: text === "Because that was the last time anyone could confirm where Daniel was." ? ['OPEN-S02-LUCAS-TIMELINE-CLAIM'] : ["We don't agree on what was confirmed.", "We don't even agree about what happened that night."].includes(text) ? ['OPEN-S02-DISPUTED-TIMELINE'] : text === 'Then maybe we need to try differently.' ? ['OPEN-S02-NO-VERIFIED-SHARED-TIMELINE'] : text === 'A star next to the number.' ? ['OPEN-CONTACT-STAR-REPORTED'] : text === "No. The copy doesn't show who did it." ? ['OPEN-CONTACT-AUTHOR-UNKNOWN'] : [],
       })
     }
   }
@@ -225,11 +225,11 @@ M They're still in the group.
 L I know.
 M Then maybe stop talking about them like they aren't.`, 'OPEN-S02-C06')
 choice('04', [
-  { text: 'Can I see the note?', script: `S I don't have a clear copy.
-S And I don't want to send you something I haven't checked.
-L For once, I agree with Sophie.
-M Could you at least keep the original?
-S Of course.` },
+  { text: 'Can you tell who marked the number?', script: `S No. The copy doesn't show who did it.
+S I shouldn't have assumed it was Daniel.
+L That's what I've been trying to say.
+M Then we keep that question open.
+S Yeah. That's fair.` },
   { text: 'Maybe the number was saved for work.', script: `M That's possible.
 L Possible isn't the same as likely.
 M I didn't say it was likely.
@@ -238,19 +238,19 @@ S I honestly hadn't thought much about that.` },
 S It might be nothing.
 L Finally, something we agree on.
 M Don't sound so pleased about it.` },
-  { text: 'Why are you so sure the note is important?', script: `S I'm not sure.
+  { text: 'Why do you think the star matters?', script: `S I'm not sure.
 S I wish I was.
-S It's just one of the few things I haven't been able to explain.
+S It made me stop scrolling. That's all I can honestly say.
 M That's different from proving it matters.
 S I know, Maya.` },
 ], `W 2
 M Sophie, can you check something for me?
 S Yeah?
-M Was the note already damaged when you found it?
-S I think so.
-M You think?
-S I'm pretty sure.
-L Pretty sure isn't exactly reassuring.
+M Does the export show when the number was starred?
+S No. Not in the copy I have.
+M Or who changed it?
+S No. I checked for that too.
+L Then the star doesn't tell us it was his decision.
 S Lucas, I am trying.
 L I know.
 L But we can't keep building theories around things nobody's verified.
@@ -335,35 +335,35 @@ W 3
 S Can I explain why I thought adding them was a good idea?
 L You could try.
 M Go ahead, Soph.
-S There was a contact list.
-S Daniel's.
+S I found a saved contact export.
+S It's labelled as Daniel's contacts.
 S I already told you about it.
 M Right.
 S And the number didn't have a name.
 L We know.
 S I'm getting there.
 S There was something beside it.
-S Some kind of note.
-M You said you couldn't read it.
-S I couldn't.
-S Not properly.
-L So we have a number and a note you can't read.
-L Fantastic.
-S Could you not?
+S A star next to the number.
+M A favourite contact?
+S Maybe. I don't know how that export uses it.
+S It just says starred. There's no saved name or label.
+L Do we even know Daniel was the one who marked it?
+M No. We don't.
+S I know. I'm not saying he was.
 W 2
-M Did you find anything new in the note?
-S No.
-M Then why bring it up?
-S Because Daniel didn't usually keep numbers like that.
+M Then what made you contact the number?
+S I hoped whoever answered might recognise him.
+M Did they?
+S No. But I didn't want to shut the door without asking.
 W 3
 L ...
-L What do you mean?
-S Just that.
-S It stood out.
+L So this was a guess?
+S A question. I hoped it might lead somewhere.
+S That's different from knowing it would.
 M You've been going through a lot of his things.
-M Maybe you're seeing patterns that aren't there.
-S Maybe.
-S But what if I'm not?`, 'OPEN-S02-C04')
+M We can ask questions without treating the star as proof.
+S I know.
+S I just don't want us to stop looking.`, 'OPEN-S02-C04')
 choice('02', [
   { text: "No. I've never met him.", script: `L Then why was your number saved?
 P That's what I'd like to know.

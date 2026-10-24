@@ -1,8 +1,9 @@
+import { chapter1Action, type Chapter1Action } from './chapter1'
 import { playtestEnabled } from './playtest'
 import { reunionAction } from './chapter2Reunion'
 import { saveMirrorEvidence, linkMirrorEvidence, unlinkMirrorEvidence, navigateMirror } from './mirror'
-import { chapter2Access, type AccessAction } from './chapter2Access'
-import { beginScene01, beginScene02, deliverScene01, draftScene03Choice, markScene01Read, openScene03, pauseScene03, resumeScene02, scene01Invitation, sendScene01Choice } from './scene01'
+import { continueFromChapter1, chapter2Access, type AccessAction } from './chapter2Access'
+import { publicStoryAction, type PublicStoryAction, actIAction, draftActIChoice, type ActIAction, beginScene01, beginScene02, deliverScene01, draftScene03Choice, markScene01Read, openScene03, pauseScene03, resumeScene02, scene01Invitation, sendScene01Choice } from './scene01'
 import { continueMessageFlow, sendRecoveryReply, swapRecoveryCards, hintRecovery, assistRecovery, resetRecovery, verifyRecovery, retainRecovery } from './recoverySequence'
 import { deliverPhoneOpeningEvent, deliverOpening, compareMirrorIndex, finishOpening, inspectMirrorDetail, revealMirrorHint, unlockMirrorRecord, inspectMirrorRecord, inspectRecoveryOffer, readDanielNote, replyToSophie, restoreDanielMirror, sendGroupChoice, markOpeningRead, startPhoneOpening, sendOpeningName, decidePendingRecovery } from './opening'
 import type { MirrorArea, MirrorLockId } from '../content/opening'
@@ -20,6 +21,11 @@ import { answerGroupFollowup, readFollowup, scheduleGroupProposal, scheduleMayaR
 import type { FollowupContact } from '../content/characterFollowups'
 
 interface GameStore {
+  publicStoryAction: (action: PublicStoryAction) => void
+  actIAction: (action: ActIAction) => void
+  draftActI: (choiceId: string) => void
+  chapter1Action: (action: Chapter1Action) => void
+  continueChapter2: () => void
   accessAction: (action: AccessAction) => void
   sendScene01: (id: string, name?: string) => void
   scene01Invitation: (action: 'accept' | 'join' | 'dismiss' | 'show') => void
@@ -158,7 +164,12 @@ function commit(next: GameSave) {
 }
 
 export const useGameStore = create<GameStore>((set, get) => ({
+  chapter1Action: action => commit(chapter1Action(get().save, action)),
+  continueChapter2: () => commit(continueFromChapter1(get().save, Date.now())),
   accessAction: action => commit(chapter2Access(get().save, action, Date.now(), playtestEnabled)),
+  publicStoryAction: action => commit(publicStoryAction(get().save,action)),
+  actIAction: action => commit(actIAction(get().save, action)),
+  draftActI: choiceId => commit(draftActIChoice(get().save, choiceId)),
   sendScene01: (id, name) => commit(sendScene01Choice(get().save, id, name, playtestEnabled)),
   scene01Invitation: action => commit(scene01Invitation(get().save, action)),
   openSophiePrivate: () => commit(openScene03(get().save)),
@@ -224,7 +235,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   tick: () => {
     const current = get().save
     const now = Date.now()
-    if (current.prologue?.scene01) { commit(chapter2Access(deliverScene01(current, now), { type: 'tick' }, now)); return }
+    if (current.prologue?.scene01) { commit(chapter2Access(chapter1Action(deliverScene01(current, now), { type: 'tick' }, now), { type: 'tick' }, now, playtestEnabled)); return }
     if (current.prologue?.flow === 'mirror-first') {
       const next = deliverOpening(current, now)
       commit(next === current ? deliverPhoneOpeningEvent(current, now) : next)

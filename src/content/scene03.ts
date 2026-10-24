@@ -33,8 +33,9 @@ function facts(text: string, context: string): string[] {
   if (context.startsWith('C13-') && ['She works with Daniel.', 'They work together.'].includes(text) || text === "But I don't want to assume she'll know just because she works with Daniel.") found.push(scene03Facts.eliCoworker)
   if (context.startsWith('C13-') && text === 'At Axiom Recovery.' || text === 'She works with Daniel at Axiom Recovery.') found.push(scene03Facts.eliCoworker, scene03Facts.eliAxiom, scene03Facts.danielAxiom)
   if (context.startsWith('C14-a') && text === "It's where Daniel works.") found.push(scene03Facts.danielAxiom)
-  if (text === 'It was in a saved copy of his contacts.' || text === 'A saved contact list.') found.push('OPEN-S01-SOPHIE-CONTACT-LIST-CLAIM')
-  if (['Just the number and that damaged note.', "And a note I couldn't read properly."].includes(text)) found.push('OPEN-S01-SOPHIE-UNREADABLE-NOTE-CLAIM')
+  if (text === "It was in a saved copy labelled as Daniel's contacts." || text === 'A saved contact export.') found.push('OPEN-S01-SOPHIE-CONTACT-LIST-CLAIM')
+  if (['Just your number, with the star still beside it.', 'The export marks it as starred.'].includes(text)) found.push('OPEN-CONTACT-STAR-REPORTED')
+  if (text === "The copy doesn't tell me who saved or marked the number.") found.push('OPEN-CONTACT-AUTHOR-UNKNOWN')
   return [...new Set(found)]
 }
 type Turn = { speaker: 'sophie' | 'player'; text: string } | { speaker: 'wait'; duration: number; typing: boolean }

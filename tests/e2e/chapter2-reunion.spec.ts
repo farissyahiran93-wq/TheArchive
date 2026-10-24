@@ -25,7 +25,7 @@ test('reunion, privacy, optional humanizing SPY, quiet Mirror interlude and Maya
  }
  const completed=await storedLife(page)
  expect(choices).toBe(8);expect(completed.chapter2Access!.story!.disclosure).toBe('none')
- expect(completed.chapter2Access!.groupMessages.some(m=>m.sender==='nora')).toBe(false)
+ expect(completed.chapter2Access!.groupMessages.some(m=>m.sender==='nora')).toBe(true)
  expect(completed.knowledge.characters.maya.some(k=>k.startsWith('C2-DISCLOSED'))).toBe(false)
  await page.screenshot({path:test.info().outputPath('reunion-390.png')})
  await page.getByRole('button',{name:'Back to inbox',exact:true}).click()

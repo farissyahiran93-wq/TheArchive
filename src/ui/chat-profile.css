@@ -1,0 +1,20 @@
+.device .opening-chat-header{position:relative}
+.device .scene01-chat{position:relative}
+.chat-profile-trigger{position:absolute;inset:5px 8px 5px 55px;border:0;background:transparent;cursor:pointer;border-radius:12px}
+.chat-profile-trigger:focus-visible{outline:2px solid #65a79e;outline-offset:-2px}
+.chat-profile-panel{position:absolute;inset:0;z-index:1400;display:flex;flex-direction:column;background:var(--surface,#18262d);color:var(--text,#eef4f5);text-align:left}
+.chat-profile-panel>header{display:flex;align-items:center;gap:12px;padding:14px;min-height:64px;border-bottom:1px solid var(--line,#476064);flex:none}
+.chat-profile-scroll{overflow:auto;min-height:0;padding:24px 16px;flex:1;text-align:center}
+.chat-profile-portrait{display:grid;place-items:center;width:112px;height:112px;overflow:hidden;border-radius:50%;margin:0 auto;background:#47656b;color:white;font-size:30px}
+.chat-profile-portrait img{width:100%;height:100%;object-fit:cover}
+.chat-profile-scroll h2{font-size:23px;margin:16px 0 6px;overflow-wrap:anywhere}
+.chat-profile-scroll>p{font-size:13px;color:var(--muted);margin:0 0 24px}
+.chat-profile-scroll article{text-align:left;border:1px solid var(--line,#476064);border-radius:16px;padding:16px;margin-top:20px}
+.chat-profile-scroll h3{font-size:12px;color:var(--muted);margin:0 0 12px}
+.chat-profile-scroll article p{font-size:14px;line-height:1.6;margin:0}
+.profile-member{width:100%;min-height:64px;display:flex;align-items:center;gap:12px;background:transparent;color:inherit;border:0;border-top:1px solid var(--line,#476064);padding:10px 0;text-align:left;cursor:pointer}
+.profile-member>.character-avatar{width:40px;height:40px;flex:none;border-radius:50%;overflow:hidden;display:grid;place-items:center}
+.profile-member img{width:100%;height:100%;object-fit:cover}
+.profile-member>span:nth-child(2){flex:1;min-width:0;display:grid;gap:4px}
+.profile-member strong{font-size:14px}.profile-member small{font-size:12px;color:var(--muted)}
+.profile-self{font-size:14px;padding:12px 0}

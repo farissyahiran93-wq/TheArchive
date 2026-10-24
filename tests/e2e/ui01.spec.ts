@@ -14,6 +14,7 @@ async function start(page: Page, name = 'Rae') {
 }
 
 test('home, inbox, themes, explicit send, persistence and rendered screenshots', async ({ page }) => {
+  const evidence = test.info().outputPath('screenshots')
   test.setTimeout(60_000)
   await page.setViewportSize({ width: 390, height: 844 })
   await start(page)

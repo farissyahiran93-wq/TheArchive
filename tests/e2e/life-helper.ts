@@ -6,6 +6,7 @@ import type { GameSave } from '../../src/game/types'
 
 export function expandedMirror() {
   let s=sceneAt('G13')
+  s.narrativePlan='legacy-access'
   s=settleScene(sendScene01Choice(s,'a','',true,sceneNow(s)))
   s=settleScene(openScene03(s,sceneNow(s)))
   for(let i=0;i<60&&!s.prologue!.scene01!.privateScene03?.complete;i++)s=settleScene(sendScene01Choice(s,scene01Choices(s)[0].id,'',true,sceneNow(s)))

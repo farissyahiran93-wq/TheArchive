@@ -1,0 +1,133 @@
+import { expect,it,describe } from 'vitest'
+import { Scene04Fixture } from '../../tests/helpers/scene04Final'
+import { scene04Article,scene04Manifest,scene04Nodes } from '../content/scene04Final'
+import { chapter1Action,chapter1Available,chapter1Lifecycle,chapter1OptionsFor } from './chapter1'
+import { normalizeSave } from './engine'
+import { pauseScene03,publicStoryAction,scene01Choices } from './scene01'
+import { openingPresence } from './phonePresentation'
+
+describe('authored Scene 04 — The Public Story',()=>{
+  it('uses all 16 stable menus, 73 branches, nine optional premiums and the six complete public paragraphs',()=>{
+    expect(scene04Manifest).toHaveLength(16);expect(scene04Manifest.reduce((n,m)=>n+m.branches,0)).toBe(73)
+    expect(scene04Manifest.reduce((n,m)=>n+m.premium,0)).toBe(9)
+    expect(scene04Article.paragraphs).toHaveLength(6)
+    expect(scene04Article.paragraphs[2]).toContain('not independently confirmed')
+  })
+  it('delivers the promised article lead once but waits for manual conversation and article actions',()=>{
+    const f=new Scene04Fixture().at('OPEN-S04-ARTICLE-GATE')
+    expect(f.save.notifications.filter(n=>n.id==='CH1-S04-LEAD')).toHaveLength(1)
+    expect(f.save.chapter1?.publicStory?.flags).not.toContain('article-opened')
+    expect(chapter1Lifecycle(f.save)).toBe('installed_dormant')
+    expect(chapter1Available(f.save)).toEqual([])
+    const before=structuredClone(f.save)
+    f.save=chapter1Action(f.save,{type:'inspect',id:'CH1-PUBLIC'},f.now)
+    expect(f.save).toEqual(before)
+    expect(publicStoryAction(f.save,{type:'mark-read'},f.now)).toBe(f.save)
+    f.do({type:'open-article'})
+    expect(f.save.chapter1!.publicStory!.flags).not.toContain('article-inspected')
+    f.do({type:'scroll',value:532}).do({type:'tooltip',id:'byline'})
+    f.save=normalizeSave(JSON.parse(JSON.stringify(f.save)))
+    expect(f.save.chapter1!.publicStory!.scroll).toBe(532)
+    f.do({type:'mark-read'}).do({type:'return-sophie'})
+    expect(f.node().id).toBe('OPEN-S04-C03')
+  })
+  it('keeps optional group and anonymous hint outside completion gates, with no Lucas return',()=>{
+    const f=new Scene04Fixture().at('complete04')
+    expect(f.save.choices['OPEN-S04-C07']).toBeUndefined()
+    expect(f.save.prologue!.scene01!.groupMembers!.lucas).toBe(false)
+    expect(f.save.prologue!.scene01!.groupMessages.filter(m=>m.id.startsWith('OPEN-S04-')&&m.sender==='lucas')).toEqual([])
+    expect(f.save.chapter1!.sender.seen).toBe(false)
+    expect(f.save.chapter1!.sender.messages.filter(m=>m.id==='scene04_sender_version_hint')).toHaveLength(1)
+    expect(f.save.knowledge.characters.sophie).not.toContain('CH1-SENDER-WARNING-DISCLOSED')
+    expect(f.save.chapter1!.completed).toEqual([])
+    expect(f.save.evidence['EV-INDEX-GB-041']).toBeUndefined() // no saving is required
+    f.do({type:'version-history'});expect(f.save.chapter1!.completed).toEqual([4])
+  })
+  it('offers the full group conversation voluntarily and grants only present recipients the sent choice',()=>{
+    const f=new Scene04Fixture().at('OPEN-S04-C07',{group:true}).send('e')
+    expect(f.save.prologue!.scene01!.groupPresence).toEqual({sophie:true,maya:true,lucas:false})
+    expect(openingPresence(f.save,'sophie')).toBe('online')
+    expect(openingPresence(f.save,'maya')).toBe('online')
+    expect(f.node().id).toBe('OPEN-S04-GROUP-END')
+    const id='OPEN-S04-C07-PLAYER-e-CLAIM'
+    expect(f.save.knowledge.characters.maya).toContain(id)
+    expect(f.save.knowledge.characters.lucas).not.toContain(id)
+    f.open().at('complete04')
+    expect(f.save.prologue!.scene01!.groupMessages.filter(m=>m.text==='Can we please stop sharing the article in other chats for a while?')).toHaveLength(1)
+    expect(f.save.prologue!.scene01!.messages.some(m=>m.text==='Sorry about the group.')).toBe(true)
+  })
+  it('resumes the exact Sophie cursor when the skipped optional group is opened later',()=>{
+    const f=new Scene04Fixture().at('OPEN-S04-C09')
+    f.act('open-group').at('OPEN-S04-GROUP-END').open()
+    expect(f.node().id).toBe('OPEN-S04-C09')
+    expect(f.save.choices['OPEN-S04-C08']).toBe('a')
+  })
+  it('honors an explicit sender block, does not un-block, and keeps the core route playable',()=>{
+    const f=new Scene04Fixture()
+    f.save=chapter1Action(f.save,{type:'block-sender'},f.now)
+    f.at('complete04')
+    expect(f.save.chapter1!.sender.messages.filter(m=>m.id==='scene04_sender_version_hint')).toEqual([])
+    expect(f.save.chapter1!.sender.blocked).toBe(true)
+    expect(f.save.chapter1!.publicStory!.complete).toBe(true)
+  })
+  it('can leave the optional group unanswered, continue the core route, then resume that exact group choice',()=>{
+    const f=new Scene04Fixture().at('OPEN-S04-C07',{group:true}).open()
+    expect(f.node().id).toBe('OPEN-S04-C08')
+    expect(f.save.choices['OPEN-S04-C07']).toBeUndefined()
+    expect(normalizeSave(JSON.parse(JSON.stringify(f.save)))).toEqual(f.save)
+    f.send('a').act('open-group');expect(f.node().id).toBe('OPEN-S04-C07')
+    f.send('a').open();expect(f.node().id).toBe('OPEN-S04-C09')
+    const g=new Scene04Fixture().at('OPEN-S04-C07',{group:true}).open().at('complete04')
+    expect(g.save.choices['OPEN-S04-C07']).toBeUndefined()
+    expect(g.save.chapter1!.publicStory!.complete).toBe(true)
+  })
+  it('requires index inspection, C10 selection, explicit acknowledgement and C11 before the final Sophie followup',()=>{
+    const f=new Scene04Fixture().at('OPEN-S04-ARCHIVE-GATE')
+    expect(chapter1Lifecycle(f.save)).toBe('first_record_available')
+    expect(publicStoryAction(f.save,{type:'acknowledge'},f.now)).toBe(f.save)
+    expect(publicStoryAction(f.save,{type:'device'},f.now)).toBe(f.save)
+    f.do({type:'open-index'}).send('b')
+    expect(f.node().id).toBe('OPEN-S04-INDEX-ACK')
+    expect(f.save.chapter1!.publicStory!.feedback).toContain('unverified')
+    f.do({type:'acknowledge'});expect(chapter1Lifecycle(f.save)).toBe('investigation_active')
+    expect(f.node().id).toBe('OPEN-S04-C11')
+    expect(f.save.pendingEvents.some(e=>e.id==='CH1-S04-FOLLOWUP')).toBe(false)
+    f.send('d').do({type:'device'}).tick()
+    expect(f.node().id).toBe('OPEN-S04-FOLLOWUP-WAIT')
+    f.open();expect(f.node().id).toBe('OPEN-S04-C12')
+  })
+  for(const pick of ['a','b','c','d'])it(`C11 ${pick}: separately attributed saves and no penalty for not saving`,()=>{
+    const f=new Scene04Fixture().at('OPEN-S04-C11').send(pick)
+    expect(!!f.save.evidence['EV-PUBLIC-GB-001']).toBe(['a','c'].includes(pick))
+    expect(!!f.save.evidence['EV-INDEX-GB-041']).toBe(['a','b'].includes(pick))
+    expect(Object.values(f.save.evidence).every(e=>!e.verified)).toBe(true)
+    f.at('complete04');expect(f.save.chapter1!.publicStory!.complete).toBe(true)
+  })
+  it('does not teach Sophie about the index until its precise qualifying line is sent',()=>{
+    const f=new Scene04Fixture().at('OPEN-S04-C13').send('a')
+    expect(scene01Choices(f.save)[0].id).toBe('continue')
+    expect(f.save.knowledge.characters.sophie).not.toContain('S04-SOPHIE-INDEX-CLAIM')
+    f.send('continue')
+    expect(f.save.knowledge.characters.sophie).toContain('S04-SOPHIE-INDEX-CLAIM')
+    expect(f.save.knowledge.characters.maya).not.toContain('S04-SOPHIE-INDEX-CLAIM')
+  })
+  it('permits a late optional anonymous reply without inventing any response or Sophie knowledge',()=>{
+    const f=new Scene04Fixture().at('complete04')
+    f.save=chapter1Action(f.save,{type:'read-sender'},f.now)
+    expect(chapter1OptionsFor(f.save,'sender04')).toHaveLength(5)
+    f.save=chapter1Action(f.save,{type:'draft',key:'sender04',id:'proof'},f.now)
+    f.save=chapter1Action(f.save,{type:'send',key:'sender04'},f.now)
+    expect(f.save.chapter1!.sender.messages.at(-1)!.text).toBe('How would you know?')
+    expect(f.save.chapter1!.sender.messages.filter(m=>m.sender==='unknown')).toHaveLength(2)
+    expect(f.save.knowledge.characters.sophie).not.toContain('CH1-SENDER-WARNING-DISCLOSED')
+  })
+  for(const manifest of scene04Manifest){const menu=scene04Nodes[manifest.id];if(menu.kind!=='choice')throw Error('Bad menu')
+    for(const option of menu.choices)it(`${manifest.id} ${option.id}: authored branch resolves and round-trips`,()=>{
+      const f=new Scene04Fixture().at(manifest.id,{group:manifest.id==='OPEN-S04-C07'}).send(option.id)
+      for(let i=0;i<10;i++){const n=f.node();if(n.kind!=='choice'||n.number)break;f.send(n.choices[0].id)}
+      expect(f.save.choices[manifest.id]).toBe(option.id)
+      f.save=pauseScene03(f.save,f.now)
+      expect(normalizeSave(JSON.parse(JSON.stringify(f.save)))).toEqual(f.save)
+    })
+  }
+})

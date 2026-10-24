@@ -267,7 +267,7 @@ export const scene01Script = {
         },
         {
           "speaker": "sophie",
-          "text": "I found this number in a contact list."
+          "text": "I found your number in a saved copy of someone's contacts."
         },
         {
           "speaker": "sophie",
@@ -279,7 +279,7 @@ export const scene01Script = {
         },
         {
           "speaker": "sophie",
-          "text": "And a note."
+          "text": "And a star next to it."
         }
       ]
     },
@@ -288,11 +288,11 @@ export const scene01Script = {
       "choices": [
         {
           "id": "a",
-          "text": "What kind of note?"
+          "text": "A star?"
         },
         {
           "id": "b",
-          "text": "A note about me?"
+          "text": "Did they mark it themselves?"
         },
         {
           "id": "c",
@@ -307,29 +307,29 @@ export const scene01Script = {
         "a": [
           {
             "speaker": "sophie",
-            "text": "That's the frustrating part."
+            "text": "Yeah. That's what caught my eye."
           },
           {
             "speaker": "sophie",
-            "text": "Most of it wasn't readable."
+            "text": "I don't know what it means."
           },
           {
             "speaker": "sophie",
-            "text": "I could make out the number. That was about it."
+            "text": "I was hoping you might."
           }
         ],
         "b": [
           {
             "speaker": "sophie",
-            "text": "I don't know if it was about you."
+            "text": "I can't tell who marked it."
           },
           {
             "speaker": "sophie",
-            "text": "There wasn't a name."
+            "text": "There was no saved name or label."
           },
           {
             "speaker": "sophie",
-            "text": "I only know the number matches."
+            "text": "Only that your number is there, with that star."
           }
         ],
         "c": [
@@ -343,7 +343,7 @@ export const scene01Script = {
           },
           {
             "speaker": "sophie",
-            "text": "Or recognize the person who saved it."
+            "text": "Or know why your number might be there."
           }
         ],
         "d": [
@@ -364,7 +364,7 @@ export const scene01Script = {
       "after": [
         {
           "speaker": "sophie",
-          "text": "The contact list belonged to someone named Daniel."
+          "text": "The copy is labelled as Daniel's contact export."
         },
         {
           "speaker": "wait",

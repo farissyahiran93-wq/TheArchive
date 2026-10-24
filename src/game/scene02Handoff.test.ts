@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { scene01Nodes } from '../content/scene01'
-import { beginScene01, deliverScene01, openScene03, resumeScene02, scene01Choices, scene01Invitation, sendScene01Choice } from './scene01'
+import { beginLegacyScene01 as beginScene01, deliverScene01, openScene03, resumeScene02, scene01Choices, scene01Invitation, sendScene01Choice } from './scene01'
 import { newGame, type GameSave } from './types'
 import { normalizeSave } from './engine'
 import { phoneNotices, openingPresence } from './phonePresentation'

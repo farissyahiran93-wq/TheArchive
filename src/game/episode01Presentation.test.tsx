@@ -5,7 +5,7 @@ import { UtilityApp } from '../ui/UtilityApps'
 import { CaseNavigation } from '../ui/CaseNavigation'
 import { useGameStore } from './store'
 import { newGame } from './types'
-import { beginScene01 } from './scene01'
+import { beginLegacyScene01 as beginScene01 } from './scene01'
 import { CharacterFollowupChat } from '../ui/CharacterFollowupChat'
 
 const original = useGameStore.getState()
@@ -25,7 +25,7 @@ describe('Episode 01 private framing/share presentation', () => {
     const save = retainedLucas(), openCharacter = vi.fn()
     useGameStore.setState({ save })
     const props = { app: 'contacts' as const, back: vi.fn(), appearance: 'light' as const, setAppearance: vi.fn(), audio: { effects: false, music: false }, setAudio: vi.fn(), onRestart: vi.fn() }
-    render(<CaseNavigation.Provider value={{ openMaya: vi.fn(), openSophie: vi.fn(), openCharacter, openBulletin: vi.fn(), openArchive: vi.fn(), openGroup: vi.fn() }}><UtilityApp {...props}/></CaseNavigation.Provider>)
+    render(<CaseNavigation.Provider value={{ openMaya: vi.fn(), openSophie: vi.fn(), openCharacter, openBulletin: vi.fn(), openArchive: vi.fn(), openPublicArticle: vi.fn(), openGroup: vi.fn() }}><UtilityApp {...props}/></CaseNavigation.Provider>)
     fireEvent.click(screen.getByRole('button', { name: /Lucas Grey/ }))
     expect(openCharacter).toHaveBeenCalledWith('lucas')
     expect(useGameStore.getState().save).toBe(save)
@@ -62,7 +62,7 @@ describe('Episode 01 private framing/share presentation', () => {
     const save = { ...base, deliveredEvents: ['CONN-E01-01'], messages: [{ id: 'EV-E01-P03B:S25_OPEN:0', sender: 'maya' as const, channel: 'messages' as const, text: 'Private check-in', at: 1, delivery: 'delivered' as const }] }
     useGameStore.setState({ save })
     const openMaya = vi.fn()
-    render(<CaseNavigation.Provider value={{ openMaya, openSophie: vi.fn(), openCharacter: vi.fn(), openBulletin: vi.fn(), openArchive: vi.fn(), openGroup: vi.fn() }}><StageThread stage="25"/></CaseNavigation.Provider>)
+    render(<CaseNavigation.Provider value={{ openMaya, openSophie: vi.fn(), openCharacter: vi.fn(), openBulletin: vi.fn(), openArchive: vi.fn(), openPublicArticle: vi.fn(), openGroup: vi.fn() }}><StageThread stage="25"/></CaseNavigation.Provider>)
     expect(screen.queryByText('Private check-in')).toBeNull()
     fireEvent.click(screen.getByRole('button', { name: 'Open Maya in Messages' }))
     expect(openMaya).toHaveBeenCalledOnce()

@@ -3,13 +3,13 @@ import { reunionNodes, mayaLucasInterception, type StoryThread } from '../conten
 import { eliLucasInterception } from '../content/reunionSource'
 import { chapter2Access,accessChoices,validateAccessState } from './chapter2Access'
 import { reunionAction,reunionChoices,reunionNextDue,startReunion,tickReunion,storyText,noteReunionExploration,validateReunion,type SpyId } from './chapter2Reunion'
-import { beginScene01 } from './scene01'
+import { beginLegacyScene01 as beginScene01 } from './scene01'
 import { newGame,type GameSave } from './types'
 import { normalizeSave } from './engine'
 import { phoneNotices,openingPresence } from './phonePresentation'
 const time=1800000000000
 function base(){
- let s=beginScene01(newGame(),time)
+ let s=beginScene01({ ...newGame(), narrativePlan: 'legacy-access' },time)
  s.prologue!.scene01={...s.prologue!.scene01!,queue:[],groupComplete:true,lucasLeftGroup:true,groupMembers:{sophie:true,maya:true,lucas:false},privateScene03:{version:1,startedAt:time,reading:false,complete:true,completedAt:time,nextEventReady:true,receipts:[]}}
  s=chapter2Access(s,{type:'tick'},time+7000)
  let now=time+7100
@@ -44,7 +44,7 @@ describe('Chapter 2 reunion direction and privacy',()=>{
   expect(s.chapter2Access!.groupMessages.slice(before+1).some(m=>m.sender!=='player')).toBe(true)
   validateAccessState(s.chapter2Access)
  })
- it('never replays the old readiness scene and adds only members who actually left',()=>{const s=at('G01');expect(s.chapter2Access!.groupMessages.filter(m=>m.sender==='system').map(m=>m.text)).toEqual(['Maya added Lucas Grey.']);expect(s.chapter2Access!.story!.members.nora).toBe(false);expect(s.chapter2Access!.groupMessages.some(m=>m.sender==='nora')).toBe(false);expect(s.chapter2Access!.groupMessages.some(m=>m.text==='Can we start?')).toBe(false)})
+ it('never replays the old readiness scene and adds only members who actually left',()=>{const s=at('G01');expect(s.chapter2Access!.groupMessages.filter(m=>m.sender==='system').map(m=>m.text)).toEqual(['Maya added Lucas Grey.','Eli Ward joined FIND DANIEL','Maya Chen added Nora Vance to FIND DANIEL.']);expect(s.chapter2Access!.story!.members.nora).toBe(true);expect(s.chapter2Access!.groupMessages.some(m=>m.sender==='nora')).toBe(true);expect(s.chapter2Access!.groupMessages.filter(m=>m.text==='Can we start?')).toHaveLength(1)})
  it('does not leak a name disclosed only to Sophie',()=>{const s=base();s.prologue!.scene01!.nameDisclosed=true;s.prologue!.scene01!.disclosedName='Secret';s.knowledge.characters.sophie.push('OPEN-S01-PLAYER-CODENAME');expect(storyText(s,'[PLAYER_NAME]?')).toBe('Are you there?')})
  it('guards observed clues and grants only explicitly sent recipient receipts',()=>{
   let s=at('G04');expect(reunionChoices(s,'group').map(o=>o.id)).toEqual(['a','c'])

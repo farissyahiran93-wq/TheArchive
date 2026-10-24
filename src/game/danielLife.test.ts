@@ -2,13 +2,13 @@ import { describe, expect, it } from 'vitest'
 import { lifeRecords, mayaBirthday, mirrorApps } from '../content/danielLife'
 import { chapter2Access } from './chapter2Access'
 import { canReadLife, lifeKey, reduceLife, visibleLifeRecords } from './danielLife'
-import { beginScene01 } from './scene01'
+import { beginLegacyScene01 as beginScene01 } from './scene01'
 import { normalizeSave } from './engine'
 import { newGame, type GameSave } from './types'
 
 const time=1800000000000
 function expanded() {
-  const s=beginScene01(newGame(),time)
+  const s=beginScene01({ ...newGame(), narrativePlan: 'legacy-access' },time)
   s.prologue!.scene01={...s.prologue!.scene01!,queue:[],groupComplete:true,lucasLeftGroup:true,privateScene03:{version:1,startedAt:time,complete:true,completedAt:time,reading:false,nextEventReady:true,receipts:[]}}
   const next=chapter2Access(s,{type:'tick'},time+7000)
   next.chapter2Access={...next.chapter2Access!,node:'OFFLINE',phase:'installed',packageStatus:'accepted',installAuthorized:true,installCompleted:true,mirrorUnlocked:true,spyInstalled:true,unknownOffline:true}

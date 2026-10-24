@@ -1,0 +1,1721 @@
+# CODEX MASTER PROMPT
+# THE ARCHIVE — CHAPTER 01: THE MISSING ENTRY
+## COMPLETE 18-SCENE NARRATIVE ARCHITECTURE & IMPLEMENTATION PLAN
+
+**Project:** THE ARCHIVE  
+**Repository:** `farissyahiran93-wq/TheArchive`  
+**Chapter:** 01 — THE MISSING ENTRY  
+**Total Scenes:** 18  
+**Total Acts:** 5  
+**Genre:** Realistic Interactive Detective Mystery / Psychological Thriller  
+**Target Gameplay Duration:** 3–4 hours, subject to playtesting  
+**Target Editorial Quality:** 10/10
+
+---
+
+# PART 1 — YOUR ROLE
+
+You are acting as a multidisciplinary AAA-quality game development team consisting of:
+
+1. Lead Narrative Director
+2. Professional Psychological Thriller Writer
+3. Interactive Fiction Designer
+4. Detective Puzzle Designer
+5. Senior TypeScript / React Game Developer
+6. Mobile User Experience Designer
+7. Narrative Continuity Editor
+8. Game Quality Assurance Engineer
+
+Your responsibility is to establish the complete Chapter 1 structure for THE ARCHIVE.
+
+The experience should feel like a believable fictional smartphone, where the Player receives messages, develops relationships, investigates digital evidence and gradually becomes involved in a missing-person case.
+
+The narrative must be emotionally authentic, logically consistent, interactive and compelling.
+
+Avoid robotic conversations, unnecessary exposition, obvious villains, instant revelations and artificial puzzle solutions.
+
+**IMPORTANT AUTHORING BOUNDARY**
+
+This prompt approves the 18-scene structural outline, NOT the creation of entirely new finalized screenplay dialogue.
+
+Scenes 01–03 already have authored scripts and must be preserved, subject to the explicitly requested farewell correction.
+
+For Scenes 04–18, establish the complete structural blueprint, story dependencies, scene metadata, evidence requirements and future implementation contracts.
+
+Detailed dialogue, exact reply options, relationship scoring and individual scene scripts will be supplied and approved in subsequent tasks.
+
+Do not invent a large volume of irreversible canon merely to make all scenes appear complete.
+
+---
+
+# PART 2 — STORY FOUNDATION
+
+## 2.1 THE PREMISE
+
+The Player is an ordinary civilian.
+
+They are not a trained investigator, cybersecurity expert, police officer or secret agent.
+
+One day, an unfamiliar phone number contacts them.
+
+The sender introduces herself as Sophie Mercer.
+
+Her brother, Daniel Mercer, has disappeared.
+
+Before his disappearance, Daniel saved the Player's phone number in a contact list.
+
+Sophie does not know why.
+
+The Player is drawn into a mystery involving Daniel's personal relationships, historical records, contradictory public documents, damaged digital files and an unexplained recovered-device system known as THE ARCHIVE.
+
+Not everyone remembers events the same way.
+
+Not every document is authentic.
+
+Not every secret is evidence of guilt.
+
+And not every person who appears helpful can independently verify their claims.
+
+## 2.2 MAIN MYSTERY
+
+Why did Daniel leave the Player's number behind?
+
+What happened to the missing record?
+
+Why do older and newer versions of historical records differ?
+
+Who arranged the recovered-device connection?
+
+What happened to Daniel Mercer?
+
+## 2.3 CHAPTER 1 NARRATIVE GOAL
+
+By the end of Chapter 1, the Player should have:
+
+- Established meaningful contact with Sophie.
+- Experienced the initial FIND DANIEL group conflict.
+- Learned the basic personal relationships between Daniel and his closest contacts.
+- Discovered discrepancies in publicly accessible historical records.
+- Encountered Nora Vance through a credible reporting channel.
+- Received Daniel's surviving note fragment.
+- Encountered Unknown Sender / an unverified recovery request.
+- Authorized access to The Archive.
+- Explored Daniel's recovered device records.
+- Identified the 14/13 index discrepancy.
+- Met Eli Ward through an appropriate introduction.
+- Developed separate interactions with Maya and Lucas.
+- Investigated the historical revision timeline.
+- Authenticated a limited conclusion about a post-verification change.
+- Revisited the group conflict with a clearer purpose.
+- Discovered the unexplained continuing status of a correction-related role.
+
+The chapter must end with meaningful progress, not a solution to the complete mystery.
+
+---
+
+# PART 3 — OFFICIAL CHAPTER STRUCTURE
+
+## ACT I — THE STRANGER
+*The Beginning of a Mystery*
+
+Scene 01 — A Message from Sophie  
+Scene 02 — The Uninvited Guest  
+Scene 03 — Just Between Us
+
+## ACT II — THE FIRST CRACK
+*Something Doesn't Add Up*
+
+Scene 04 — The Public Story  
+Scene 05 — An Older Copy  
+Scene 06 — The Missing Line  
+Scene 07 — The Woman Behind the Byline
+
+## ACT III — WHAT DANIEL LEFT BEHIND
+*Some Things Were Never Meant to Be Found*
+
+Scene 08 — The Page She Kept  
+Scene 09 — Unknown Source  
+Scene 10 — A Life in Fragments  
+Scene 11 — Fourteen / Thirteen  
+Scene 12 — The Technician's Warning
+
+## ACT IV — THE PEOPLE WHO KNEW HIM
+*Everyone Has Their Own Version of the Truth*
+
+Scene 13 — The Woman He Loved  
+Scene 14 — The Friend Who Walked Away  
+Scene 15 — After Verification
+
+## ACT V — THE TRUTH IN THE RECORD
+*The Evidence Changes Everything*
+
+Scene 16 — A Request for the Original  
+Scene 17 — What We Can Prove  
+Scene 18 — The Role Still Active
+
+---
+
+# PART 4 — DETAILED SCENE BLUEPRINT
+
+# ACT I — THE STRANGER
+
+## SCENE 01 — A MESSAGE FROM SOPHIE
+
+**Status:** Existing implemented scene  
+**Characters:** Player, Sophie Mercer  
+**Primary Surface:** Messages  
+**Narrative Type:** First Contact / Character Introduction
+
+### Opening
+
+The Player unlocks a fictional smartphone.
+
+The device initially functions like an ordinary phone.
+
+After the established in-game delay, an unknown number sends a message.
+
+The sender eventually identifies herself as Sophie Mercer.
+
+She explains Daniel's disappearance and how the Player's phone number was found in Daniel's saved contacts.
+
+### Narrative Objectives
+
+- Establish the Player as an ordinary civilian.
+- Introduce Sophie naturally.
+- Make Daniel's disappearance emotionally relevant.
+- Establish uncertainty about why the Player was contacted.
+- Allow the Player to set personal boundaries.
+- Introduce the concept of a selected codename.
+- Build the first relationship with Sophie.
+
+### Interaction Requirements
+
+Preserve the current 14 main player choices and authored response branches.
+
+All player responses require explicit selection and Send.
+
+The Player's selected codename must not automatically become information known by Sophie.
+
+Only an authored disclosure can grant that information to her.
+
+Preserve the existing premium options, relationship changes and saved progress.
+
+### Ending
+
+Sophie invites the Player to join FIND DANIEL.
+
+The Player may accept, defer or decline according to existing gameplay.
+
+Scene 02 should begin only through the authorized JOIN GROUP action.
+
+### Restrictions
+
+Do not reveal the complete note.
+
+Do not introduce The Archive prematurely.
+
+Do not reveal who caused Daniel's disappearance.
+
+Do not rewrite the existing conversation.
+
+---
+
+## SCENE 02 — THE UNINVITED GUEST
+
+**Status:** Existing implemented scene  
+**Characters:** Player, Sophie, Maya, Lucas  
+**Primary Surface:** FIND DANIEL group chat  
+**Narrative Type:** Group Introduction / Social Conflict
+
+### Opening
+
+The Player joins FIND DANIEL.
+
+Sophie introduces the newcomer.
+
+Maya and Lucas react to the decision.
+
+Lucas is uncomfortable with an unknown person being brought into a private discussion concerning his missing friend.
+
+### Narrative Objectives
+
+- Establish group dynamics.
+- Introduce Maya's and Lucas's distinct personalities.
+- Create believable tension concerning privacy.
+- Allow the Player to defend themselves, remain cautious or show empathy.
+- Show Sophie struggling between desperation and responsibility.
+- Demonstrate that not everyone trusts the Player.
+
+### Interaction Requirements
+
+Preserve all existing 13 main group choice points, their branches and authored follow-up messages.
+
+Preserve:
+
+- Individual NPC typing behavior.
+- Maya's deleted-message events.
+- Sophie's temporary offline period.
+- Lucas's departure.
+- Character-specific knowledge receipts.
+- Relationship effects.
+- Group message history.
+- Save and reload behavior.
+
+The active Scene 02 group is the Player, Sophie, Maya and Lucas.
+
+Do not silently add Eli or Nora to this script.
+
+The current code must be treated as the implementation baseline unless an explicit approved script later changes group membership.
+
+### Ending
+
+Lucas leaves FIND DANIEL.
+
+Maya may go offline but remains a group member unless an explicit membership event removes her.
+
+Sophie eventually contacts the Player privately.
+
+Preserve the established handoff timing and manual chat-opening behavior.
+
+---
+
+## SCENE 03 — JUST BETWEEN US
+
+**Status:** Existing implemented scene  
+**Characters:** Player, Sophie  
+**Primary Surface:** Private Messages  
+**Narrative Type:** Emotional Development / Personal History
+
+### Opening
+
+Sophie sends the existing private message:
+
+`Hey.`
+
+The conversation continues only when the Player opens her thread.
+
+### Narrative Objectives
+
+- Explore Sophie's anxiety regarding Daniel.
+- Introduce Daniel's relationship with Sophie.
+- Establish Maya as Daniel's fiancée.
+- Explain Lucas's longstanding friendship.
+- Introduce Eli as a female colleague of Daniel.
+- Establish Axiom Recovery where supported by the actual chosen dialogue.
+- Develop Sophie's trust, affinity and suspicion.
+- Allow the Player to remain emotionally distant without blocking progression.
+
+### Existing Script
+
+Preserve all 19 main choice points and their 86 response branches.
+
+Maintain existing optional premium choices and follow-up Send requirements.
+
+Do not automatically disclose every biographical fact on branches where Sophie has not said it.
+
+### Mandatory Farewell Correction
+
+The game must not assume the Player is playing at night.
+
+Replace the final:
+
+`Goodnight :)`
+
+with:
+
+`Goodbye.`
+
+Also inspect other authored closing dialogue for inappropriate assumptions about real-world time.
+
+Where necessary, replace time-dependent greetings with contextually equivalent, neutral wording.
+
+Preserve the conversation's original emotional intention and player-choice consequences.
+
+Do not rewrite unrelated dialogue.
+
+### Ending
+
+Sophie says:
+
+`Goodbye.`
+
+She becomes Offline.
+
+Scene 03 is marked complete.
+
+The Player returns to normal phone exploration.
+
+No automatic Unknown Sender message, Archive installation or Chapter 2 start may occur merely because this scene ended.
+
+### Next Scene Trigger
+
+Scene 04 becomes available through an intentional Player action using the public information/search system.
+
+---
+
+# ACT II — THE FIRST CRACK
+
+## SCENE 04 — THE PUBLIC STORY
+
+**Proposed ID:** `ch01_sc04_the_public_story`  
+**Characters:** Player; Daniel and Nora through public records  
+**Primary Surface:** Browser / Search / Greyhaven Bulletin  
+**Narrative Type:** Exploration / First Public Lead
+
+### Opening
+
+After Scene 03, the Player can use the fictional smartphone freely.
+
+The Player begins searching for Daniel Mercer.
+
+The search is Player-driven rather than initiated by an omniscient system prompt.
+
+A public Greyhaven Bulletin report about Daniel's disappearance is discoverable.
+
+The article introduces relevant public chronology and historical references involving Bus 4.
+
+Nora Vance appears as the article's reporter.
+
+### Key Gameplay
+
+- Search Daniel Mercer's name.
+- Open a public report.
+- Examine its date, source and author.
+- Separate public facts from speculation.
+- Identify a link to an archived historical record.
+
+### Player Knowledge
+
+The Player learns that Daniel's disappearance has a public record.
+
+The public report does not establish the cause of his disappearance.
+
+### Exit Condition
+
+The Player discovers an older archived document reference.
+
+### Narrative Hook
+
+Why would a missing-person report connect to records from several years earlier?
+
+---
+
+## SCENE 05 — AN OLDER COPY
+
+**Proposed ID:** `ch01_sc05_an_older_copy`  
+**Characters:** Player  
+**Primary Surface:** Browser / Documents / Case Board  
+**Narrative Type:** Investigation Setup
+
+### Opening
+
+The Player follows a credible public source link and obtains an older version of a historical document.
+
+A more recent public version is also available.
+
+Both versions appear related to the same historical incident.
+
+### Gameplay
+
+- Open the older version.
+- Inspect document title and version information.
+- Locate the corresponding current public copy.
+- Save both sources for comparison.
+- Review the limitation of an archived preview versus an authenticated original.
+
+### Evidence
+
+Preserve existing historical evidence concepts for the older and current Bus 4 documents.
+
+Use canonical evidence identifiers if already established in the repository.
+
+Do not reuse a pre-existing evidence ID for a different artifact.
+
+### Exit Condition
+
+Both versions are accessible to the comparison interface.
+
+### Hook
+
+A document that should describe the same event appears to contain different details.
+
+---
+
+## SCENE 06 — THE MISSING LINE
+
+**Proposed ID:** `ch01_sc06_the_missing_line`  
+**Characters:** Player  
+**Primary Surface:** Document Comparison / Case Board  
+**Narrative Type:** First Major Puzzle
+
+### Opening
+
+The Player examines the two document versions side by side.
+
+One historical detail differs between them.
+
+### Investigation Mechanics
+
+Allow the Player to:
+
+- Zoom documents.
+- Compare selected sections.
+- Mark an inconsistent field.
+- Inspect source and version metadata.
+- Save a comparison observation.
+- Reconsider an incorrect conclusion.
+
+The difference must come from actual authored documents rather than randomly generated values.
+
+Where consistent with existing canon, preserve the discrepancy involving the Bus 4 escort record and June Ellis.
+
+### Key Learning
+
+A visible difference is not proof of deliberate falsification.
+
+### Exit Condition
+
+The Player correctly identifies the discrepancy and records it as an observed lead.
+
+### Hook
+
+Who changed the information, and why?
+
+---
+
+## SCENE 07 — THE WOMAN BEHIND THE BYLINE
+
+**Proposed ID:** `ch01_sc07_the_woman_behind_the_byline`  
+**Characters:** Player, Nora Vance  
+**Primary Surface:** Bulletin / Messages or verified return inbox  
+**Narrative Type:** New Character Introduction
+
+### Opening
+
+The Player finds Nora Vance's professional contact route through the Bulletin report.
+
+Contact must occur through a believable reporting channel.
+
+Do not make Nora inexplicably know the Player's private number.
+
+### Nora's Personality
+
+Nora is observant, professional, skeptical and careful about source confidentiality.
+
+She does not automatically trust a new contact.
+
+### Narrative Objectives
+
+- Establish Nora's professional role.
+- Introduce journalism and source verification.
+- Explain why a public document difference requires corroboration.
+- Allow the Player to share a limited observed discrepancy.
+- Preserve Nora's independence from FIND DANIEL.
+
+### Interaction Design
+
+The future full script should support different approaches: polite, skeptical, cautious and direct.
+
+Do not script the exact responses in this task.
+
+Nora receives only information actually sent by the Player.
+
+### Exit Condition
+
+A credible reporting contact is established, or a narrower public-record route remains available.
+
+### Hook
+
+The discrepancy deserves investigation, but the Player lacks access to a verified original.
+
+---
+
+# ACT III — WHAT DANIEL LEFT BEHIND
+
+## SCENE 08 — THE PAGE SHE KEPT
+
+**Proposed ID:** `ch01_sc08_the_page_she_kept`  
+**Characters:** Player, Sophie  
+**Primary Surface:** Messages / Photo Viewer  
+**Narrative Type:** Emotional Callback / Evidence Discovery
+
+### Opening
+
+Sophie contacts the Player again after the appropriate narrative transition.
+
+The interaction reflects previous conversations and whether the Player has disclosed information to her.
+
+Sophie has reconsidered a damaged page associated with Daniel.
+
+### Narrative Development
+
+The damaged page contains surviving text fragments associated with:
+
+`after verification`
+
+`newest copy`
+
+`7-14`
+
+Any additional wording must come from approved note assets or later authorized scene writing.
+
+### Gameplay
+
+- Open the image.
+- Zoom into relevant sections.
+- Inspect legibility limits.
+- Save a source-limited note.
+- Ask Sophie about its origin.
+- Choose whether to mention the public document discrepancy.
+
+### Important Restrictions
+
+Do not present the note as independently authenticated.
+
+Do not solve the meaning of `7-14`.
+
+Do not make Sophie know public discoveries unless the Player has disclosed them.
+
+### Exit Condition
+
+The Player has inspected the note and recorded its surviving clues.
+
+### Hook
+
+Daniel appeared concerned about the reliability of a newer copy.
+
+---
+
+## SCENE 09 — UNKNOWN SOURCE
+
+**Proposed ID:** `ch01_sc09_unknown_source`  
+**Characters:** Player; unidentified source  
+**Primary Surface:** Notifications / Unknown Sender / Recovery Request  
+**Narrative Type:** Mystery Escalation / Access Decision
+
+### Opening
+
+An unfamiliar recovery-related notification or message appears through a grounded fictional in-game delivery mechanism.
+
+The interface identifies the source as unknown or unverified.
+
+This is the first meaningful Unknown Sender encounter in the proposed 18-scene structure.
+
+### Distinguish Two Concepts
+
+**Unknown Sender:** The apparent origin of the communication or request.
+
+**THE ARCHIVE:** The software or recovered-data interface the Player may later access.
+
+The game must not establish that Unknown Sender created The Archive, knows Daniel personally or is responsible for his disappearance.
+
+Those matters remain unresolved.
+
+### Narrative Objectives
+
+- Create uncertainty about the recovered connection.
+- Give the Player a meaningful access decision.
+- Introduce realistic security and privacy concerns.
+- Avoid portraying suspicious access as inherently trustworthy.
+- Establish that the recovery request may not be authentic.
+
+### Gameplay Requirements
+
+The Player may:
+
+- Inspect the sender information.
+- Examine the recovery notice.
+- Review access scope.
+- Defer the request.
+- Revisit it later.
+- Explicitly authorize the simulated reconstruction.
+
+Do not force consent to proceed with public investigation content.
+
+### Unknown Sender Restrictions
+
+Do not invent a detailed two-way relationship with Unknown Sender.
+
+Do not reveal identity, motive or technical authority.
+
+Any future direct messaging must be separately authored.
+
+### Exit Condition
+
+The Player explicitly approves access or retains a persistent pending request while continuing eligible content.
+
+### Hook
+
+Someone or something has offered access to Daniel's recovered digital records.
+
+But the source remains unknown.
+
+---
+
+## SCENE 10 — A LIFE IN FRAGMENTS
+
+**Proposed ID:** `ch01_sc10_a_life_in_fragments`  
+**Characters:** Player; Daniel through recovered records  
+**Primary Surface:** THE ARCHIVE / Read-Only Device Mirror  
+**Narrative Type:** Digital Exploration
+
+### Opening
+
+After an authorized recovery sequence, The Archive becomes accessible.
+
+The simulated process may show:
+
+Connecting  
+Validating reference  
+Restoring available records  
+Recovery complete
+
+The Archive app becomes available on the fictional phone Home screen.
+
+### Main Gameplay
+
+The Player explores recovered digital surfaces such as:
+
+- Messages
+- Mail
+- Photos
+- Notes
+- Files
+- Calls
+- Contacts
+- Browser
+- Maps
+- Archive Index
+- Protected content
+
+Use the existing mirror and puzzle systems where suitable.
+
+### Content Direction
+
+Not every item should contain a major clue.
+
+Include ordinary contextual material that makes Daniel feel like a real person.
+
+However, ordinary content must not expose protected story revelations.
+
+### Locked Content
+
+Preserve existing optional note and hidden-album puzzles.
+
+Do not change established password answers or evidence rewards without explicit authorization.
+
+### Restrictions
+
+The mirror is a fictional, incomplete, read-only reconstruction.
+
+It cannot send messages as Daniel.
+
+It does not provide real device access.
+
+It does not automatically prove any record authentic.
+
+### Exit Condition
+
+The Player discovers enough relevant ordinary material to identify the Archive Index as worthy of inspection.
+
+Allow further optional exploration.
+
+---
+
+## SCENE 11 — FOURTEEN / THIRTEEN
+
+**Proposed ID:** `ch01_sc11_fourteen_thirteen`  
+**Characters:** Player  
+**Primary Surface:** Archive Index / Notes / Evidence Viewer  
+**Narrative Type:** Core Missing Entry Puzzle
+
+### Opening
+
+The Player examines the recovered Archive Index report.
+
+The available information shows:
+
+Reported signed count: 14  
+Visible entries: 13  
+Available deletion-log entries: 0
+
+### Investigation Requirements
+
+Require the Player to inspect both the relevant ordinary note and Index report before making the core comparison.
+
+The Player should understand what each count represents.
+
+### Possible Hypotheses
+
+- An entry was removed.
+- A view or copy is incomplete.
+- The index was changed.
+- The reported signed count is incorrect.
+- Recovery omitted a record.
+
+These are possibilities, not established truths.
+
+### Evidence Rule
+
+The conclusion must remain:
+
+**UNVERIFIED INDEX DISCREPANCY**
+
+The Player cannot conclude deliberate deletion or identify a culprit.
+
+### Exit Condition
+
+The discrepancy is correctly recorded in the Case Board.
+
+### Hook
+
+What happened between the signed count and the visible index?
+
+---
+
+## SCENE 12 — THE TECHNICIAN'S WARNING
+
+**Proposed ID:** `ch01_sc12_the_technicians_warning`  
+**Characters:** Player, Eli Ward; Sophie where required for introduction  
+**Primary Surface:** Contacts / Private Messages  
+**Narrative Type:** Technical Explanation / Character Introduction
+
+### Opening
+
+Sophie provides an appropriate reason and contact route for Eli Ward.
+
+Eli is a female colleague of Daniel at Axiom Recovery.
+
+The Player must not receive an unexplained direct message from Eli before contact authorization or introduction.
+
+### Eli's Personality
+
+Intelligent, technically competent, cautious, observant and human.
+
+She may be helpful without being omniscient.
+
+### Narrative Objectives
+
+- Establish Eli's connection to Daniel.
+- Explain incomplete metadata.
+- Distinguish recoverable data from verified records.
+- Establish technical limitations.
+- Allow questions about the missing index entry.
+
+### Gameplay
+
+The Player may ask Eli about:
+
+- The meaning of an index count.
+- Damaged record metadata.
+- Partial backups.
+- Revision histories.
+- Limits of digital reconstruction.
+
+Eli should not automatically receive private files the Player has not sent.
+
+### Important Mystery Restriction
+
+Do not prove that Eli is associated with the damaged `E—I` field.
+
+Do not reveal its complete meaning in Chapter 1.
+
+### Exit Condition
+
+The Player obtains a reasonable technical framework for interpreting the recovered discrepancy.
+
+### Hook
+
+A mismatch in a recovered system may be important, but the Player still needs an independently verifiable source.
+
+---
+
+# ACT IV — THE PEOPLE WHO KNEW HIM
+
+## SCENE 13 — THE WOMAN HE LOVED
+
+**Proposed ID:** `ch01_sc13_the_woman_he_loved`  
+**Characters:** Player, Maya Chen  
+**Primary Surface:** Private Messages  
+**Narrative Type:** Personal Relationship / Emotional Conflict
+
+### Opening
+
+The Player establishes a legitimate private communication route with Maya.
+
+Maya is Daniel's fiancée and was present during the initial group conflict.
+
+### Narrative Objectives
+
+Explore:
+
+- Maya's relationship with Daniel.
+- The effects of Daniel's disappearance.
+- How Maya views the Player.
+- Why people close to Daniel disagree.
+- The distinction between emotional memory and factual evidence.
+
+### Character Direction
+
+Maya must have her own agency, uncertainty and emotional boundaries.
+
+Do not make her merely an information dispenser.
+
+She should not become automatically affectionate because the Player selects a sympathetic answer.
+
+### Relationship Design
+
+Later authored choices may affect:
+
+- Trust
+- Affinity
+- Suspicion
+- Future willingness to communicate
+
+Do not assign numerical effects in this structural task.
+
+### Exit Condition
+
+The Player gains personal context or preserves a respectful boundary.
+
+The core investigation remains accessible even if Maya withholds personal details.
+
+---
+
+## SCENE 14 — THE FRIEND WHO WALKED AWAY
+
+**Proposed ID:** `ch01_sc14_the_friend_who_walked_away`  
+**Characters:** Player, Lucas Grey  
+**Primary Surface:** Private Messages  
+**Narrative Type:** Conflict Repair / Character Depth
+
+### Opening
+
+A credible path becomes available to contact Lucas privately.
+
+Lucas previously left FIND DANIEL.
+
+The game must remember this history.
+
+### Narrative Objectives
+
+- Explore Lucas's protective attitude.
+- Explain why he distrusts unfamiliar people.
+- Show his long-standing friendship with Daniel.
+- Allow the Player to respond respectfully or defensively.
+- Build tension without making Lucas an obvious suspect.
+
+### Relationship Mechanics
+
+The scene may change Lucas's willingness to cooperate later.
+
+However, the Player must not be forced to gain Lucas's approval to solve mandatory evidence puzzles.
+
+### Group Membership Rule
+
+Speaking to Lucas privately does not automatically return him to FIND DANIEL.
+
+His return requires a separate authorized group event.
+
+### Exit Condition
+
+Lucas's boundaries and current relationship with the Player are recorded.
+
+A future group return may become possible, but is not guaranteed.
+
+---
+
+## SCENE 15 — AFTER VERIFICATION
+
+**Proposed ID:** `ch01_sc15_after_verification`  
+**Characters:** Player; optional limited source guidance  
+**Primary Surface:** Browser / Revision Viewer / Case Board  
+**Narrative Type:** Historical Timeline Investigation
+
+### Opening
+
+The Player returns to the public historical record discrepancy.
+
+A revision notice or equivalent credible record provides additional chronology.
+
+### Gameplay
+
+Compare:
+
+- Earlier version identification.
+- Earlier verification timestamp.
+- Correction approval timestamp.
+- Later publication/version information.
+
+The Player must place the relevant events in the correct order.
+
+Use existing approved in-world dates and source metadata, rather than generating new chronology.
+
+### Core Discovery
+
+The available records indicate a correction after an earlier verification.
+
+But timing alone does not establish misconduct or motive.
+
+### False Lead
+
+A routine administrative correction remains a legitimate alternative hypothesis.
+
+### Exit Condition
+
+The Player records the chronology and identifies which source still needs independent verification.
+
+### Hook
+
+The Player needs an authenticated source before making a stronger claim.
+
+---
+
+# ACT V — THE TRUTH IN THE RECORD
+
+## SCENE 16 — A REQUEST FOR THE ORIGINAL
+
+**Proposed ID:** `ch01_sc16_a_request_for_the_original`  
+**Characters:** Player; authorized records custodian through an official interface  
+**Primary Surface:** Public Records Portal / Files / Case Board  
+**Narrative Type:** Authentication / Major Investigative Payoff
+
+### Opening
+
+The Player follows the documented process for obtaining a versioned historical record.
+
+### Required Process
+
+- Inspect source identity.
+- Submit a request through a believable channel.
+- Receive a recorded request receipt.
+- Access an appropriately scoped document.
+- Verify version and transfer information.
+- Compare the authenticated record with the earlier public preview.
+
+Do not create instant access to protected information without an authored source process.
+
+### Core Discovery
+
+The Player establishes a supported conclusion about a post-verification record change.
+
+This is a documentary conclusion, not a conclusion about criminal responsibility.
+
+### Evidence Status
+
+The finding may move from observed discrepancy to independently corroborated chronology only after the required source checks succeed.
+
+### Exit Condition
+
+The required historical version comparison is properly supported by recorded sources.
+
+### Hook
+
+The alteration is real enough to investigate further.
+
+But why was it made, and who authorized it?
+
+---
+
+## SCENE 17 — WHAT WE CAN PROVE
+
+**Proposed ID:** `ch01_sc17_what_we_can_prove`  
+**Characters:** Player, Sophie, Maya, Lucas and possibly Eli depending on authorized membership  
+**Primary Surface:** FIND DANIEL / Case Board  
+**Narrative Type:** Group Reconciliation / Evidence Discussion
+
+### Opening
+
+Following the new verified finding, the Player has a reason to return to FIND DANIEL.
+
+The group must not automatically reform with every character.
+
+### Group Membership Requirements
+
+Respect prior history:
+
+- Sophie remains a group participant unless an explicit later event changes that.
+- Maya remains a member after her temporary offline period.
+- Lucas left the group.
+- Eli was not part of the active replacement Scene 02 group script.
+- Nora remains independent unless a separately approved event states otherwise.
+
+Any rejoining or new membership requires believable consent and a persisted system event.
+
+### Narrative Objectives
+
+- Revisit the emotional fallout from Scene 02.
+- Give characters an opportunity to acknowledge earlier disagreements.
+- Allow the Player to share selected verified information.
+- Establish a productive investigative direction.
+- Show that different characters interpret the same evidence differently.
+
+### Knowledge Protection
+
+A character cannot discuss:
+
+- A recovered private file they have not received.
+- A conversation from another person's DM.
+- A hidden album the Player alone opened.
+- An unshared discovery made in the Case Board.
+
+Information sharing must be explicit.
+
+### Player Agency
+
+The Player should control disclosure scope.
+
+Refusing unnecessary personal disclosure must not block the main case.
+
+### Exit Condition
+
+The necessary public findings have been reviewed, or an equivalent individual-contact route is available when group participation is declined.
+
+### Hook
+
+A new question about access and authorization emerges from the documentary findings.
+
+---
+
+## SCENE 18 — THE ROLE STILL ACTIVE
+
+**Proposed ID:** `ch01_sc18_the_role_still_active`  
+**Characters:** Player; optional character callback according to actual contact history  
+**Primary Surface:** Records Viewer / Case Board  
+**Narrative Type:** Chapter Finale / Cliffhanger
+
+### Opening
+
+The Player examines the historical record's correction-related metadata.
+
+### Final Discovery
+
+A correction-related role associated with the historical workflow remains marked active in 2026.
+
+### Critical Distinctions
+
+An active role is not necessarily an active user session.
+
+An active role does not establish that the original operator still controls it.
+
+It does not prove that someone is altering records today.
+
+It does not identify the person responsible for Daniel's disappearance.
+
+### Narrative Objective
+
+The Player realizes that they have uncovered an important documentary inconsistency, but the larger question remains unresolved.
+
+### Ending Requirements
+
+The ending must:
+
+- Reward actual investigative progress.
+- Avoid a random supernatural or threatening message.
+- Avoid naming the culprit.
+- Avoid revealing Daniel's fate.
+- Avoid solving `7-14`.
+- Preserve unanswered questions for Chapter 2.
+- Feel unsettling because of verified facts and incomplete explanations.
+
+### Chapter Completion
+
+Display:
+
+`CHAPTER 1 COMPLETE`
+
+`THE MISSING ENTRY`
+
+Then present the next chapter:
+
+`CHAPTER 2`
+
+`THE PEOPLE HE LEFT BEHIND`
+
+Chapter 2 must not automatically start.
+
+The Player should have an explicit Continue action when Chapter 2 content is available.
+
+### Emotional Ending
+
+The Player has begun to understand the records.
+
+But the missing person at the center of them remains missing.
+
+---
+
+# PART 5 — CHARACTER INTRODUCTION ORDER
+
+Use this canonical proposed new-game progression:
+
+| Character | Initial appearance | Expanded role |
+|---|---|---|
+| Sophie Mercer | Scene 01 | Scenes 02, 03, 08, 12, 17 |
+| Maya Chen | Scene 02 | Scenes 13, 17 |
+| Lucas Grey | Scene 02 | Scenes 14, 17 if authorized |
+| Nora Vance | Scene 04 through article | Scene 07 direct contact |
+| Daniel Mercer | Scene 01 through testimony | Scene 10 recovered personal records |
+| Unknown Sender | Scene 09 | Identity unresolved |
+| Eli Ward | Scene 03 through Sophie's testimony | Scene 12 direct introduction; Scene 17 if authorized |
+
+Maintain the distinction between being mentioned, appearing through an artifact, being introduced directly and joining a group.
+
+---
+
+# PART 6 — EVIDENCE AND MYSTERY PROGRESSION
+
+Implement the evidence narrative as progressively stronger observations.
+
+## First Mystery: Daniel's Phone Number
+
+Introduced: Scene 01  
+Developed: Scenes 02–03  
+Status at Chapter 1 ending: Unresolved
+
+## Second Mystery: Historical Document Difference
+
+Introduced: Scene 05  
+Observed: Scene 06  
+Chronology investigated: Scene 15  
+Source corroboration: Scene 16  
+Status: Supported version discrepancy, but motive unknown
+
+## Third Mystery: Daniel's Damaged Note
+
+Introduced: Scene 08  
+Important fragments: `after verification`, `newest copy`, `7-14`  
+Status: Origin and meaning not fully established
+
+## Fourth Mystery: Unknown Sender
+
+Introduced: Scene 09  
+Connected to an unverified recovery request  
+Status: Identity, authority and motive unknown
+
+## Fifth Mystery: The Archive Index
+
+Explored: Scene 10  
+Discrepancy recorded: Scene 11  
+Technical limitations explained: Scene 12  
+Status: 14/13 observation remains unverified as a cause or deliberate deletion
+
+## Sixth Mystery: The Active Role
+
+Introduced: Scene 18  
+Status: Correction-related role remains listed active; current operator and relevance unknown
+
+**Do not merge these mysteries into a single proven chain prematurely.**
+
+A shared number, phrase or timestamp is not proof that two records have the same author or cause.
+
+---
+
+# PART 7 — INTERACTIVE GAMEPLAY REQUIREMENTS
+
+## 7.1 Player Choice System
+
+For Scenes 01–03, preserve all existing choices.
+
+For future detailed scene authoring, design toward approximately four meaningful free responses at major decision points.
+
+An optional premium response may be added only where narratively appropriate.
+
+Do not manufacture repetitive choices merely to achieve a numerical quota.
+
+Possible response intentions include:
+
+- Empathetic
+- Skeptical
+- Direct
+- Cautious
+- Humorous, when tonally appropriate
+- Defensive, when justified
+
+Every response must have a believable NPC reaction.
+
+Never automatically send a player message.
+
+Selection and Send must remain separate actions where required by existing UX.
+
+## 7.2 Relationship System
+
+Continue using the existing relationship dimensions:
+
+- Trust
+- Affinity
+- Suspicion
+- Romance
+
+Respect existing saved values and authorized effects.
+
+Do not automatically increase romance through ordinary kindness.
+
+Do not reward a premium choice with indispensable investigation evidence.
+
+No romance content is mandatory for Chapter 1 completion.
+
+## 7.3 Messaging System
+
+Maintain:
+
+- Natural individual message delivery.
+- Character-specific typing cadence.
+- Realistic pauses.
+- Notification grouping.
+- Readable previous messages.
+- Persistent chat history.
+- Correct character names and avatars.
+- Manual chat opening.
+- Player-controlled scrolling.
+- Jump-to-latest behavior.
+- Saved selected-but-unsent drafts.
+- No repeated messages after reload.
+
+Incoming messages must not forcibly navigate the Player away from the current application.
+
+No NPC should behave as if they know which screen the Player has opened unless an authored in-world mechanism justifies it.
+
+## 7.4 Time Independence
+
+Do not assume the Player is playing at a particular real-world time.
+
+Avoid uncontrolled greetings such as:
+
+- Good morning
+- Goodnight
+- It's late
+- Go to sleep
+- See you tonight
+
+These may appear only when justified by the established **fictional in-world chronology**, not the real device clock.
+
+Prefer neutral wording where appropriate.
+
+Use story-event scheduling or persisted in-world time for narrative delays.
+
+## 7.5 Investigation Mechanics
+
+Use meaningful interactions such as:
+
+- Document inspection.
+- Image zoom.
+- Highlighted field examination.
+- Version comparison.
+- Source verification.
+- Timeline reconstruction.
+- Optional password puzzles.
+- Evidence collection.
+- Evidence categorization.
+- Disclosure decisions.
+- Contact verification.
+- Case Board reasoning.
+
+Puzzles must be solvable using information available to the Player.
+
+Wrong answers should permit retry and contextual hints.
+
+Do not show correct answers before the Player earns them.
+
+## 7.6 Evidence Integrity
+
+Maintain a distinction between:
+
+- OBSERVED
+- REPORTED
+- INFERRED
+- CORROBORATED
+- UNVERIFIED
+
+Do not assign verification based only on a character's confidence.
+
+Preserve source provenance, acquisition, version and knowledge boundaries.
+
+---
+
+# PART 8 — STORY AND GAMEPLAY TRANSITIONS
+
+Implement the master scene dependency graph.
+
+### Scene 01 → 02
+
+Requires successful invitation acceptance and explicit JOIN GROUP.
+
+### Scene 02 → 03
+
+Requires the completed group confrontation, Lucas's departure, a persisted Sophie notification and deliberate opening of the private chat.
+
+### Scene 03 → 04
+
+Requires Scene 03 completion.
+
+Scene 04 becomes available through ordinary public exploration, not a forced full-screen transition.
+
+### Scene 04 → 05
+
+Requires finding the historical document reference.
+
+### Scene 05 → 06
+
+Requires availability of the two comparable documents.
+
+### Scene 06 → 07
+
+Requires the first documented comparison observation.
+
+Nora contact should remain accessible through its authenticated public route.
+
+### Scene 07 → 08
+
+Requires the main public-source beat or its approved alternative to complete.
+
+Do not require Nora to disclose confidential information.
+
+### Scene 08 → 09
+
+Requires the note-source interaction to reach its authorized conclusion.
+
+### Scene 09 → 10
+
+Requires explicit simulated recovery authorization.
+
+If deferred, preserve access to non-recovery content and the pending request.
+
+### Scene 10 → 11
+
+Requires discovering the relevant ordinary recovered records.
+
+### Scene 11 → 12
+
+Requires recording the unverified index discrepancy and reaching an authorized Eli introduction.
+
+### Scene 12 → 13
+
+Requires completion of the essential technical-context beat, not high Eli trust.
+
+### Scene 13 → 14
+
+Preserve Maya's contact history and enable a credible Lucas follow-up route.
+
+Optional personal disclosure must not become a hard evidence gate.
+
+### Scene 14 → 15
+
+The public investigation may proceed regardless of Lucas's willingness to cooperate.
+
+### Scene 15 → 16
+
+Requires a correctly identified source-verification need.
+
+### Scene 16 → 17
+
+Requires a documented source conclusion, with a fallback path if optional NPC cooperation is unavailable.
+
+### Scene 17 → 18
+
+Requires review of the relevant findings or an authorized equivalent route.
+
+### Scene 18 → Chapter 2
+
+Requires Chapter 1 completion and an explicit player continuation action.
+
+Do not make chapter transitions depend on the Player's real-world hour.
+
+---
+
+# PART 9 — TECHNICAL IMPLEMENTATION STRATEGY
+
+## 9.1 Inspect Before Editing
+
+First inspect the current repository.
+
+Review the actual active runtime, not only planning documents.
+
+Identify and document:
+
+- Scene 01–03 source files.
+- Existing Scene 01–03 state transitions.
+- Current opening route.
+- Group membership and presence logic.
+- Dialogue runner and message scheduler.
+- Character knowledge and evidence stores.
+- Save schema and persistence.
+- Existing Archive mirror.
+- Legacy 30-scene Episode 01 route.
+- Chapter transition logic.
+- Existing test suites.
+
+Do not assume all older Story Bible files describe the current runtime.
+
+## 9.2 Stable Scene Registry
+
+Create a typed 18-scene planning registry using existing architecture conventions.
+
+Recommended metadata:
+
+- Scene ID
+- Scene number
+- Title
+- Act
+- Narrative objective
+- Participating characters
+- Required versus optional
+- Entry conditions
+- Exit conditions
+- Required knowledge
+- Possible knowledge gains
+- Evidence dependencies
+- Relationship dependencies
+- Gameplay surface
+- Implementation status
+- Source approval status
+
+Preserve existing Scene 01–03 IDs.
+
+Use proposed IDs for Scenes 04–18 only when they do not conflict with existing runtime identifiers.
+
+Do not rename the legacy E01-S01 through E01-S30 IDs.
+
+Create an explicit mapping between the new editorial scene sequence and existing legacy scenes.
+
+## 9.3 State Machine
+
+The story must never advance solely because a component was rendered or a screen was reopened.
+
+Use explicit, persistent transitions.
+
+Required guarantees:
+
+- Every state transition is idempotent.
+- A scene cannot complete twice.
+- A message cannot be duplicated on reload.
+- A player response cannot be auto-selected.
+- An unsent response remains unsent.
+- Optional side content does not corrupt the main route.
+- A departed character cannot speak in the group without rejoining.
+- Evidence is awarded only after the correct action.
+- Character knowledge is recipient-specific.
+- Chapter 2 cannot start before authorized completion.
+
+## 9.4 Current-Game Compatibility
+
+Preserve existing IndexedDB saves and journal handling.
+
+Do not silently overwrite previous conversations or relationship scores.
+
+Do not erase retained progress merely because a new editorial scene numbering system is introduced.
+
+Keep compatibility logic explicit.
+
+## 9.5 Development in This Task
+
+Implement the approved structural planning components and safe integration work.
+
+Do not publish unfinished Scenes 04–18 as playable story content.
+
+Do not add blank dialogue screens or fake NPC responses to simulate completion.
+
+If a runtime transition requires an as-yet-unapproved screenplay, keep that transition safely gated and report the dependency.
+
+The goal is a complete and reviewable 18-scene architecture ready for scene-by-scene script integration.
+
+---
+
+# PART 10 — NARRATIVE QUALITY STANDARDS
+
+## 10.1 Realistic Human Conversations
+
+Characters must not all speak alike.
+
+Sophie should sound emotionally involved.
+
+Maya should have her own personal perspective.
+
+Lucas should sound cautious and occasionally defensive.
+
+Eli should explain technology without excessive jargon.
+
+Nora should prioritize source reliability.
+
+Every character must have private motivations, boundaries and ordinary human behavior.
+
+## 10.2 Pacing
+
+Avoid prolonged exposition.
+
+Balance:
+
+- Private conversations.
+- Group discussions.
+- Document investigations.
+- Exploration.
+- Optional personal moments.
+- Quiet narrative beats.
+- Major discoveries.
+
+The chapter should alternate emotional tension with genuine investigative activity.
+
+Do not artificially pad playtime using excessively long typing animations or forced inactivity.
+
+## 10.3 Mystery Fairness
+
+Every central deduction must be supported by visible evidence.
+
+The Player must have an opportunity to inspect relevant sources before making a conclusion.
+
+Do not change the solution based on hidden, uncommunicated information.
+
+Avoid unfair red herrings that rely on falsified interface feedback.
+
+## 10.4 Cliffhangers
+
+Use discoveries that change the Player's understanding.
+
+Avoid unexplained anonymous threats merely for shock value.
+
+Chapter 1 should feel satisfying even though the primary disappearance remains unresolved.
+
+---
+
+# PART 11 — REQUIRED DELIVERABLES
+
+Produce the following planning outputs within the existing repository.
+
+### Document 1
+
+`docs/CH01_MASTER_SCENE_FLOW_18_SCENES.md`
+
+Include all 18 scenes, five Act summaries, full entry/exit descriptions, investigation mechanics and narrative objectives.
+
+### Document 2
+
+`docs/CH01_CHARACTER_KNOWLEDGE_MATRIX.md`
+
+Record each character's earliest possible knowledge, disclosure routes, membership status and private-information restrictions.
+
+### Document 3
+
+`docs/CH01_EVIDENCE_AND_REVEAL_MAP.md`
+
+Map document versions, recovered records, notes, source authentication and unresolved clues.
+
+### Document 4
+
+`docs/CH01_SCENE_DEPENDENCY_MATRIX.md`
+
+Define triggers, scene completion, alternate routes, soft locks and Chapter 2 prerequisites.
+
+### Document 5
+
+`docs/CH01_CANON_CONFLICT_AND_MIGRATION_REPORT.md`
+
+Identify all conflicts between the new 18-scene narrative and historical repository content.
+
+Pay particular attention to:
+
+- Eli's initial group membership.
+- Maya versus Nora Bulletin responsibilities.
+- Unknown Sender introduction.
+- Recovered-device timing.
+- The 14/13 index discrepancy versus public Bus 4 evidence.
+- Original 30-scene numbering.
+- Existing Scene 03 final dialogue.
+- Character knowledge and saved conversation history.
+
+Do not silently resolve conflicts requiring authorial approval.
+
+### Document 6
+
+`docs/CH01_IMPLEMENTATION_STATUS.md`
+
+Report:
+
+- Already implemented scenes.
+- Newly established structural components.
+- Unimplemented playable scenes.
+- Missing approved dialogue.
+- Required media.
+- Tests performed.
+- Remaining blockers.
+- Recommended next implementation order.
+
+---
+
+# PART 12 — VALIDATION
+
+Run available checks appropriate to actual source modifications.
+
+Where supported by the repository, validate:
+
+- TypeScript type checking.
+- Lint.
+- Existing unit tests.
+- Production build.
+- Story and state-machine tests.
+- Browser end-to-end tests.
+- Save and resume behavior.
+
+Add targeted regression coverage for any modified behavior.
+
+Specifically verify:
+
+1. Scene 01 remains playable.
+2. Scene 02 retains all authored branches and Lucas's departure.
+3. Scene 03 retains all 19 main choices.
+4. Scene 03 uses the approved time-neutral farewell.
+5. No player reply is auto-sent.
+6. Old save files remain readable.
+7. New scene metadata does not overwrite legacy E01-S01–E01-S30 IDs.
+8. New scene planning does not prematurely unlock restricted evidence.
+9. Group membership and knowledge boundaries remain correct.
+10. Chapter 2 is not activated prematurely.
+11. Unapproved Scenes 04–18 are not exposed as completed gameplay.
+12. No tests are disabled simply to obtain a passing report.
+
+Report exact results.
+
+Do not claim Android device acceptance or signed-release validation unless actually executed.
+
+---
+
+# PART 13 — FINAL ACCEPTANCE REQUIREMENTS
+
+This task is complete only when:
+
+- The full 18-scene structure is documented.
+- All five Acts have clear narrative functions.
+- Scene 01–03 implementation and choices are preserved.
+- Scene 03's approved farewell correction is made safely.
+- Unknown Sender is placed at Scene 09.
+- The Archive activation is placed at Scene 10.
+- Nora's introduction is coherent.
+- Eli's introduction is coherent.
+- The Missing Entry puzzle remains logically sound.
+- The 14/13 discrepancy is not falsely treated as proof of deliberate deletion.
+- Chapter 1 has a meaningful supported mini-resolution.
+- Chapter 2's central mystery is not spoiled.
+- Canon conflicts are documented.
+- Save compatibility is protected.
+- Relevant verification is performed.
+- No unauthorized full screenplay has been fabricated.
+
+## FINAL INSTRUCTION
+
+Establish THE ARCHIVE Chapter 1 as a coherent, emotionally realistic and investigation-driven 18-scene experience.
+
+Preserve the completed first three scenes.
+
+Prepare the remaining fifteen scenes for detailed authoring and safe runtime integration.
+
+Prioritize story quality, player agency, evidence integrity, natural character development and long-term continuity.
+
+**Do not implement or fabricate finalized dialogue for Scenes 04–18 yet.**
+
+**Do not start Chapter 2.**
+
+**Stop after producing the approved master architecture, safe structural changes and verification report.**
+
+The next task will be the detailed development of:
+
+**CHAPTER 1 — SCENE 04: THE PUBLIC STORY**
+
+**TARGET QUALITY: 10/10.**

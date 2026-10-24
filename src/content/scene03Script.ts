@@ -2502,7 +2502,7 @@ export const scene03Script = {
         },
         {
           "speaker": "sophie",
-          "text": "I've looked through that contact list more than once."
+          "text": "I've checked that saved contact export more than once."
         },
         {
           "speaker": "sophie",
@@ -2514,7 +2514,7 @@ export const scene03Script = {
         },
         {
           "speaker": "sophie",
-          "text": "Just the number and that damaged note."
+          "text": "Just your number, with the star still beside it."
         }
       ]
     },
@@ -2545,7 +2545,7 @@ export const scene03Script = {
           "turns": [
             {
               "speaker": "sophie",
-              "text": "It was in a saved copy of his contacts."
+              "text": "It was in a saved copy labelled as Daniel's contacts."
             },
             {
               "speaker": "sophie",
@@ -2576,7 +2576,7 @@ export const scene03Script = {
             },
             {
               "speaker": "sophie",
-              "text": "But I don't know who else might've had access to that copy."
+              "text": "The copy doesn't tell me who saved or marked the number."
             },
             {
               "speaker": "sophie",
@@ -2586,11 +2586,11 @@ export const scene03Script = {
         },
         {
           "id": "d",
-          "text": "Do the others know about the note?",
+          "text": "Do the others know about the star?",
           "turns": [
             {
               "speaker": "sophie",
-              "text": "They know there was a note."
+              "text": "They know the number was marked with a star."
             },
             {
               "speaker": "sophie",
@@ -2598,11 +2598,11 @@ export const scene03Script = {
             },
             {
               "speaker": "sophie",
-              "text": "But none of us has managed to make sense of it yet."
+              "text": "But none of us knows who marked it, or why."
             },
             {
               "speaker": "sophie",
-              "text": "I haven't shown you a clear copy because I don't have one."
+              "text": "I don't want to turn that into a promise that you can help."
             }
           ]
         },
@@ -2621,7 +2621,7 @@ export const scene03Script = {
             },
             {
               "speaker": "sophie",
-              "text": "A saved contact list."
+              "text": "A saved contact export."
             },
             {
               "speaker": "sophie",
@@ -2633,7 +2633,7 @@ export const scene03Script = {
             },
             {
               "speaker": "sophie",
-              "text": "And a note I couldn't read properly."
+              "text": "The export marks it as starred."
             },
             {
               "speaker": "wait",
@@ -2919,7 +2919,7 @@ export const scene03Script = {
         },
         {
           "speaker": "sophie",
-          "text": "You probably didn't expect to get my entire life story tonight."
+          "text": "You probably didn't expect to get my entire life story in one conversation."
         },
         {
           "speaker": "sophie",
@@ -3072,7 +3072,7 @@ export const scene03Script = {
         },
         {
           "speaker": "sophie",
-          "text": "Or at least pretend I'm going to sleep."
+          "text": "Or at least try to take a break."
         },
         {
           "speaker": "sophie",
@@ -3163,11 +3163,11 @@ export const scene03Script = {
         },
         {
           "id": "d",
-          "text": "Goodnight, Sophie.",
+          "text": "Goodbye, Sophie.",
           "turns": [
             {
               "speaker": "sophie",
-              "text": "Goodnight."
+              "text": "Goodbye."
             },
             {
               "speaker": "sophie",
@@ -3221,7 +3221,7 @@ export const scene03Script = {
             },
             {
               "speaker": "sophie",
-              "text": "Goodnight."
+              "text": "Goodbye."
             }
           ],
           "premiumChoice": true,
@@ -3256,7 +3256,7 @@ export const scene03Script = {
         },
         {
           "speaker": "sophie",
-          "text": "Goodnight :)"
+          "text": "Goodbye."
         }
       ]
     }

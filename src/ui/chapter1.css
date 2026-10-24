@@ -1,0 +1,12 @@
+.c1-app{display:flex;flex-direction:column;height:100%;min-height:0;background:var(--phone-bg,var(--surface));color:var(--text)}
+.c1-scroll{min-height:0;overflow:auto;padding:18px 16px 30px;overflow-wrap:anywhere;flex:1}
+.c1-scroll h2{font-size:23px;line-height:1.25;margin:10px 0 20px}.c1-scroll h1{font-size:25px}
+.c1-scroll p{font-size:14px;line-height:1.65}.c1-preview{font-size:10px!important;color:var(--muted);line-height:1.5}
+.c1-scroll pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.7 ui-monospace,monospace;background:var(--surface);padding:14px;border:1px solid var(--line);border-radius:12px}
+.c1-record-link{display:flex;flex-direction:column;gap:7px;text-align:left;width:100%;border:1px solid var(--line);border-radius:12px;padding:15px;margin:10px 0;background:var(--surface);color:var(--text);cursor:pointer;min-height:52px}
+.c1-record-link small{color:var(--muted);font-size:11px}.c1-scroll details{margin:18px 0;font-size:13px}.c1-scroll summary{cursor:pointer;min-height:34px}.c1-scroll dd{margin:5px 0 15px;line-height:1.6}
+.c1-checklist{padding-left:0;list-style:none;font-size:12px;line-height:1.7;color:var(--muted)}.c1-checklist li{margin:8px 0}
+.c1-scroll label{display:grid;gap:8px;font-size:13px;line-height:1.6;margin:15px 0}.c1-scroll select{width:100%;min-width:0;min-height:44px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);padding:10px;font:inherit}
+.c1-composer{padding:12px;flex:none;max-height:43%;overflow:auto;border-top:1px solid var(--line)}.c1-composer:empty{display:none}.c1-composer .scene01-options{overflow:auto}
+.c1-diff{display:grid;gap:12px}.c1-diff del{color:#9c5264}.c1-diff ins{color:#377d71;text-decoration:none}.c1-choice-block{margin-top:16px}.c1-contact{position:relative}
+.c1-scroll button:disabled{opacity:.45;cursor:default}.c1-disclosure{margin:10px 0;padding:12px;border:1px solid var(--line);border-radius:12px}.c1-disclosure summary{font-size:12px;cursor:pointer}

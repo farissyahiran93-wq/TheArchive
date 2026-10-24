@@ -3,7 +3,7 @@ import { scene01Nodes } from '../content/scene01'
 import { scene01Script } from '../content/scene01Script'
 import { newGame, type GameSave } from './types'
 import { normalizeSave } from './engine'
-import { beginScene01, deliverScene01, scene01Choices, scene01Invitation, sendScene01Choice } from './scene01'
+import { beginLegacyScene01 as beginScene01, deliverScene01, scene01Choices, scene01Invitation, sendScene01Choice } from './scene01'
 import { inspectRecoveryOffer, readDanielNote, restoreDanielMirror } from './opening'
 
 function drain(state: GameSave): GameSave {
