@@ -1,3 +1,5 @@
+import {scene06Local} from '../../src/content/scene06Final'
+import {scene05Local,scene05Checklist} from '../../src/content/scene05Final'
 import {test,expect,type Page} from '@playwright/test'
 import {Scene04Fixture} from '../helpers/scene04Final'
 import {seedScene,openSophie,sceneReply} from './scene01-helper'
@@ -59,6 +61,20 @@ test('Scene 04 full manual route: article, skipped optional group, index choices
   await expect(page.getByRole('button',{name:'REVIEW VERSION HISTORY',exact:true})).toBeEnabled()
   await click(page,'REVIEW VERSION HISTORY')
   await expect(page.getByRole('region',{name:'Chapter 1 investigation'})).toHaveAttribute('data-chapter1-scene','5')
+  await click(page,'OPEN PUBLIC COPY');await click(page,'RETURN TO VERSION HISTORY')
+  await click(page,'INSPECT INDEX');await click(page,'RETURN TO VERSION HISTORY')
+  await click(page,scene05Local['S05-C01'][0].text)
+  await click(page,'HOW THE BULLETIN LABELS UPDATES');await click(page,'READ POLICY');await click(page,'RETURN TO VERSION HISTORY')
+  await click(page,scene05Local['S05-C02'][1].text)
+  for(const [label] of scene05Checklist)await click(page,label)
+  await click(page,scene05Local['S05-C03'][1].text);await click(page,scene05Local['S05-C11'][0].text)
+  await expect(page.getByRole('heading',{name:'VERSION HISTORY — REVIEWED',exact:true})).toBeVisible()
+  await click(page,'OPEN NEXT LEAD');await expect(page.getByRole('heading',{name:'THE CORRECTIONS DESK',exact:true})).toBeVisible()
+  await click(page,'OPEN PUBLIC CORRECTIONS REGISTER');await click(page,'READ REGISTER');await click(page,'RETURN TO DESK')
+  await click(page,'HOW DOES THE DESK HANDLE UPDATES?');await click(page,'READ AND ACKNOWLEDGE');await click(page,'RETURN TO DESK');await click(page,scene06Local['S06-C03'][1].text)
+  for(const name of ['CARD 1 — THE ARTICLE','CARD 2 — THE INDEX','CARD 3 — THE CORRECTIONS REGISTER'])await click(page,name)
+  await click(page,scene06Local['S06-C04'][2].text);await click(page,scene06Local['S06-C07'][0].text);await click(page,scene06Local['S06-C14'][0].text)
+  await click(page,'OPEN NEXT LEAD');await expect(page.getByRole('heading',{name:'THE BYLINE',exact:true})).toBeVisible()
 })
 
 test('Scene 04 optional group plays once and returns to the correct Sophie decision',async({page})=>{

@@ -1,0 +1,142 @@
+CODEX IMPLEMENTATION PROMPT — THE ARCHIVE / CHAPTER 1 / SCENE 06
+THE CORRECTIONS DESK
+Source-of-truth companion:
+THE_ARCHIVE_SCENE_06_THE_CORRECTIONS_DESK_FULL_SCREENPLAY.txt
+24 October 2026
+
+TASK
+Implement ONLY Scene 06, preserving existing completed Scene 01–05.
+The owner reports current local build: 1,039/1,039 unit tests and
+107/107 browser tests passed after Scene 05. Treat those as prior-run
+baseline CLAIMS, not as rerun results. Do not modify/claim APK builds.
+
+MANDATORY PRE-FLIGHT
+1. Open the ACTUAL ACTIVE local repository/worktree/branch that contains
+   Scene 05, not an older remote GitHub main snapshot. If the Scene 05
+   live files are not present, STOP and report the missing source; do not
+   recreate Scene 05, spoof results or write Scene 06 against obsolete APIs.
+2. Read existing Scene 04/05 final reports, actual story registry, queues,
+   Scene 05 choice graph, public Browser/Archive UI, chats, test helpers
+   and save migration. Confirm the literal current menu name
+   “REVIEW VERSION HISTORY” and actual stored scene05.complete flag.
+3. Open and read the ENTIRE attached Scene 06 full screenplay. Its
+   English NPC/player lines, source wording and option IDs are the
+   authored source of truth. Report any necessary runtime/canon mismatch
+   before silently changing a dialogue line.
+4. Verify existing identities and names: GB-ARTICLE-001,
+   ARC-IDX-GB-041, EV-PUBLIC-GB-001, EV-INDEX-GB-041,
+   POL-GB-UPDATES-001, NOTE-S05-VERSION-LIMITS, R-GB-VH-001.
+   The exact real-runtime identity supersedes an authoring proposal where
+   a collision exists; migrate additively, never overwrite.
+
+IMPLEMENTATION SCOPE
+A. Register chapter_01_scene_06_corrections_desk in the existing typed
+   data-driven graph/runner; do not build a second story engine/store.
+   14 choice sets C01–C14 / 42 authored variants (some route-conditional).
+B. Provide the manual Archive card “THE CORRECTIONS DESK” after actual
+   Scene 05 completion. Opening it is an explicit player tap; no automatic
+   redirect, page opening, outgoing bubble or NPC contact. Preserve the
+   exact existing “REVIEW VERSION HISTORY” entry and revisits.
+C. Implement two completely local fictional Browser pages:
+   GB-CORR-REGISTER-001 and GB-CORR-SCOPE-001, exact text from script.
+   Do not claim real network access or fake an authenticated CMS export.
+   Their page-read ACKNOWLEDGE buttons are genuine state checkpoints.
+D. Present comparison and challenge C03-B, C04-C, C07-A as supported
+   answers. Incorrect answers give non-punitive guidance and retry.
+   Do not make optional correspondence/social participation mandatory.
+E. FULL publisher branching using existing precise Scene 05 receipt:
+   - If R-GB-VH-001 DELIVERED: queue ONE inbound Corrections Desk role
+     response. Its one conditional line must match exact sent S05-C04
+     A/B/C. Delivered-only notification, manual inbox opening, optional
+     actual SEND C05-A/B/C and response. Persist receipt linkage.
+   - If Scene 05 question unsent/draft/failed/NOT NOW: do NOT generate
+     response; allow optional Scene 06 public form C06-A/B/C, draft,
+     review, explicit SEND and idempotent R-GB-CD-002 receipt.
+   - Newly sent C06 request does NOT get the prior Scene 05 reply
+     retroactively or an invented instant desk answer.
+   - Reuse the existing Bulletin fictitious return-token method; no
+     real SMTP/email, external API, phone number or contact permission.
+F. Optional Sophie: three full C08–C10 branches with selected composer
+   option THEN real Send; messages human-paced, sensible callbacks;
+   do not assume prior private evidence or create any mandatory reward.
+G. Optional Maya: C11–C12 only in an ALREADY authorized available
+   two-way private route; no synthetic new DM or absent channel.
+   Optional FIND DANIEL C13 only if existing eligible active member
+   is Sophie and/or Maya; never re-add Lucas or trigger messages from
+   an absent/exited member. No Eli/Nora/Daniel phantom contact.
+H. Conclude via C14 local Case Board choice, one-shot private note,
+   explicit verified:false and exact public-source qualifications.
+   Next Scene 07 CTA: “THE BYLINE”; if not authored, show a truthful
+   placeholder. Never auto-start next scene or invent a Nora interview.
+I. Preserve all current scene05 receipts, drafts, optional branches,
+   article text, source classifications, save IDs and delayed events.
+   Historic save paths unchanged; new final-route only. Adapt field
+   structure to existing store, additive normalize/migrate, no reset.
+J. Maintain existing Chat first-contact naming, Send, scroll and typing
+   behavior; avoid sudden unrelated UI redesign and extra paywalls.
+   A user closing an unsent composer transmits NOTHING.
+K. Relationship effects: C08–C12 declared effects apply once on
+   actual Send, bounded/clamped under existing relationship rules.
+   The optional social system cannot grant mainline evidence.
+
+CRITICAL EVIDENCE/KNOWLEDGE GUARDS
+- “Updated: Yesterday” remains only a displayed label, not a date.
+- “No public correction notice listed” is about what the publisher's
+  register displays. It NEVER proves the article was not edited.
+- No verified earlier article body, diff, editor ID or update motive.
+- Nora's public byline NEVER identifies CMS editor or implies contact.
+- ARC-IDX-GB-041 stays source UNKNOWN/content UNAVAILABLE and
+  is never magically authenticated by a publisher page or desk reply.
+- Existing structural CH1-PUBLIC/Bus 4 Maya article never becomes
+  the first edition of Nora's GB-ARTICLE-001.
+- Maya/Sophie/group know ONLY their delivered messages and pre-existing
+  public facts, not the player's Case Board or unsigned inquiry draft.
+- Blocked/unread Unknown Sender remains untouched and non-blocking.
+- Daniel's status, E—I, 7-14, missing individual/culprit unresolved.
+
+RECOMMENDED QA / COVERAGE
+Implement all 40 specified acceptance scenarios in the attached
+screenplay, adapting helper fixtures to the live Scene 05 route:
+- Three Scene 05 delivered inquiry variants A/B/C -> correct reply.
+- No inquiry/draft/failure -> zero reply/no false notification.
+- C05 sent/unanswered and C06 new inquiry idempotency/retry.
+- Full public Browser reading/acknowledgment/classification paths.
+- All Sophie 9 and Maya 6 and group 3 sent options with knowledge scope.
+- No-send draft/reload at every optional composer and publisher inbox.
+- Group membership variants: Sophie only, Maya only, both, neither;
+  no Lucas return, no reinsertion, no phantom NPC response.
+- Scene 05 no-bookmark, blocked Unknown Sender, old saves.
+- 320px / 375px / 430px Browser / chat + mobile keyboard/scroll.
+- Full Scene 04 -> Scene 05 -> manual Scene 06 e2e journey and
+  Scene 06 -> available Scene 07 placeholder.
+- New event timers re-arm exactly and no duplicate events on reload.
+
+RUN ALL (NOT ONLY TARGETED RECHECKS):
+  npm run typecheck
+  npm run lint
+  npm test -- --maxWorkers=2
+  npm run build
+  npm run test:e2e -- --workers=1
+  git diff --check
+
+If a test fails, fix the underlying behavior, rerun targeted tests,
+then rerun a CLEAN full suite. Record total/failed/skipped numbers with
+command and run location. Do not represent coverage across multiple
+runs as a clean one-shot full-suite pass. Do not claim physical Android
+QA, a new APK or an external webpage operation.
+
+DELIVERABLE REPORT
+1. Exact active branch/commit, code files changed, new source files.
+2. Exact scene06 graph manifest, choices and variant coverage.
+3. Confirmation of three request-state routes; screenshot/trace of
+   both fictional pages and notification + Save/Load cases.
+4. NPC knowledge and evidence attribution report.
+5. Tests and explicit true pass/fail/skipped counts; any remaining issues.
+6. Clearly say Scene 07 not yet authored/implemented and APK unchanged.
+
+IMPORTANT
+Treat the provided complete Scene 06 TXT screenplay as a required
+local file. If missing from worktree, report that fact instead of
+synthesizing its dialogue from this short prompt.
+
+END OF CODEX PROMPT.

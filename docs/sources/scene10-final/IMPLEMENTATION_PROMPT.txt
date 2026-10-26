@@ -1,0 +1,166 @@
+THE ARCHIVE — CODEX / WORK IMPLEMENTATION PROMPT
+CHAPTER 1 — SCENE 10: THE INVENTORY SHEET
+25 October 2026 | Status: AUTHORING HANDOFF, NOT YET INTEGRATED
+
+AUTHORITATIVE NEW-SCENE CONTENT:
+THE_ARCHIVE_SCENE_10_THE_INVENTORY_SHEET_FULL_SCREENPLAY.txt
+Implement every in-world public page, dialogue line, choice, branch
+reaction and explicit user action from the source screenplay. Keep
+director notes, test notes and status instructions OUT of game chat.
+
+OWNER'S CURRENT IMPLEMENTATION REPORT, NOT YOUR NEW TEST RESULTS:
+- Scene 09 THE TRANSFER REGISTER is complete after Scene 08.
+- 18 choices/54 alternatives.
+- 1,217 unit tests and 134 browser tests passed as of the owner's report.
+- Typecheck/lint/build passed; Scene 10 remains unavailable.
+- Android APK was not rebuilt.
+Do not claim Scene 10 has inherited those passing counts.
+
+STAGE 0 — INSPECT THE ACTUAL WORKSPACE
+1. Read AGENTS.md and any owner-authoritative current canon, all
+   Scene 09 manuscript/importer/integration reports, the existing
+   Scene 09 exit and next-lead action, current registry, runner,
+   events/knowledge/source ledger, store/normalizer, notifications,
+   timers, forms, and unit/browser tests. Run git status / branch.
+2. Treat active local uncommitted checkout as the newest state; remote
+   GitHub can be older. Never overwrite current Scene 01–09 changes.
+3. Confirm Scene 09's actual successful C18 and manual OPEN NEXT LEAD
+   exist. If missing or placeholder, store Scene 10 as staged docs and
+   state the exact blocker. Do NOT invent scene-completion flags or
+   create production route bypasses.
+4. If authorized valid Scene 09 route exists, change its actual OPEN
+   NEXT LEAD from truthful Scene 10 unavailable placeholder to real
+   manual Scene 10 entry; preserve all other UI, saves and history.
+
+STAGE 1 — PROVENANCE AND WORLD CONSISTENCY
+5. Keep Scene09's GH-TR-2022-063, GH-PN-GEN-2017-2021,
+   GH-INV-2022-063, listed Civic Secretariat/Greyhaven Records Centre
+   custodian roles, and ALL earlier public/private sources unchanged.
+6. Create NEW SEPARATE local public page source:
+     GH-BOX-INDEX-EXTRACT-001
+   Print the precise document reference GH-INV-2022-063-EX1; this is
+   a partial PUBLIC BOX INDEX for the same SERIES, not part of the
+   earlier finding aid. Box headings GH-PN-BOX-01 .. BOX-04; Box03
+   points to GH-DSC-03-A as a separate descriptor reference but
+   contains NO descriptor text, item-level index, original or issuer.
+7. Create NEW SEPARATE public procedure note source:
+     GH-CATALOGUE-ACCESS-NOTE-001
+   Do not claim it is a case-specific Records Centre reply.
+8. GB-REF-017 is a PUBLISHER reporting label and is NEVER displayed
+   as a civic-issued ID. The Archive's cross-source annotation about
+   the unverified link MUST NOT be printed inside the civic page.
+9. There is NO link to article edit, original notice, 2019 evacuation,
+   June Ellis, Bus 4, E012, Depot 02, 7-14, E—I, Unknown Sender,
+   Daniel's whereabouts, culprit or motive. An absent public excerpt
+   is not a destruction/denial/disposition record.
+10. No unauthorized external network calls, contact discovery, or
+    real accounts. All fictional pages/messages work offline.
+
+STAGE 2 — GRAPH, LOCAL PANELS AND CHOICES
+11. Discover and keep existing chapter1 planning scene ID for Scene10
+    (if present). Authoring alias only:
+      chapter_01_scene_10_the_inventory_sheet
+    New global live chat IDs must use distinct OPEN-S10-* namespace;
+    do not renumber prior cursors/messages.
+12. Use the EXISTING typed single dialogue runner and existing
+    source/notification store. Do not build a second state manager.
+13. Implement exactly S10-C01..C20, each A/B/C = 60 authored options
+    and their corresponding distinct feedback/replies. Archive-only
+    choices C01..C11/C19/C20 are local and DO NOT create fake player
+    bubbles. Optional C12..C18 need actual SELECT -> DRAFT -> SEND.
+14. Required corrected choice gates:
+    C02-B, C03-C, C04-A, C05-C, C06-B, C07-A, C08-C, C09-B,
+    C10-A and C19-B. Wrong answers yield the exact retryable feedback,
+    no effects and no irreversible lock. C01 info-only; C11 all
+    options private/no Send; C20 all options valid final stances.
+15. Explicit durable gates: source opened; source banner/Box03/public
+    coverage separately inspected; MARK BOX INDEX READ; inspect
+    series/box/item; descriptor row inspected and MARK REFERENCE
+    INSPECTED; read box date/source comparison; public procedure
+    note opened/inspected/MARK LIMITS READ; local example search and
+    its limitation; supported classification choices; C19 puzzle;
+    player explicitly commits C20 to finish.
+16. Construct an accessible multi-source matching puzzle with a
+    tap-based alternative to dragging. False edges are not saved as
+    facts. Don't require lucky guesses, premium or waiting for reply.
+17. Only after C20 is committed once, save private
+    NOTE-S10-DESCRIPTOR-NOT-DOCUMENT and
+    EV-S10-INDEX-LIMIT-001, verified:false for all specific notice
+    and case associations. Actual next Scene11 remains unavailable.
+
+STAGE 3 — OPTIONAL REQUEST AND CHAT ROUTES
+18. C12 civic form uses role inbox only, not an identified employee.
+    Provide three authored fixed public questions, editable choice,
+    review and submit. Changing option invalidates review. Back,
+    cancel and failed submit create no receipts or recipient knowledge.
+19. Only a successful actual C12 SEND issues one R-GH-INV-001 with
+    exact text/choice/scope/time/token and queues one saved-delay
+    EV-S10-CATALOGUE-DESK-REPLY-001. This is distinct from
+    R-GH-TR-001 (Scene09) and R-GH-PN-001 (Scene08). A pending prior
+    receipt never triggers a new response. Match 3 role reply branches
+    to the actual sent option. Only after delivery show notification;
+    only after manual read grant player observed testimony.
+20. C13 reply followup only when role inbox response was delivered
+    AND opened/read. Must select + send; never automatically respond.
+21. C14 Nora professional only via genuine previously connected
+    R-GB-NV-001 and genuinely delivered/read Nora reply. If that
+    channel is not established, HIDE. No author byline -> DM.
+22. C15/C16 Sophie only via valid private channel and manual opening.
+    Respect existing ask-first/no-case-update rules. Apply authored
+    relationship effects exactly once on real Sends; conditional
+    boundary penalty only when such a Send crosses a real boundary.
+    No compulsory romance, grief extraction or clue as affection prize.
+23. C17/C18 FIND DANIEL group only with actual recipient snapshot.
+    Maya and Sophie replies conditional on membership and consent;
+    Lucas has left; don't add Eli/Nora/Daniel or absent member.
+    Group consent is separate from Sophie private consent. No
+    automatic attached evidence, Board content, form, private chat.
+24. Never send implicit Player bubbles. Track exact outgoing receipts,
+    incoming delivered messages and NPC knowledge separately.
+
+STAGE 4 — COMPATIBILITY, TIMING AND QUALITY
+25. Add one optional chapter1.inventorySheet state to the current
+    save schema with normalization. Don't bump IndexedDB version,
+    alter old localStorage, reset saves or rewrite previous dialogue.
+26. Enter only after real Scene09 finish and manual click; old
+    historical/C2/structural paths must not auto-convert.
+27. Source and conversation scrolls are independent of Scene09's
+    saved scroll. Source bookmarks and receipt status have correct
+    attribution and idempotence on reload.
+28. Existing timer: persist remaining pauses/typing delay across
+    back, pagehide, visibilitychange, hydration and reload; cancelled
+    callbacks must not deliver early or duplicate. Correct status
+    label PENDING/AVAILABLE/READ from saved delivery state.
+29. Preserve input keyboard composer visibility, player name display,
+    near-bottom autoscroll only, manual jump indicator, reduced-motion
+    path, text wrapping on 320/375/430px and light/dark UI.
+30. Keep pre-existing Unknown Sender block/read/reply state unchanged.
+
+VERIFICATION / ACCEPTANCE
+31. The attached screenplay includes QA01–QA68 distinct targets. At
+    least verify all of them and all 60 authored A/B/C variants.
+32. Test mainline ZERO optional Sends and with optional sends.
+    Test failed/reviewed/unsent drafts, idempotent receipts, delayed
+    role responses, persistent checkpoints and all consent routes.
+33. Run npm run typecheck, npm run lint, full unit test suite, npm run
+    build, full Playwright/browser suite, git diff --check. Report
+    command, outcome and exact count. If full run fails, identify
+    failing tests; do not aggregate separate reruns as one clean pass.
+34. Include visual browser screenshots at 320/375/430px of the box
+    index, descriptor reference, source comparison, form, inbox,
+    chat and private conclusion. Distinguish screenshots from actual
+    Android device testing.
+35. Update a separate Scene10 implementation report with source,
+    traceable event/choice ledger, changed file inventory, known
+    limits, browser outcome and explicit Android status.
+36. No commit/push or Android APK rebuild unless the owner separately
+    instructs it. Do not promise physical-device QA not performed.
+37. Scene11 lead THE SECONDARY CARD remains a real placeholder; open
+    must truthfully report 'Next lead not yet available'. No new
+    verified descriptor content, issuer, culprit or contact.
+
+DELIVERABLE CRITERION:
+A playable, reproducible, save-safe Scene10 with exact new manuscript
+and choice reactions, explicit player Sends only where intended,
+source-limited investigation, correct privacy and membership,
+verified automated checks, and no spoilers or false evidence.

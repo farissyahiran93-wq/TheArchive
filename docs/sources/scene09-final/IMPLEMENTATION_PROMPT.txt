@@ -1,0 +1,199 @@
+THE ARCHIVE — CODEX IMPLEMENTATION PROMPT
+CHAPTER 1 / SCENE 09: THE TRANSFER REGISTER
+Owner handoff — 25 October 2026
+
+AUTHORED INPUT (authoritative for NEW Scene 09 only):
+THE_ARCHIVE_SCENE_09_THE_TRANSFER_REGISTER_FULL_SCREENPLAY.txt
+Keep verbatim the authored in-world page copy and each spoken option,
+NPC response and required UI string. Director notes, IDs, brackets,
+metrics and tests must not be rendered as dialogue or fake evidence.
+
+IMPORTANT HONEST BASELINE:
+- Owner states that Scene 06 is integrated and passed 1,092 unit tests,
+  115/115 full browser in one clean run, typecheck/lint/build/diff.
+- In the latest owner report, Scene 07 was STILL a placeholder.
+- Scene 08 was authored but is NOT confirmed implemented.
+- This Scene 09 screenplay is a FUTURE AUTHORING DELIVERABLE, not
+  permission to forge Scene 07/08 completion or ignore prerequisites.
+- The actual checkout may contain uncommitted code newer than a remote
+  GitHub snapshot. Inspect local working tree. Do not use old remote
+  HEAD to overwrite later local authored work.
+- Owner has not asked for commit, push, Android build or release.
+
+PHASE GATE:
+1. Before touching code, read AGENTS.md, git status, branch, current
+   Scene 01–08 scripts/importers, implementation reports, registry,
+   runner, stores, source ledger, normalization, save schemas,
+   notification/timer, and related unit/browser tests.
+2. Verify actual Scene 07 completion S07-C15 and actual Scene 08
+   completion S08-C16 exist as PLAYABLE, TESTED routes.
+3. If either is a placeholder, STORE SCRIPT/PROMPT as STAGED SOURCES,
+   without exposing a playable Scene 09 entry. Report integration as
+   BLOCKED on precisely the missing preceding scene. Do not invent
+   completion flags, temporary bypass buttons or seed fake player
+   save state in production. Implementing other scenes is out of scope
+   unless separately requested.
+4. If BOTH are real and valid, implement explicit MANUAL transition
+   Scene 08 -> Scene 09 on OPEN NEXT LEAD. Older structural saves and
+   untagged scripts MUST NOT acquire this route automatically.
+
+STORY/PROVENANCE RULES:
+A. Do not rewrite Scene 01–08 dialogue, timers, dates, article text,
+   publisher/Unknown Sender notifications, or existing receipts.
+   Keep GB-ARTICLE-001 original six paragraphs, 7 Oct publication,
+   updated-label uncertainty and ARC-IDX-GB-041 metadata-only nature.
+B. Scene 07 GB-REF-017 remains a PUBLISHER label. No documented
+   official notice, body, issuer, original number or authenticity.
+C. Scene 08 GH-PN-ROUTE is a service ROUTING code. R-GH-PN-001 is
+   independent and unchanged. R-GB-CD-002 remains pending unless
+   some separately authorized script has a genuine response. Do not
+   use Scene 08 or 09 to invent that publisher response.
+D. Add DISTINCT new local/offline civic sources with their exact IDs:
+   GH-TRANSFER-REGISTER-001, GH-TRANSFER-FINDING-AID-001,
+   GH-TR-2022-063, GH-PN-GEN-2017-2021 and GH-INV-2022-063.
+   Register new PUBLICLY LISTED TRANSFER OF A RECORD SERIES, not a
+   verified case-specific item or GB-REF-017 transfer. Series dates
+   2017–2021, transfer 2022; former custodian Civic Secretariat,
+   receiving custodian Greyhaven Records Centre. The original issuer
+   and existence/membership of the alleged notice remain UNKNOWN.
+E. No link to June Ellis, 2019 evacuation, Bus 4, Depot 02, E012,
+   7-14, E—I, Daniel's fate, Nora's role in site edits or a culprit.
+   Year 2019 in broad coverage is not independent corroboration.
+F. Keep city public finding-aid text separate from Archive player
+   comparison annotation mentioning GB-REF-017. A fictional records
+   centre must not appear to know a private publisher reference
+   before a player explicitly sends it.
+G. Scene 09 can save a source-limited public series-level lead;
+   it must not set ANY original_notice/issuer/article_edit/culprit/
+   individual transfer flag to verified/true. Case-specific note:
+   NOTE-S09-SERIES-NOT-ITEM verified:false.
+
+ENGINE / UX IMPLEMENTATION RULES:
+01. Preserve current canonical planning ID if any and every existing
+    save cursor. New authoring alias only:
+    chapter_01_scene_09_the_transfer_register. Choices S09-C01..C18;
+    new live message IDs OPEN-S09-*. Unique stable IDs globally.
+02. Use the EXISTING typed dialogue runner and current Zustand/store,
+    receipt+event queue, timers, chat renderer, Case Board, Archive
+    navigation and normalized save. Do not create another delivery
+    engine or second persistent store.
+03. All three options A/B/C for all 18 decision sets must exist,
+    54 distinct authored responses. Preserve explicitly correct
+    branch gates: C02-B, C03-A, C04-C, C05-B, C06-C, C07-A,
+    C08-B, C09-C, C17-A. Wrong choices STAY and retry with no
+    relationship/evidence advancement. C01 repeatable info, C10
+    A/B/C private strategy all accepted. C18 A/B/C all accepted.
+04. Required actions must be explicit and saved: register OPEN +
+    MARK READ; individually inspect entry number, date coverage,
+    custody; pass C02/03/04/05; finding-aid OPEN + two limitations
+    INSPECTED + MARK READ; pass C06/C07/C08/C09/C17; select C18.
+    The actual branching order can align UI to engine but must not
+    skip any requirement or hide mainline behind an inbox, social,
+    premium, clock or relationship level.
+05. Archive/Browser/local puzzle decisions C01-C10, C17, C18
+    NEVER produce outgoing Player chat bubbles. C11-C16 are actual
+    explicit SELECT -> DRAFT -> SEND actions, not pseudo-choice
+    effects or unreviewed sends.
+06. For optional C11 civic Records Centre form: exact A/B/C static
+    selected question; EDIT invalidates prior REVIEW. BACK/SAVE/
+    CANCEL/failed submission create NO sent receipt/knowledge.
+    One successful SEND creates R-GH-TR-001 exactly once with exact
+    body, recipient, scope, timestamp and fictional local return
+    token. A/C exclude GB-REF-017; B explicitly includes this
+    PUBLISHER label and carefully says it is not official.
+07. New role inbox is Greyhaven Records Centre — Public Series
+    Enquiries. NOT a private human contact, avatar, phone number,
+    email account, real web request or permission grant. Only
+    delivered R-GH-TR-001 queues one EV-S09-SERIES-DESK-REPLY-001
+    with a persisted exact delay. Match reply A/B/C to actual sent
+    option. Notification after actual delivery only; role inbox
+    manually opened; delivered but unread testimony never enters
+    player's observed-knowledge ledger. Show PENDING truthfully.
+08. C12 only after opened READ role reply, each player question
+    must be separately SENT with unique delivered scope and response.
+    Role-inbox messages must not change character relationship stats.
+09. C13 Nora professional optional only when Scene07's actual
+    R-GB-NV-001 is delivered, professional Nora reply was delivered
+    AND actually read, and public professional channel remains
+    authorized. Byline or website profile alone is insufficient.
+    No new private Nora DM, phantom avatar or newly generated access.
+10. Sophie C14/C15 optional only on existing genuine private route;
+    no automatic opening after prior goodnight. Existing ask-first
+    and declined-detail boundary applies; case update C15-A without
+    appropriate consent gets exact authored reaction/once-only trust
+    penalty. B/C are ordinary humane responses. No compelled grief
+    extraction, romance gating or clue gated by kindness.
+11. Group C16 optional, uses EXACT CURRENT memberships and recipient
+    snapshot at Send. Lucas remains left; do not inject Eli, Nora,
+    Daniel or Maya/Sophie when absent. Sophie private consent is NOT
+    transferable to group. A/B restricted-case-detail branches
+    produce boundary reaction if ask-first without group consent;
+    C method-only avoids unwanted facts.
+12. ONLY on explicit private C18 selection after every required
+    investigation gate, record EV-S09-TRANSFER-LIMIT-001 once, the
+    private stance, Scene09.complete and accurate scene order. All
+    optional correspondence can remain unread, unsent or pending.
+13. Scene10 THE INVENTORY SHEET is only a HOOK, not a real scene.
+    'OPEN NEXT LEAD' reports 'Next lead not yet available' until
+    independently authored/implemented. No item sheet, notice PDF,
+    reply, issuer, culprit or Daniel clue may be invented here.
+14. Preserve all previously delivered message IDs, relationship
+    values, permissions, drafts, scroll, queue, status and save data.
+    Add chapter1.transferRegister (optional) to same schema v1
+    normalization/validation. Create only after authorized entry.
+    No historical reset, IndexedDB upgrade or localStorage rewrite.
+15. Persist per-panel scroll and individual optional thread cursors,
+    exact drafted option, reviewer state, receipt, notifications,
+    remaining typing delay. Pagehide/visibilitychange/reload pauses
+    active queue; user reopening resumes, not auto delivers. Dedup
+    early timer callback and duplicate Send; respect reduced-motion.
+16. At 320/375/430px ensure controls wrap, no horizontal overflow;
+    preserve keyboard visibility, scroll jump indicator, codename,
+    notification above active screen, accessible focus/labels.
+17. All fictional civic pages/requests use bundled game content,
+    no outside URL network, private device data or authentication.
+
+RECOMMENDED DELIVERABLES IF INTEGRATION GATE IS SATISFIED:
+- Owner screenplay and this prompt pinned verbatim in repo source
+  location consistent with Scene04–08 (e.g. sources/scene09-final).
+- Deterministic offline importer -> typed node graph; stable manifest,
+  individual registries and content integrity tests.
+- One additive source/evidence catalog for 2 new documents, one
+  separate Register row and one finding-aid reference; no cross-link
+  to older CH1-OLDER/Bus4 or other article versions.
+- Pure state transitions and one shared runner integration; UI
+  register, finding aid, simulated search, source ladder, role inbox,
+  independent optional Sophie/Nora/group dialogue.
+- Focused unit coverage of ALL 54 C01..C18 A/B/C authored branches,
+  correct/wrong retry, source split, provenance, exact send, no send,
+  delay/reload, conditional desk A/B/C, missing source/no-mail route,
+  Sophie boundary, Nora privacy, true group membership and historical
+  schema recovery.
+- Browser journeys for Scene08->09 click, empty optional state,
+  all C11 request variants and replies, pending/unread/failed,
+  Nokia-sized 320px screen and widths 375/430, Sophie + group,
+  Nora route eligible/hidden, Unknown Sender blocked, historical
+  saves, and complete chapter final-route when actually possible.
+- Report exact code paths, source IDs, gate behavior and commands
+  run, failures + rechecks clearly separated from final complete run.
+
+FINAL VERIFICATION COMMANDS (RUN; DO NOT CLAIM RESULTS IN ADVANCE):
+ npm run typecheck
+ npm run lint
+ npm test -- --maxWorkers=2
+ npm run build
+ npm run test:e2e -- --workers=1
+ git diff --check
+
+Author target: 18 decision sets, 54 fully written alternatives, 59
+QA target scenarios; counts are screenplay AUTHORING targets, not
+newly passed runtime tests. Full browser pass means one UNCHANGED
+implementation from beginning to end, not a collection of focused
+runs. If blocked on earlier scenes, report STAGED and state no tests
+of playable Scene09 were performed.
+
+Do not commit or push, rebuild Android APK, sign packages, run real
+outside correspondence, or assert physical device acceptance unless
+explicitly authorized and carried out in that task.
+
+END OF SCENE 09 CODEX IMPLEMENTATION PROMPT.

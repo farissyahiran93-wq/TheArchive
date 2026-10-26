@@ -1,0 +1,865 @@
+THE ARCHIVE — CHAPTER 1
+SCENE 06: THE CORRECTIONS DESK
+FULL FLOW + IMPLEMENTATION-READY SCREENPLAY (English in-game text)
+Authoring date: 24 October 2026
+STATUS: NEW AUTHORING PROPOSAL — NOT YET IMPLEMENTED / NOT TESTED
+
+==========================================================================
+00. STORY CONTRACT / LOCKED CONTINUITY
+==========================================================================
+
+PREDECESSOR: Scene 05 — VERSION HISTORY. scene05.complete is true only
+when the player has manually reviewed both GB-ARTICLE-001 and
+ARC-IDX-GB-041, read the public update-label policy, completed the four
+limitations and saved a private conclusion. The optional Scene 05
+Corrections Desk inquiry, Sophie chat and group exchange may have been
+skipped. Scene 06 MUST accommodate every one of these save states.
+
+SCENE 05 FIXED:
+- 11 main choice sets and 33 authored branches were reportedly integrated.
+- R-GB-VH-001 exists ONLY if the player actually sent the Scene 05 form.
+  It stores the exact delivered question A, B or C.
+- Draft, failed delivery, NOT NOW and no-form routes contain NO outgoing
+  inquiry, NO sent receipt and NO implicit publisher knowledge.
+- GB-ARTICLE-001: Greyhaven Bulletin report about Daniel Mercer,
+  byline NORA VANCE, published 7 October 2026, local route
+  browser://greyhaven-bulletin/article/gb-daniel-mercer-001.
+- Its literal displayed “Updated: Yesterday” is unverified relative
+  presentation text; NEVER convert it to a dated or substantive edit.
+- ARC-IDX-GB-041: source UNKNOWN, author/capture time NOT ESTABLISHED,
+  verified original NO, content preview UNAVAILABLE.
+- The two records are not proven to be editions of the same article.
+- EV-PUBLIC-GB-001 and EV-INDEX-GB-041 stay distinct and verified:false.
+- Earlier CH1-PUBLIC, Bus 4 and historical Maya-editor records are NOT
+  versions, snapshots or citations of GB-ARTICLE-001 on this route.
+- Nora's byline is publicly known; this does NOT prove Nora made changes,
+  contacted the player, received a request or controls the CMS.
+- Player is a civilian, NOT a police officer or digital-forensics expert.
+- Unsent composer text is not dialogue. Every player chat or form
+  delivery requires explicit Send. Only sent text changes NPC knowledge.
+- Sophie/Maya can know only their public observations and previously
+  delivered messages. No silent transfer of private Case Board/index.
+- Actual FIND DANIEL membership is authoritative: Lucas does not return;
+  Maya or Sophie cannot be silently re-added after leaving. No automatic
+  Eli, Nora, Daniel or Unknown Sender appearance in this scene.
+- Daniel's whereabouts, 7-14, E—I, culprit and 2019 incident remain open.
+- Preserve old saves, prior choices, relationship scores and receipts.
+
+SCENE QUESTIONS:
+Investigation: “Does a publisher's response tell us what changed?”
+Human: “How much uncertainty can you share without making it worse?”
+Emotional change: The player obtains a narrow, inspectable PUBLIC STATUS
+and—only when the earlier inquiry exists—a scoped newsroom response.
+They do NOT obtain a missing draft, diff, culprit or full audit history.
+
+PLAYER-FACING LANGUAGE: English. Author notes below are NOT messages.
+No generic robot-sounding NPC explanations: split human speech naturally.
+
+==========================================================================
+01. FLOW / MANUAL SURFACES
+==========================================================================
+
+Scene 05 complete
+   → Archive card: “THE CORRECTIONS DESK” [NEW]
+   → PLAYER TAPS card (no automatic opening)
+   → S06.01 desk case hub; inspect inquiry status / public source
+   → S06.02 PUBLIC CORRECTIONS REGISTER (read and acknowledge)
+   → S06.03 POLICY / NOTICE TYPES (inspect + classify)
+   → S06.04 SOURCE LIMITS (provenance puzzle)
+   → S06.05 optional Corrections Desk correspondence:
+        PATH A: R-GB-VH-001 delivered in Scene 05
+          → one queued inbound desk response, manual opening
+          → optional player reply C05 (Send), or leave unopened
+        PATH B: no delivered R-GB-VH-001
+          → optional compose and Send now C06, or retain draft/skip
+          → receipt only, NOT an instant inbound answer
+   → S06.06 ARTICLE BYLINE vs SITE EDITOR (classification C07)
+   → S06.07 optional private Sophie chat (C08–C10)
+   → S06.08 optional Maya private chat (C11–C12), conditional on actual
+                authorized existing channel; optional group C13
+   → S06.09 PRIVATE CASE CONCLUSION C14
+   → Scene 06 complete; manually available NEXT LEAD: THE BYLINE
+
+There are 14 stable choice sets S06-C01 through S06-C14, three authored
+variants per set (42 selectable variants). C05/C06 are alternative
+publisher paths. Optional chats may be wholly skipped; choices not
+presented because of eligibility are not mandatory. C02–C04 can retry
+wrong selections without recording false findings. Each presented
+chat/form SEND choice has a distinct receipt keyed by stable option ID.
+
+MAINLINE GATES ONLY:
+- player has opened the two independently public pages in S06.02/S06.03
+- player has explicitly ACKNOWLEDGED their limitations
+- player has correctly classified the register's claim at S06-C03
+- player has correctly classified provenance at S06-C04
+- player has acknowledged byline distinction at S06-C07
+- player selected and SAVED S06-C14 private conclusion
+
+No requirement to write to the desk, read its reply, contact Sophie, contact
+Maya, message group, buy a premium reply, wait real hours or unblock anyone.
+
+==========================================================================
+02. S06.01 — THE DESK, NOT THE ANSWER (ARCHIVE)
+==========================================================================
+
+[PLAYER TAPS] Archive → THE CORRECTIONS DESK
+[LOCAL UI]
+THE CORRECTIONS DESK
+“An answer to a question is not always a record of the change.”
+
+ARTICLE: GB-ARTICLE-001
+PUBLISHED: 7 October 2026
+PUBLIC BYLINE: Nora Vance
+ON-PAGE LABEL: Updated: Yesterday
+VERIFIED EARLIER BODY: NOT HELD
+PUBLISHER'S REVISION LOG: NOT HELD
+
+[CONDITIONAL INQUIRY STATUS]
+- Scene 05 delivered R-GB-VH-001:
+  “Your question reached the Bulletin corrections inbox.”
+  “Request: R-GB-VH-001 | Delivered | Reply pending/available.”
+  Keep the exact selected question accessible in a receipt view.
+- Scene 05 local unsent/failed draft:
+  “Draft only. No publisher request has been delivered.”
+  OPEN SAVED DRAFT restores the exact text and selected option.
+- Scene 05 NOT NOW / no form:
+  “No question sent. Public corrections information is still available.”
+
+[BUTTONS]
+OPEN PUBLIC CORRECTIONS REGISTER
+HOW DOES THE DESK HANDLE UPDATES?
+OPEN REQUEST (conditional)
+BACK TO ARCHIVE
+
+S06-C01 — LOCAL CHOICE (no Send):
+A. “Show me what the publisher has made public.”
+   SYSTEM: “Open the public register. Its listed notices are not a full
+   record of every edit.”
+B. “Show me my earlier request.”
+   IF prior sent: SYSTEM: “Your exact sent question and delivery receipt
+   are available. Delivery alone does not establish that it was read.”
+   IF unsent: SYSTEM: “Only a local draft or no request exists.”
+C. “Can we speak to Nora?”
+   SYSTEM: “A published byline identifies the reported author. It does
+   not grant private contact, identify a site editor or authenticate any
+   change. No message to Nora will be sent.”
+All variants keep both public links accessible; no NPC is contacted.
+
+==========================================================================
+03. S06.02 — PUBLIC CORRECTIONS REGISTER (SIMULATED BROWSER)
+==========================================================================
+
+[PLAYER ACTION] OPEN PUBLIC CORRECTIONS REGISTER
+Route: browser://greyhaven-bulletin/help/corrections-register
+SOURCE ID: GB-CORR-REGISTER-001
+This is a newly authored local fictional page; NOT a real network request,
+NOT an established existing Chapter 1 historic page and NOT a recovered
+version of GB-ARTICLE-001.
+
+[EXACT FULL PUBLIC PAGE]
+GREYHAVEN BULLETIN
+PUBLIC CORRECTIONS REGISTER
+
+“What this page lists”
+“We publish notices here when the newsroom issues a formal, public
+correction. Not every page update creates a correction notice.”
+
+“Article lookup”
+Article reference: GB-ARTICLE-001
+Article title: Daniel Mercer report
+Published article date: 7 October 2026
+Public correction notice currently listed for this article: NONE
+
+“Important limitations”
+“The absence of a public correction notice does not confirm that a page
+has remained unchanged. This register is not the site's full change log.
+It does not display earlier drafts, private editorial decisions,
+source identities or a before-and-after text comparison.”
+
+“Questions about a specific article may be submitted to the public
+corrections inbox. We do not promise access to private drafts.”
+
+Footer:
+“A public register entry describes the notices listed here at the time
+of viewing. It is not independent evidence of the contents of an earlier
+article version.”
+
+[UI ACTIONS]
+READ REGISTER / ARTICLE REFERENCE / RETURN TO DESK
+READ REGISTER must be manually tapped after page content is exposed;
+just opening the page or scrolling does not set acknowledgment.
+Save private observation: “Public register currently lists no formal
+correction notice for GB-ARTICLE-001.”
+Source classification: PUBLISHER_PUBLIC_CLAIM, not independently audited.
+Do not call it VERIFIED REVISION HISTORY or independently validated fact.
+
+S06-C02 — LOCAL INSPECTION CHOICE (no Send):
+A. “Does ‘NONE’ mean the article was never edited?”
+   SYSTEM: “No. It refers to notices listed in this public register,
+   not all possible changes to the article.”
+B. “Can I see the text before the supposed update?”
+   SYSTEM: “Not from this page. No earlier body or text diff is shown.”
+C. “Who maintains this page?”
+   SYSTEM: “It is presented as a publisher page. The register does not
+   identify the operator of GB-ARTICLE-001 or certify its revision data.”
+
+[EXIT] Return manually to Desk. Maintain scroll and read checkpoint.
+
+==========================================================================
+04. S06.03 — WHAT COUNTS AS A CORRECTION? (PUBLIC HELP PAGE)
+==========================================================================
+
+[PLAYER ACTION] HOW DOES THE DESK HANDLE UPDATES?
+Route: browser://greyhaven-bulletin/help/correction-types
+SOURCE ID: GB-CORR-SCOPE-001
+
+[EXACT FULL PUBLIC PAGE]
+GREYHAVEN BULLETIN
+CORRECTIONS, NOTES AND PAGE UPDATES
+
+“A correction notice is a public statement that an error was corrected.
+A posted notice may identify what the publisher says was wrong.”
+
+“An editor's note may add context or explain editorial handling. Its
+presence is not itself a complete change history.”
+
+“Page maintenance may affect links, captions or presentation. A page's
+relative update label does not tell the reader which category occurred.”
+
+“No public notice listed does not mean no edit happened.”
+
+“For a case-specific question, use the corrections form. The sender will
+receive a receipt only after choosing Send.”
+
+Footer:
+“These are the Bulletin's descriptions of its processes. The public
+page alone does not establish what happened to a particular article.”
+
+[UI] READ AND ACKNOWLEDGE / BACK
+Do not invent visible date stamps or audit signatures for this page.
+
+S06-C03 — LOCAL SOURCE QUIZ, three variants (no Send):
+QUESTION: “Which is the narrow statement supported by the register?”
+A. “The article has not changed since 7 October.”
+   SYSTEM: “Too broad. A register of public notices does not track every
+   page or body revision. Try again.” [STAYS]
+B. “No formal public correction notice for this article is listed there.”
+   SYSTEM: “Supported as a statement about the public register at the
+   time inspected. It is NOT a statement that the article was unchanged.”
+   SET s06.register_claim_classified=true.
+C. “Nora Vance removed a correction.”
+   SYSTEM: “There is no evidence for that. A byline is not a revision
+   audit trail. Try again.” [STAYS]
+
+Wrong attempts can be retried freely and never change relationships,
+world truth, source reliability or a disclosure receipt.
+
+==========================================================================
+05. S06.04 — THE SOURCE TRIANGLE (ARCHIVE, REAL INVESTIGATION)
+==========================================================================
+
+[UI]
+THREE CLAIMS / THREE DIFFERENT SOURCES
+“The question is not whether these statements sound compatible.
+The question is what each source actually supports.”
+
+CARD 1 — THE ARTICLE
+GB-ARTICLE-001 | Greyhaven Bulletin
+Public report; Nora Vance byline; published 7 October 2026;
+“Updated: Yesterday” on-page label. Earlier body NOT HELD.
+
+CARD 2 — THE INDEX
+ARC-IDX-GB-041 | Archive metadata
+Source UNKNOWN; capture time NOT ESTABLISHED; verified original NO;
+content UNAVAILABLE. Cannot compare its body with the article.
+
+CARD 3 — THE CORRECTIONS REGISTER
+GB-CORR-REGISTER-001 | Publisher public register
+“No formal public correction notice is listed for the article.”
+This is a publisher listing, not a revision-log export.
+
+The player must tap all three cards, including any card already read in
+prior scenes; this tap reviews EXISTING records and creates NO new version.
+
+S06-C04 — LOCAL PROVENANCE CLASSIFICATION (no Send):
+QUESTION: “What, if anything, connects all three as a version history?”
+A. “The shared article reference proves they are three editions.”
+   SYSTEM: “No. One is an article, one is an unverified index entry, and
+   one is a public notices register. They are different record types.”
+   [STAYS]
+B. “The register proves the index is authentic.”
+   SYSTEM: “No. The register makes no statement authenticating the
+   index's issuer, capture time or content.” [STAYS]
+C. “There is still no authenticated before-and-after article record.”
+   SYSTEM: “Supported. You can describe the public notices listing and
+   page label, but not a changed passage, editor or motive.”
+   SET s06.provenance_classified=true.
+
+[WHEN CLASSIFIED]
+SYSTEM: “A useful lead is not a complete answer.”
+NEW PRIVATE NOTE: NOTE-S06-DESK-LIMITS
+  summary: “Publisher's public register lists no correction notice for
+  GB-ARTICLE-001 at the observed reading. The public label, index
+  metadata and register do not authenticate an article-text revision.”
+  observed_public_register: true
+  authenticated_revision: false
+  article_editor_identified: false
+  known_culprit: false
+
+==========================================================================
+06. S06.05A — CONDITIONAL CORRECTIONS DESK REPLY
+==========================================================================
+
+ONLY when existing Scene 05 receipt R-GB-VH-001 was actually DELIVERED:
+- Schedule a one-shot desk inbox delivery event after Scene 06 entry
+  (a short saved pacing delay is fine; no external live clock promise).
+- Deliver the inbound message to the SAME fictional return-token route.
+- Notify at most once. Never auto-open, auto-scroll away from player's
+  read position, or create a player outgoing reply.
+- If the user has not opened the desk inbox, S06 can still complete.
+- If the prior request was merely drafted/failed/not sent: DO NOT queue
+  any desk response, even if a draft looks identical to choice A/B/C.
+- Desk is a professional role account, NOT Nora, Maya or a newly named
+  private contact. No phone number or device permission is introduced.
+
+[NOTIFICATION]
+Greyhaven Bulletin — Corrections Desk: “Re: your article question”
+
+[PLAYER MANUALLY OPENS FICTIONAL DESK INBOX]
+DESK: Hello.
+DESK: Sorry this isn't a straightforward answer.
+DESK: I can see the question you sent about the Daniel Mercer article.
+
+[ONE LINE DETERMINED BY ACTUAL SCENE 05 SENT OPTION]
+If S05-C04-A delivered:
+  DESK: You asked whether the article body changed after publication.
+If S05-C04-B delivered:
+  DESK: You asked what the “Updated: Yesterday” label refers to.
+If S05-C04-C delivered:
+  DESK: You asked whether readers can inspect a correction note or
+  version history for this article.
+Do not display the wrong branch or infer other unpublished details.
+
+[CONVERGED DESK REPLY]
+DESK: Our public register doesn't list a formal correction notice for
+this article at the moment.
+DESK: That doesn't tell you whether its body was edited.
+DESK: The label you're seeing isn't a substitute for a dated change log.
+[short typing beat]
+DESK: We can't provide an internal draft or private source information
+through this inbox.
+DESK: If you have a specific sentence in question, you can ask us to
+refer that question to the editorial team.
+DESK: I can't promise what they'll be able to confirm.
+
+EVIDENCE STATUS: This is a publisher desk's ASSERTION delivered to the
+recipient route. It confirms the content of its own message, not the
+truth of all editorial history. It is NOT an authenticated CMS log.
+Save precise inbound event EV-S06-DESK-REPLY-001 once, linked to
+R-GB-VH-001, with delivered wording and time of fictional event only.
+
+S06-C05 — OPTIONAL DESK RESPONSE (PLAYER SELECT + SEND):
+A. Player [Send]: “Could you refer a question about the article body to
+   the editorial team? I only need to know whether any passage changed.”
+   DESK: I can log that as the specific question.
+   DESK: Please don't treat the referral as confirmation that a change
+   happened.
+   DESK: We'll use this return inbox if there's an update.
+   STATUS: referral_requested. No answer is delivered in Scene 06.
+
+B. Player [Send]: “Does Nora Vance's byline mean she made the update?”
+   DESK: No. A byline identifies the reporter credited on the story.
+   DESK: It doesn't identify the person who last touched the web page.
+   DESK: I can't provide a staff edit history from this inbox.
+   STATUS: byline_question_sent. No Nora DM or culprit flag.
+
+C. Player [Send]: “Thanks. I'll keep the public register separate from a
+   verified revision history.”
+   DESK: That's the right distinction.
+   DESK: Sorry I can't give you something more definite.
+   STATUS: acknowledgment_sent. Nothing further implied.
+
+A/B/C replies are delivered as later authored inbox messages after the
+real Send, with normal typing. If the user exits or never sends, the desk
+responds to NOTHING. If the player selects A, do not forge a response
+from editorial team before a separately written later scene.
+
+==========================================================================
+07. S06.05B — NO PREVIOUS SENT REQUEST / OPTIONAL FORM
+==========================================================================
+
+ONLY when there is NO delivered Scene 05 R-GB-VH-001:
+[UI]
+“You haven't sent a question to the publisher. The public register can
+still be examined without contacting anyone.”
+OPEN FORM / KEEP DRAFT / NOT NOW
+
+[FORM — fictional local Bulletin return-token inbox]
+TO: Greyhaven Bulletin — Corrections Desk
+RE: GB-ARTICLE-001
+INCLUDED: exact selected question + public article reference
+EXCLUDED: legal identity, location, phone contacts, private Case Board,
+ARC-IDX-GB-041 unless explicitly included (not included by these options)
+
+S06-C06 — OPTIONAL PLAYER REQUEST, DRAFT + REVIEW + EXPLICIT SEND:
+A. “Is there a formal public correction notice for GB-ARTICLE-001, or a
+   case-specific public notice planned?”
+B. “Can the newsroom confirm whether a passage in GB-ARTICLE-001 has
+   changed since publication, without sharing private sources?”
+C. “Does the page's ‘Updated: Yesterday’ label refer to a correction,
+   an editorial note, or routine page maintenance?”
+
+[COMPOSER CONTROLS] EDIT / REVIEW / SEND REQUEST / SAVE DRAFT / CANCEL
+[ON REVIEW] “Only this public question will be sent. A delivery receipt
+is not a reply and does not verify a revision.”
+[ON SEND] “Request delivered. Reply not yet received.”
+  receipt ID: R-GB-CD-002, unique to Scene 06 sent request
+  event: EV-S06-INQUIRY-DELIVERED
+  status: delivered_no_reply
+  exact question text + route + Send action persisted, idempotent
+[ON SAVE DRAFT / BACK / CANCEL]
+  “Draft stored locally. Nothing sent.” No recipient knowledge.
+[ON FAILURE] “Could not deliver. Your draft is safe.” Retry safe.
+
+This Scene 06 NEW request does NOT trigger the already-authored
+S06.05A reply for a Scene 05 request. If a later scene needs a response
+to R-GB-CD-002, it must author a separate reply event. No instant
+publisher answer, even if the player presses Send inside Scene 06.
+
+==========================================================================
+08. S06.06 — THE PERSON ON THE PAGE (ARCHIVE)
+==========================================================================
+
+[PLAYER OPENS]
+WHO WROTE IT? WHO UPDATED IT?
+
+[UI]
+PUBLIC CREDIT
+“Nora Vance” is printed as the article's byline.
+
+UNVERIFIED OPERATION
+The public pages inspected do not identify who changed any article
+field, or establish whether the body changed at all.
+
+DESK ROLE
+The Corrections Desk can receive questions about the article;
+it is NOT equivalent to Nora's private account.
+
+S06-C07 — LOCAL KNOWLEDGE CHOICE (no Send):
+QUESTION: “Which statement is safe to save?”
+A. “Nora is credited on the published article; I don't know who edited the page.”
+   SYSTEM: “Supported as a distinction between public credit and
+   unknown site operations.” [PASS]
+B. “Nora must have changed the article because her name is on it.”
+   SYSTEM: “A byline is not an edit log. Try again.” [STAYS]
+C. “The desk response is an anonymous message from Nora.”
+   SYSTEM: “No. It is a role inbox and does not identify its staff
+   operator or forward the message privately to Nora.” [STAYS]
+
+[AFTER A] s06.byline_scope_classified=true.
+[UI]
+“The next independent question is about Nora's PUBLIC reporting and
+source attribution, not a presumed confession.”
+LEAD CARD: NORA VANCE — PUBLIC BYLINE
+“No private contact has been made.”
+
+==========================================================================
+09. S06.07 — SOPHIE: ORDINARY DAY / OPTIONAL PRIVATE CHAT
+==========================================================================
+
+ELIGIBILITY: existing Sophie private chat accessible under actual save;
+no forced notifications from the Archive. This is a short scene made
+available via an optional manually selected “Check on Sophie” card.
+No auto-awarding an NPC reply from merely opening the card. The initial
+NPC check-in is only delivered if existing thread policy permits it;
+deliver once, not on every re-entry. If blocked, keep it unavailable.
+No Sophie line may assume the player sent the optional Scene 05 inquiry,
+received a desk reply, told her the index or joined the optional group.
+
+[PLAYER TAPS] CHECK ON SOPHIE, then manually opens her chat
+SOPHIE: Hey.
+SOPHIE: I went out for coffee.
+SOPHIE: The woman at the counter asked if I wanted the usual.
+[brief pause]
+SOPHIE: I didn't know I had a usual.
+SOPHIE: Anyway. Sorry. How's your day going?
+
+S06-C08 — PLAYER [DRAFT + SEND]:
+A. Player: “Mostly looking at the Bulletin's public corrections page.”
+   SOPHIE: Is there anything actually there about Daniel?
+   Player does NOT auto-answer. This line conveys only that the player
+   inspected a public page; no precise Board or desk reply disclosure.
+   SOPHIE: Sorry. You don't have to give me an update every time I ask.
+   Relationship: Trust +1.
+
+B. Player: “Pretty ordinary, actually. Coffee sounds nice.”
+   SOPHIE: It was.
+   SOPHIE: Almost forgot what I was worried about for two minutes.
+   SOPHIE: Which made me feel guilty, so that's fun.
+   Relationship: Affinity +2.
+
+C. Player: “I don't really have an answer yet.”
+   SOPHIE: Neither do I.
+   SOPHIE: But thanks for saying that instead of trying to make it sound
+   better than it is.
+   Relationship: Trust +1, Affinity +1.
+
+[CONVERGED — ONLY AFTER C08 SENT]
+SOPHIE: It's the waiting I can't stand.
+SOPHIE: Everyone keeps telling me to stay positive.
+SOPHIE: Like it's a task I forgot to do.
+
+S06-C09 — PLAYER [DRAFT + SEND]:
+A. Player: “You don't have to be positive for anyone.”
+   SOPHIE: Thank you.
+   SOPHIE: I think I needed someone to say that plainly.
+   Relationship: Affinity +2.
+
+B. Player: “Would you rather I only tell you things we can verify?”
+   SOPHIE: Yes.
+   SOPHIE: Even if that means hearing ‘we don't know’ a lot.
+   Relationship: Trust +2. Preference receipt: verify_first.
+
+C. Player: “I can stop bringing the article up if you want.”
+   SOPHIE: Don't make it a rule.
+   SOPHIE: Just ask me first. Some days I'll want to know.
+   Relationship: Trust +1, Affinity +1. Preference: ask_first.
+
+[CONVERGED]
+SOPHIE: Okay. I've talked about myself enough.
+SOPHIE: Please tell me you've at least eaten something today.
+
+S06-C10 — PLAYER [DRAFT + SEND]:
+A. Player: “I have. Have you?”
+   SOPHIE: Half a sandwich counts, right?
+   SOPHIE: I'm going to say yes.
+   Relationship: Affinity +1.
+B. Player: “I'll get something after this.”
+   SOPHIE: Good.
+   SOPHIE: And I mean actual food. Not three coffees.
+   Relationship: Affinity +1.
+C. Player: “You're changing the subject.”
+   SOPHIE: Completely.
+   SOPHIE: I thought I was being subtle.
+   Relationship: Affinity +1.
+
+[END]
+SOPHIE: I've got to go.
+SOPHIE: Thanks for letting me be a normal person for a minute.
+SOPHIE: Talk later.
+[status: offline after natural delay, once]
+
+NOTE: These Sophie exchanges are not a substitute for proof. Sophie
+learns only the exact lines the player actually sent, and never
+magically learns the desk reply or register. Her response to a broad
+public-page disclosure does not assume private inquiry was sent.
+
+==========================================================================
+10. S06.08 — MAYA AND THE GROUP / OPTIONAL SOCIAL ROUTES
+==========================================================================
+
+MAYA PRIVATE eligibility: only if an existing authorized two-way
+private Maya route exists in the active save and is available. No new
+number, automatic DM, return-token bypass or unsolicited Messages
+connection may be invented. If unavailable, hide this whole exchange;
+mainline is unchanged. Player must manually open her current permitted
+channel and then select+Send a line. Her response is not automatic.
+
+[OPTIONAL MAYA OPENING — IF CONTACT PERMITTED]
+MAYA: Hey. You wanted to ask about the public Bulletin page?
+MAYA: I can talk, but I haven't seen a proper version history for it.
+MAYA: What have you got?
+
+S06-C11 — PLAYER [DRAFT + SEND]:
+A. Player: “The public register lists no correction notice for Daniel's article.”
+   MAYA: Okay. That's something we can both look at.
+   MAYA: It doesn't tell us whether the page was edited, though.
+   Relationship: Trust +2. Maya knows exactly stated public register.
+B. Player: “The article has an update label, but I still don't have an earlier copy.”
+   MAYA: Right.
+   MAYA: The missing earlier copy is the part we keep tripping over.
+   Relationship: Trust +1. Maya learns only broad public observation.
+C. Player: “I'm worried we're chasing a label instead of a fact.”
+   MAYA: Maybe.
+   MAYA: Doesn't make the question stupid. Just means we need a better source.
+   Relationship: Affinity +1. No disclosure of private index.
+
+[CONVERGED AFTER SENT C11]
+MAYA: I don't want Sophie reading ten different theories before breakfast.
+MAYA: But I don't want us deciding what she can handle, either.
+MAYA: If there's something real, we tell her what it is. Carefully.
+
+S06-C12 — PLAYER [DRAFT + SEND]:
+A. Player: “We should ask her before sharing case updates.”
+   MAYA: Agreed. She's not a case file.
+   MAYA: I'll ask, not assume.
+   Relationship: Trust +2.
+B. Player: “If she asks me, I'll tell her the limits as well as the facts.”
+   MAYA: That's fair.
+   MAYA: I wish everyone else would do that.
+   Relationship: Trust +1.
+C. Player: “Let's keep the group to public sources.”
+   MAYA: Yes. And even then, we should say what we actually checked.
+   Relationship: Trust +1. Does not create group or add members.
+
+MAYA: I've got to head out. Message me here if you find a proper source.
+[Maya offline / channel remains as before. No invitation or new source.]
+
+GROUP eligibility: existing FIND DANIEL still exists, contains the
+player, and at least one suitable responding active member under actual
+membership. Never silently re-add Maya, Lucas, Sophie, Eli or Nora.
+A valid responding member for THIS authored branch means SOPHIE and/or
+MAYA is currently in the group and permitted to respond. If neither is
+present, omit the branch rather than conjure a group reply.
+Opening the group does not send a message. Only composer Send does.
+
+S06-C13 — OPTIONAL GROUP PLAYER [DRAFT + SEND]:
+A. Player: “I found the publisher's public correction register. It doesn't list a notice for the article.”
+   SOPHIE if active: I saw that. I still wish it were clearer.
+   MAYA if active: It tells us what they've published, not what they've edited.
+   NO other speaker generated. Recipient learns exactly this sentence.
+B. Player: “Can we avoid treating the update label as proof of a rewrite?”
+   SOPHIE if active: Yeah. That's fair.
+   MAYA if active: Agreed.
+   NO other speaker generated.
+C. Player: “I'm going to keep checking the public source before I share a theory.”
+   SOPHIE if active: Okay. Let me know if you get something solid.
+   MAYA if active: Sounds good.
+   NO other speaker generated.
+
+If group contains only Sophie, only Sophie replies. If only Maya, only
+Maya replies. If an authorized member is temporarily unavailable, wait
+for the normal eligible NPC delivery or omit the exchange—do not forge a
+response from a departed member. No private board, index or desk reply
+is attached to any of these group messages.
+
+==========================================================================
+11. S06.09 — PRIVATE CONCLUSION / CASE BOARD
+==========================================================================
+
+ENTRY: required public register and help page acknowledged, source
+cards inspected, supported classification S06-C03-B and S06-C04-C,
+and byline distinction S06-C07-A selected. The desk response/inquiry,
+Sophie, Maya and group remain optional and independent.
+
+[ARCHIVE CASE BOARD]
+TITLE: WHAT THE CORRECTIONS DESK CAN TELL US
+
+PUBLICLY OBSERVED:
+- GB-ARTICLE-001 displays “Updated: Yesterday”.
+- GB-CORR-REGISTER-001 currently lists no formal public correction
+  notice for GB-ARTICLE-001.
+- GB-CORR-SCOPE-001 explains notice categories.
+- Nora Vance is the published article byline.
+
+NOT ESTABLISHED:
+- An article-body change, the former passage or change time.
+- That ARC-IDX-GB-041 is an earlier article edition.
+- Who edited/updated the page; any motive.
+- Nora's personal knowledge beyond what she publicly wrote.
+- Daniel's whereabouts or who is responsible.
+
+[CONDITIONAL STATUS]
+If prior desk reply actually delivered: “Desk response: available/read.”
+If Scene 05 request delivered but unread: “Desk response: unread; open
+later if you want.”
+If Scene 06 request sent: “New question: delivered; no reply yet.”
+If only draft/skip: “No publisher reply owed to an unsent question.”
+
+S06-C14 — LOCAL CONCLUSION (NO SEND):
+A. “There is no public correction notice listed; that is not a full edit history.”
+   SYSTEM: “Saved: narrow observation and its limits.”
+B. “The byline credits Nora, but the site editor is unidentified.”
+   SYSTEM: “Saved: attribution and revision responsibility remain distinct.”
+C. “I need an authenticated earlier article copy or publisher change record.”
+   SYSTEM: “Saved: source-verification plan, not proof of alteration.”
+
+Any C14 choice stores:
+  NOTE-S06-DESK-LIMITS (with selected wording)
+  EV-S06-PUBLIC-REGISTER-OBSERVED
+  EV-S06-BYLINE-LIMIT-001
+  s06.complete=true (once)
+  version_authenticated=false
+  article_body_changed=unknown
+  author_equals_editor=unknown
+  index_validated=false
+
+[FINAL UI]
+THE CORRECTIONS DESK — REVIEWED
+Public correction notice listed: NONE (on this register)
+Verified earlier copy: NONE
+Verified text revision: NONE
+Identified editor: NONE
+
+NEW LEAD — THE BYLINE
+“Nora Vance is credited on the report. What sources did it actually cite?”
+[BUTTONS] OPEN NEXT LEAD / BACK TO PHONE
+
+Do not start Scene 07 automatically. It remains a placeholder until
+separately authored and implemented, labeled honestly if unavailable.
+Opening an optional old Scene 06 form later never replays the completed
+mainline or edits the saved conclusion retroactively.
+
+==========================================================================
+12. EVENT / SOURCE / KNOWLEDGE / ID REGISTRY
+==========================================================================
+
+SCENE: chapter_01_scene_06_corrections_desk
+ENTRY: scene05.complete + player's explicit Archive tile tap.
+
+STABLE CHOICE SETS AND BRANCH COUNTS:
+C01 (3) Archive navigation/info; C02 (3) register info;
+C03 (3) public-notice classification (B pass);
+C04 (3) provenance classification (C pass);
+C05 (3) conditional reply to prior sent request, OPTIONAL SEND;
+C06 (3) conditional new request form, OPTIONAL SEND;
+C07 (3) byline/role classification (A pass);
+C08 (3) Sophie private SEND, OPTIONAL;
+C09 (3) Sophie private SEND, OPTIONAL;
+C10 (3) Sophie private SEND, OPTIONAL;
+C11 (3) Maya private SEND, OPTIONAL;
+C12 (3) Maya private SEND, OPTIONAL;
+C13 (3) FIND DANIEL group SEND, OPTIONAL;
+C14 (3) local private conclusion (no Send).
+TOTAL: 14 choice sets / 42 variants across mutually exclusive and
+optional branches. “Available choice” means route-eligible only.
+
+PUBLIC CONTENT:
+GB-CORR-REGISTER-001  (public publisher register, no prior-body record)
+GB-CORR-SCOPE-001     (publisher definitions of notice categories)
+No file overwrites, mutates or impersonates GB-ARTICLE-001,
+ARC-IDX-GB-041, POL-GB-UPDATES-001 or historical CH1-PUBLIC.
+
+PRIVATE NOTES:
+NOTE-S06-DESK-LIMITS
+EV-S06-PUBLIC-REGISTER-OBSERVED
+EV-S06-BYLINE-LIMIT-001
+All source/provenance claims qualified; no verified:true on revision.
+
+MESSAGING (CONDITIONAL):
+Scene 05 sent request: R-GB-VH-001 (PRE-EXISTING, read-only)
+Desk reply event: EV-S06-DESK-REPLY-001, ONLY for that prior receipt.
+Reply C05 send event: EV-S06-DESK-FOLLOWUP-001 (exact branch/scope).
+New Scene 06 request receipt: R-GB-CD-002, only on actual form Send.
+New request send event: EV-S06-INQUIRY-DELIVERED.
+Sophie chat: EV-S06-SOPHIE-OPEN and each C08/C09/C10 actual Send.
+Maya chat: EV-S06-MAYA-OPEN and each C11/C12 actual Send.
+Group: EV-S06-GROUP-SENT only on actual C13 Send.
+No implicit author contact, private file share or cross-contact receipt.
+
+PROPOSED SAVE FIELDS (NAMES ADAPT TO ACTUAL STORE; DO NOT FORK):
+  scene06.entered
+  scene06.register_page_opened
+  scene06.register_acknowledged
+  scene06.scope_page_opened
+  scene06.scope_acknowledged
+  scene06.cards_inspected[]
+  scene06.register_claim_classified
+  scene06.provenance_classified
+  scene06.byline_scope_classified
+  scene06.prior_request_receipt_id / exact_sent_option / exact_sent_text
+  scene06.desk_reply_event_delivered / desk_reply_read / desk_reply_cursor
+  scene06.followup_draft / followup_status / followup_sent_option
+  scene06.new_request_draft / new_request_status / new_request_receipt
+  scene06.sophie_cursor / sent_choices[] / notification_event
+  scene06.maya_cursor / sent_choices[]
+  scene06.group_cursor / sent_choice
+  scene06.private_conclusion_choice
+  scene06.complete
+  scene06.event_ids_seen[]
+  scene06.queued_delays[] (reuse saved scene timer semantics)
+
+No store migration may infer an inquiry was sent from a saved draft.
+Do not duplicate messages/rewards on enter, reload, Back or reopen.
+Display user-chosen codename if a personalized sender label is needed;
+never literal “[player name]” or an unsent player bubble.
+
+==========================================================================
+13. RELOAD / NOTIFICATION / PACING RULES
+==========================================================================
+
+1. Only tap enters Scene 06; do not automatically switch tabs.
+2. A desk notification requires a DELIVERED prior Scene 05 receipt;
+   delivered inbound event persists exactly once, even if app is closed.
+3. Inbox opening is player-controlled and resumes exact reply cursor.
+4. If previously at top/middle of chat, show unread indicator; never
+   force-scroll. If near bottom, scroll with delivered new text.
+5. Each outgoing choice: select -> composer -> player presses Send ->
+   sent bubble recorded -> NPC may type/respond. No automatic player text.
+6. Delivery delay is persisted/re-armed correctly across pause/reload;
+   avoid callback cancelling unexpired event, reuse tested timing engine.
+7. Keep fictional site local/offline; do not send real emails/requests.
+8. Old/historical saves have no retroactive Scene 06 gating.
+9. Support screen widths 320/375/430px; keyboard must not cover Send.
+10. Optional social outcomes never unlock case truth or mandatory access.
+11. The Publisher role inbox has no fabricated person/avatar/private number.
+12. No fixed real-date assertion based on “Updated: Yesterday”.
+
+==========================================================================
+14. ACCEPTANCE TEST MATRIX — MINIMUM 30 CASES
+==========================================================================
+
+T01  Scene 05 complete → Scene 06 tile visible, not auto-open.
+T02  Incomplete Scene 05 → Scene 06 hidden/locked honestly.
+T03  Scene 05 request A delivered → correctly scoped desk reply A.
+T04  Scene 05 request B delivered → correctly scoped desk reply B.
+T05  Scene 05 request C delivered → correctly scoped desk reply C.
+T06  Scene 05 unsent draft → no desk reply/event/notification.
+T07  Scene 05 failed delivery → no desk reply.
+T08  Scene 05 NOT NOW → independent public register path available.
+T09  Inbox message delivered once across reload and re-open.
+T10  Delivered desk reply may remain unread; mainline still completes.
+T11  Follow-up C05-A/B/C requires actual Send; exact one scoped text.
+T12  Follow-up C05-A referral does NOT produce later editorial answer.
+T13  New request C06-A/B/C form retains draft, no send until pressed.
+T14  New request delivered → one R-GB-CD-002 idempotent receipt.
+T15  New request DOES NOT unlock retroactive Scene 05 response.
+T16  Delivery error/retry never duplicates receipts.
+T17  Public register page has exact “NONE” with explicit caveats.
+T18  No public notice NEVER becomes claim article was unchanged.
+T19  Wrong C03-A/C show corrective guidance and retry; B passes.
+T20  Wrong C04-A/B show guidance and retry; C passes.
+T21  Wrong C07-B/C show guidance and retry; A passes.
+T22  No older article body/diff or verified index appears in Scene 06.
+T23  Nora byline does not create Nora private contact/editor guilt.
+T24  Sophie C08–C10: all nine choices with real Send and boundaries.
+T25  Sophie unavailable/blocked: no forced check-in; mainline passes.
+T26  Maya private route available: all six C11–C12 options scoped.
+T27  Maya private route unavailable: optional route hidden; no bypass.
+T28  Group missing Maya/Lucas: no auto-return/phantom group replies.
+T29  Group with eligible respondent receives ONLY explicitly sent text.
+T30  No private Board, index metadata or desk reply transmitted implicitly.
+T31  Choice/reply/scroll/notification restored after reload at each gate.
+T32  Scene 06 conclusion works with zero publisher/social interaction.
+T33  Scene 05 flags/receipts and prior EV source distinctions unchanged.
+T34  Older saves and old scripted scenes remain valid and unaffected.
+T35  Browser at 320/375/430px plus keyboard long message/reflow.
+T36  Offline fictional browser; no live network requests.
+T37  Unknown Sender blocked/unread does not affect eligibility.
+T38  No Scene 07 automatic launch; placeholder if not yet implemented.
+T39  All Scene 06 dialogue exact; no author direction as chat bubble.
+T40  All relationship deltas idempotent; no duplicate buffs on replay.
+
+After implementation, run complete (not targeted-only) validation:
+  npm run typecheck
+  npm run lint
+  npm test -- --maxWorkers=2
+  npm run build
+  npm run test:e2e -- --workers=1
+  git diff --check
+
+Separate statement required: web build is NOT Android APK QA. Do not
+claim the APK was rebuilt or physical-device gestures verified.
+
+==========================================================================
+15. FINAL PLAYTEST READOUT (EXPECTED STORY IMPACT)
+==========================================================================
+
+Player has gained an inspectable public status and, IF they reached out
+in Scene 05, an honest limited publisher response. That is progress:
+more sources are classified; nothing is manufactured into proof.
+Sophie has a human moment that is valuable regardless of case progress.
+Maya and group stay conditional and knowledge-scoped. Nora remains a
+public byline, not a secretly contacting NPC or proven editor.
+
+END OF SCENE 06 AUTHORING DRAFT.

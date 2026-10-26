@@ -1,0 +1,231 @@
+CODEX MASTER PROMPT — THE ARCHIVE / CHAPTER 1 / SCENE 07 — THE BYLINE
+24 October 2026 | OWNER-REVIEW DRAFT / IMPLEMENTATION BRIEF
+
+INPUTS:
+1. THE_ARCHIVE_SCENE_07_THE_BYLINE_FULL_SCREENPLAY.txt (903 lines)
+2. The current LOCAL repository checkout with implemented final Scenes 01–06
+3. Most recent Scene 06 implementation report, source manifest and tests
+
+TASK:
+Implement only Scene 07 from the attached screenplay, without rewriting
+Scenes 01–06 or a separate Scene 08. Deliver running, testable in-game
+Scene 07 on the existing WEB build, not an unconnected manuscript or
+standalone mockup. This text is an implementation request for Codex;
+it is not a claim that changes have already been performed.
+
+FIRST: READ / DO NOT GUESS THE ACTUAL CHECKOUT
+- Inspect git status, branch, working-tree diffs and uncommitted files.
+- Read AGENTS.md, active Act I manifests, final Scene 04, Scene 05
+  and Scene 06 source layers, scripted chat runner, chapter1 store,
+  storyTimer, routing, Case Board, evidence ledger, content importer,
+  normalization and e2e helper patterns.
+- The latest attached Scene 06 log is a ROLLING STATUS RECORD, not
+  evidence of a final passing 115/115 full browser suite. It reports
+  1,092 unit tests and clean-run progress through 68 scenarios;
+  verify actual final checkout/test results locally before claiming
+  a full pass.
+- The local checkout may contain uncommitted Scene 04–06 work that
+  is absent from GitHub's remote main. Do not reset, stash carelessly,
+  rebase, overwrite, commit or push without explicit owner direction.
+- Identify existing Scene 07 planning ID, title placeholder, route,
+  Next Lead button and save-key conventions. Preserve existing IDs
+  for older saves; treat chapter_01_scene_07_the_byline as the NEW
+  authoring alias, not permission to renumber historic scene IDs.
+
+AUTHORITATIVE MANUSCRIPT
+- Pin supplied full screenplay verbatim under a source folder, e.g.
+  docs/sources/scene07-final/FULL_SCRIPT.txt (or repo's existing
+  established source directory). Do not paraphrase NPC dialogue.
+- Add a deterministic importer/compiler if consistent with Scenes 04–06.
+  Output typed scene07 content/branch registries. The importer must
+  enforce unique node IDs, no orphan next nodes, all 15 sets and their
+  three explicit branches, conditional routes and preserved literal
+  dialogue. C11-A intentionally has two consent-dependent outgoing
+  texts under ONE stable choice ID; do not display both.
+- Separate system directions and interface labels from spoken bubbles.
+  Quotes in author annotations are not characters' dialogue.
+
+INTERACTION RULES
+- Required Scene 07 entry is manual: Scene 06 final private
+  conclusion committed, then real tap of NEXT LEAD: THE BYLINE.
+  Never auto-open Browser, Archive, Nora inbox, Sophie, or group.
+- Preserve Scene 06 optional request/read/social states in perpetuity.
+  Scene 07 mainline cannot require Scene 06 desk response or a reply
+  to newly sent Scene 06 form R-GB-CD-002.
+- Core scene07 gates exactly as manuscript section 01. Optional Nora,
+  Sophie or group messages are NEVER required for progression.
+- Local Archive choices C01–C07, C13–C15 are NOT outgoing chats. Only
+  optional C08/C09, C10/C11, C12 generate outbound content, and only
+  after real user Select → composer → Send. C08 is a FORM, not a chat.
+- Keep the app's existing choice renderer, Send affordance, NPC typing,
+  read state, jump-to-latest indicator, notification and timestamps.
+  Use one existing chat runner, not a parallel Nora/Sophie engine.
+- Save draft, review, cancel, failed Send, back navigation and page
+  reload must not create outgoing message/recipient knowledge.
+  Editing form option invalidates reviewed scope. Exact selected
+  public question delivered ONCE, with unique R-GB-NV-001 receipt.
+- To prevent double-send, persisted delivered receipt / event id is
+  the source of truth after reload and retries.
+- A successful C08 Send queues one professional Nora route reply
+  EV-S07-NORA-PRO-REPLY-001 keyed to the exact option A/B/C. Delivery
+  occurs after saved delay, never before deadline; never duplicate.
+  At receipt time response is only pending, not 'Nora replied'. A
+  persisted delivered but unopened reply remains unread, and no
+  player-knowledge testimony is recorded before manual reading.
+- No Nora private DM, phone contact, phone number, personal email,
+  name verification magic, direct source unlock, group join or auto
+  chat. Professional publisher directory is the only permitted route.
+- Nora C09 is an independent player Send after the actual inbound
+  reply. Leaving it unanswered is supported. No unearned relationship.
+- Honor real current FIND DANIEL membership. Only Sophie/Maya get
+  authored responses when still active. Never resurrect Lucas or
+  fabricate Eli/Nora messages.
+- Preserve existing Sophie S06 'ask_first'/'verify_first' preference
+  derived from the actual sent branch. Scene 07 Sophie disclosures
+  require a real C10-A consent and C11-A Send, else C11-A is the
+  bounded no-new-facts wording. Group C12-A shows recipient warning
+  and handles prior ask_first as written, but only on real Send.
+- Preserve the player's established codename; never literal
+  [player name], NPC-assigned player choice bubbles, or debug scene IDs.
+
+NEW PUBLIC SOURCES — MUST BE SEPARATE FROM THE EXISTING ARTICLE
+- GB-NV-PROFILE-001: publisher reporter directory; channel listing
+  GB-NV-CHANNEL-001 associated with article GB-ARTICLE-001.
+- GB-REPORT-NOTE-001: new supplementary reporting note, with precise
+  authored publisher claims and no original attached.
+- GB-REF-017: new publisher working reference card only. Not an
+  original public notice, not an issued record number, not the 7-14
+  clue, not historical Bus 4, not ARTICLE version history.
+- GH-PUBLIC-CATALOGUE-001: new local catalogue-help page and a no-match
+  limited to the PUBLISHER label, not proof of deleted/absent record.
+- Use manuscript's exact text and routes, offline local browser.
+  Never fire real network requests or phone permissions.
+- Reuse (do not change) GB-ARTICLE-001 exactly six paragraphs,
+  original Nora byline and 7 October 2026 date. Do not place any
+  new note lines inside the original six paragraphs. Existing
+  ARC-IDX-GB-041 remains metadata only (UNKNOWN provenance).
+- Do not retcon the historical CH1-PUBLIC, CH1-OLDER, E012 or Bus 4
+  into editions/sources for GB-ARTICLE-001.
+
+RECORDS AND KNOWLEDGE
+- Add additive optional scene07 state to EXISTING save schema v1;
+  existing pre-Scene07 saves load with absent field. No IndexedDB
+  migration required merely to add optional fields. Normalize all
+  new field enumerations and stale/invalid saves carefully.
+- Commit player-only source inspections under distinct IDs. All
+  new publisher claims keep their claimed-public provenance; no
+  'verified:true' on source authenticity/article revision.
+- A public profile being read does NOT create Nora relationship or
+  contact. A reporter request delivered can record its own recipient
+  scope, not assert a reader. A professional return reply is reported
+  testimony only; distinguish delivered from player read.
+- Sophie name and knowledge must match canonical Sophie Mercer.
+  Honor earlier C13 Scene 04 and subsequent optional disclosures.
+- No automatic transfer of a local note/index, secret, private inbox
+  or city search to Sophie, Maya, group or Nora. Record the exact
+  outbound text and only actual membership at Send time.
+- Scene07.private_final_note stores one of C15-A/B/C, tied to
+  EV-S07-BYLINE-LIMIT-001, verified:false and no culprit.
+- C14 next-strategy choice is a private plan, not a request/send.
+- Existing unknown-sender blocked/replied/unread state untouched.
+- Old saves, old route histories, relationship scores, queue events,
+  completed scene statuses and previously delivered dialogue must
+  NEVER be overwritten or replayed by migration.
+
+VISUAL + UX
+- Phone-first 320, 375 and 430px; long article notes/page source
+  cards and dialogue wrap, buttons remain tappable above keyboard.
+- When a new bubble arrives near chat bottom, scroll; when player
+  reading old bubbles, preserve scroll and show new-message cue.
+- Source panels and optional chats have independent scroll, draft,
+  cursor and remaining-typing-delay checkpoints. Do not allow Nora
+  inbox presence to change Sophie's online state or overwrite Scene
+  05/06 panel positions; explicitly regression test both earlier fixes.
+- The reporter reply banner appears only after its actual delivery;
+  before delivery, card reads pending and OPEN INBOX should not imply
+  an available reply. Do not emit a phantom notification on hydration.
+- Manual return to previously completed Scene 07 lets player read an
+  already-delivered optional Nora response without duplicating mainline.
+- Next lead is THE MISSING ISSUER. Before Scene 08 is authored, its
+  button must truthfully display 'Next lead not yet available'.
+- Existing assets may be reused in existing rules; do not invent
+  'official' reporter photos or private phone identities.
+
+IMPLEMENTATION STRATEGY
+1. Write a short fact map of active local save fields/registries and
+   graph entry. Identify all Scene 06 outgoing/final states and true
+   existing identity fields before editing.
+2. Pin supplied source; write deterministic typed content importer.
+3. Add pure scene07 reducer/actions/normalization and source catalog.
+4. Hook the already-established runner and Store dispatch into the
+   optional public professional inbox, Sophie and FIND DANIEL.
+5. Render Archive entry, public listing, public note, reference card,
+   source classification and catalogue. Manual UI controls only.
+6. Implement optional C08 form and saved inbound reply, optional
+   C09 follow-up and C10/11/12 chats with real Send receipts.
+7. Integrate private conclusion and Scene08 honest placeholder.
+8. Add unit/e2e coverage BEFORE claiming integration complete.
+
+REQUIRED TESTS
+- All 15 Cxx sets, 45 authored A/B/C options with branch predicates.
+- Tests T01–T46 listed in full screenplay section 12.
+- Every wrong classification recovers; no no-win state.
+- Zero-contact completed mainline with every older desk status,
+  including Scene05 request delivered but S06 desk reply unread,
+  Scene06 new request pending, failed/draft/none.
+- C08 inquiry exact A/B/C plus never-send, cancel, failed/retry,
+  post-review edit, restored journal and no duplicate receipt.
+- Inbound Nora reply A/B/C alignment with sent option only, saved
+  deadline, new notification only after delivery, unopened unread,
+  reload during typing, optional C09 A/B/C real Send effects.
+- Real public profile/read does NOT count as private contact.
+- Sophie prior ask_first / no preference, C10 A/B/C, C11 conditional
+  A plus B/C, unsent draft, missing thread or unavailable Sophie.
+- Actual group permutations Maya-only, Sophie-only, both, neither,
+  no departed Lucas/Eli/Nora response. Group recipient preview
+  and prior ask_first reaction C12-A when Sophie active.
+- Catalogue 'no match by publisher ID' is NEVER 'document deleted'.
+- Source events are private, correct citations, no verified article
+  mutation or original document unlock, not even at high Trust.
+- Preserve Scene 06 desk role notification/presence/scroll and
+  Scene05 independent cursor after Scene07 source browsing.
+- Back/hydration/pagehide/visibility/resumed timer; stable 320px
+  screenshots and 375/430 screen layouts; use physical Android QA
+  separately ONLY if an APK is actually built/tested.
+- Browser journeys: complete from Scene06, no Nora; three exact Nora
+  request branches; pending reply after Scene07 completion; interrupted
+  typing reload; Sophie permission; actual group member permutations;
+  historical saves; entire final Act I continuity at least once.
+
+FINAL VERIFICATION ON THE FINISHED, UNCHANGED IMPLEMENTATION:
+  npm run typecheck
+  npm run lint
+  npm test -- --maxWorkers=2
+  npm run build
+  npm run test:e2e -- --workers=1
+  git diff --check
+
+If full browser suite is unreliable, report failed tests and rerun
+results HONESTLY, separating targeted passes from a complete fresh
+suite on final code. Do not state N/N PASS without an actual completed
+run. Report any existing chunk-size warning without treating it as
+build failure.
+
+DELIVER BACK TO OWNER:
+- Changed-file list and exact paths of pinned source/importer/runner/
+  store/UI/tests/implementation report.
+- Explicit mapping: Scene 06 completion receipt → Scene 07 entry.
+- Count of generated typed nodes, real choice variants, NPC waits,
+  events, public source pages and test cases as implemented (do not
+  merely repeat draft estimates).
+- Table showing exactly when Nora is contacted, when she can reply,
+  which facts are PUBLIC CLAIM vs REPORTED TESTIMONY vs UNVERIFIED.
+- Results of typecheck/lint/build/units/complete browser command,
+  and list of skipped/failed/partial runs when relevant.
+- Statement: no push/commit/APK unless owner asked and tool performed.
+
+STOP AFTER SCENE 07. Do not silently write Scene 08, forge missing
+notice, reveal culprit/participant, expose private notes or schedule
+unrequested external communications.
+
+END OF CODEX IMPLEMENTATION BRIEF.

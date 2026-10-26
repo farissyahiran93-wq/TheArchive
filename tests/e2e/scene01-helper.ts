@@ -20,8 +20,9 @@ export function sceneAt(number: string, picks: Record<string,string> = {}): Game
   }
   throw new Error('No requested choice')
 }
-export async function seedScene(page: Page, save: GameSave) {
+export async function seedScene(page: Page, save: GameSave, options?: { pauseClock?: boolean }) {
   await page.clock.install({ time: new Date(sceneNow(save)) })
+  if(options?.pauseClock)await page.clock.pauseAt(new Date(sceneNow(save)+1000))
   await page.goto('/')
   await expect(page.getByRole('button', { name: 'Enter the archive', exact: true })).toBeVisible()
   await page.evaluate(async value => {

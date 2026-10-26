@@ -1,0 +1,1050 @@
+THE ARCHIVE — CHAPTER 1
+SCENE 09: THE TRANSFER REGISTER
+FULL ENGLISH IN-GAME SCREENPLAY + CHOICE / EVIDENCE CONTRACT
+Authoring date: 25 October 2026
+STATUS: NEW AUTHORING DRAFT — NOT IMPLEMENTED, TESTED, COMMITTED OR RELEASED
+
+===============================================================================
+00. SCENE AUTHORITY, CANON AND NON-NEGOTIABLE BOUNDARIES
+===============================================================================
+
+DIRECT PREDECESSOR: Scene 08 — THE MISSING ISSUER (authored, not yet
+confirmed implemented in the owner's latest report). The preceding
+scene 07 — THE BYLINE was also last reported as a placeholder in the app.
+This screenplay does NOT authorize inventing their completion, bypassing
+their gates, or reopening old prototype investigation content.
+
+ENTRY REQUIREMENT:
+  - Scene 07 must have actually completed through S07-C15; AND
+  - Scene 08 must have actually completed through S08-C16; AND
+  - player must explicitly tap Scene 08's OPEN NEXT LEAD: THE TRANSFER
+    REGISTER from the Archive, not merely have visited Scene 08.
+If either prerequisite is missing, Scene 09 remains staged/nonplayable.
+New Game is not required to enter Scene 09 from a valid final-route
+Scene 08 save. Historical/structural routes are not auto-converted.
+
+THE FIXED INVESTIGATIVE STARTING POSITION:
+- GB-ARTICLE-001: unchanged six-paragraph Greyhaven Bulletin article,
+  Nora Vance byline, published 7 October 2026, story-relative label
+  'Updated: Yesterday' unverified as a revision record.
+- ARC-IDX-GB-041: metadata-only, unknown source, no authenticated earlier
+  body, verified capture, editor identity or document diff.
+- GB-CORR-REGISTER-001: formal corrections register had no notice for the
+  article at time observed; this does NOT prove no web edit occurred.
+- GB-REF-017 (Scene 07): PUBLISHER label for a supposed public-notice
+  lead; not an official notice ID or proof that a notice exists.
+- GH-CIVIC-DIRECTORY-001 and GH-CIVIC-INDEX-HELP-001 (Scene 08):
+  government-directory style LOCAL fictional pages describing public
+  records routing and search, not proof of source document.
+- GH-FORMER-OFFICE-GUIDE-001 (Scene 08): procedural advice about office
+  renaming/record transfers; NO case-specific transfer was identified.
+- GH-PN-ROUTE: published ROUTING DESK code; not an issuing-office ID.
+- R-GH-PN-001 (Scene 08): optional exact public locating inquiry
+  delivered ONLY after player Send; reply exists only if later delivered,
+  and is player knowledge only after manual open/read. It identifies no
+  original or specific transfer. Keep its actual status unchanged.
+- Earlier publisher and Nora inquiries R-GB-VH-001, R-GB-CD-002 and
+  R-GB-NV-001 retain their distinct, possibly unsent/pending states.
+  In particular R-GB-CD-002 has NO scripted reply in this scene.
+- June Ellis, 2019 evacuation, Bus 4, Depot 02, E012, 7-14, E—I,
+  Unknown Sender and Daniel's whereabouts must NOT be linked to the
+  publisher label or the new transfer entry without independent proof.
+- Nora's professional reply, if any, is constrained by Scene 07's
+  delivered receipt AND delivered/read reply; a byline is not a private
+  contact, and a professional reply is not an editor log.
+- Lucas has left FIND DANIEL; no auto return. Maya/Sophie appear in
+  the group only when actual members. Eli/Nora/Daniel do not appear in
+  this scene's group and are not silently added. Maya private DM
+  remains unavailable without a genuinely authorized route.
+- Sophie is not obliged to discuss Daniel or the case. Honor her
+  existing ask-first/declined-details preferences, never transfer a
+  dossier, and never treat consent from a private conversation as
+  group-wide consent.
+- The protagonist is an ordinary civilian. All records pages,
+  inboxes, local searches and Sends are OFFLINE FICTIONAL GAME CONTENT.
+  There is NO real city, government, publisher or personal contact.
+
+SCENE'S CORE QUESTION:
+  'A public register shows where a record series went. Does that put
+   this particular missing notice inside it?'
+
+HUMAN QUESTION:
+  'Can the player say "I found a possible lead" without letting the
+   people around Daniel hear "I found the answer"?'
+
+A MATERIAL BUT BOUNDED NEW DEVELOPMENT:
+  The player independently opens a new, fictional CIVIC transfer
+  register. It does contain a PUBLICLY LISTED 2022 TRANSFER ENTRY for
+  a BROAD public-notices series. This is a NEW source created for
+  Scene 09; Scene 08 did not say it existed. The entry names a former
+  custodian, a receiving custodian, a broad date range, and a public
+  inventory-summary reference. It does NOT identify the notice behind
+  GB-REF-017, establish the original issuer, item-level contents,
+  a 2019 evacuation connection, a missing page or any wrongdoing.
+  The payoff is one legitimate, bounded finding-aid lead that could
+  make an item-level search possible in Scene 10.
+
+SOURCE DISTINCTION:
+  PUBLISHER LABEL GB-REF-017 != CIVIC SERIES CODE != TRANSFER ENTRY
+  != INVENTORY SUMMARY != ITEM-LEVEL RECORD != ORIGINAL NOTICE.
+
+ALL in-game dialogue and document pages below are in English. Director
+instructions, IDs and choice effects must not be displayed as NPC speech.
+All PLAYER chat text needs SELECT -> DRAFT -> actual SEND. Archive and
+Browser selections are not player speech and create no chat bubbles.
+
+===============================================================================
+01. SCENE MAP / CHOICE REGISTRY
+===============================================================================
+
+S08.complete, S07.complete, S08 S16 committed
+  -> PLAYER TAPS OPEN NEXT LEAD
+  -> S09.01: Archive recap / decide to inspect register
+  -> S09.02: Independent transfer register + read gate
+  -> S09.03: Interpret transfer row, inspect each column
+  -> S09.04: Series range and document-category test
+  -> S09.05: Former and receiving custodians: role comparison
+  -> S09.06: Public finding-aid summary and coverage limits
+  -> S09.07: Local sample search; no forced inference
+  -> S09.08: Private source-link puzzle
+  -> S09.09: Optional Records Centre question / role reply inbox
+  -> S09.10: Optional Nora professional question
+  -> S09.11: Optional Sophie check-in / FIND DANIEL chat
+  -> S09.12: Private conclusion; manual Scene 10 lead (placeholder)
+
+Choices S09-C01 ... S09-C18; exactly A/B/C for each = 54 authored
+alternatives. Required CORRECT local classes: C02-B, C03-A, C04-C,
+C05-B, C06-C, C07-A, C08-B, C09-C and C17-A. Wrong selections have
+specific recoverable feedback and do not consume decisions or trigger
+knowledge/effects. C01 is an informational replay and C10 is a private
+strategy, all three options accepted. C11/C12/C13/C14/C15/C16 are
+OPTIONAL actual chat/form Sends (none gates C18). C18 final private
+choice A/B/C commits one once-only conclusion.
+
+CORE REQUIRED TO COMPLETE WITH ZERO OPTIONAL MESSAGES:
+1) Explicit manual Scene 08->09 transition with valid final-route gates.
+2) Open new transfer register and explicitly MARK REGISTER READ.
+3) Inspect row identity, date-range and custody fields individually.
+4) C02-B classify register entry vs specific item.
+5) C03-A classify public row field meanings.
+6) C04-C classify what the broad date range proves.
+7) C05-B classify former vs receiving custodian roles.
+8) Open finding-aid summary, separately inspect access and coverage
+   limitations, then MARK FINDING AID READ.
+9) C06-C classify what inventory summary can establish.
+10) C07-A classify an item-level request, not an accusation.
+11) C08-B classify a search's 'no item listed' message.
+12) C09-C classify no match between GB-REF-017 and listed series.
+13) C17-A complete link-strength puzzle.
+14) C18-A/B/C SAVE PRIVATE CONCLUSION. No response wait required.
+
+===============================================================================
+02. S09.01 — ARCHIVE: AN ACTUAL ENTRY
+===============================================================================
+
+[After intentional OPEN NEXT LEAD tap; title card, silent]
+
+THE TRANSFER REGISTER
+'The register remembers the move. It doesn't remember every page.'
+
+PREVIOUS CASE NOTE
+Publisher label: GB-REF-017 — UNLINKED
+Issuer: UNKNOWN
+Custodian for THAT notice: UNKNOWN
+Original notice: NOT HELD
+Civic routing inquiry: EXACT SAVED STATUS
+
+A NEW WAY TO LOOK
+Find what the public transfer register actually records. Don't
+mistake a series-wide handover for proof that a particular paper was
+inside it.
+
+[BUTTONS] OPEN PUBLIC TRANSFER REGISTER / REVIEW LAST NOTE /
+          SOURCE STATUS / BACK TO ARCHIVE
+
+S09-C01 — OPTIONAL LOCAL ORIENTATION; NO SEND, REPEATABLE
+ A. 'Show the limit on the publisher reference.'
+    SYSTEM: 'GB-REF-017 remains a publisher's label without a linked
+    official record number, original notice or confirmed issuer.'
+ B. 'Does the previous routing reply identify a custodian?'
+    SYSTEM IF actual R-GH-PN-001 reply delivered AND read:
+    'The reply supplied locating guidance. It named no custodian for
+    the particular notice.'
+    SYSTEM OTHERWISE: 'No read civic reply establishes a custodian.
+    The previous request retains its actual saved status.'
+ C. 'What is a transfer entry supposed to describe?'
+    SYSTEM: 'It may identify the movement of a record SERIES between
+    custodians. Individual contents require their own identification.'
+
+C01 does not insert correspondence, mark a message read, unlock any
+pending reply or change anybody's knowledge.
+
+===============================================================================
+03. S09.02 — THE PUBLIC TRANSFER REGISTER (NEW CIVIC SOURCE)
+===============================================================================
+
+[PLAYER TAPS OPEN PUBLIC TRANSFER REGISTER]
+Route: browser://greyhaven/civic-records/transfers/public-register
+Source ID: GH-TRANSFER-REGISTER-001
+Source type: CIVIC_PUBLIC_TRANSFER_LISTING (fictional city page)
+No external fetch. Not connected to public Bulletin source storage.
+
+==================== EXACT IN-WORLD PAGE COPY ====================
+GREYHAVEN CIVIC SERVICES
+PUBLIC RECORDS TRANSFER REGISTER
+Public listing / Selected series transfers
+
+This public register lists selected movements of record SERIES between
+custodians. It does not list every individual paper held in a series.
+An entry does not certify the contents of a record that has not been
+identified and independently inspected.
+
+ENTRY: GH-TR-2022-063
+Series title: General Public Notices — Administrative Postings
+Series identifier: GH-PN-GEN-2017-2021
+Series coverage: 2017–2021 (broad filing range)
+Transfer recorded: 2022
+Former listed custodian: Civic Secretariat
+Receiving listed custodian: Greyhaven Records Centre
+Public inventory summary: GH-INV-2022-063
+Item-level inventory in public register: NOT PROVIDED
+Original issuing bodies: VARIED / NOT ITEMIZED HERE
+
+STATUS NOTE
+This entry records a listed custodial transfer for the named SERIES.
+It does not establish that a publisher-cited reference belongs to it.
+A record's date, title and issuing body must be matched separately.
+
+OTHER REGISTER ENTRY (UNRELATED CONTROL EXAMPLE)
+GH-TR-2023-019 — Municipal Tree-Planting Event Permits, 2020–2022
+Receiving custodian: Greyhaven Parks Records Unit
+Item-level list: NOT SHOWN IN THIS PUBLIC EXTRACT
+
+Public register fields describe custody and series coverage. They
+must not be treated as publisher website-edit logs or original notices.
+==================== END EXACT PAGE COPY ====================
+
+[BUTTONS] INSPECT ENTRY NUMBER / INSPECT SERIES DATES /
+          INSPECT CUSTODY FIELDS / MARK REGISTER READ /
+          OPEN FINDING AID / BACK
+
+Three inspections are distinct and persist. MARK REGISTER READ is an
+explicit action; scrolling alone is insufficient. Register reading
+creates EV-S09-REGISTER-READ (player only), attributed to the NEW civic
+page. This is observation of a LISTED series transfer, not verification
+of any GB-REF-017 item transfer.
+
+S09-C02 — WHICH CLAIM DOES THIS PAGE SUPPORT? LOCAL NO SEND
+ A. 'GB-REF-017 was stored in the transferred boxes.'
+    SYSTEM: 'That label is not listed on this page. The row names a
+    series, not a verified matching notice. Try again.' [STAY]
+ B. 'A public register lists a transfer of this broad record series;
+    it does not show a notice matching GB-REF-017.'
+    SYSTEM: 'Supported. The series transfer is listed. Membership of
+    the missing notice remains unestablished.' [PASS]
+ C. 'The receiving centre must have written the missing notice.'
+    SYSTEM: 'Receiving custody and original authorship are separate
+    questions. Try again.' [STAY]
+
+S09-C03 — WHAT ARE THESE THREE FIELDS? LOCAL NO SEND
+ A. 'Entry number identifies this transfer row; series identifier
+    names its collection; inventory reference points to a summary.'
+    SYSTEM: 'Supported. None is an item-level notice number.' [PASS]
+ B. 'GH-TR-2022-063 is the revised Bulletin article ID.'
+    SYSTEM: 'No. This is a civic register entry. The publisher's
+    article remains a different source.' [STAY]
+ C. 'GH-INV-2022-063 proves exactly one notice was archived.'
+    SYSTEM: 'An inventory-summary reference does not specify the
+    number or content of items here. Try again.' [STAY]
+
+===============================================================================
+04. S09.03 — A DATE RANGE IS NOT A DATE OF ISSUE
+===============================================================================
+
+[PLAYER TAPS SERIES COVERAGE panel]
+
+COVERAGE VIEW
+2017–2021 = the broad years attached to the transferred filing
+series. It is NOT the publication date, incident date or verified date
+of a missing notice. The year 2019 lies within the broad range but
+is NOT a demonstrated connection to the 2019 evacuation, Bus 4,
+June Ellis or Daniel's work.
+
+S09-C04 — DATE-RANGE CHECK, LOCAL NO SEND
+ A. 'The series contains every public notice issued in 2019.'
+    SYSTEM: 'The listing does not state completeness for that year.
+    Broad coverage is not an exhaustive item index.' [STAY]
+ B. 'The 2022 transfer date proves the article was changed in 2022.'
+    SYSTEM: 'The register has no Bulletin editing information.'
+    [STAY]
+ C. 'The years describe the series; an individual notice still
+    needs its own date, identifier and attributable copy.'
+    SYSTEM: 'Supported. A possible range is not a source match.'
+    [PASS]
+
+[Small beat; no speech]
+SYSTEM: 'Do not merge timelines: register transfer 2022; Bulletin
+article 7 October 2026; original notice date UNKNOWN.'
+
+===============================================================================
+05. S09.04 — TWO OFFICES, ONE LISTED MOVE
+===============================================================================
+
+[PLAYER taps custody explanation, already available from register]
+CARD: FORMER CUSTODIAN
+Civic Secretariat — named as a former holder of the SERIES in the
+new public entry. No assertion that it created GB-REF-017's original.
+
+CARD: RECEIVING CUSTODIAN
+Greyhaven Records Centre — listed destination for THIS SERIES in
+2022. That does not prove custody of an unidentified notice.
+
+CARD: ISSUER
+The person or office that originally issued an individual notice;
+not identified in this register entry. Several issuing bodies may
+appear in one administrative collection.
+
+S09-C05 — WHICH OFFICE CAN BE NAMED? LOCAL NO SEND
+ A. 'Civic Secretariat is now proved to have issued GB-REF-017.'
+    SYSTEM: 'The register gives its series-level custodial role,
+    not this notice's authorship.' [STAY]
+ B. 'Greyhaven Records Centre is the listed receiving custodian for
+    the SERIES. The notice's issuer and item custody are unverified.'
+    SYSTEM: 'Supported. A candidate series custodian is not a
+    confirmed holder of the missing notice.' [PASS]
+ C. 'Nora must have sent the article through the receiving centre.'
+    SYSTEM: 'There is no sourced contact between the journalist and
+    this transfer entry. Retry.' [STAY]
+
+[Effect after C05-B only]
+NOTE: 'A concrete series-level custodian is publicly listed.
+Verification of the notice itself has not occurred.'
+This is a player-private source observation, not verified guilt,
+notice existence, publisher edit, Daniel whereabouts, or new Nora fact.
+
+===============================================================================
+06. S09.05 — THE PUBLIC FINDING-AID SUMMARY
+===============================================================================
+
+[PLAYER intentionally taps OPEN FINDING AID]
+Route: browser://greyhaven/civic-records/transfers/GH-TR-2022-063/finding-aid
+Source ID: GH-TRANSFER-FINDING-AID-001
+Associated publicly listed summary ref: GH-INV-2022-063
+Source type: CIVIC_PUBLIC_INVENTORY_SUMMARY
+
+==================== EXACT IN-WORLD PAGE COPY ====================
+GREYHAVEN RECORDS CENTRE
+PUBLIC FINDING AID — SERIES SUMMARY
+
+Inventory summary: GH-INV-2022-063
+Associated transfer register entry: GH-TR-2022-063
+Series: GH-PN-GEN-2017-2021
+Title: General Public Notices — Administrative Postings
+Listed receiving custodian: Greyhaven Records Centre
+
+SUMMARY COVERAGE
+General administrative public notices in the transferred filing
+series, 2017–2021. This summary describes the COLLECTION, not the
+text, issuing office or existence of a particular notice.
+
+PUBLIC ACCESS STATUS
+Series-level summary: AVAILABLE
+Public item-level list: NOT PRESENT IN THIS SUMMARY
+Original notices: NOT ATTACHED HERE
+Item-level search: requires an original title, issuer, or a sufficiently
+specific descriptor; a series request may be routed for further review.
+
+IMPORTANT LIMIT
+This finding aid does not identify individual notices. A missing
+public item list cannot establish whether a particular notice exists.
+
+The following are not provided by the public finding aid: item-level
+file inventory, the text of an original notice, a verified issuer,
+and a link to any published article revision.
+==================== END EXACT PAGE COPY ====================
+
+[SEPARATE ARCHIVE SOURCE-COMPARISON ANNOTATION; NOT CIVIC PAGE TEXT]
+'No link from GB-REF-017 to this series has been established. This is
+our comparison of independent public pages, not a government finding.'
+
+[BUTTONS] INSPECT COVERAGE LIMIT / INSPECT ACCESS LIMIT /
+          MARK FINDING AID READ / RETURN TO REGISTER
+
+The Archive comparison annotation is NOT printed inside the public
+finding aid; the publisher's marker must not be attributed to city
+personnel or the city's documents. Two manual inspections (coverage,
+access) and explicit MARK READ persist independently.
+EV-S09-FINDING-AID-READ is player-private, source-attributed only to
+the public inventory summary. No external network, item file,
+archived article or PDF is created.
+
+S09-C06 — WHAT CAN THIS FINDING AID PROVE? LOCAL NO SEND
+ A. 'This public list proves the missing notice was destroyed.'
+    SYSTEM: 'No destruction is recorded or inferred. Missing from a
+    public summary is not destruction.' [STAY]
+ B. 'The finding aid supplies the notice text and its issuing body.'
+    SYSTEM: 'It lists neither. The notice is not attached.' [STAY]
+ C. 'The summary locates a collection and limits, but gives no
+    item-level match for GB-REF-017.'
+    SYSTEM: 'Supported. It can guide the next question, not answer
+    what the missing notice said.' [PASS]
+
+===============================================================================
+07. S09.06 — REQUEST THE RIGHT THING
+===============================================================================
+
+[Player opens Archive: REQUEST SCOPE]
+
+LOCAL FORM CARD: 'You found a series, not the notice.'
+
+The available public next step is a limited query asking whether an
+item-level finding aid or access procedure exists for the publicly
+listed transferred series. It is NOT a demand to release a person's
+private file or to certify a missing document automatically.
+
+S09-C07 — WHICH REQUEST IS GROUNDED? LOCAL NO SEND
+ A. 'Ask the listed custodian about item-level finding aids for
+    GH-PN-GEN-2017-2021 and what identifying details they require.'
+    SYSTEM: 'Supported. It targets a documented series with a
+    limited, auditable question.' [PASS]
+ B. 'Order the centre to provide Daniel's private files.'
+    SYSTEM: 'The public register authorizes no such access.' [STAY]
+ C. 'Ask the centre to confirm who altered the Bulletin article.'
+    SYSTEM: 'The city records centre does not administer the
+    publisher's website history.' [STAY]
+
+===============================================================================
+08. S09.07 — NO RESULT IS NOT A DELETION
+===============================================================================
+
+[PLAYER taps TRY LOCAL CATALOGUE SEARCH]
+Local offline search examples ONLY; fixed options, no live backend.
+
+- Search 'GH-TR-2022-063' -> 'Transfer row located. Item list not
+  included in this result.'
+- Search 'GH-INV-2022-063' -> 'Public series summary located. Original
+  individual notices not attached.'
+- Search 'GB-REF-017' -> 'No direct item match for publisher label.
+  This is not an official notice identifier and not proof of deletion.'
+- Search 'June Ellis' -> 'Case-person search is not authorized by
+  this scene. No new case-specific matching records presented.'
+- Search 'GH-PN-GEN-2017-2021' -> 'Series heading located. Content
+  still requires item identification.'
+
+No search result exposes an authentic case item or changes receipt
+state. These are simulated examples, not user-data searches.
+
+S09-C08 — INTERPRET NO ITEM MATCH, LOCAL NO SEND
+ A. 'No hit confirms the issuing office secretly removed it.'
+    SYSTEM: 'No removal is recorded. Searching a publisher string
+    in a series inventory is not a provenance test.' [STAY]
+ B. 'The search's scope is too broad or uses the wrong identifier;
+    a non-match cannot establish existence or deletion.'
+    SYSTEM: 'Supported. A more attributable item key is needed.'
+    [PASS]
+ C. 'The receiving centre edited the article to hide it.'
+    SYSTEM: 'The register describes custody, not publication edits.'
+    [STAY]
+
+S09-C09 — IS THIS A MATCH YET? LOCAL NO SEND
+ A. 'Yes. Both sources mention public notices, so they are identical.'
+    SYSTEM: 'A shared category is not a matching title, number,
+    original, date or issuing body. Try again.' [STAY]
+ B. 'Yes. The range includes 2019, so the source is the Bus 4 item.'
+    SYSTEM: 'This would invent a link to an unrelated investigation
+    strand. Try again.' [STAY]
+ C. 'No. The publisher reference and the transfer series have no
+    demonstrated common item identifier or original notice.'
+    SYSTEM: 'Supported. This is a promising SEARCH LOCATION, not a
+    matched source.' [PASS]
+
+S09-C10 — WHAT TO PRIORITIZE, PRIVATE STRATEGY; NO SEND
+ A. 'Ask for access conditions to the listed series.'
+    SYSTEM: 'Private priority saved: access-first. No request sent.'
+ B. 'Try to obtain a public item-level inventory or description.'
+    SYSTEM: 'Private priority saved: inventory-first. No request sent.'
+ C. 'Keep the publisher's string out of correspondence for now.'
+    SYSTEM: 'Private priority saved: privacy-first. No request sent.'
+
+===============================================================================
+09. S09.08 — OPTIONAL RECORDS CENTRE INQUIRY (COMPOSER + SEND)
+===============================================================================
+
+Available only after public transfer-register read, finding-aid read,
+C07-A and C09-C, but NEVER required for S09 completion.
+
+[PLAYER taps ASK THE RECORDS CENTRE]
+Route: browser://greyhaven/civic-records/requests/series-enquiry
+Recipient: Greyhaven Records Centre — Public Series Enquiries
+This is a CIVIC ROLE INBOX with return token, not a private employee,
+phone contact, email provider, or live external service.
+
+HEADER: A series is a route to a question, not proof of the file.
+Included: selected narrow public question, the official publicly
+listed series code and any elected public publisher label.
+Not included: name, phone, GPS, contacts, Daniel/Sophie/Nora messages,
+private Case Board, E012, other receipts or article body.
+
+S09-C11 — OPTIONAL SERIES QUESTION: SELECT -> DRAFT -> REVIEW -> SEND
+ A. Player draft:
+    'The public transfer register lists GH-PN-GEN-2017-2021 under
+    GH-TR-2022-063. Is there an item-level public finding aid for this
+    series, and what details would a locating request need?'
+    SHARES official series+register, NOT publisher GB-REF-017.
+ B. Player draft:
+    'I found the public series summary GH-INV-2022-063. A publisher
+    separately labels a possible notice GB-REF-017; I do not have an
+    official item number or original. Can you advise a permissible
+    item-level locating procedure?'
+    SHARES publisher label intentionally, as a quoted PUBLISHER label
+    ONLY, not as an official identifier or proof of existence.
+ C. Player draft:
+    'Does the receiving records centre publish an access guide for
+    transferred administrative postings from 2017–2021? I am not
+    asking you to certify that a particular notice was transferred.'
+    SHARES only general public series context, no publisher label.
+
+[BUTTONS] EDIT QUESTION / REVIEW RECIPIENT & INCLUDED DATA /
+          SAVE DRAFT / SEND REQUEST / CANCEL / BACK
+SEND disabled before exact review. Edit/choice change invalidates
+review. Save/back/cancel creates NO receipt and NO outgoing chat bubble.
+Failure keeps exact draft for retry. On first successful Send create:
+  R-GH-TR-001, status DELIVERED, exact choice ID + body + scope,
+  one fictional return token and persisted time. Idempotent replay.
+On success show: 'Request delivered. This receipt proves only the
+question was sent; it does not identify the original notice.'
+
+After actual successful delivery only, queue one preauthored general
+role-inbox reply with saved remaining delay (never automatic chat
+open). Event EV-S09-SERIES-DESK-REPLY-001 one-shot.
+
+NOTIFICATION only after actual reply delivery:
+  'Greyhaven Records Centre — Reply to your series question'
+
+[PLAYER MANUALLY OPENS RECORDS CENTRE INBOX]
+DESK: Hello. This is the Public Series Enquiries inbox.
+DESK: I've looked at the series information in your message.
+DESK: I'll keep the answer to what our public finding aid can support.
+
+IF actual C11-A delivered:
+DESK: The public summary is what is currently listed for that series.
+DESK: A more specific locating question needs an item title, office
+or descriptor, if one is available. That is not the same as an item
+being confirmed.
+IF actual C11-B delivered:
+DESK: The publisher code you included is not shown as an official
+identifier in the public series summary.
+DESK: We can't match that code to an individual notice from your
+question alone.
+IF actual C11-C delivered:
+DESK: The public series page is the right starting point for access
+requirements concerning this transferred collection.
+DESK: It does not tell you which individual notice was part of it.
+
+DESK: I know it can sound as though every answer sends you to a new
+form. I'm sorry about that.
+DESK: But I don't want to name a file we haven't identified.
+
+Player knows this reported procedural reply only when delivered AND
+manually opened/read; not merely when queued or notified. The
+response must never invent a new matched item, issuer, original
+notice, a negative search certification or a pending release promise.
+
+S09-C12 — OPTIONAL ROLE INBOX FOLLOW-UP (COMPOSER + REAL SEND)
+Only after current reply has been READ, and via same role inbox:
+ A. Player: 'So a series-level transfer doesn't tell me whether a
+    particular notice is in it?'
+    DESK: That's right. We'd need a matching item description or
+    other identifying details.
+ B. Player: 'Can you tell me who changed the published article?'
+    DESK: No. We don't maintain the Greyhaven Bulletin's site.
+ C. Player: 'Thanks. I'll keep this as a possible place to search,
+    not a confirmed document.'
+    DESK: Thank you. That's an accurate way to describe it.
+DESK: Take care.
+
+This inbox has NO relationship stats, avatar/person contact, magic
+unlock or auto-Send. Save exactly chosen player line and the matching
+NPC response receipt, not the other two. R-GH-TR-001 delivery is
+independent of R-GH-PN-001 and all publisher/Nora requests. Scene 08's
+pending inquiries do not magically generate Scene 09 answers.
+
+===============================================================================
+10. S09.09 — OPTIONAL NORA PROFESSIONAL QUESTION
+===============================================================================
+
+Only if previous Scene 07 R-GB-NV-001 successfully delivered AND
+attributed Nora professional reply actually delivered and was opened/
+read; professional channel still exists; player intentionally opens
+that existing inbox. If earlier route absent/unread, hide this entire
+scene. Do not invent personal Nora contact, mobile number or a
+different channel. If player explicitly chose not to recontact Nora
+before, keep this optional, do not schedule notification.
+
+NORA: Hello again.
+NORA: If this is about what the public register lists, I can talk
+about what the published source says. I can't verify a file I haven't
+seen.
+
+S09-C13 — OPTIONAL NORA QUESTION; SELECT -> DRAFT -> SEND
+ A. Player: 'A public transfer row lists a broad notices series.
+    Did your source note include that official series number?'
+    NORA: Not in the public note I published.
+    NORA: I wouldn't ask you to treat my label as that series number.
+ B. Player: 'The register lists Greyhaven Records Centre as a
+    receiving custodian for one series. Does that tell us who
+    originally issued the notice you mentioned?'
+    NORA: No. A receiving office isn't automatically the issuer.
+    NORA: And I haven't linked the notice in my note to that row.
+ C. Player: 'I found an inventory summary, but not the item. I'd
+    rather ask for the item before quoting your reference.'
+    NORA: Fair.
+    NORA: If I can substantiate that source publicly, you'll be
+    able to check what I actually publish.
+
+NORA: I have to get back to a deadline. Take care.
+
+Only the exact sent branch enters Nora's knowledge; no request tokens,
+private Board, original or proofs are attached. Her statements are
+reported testimony, not a new public document. No relationship
+baseline should be invented just because the article contains her
+byline; apply approved effects ONLY if an existing documented system
+rule authorizes them. No essential clue restricted to this chat.
+
+===============================================================================
+11. S09.10 — OPTIONAL SOPHIE: ORDINARY THINGS
+===============================================================================
+
+Only if actual Sophie private channel already exists. No automatic
+morning alert or conversation. Player taps CHECK ON SOPHIE; allow
+skipping with no loss of evidence. Respect her prior case-message
+boundaries, including private ask-first and refused updates. She does
+not know the transfer row merely because the player looked at it.
+
+[PLAYER manually opens existing private Sophie chat]
+SOPHIE: Hey.
+SOPHIE: I found one of Daniel's old shopping lists.
+SOPHIE: Bread. Eggs. Batteries. Another pen, underlined twice.
+SOPHIE: I don't know why that one got to me.
+SOPHIE: It's just so normal.
+
+S09-C14 — OPTIONAL PRIVATE RESPONSE, SELECT -> DRAFT -> SEND
+ A. Player: 'It's the small things that make someone feel real.'
+    SOPHIE: Yeah.
+    SOPHIE: I can hear him complaining that no pen in the house
+    ever works.
+    EFFECT on actual Send: Affinity +2.
+ B. Player: 'Do you want to tell me about him, or should we talk
+    about something else?'
+    SOPHIE: Thank you for asking.
+    SOPHIE: Maybe something else for a bit.
+    EFFECT on actual Send: Trust +1, Affinity +1.
+ C. Player: 'You can keep that list without it having to mean more.'
+    SOPHIE: I think I needed to hear that.
+    SOPHIE: I was starting to look for a message in everything.
+    EFFECT on actual Send: Trust +1, Affinity +1.
+
+[If real C14 Send occurred; paced, not automatic after draft]
+SOPHIE: Anyway, how are you doing?
+SOPHIE: You don't have to give me the investigation version.
+
+S09-C15 — OPTIONAL PRIVATE RESPONSE, SELECT -> DRAFT -> SEND
+ A. Player: 'I'm okay. I found a public record series, but I don't
+    know whether it has anything to do with Daniel.'
+    SOPHIE IF case-update permission explicitly covers this exchange:
+    Okay. Thanks for saying the uncertain bit too.
+    SOPHIE IF ask-first/no permission OR previously declined detail:
+    I didn't say I wanted a case update right now.
+    SOPHIE: I'd rather just know how you're doing.
+    Effect IF permission: Trust +1. Effect IF boundary ignored:
+    Trust -1 once (and no invented consent afterward).
+ B. Player: 'I could use a night without staring at records.'
+    SOPHIE: You and me both.
+    SOPHIE: Maybe we should both take the evening off.
+    Effect: Affinity +2. No case details transmitted.
+ C. Player: 'I'm here. We don't have to talk about the case.'
+    SOPHIE: Good.
+    SOPHIE: That's enough for tonight.
+    Effect: Trust +1, Affinity +1. No case details transmitted.
+
+SOPHIE: I'm going to put that list back in its drawer.
+SOPHIE: Goodnight.
+[Offline on authored end; no forced later online state.]
+
+If player leaves before a real C14/C15 Send, do not fabricate Sophie
+responses or a player bubble. Leaving optional chat preserves draft,
+exact cursor and remaining delay; it does not affect S09 mainline.
+
+===============================================================================
+12. S09.11 — OPTIONAL FIND DANIEL GROUP
+===============================================================================
+
+Only if existing FIND DANIEL group actually has player and at least
+one currently eligible NPC member to respond. Present actual-members
+preview first; no phantom Lucas, Eli, Nora, Daniel, Maya or Sophie.
+No new membership invitations, no private Docs/Board auto-sharing.
+Old Sophie PRIVATE consent cannot be reused for group permission.
+
+[PLAYER intentionally opens group]
+SYSTEM (local banner, not a chat bubble): 'Review recipients before Send.'
+
+S09-C16 — OPTIONAL GROUP MESSAGE, SELECT -> DRAFT -> SEND
+ A. Player: 'The public register lists a notices series moving to a
+    records centre, but I haven't matched the article's reference to
+    any item in that collection.'
+    MAYA if CURRENT member: That's the distinction we needed.
+    MAYA: A series entry helps us ask better questions, not name a
+    culprit.
+    SOPHIE if current member with applicable group-specific consent
+    or no ask-first restriction: Okay. Thanks for being careful.
+    SOPHIE if current member, ask-first and no group permission:
+    I wish you'd checked before posting another case detail here.
+    Effect: Sophie Trust -1 ONCE only in latter branch.
+ B. Player: 'There is a public series number now, but no original
+    notice, issuer or item match. Please don't call it proof.'
+    MAYA if member: Agreed. A shared category isn't a verified file.
+    SOPHIE if permitted: Understood.
+    SOPHIE if ask-first and not permitted: Can we talk about this
+    only after you've asked me? Effect Sophie Trust -1 ONCE.
+ C. Player: 'I'm checking the public catalogue carefully. I'll
+    share a source only when I can actually tie it to the claim.'
+    MAYA if member: Good plan. Let the source set the pace.
+    SOPHIE if member: Thanks.
+    No ask-first penalty: method only, no new case facts.
+
+Group receives exact sent text only, at exact actual membership.
+Neither the optional civic request/reply text nor Nora thread nor
+Archive Board becomes a transmitted attachment. Group results are
+not conditions for the private conclusion.
+
+===============================================================================
+13. S09.12 — THE MISSING LINK: PRIVATE SOURCE-CHAIN PUZZLE
+===============================================================================
+
+[PLAYER returns to Archive / ASSESS THE LINK]
+
+SOURCE A: GB-REF-017 (PUBLISHER REPORTING MARKER)
+   Status: OBSERVED IN PUBLICATION / OFFICIAL NOTICE UNVERIFIED
+SOURCE B: GH-TRANSFER-REGISTER-001
+   Status: LISTED SERIES TRANSFER / TRANSFER ROW GH-TR-2022-063
+SOURCE C: GH-TRANSFER-FINDING-AID-001
+   Status: PUBLIC SUMMARY GH-INV-2022-063 / NO ITEM LIST ATTACHED
+SOURCE D: R-GH-TR-001
+   Status: EXACT SAVED STATUS if actually sent, otherwise NOT SENT
+SOURCE E: GH-PN-ROUTE / GH-FORMER-OFFICE-GUIDE-001
+   Status: PUBLIC SERVICE ROUTE / GENERAL PROCEDURE
+
+INVESTIGATION PROMPT: Which link is NOT YET ESTABLISHED?
+
+S09-C17 — REQUIRED PRIVATE PUZZLE; LOCAL NO SEND
+ A. 'An identified original notice or item-level listing must link
+    the publisher's reference to this specific transferred series.'
+    SYSTEM: 'Supported. The register makes a custodian for the
+    series visible; it does not place this notice in the series.'
+    [PASS]
+ B. 'The 2022 transfer entry proves the article was altered.'
+    SYSTEM: 'A custodian move is not an article revision log.'
+    [STAY]
+ C. 'A journalist's byline links the notice to the records centre.'
+    SYSTEM: 'Authorship of the story does not identify a city's
+    original file or issuing office.' [STAY]
+
+[After correct answer]
+SYSTEM: 'One genuine lead: a listed public series and a matching
+PUBLIC inventory SUMMARY. The item-level connection is still
+unverified.'
+
+===============================================================================
+14. S09.13 — PRIVATE CONCLUSION / SCENE 10 HANDOFF
+===============================================================================
+
+[Available only after every required action and S09-C17-A. Optional
+correspondence or personal chats NEVER required.]
+
+ARCHIVE — THE TRANSFER REGISTER / CASE BOARD
+
+WHAT WE CAN NOW SAY
+- GH-TRANSFER-REGISTER-001 publicly LISTS GH-TR-2022-063, a 2022
+  series-level transfer for General Public Notices — Administrative
+  Postings with broad coverage 2017–2021.
+- Civic Secretariat is listed as the former CUSTODIAN for that series.
+- Greyhaven Records Centre is listed as its RECEIVING CUSTODIAN.
+- GH-INV-2022-063 is a PUBLIC SERIES SUMMARY, not a readable notice
+  or itemized filing list. The listed receiving custodian is a
+  possible place to ASK, not established holder of GB-REF-017.
+- Any optional Records Centre inquiry proves only what was actually
+  sent; procedural reply, if read, remains reported guidance.
+
+WHAT IS STILL UNKNOWN
+- Whether the article's publisher reference GB-REF-017 corresponds to
+  any notice in that transferred series, or any public notice at all.
+- The notice's real title/number/date/issuer, its original text,
+  whether it exists, its precise custodian, and any link to Daniel.
+- Whether an article body changed, who controlled edits, Nora's
+  sources beyond what she chose to publish, and any suspect or motive.
+- Connections to 2019, Bus 4, June Ellis, E012, Depot 02, 7-14,
+  E—I, Unknown Sender, or Daniel's fate are NOT established.
+
+INTERNAL EVIDENCE CLASSIFICATION
+  GH-TR-2022-063 = PUBLIC LISTED SERIES TRANSFER
+  GH-INV-2022-063 = PUBLIC SERIES-LEVEL FINDING AID
+  GB-REF-017 = PUBLISHER REFERENCE, UNLINKED
+  VERIFIED SPECIFIC NOTICE = FALSE
+  VERIFIED ISSUE BODY = FALSE
+  VERIFIED DOCUMENT TRANSFER FOR GB-REF-017 = FALSE
+  PUBLIC BULLETIN BODY REVISION = UNVERIFIED
+
+S09-C18 — FINAL PRIVATE STANCE; LOCAL NO SEND
+ A. 'The register identifies a transferred collection, not the
+    missing notice within it.'
+    SYSTEM: 'Saved: collection-level lead, item-level match pending.'
+ B. 'I have a possible records-centre route, but still need an
+    identifiable item before asking what it says.'
+    SYSTEM: 'Saved: limited records route, no inferred document.'
+ C. 'I won't tell Sophie or the group that this is Daniel's file
+    until a source actually makes that connection.'
+    SYSTEM: 'Saved: attribution withheld; no disclosure sent.'
+
+On actual local C18 commitment ONLY:
+EV-S09-TRANSFER-LIMIT-001; NOTE-S09-SERIES-NOT-ITEM
+source_ref=GH-TRANSFER-REGISTER-001+GH-TRANSFER-FINDING-AID-001
+visibility=PLAYER_PRIVATE, verified=false FOR CASE LINK;
+public_listed_series_transfer=true; specific_notice_identified=false;
+GB_REF_017_series_match=false; GB_REF_017_transfer_verified=false;
+verified_issuer=false; verified_article_revision=false;
+culprit_identified=false; Daniel_fate_known=false;
+selected_stance=exact A/B/C, idempotent once.
+
+S09.complete=true; chapter1.scene_order append only AFTER scene08;
+no historical replay/reset; no automatic outgoing message.
+
+[FINAL IN-WORLD SCREEN]
+THE TRANSFER REGISTER — REVIEWED
+Transferred SERIES: PUBLICLY LISTED
+Receiving SERIES custodian: Greyhaven Records Centre
+Specific notice: NOT IDENTIFIED
+Article connection: UNVERIFIED
+Next step: CHECK ITEM-LEVEL INVENTORY COVERAGE
+
+NEXT LEAD
+THE INVENTORY SHEET
+'You can find the shelf. You still have to find the page.'
+[BUTTONS] OPEN NEXT LEAD / BACK TO PHONE
+
+Scene 10 is not implemented by this screenplay. Its OPEN NEXT LEAD
+button must truthfully show 'Next lead not yet available' until a
+separately approved and implemented Scene 10 is ready. Do NOT silently
+produce a missing official original, file image, custodian reply,
+Daniel text, guilty suspect or new group member.
+
+===============================================================================
+15. STABLE SOURCE / EVENT / SAVE CONTRACT
+===============================================================================
+
+Authoring alias: chapter_01_scene_09_the_transfer_register
+Existing planning ID (if present): DISCOVER IN ACTIVE CHECKOUT AND
+PRESERVE. Never rename historical scene numbering or cursors.
+Playable new chat node prefix: OPEN-S09-*. All new messages globally
+stable IDs; don't collide with Scene 01-08.
+Choices S09-C01..S09-C18, each A/B/C. Optional outgoing C11-C16
+use ACTUAL explicit Send, all other choices local only.
+
+NEW PUBLIC FICTIONAL LOCAL SOURCES (read-only content):
+ GH-TRANSFER-REGISTER-001  register listing with GH-TR-2022-063
+ GH-TRANSFER-FINDING-AID-001 series summary GH-INV-2022-063
+ GH-TR-2022-063           transfer row, series scope only
+ GH-PN-GEN-2017-2021      broad administrative postings series
+ GH-INV-2022-063         public inventory summary label, no items
+
+NEW PLAYER-PRIVATE EVENTS / RECEIPTS:
+ EV-S09-REGISTER-READ
+ EV-S09-ROW-FIELDS-INSPECTED
+ EV-S09-FINDING-AID-READ
+ EV-S09-LIMITATIONS-INSPECTED
+ EV-S09-LINK-STRENGTH-PASSED
+ EV-S09-TRANSFER-LIMIT-001 (once)
+ NOTE-S09-SERIES-NOT-ITEM (CASE LINK verified:false)
+
+NEW OPTIONAL CIVIC CORRESPONDENCE:
+ R-GH-TR-001 (one successful actual C11 A/B/C Send)
+ EV-S09-SERIES-DESK-REPLY-001 (conditional one-shot inbound)
+ EV-S09-SERIES-DESK-FOLLOWUP-001 (only actual C12 Send)
+ Status: draft/reviewed/failed/delivered/reply_pending/
+         reply_delivered_unread/reply_read
+
+NEW OPTIONAL MESSAGES:
+ EV-S09-NORA-SENT (only C13 actual Send via valid route)
+ EV-S09-SOPHIE-SENT (only C14/C15 actual Send via real private route)
+ EV-S09-GROUP-SENT (only C16 actual Send to actual members)
+ No new Maya DM or Unknown Sender event.
+
+ATtribution / evidentiary schema distinctions:
+ CIVIC_PUBLIC_TRANSFER_LISTING: observed city-style register listing
+ CIVIC_PUBLIC_INVENTORY_SUMMARY: observed series summary, no item list
+ PUBLISHER_REFERENCE: previously observed publisher string only
+ PLAYER_DELIVERY_RECEIPT: exact outgoing public question sent
+ INBOUND_REPORTED_GUIDANCE: desk text actually received and READ
+ PLAYER_PRIVATE_NOTE: a source-limited inference, not a new artifact
+
+REQUIRED KNOWLEDGE LEDGER:
+ - Player knows register fields only after opening/reading register.
+ - Player knows finding-aid content only after explicit open/read.
+ - No character receives an Archive/Browser observation automatically.
+ - Records Centre knows C11 selected public text AFTER Send only.
+ - Nora knows C13 selected public text AFTER Send only; not desk inbox.
+ - Sophie knows C14/C15 selected private Send ONLY, and still can
+   refuse case updates or decline to respond to unsent drafts.
+ - Group members know C16 exact sent text at delivered recipient
+   snapshot ONLY; membership cannot be inferred from canonical cast.
+ - Public role inbox is not a named private contact.
+ - Unread inbound reply is not a player-observed fact.
+ - Relationship deltas once-only on actual outgoing Send, clamped;
+   negative boundary deltas only in exact branch/permission state.
+
+Additive optional `chapter1.transferRegister` subobject in existing
+schema v1 (adapt naming to actual store/normalizer):
+ entered, complete, started_from_scene08_final, register_opened,
+ register_read, row_entry_number_inspected, row_series_dates_inspected,
+ row_custody_fields_inspected, c02_correct, c03_correct, c04_correct,
+ c05_correct, finding_aid_opened, coverage_limit_inspected,
+ access_limit_inspected, finding_aid_read, c06_correct, c07_correct,
+ search_examples_opened, c08_correct, c09_correct,
+ private_strategy, c17_correct, final_stance,
+ desk_inquiry_draft, desk_inquiry_option, desk_inquiry_reviewed,
+ desk_inquiry_delivery_status, desk_inquiry_receipt,
+ desk_return_token, desk_reply_queued_due_at,
+ desk_reply_delivered_at, desk_reply_read,
+ desk_reply_cursor, desk_followup_draft, desk_followup_send_option,
+ nora_cursor, nora_draft, nora_sent, sophie_cursor,
+ sophie_drafts, sophie_sent, sophie_offline,
+ group_cursor, group_draft, group_sent,
+ source_scroll_offsets, chat_scroll_offsets,
+ checkpointed_delays, delivered_message_ids, applied_effect_receipts.
+
+Explicit gates derived from recorded actions, not trust, real device
+clock/calendar, wallet/premium, dialogue count or form delivery.
+Replay/read-only route for completed Scene09 remains accessible;
+optional pending role inbox and delayed reply can still be viewed
+later. Preserve old saves with no transferRegister field; create it
+ONLY on authorized manual entry. Do not alter IndexedDB version,
+legacy localStorage, history, other scene messages or old scene IDs.
+
+RUNTIME REQUIREMENTS:
+ - Existing single dialogue runner for ALL messages, including NPC
+   pacing, player composer, Save/Load, and notification.
+ - Cancel/back/pagehide/visibilitychange/hydration: pause cursor and
+   save remaining typing delay; no early or duplicate delivery.
+ - Open individual role inbox manually; notification only once when
+   actually delivered, no auto-opening on page view.
+ - Display correct PENDING/AVAILABLE/READ status from actual state.
+ - Persist drafts, exact text/choice, per-panel scroll and the
+   selection's review invalidation on edit/reselect.
+ - Never auto-send a choice, even when the player closes app mid-typing.
+ - Avoid chat self-scroll when player reads older messages; preserve
+   new-message jump indicator and keyboard above composer.
+ - Local pages work offline; layouts 320/375/430px, text wrap,
+   reduced motion and screen-reader semantic labeling.
+ - Honor Unknown Sender blocked/read/replied state unchanged.
+ - No paid choice gates mandatory evidence; no new premium tier.
+ - No actual outside network calls, attachments, SMS, email or DM.
+
+===============================================================================
+16. QA / ACCEPTANCE — 59 DISTINCT TARGET SCENARIOS (NOT TEST RESULTS)
+===============================================================================
+
+T01 Scene09 hidden while Scene07 still placeholder/not truly complete.
+T02 Scene09 hidden while Scene08 still placeholder/not truly complete.
+T03 Scene07+08 actual completion and manual Scene08 click required.
+T04 Old historical/structural saves never auto-upgraded to final route.
+T05 Scene01–08 dialogs, receipts, deadlines, source text unchanged.
+T06 C01 A/B/C contextual statuses; no false desk-read claim.
+T07 New register route local/offline, separate from old publisher pages.
+T08 Register mark-read actual action, not scroll or mere open.
+T09 Three row-field inspections persist in any order, all required.
+T10 C02-B passes, A/C incorrect and retriable with no rewards.
+T11 C03-A passes; B/C fail without source reclassification.
+T12 Transfer row codes are independent of article/publisher labels.
+T13 GH-TR-2022-063 public transfer belongs to SERIES only.
+T14 C04-C passes; A/B fail without case-chronology associations.
+T15 Series coverage 2017–2021 does not authenticate 2019 claims.
+T16 C05-B passes; A/C fail and custodian!=issuer held throughout.
+T17 Finder page separately sourced, manual read and two inspections.
+T18 Page and Archive comparison not mislabeled as civic-authored text.
+T19 C06-C passes; A/B false claims retry and do not set verified=true.
+T20 C07-A passes; B/C retry; no private account leak.
+T21 Five fixed local searches have accurate, differentiated responses.
+T22 C08-B passes; A/C wrong, never classify failed search as deletion.
+T23 C09-C passes; A/B wrong, no E012/Bus4 accidental linkage.
+T24 C10 A/B/C private strategy with no outgoing message.
+T25 Required link puzzle C17-A passes; B/C retriable.
+T26 Optional inquiry C11 A/B/C requires exact selected text + review.
+T27 C11-A excludes GB-REF-017; C11-B explicitly includes label;
+    C11-C excludes publisher label.
+T28 Back/cancel/save/edit without actual Send has no receipt/bubble.
+T29 Re-select invalidates reviewed preview; failed Send is retryable.
+T30 Successful first Send creates one R-GH-TR-001, idempotent reload.
+T31 Role token distinct from R-GH-PN-001, publisher and Nora tokens.
+T32 Reply nonexistent for unsent/failed C11, not inherited from S08.
+T33 Reply branch A/B/C corresponds exactly to delivered C11 option.
+T34 Reply timer cannot deliver early; due/event idempotent after reload.
+T35 Role inbox notification only after actual delivery; manual open.
+T36 Delivered/unread reply does not award player testimony.
+T37 Role inbox status PENDING until actual reply; no false available.
+T38 C12 A/B/C real Send, scoped responses; no private person contact.
+T39 Role inbox no interpersonal relationship stat/avatar/phone.
+T40 Nora C13 unavailable if Scene07 professional receipt/reply absent
+    or unread; no public byline-based personal contact.
+T41 Nora C13 A/B/C exact actual Send and professional-scope knowledge.
+T42 Sophie optional and cannot block evidence for offline/absent route.
+T43 Sophie C14 A/B/C actual Send, distinct replies/effects once.
+T44 Sophie C15 A/B/C respects ask-first/declined disclosure; boundary
+    not bypassed by having once spoken in previous scenes.
+T45 Leaving Sophie unsent freezes correct draft/cursor/offline state.
+T46 Group C16 A/B/C require actual Send and real current-members list.
+T47 Lucas stays left; Eli/Nora/Daniel not auto-added as respondents.
+T48 Maya private DM remains hidden absent authorization.
+T49 Sophie GROUP consent cannot be inferred from private exchange.
+T50 Group response and once-only trust delta match exact permission.
+T51 Unknown Sender blocked state unchanged; no new phantom hint.
+T52 Scene08 R-GH-PN-001 and R-GB-CD-002 retain exact prior statuses.
+T53 Article six paragraphs, October 7 byline, index metadata unchanged.
+T54 C18 A/B/C each complete with ZERO optional Sends and one event.
+T55 Completed Scene09 no verified issuer or notice or suspect flags.
+T56 Scene10 remains truthful unavailable until separately implemented.
+T57 Save/reload at public read, form draft/review/receipt, role-reply
+    wait, Sophie typing, group draft and private conclusion.
+T58 320/375/430px UI, keyboard, notification, accessibility, offline.
+T59 Full regression on one unchanged implementation, actual command
+    counts reported, no web QA misrepresented as Android/device test.
+
+Unit test coverage includes all 54 main A/B/C alternatives and every
+correct/incorrect retry. Browser journeys at minimum: no-inquiry core;
+C11-A/B/C and conditional A/B/C replies; read/unread/pending;
+S08 route receipt absent/present; no Nora; eligible Nora with received
+professional reply; no Sophie; Sophie with ask-first; Maya-group member
+absent/present and Sophie group consent; blocked Unknown Sender;
+320/375/430px with interrupted typing/draft; historical saves; 04→05
+→06→07→08→09 journey where actually available.
+
+ALL 59 QA scenarios are targets in this document, NOT completed tests.
+No source editing, code integration, test execution or APK work is
+represented by this screenplay.
+
+===============================================================================
+17. CREATIVE DIRECTION / NEXT SCENE
+===============================================================================
+
+The transfer register should feel like progress, not a miraculous
+solution. The player's discovery makes a previously abstract question
+concrete: there is a real public SERIES HEADING in the fictional city's
+register, a receiving custodian for that series, and a summary to ask
+about. Their inability to attach the claimed notice is the puzzle,
+not a failure of intelligence. Each optional human conversation has
+an ordinary personal motive. Nora is not a secret clue hotline.
+
+Scene 10 (separate future authoring) — THE INVENTORY SHEET.
+Its potential focus is whether an item-level finding aid exists and
+whether the right descriptor can tie a publicly claimed notice to an
+independent original. THIS SCENE DOES NOT PROVIDE THAT SHEET.
+
+END OF SCENE 09 FULL AUTHORING DRAFT.

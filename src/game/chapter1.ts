@@ -1,9 +1,14 @@
+import { sourceTick, validateSourceInvestigation, type SourceInvestigationState } from './sourceInvestigation'
+import { deskTick, validateCorrectionsDesk, type CorrectionsDeskState } from './scene06'
+import { validateVersionHistory, type VersionHistoryState } from './scene05'
 import { publicStoryPut, publicStoryHas, validatePublicStory, type PublicStoryState } from './scene04'
 import { chapter1Options, chapter1Record, chapter1Records, chapter1Replies } from '../content/chapter1Investigation'
 import type { CharacterId, GameSave, Message } from './types'
 
 export interface Chapter1State {
+  byline?:SourceInvestigationState; issuer?:SourceInvestigationState; transferRegister?:SourceInvestigationState; inventorySheet?:SourceInvestigationState;
   publicStory?:PublicStoryState;
+  versionHistory?:VersionHistoryState; correctionsDesk?:CorrectionsDeskState;
   version:1; completed:number[]; inspected:string[]; flags:string[];
   drafts:Record<string,string>; interpretations:Record<string,string>;
   record?:string; panel:'hub'|'record'|'compare'|'board'; chapterComplete:boolean;
@@ -32,6 +37,7 @@ export const chapter1Lifecycle=(s:GameSave)=>s.chapter1?.publicStory?(publicStor
 export function chapter1Available(s:GameSave) {
   const n=chapter1Current(s),c=s.chapter1??ensureChapter1(s).chapter1
   if(!c||n<4||s.prologue?.scene01?.scriptRevision&&!c.completed.includes(4))return []
+  if(c.versionHistory)return []
   return chapter1Records.filter(r=>r.scene<=n&&(r.id!=='CH1-FIRST'||c.flags.includes('first-record'))&&(r.scene!==10||c.flags.includes('snapshot-consent'))&&(r.id!=='CH1-NORA-PAGE'||c.flags.includes('heard:CH1-NORA-PAGE-REPLY')))
 }
 const flag=(s:GameSave,id:string)=>put(s,{...s.chapter1!,flags:unique(s.chapter1!.flags,id)})
@@ -109,6 +115,7 @@ export function chapter1Action(input:GameSave,a:Chapter1Action,now=Date.now()):G
   if(!chapter1Active(input)&&!(input.chapter1&&input.chapter2Access&&['tick','read-contact','read-sender'].includes(a.type)))return input
   let s=ensureChapter1(input),c=s.chapter1!,n=chapter1Current(s)
   if(a.type==='tick'){
+    s=sourceTick(deskTick(s,now),now)
     if(s.prologue?.scene01?.scriptRevision&&s.prologue.scene01.privateScene03?.complete&&!publicStoryHas(s,'lead-scheduled')){
       s=publicStoryPut(s,{flags:['lead-scheduled']})
       s={...s,pendingEvents:[...s.pendingEvents,{id:'CH1-S04-LEAD',dueAt:now+8000}]}
@@ -135,6 +142,7 @@ export function chapter1Action(input:GameSave,a:Chapter1Action,now=Date.now()):G
   if(a.type==='block-sender')return c.sender.messages.length?put(s,{...c,sender:{...c.sender,blocked:true}}):s
   if(a.type==='read-sender'&&!c.sender.messages.length)return s
   if(a.type==='read-sender')return put({...s,notifications:s.notifications.map(e=>e.id.startsWith('CH1-SENDER')?{...e,read:true}:e)},{...c,sender:{...c.sender,seen:true}})
+  if(c.versionHistory&&!(['draft','send'].includes(a.type)&&'key' in a&&['sender','sender04'].includes(a.key)))return s
   if(a.type==='panel')return put(s,{...c,panel:a.panel})
   if(a.type==='choice-draft'){
     const choices:Record<string,{scene:number;values:string[]}>={missing:{scene:6,values:['accidental','deliberate','insufficient']},index:{scene:11,values:['14-13','13-14','equal']},claim:{scene:15,values:['unverified','proof','identity']},ending:{scene:18,values:['preserve','question','cautious','pause']}}
@@ -205,6 +213,7 @@ export function chapter1Action(input:GameSave,a:Chapter1Action,now=Date.now()):G
     return s
   }
   if(a.type==='advance'){
+    if(c.versionHistory)return s
     if(n<4||c.chapterComplete||!chapter1Gate(s).every(g=>g.done))return s
     s=event(put(s,{...c,completed:unique(c.completed,n),panel:'hub',record:undefined,chapterComplete:n===18}),`CH1-S${n}-COMPLETE`)
     return n===18?{...event(s,'CH1-COMPLETE'),unlockedEpisodes:unique(s.unlockedEpisodes,'chapter2')}:s
@@ -222,6 +231,14 @@ export function validateChapter1(value:unknown):void {
   if(!value||typeof value!=='object')throw Error('Invalid Chapter 1 state')
   const c=value as Chapter1State
   validatePublicStory(c.publicStory)
+  validateVersionHistory(c.versionHistory)
+  validateCorrectionsDesk(c.correctionsDesk)
+  validateSourceInvestigation(c.byline,7)
+  validateSourceInvestigation(c.issuer,8)
+  validateSourceInvestigation(c.transferRegister,9)
+  validateSourceInvestigation(c.inventorySheet,10)
+  if(c.inventorySheet&&(!c.transferRegister?.complete||!c.transferRegister.choices['S09-C18']||!c.completed.includes(9)))throw Error('Invalid Scene 10 prerequisites')
+  if(c.transferRegister&&(!c.byline?.complete||!c.byline.choices['S07-C15']||!c.issuer?.complete||!c.issuer.choices['S08-C16']||!c.completed.includes(8)))throw Error('Invalid Scene 09 prerequisites')
   const strings=(v:unknown):v is string[]=>Array.isArray(v)&&v.every(x=>typeof x==='string')
   const map=(v:unknown)=>!!v&&typeof v==='object'&&!Array.isArray(v)&&Object.values(v).every(x=>typeof x==='string')
   if(c.version!==1||!Array.isArray(c.completed)||c.completed.some((n,i)=>n!==i+4)||c.completed.length>15||!strings(c.inspected)||c.inspected.some(id=>!chapter1Record(id))||!strings(c.flags)||!map(c.drafts)||!map(c.interpretations)||!['hub','record','compare','board'].includes(c.panel)||typeof c.chapterComplete!=='boolean'||c.chapterComplete!==(c.completed.length===15)||!c.sender||!Array.isArray(c.sender.messages)||c.sender.messages.some(m=>!m||typeof m.id!=='string'||!['unknown','player'].includes(m.sender)||typeof m.text!=='string'||!Number.isFinite(m.at))||typeof c.sender.seen!=='boolean'||typeof c.sender.disclosed!=='boolean'||c.sender.blocked!==undefined&&typeof c.sender.blocked!=='boolean'||c.sender.branch!==undefined&&![...chapter1Options.sender.map(o=>o.id),'who','her','number','boundary'].includes(c.sender.branch)||c.record!==undefined&&!chapter1Record(c.record))throw Error('Invalid Chapter 1 state')

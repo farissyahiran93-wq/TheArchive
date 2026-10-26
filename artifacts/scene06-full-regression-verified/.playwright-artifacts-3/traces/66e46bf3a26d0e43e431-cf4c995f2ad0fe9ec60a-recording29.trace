@@ -1,0 +1,1 @@
+{"version":10,"type":"context-options","origin":"library","browserName":"","playwrightVersion":"1.64.0","options":{},"platform":"win32","wallTime":1792825661321,"monotonicTime":2620742.029,"sdkLanguage":"javascript","title":"scene03-private.spec.ts:126 › reading older private messages preserves scroll position and shows the new-message indicator"}

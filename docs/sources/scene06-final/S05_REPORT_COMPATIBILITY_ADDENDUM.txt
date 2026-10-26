@@ -1,0 +1,48 @@
+THE ARCHIVE — SCENE 06 / CODEX HANDOFF ADDENDUM
+24 October 2026 — based on owner's Scene 05 implementation report
+
+USE TOGETHER WITH:
+1. THE_ARCHIVE_SCENE_06_THE_CORRECTIONS_DESK_FULL_SCREENPLAY.txt
+2. THE_ARCHIVE_SCENE_06_CODEX_IMPLEMENTATION_PROMPT.txt
+
+STATUS / HONESTY
+- The owner reports Scene 05 is implemented on the local main checkout, with no commit, no push and no rebuilt APK.
+- Prior owner-run baseline: 1,039/1,039 unit tests and 107/107 browser scenarios; typecheck, lint and web build passed. These are reported results, NOT newly rerun by this handoff.
+- Scene 06 remains an unauthored runtime placeholder until the new screenplay is actually integrated and tested.
+- DO NOT switch to an older remote GitHub main snapshot or pretend the checkout is present if the Scene 05 sources are absent.
+
+CRITICAL REAL SCENE 05 INTEGRATION CONTRACT
+1. Existing planning registry ID: ch01_sc05_an_older_copy. Authoring alias: chapter_01_scene_05_version_history. Existing playable chat IDs use OPEN-S05-*, and owner-facing choices S05-C01 through S05-C11. Do not rename any of these or historical cursors.
+2. Scene 05 persists additive optional chapter1.versionHistory state, while IndexedDB stays at schema v1. The actual field for completion must be inspected in source, NOT assumed literally to be scene05.complete.
+3. Scene 05 starts only by manual Scene 04 Archive → REVIEW VERSION HISTORY. Keep this action, existing disabled gate and the two original source cards on re-entry. Scene 06 must start from its own new manual Archive action after real Scene 05 completion.
+4. Completion requires Scene 05 core inspections, the marked public policy read, the four explicit limitations, supported observation and private stance selection. The optional corrections inquiry, Sophie chat and FIND DANIEL exchanges are NON-GATING.
+5. Scene 05 article GB-ARTICLE-001 is Nora Vance's six-paragraph Greyhaven Bulletin piece, published 7 Oct 2026, with unverified on-page label “Updated: Yesterday”. ARC-IDX-GB-041 is metadata-only: source UNKNOWN, capture/author time unestablished, original not verified, no content preview. The two are NOT proven to be document versions. Historical CH1-OLDER / CH1-PUBLIC / Bus 4 / Maya editor records are unrelated to this article's chain unless later proven independently.
+6. Public-update policy POL-GB-UPDATES-001 and NOTE-S05-VERSION-LIMITS are player knowledge/checkpoints, not verified article history. EV-PUBLIC-GB-001, EV-INDEX-GB-041 and EV-S05-REVISION-LIMIT-001 remain separately attributed and verified:false. No source can be upgraded by inference from a desk reply.
+7. R-GB-VH-001 is created ONLY on a truly delivered S05-C04 option A/B/C after Review plus SEND REQUEST; it stores exact selected question and delivery status. Draft, failed, cancelled, back, NOT NOW or skipped requests are NOT sent. Do not queue an inbound publisher response for these routes. If delivered, Scene 06 may queue only the precisely authored desk response for THAT option, once, in the same fictional return-token inbox.
+8. If there is NO delivered R-GB-VH-001, Scene 06 instead offers its optional new enquiry and own independent R-GB-CD-002 receipt after actual SEND. Do NOT give this fresh request the Scene 05-specific reply; do not imply the newsroom read it.
+9. Preserve Scene 05 independent private/group cursors, remaining typing delays, per-panel scroll, unsent composer draft state, queued events and on-page hide/recovery pause. Apply the same rules for all Scene 06 chat and inbox routes. Do not auto-open a chat or synthesize outgoing player bubbles. All player choices in chats/forms require an actual Send.
+10. FIND DANIEL responses depend on ACTUAL saved members: Lucas departed; Maya may be absent; Sophie only responds if still a member. The original Scene 05 optional group route is hidden without Maya; do not assume any new group participation is eligible solely because a chat thread exists. Gate Scene 06 participation based on the ACTUAL existing per-save route and membership, not scripted ideal membership. No new invitation, no silent re-add, no Eli/Nora/Daniel intrusion.
+11. Scene 05 has no separate Sophie block/mute control. Do not add one during Scene 06. Unknown Sender read/reply/blocked state is unchanged. Any optional Scene 06 Sophie exchange must use the existing available private contact, with no implicit private evidence disclosure.
+12. The archived and historical routes are untouched. New route normalization must be additive, never convert structural CH1-OLDER inspections into the final Scene 04→05→06 route. Existing save schema and former transcripts remain intact; no save reset or migration of old scenes without an approved mapping.
+13. Reuse the ONE current dialogue runner, notification system, event queue, relationship model and saved clock. Scene 06 script comprises S06-C01–C14, 42 authored options; some are conditional or optional, not all shown on one playthrough. Avoid a new store/engine.
+14. Scene 06 local publisher pages must be fictional/offline. Nora's byline is not edit attribution; “no listed public correction notice” is not proof no body edit occurred. Do not produce a verified original/diff/editor identity or reveal Daniel's fate, 7-14 meaning, E—I, culprit or motive.
+
+IMPLEMENTATION ACCEPTANCE CHECKLIST
+- All 3 delivered Scene 05 inquiry variants produce correct one-shot conditional desk replies, with exact receipt linkage.
+- All no-send/draft/failure/NOT NOW routes produce ZERO prior-request replies and remain fully playable.
+- New request R-GB-CD-002 can be reviewed, sent and retried safely but gets no instant answer; no duplicates after reload.
+- Scene 06 can be completed without publisher contact, Sophie, Maya, FIND DANIEL or premium access.
+- Scene 06 e2e includes manual Scene 04 → 05 → 06 gates, and old save isolation.
+- Both public simulated pages, acknowledgments, investigation classifications, byline limit and private C14 conclusion persist across restart.
+- Separate chats, drafts, time remaining, scroll position and notification state persist. Relationships apply once on actual SEND only.
+- Run typecheck, lint, full unit suite, build, full browser suite and git diff --check; report clean final run counts, command and artifacts, not aggregate passes from multiple runs.
+- Report changed files and remaining Scene 07 placeholder/Android APK status. Do not claim commit/push, physical-device QA or APK unless actually done.
+
+EXECUTION ORDER
+A. Confirm active worktree and required Scene 05 final sources exist (including docs/sources/scene05-final/FULL_SCRIPT.txt and IMPLEMENTATION_PROMPT.txt, per the owner's changed-file inventory; if actual source folder differs, report the resolved exact path).
+B. Read the whole Scene 06 screenplay, base implementation prompt and this addendum.
+C. Implement only Scene 06 against live runtime, compiling source into typed graph and preserving source integrity.
+D. Test all branch and restart paths; fix and rerun a clean full suite.
+E. Deliver a grounded implementation report and never overwrite the owner's original Scene 05 screenplay or history.
+
+END.

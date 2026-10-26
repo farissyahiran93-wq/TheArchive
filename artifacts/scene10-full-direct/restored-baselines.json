@@ -1,0 +1,27 @@
+[
+  {
+    "path": "qa/iphone-redesign/apps/browser-320.png",
+    "generatedSha256": "35525d2987889620f4e1dedc0f9fd101bdd900f76de52d248a6cb7e3b37cc127",
+    "restoredSha256": "51a0c86e3a6da3b3d21adcd61140e9eb3783d45e15239895cf8e7ea39c15ac26"
+  },
+  {
+    "path": "qa/iphone-redesign/apps/browser-390.png",
+    "generatedSha256": "464c2166b54ddbccc330f41dfa5cc74f28e0e462eaee87443e95c4decd1da62c",
+    "restoredSha256": "ea3e6bc5687f956ae68ad609a7d47bd20ed26871d7ad7d7af6e83b8272854c25"
+  },
+  {
+    "path": "qa/iphone-redesign/apps/files-320.png",
+    "generatedSha256": "9b252c4adb06b0049631c5f0278d6f44f887a5d6acb672f5e89c273bb9614b23",
+    "restoredSha256": "cdee347e712f7bb51065e8daef042455779c7c7b372d28c27d91905014640495"
+  },
+  {
+    "path": "qa/iphone-redesign/apps/messages-430.png",
+    "generatedSha256": "e47e7774bd5a43fec390897101ca15b9f04b925b9ea8ca37416c30362ff87fcf",
+    "restoredSha256": "6f06b049618c837f0290af5dff6172411e240770a6fd563f032c8c1fa0b5f702"
+  },
+  {
+    "path": "qa/iphone-redesign/apps/password-375x480.png",
+    "generatedSha256": "40134d97333b8cd6da1928e35fb0f44ab6eda42cd870c2a8a104a29a1b95049a",
+    "restoredSha256": "5049628154a7768ead1e6cc849aa1e540386370c19af59dab8d445b2a8a3c7d8"
+  }
+]

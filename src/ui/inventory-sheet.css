@@ -1,0 +1,6 @@
+.inventory-sheet .inventory-match{padding:12px;margin:14px 0;border:1px solid #496c6b55;border-radius:12px;min-width:0}
+.inventory-sheet .inventory-match label{display:block;overflow-wrap:anywhere}
+.inventory-sheet .inventory-match select{display:block;box-sizing:border-box;min-width:0;max-width:100%;width:100%;padding:10px;margin:8px 0;font:inherit;color:inherit;background:var(--surface);border:1px solid #496c6b80;border-radius:8px}
+.inventory-sheet .inventory-match-source{display:block;cursor:grab;padding:8px 0;font-weight:600}
+.inventory-sheet .inventory-match-target{padding:12px;margin:8px 0;border:1px dashed #496c6b80;border-radius:8px;overflow-wrap:anywhere}
+.inventory-sheet select:focus-visible{outline:2px solid #68b6ae;outline-offset:3px}

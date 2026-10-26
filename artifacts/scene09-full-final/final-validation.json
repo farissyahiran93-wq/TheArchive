@@ -1,0 +1,51 @@
+{
+  "unit": {
+    "passed": 1217,
+    "files": 44,
+    "newScene09Tests": 64
+  },
+  "browser": {
+    "passed": 134,
+    "failed": 0,
+    "skipped": 0,
+    "completion": {
+      "sourceIntegrityExitCode": 0,
+      "exitCode": 0,
+      "command": "PLAYWRIGHT_PORT=4231 npm run test:e2e -- --workers=1 --timeout=180000 --output=artifacts/scene09-full-final/results",
+      "finishedAt": "2026-10-25T13:04:12.9441936+08:00",
+      "startedAt": "2026-10-25T12:21:39.1253664+08:00"
+    }
+  },
+  "sourceIntegrity": {
+    "unchanged": true,
+    "changed": [],
+    "files": 270
+  },
+  "checks": [
+    {
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "at": "2026-10-25T12:19:05.8805678+08:00"
+    },
+    {
+      "command": "npm run lint",
+      "exitCode": 0,
+      "at": "2026-10-25T12:19:06.5848181+08:00"
+    },
+    {
+      "command": "npm test -- --maxWorkers=2 --reporter=dot",
+      "exitCode": 0,
+      "at": "2026-10-25T12:20:01.1692496+08:00"
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0,
+      "at": "2026-10-25T12:20:12.9208482+08:00"
+    }
+  ],
+  "apk": {
+    "sha256": "403185961ab8fb5ecbff1cf3d9f048e3d8f9b4f8413b9bb27ab58564475f334c",
+    "unchangedScene06Baseline": true
+  },
+  "diffCheck": "passed"
+}

@@ -1,0 +1,46 @@
+{
+  "unit": {
+    "passed": 1153,
+    "files": 43,
+    "proof": "../source-investigations-checks/unit-current-completion.json"
+  },
+  "browser": {
+    "passed": 126,
+    "failed": 0,
+    "skipped": 0,
+    "completion": {
+      "exitCode": 0,
+      "command": "PLAYWRIGHT_PORT=4225 npm run test:e2e -- --workers=3 --timeout=180000 --output=artifacts/source-investigations-frozen-final/results",
+      "finishedAt": "2026-10-25T01:35:44.0129555+08:00",
+      "startedAt": "2026-10-25T01:20:14.3815355+08:00"
+    }
+  },
+  "checks": [
+    "npm run typecheck: exit 0",
+    "npm run lint: exit 0",
+    "npm run build: exit 0",
+    "git diff --check: exit 0"
+  ],
+  "apk": {
+    "path": "D:\\Web app\\TheArchive\\artifacts\\THE_ARCHIVE_2026-10-24_Scene06_Playtest.apk",
+    "sha256": "403185961ab8fb5ecbff1cf3d9f048e3d8f9b4f8413b9bb27ab58564475f334c",
+    "scene": "Scene 06 baseline; unchanged"
+  },
+  "sourceHashes": {
+    "src/game/sourceInvestigation.ts": "4fb7a2064d9b2a0a2b671871629bce671008786bdc2e8390cd908b04affb3a30",
+    "src/content/sourceInvestigations.ts": "eabb21d4008b0662f2b2ac2889be7b33a4e9803c7e8ff6cace83a52368435d96",
+    "src/content/actIRegistry.ts": "54c1fd5bc9e52a7013db1e863d3d12eddf347706af1baf151c6b577c92bbd3b5",
+    "src/game/scene01.ts": "763fd26dff1fad4f2db7409c6b993151316ffdb865c4cc90891fdb39a6d9ac21",
+    "src/game/chapter1.ts": "b8fc99a37eca3b167b1f4214be16a496be8e452b0635aef827e3f19f32598b43",
+    "src/game/store.ts": "220ee813d5ddb2d8c405b0cd60530a599b447a73c7fab12cd3ccaaed7e7c42c3",
+    "src/game/phonePresentation.ts": "c43046674fde4115635814021717fec5c01f07287605cee739b3581517d8bd62",
+    "src/ui/SourceInvestigation.tsx": "67260c5a74509212af52ae564ab19d20df3a7847f9059f45af67fd0f95dcefe8",
+    "src/ui/Scene01Chat.tsx": "69a67e1b2e0ba6b3111ce933edddee1accc41d41dd6aa952f721a23ee3631eb1",
+    "src/ui/Chapter1Investigation.tsx": "91f774855d17fd9557988f67e1b1e7e08f3ff1f01e77ae9f069ed913c243a8cd",
+    "src/App.tsx": "6c3c0044b82561b805b101b47ad5f31086376465d3c8328e2045a45dd935627f",
+    "tests/e2e/scene04-final.spec.ts": "59929a6f105c549a04b0bedece00b0eac5dcfc7e59f542174c68ba49dd66eca5",
+    "tests/e2e/source-investigations.spec.ts": "5d31ca7a525276d512646f297cff79bbcbac467290d13a0999832a987eaf68d0",
+    "src/game/sourceInvestigation.test.ts": "6d867b3cf357dfa7fdc562e8a3513943a54cded07340a379d0097823b8ee0213",
+    "scripts/import-source-investigations.py": "5bad713cbe250a688dc8b9856de99102f07a89c77ef5f23736aa4b76381dd29f"
+  }
+}

@@ -87,6 +87,8 @@ export interface OpeningState {
     nodeId: string
     startedAt: number
     introduced: boolean
+    sophieBlocked?: boolean
+    blockedQueue?: { id: string; remainingMs: number; typing: boolean }
     nameDisclosed: boolean
     disclosedName?: string
     invitation: 'none' | 'declined' | 'ready' | 'joined'
@@ -94,8 +96,8 @@ export interface OpeningState {
     invitationApproved?: boolean
     complete: boolean
     queue: { id: string; dueAt: number; typing: boolean }[]
-    messages: { id: string; sender: 'sophie' | 'player'; text: string; at: number }[]
-    groupMessages: { id: string; sender: 'sophie' | 'maya' | 'lucas' | 'player' | 'system'; text: string; at: number }[]
+    messages: { id: string; sender: 'sophie' | 'player'; text: string; at: number; photo?: string }[]
+    groupMessages: { id: string; sender: 'sophie' | 'maya' | 'lucas' | 'player' | 'system'; text: string; at: number; photo?: string }[]
     groupScript?: 'ch01_sc02_uninvited_guest'
     groupPresence?: { sophie: boolean; maya: boolean; lucas: boolean }
     groupSourceBoundary?: boolean

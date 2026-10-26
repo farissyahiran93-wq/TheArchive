@@ -1,0 +1,6 @@
+{
+    "exitCode":  1,
+    "command":  "PLAYWRIGHT_PORT=4223 npm run test:e2e -- --workers=3 --timeout=180000 --output=artifacts/source-investigations-clean-final/results",
+    "finishedAt":  "2026-10-25T01:16:44.1548909+08:00",
+    "startedAt":  "2026-10-25T01:01:11.4137444+08:00"
+}

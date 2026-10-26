@@ -13,7 +13,7 @@ export function HomeScreen({ name, open, unread, alertsUnread = 0, archiveBadge 
   const [page, setPage] = useState(0)
   const [today] = useState(() => storyMode ? new Date(2026, 9, 8, 9, 0) : new Date())
   const touch = useRef<{ x: number; y: number } | null>(null)
-  const list = (page === 1 ? [...pages[1], ...(archiveUnlocked ? ['alerts' as AppId] : []), ...(storyMode ? ['board' as AppId] : [])] : archiveUnlocked ? ['archive' as AppId, ...pages[0].filter(id => id !== 'alerts')] : pages[0]).filter(id => (bulletinEnabled || !['bulletin','search'].includes(id)) && (!scene01Mode || id === 'archive' && archiveUnlocked || !['files','maps','mail','archive','board'].includes(id)))
+  const list = (page === 1 ? [...pages[1], ...(storyMode ? ['board' as AppId] : [])] : bulletinEnabled&&archiveUnlocked ? ['archive' as AppId,...pages[0].filter(id=>id!=='alerts')] : [...pages[0], ...(archiveUnlocked ? ['archive' as AppId] : [])]).filter(id => (bulletinEnabled || !['bulletin','search'].includes(id)) && (!scene01Mode || !['mail','board'].includes(id)))
   const monthStart = new Date(today.getFullYear(), today.getMonth(), 1).getDay()
   const monthDays = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate()
 

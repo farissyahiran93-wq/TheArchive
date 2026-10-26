@@ -1,0 +1,7 @@
+{"type":"receive","time":1792825318421.0552,"opcode":1,"data":"{\"type\":\"connected\"}"}
+{"type":"send","time":1792825320317.4053,"opcode":1,"data":"{\"type\":\"ping\"}"}
+{"type":"send","time":1792825320714.0293,"opcode":1,"data":"{\"type\":\"ping\"}"}
+{"type":"send","time":1792825320905.037,"opcode":1,"data":"{\"type\":\"ping\"}"}
+{"type":"send","time":1792825320942.1672,"opcode":1,"data":"{\"type\":\"ping\"}"}
+{"type":"send","time":1792825320981.4922,"opcode":1,"data":"{\"type\":\"ping\"}"}
+{"type":"send","time":1792825321018.8452,"opcode":1,"data":"{\"type\":\"ping\"}"}

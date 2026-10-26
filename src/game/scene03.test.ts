@@ -175,10 +175,10 @@ describe('owner Scene 03 — Just Between Us', () => {
     expect(resumed.deliveredEvents.filter(id => id === 'OPEN-S03-ACTIVATED')).toHaveLength(1)
     expect(resumed.prologue!.scene01!.messages.filter(line => line.id === 'OPEN-S03-FIRST-MESSAGE')).toHaveLength(1)
   })
-  it('supports every free route, guards premium entitlement and never auto-sends embedded replies', () => {
+  it('supports every route, makes starred replies selectable and never auto-sends embedded replies', () => {
     for (const beat of scene03Script.choices) {
       const save = at(beat.id)
-      for (const option of beat.choices) if ('premiumChoice' in option) expect(sendScene01Choice(save, option.id, '', false)).toBe(save)
+      for (const option of beat.choices) if ('premiumChoice' in option) expect(sendScene01Choice(save, option.id, '', false)).not.toBe(save)
       expect(finishBranch(save, 'a', false)).not.toBe(save)
     }
     let save = send(at('19'), 'e')

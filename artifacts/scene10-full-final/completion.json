@@ -1,0 +1,7 @@
+{
+    "sourceIntegrityExitCode":  0,
+    "exitCode":  1,
+    "command":  "PLAYWRIGHT_PORT=4243 npm run test:e2e -- --workers=1 --timeout=180000 --output=artifacts/scene10-full-final/results",
+    "finishedAt":  "2026-10-25T22:45:06.5630464+08:00",
+    "startedAt":  "2026-10-25T22:45:04.5349706+08:00"
+}

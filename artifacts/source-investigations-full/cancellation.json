@@ -1,0 +1,5 @@
+{
+  "reason": "Restart on the final read/entry guards with three isolated Playwright workers; partial results are not a completed pass.",
+  "status": "cancelled",
+  "at": "2026-10-25T01:01:10.4339114+08:00"
+}

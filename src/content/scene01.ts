@@ -2,14 +2,14 @@ import { scene01Script } from './scene01Script'
 import { scene02Nodes } from './scene02'
 import { scene03Nodes } from './scene03'
 
-export type Scene01Choice = { id: string; text: string; next: string; premiumChoice?: boolean; discloseName?: boolean; requires?: 'sender-replied' | 'sender-not-replied' }
+export type Scene01Choice = { id: string; text: string; next: string; withoutConsent?: {text:string;next:string}; premiumChoice?: boolean; discloseName?: boolean; requires?: 'sender-replied' | 'sender-not-replied' }
 export type Scene01Node =
-  | { id: string; kind: 'gate'; action: 'sender-request' | 'disclosure' | 'deferred' | 's04-article' | 's04-group' | 's04-return-sophie' | 's04-archive' | 's04-index-ack' | 's04-device' | 's04-followup'; next: string; skip?: string }
-  | { id: string; kind: 'condition'; test: 'name-disclosed' | 'sender-seen' | 's04-group-opened'; next: string; otherwise: string }
-  | { id: string; kind: 'npc'; text: string; sender?: 'sophie' | 'maya' | 'lucas'; next: string; channel: 'sophie' | 'group'; introducesSophie?: boolean; heardFacts?: string[] }
+  | { id: string; kind: 'gate'; action: 's05-bonus' | 'sender-request' | 'disclosure' | 'deferred' | 's04-article' | 's04-group' | 's04-return-sophie' | 's04-archive' | 's04-index-ack' | 's04-device' | 's04-followup'; next: string; skip?: string }
+  | { id: string; kind: 'condition'; test: 's05-sophie-member' | 'name-disclosed' | 'sender-seen' | 's04-group-opened'; next: string; otherwise: string }
+  | { id: string; kind: 'npc'; text: string; photo?: string; sender?: 'sophie' | 'maya' | 'lucas'; next: string; channel: 'sophie' | 'group'; introducesSophie?: boolean; heardFacts?: string[] }
   | { id: string; kind: 'wait'; duration: number; typing: boolean; actor?: 'sophie' | 'maya' | 'lucas'; next: string }
   | { id: string; kind: 'choice'; choices: Scene01Choice[]; number?: string; channel?: 'sophie' | 'group' | 'archive'; uiChoice?: boolean }
-  | { id: string; kind: 'event'; event: 's04-complete' | 's04-feedback' | 's04-group-notice' | 's04-index-available' | 'route' | 'sender-arrival' | 'declined' | 'invitation' | 'complete' | 'reward' | 'effects' | 'presence' | 'source-boundary' | 'deleted' | 'leave' | 'group-complete' | 'private-ready' | 'private-effects' | 'private-complete'; next?: string; text?: string; trust?: number; affinity?: number; actor?: 'sophie' | 'maya' | 'lucas'; online?: boolean; effects?: Partial<Record<'sophie' | 'maya' | 'lucas', { trust?: number; affinity?: number; suspicion?: number }>>; privateEffects?: { trust?: number; affinity?: number; suspicion?: number } }
+  | { id: string; kind: 'event'; event: 'source-thread-end' | 's06-thread-end' | 's05-thread-end' | 's04-complete' | 's04-feedback' | 's04-group-notice' | 's04-index-available' | 'route' | 'sender-arrival' | 'declined' | 'invitation' | 'complete' | 'reward' | 'effects' | 'presence' | 'source-boundary' | 'deleted' | 'leave' | 'group-complete' | 'private-ready' | 'private-effects' | 'private-complete'; next?: string; text?: string; trust?: number; affinity?: number; actor?: 'sophie' | 'maya' | 'lucas'; online?: boolean; effects?: Partial<Record<'sophie' | 'maya' | 'lucas', { trust?: number; affinity?: number; suspicion?: number }>>; privateEffects?: { trust?: number; affinity?: number; suspicion?: number } }
 type Turn = { speaker: 'sophie' | 'player'; text: string } | { speaker: 'wait'; duration: number; typing: boolean }
 
 export const scene01Nodes: Record<string, Scene01Node> = { ...scene02Nodes, ...scene03Nodes }

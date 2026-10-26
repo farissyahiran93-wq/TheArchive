@@ -1,0 +1,170 @@
+THE ARCHIVE — CODEX IMPLEMENTATION PROMPT
+CHAPTER 1 / SCENE 08 — THE MISSING ISSUER
+Owner handoff, 24 October 2026
+
+IMPLEMENTATION INPUT:
+  THE_ARCHIVE_SCENE_08_THE_MISSING_ISSUER_FULL_SCREENPLAY.txt
+This manuscript is the authoritative proposed Scene08 in-game copy,
+choice mapping, source status, event contract and story QA spec.
+Do NOT replace the exact authored lines with generated chatbot prose.
+All director directions are NOT chat or public-page copy.
+
+BASELINE (OWNER-REPORTED; DO NOT CLAIM YOU REVERIFIED IT):
+- Scene06 complete: 14 choices / 42 variants; final owner report: 1,092
+  unit tests and 115/115 full browser scenarios passing; typecheck,
+  lint, build, diff-check. Existing saves preserved, no APK rebuild.
+- Scene07 is STILL PLACEHOLDER in the app according to the owner,
+  although its separate Scene07 screenplay/prompt were authored.
+  Never mark Scene07 as implemented unless you inspect the actual
+  active working checkout and can prove that route is playable.
+
+MUST READ BEFORE EDITING:
+1) Active local checkout, AGENTS.md, current saved repo status and
+   uncommitted changes; do not reset, overwrite or push anything.
+2) Reports and final source packages for Scene01–05 and Scene06,
+   including docs/SCENE_06_CORRECTIONS_DESK_IMPLEMENTATION.md if present.
+3) Scene07 authored source (THE_ARCHIVE_SCENE_07_THE_BYLINE_FULL_SCREENPLAY
+   .txt) and whether Scene07 is currently implemented or placeholder.
+4) Registry, existing dialogue runner, scene04/05/06 stores, delivery
+   queue, receipt types, event effects, source catalog, UI router,
+   Chapters 1+2 saves, normalization and tests.
+5) Real group membership, Sophie permission/boundary logic, actual
+   Nora professional inbox flow, prior publisher desk request statuses.
+
+PHASE GATE — DO NOT SKIP:
+If Scene07 is NOT yet implemented, the preferred action for this task
+is to preserve Scene08 as staged AUTHORED CONTENT / nonplayable route,
+create testable typed source content only where safe, and report that
+playable integration is BLOCKED ON Scene07. Do not create fake Scene07
+completion flags, backfill Scene07 as a shortcut, or add an end-user
+Scene08 button that bypasses Scene07. If the owner explicitly wants
+Scene07 integrated in the same coding task, that is a separately
+bounded scope with its own tests and approval, not implicit permission
+in this Scene08 handoff. Only wire Scene08 after the real Scene07
+S07-C15 completion state is present and validated.
+
+STRICT IMPLEMENTATION RULES:
+01. Retain all existing planning IDs, scene IDs, graph node IDs,
+    delivered histories and saved relationship values. Authoring alias:
+    chapter_01_scene_08_the_missing_issuer. Use OPEN-S08-* for new
+    chat nodes and S08-C01 to S08-C16 for choice sets; never renumber
+    previous scenes or older structural source keys.
+02. Use existing typed dialogue runner, composer + Send, paced NPC
+    waits, normalized save, queue, notification and delivery receipts.
+    No second player-chat engine, giant conditional UI state store,
+    import-time side effects or fake initial character messages.
+03. Scene08 entry requires actual scene07.complete from a real
+    committed S07-C15 and a real manual click OPEN NEXT LEAD.
+    Prior historical save versions MUST NOT acquire Scene08 by
+    normalization or legacy completion inference. Keep old saves.
+04. Compile every NPC line exactly, each with stable IDs, speech
+    text only. Every outgoing player's C08/C09/C12/C13/C14/C15
+    branch requires SELECT -> DRAFT -> user SEND -> one delivered
+    player bubble + scoped receipt -> eligible NPC reply. Unsends,
+    draft, preview, back, cancel and failed deliveries never grant
+    NPC knowledge or relationship changes. Local decisions C01-C07,
+    C10-C11,C16 are NOT chat Sends. Distinct response for all 48
+    alternatives; premium is not part of this scene.
+05. New source pages (all fictional local/offline and separate):
+    GH-CIVIC-DIRECTORY-001,
+    GH-CIVIC-INDEX-HELP-001,
+    GH-FORMER-OFFICE-GUIDE-001.
+    Directory service code GH-PN-ROUTE is a ROUTING REFERENCE ONLY.
+    Neither register nor guide supplies an original notice, issuer,
+    custodian, official number, dates or GB-REF-017 transfer proof.
+    Do not mutate GB-ARTICLE-001 (six paragraphs, 7 Oct publication),
+    ARC-IDX-GB-041, Scene07 reporting note/reference/catalogue,
+    or older Bus4/GCRO E012 sources. No cross-association is proved.
+06. Required source and answer gates exactly as script, independent
+    of ALL social chats/inbox sends: explicit Directory READ;
+    C02-B; 3 separate card inspections; C03-A;
+    Index help READ; C04-C; former-office two inspections+READ;
+    C06-B; C07-C; source ladder C10-B; final C16-A/B/C.
+    Incorrect informational answers can retry; no case-progress
+    or relationship reward for trial and error.
+07. For optional civic inquiry C08: construct role inbox and return
+    token unique to CIVIC service, not publisher or Nora. Exact 3
+    question drafts, editing invalidates reviewed preview, SEND creates
+    one R-GH-PN-001. A/C do NOT transmit publisher GB-REF-017;
+    B does transmit that public literal intentionally. No private
+    case data, GPS, contacts, identity, screenshot, email or network.
+    Reply exists only for actual successful delivered receipt,
+    with exact corresponding inbound branch. One queued reply id,
+    persisted remaining delay; notification only on actual delivery;
+    player manually opens it before testimonial knowledge is gained.
+    Prior Scene06 R-GB-CD-002 remains pending, no invented reply.
+08. C09 is only offered on actual delivered+read CIVIC reply; role
+    inbox not a person's DM, no relationship tuple or contact avatar.
+09. Optional Nora C12 only when real Scene07 R-GB-NV-001 is delivered,
+    Nora reply delivered AND read, professional inbox actually valid.
+    If still unread, keep status; do not attribute knowledge. C12
+    response is NEW professional testimony, never source original.
+10. Sophie optional thread requires existing genuine Messages access.
+    Her opening is offered only on manual thread open. Respect Scene06
+    and Scene07 prior disclosure and 'ask_first' preference; no
+    automatic case-share nor fabricated reply to unsent composer.
+    C13/C14 and related effects only once on actual Sends.
+11. Group C15 shows exact ACTUAL members and sends to them only.
+    Lucas remains departed. Do not auto-add Maya, Nora or Eli.
+    If Sophie has saved ask-first and no group-specific consent,
+    A/B case-detail messages receive the authored boundary reaction
+    and delta once. Scene07 PRIVATE one-exchange consent cannot count
+    as group consent. C is procedural, not case disclosure.
+12. Scene08 completion records EV-S08-ISSUER-LIMIT-001 only once,
+    private false-verified note and exact C16 stance. Completion must
+    work with zero optional sends. Scene09 only placeholder named
+    THE TRANSFER REGISTER, with manual unavailable button.
+13. Preserve old source and character knowledge ledgers; no implicit
+    automatic disclosure to Nora, desk, group or Sophie, no messages
+    from Unknown Sender, Daniel or new NPC, no suspect reveal.
+14. Page route/scroll, panels, composer draft, exact status, receipt,
+    NPC cursor and delay persist. Closing or switching pauses NPC
+    typing; hydration resumes only via valid opening/due event.
+    Existing near-bottom scroll indicator, keyboard, codename labels,
+    notification dedupe, responsive 320/375/430px and offline
+    functionality remain unchanged.
+15. Do not request human private data, hack records, use a real civic
+    service, send real external requests, modify production backend,
+    bypass security or initiate contacts from a local selection.
+
+DELIVERABLES EXPECTED IF CODE INTEGRATION IS AUTHORIZED:
+- Verbatim owner source pinned under a new dedicated sources/scene08
+  location consistent with Scene04–07 conventions.
+- Reproducible offline script importer -> typed scene08 content and
+  stable choice registry, an implementation report / source ledger.
+- Additive state model with pure transitions, validators/normalizers,
+  runner dispatch integration and Archive/Browser/SMS UI reuse.
+- Unit coverage of EVERY S08-C01..C16 A/B/C (48 branches), two
+  outcomes for required answers including retry, optional/no-send,
+  receipts, relational effects once, recipient guards, all three
+  matched civic replies, pending/unread, old saves and gate.
+- Browser journeys: Scene07->08 manual entry, inquiry A/B/C, never
+  sent, delivery delay+reload, Nora eligible/ineligible, Sophie consent,
+  current group member permutations, source ladder, no-social mainline,
+  narrow widths and historical-save paths. Preserve all earlier tests.
+- A final clear report of exactly what changed and exact real commands,
+  failure retries and counts; do not state tests passed unless run.
+
+FINAL VERIFICATION COMMANDS:
+  npm run typecheck
+  npm run lint
+  npm test -- --maxWorkers=2
+  npm run build
+  npm run test:e2e -- --workers=1
+  git diff --check
+
+If full browser suite cannot be completed, say precisely how many
+passed/failed/pending, and do not blend focused and full runs into
+an invented single pass. Do not create commits, push, package APK or
+claim real-device testing unless separately requested and performed.
+
+ACCEPTANCE CRITERIA:
+- Scene07 is a PROVEN real completed prerequisite, or Scene08 remains
+  safely authored but not playable.
+- 16 choice sets / 48 exact authored alternatives; no early reveal.
+- Source identity, issuer, custodian, route, publisher and receipt
+  remain carefully distinct.
+- All player and NPC message receipts respect actual Sends/reading.
+- Old saves/dialogue unaffected; no Android claims.
+
+END OF CODEX IMPLEMENTATION PROMPT.

@@ -33,6 +33,8 @@ async function reachPending(page: Page) {
 test('whole Scene 01 → all 13 group choices → Lucas leaves → delayed Hey, with no automatic chat opening or forced scroll', async ({ page }) => {
   test.setTimeout(180_000)
   await page.clock.install({ time: new Date('2026-10-22T12:00:00Z') })
+  // Freeze before navigation, when page startup cannot consume the pause target.
+  await page.clock.pauseAt(new Date('2026-10-22T12:00:01Z'))
   await page.goto('/')
   await page.getByRole('button', { name: 'Enter the archive', exact: true }).click()
   await page.clock.runFor(20_000)
@@ -49,7 +51,8 @@ test('whole Scene 01 → all 13 group choices → Lucas leaves → delayed Hey, 
     await page.clock.runFor(60_000)
   }
   await page.getByRole('button', { name: 'JOIN GROUP', exact: true }).click()
-  await page.getByRole('button', { name: 'Open FIND DANIEL →', exact: true }).click()
+  await page.getByRole('button', { name: 'Back to inbox' }).click()
+  await page.getByRole('button', { name: 'Open FIND DANIEL group conversation' }).click()
   await page.clock.runFor(180_000)
   const group = page.getByRole('region', { name: 'FIND DANIEL group conversation' })
   for (let number = 1; number <= 12; number++) {
@@ -80,8 +83,8 @@ test('whole Scene 01 → all 13 group choices → Lucas leaves → delayed Hey, 
   await group.locator('.opening-thread').evaluate(node => { node.scrollTop = 0; node.dispatchEvent(new Event('scroll', { bubbles: true })) })
   await reachPending(page)
   expect(await group.locator('.opening-thread').evaluate(node => node.scrollTop)).toBe(0)
-  await page.clock.pauseAt(await page.evaluate(() => Date.now()))
   const pending = (await stored(page)).prologue!.scene01!.privateHandoff!
+  expect(pending.dueAt-(await stored(page)).prologue!.scene01!.groupCompletedAt!).toBe(5500)
   const remaining = pending.dueAt - await page.evaluate(() => Date.now())
   expect(remaining).toBeGreaterThan(4500)
   expect(remaining).toBeLessThanOrEqual(5500)
@@ -104,9 +107,8 @@ test('whole Scene 01 → all 13 group choices → Lucas leaves → delayed Hey, 
 })
 
 test('refresh during the 5.5-second handoff retains the deadline and delivers the private message once, with manual chat opening', async ({ page }) => {
-  await seedScene(page, sceneAt('G13'))
+  await seedScene(page, sceneAt('G13'), { pauseClock: true })
   // Assertions/reload must not consume the deadline under parallel browser load.
-  await page.clock.pauseAt(await page.evaluate(() => Date.now()))
   await openGroup(page)
   await reply(page, 'Sure.', false)
   await reachPending(page)

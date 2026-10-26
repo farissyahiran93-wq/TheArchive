@@ -1,0 +1,935 @@
+THE ARCHIVE — CHAPTER 1
+SCENE 08: THE MISSING ISSUER
+FULL ENGLISH IN-GAME SCREENPLAY + CHOICE / EVIDENCE CONTRACT
+Authoring date: 24 October 2026
+STATUS: NEW AUTHORING DRAFT; NOT IMPLEMENTED, BUILT, TESTED, OR RELEASED
+
+============================================================================
+00. PURPOSE, CONTINUITY AND AUTHORITY
+============================================================================
+
+PREDECESSOR: Scene 07 — THE BYLINE, currently authored but reported by
+owner as a PLACEHOLDER in the app. Scene 08 must not become playable until
+Scene 07 is actually implemented, its required public inspections are met,
+and Scene 07 completion has been explicitly saved by S07-C15 A/B/C.
+
+ENTRY: [player tap] Archive -> THE BYLINE (reviewed) -> OPEN NEXT LEAD:
+THE MISSING ISSUER. No automatic switch, message, new phone app or chapter.
+Scene 08 can be implemented only with an explicit Scene 07 -> Scene 08 gate.
+
+Locked facts, with no reinterpretation:
+- GB-ARTICLE-001: Nora Vance byline; the original six paragraphs stay
+  unchanged; published 7 October 2026. 'Updated: Yesterday' is an
+  unverified story-relative page label, not a revision record.
+- ARC-IDX-GB-041: index metadata only; source UNKNOWN, no original, no
+  readable earlier article body, no verified capture time or author.
+- GB-CORR-REGISTER-001: no formal correction listed at the time of
+  the fictional register view; absence is NOT evidence of no article edit.
+- Scene 05 R-GB-VH-001: exact delivered option is optional; only then
+  can Scene 06 EV-S06-DESK-REPLY-001 exist.
+- Scene 06 R-GB-CD-002: optional delivery of a NEW inquiry; no answer
+  was authored through Scenes 06 or 07. It stays PENDING in Scene 08.
+- Scene 07 sources are distinct, NEW publisher/public local pages:
+  GB-NV-PROFILE-001, GB-NV-CHANNEL-001, GB-REPORT-NOTE-001,
+  GB-REF-017, GH-PUBLIC-CATALOGUE-001. Do not rewrite them.
+- GB-REF-017 is a PUBLISHER reference marker labelled a 'public notice'
+  lead. It is NOT an issuing-body number, linked document, proof of
+  any text or proof that a notice exists. Issuer/record date/body/official
+  number remain NOT PROVIDED. It has no proven connection to older Bus 4,
+  E012, June Ellis, Depot 02, 7-14, E—I, or Daniel's disappearance.
+- Scene 07 optional R-GB-NV-001 and Nora professional replies are scoped.
+  Only if that receipt was delivered AND the specific reply arrived and
+  was actually opened/read may the player/Nora callback refer to it.
+  A still-unread reply is not player knowledge. A draft is not a Send.
+- Nora's byline is not an editor log. No accusation or personal contact.
+- Lucas has departed the FIND DANIEL group; no automatic return. Sophie
+  and Maya can speak there only while ACTUAL members. Eli/Nora have no
+  Scene 08 group dialogue, and no phantom group or DM is created.
+- Sophie is a real person with boundaries, not a device for clue dumps.
+  Her 'ask first' preference from actually sent Scene 06/07 messages
+  controls conditional disclosure; no dossier/Board is transmitted.
+- Ordinary civilian player. All Browser routes, forms, requests and
+  inboxes are LOCAL FICTIONAL GAME CONTENT, not real networks.
+
+SCENE INVESTIGATION QUESTION:
+  'A publisher's label is not an issuer's document. Who would know how
+   to locate the original—and what can that office actually certify?'
+
+SCENE EMOTIONAL QUESTION:
+  'Can the player make progress without asking the people around Daniel
+   to carry unproved claims?'
+
+NARRATIVE PAYOFF (limited but genuine):
+  The player can verify through separate public civic DIRECTORY and
+  INTAKE GUIDANCE that the GENERAL PUBLIC NOTICES ROUTING DESK is an
+  appropriate starting point for identifying a possible custodian.
+  The desk is NOT the established issuer of GB-REF-017. An optional
+  routing inquiry can obtain a LOCAL fictional DELIVERY RECEIPT with
+  routing category, not a certified document or true notice number.
+  A publicly described older transfer/alias process introduces an
+  investigable reason why looking up a publisher's label is inadequate.
+  End hook: THE TRANSFER REGISTER (Scene 09, not implemented here).
+
+Important design distinction:
+  PUBLISHER LABEL -> POSSIBLE PUBLIC NOTICE CATEGORY -> CIVIC DIRECTORY
+  -> ROUTING DESK -> OPTIONAL RECEIPT. No arrow means 'issuer found'.
+
+In-game dialogue and UI copy are in English. No square-bracket author
+instructions, IDs, relationship math or debug messages appear as NPC
+speech. The player never speaks unless an on-screen composer is
+explicitly SENT. Local selections are NOT player chat bubbles.
+
+============================================================================
+01. FLOW AND CHOICE INDEX
+============================================================================
+
+S07.complete with S07-C15 saved
+  -> [manual player tap] OPEN NEXT LEAD
+  -> S08.01 Archive Hub: THE MISSING ISSUER
+  -> S08.02 Public Directory: WHAT KIND OF OFFICE?
+  -> S08.03 Authority Cards: THREE DIFFERENT ROLES
+  -> S08.04 Public Index Guide: FINDING WHAT ISN'T NAMED
+  -> S08.05 Transfer/Former-Office Guide (procedural, not case evidence)
+  -> S08.06 Optional CIVIC ROUTING INQUIRY (draft/review/real SEND)
+  -> S08.07 Optional ROUTING INBOX (only after actual inquiry; one reply)
+  -> S08.08 Optional Nora professional thread (if earlier authorised)
+  -> S08.09 Optional Sophie conversation and FIND DANIEL group
+  -> S08.10 Private source ladder / independent-source puzzle
+  -> S08.11 Private conclusion -> Scene09 placeholder
+
+Registry: S08-C01 through S08-C16. Each contains 3 exactly authored
+branches A/B/C = 48 alternatives. Correct retriable local classes:
+C02-B, C03-A, C04-C, C06-B, C07-C, C10-B.
+Wrong local classes are recoverable with no progression reward/penalty.
+Optional messaging decision sets: C08 civic inquiry; C09 routing inbox
+follow-up; C12 Nora; C13/C14 Sophie; C15 group. C08/C09/C12-C15 are
+optional, never gates to C16. C05 and C11 are local strategies, all
+advance with different PRIVATE reflection, not transmission.
+
+REQUIRED TO COMPLETE:
+1. Explicit S07 -> S08 entry.
+2. Open the new independent civic service DIRECTORY and mark read.
+3. Classify an appropriate routing point, NOT an issuer (C02-B).
+4. Open each of three role cards and make the distinction (C03-A).
+5. Inspect why publisher reference is not an official identifier (C04-C).
+6. Open new index guide; mark it read; classify what to ask (C06-B).
+7. Open former-office / transfer guide, inspect its two limitations,
+   then classify its meaning (C07-C).
+8. Complete private source-ladder puzzle (C10-B).
+9. Save one private conclusion C16-A/B/C. NO SEND required.
+
+Entire required route is accessible offline, even with NO Nora/desk
+contacts, NO Sophie, NO group, NO real-time wait, and NO premium choice.
+
+============================================================================
+02. S08.01 — IT HAS A NAME. NOT AN OWNER. (ARCHIVE)
+============================================================================
+
+[Player taps OPEN NEXT LEAD after a valid S07 completion]
+[Title card fades in only after the click; does not auto-message]
+
+THE MISSING ISSUER
+'A reference can point somewhere without telling you where.'
+
+LAST VERIFIED LIMIT
+  Publisher's label: GB-REF-017
+  Original notice: NOT HELD
+  Issuing office: UNKNOWN
+  Official record number: UNKNOWN
+  Publisher source link: NOT AUTHENTICATED
+
+NEW TASK
+Find a credible public records route. Keep the routing office,
+records custodian and issuer separate until original documentation
+connects them.
+
+[BUTTONS] CIVIC SERVICE DIRECTORY / REVIEW GB-REF-017 /
+          SOURCE STATUS / BACK TO ARCHIVE
+
+S08-C01 — LOCAL ARCHIVE NAVIGATION, NO SEND
+ A. 'Review the publisher's reference again.'
+    SYSTEM: 'GB-REF-017 has no issuing office, official ID, date or
+    original text. Nothing new has appeared in the card.'
+ B. 'What happened to the Bulletin requests?' 
+    SYSTEM: 'Each earlier request retains its own saved status and
+    return token. Neither an unsent draft nor a pending reply proves
+    an original notice was identified.'
+ C. 'Show me what an issuer would mean.'
+    SYSTEM: 'The issuer is the body that created or formally issued a
+    record. The holder and the person who answers a question may be
+    different people or offices.'
+
+C01 is informational, repeatable and never advances case facts by itself.
+If the user previously saved S07-C15-C, show the same neutral source
+statuses without implying they changed their no-accusation boundary.
+
+============================================================================
+03. S08.02 — THE OFFICE YOU CAN ASK (NEW INDEPENDENT CIVIC PAGE)
+============================================================================
+
+[PLAYER taps CIVIC SERVICE DIRECTORY]
+LOCAL BROWSER ROUTE: browser://greyhaven/civic-records/service-directory
+SOURCE: GH-CIVIC-DIRECTORY-001 (new city service DIRECTORY page)
+NEW document, separate from publisher and previously authored GCRO
+export E012. It neither mentions nor indexes the Daniel case.
+
+=========== EXACT IN-WORLD PAGE COPY ===========
+GREYHAVEN CIVIC SERVICES
+PUBLIC RECORDS — WHERE TO START
+
+This directory describes the public service routes for records
+questions. It does not certify that an individual document exists.
+
+GENERAL PUBLIC NOTICES ROUTING DESK
+Route code: GH-PN-ROUTE
+Purpose: Help a reader identify the likely custodian or issuing body
+for a public notice when the official record number is not known.
+This is an intake and referral service, not the source of every notice.
+
+MUNICIPAL COMMUNICATIONS COUNTER
+Purpose: Questions about press statements and municipal websites.
+This counter does not supply an independent publisher edit history.
+
+RECORDS CUSTODY / REQUESTS
+Purpose: Accept a request for records held under an identified
+custodian, subject to that custodian's rules. A request alone is not
+a record, and a custodian is not necessarily its creator.
+
+Before sending a routing question, include the public category and
+what identifying details are missing. Do not submit another person's
+private messages or assume a publisher's reference is a civic number.
+
+This directory can direct a question. It cannot verify a notice from
+an unauthenticated external label.
+=========== END PAGE COPY ===========
+
+[BUTTONS] MARK DIRECTORY READ / INSPECT THREE ROUTES /
+          RETURN TO ARCHIVE
+
+[Player taps MARK DIRECTORY READ; only then create]
+EV-S08-DIRECTORY-READ (player-private observation, source attribution
+GH-CIVIC-DIRECTORY-001, directory-based not case-authenticated).
+
+S08-C02 — WHICH OFFICE IS A REASONABLE FIRST STOP? LOCAL NO SEND
+ A. 'Municipal Communications must have approved the article.'
+    SYSTEM: 'The city communications service cannot establish who
+    edited a private publisher's website. Try again.' [STAY]
+ B. 'The General Public Notices Routing Desk can advise which office
+     might hold a notice, without asserting it issued GB-REF-017.'
+    SYSTEM: 'Supported. You have identified a procedural contact,
+    not the issuer or document.' [PASS]
+ C. 'Records Custody automatically proves the notice exists.'
+    SYSTEM: 'No. Accepting requests is not proof of any particular
+    document or its creator. Try again.' [STAY]
+
+NOTE: Here the public civic route is credible *within fictional game*
+because it is presented on independent public city service page; that
+is still only a route listing, not proof that GB-REF-017 originated
+there. Do not equate route code GH-PN-ROUTE with GB-REF-017.
+
+============================================================================
+04. S08.03 — THREE CARDS. THREE DIFFERENT JOBS. (ARCHIVE)
+============================================================================
+
+[PLAYER TAPS INSPECT THREE ROUTES; can open in any order]
+
+CARD A — ISSUER
+'Creates or formally issues an original notice. Must be tied to a
+specific original record before attribution. Not identified here.'
+[BUTTON] INSPECTED
+
+CARD B — CUSTODIAN
+'Holds or administers existing records. Could differ from the issuer.
+No custodian has been identified for GB-REF-017.'
+[BUTTON] INSPECTED
+
+CARD C — ROUTING DESK
+'Receives a locating question and may suggest where to ask next.
+Its published route code is a service label, not an original notice.'
+[BUTTON] INSPECTED
+
+All THREE explicit inspections are required; viewing the cards' titles
+or scroll position never marks them inspected. They may be revisited.
+
+S08-C03 — THREE-ROLE MATCH, LOCAL NO SEND
+ A. 'A route can direct me to a custodian; only a linked original can
+     establish who issued the notice.'
+    SYSTEM: 'Correct distinction. Nothing here names the issuer of
+    GB-REF-017.' [PASS]
+ B. 'The desk that answers must also have written the notice.'
+    SYSTEM: 'Not necessarily. Intake and authorship are separate.'
+    [STAY]
+ C. 'A publisher's reference is the custodian's official ID.'
+    SYSTEM: 'No issuing-body ID has been supplied. Retry.' [STAY]
+
+[Ambient scene beat after C03 passes; not an NPC message]
+SYSTEM: 'Source ladder updated: PUBLISHER REFERENCE -> CIVIC ROUTE.
+The source document remains missing.'
+
+============================================================================
+05. S08.04 — THE WRONG SEARCH KEY (NEW INDEX HELP)
+============================================================================
+
+[PLAYER TAPS PUBLIC INDEX GUIDE]
+LOCAL BROWSER ROUTE: browser://greyhaven/civic-records/index/search-help
+SOURCE: GH-CIVIC-INDEX-HELP-001
+
+=========== EXACT IN-WORLD PAGE COPY ===========
+GREYHAVEN CIVIC SERVICES — INDEX HELP
+SEARCHING PUBLIC NOTICES
+
+The public notices index accepts an issuing body, an official record
+number, or a sufficiently specific public descriptor when available.
+
+A publisher's private reference string is not automatically an
+issuing body's number. Searching it alone can return no results even
+when records exist in a separate collection.
+
+If you lack an official identifier, a locating inquiry can ask which
+public office handles that category. The answer may be procedural
+only. It is not a certificate that a requested record exists.
+
+A source should be checked against an official copy when one is
+located. A directory route, a public search error and a receipt for
+an inquiry are not substitutes for the underlying notice.
+=========== END PAGE COPY ===========
+
+[BUTTONS] MARK INDEX GUIDE READ / TRY A SEARCH / BACK
+[PLAYER manually MARKS read; no real HTTP calls]
+
+S08-C04 — LOCAL SEARCH MEANING, NO SEND
+ A. 'No match for GB-REF-017 means someone deleted the notice.'
+    SYSTEM: 'The label is not an official notice identifier. An
+    unsuccessful lookup does not demonstrate deletion.' [STAY]
+ B. 'The article's updated label is better evidence of the issuer.'
+    SYSTEM: 'A page label is not a record issuer field. Try again.'
+    [STAY]
+ C. 'I need an official identifier or a reliable descriptor before
+     treating a catalogue result as relevant.'
+    SYSTEM: 'Supported. The publisher label alone cannot perform
+    that evidentiary match.' [PASS]
+
+[TRY A SEARCH — optional, purely local, no C05 consumption]
+INPUT shown as fixed in-world search examples, not open free text:
+- GB-REF-017 -> 'No exact result for publisher reference. Not a finding
+  of nonexistence.'
+- UNKNOWN / NO OFFICIAL ID -> 'Choose locating enquiry, not a claim.'
+- GH-PN-ROUTE -> 'Service directory code. This is not a notice record.'
+All queries are local UI examples; no search updates evidence flags.
+
+S08-C05 — PREPARE A LIMITED QUESTION, LOCAL STRATEGY, NO SEND
+ A. 'I want the likely records custodian, not the article author's name.'
+    SYSTEM: 'Saved as a custodian-first strategy. No request sent.'
+ B. 'I want to know which public office handles the category.'
+    SYSTEM: 'Saved as an issuer-routing strategy. No request sent.'
+ C. 'I want to preserve uncertainty until a document can be located.'
+    SYSTEM: 'Saved as a hold-first strategy. No request sent.'
+All three are acceptable; none contacts the desk or changes Scene 07.
+
+============================================================================
+06. S08.05 — A NAME CAN CHANGE. THE SOURCE DOESN'T APPEAR.
+============================================================================
+
+[PLAYER TAPS FORMER OFFICE / TRANSFER GUIDE]
+LOCAL BROWSER ROUTE:
+browser://greyhaven/civic-records/guidance/former-offices
+SOURCE: GH-FORMER-OFFICE-GUIDE-001 (new, public procedural guidance)
+
+=========== EXACT IN-WORLD PAGE COPY ===========
+GREYHAVEN CIVIC SERVICES
+RECORDS GUIDANCE — FORMER OFFICES AND TRANSFERS
+
+When a public office changes its name or transfers older records,
+searching only the current office name may miss the correct catalogue
+heading. Some files can be held by a successor custodian without
+having been created by that custodian.
+
+A transfer listing, if located, should be read for the record series,
+transfer dates and named offices. A service directory alone does not
+prove that a particular notice was part of a transfer.
+
+There is no original notice, issuer name, series number or transfer
+entry identified for the publisher reference GB-REF-017 on this page.
+The general guidance is not evidence of a transfer for that reference.
+
+Public guide sections: IDENTIFY FORMER OFFICE / CHECK SERIES RANGE /
+REQUEST A CUSTODIAN ROUTE
+=========== END PAGE COPY ===========
+
+[Manual taps] INSPECT NAME/ROLE LIMIT / INSPECT TRANSFER LIMIT /
+MARK GUIDE READ. Two separate inspection markers and one mark read.
+
+S08-C06 — WHAT SHOULD A LOCATING REQUEST SAY? LOCAL NO SEND
+ A. 'Please confirm this notice was revised after publication.'
+    SYSTEM: 'No notice has been located. Revision language assumes
+    the conclusion. Retry.' [STAY]
+ B. 'I have a publisher-labelled public-notice lead with no original
+     number. Which public service route could identify its custodian?'
+    SYSTEM: 'Supported. This describes the missing details without
+    presenting the publisher label as an official file.' [PASS]
+ C. 'Which staff member concealed GB-REF-017?'
+    SYSTEM: 'No concealment or named person is established. Retry.'
+    [STAY]
+
+S08-C07 — CAN THE TRANSFER GUIDE IDENTIFY THIS FILE? LOCAL NO SEND
+ A. 'Yes, it proves the original notice moved to a successor office.'
+    SYSTEM: 'The guide describes possibilities; no matching transfer
+    entry or original file is attached. Try again.' [STAY]
+ B. 'No public notice exists because none is shown on this page.'
+    SYSTEM: 'This is guidance, not an exhaustive records index.'
+    [STAY]
+ C. 'No. A specific transfer entry and record series would still have
+     to link the original notice to an issuer or custodian.'
+    SYSTEM: 'Supported. That is the missing next comparison.' [PASS]
+
+[After C07 pass]
+SYSTEM: 'New line of inquiry: TRANSFER REGISTER / record-series mapping.
+No transfer of GB-REF-017 is established.'
+
+============================================================================
+07. S08.06 — ROUTING REQUEST (OPTIONAL, SEND REQUIRED)
+============================================================================
+
+Available only after the directory and index guide are marked read and
+C06-B passed; NOT required for completion. The public guide does not
+need to appear to the routing desk as an attachment.
+
+[PLAYER TAPS ASK ROUTING DESK]
+LOCAL BROWSER ROUTE: browser://greyhaven/civic-records/routing/inquiry
+TO: Greyhaven Civic Services — General Public Notices Routing Desk
+Route: GH-PN-ROUTE (service code ONLY)
+Return path: local fictional civic reply inbox, not contact list/phone.
+
+Preview scope:
+  Included: category 'public notice'; selected narrow PUBLIC locating
+  question; explicit statement that the official number and issuer are
+  unknown. Optional inclusion of the literal publisher label only if
+  text explicitly selects it. No legal name, GPS, contacts, original
+  document, private case notes, Nora conversation, prior publisher
+  request or secret evidence.
+
+S08-C08 — OPTIONAL QUESTION (SELECT -> EDIT -> REVIEW -> SEND)
+ A. Player [SEND REQUEST]: 'I am trying to identify the proper public
+    records route for a notice cited only by a publisher. Which desk
+    handles locating a notice when the issuing office is unknown?'
+    On actual SEND: receipt R-GH-PN-001 option A; category and unknown
+    issuer shared. Publisher label NOT sent.
+ B. Player [SEND REQUEST]: 'A public publisher note uses the reference
+    GB-REF-017 for a possible public notice. This is not an official
+    record number. Which public office can help identify a custodian?'
+    On actual SEND: receipt R-GH-PN-001 option B; the literal
+    GB-REF-017 was knowingly shared, not any private Board.
+ C. Player [SEND REQUEST]: 'Does the service directory have guidance
+    on former office names or transfer series for public notices
+    without known dates or official identifiers?'
+    On actual SEND: receipt R-GH-PN-001 option C; guidance-only
+    question; publisher label NOT sent.
+
+[BUTTONS] EDIT QUESTION / REVIEW RECIPIENT AND SCOPE / SAVE DRAFT /
+SEND REQUEST / BACK / CANCEL. Send disabled until selected question
+has a reviewed preview. Change selection invalidates Review. An
+explicit SEND creates ONE fictional delivery receipt, never on Review.
+Failure: 'Not delivered. Your draft is safe. Retry when ready.'
+Success: 'Delivered to civic routing intake. This receipt is not a
+public notice or a confirmation of an issuer.'
+Status: draft / reviewed / failed / delivered / reply_pending /
+reply_delivered_unread / reply_read. One receipt and one response max.
+No real network, no automatic outgoing player chat bubble on draft.
+
+[On actual delivered R-GH-PN-001]
+Local queued one-shot intake acknowledgement, with saved delay and
+manual inbox notification after delivery; same source and recipient.
+Event EV-S08-CIVIC-ROUTE-REPLY-001 is only available after receipt.
+Never respond to an unsent/failed C08, nor inherit R-GB-VH-001,
+R-GB-CD-002 or R-GB-NV-001. Reload pauses/re-arms remaining delay.
+
+NOTIFICATION (only after reply delivered):
+Greyhaven Civic Services — Routing Inbox: 'Your locating question'
+
+[PLAYER MANUALLY OPENS CIVIC ROLE INBOX]
+INTAKE DESK: Hello. This is the public-notices routing inbox.
+INTAKE DESK: We can tell you where a locating question starts. We
+cannot certify a document you haven't identified.
+[typing/read beat]
+
+IF ACTUALLY DELIVERED C08-A:
+INTAKE DESK: Start with the general public-notices route. If the
+issuing office is identified, a records request can be directed there.
+INTAKE DESK: That is guidance. We have not found your notice.
+IF ACTUALLY DELIVERED C08-B:
+INTAKE DESK: The reference you supplied appears to be a publisher's
+label, not a civic record number we can match from that message.
+INTAKE DESK: We have not identified an original notice or its issuer.
+IF ACTUALLY DELIVERED C08-C:
+INTAKE DESK: For older material, the former-office guide describes
+how a record series can move between custodians.
+INTAKE DESK: We cannot say a particular notice transferred without
+an identified series or document.
+
+[CONVERGENCE — only when openable reply delivered]
+INTAKE DESK: If you find an original record number, an official title
+or a specific series, use that in your next question.
+INTAKE DESK: I know that's not much to take back.
+INTAKE DESK: But I'd rather give you the limit than a name I can't
+support.
+
+Knowledge attribution: reply is fictional civic-service guidance, not
+independently authenticated document. It is actual received testimony
+only after delivered AND opened/read. Do not announce 'issuer found',
+'notice exists', 'deleted', or 'civic office confirms article'.
+
+S08-C09 — OPTIONAL FOLLOW-UP TO CIVIC INBOX, REAL CHAT SEND
+Offered only after reply is actually read. Player opens composer,
+selects exact line, explicitly taps Send; each branch has unique reply.
+ A. Player: 'So the first useful step is finding a record series, not
+    assuming the publisher's reference is a file number?'
+    INTAKE DESK: Yes. That gives a custodian something they can check.
+    INTAKE DESK: It still won't tell you what the notice said.
+ B. Player: 'Can you tell me which person last edited the Bulletin?'
+    INTAKE DESK: No. That's a private publisher's site. We don't
+    administer its article history.
+ C. Player: 'Thank you. I'll keep the difference between a request
+    and a record clear.'
+    INTAKE DESK: I appreciate that. It saves a lot of confusion.
+[END] INTAKE DESK: Take care.
+
+No relationship metric for a role inbox; status remains role-only.
+Sending option B does not automatically transmit other evidence.
+One-time sent receipt EV-S08-CIVIC-FOLLOWUP-001 stores exact question.
+An unread response cannot trigger this C09 composer or give testimony.
+
+============================================================================
+08. S08.07 — PRIVATE SOURCE LADDER (CORE PUZZLE)
+============================================================================
+
+[Player returns to Archive; no optional inbox required]
+SCREEN: WHICH PIECE WOULD ACTUALLY CHANGE THE CASE?
+
+SOURCE LADDER, rendered as 5 separately attributable tiles:
+1. GB-REF-017 (publisher lead) -> 'a label exists as published text'.
+2. GH-CIVIC-DIRECTORY-001 (independent public directory) -> 'an intake
+   service is listed, not an issuing office for this reference'.
+3. GH-CIVIC-INDEX-HELP-001 -> 'how an appropriate locating question
+   should be framed, not a matching original'.
+4. GH-FORMER-OFFICE-GUIDE-001 -> 'a possible method for identifying
+   former offices; no tied transfer entry'.
+5. R-GH-PN-001 (only if delivered) -> 'receipt for your public question;
+   it is your correspondence, not the missing notice'. If absent,
+   render 'Not sent' instead of inventing the tile receipt.
+
+S08-C10 — CHOOSE THE EVIDENTIARY NEXT STEP, LOCAL NO SEND
+ A. 'Treat the city's route code as the missing notice number.'
+    SYSTEM: 'GH-PN-ROUTE names an intake service. It does not
+    authenticate the publisher's GB-REF-017.' [STAY]
+ B. 'Look for an identified issuer/series and an actual original
+    record with attributable provenance before making a content claim.'
+    SYSTEM: 'Supported. This is the first step that could establish
+    the notice's contents or custody when genuine material is found.'
+    [PASS]
+ C. 'Assume the notice was transferred and therefore altered.'
+    SYSTEM: 'Neither transfer nor alteration has been shown.' [STAY]
+
+S08-C11 — PRIVATE INVESTIGATION PRIORITY, ALL THREE ADVANCE
+ A. 'Try to identify a public record series in the transfer register.'
+    SYSTEM: 'Private priority saved: series-first. No document found.'
+ B. 'Check former-office names before searching a custodian index.'
+    SYSTEM: 'Private priority saved: alias-first. No issuer confirmed.'
+ C. 'Keep correspondence separate until I have a source I can verify.'
+    SYSTEM: 'Private priority saved: source-first. No inbox is sent.'
+
+============================================================================
+09. S08.08 — OPTIONAL NORA PROFESSIONAL FOLLOW-UP (SCOPED)
+============================================================================
+
+Eligibility: Only if Scene 07 R-GB-NV-001 truly delivered, its professional
+reply truly delivered AND was READ, and the publisher reporter inbox
+remains a valid existing route. No new Nora phone contact, no leaked
+civic inquiry or dossier. If prior Nora C09 professional exchange was
+completed, offer one new clearly labelled question at most; retain
+Scene07 historical transcript and identity context; never replay it.
+
+[PLAYER manually opens existing professional inbox]
+NORA: Hey.
+NORA: If this is about the public record, I can answer what I actually
+know from our published note. Not an office's private file.
+[If prior reply not read, do not offer this exchange. No auto-reveal.]
+
+S08-C12 — OPTIONAL NORA PROFESSIONAL QUESTION, COMPOSER + REAL SEND
+ A. Player: 'I found an official public routing desk. That tells me
+    where to ask, not which office created your reference. Right?'
+    NORA: Right.
+    NORA: And I don't want a route name to be mistaken for a source.
+    Nora knowledge: only chosen public routing fact, no receipt copy.
+ B. Player: 'Did your reporting note tell you which office created
+    GB-REF-017?'
+    NORA: Not from the public note, no.
+    NORA: I can't turn that label into an issuing body for you.
+    Nora knowledge: only public note question, no secret link.
+ C. Player: 'I won't quote the missing notice. I'll look for the
+    official record before drawing conclusions.'
+    NORA: Thank you.
+    NORA: That's a much stronger way to handle it.
+    Nora knowledge: player's own stated restraint only.
+
+[END] NORA: I need to go. If I can publish something verifiable, it
+belongs in the public record—not in a guess here.
+No automatic promises or new source unlocks. Relationship effects only
+if the CURRENT system has an approved professional relationship tuple;
+otherwise record receipt and tone only. No essential facts gated here.
+
+============================================================================
+10. S08.09 — SOPHIE: OUTSIDE THE CASE (OPTIONAL PRIVATE)
+============================================================================
+
+Eligibility: only if genuine existing Sophie private Messages route.
+Never force a morning message after her previous sign-off; present an
+optional 'CHECK ON SOPHIE' action. If private chat is inaccessible,
+hide route. Sophie knows neither public guide nor a civic question
+unless the player actually SENDS the specific sentence below.
+
+[PLAYER manually opens SOPHIE thread]
+SOPHIE: Hey. Sorry. I was making dinner.
+SOPHIE: I burned the rice. Again.
+SOPHIE: Daniel used to stand there and say it was 'just crispy'.
+SOPHIE: He ate it anyway.
+[short typing beat]
+SOPHIE: Sorry. I didn't mean to make that sad.
+
+S08-C13 — OPTIONAL PRIVATE REPLY, COMPOSER + SEND
+ A. Player: 'That sounds like something he'd say.'
+    SOPHIE: It is. He thought he was very funny.
+    SOPHIE: Most of the time, he was.
+    Effects: Affinity +2.
+ B. Player: 'You don't have to apologise for mentioning him.'
+    SOPHIE: Thanks.
+    SOPHIE: People get quiet when I do. It makes me feel like I
+    should stop talking.
+    Effects: Trust +1, Affinity +1.
+ C. Player: 'Want to talk about literally anything else?'
+    SOPHIE: Please. Tell me what you had for dinner.
+    SOPHIE: Actually, don't. I'll get hungry again.
+    Effects: Affinity +1. No fabricated player meal response.
+
+[Only after C13 real Send]
+SOPHIE: Have you been doing okay with all this?
+SOPHIE: You can just say you're tired. That counts.
+
+S08-C14 — OPTIONAL PRIVATE REPLY, COMPOSER + SEND
+ A. Player: 'I'm okay. I'm trying to keep the public facts separate
+    from guesses.'
+    SOPHIE: I think that's the only way I can bear hearing about it.
+    SOPHIE: Not every question needs a theory attached.
+    Effects: Trust +2; scoped knowledge to Sophie: player's method
+    only, not the civic directory, GB-REF-017 or any receipt.
+ B. Player: 'I'm tired of staring at documents.'
+    SOPHIE: Then stop for tonight, seriously.
+    SOPHIE: The pages will still be there later.
+    Effects: Affinity +2; no factual disclosure.
+ C. Player: 'Can I tell you one small public update? Only if you want.'
+    SOPHIE: Not right now. I'm sorry.
+    SOPHIE: Can you just stay here for another minute?
+    Effects: Trust +1, Affinity +1. Explicit declined permission;
+    player sends NO follow-up case detail and system does not fabricate.
+
+[End only after real C14 Send or explicit LEAVE]
+SOPHIE: I'm going to clean up the kitchen.
+SOPHIE: Thank you for not turning every message into a case update.
+[If C13/C14 not actually sent, don't play this personalised line;
+ simply leave thread unchanged.]
+SOPHIE: Goodnight.
+[Sophie goes offline on authored beat. No forced online status later.]
+
+============================================================================
+11. S08.10 — FIND DANIEL: DON'T GIVE THEM A NAME (OPTIONAL GROUP)
+============================================================================
+
+Offer only if existing group includes player and at least one actual
+authored respondent who remains a member (Sophie and/or Maya). Lucas
+remains departed. Eli/Nora/Daniel are not newly added or speaking.
+If no eligible group, hide optional surface. Preserve saved real member
+list and Sophie consent preference. Scene 07 private consent for THIS
+exchange must NOT be reused as blanket group consent; absent a real
+group-specific permission, ask-first means the boundary warning applies. The group is never required for
+Scene08.complete and does not receive private Board or inquiry receipts.
+
+[PLAYER manually opens group, current-members preview first]
+S08-C15 — OPTIONAL GROUP PUBLIC MESSAGE, COMPOSER + REAL SEND
+ A. Player: 'There's a public civic desk for locating notice records,
+    but that doesn't identify who issued the document in the article.'
+    MAYA if actual member: That's a useful distinction. We need the
+    original before we can compare anything.
+    SOPHIE if actual member and no ask-first restriction (or an
+    independently saved consent expressly covering GROUP updates):
+    Okay.
+    SOPHIE if actual member and consent preference is ask-first but
+    no Scene08 permission: Please ask before dropping case details
+    in here. [Trust -1 once, only for this exact combination]
+ B. Player: 'The publisher's reference still has no verified issuer
+    or document. I don't want us treating the label as proof.'
+    MAYA if actual member: Agreed. A file name isn't its provenance.
+    SOPHIE if actual member and no ask-first restriction (or an
+    independently saved consent expressly covering GROUP updates):
+    Thanks for keeping it clear.
+    SOPHIE if actual member and ask-first not respected: Could we not
+    do this without checking with me? [Trust -1 once]
+ C. Player: 'I'm going to check public transfer headings before
+    sharing another theory about Daniel.'
+    MAYA if actual member: Makes sense. An actual series ID would
+    tell us more than another guess.
+    SOPHIE if actual member: Okay. Thank you.
+    If ask-first preference exists, option C is process-only and
+    contains no new case fact; no boundary penalty.
+
+Group receives only text actually SENT and only existing real members.
+Sophie does not acquire civic reply text, desk route IDs, or private
+status automatically. Maya never gains private archive knowledge
+without explicit exact player delivery. Nora is never a group member.
+
+============================================================================
+12. S08.11 — PRIVATE CONCLUSION / THE NEXT REGISTER
+============================================================================
+
+[ENTRY after all 9 REQUIRED gates from section 01; optional chats and
+forms are neither mandatory nor substitutes.]
+
+ARCHIVE — THE MISSING ISSUER / CASE BOARD
+
+WHAT WE OBSERVED
+- GB-REF-017 remains a publisher's UNLINKED source-reference marker.
+- The independent civic DIRECTORY names GH-PN-ROUTE as a public notice
+  LOCATING service, not as the issuer of this reference.
+- Public index guidance says an issuer, official identifier, or good
+  descriptor is needed before claims about a particular notice.
+- Former-office guidance explains WHY headings can change, but proves
+  no transfer concerning GB-REF-017.
+- If the player SENT a civic question, R-GH-PN-001 proves only delivery
+  of the exact routing request. Its reply, if READ, is procedural.
+
+WHAT WE DO NOT KNOW
+- Whether any original notice corresponding to GB-REF-017 exists.
+- The original text, issuing body, true record number/date, custodian,
+  transfer series, edit history, editor, culprit or Daniel's fate.
+- Any connection between the proposed notice and 2019, Bus 4, June
+  Ellis, E012, Depot 02, 7-14 or E—I.
+
+PRIVATE CASE BOARD status:
+  publisher_reference = OBSERVED / NOT AUTHENTICATED
+  official_notice = NOT HELD
+  issuer = UNKNOWN
+  custodian = UNKNOWN
+  route = GH-PN-ROUTE / PUBLIC DIRECTORY LISTING ONLY
+  transfer_entry = NOT LOCATED
+  civic_inquiry = EXACT SAVED STATUS, if any
+  nora_inquiry = PRIOR SAVED STATUS, unchanged
+  newsroom_requests = PRIOR SAVED STATUS, unchanged
+
+S08-C16 — FINAL PRIVATE STANCE, NO SEND
+ A. 'The civic desk is a way to ask, not proof of which office
+    issued the notice.'
+    SYSTEM: 'Saved: intake route distinguished from provenance.'
+ B. 'I need the record series or issuer's official number before I
+    treat GB-REF-017 as a source document.'
+    SYSTEM: 'Saved: independent identifier required.'
+ C. 'I won't attach Daniel, Nora or another person to an unseen
+    notice.'
+    SYSTEM: 'Saved: personal attribution withheld.'
+
+One private event on actual C16 commitment:
+EV-S08-ISSUER-LIMIT-001 / NOTE-S08-ROUTING-AND-ISSUER-GAP
+visibility=PLAYER_PRIVATE; verified=false; notice_exists=unknown;
+authenticated_notice=false; issuer_identified=false;
+custodian_identified=false; transfer_verified=false;
+article_body_revision_verified=false; culprit_identified=false;
+Daniel_fate_known=false; selected_stance=EXACT A/B/C.
+scene08.complete=true; record in chapter1 scene order AFTER scene07.
+
+[FINAL IN-WORLD SCREEN]
+THE MISSING ISSUER — REVIEWED
+Official notice: NOT LOCATED
+Possible route: GH-PN-ROUTE (DIRECTORY ONLY)
+Issuing office: UNKNOWN
+Transfer record: NOT LOCATED
+Independent content check: PENDING
+
+NEXT LEAD
+THE TRANSFER REGISTER
+'An office can change names. The original record still needs a trail.'
+[BUTTONS] OPEN NEXT LEAD / BACK TO PHONE
+
+Scene 09 is not implemented by this manuscript. OPEN NEXT LEAD:
+'Next lead not yet available'. Do not fake an office transfer, original,
+source answer, image of missing notice, culprit or an automated contact.
+
+============================================================================
+13. STABLE IDS / SOURCES / KNOWLEDGE RECEIPTS
+============================================================================
+
+AUTHORING SCENE: chapter_01_scene_08_the_missing_issuer
+PLANNING ID: discover and RETAIN any existing live scene08 planning ID;
+authoring alias must not silently change historical saves/cursors.
+MAIN CHOICES: S08-C01 ... S08-C16, exactly 3 authored branches each.
+LIVE CHAT NODE IDS (new only): OPEN-S08-*; no collision with S01-S07.
+
+New separate PUBLIC LOCAL pages:
+GH-CIVIC-DIRECTORY-001 (civic service routes)
+GH-CIVIC-INDEX-HELP-001 (records index instruction)
+GH-FORMER-OFFICE-GUIDE-001 (former-office procedure; not an actual
+                          transfer of GB-REF-017)
+GH-PN-ROUTE (service directory ROUTE CODE; not issuer/file identifier)
+
+Player-private results:
+EV-S08-DIRECTORY-READ
+EV-S08-ROLES-INSPECTED
+EV-S08-INDEX-READ
+EV-S08-FORMER-OFFICE-READ
+NOTE-S08-ROUTING-AND-ISSUER-GAP (verified:false)
+EV-S08-ISSUER-LIMIT-001 (once)
+
+Optional separate CIVIC correspondence:
+R-GH-PN-001 (one actual delivery of an exact C08 A/B/C question)
+EV-S08-CIVIC-ROUTE-REPLY-001 (one conditional queued inbound reply)
+EV-S08-CIVIC-FOLLOWUP-001 (only actual C09 Send)
+This is a NEW fictional civic return token; it is not a newsroom/Nora
+inbox token, a real email account or physical identity.
+
+Optional messages:
+EV-S08-NORA-SENT / Scene 07 professional recipient only and actual Send
+EV-S08-SOPHIE-SENT / exactly delivered private recipient
+EV-S08-GROUP-SENT / exact real member recipient list and Send
+
+PROVENANCE TYPES:
+PUBLISHER_REFERENCE, CIVIC_PUBLIC_DIRECTORY, CIVIC_SERVICE_GUIDANCE,
+PLAYER_DELIVERY_RECEIPT, INBOUND_REPORTED_GUIDANCE, PLAYER_PRIVATE_NOTE.
+Do NOT promote any type to AUTHENTICATED_ORIGINAL, VERIFIED_ISSUER,
+VERIFIED_REVISION, VERIFIED_TRANSFER or GUILT.
+
+Knowledge scopes:
+- Player sees the new civic pages only after explicit openings;
+  provider claims have page/source attribution.
+- Civic desk gets only exact selected C08 outbound text after Send;
+  it never knows player name, group, existing receipts or private Board.
+- Nora gets only C12 actual sent public sentence if professional route
+  pre-existing and reply previously read. Never get civic ticket details.
+- Sophie gets only C13/C14 sent lines; a method statement doesn't
+  automatically transmit GH-PN-ROUTE. Group scope separate.
+- Group gets only C15 sent line, with membership snapshot.
+- Maya, Lucas, Eli, Nora and Daniel acquire nothing by player selecting
+  local C01-C07, C10-C11 or C16.
+
+Suggested optional save object scene08 (ADD to existing schema v1
+only; adapt names to repository conventions, never fork store):
+  entered, complete, directory_opened, directory_read,
+  route_classified, role_cards_inspected[3], roles_classified,
+  index_guide_opened, index_guide_read, index_classified,
+  search_example_views[], local_priority, former_guide_opened,
+  former_limit_inspected[2], former_guide_read,
+  locating_question_classified, transfer_scope_classified,
+  source_ladder_classified, private_priority, final_stance,
+  civic_inquiry_draft, civic_inquiry_reviewed,
+  civic_inquiry_send_status, civic_inquiry_receipt_id,
+  civic_return_token, civic_reply_queued_at,
+  civic_reply_delivered_at, civic_reply_read, civic_reply_cursor,
+  civic_followup_draft, civic_followup_sent_option,
+  nora_cursor, nora_sent, sophie_cursor, sophie_drafts, sophie_sent,
+  group_cursor, group_draft, group_sent,
+  source_scroll_offsets, chat_scroll_offsets,
+  delivered_event_ids, queued_delays, selected_optional_panels.
+
+Mandatory gates based on DONE actions and private derived state, never
+NPC trust, dialogue count, wallet, request status or wall-clock date.
+All effects are once/idempotent; dynamic option/saved draft cannot
+become an outgoing message without actual Send receipt.
+
+UI state:
+- On tab close, route page and scroll restored.
+- On background/pagehide, active NPC cursor and remaining typing delay
+  checkpointed. On hydration, never auto-deliver a previously paused
+  line before user reopens its thread.
+- Due reply notification only after saved actual delivery. Viewing
+  a pending request hub must display PENDING, not AVAILABLE.
+- Inbox open is player-controlled, one reply per delivered receipt.
+- Incoming scroll only when near bottom; otherwise indicator.
+- Preserve portrait fallback, codename replacement, keyboard above
+  Send, screen widths 320/375/430, reduced-motion, high contrast.
+- Keep Unknown Sender existing blocked/read state, no new hint.
+- All new Page sources available OFFLINE; no real endpoints.
+
+============================================================================
+14. QA / ACCEPTANCE — 52 DISTINCT TARGET SCENARIOS
+============================================================================
+
+T01 Scene07.complete required, Scene07 C15 explicit, not draft.
+T02 Scene08 not playable when Scene07 remains placeholder.
+T03 Deliberate click required; Scene08 does not auto-open on Scene07.
+T04 Scene04/05/06/07 transcript, save receipts and timings unchanged.
+T05 Historical untagged / old structural saves never gain Scene08.
+T06 S08-C01 A/B/C returns local information without new evidence.
+T07 Directory city local route exists separately from publisher pages.
+T08 Mark directory read explicit, no mere scrolling as READ.
+T09 C02-B passes; A/C wrong retry without source promotion.
+T10 All three role cards manual, order-independent and persistent.
+T11 C03-A passes; B/C fail recoverably, no issuer identified.
+T12 New city directory never mentions GB-REF-017 as a listed file.
+T13 Index guide content independent from source/citation label.
+T14 C04-C passes; A/B fail recoverably.
+T15 Local example GB-REF-017 search does not falsely verify deletion.
+T16 Local example GH-PN-ROUTE stays service code, not record ID.
+T17 C05 A/B/C all record only private strategy, no Send.
+T18 Former-office guide is new procedure, not transfer record.
+T19 Both former-guide limitations explicitly inspected, saved.
+T20 C06-B passes; A/C fail without culprit hypothesis.
+T21 C07-C passes; A/B fail; none creates transfer record.
+T22 Routing form absent until public guides/qualification ready.
+T23 C08-A send omits literal publisher label.
+T24 C08-B send includes only public GB-REF-017, not Board.
+T25 C08-C send includes transfer-guidance question only.
+T26 C08 save/edit/cancel/back/review without Send causes no receipt.
+T27 Failed send retry creates one R-GH-PN-001 only on success.
+T28 Delivered receipt idempotent after reopen/retry/reload.
+T29 No civic reply for absent/failed/draft C08.
+T30 Response for delivered A/B/C matches exact sent branch.
+T31 Civic reply cannot appear before saved deadline.
+T32 Delivered/unread civic reply does not give player testimony.
+T33 Role inbox marked pending until actual delivery.
+T34 C09 A/B/C require manual reply-open and actual player Send.
+T35 Civic role inbox has no avatar/DM or fabricated personal contact.
+T36 Public route creates no real HTTP/call/email/device contact.
+T37 C10-B passes; A/C retry without verified record flags.
+T38 C11 A/B/C local strategy changes no NPC knowledge.
+T39 Nora C12 hidden when Scene07 receipt absent/undelivered/unread.
+T40 Nora C12 all variants use actual Send and published route only.
+T41 Scene07 Nora pending reply never becomes an automatic Scene08 DM.
+T42 Sophie C13/C14 A/B/C require real Send; conditional affection once.
+T43 Sophie boundary chosen in Scene06/07 remains honored in Scene08.
+T44 Sophie absent/inaccessible: optional path hidden, core playable.
+T45 Group C15 A/B/C recipients actual members only; Lucas not re-added.
+T46 Group Sophie ask-first detail boundary produces penalty once only.
+T47 Unknown Sender blocked/read state, R-GB-CD-002 pending preserved.
+T48 All local C01-C07/C10/C11/C16 do not create player chat bubbles.
+T49 Source ladder tile R-GH-PN-001 says NOT SENT when no receipt.
+T50 C16 all variants complete; zero optional messaging still works.
+T51 Reload at each public/classify/chat/receipt/typing checkpoint and
+    layouts 320/375/430px; no duplicate notification/draft/send.
+T52 Full regression on unchanged code, and no false claim that web
+    build constitutes an Android APK or physical-device test.
+
+Target matrix: 48 authored alternatives, all conditional recipient
+variants, and at least 52 distinct functional QA scenarios. Counts
+are authoring targets, NOT test results.
+
+============================================================================
+15. DIRECTOR NOTE / NEXT SCENE BOUNDARY
+============================================================================
+
+Scene 08 moves the mystery forward from 'who wrote the story?' to
+'where could the original record be independently sought?' without
+inventing the original. The emotional interlude is optional and human.
+The optional civic inbox yields a procedural answer, never a magic file.
+The new future transfer-register lead provides the first concrete
+next investigative task; it is not an assertion that GB-REF-017 moved.
+
+Scene 09 — THE TRANSFER REGISTER is a future AUTHORING IDEA ONLY.
+Do not add its contents, source material, location, caller, scanned
+notice or playable entry as part of this Scene 08 script.
+
+END OF SCENE 08 FULL AUTHORING DRAFT.

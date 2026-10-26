@@ -1,0 +1,6 @@
+{
+    "exitCode":  0,
+    "command":  "PLAYWRIGHT_PORT=4225 npm run test:e2e -- --workers=3 --timeout=180000 --output=artifacts/source-investigations-frozen-final/results",
+    "finishedAt":  "2026-10-25T01:35:44.0129555+08:00",
+    "startedAt":  "2026-10-25T01:20:14.3815355+08:00"
+}

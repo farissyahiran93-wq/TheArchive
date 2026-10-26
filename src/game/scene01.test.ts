@@ -86,9 +86,9 @@ describe('owner Scene 01 screenplay', () => {
     expect(state.relationships.sophie.romance).toBe(0)
     expect(state.prologue?.scene01?.nodeId).toBe('OPEN-S01-C03')
   })
-  it('keeps paid dialogue unavailable without a preview entitlement while every free route works', () => {
+  it('lets players select starred dialogue and still requires an explicit Send', () => {
     const state = reach('02')
-    expect(sendScene01Choice(state, 'd', '', false)).toBe(state)
+    expect(sendScene01Choice(state, 'd', '', false)).not.toBe(state)
     expect(sendScene01Choice(state, 'a', '', false)).not.toBe(state)
   })
   it.each(['b','c'])('does not disclose a stored codename on choice 08%s', choice => {

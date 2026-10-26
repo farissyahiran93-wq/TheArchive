@@ -10,7 +10,7 @@ async function choose(page:Page,index=0){const buttons=page.locator('.scene01-op
 test('reunion, privacy, optional humanizing SPY, quiet Mirror interlude and Maya/Lucas reflection',async({page})=>{
  test.setTimeout(240000)
  await page.setViewportSize({width:390,height:844})
- await seedScene(page,reunionSave());await page.clock.pauseAt(await page.evaluate(()=>Date.now()))
+ await seedScene(page,reunionSave(),{pauseClock:true})
  await openInbox(page);await page.getByRole('button',{name:'Open FIND DANIEL group conversation',exact:true}).click();await page.clock.runFor(180000)
  const group=page.getByRole('region',{name:'FIND DANIEL conversation',exact:true})
  await expect(group).toBeVisible()

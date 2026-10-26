@@ -25,8 +25,7 @@ export function expandedMirror() {
   throw new Error('No expanded mirror')
 }
 export async function seedMirror(page:Page,save=expandedMirror()){
-  await seedScene(page,save)
-  await page.clock.pauseAt(await page.evaluate(()=>Date.now()))
+  await seedScene(page,save,{pauseClock:true})
   await page.getByRole('button',{name:'Open The Archive',exact:true}).click()
   await page.getByRole('button',{name:'OPEN PHONE MIRROR',exact:true}).click()
   await page.getByRole('button',{name:'ENTER MIRROR',exact:true}).click()

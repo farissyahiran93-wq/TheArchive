@@ -1,0 +1,10 @@
+.version-history .c1-scroll{overflow-x:hidden;scrollbar-width:none;overflow-wrap:anywhere}
+.vh-sources{display:grid;gap:12px}
+.vh-sources article,.vh-draft,.vh-limit{padding:14px;border:1px solid #496c6b55;border-radius:12px;background:#23434114}
+.vh-sources h3{margin-top:0}.vh-sources small{display:block;margin-top:8px}
+.vh-options{display:grid;gap:8px;margin:12px 0 20px}
+.version-history .opening-primary,.version-history .opening-choice{max-width:100%;white-space:normal;margin-bottom:8px}
+.version-history pre{white-space:pre-wrap;overflow-wrap:anywhere}
+.version-history h1{font-size:24px}.version-history h2{font-size:19px;margin-top:26px}
+.version-history button:focus-visible{outline:2px solid #68b6ae;outline-offset:3px}
+@media(min-width:650px){.vh-sources{grid-template-columns:1fr 1fr}}

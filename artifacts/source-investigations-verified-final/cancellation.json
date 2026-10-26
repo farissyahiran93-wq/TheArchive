@@ -1,0 +1,5 @@
+{
+  "at": "2026-10-25T01:20:12.9288225+08:00",
+  "reason": "Source observation gate edits triggered dev-server reloads during active save writes; two older browser tests reached interrupted-write recovery. Restart with source files frozen.",
+  "status": "cancelled"
+}

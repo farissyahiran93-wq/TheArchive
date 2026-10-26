@@ -1,3 +1,4 @@
+import { visibleSource, sourceState } from './sourceInvestigation'
 import type { GameSave } from './types'
 
 export type PhoneNotice = { id: string; title: string; text: string; thread: 'unknown' | 'sophie' | 'group' | 'maya' | 'lucas' | 'eli' | 'nora' | 'archive' | 'alerts' | 'eli-lucas' | 'maya-lucas'; avatar: string }
@@ -16,6 +17,8 @@ export function phoneNotices(save: GameSave): PhoneNotice[] {
     for (const n of save.notifications) if (['scene04_archive_index_available','C2-INTEGRATION','C2-MIRROR-HINT','C2S11_AVAILABLE','C2S13_RECOVERY_READY'].includes(n.id)) incoming.push({ id: n.id, title: n.id === 'C2-INTEGRATION' ? 'Messages' : 'THE ARCHIVE', text: n.text, thread: n.id === 'C2-INTEGRATION' ? 'alerts' : 'archive', avatar: 'unknown' })
     for(const who of ['maya','eli','sophie','lucas','nora'] as const)for(const line of save.chapter2Access?.story?.privateMessages[who]??[])if(line.sender===who)incoming.push({id:line.id,title:names[who],text:line.text,thread:who,avatar:who})
     for(const id of ['eli-lucas','maya-lucas'] as const){const notice=save.notifications.find(n=>n.id===(id==='eli-lucas'?'C2-SPY-ELI-UNLOCK':'C2-SPY-MAYA-UNLOCK'));if(notice)incoming.push({id:notice.id,title:'SPY · READ ONLY',text:notice.text,thread:id,avatar:'unknown'})}
+    if(save.chapter1?.correctionsDesk?.replyDelivered)incoming.push({id:'EV-S06-DESK-REPLY-001',title:'Greyhaven Bulletin — Corrections Desk',text:'Re: your article question',thread:'archive',avatar:'unknown'})
+    for(const [p,title] of [[save.chapter1?.byline,'Greyhaven Bulletin — Reporter Inbox'],[save.chapter1?.issuer,'Greyhaven Civic Services — Routing Inbox'],[save.chapter1?.transferRegister,'Greyhaven Records Centre'],[save.chapter1?.inventorySheet,'Records Centre']] as const)if(p?.reply)incoming.push({id:p.reply.id,title,text:p.reply.id==='EV-S10-CATALOGUE-DESK-REPLY-001'?'Catalogue enquiry reply':title.includes('Bulletin')?'Reply to your article question':title.includes('Records Centre')?'Reply to your series question':'Your locating question',thread:'archive',avatar:'unknown'})
     return incoming
   }
   const identified = save.deliveredEvents.some(id => id.startsWith('OPEN-V4-FIRST-ANSWER-')) || save.prologue?.restored || !!save.prologue && save.prologue.dialogueVersion !== 4
@@ -36,6 +39,10 @@ export function openingPresence(save: GameSave, person: string): 'online' | 'off
   if (!opening) return 'offline'
   if (opening.scene01) {
     if (save.chapter2Access?.groupMessages.some(m => m.sender === person)) return 'online'
+    const source=visibleSource(save),current=source?sourceState(save,source):undefined
+    if(current&&person==='sophie')return current.reading==='sophie'||current.reading==='group'&&opening.scene01.groupMembers?.sophie===true?'online':'offline'
+    if((save.chapter1?.correctionsDesk?.reading==='sophie'||save.chapter1?.correctionsDesk?.reading==='group') && (person==='sophie'||person==='maya'&&save.chapter1.correctionsDesk.reading==='group')) return opening.scene01.groupMembers?.[person as 'sophie']!==false?'online':'offline'
+    if(save.chapter1?.versionHistory?.reading && (person==='sophie'||person==='maya'&&save.chapter1.versionHistory.reading==='group')) return opening.scene01.groupMembers?.[person as 'sophie']!==false?'online':'offline'
     if (person === 'sophie' && !!save.chapter1?.publicStory?.reading && !save.chapter1.publicStory.complete && !['OPEN-S04-ARCHIVE-GATE','OPEN-S04-FOLLOWUP-WAIT','OPEN-S04-C10','OPEN-S04-C11','OPEN-S04-INDEX-ACK','OPEN-S04-RETURN-DEVICE'].includes(opening.scene01.nodeId)) return 'online'
     if (person === 'sophie' && opening.scene01.privateScene03?.complete) return 'offline'
     if (person === 'sophie' && opening.scene01.privateHandoff?.deliveredAt !== undefined) return 'online'

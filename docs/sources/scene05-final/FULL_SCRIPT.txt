@@ -1,0 +1,612 @@
+THE ARCHIVE — CHAPTER 1
+SCENE 05: VERSION HISTORY
+FULL FLOW + FINAL-DRAFT SCREENPLAY (English in-game dialogue)
+Authoring draft: 24 October 2026
+Status: NEW AUTHORING PROPOSAL — NOT YET IMPLEMENTED OR TESTED
+
+======================================================================
+00. CONTINUITY CONTRACT — DO NOT OVERRIDE SCENE 01–04
+======================================================================
+
+Scene 04 is the direct predecessor. Its last required beat is Sophie's
+Goodnight/offline moment, after the player has inspected the six-paragraph
+GB-ARTICLE-001 and the limited ARC-IDX-GB-041 metadata.
+
+The following are fixed:
+* GB-ARTICLE-001 is the Nora Vance bylined GREYHAVEN BULLETIN article,
+  publication date 7 October 2026. Its displayed label is precisely
+  "Updated: Yesterday", an unverified relative label.
+* GB-ARTICLE-001 and ARC-IDX-GB-041 are TWO DIFFERENT RECORDS.
+* ARC-IDX-GB-041: source UNKNOWN; author/capture time NOT ESTABLISHED;
+  verified original NO; content preview UNAVAILABLE. No recovered text,
+  confirmed editor or version diff is implied.
+* Earlier CH1-PUBLIC / Maya-editor / Bus 4 content belongs to the historical
+  structural route. NEVER treat it as the older edition of GB-ARTICLE-001.
+* Existing EV-PUBLIC-GB-001 and EV-INDEX-GB-041 remain verified:false.
+* Sophie knows only what the player actually told her in Scene 04,
+  plus the public article she herself linked. If the player did not
+  disclose index details, Sophie cannot quote the index reference.
+* Maya knows only messages delivered to her in prior scenes and any
+  public material she independently encountered; no private player Board.
+* Lucas does not automatically return to FIND DANIEL. No Eli/Nora private
+  contact is forged. Unknown Sender blocked/unread branches persist.
+* The player is an ordinary civilian, not a forensic expert or police officer.
+* Choices are composer drafts until the player taps Send. Silence and
+  exiting the app produce NO outgoing player line.
+* Prior character relationship and evidence states are additive. Existing
+  saves remain playable. Do not overwrite old message histories.
+
+The story MUST NOT in Scene 05 prove that the article text was changed,
+who changed it, why it was changed, that Daniel is alive/dead, or that
+ARC-IDX-GB-041 is an authenticated earlier version.
+
+Narrative question: "What would it take to prove that this story changed?"
+Emotional question: "How do you help someone without selling them certainty?"
+
+======================================================================
+01. SCENE FLOW (PLAYER-CONTROLLED)
+======================================================================
+
+PRECONDITION: scene04.complete=true (final Goodnight/offline + required
+inspection gates). Scene 05 is visible ONLY as the Archive tile
+"VERSION HISTORY" with a small new indicator.
+
+ENTRY: Player manually opens Archive > VERSION HISTORY.
+
+  S05.01 — Side-by-side source cards (local Archive).
+      | inspect GB-ARTICLE-001 and ARC-IDX-GB-041, in any order
+      v
+  S05.02 — Public update label vs verified revision history.
+      | open publisher's policy in simulated Browser
+      v
+  S05.03 — Small investigative choice: "What can we actually say?"
+      | must select supportable observation; no fail-state
+      v
+  S05.04 — Required proof checklist: no full version history available.
+      | player chooses next evidence strategy
+      v
+  S05.05 — Optional public corrections inquiry (draft/send or decline).
+      | DOES NOT block if skipped, canceled or unsent
+      v
+  S05.06 — Optional Sophie chat, next in-story morning, manual open.
+      | available independently of form choice
+      v
+  S05.07 — Optional FIND DANIEL public-scope group update.
+      | only starts AFTER actual player Send
+      v
+  S05.08 — Player files a PRIVATE case conclusion.
+      | mainline complete; request and social optional
+      v
+  "NEXT LEAD: THE CORRECTIONS DESK" — Scene 06 tile available for
+  deliberate tap. No reply, article, contact, disclosure or call auto-opens.
+
+UI rules:
+- No auto opening Browser, Archive subpage, contact or chat. Inline links
+  navigate only upon player click.
+- Back/close preserve each cursor, active option, scroll position and drafts.
+- Auto-scroll when a NEW delivered message arrives ONLY if player was near
+  chat bottom; otherwise show a "new messages" indicator.
+- Natural 1–3 s typing indicators; optional reading beat but no forced
+  real-time waits. Fictional overnight transition never changes device clock.
+- Notification arrives ONCE only if a new event is delivered. Opening the
+  notification does not generate a player Send.
+- Do not expose internal debug identifiers to player.
+
+======================================================================
+02. S05.01 — VERSION HISTORY (ARCHIVE, LOCAL)
+======================================================================
+
+[PLAYER ACTION] Tap "VERSION HISTORY".
+
+[SYSTEM UI]
+VERSION HISTORY
+"Two references were found. A reference is not a revision."
+
+CARD A
+GREYHAVEN BULLETIN — Daniel Mercer article
+Record: GB-ARTICLE-001
+Published: 7 October 2026
+Displayed on page: Updated: Yesterday
+Copy type: Public article
+Integrity: Not independently verified
+Action: OPEN PUBLIC COPY
+
+CARD B
+ARCHIVE INDEX — GB-041
+Record: ARC-IDX-GB-041
+Source: UNKNOWN
+Capture time: NOT ESTABLISHED
+Original verified: NO
+Content: UNAVAILABLE
+Action: INSPECT INDEX
+
+[ON TAP CARD A]
+Open the SAME six-paragraph article authored in Scene 04, without
+modification or an invented earlier draft. If never locally saved, show
+"Public page available; no stored personal copy". If saved in Scene 04,
+show the existing bookmark. Neither branch fabricates a second snapshot.
+
+[ON TAP CARD B]
+Show the SAME existing four metadata limitations from Scene 04.
+
+[AFTER PLAYER OPENS BOTH CARDS — no time gate]
+[SYSTEM UI]
+"You have two references. They do not establish two editions of the article."
+
+CHOICE S05-C01 (LOCAL, no Send):
+A. "Put them next to each other."
+   [SYSTEM] "Comparison limited to known metadata. No matching article body
+   is available for the index record."
+B. "Which one is the original?"
+   [SYSTEM] "Not established. The public article is readable; the index
+   reference has no authenticated content."
+C. "What does 'Updated: Yesterday' prove?"
+   [SYSTEM] "Only that the public page displays those words. It does not
+   identify the changed field or give a verifiable timestamp."
+All paths converge on S05.02. Choice remains replayable as informational
+UI with no duplicate reward or progression.
+
+======================================================================
+03. S05.02 — THE UPDATES POLICY (BROWSER, PUBLIC FICTIONAL PAGE)
+======================================================================
+
+[PLAYER ACTION] Tap "HOW THE BULLETIN LABELS UPDATES".
+Route: browser://greyhaven-bulletin/help/updates
+This is a NEW fictional public help page in this screenplay, not a claim
+that a real external newsroom or online page has been verified.
+
+[PUBLIC WEB PAGE — EXACT IN-WORLD CONTENT]
+GREYHAVEN BULLETIN
+HOW WE LABEL UPDATES
+
+"A page can be updated after publication for several reasons, including
+corrections, layout changes, links, captions or editorial additions."
+
+"The relative label shown on an article is a display label. It is not a
+publicly accessible record of every saved revision."
+
+"Readers who need to know what changed may send a specific question to
+our corrections desk. We may be unable to provide internal drafts or
+information that could identify confidential sources."
+
+Footer: "This policy explains the publication's labels. It does not
+verify the history of any individual article."
+
+[UI] READ POLICY / RETURN TO VERSION HISTORY
+The READ POLICY action records S05.policy_read once. Scrolling to bottom
+alone does not mean the user acknowledged it. The page may be revisited.
+
+[ARCHIVE RETURN]
+[SYSTEM UI] "What does the label establish?"
+
+CHOICE S05-C02 (LOCAL KNOWLEDGE CHALLENGE):
+A. "The article definitely changed yesterday."
+   [SYSTEM] "Not established. A relative page label does not prove what,
+   if anything, changed in the article body. Try again."
+B. "The page displays an update label, but there is no verified diff."
+   [SYSTEM] "Supported. A visible label is not a revision log."
+   SET S05.observation_classified=true.
+C. "The index record is the missing first edition."
+   [SYSTEM] "Not established. Its source and content are unavailable.
+   Try again."
+
+Wrong answers produce NON-PUNITIVE guidance and stay on this node. Do not
+penalize Trust/Suspicion; do not count incorrect taps as disclosure.
+
+======================================================================
+04. S05.03 — WHAT WOULD PROVE A REVISION? (ARCHIVE)
+======================================================================
+
+[SYSTEM UI]
+"A defensible claim about a changed article needs a traceable record."
+
+CHECKLIST (player opens each, any order):
+
+1. "Earlier article copy"
+   "NOT HELD. The index record cannot stand in for readable text."
+
+2. "Timestamped change entry"
+   "NOT HELD. 'Yesterday' is relative and not an authenticated timestamp."
+
+3. "Comparison of the changed content"
+   "NOT AVAILABLE. No before/after text is verified."
+
+4. "Who issued the record"
+   "NOT ESTABLISHED for ARC-IDX-GB-041."
+
+[WHEN ALL FOUR OPENED]
+[SYSTEM UI]
+"Finding: Revision history NOT VERIFIED. This is a limit of the current
+evidence, not proof that no revision occurred."
+
+New private annotation:
+  NOTE-S05-VERSION-LIMITS
+  status: OBSERVED LIMITATION
+  source: player inspection of public page + existing index metadata
+  verified_revision: false
+
+CHOICE S05-C03 (LOCAL STRATEGY):
+A. "Ask the publisher what changed."
+   [SYSTEM] "A narrow question is possible. A reply would still need
+   independent checking."
+B. "Wait until an older copy can be verified."
+   [SYSTEM] "Reasonable. Save the question without converting it into a
+   finding."
+C. "Tell the others this is proof of tampering."
+   [SYSTEM] "That claim is not supported. You can discuss the uncertainty,
+   but this panel cannot certify tampering."
+All choices proceed. C does not automatically send anything to the group.
+
+======================================================================
+05. S05.04 — CORRECTIONS DESK (OPTIONAL BROWSER CONTACT)
+======================================================================
+
+[UI] "You can ask about a record without claiming you have solved it."
+Buttons: OPEN CORRECTIONS FORM / NOT NOW.
+
+If NOT NOW: [SYSTEM] "No request sent. You can come back later."
+Set S05.inquiry_status=not_sent. Continue to conclusion; no gate.
+
+[FORM]
+TO: Greyhaven Bulletin — Corrections Desk
+RE: GB-ARTICLE-001 / Daniel Mercer article
+REPLY: local fictional Bulletin return token only
+INCLUDED: selected question + article URL/reference
+NOT INCLUDED: player identity, contacts, location, private Board,
+             ARC-IDX-GB-041 unless explicitly written into the draft.
+
+CHOICE S05-C04 (COMPOSER DRAFT — choose ONE, still unsent):
+A. "Could you confirm whether the body of this article changed after it
+was published on 7 October? If so, which passage and on what date?"
+B. "The article currently displays 'Updated: Yesterday'. Does that label
+reflect an editorial change, a correction, or a page-only update?"
+C. "Is there a public correction note or a version history for article
+GB-ARTICLE-001 that readers can verify?"
+
+[COMPOSER] EDIT / REVIEW / SEND REQUEST / SAVE DRAFT / CANCEL
+All three drafts are deliberately cautious and factually supportable.
+
+[ON REVIEW]
+[SYSTEM] "This message will be sent to the corrections desk. It does not
+contact Nora Vance privately. Sending is not permission to access private
+records."
+
+[ON SEND — explicit player click]
+[SYSTEM] "Request delivered to corrections desk."
+"Receipt: R-GB-VH-001"
+"Status: Delivered / Not yet answered"
+"A receipt proves delivery to this fictional desk, not that the article
+changed or that anyone has read the question."
+Set S05.inquiry_status=delivered. Persist exact selected text and one
+outgoing receipt. Idempotent across reloads; no duplicate delivery.
+
+[ON SAVE DRAFT / CANCEL / BACK]
+[SYSTEM] "Draft saved locally. No message sent."
+Set status=draft. Can resume exactly; no receipt or knowledge transfer.
+
+[ON FAILURE]
+[SYSTEM] "Request not delivered. Your draft is still here."
+Retry is safe and idempotent. No auto-commit on app restart.
+
+NEVER provide an instant newsroom answer in Scene 05. The later response,
+if any, requires its own authored Scene 06 screenplay, an explicit delivery
+event, and a verifiable sender scope.
+
+======================================================================
+06. S05.05 — SOPHIE: THE MORNING AFTER (OPTIONAL PRIVATE CHAT)
+======================================================================
+
+[EVENT ELIGIBILITY]
+Once the player has acknowledged the core version limitations, schedule
+one fictional next-morning Sophie check-in if her Scene 04 private thread
+is available. This is a story beat, not a physical clock deadline.
+Delivery of the notification is one-shot, manual chat opening. If muted,
+keep the delivered item available in inbox without forcing a push alert.
+If Sophie is actually blocked/inaccessible under existing save rules, do
+not bypass that boundary; the optional exchange is skipped. Nothing here
+gates completion.
+
+[NOTIFICATION]
+Sophie: "Hey. You around?"
+
+[PLAYER MANUALLY OPENS SOPHIE]
+
+SOPHIE: Hey.
+[typing, brief]
+SOPHIE: I know I said goodnight.
+SOPHIE: I tried not to open that article again this morning.
+[typing]
+SOPHIE: Lasted about five minutes.
+SOPHIE: That little "Updated: Yesterday" thing is driving me mad.
+SOPHIE: Is it supposed to mean something changed?
+
+CHOICE S05-C05 — PLAYER [DRAFT + SEND REQUIRED FOR REPLY]:
+A. Player: "It means the page says it was updated. We still don't know what changed."
+   SOPHIE: That's such an annoying answer.
+   [typing, pause]
+   SOPHIE: Sorry. Not at you.
+   SOPHIE: I think I just wanted one thing to be simple.
+   Relationship effect: Sophie Trust +2, Affinity +0, Suspicion +0.
+
+B. Player: "I can see why that would bother you."
+   SOPHIE: It does.
+   SOPHIE: I keep reading the same sentence like it'll turn into a different one.
+   SOPHIE: Which is ridiculous. I know.
+   Relationship effect: Sophie Trust +0, Affinity +2, Suspicion +0.
+
+C. Player: "I haven't figured it out either."
+   SOPHIE: Okay.
+   [typing]
+   SOPHIE: Weirdly, that helps more than another theory.
+   Relationship effect: Sophie Trust +1, Affinity +1, Suspicion +0.
+
+No Send: Sophie cannot answer an option the player only selected or drafted.
+Resume at that exact composer on return. No silence punishment.
+
+[CONVERGED]
+SOPHIE: Daniel used to keep receipts in the strangest places.
+SOPHIE: A bus ticket in a cookbook. A coffee receipt behind the TV.
+SOPHIE: I used to give him such a hard time about it.
+SOPHIE: I don't even know why I'm telling you that.
+
+CHOICE S05-C06 — PLAYER [SEND]:
+A. Player: "Maybe you just miss the little things."
+   SOPHIE: Yeah.
+   SOPHIE: More than the big speeches people keep giving me.
+   SOPHIE: Sorry. That came out harsher than I meant.
+   Relationship: Affinity +2.
+
+B. Player: "Did he keep old versions of things too?"
+   SOPHIE: I honestly don't know.
+   SOPHIE: The receipts were just Daniel being Daniel.
+   SOPHIE: I don't want to turn that into a clue unless it is one.
+   Relationship: Trust +1. Knowledge: NO Daniel archive/copy unlock.
+
+C. Player: "We don't have to talk about him if you don't want to."
+   SOPHIE: Thanks.
+   SOPHIE: It's not that I don't want to.
+   SOPHIE: Some days I just want to remember him without everybody taking notes.
+   Relationship: Affinity +2. Respect her boundary: no next probing question.
+
+[CONVERGED]
+SOPHIE: Can I ask one favour?
+SOPHIE: If you find a real record of what happened to that article...
+SOPHIE: Just tell me what it actually says. Even if it's nothing.
+
+CHOICE S05-C07 — PLAYER [SEND]:
+A. Player: "I will. I won't guess for you."
+   SOPHIE: Thank you.
+   SOPHIE: That's all I needed.
+   Relationship: Trust +2.
+
+B. Player: "I'll tell you when there's something we can verify."
+   SOPHIE: Fair.
+   SOPHIE: I'd rather wait than do this all over again tomorrow.
+   Relationship: Trust +1.
+
+C. Player: "I can't promise I'll find it."
+   SOPHIE: I'm not asking you to.
+   SOPHIE: Just don't make something up to make me feel better.
+   Relationship: Affinity +1, Trust +1.
+
+[END SOPHIE THREAD]
+SOPHIE: I should go. I've got things to do before I disappear into my phone all day.
+SOPHIE: Talk later?
+
+[OPTIONAL CLOSING REPLIES — SEND]
+S05-C08-A Player: "Talk later." -> SOPHIE: Okay :)  (Sophie goes offline)
+S05-C08-B Player: "Take your time." -> SOPHIE: I will.  (Sophie goes offline)
+S05-C08-C Player: "I'll be here." -> SOPHIE: Thanks.  (Sophie goes offline)
+
+Sophie DOES NOT automatically learn S05 inquiry choice/status, the local
+policy checklist, ARC-IDX-GB-041 or any private Board notes. If the player
+shared the index in Scene 04, the earlier receipt remains true, but these
+new messages do not assume it was shared.
+
+Optional premium social branch (only if the EXISTING premium-choice system
+supports a nonessential side exchange, and never required):
+After S05-C06-A, one bonus question can ask "What was the oddest receipt?"
+SOPHIE: "A takeaway slip from a place he swore he hated. I found it in a
+birthday card two years late." / Player [Send]: "That sounds like him."
+SOPHIE: "It really does."  Affinity +1; NO evidence or progression.
+If not supported, omit rather than invent monetization/UI behavior.
+
+======================================================================
+07. S05.06 — FIND DANIEL: PUBLIC-ONLY UPDATE (OPTIONAL GROUP)
+======================================================================
+
+[CONTEXT]
+FIND DANIEL must retain actual members and the exits from Scenes 01–04.
+Lucas does NOT return. This optional interaction is AVAILABLE after the
+player's main comparison; it NEVER fires merely because the player looked
+at private Archive metadata. The player may leave it unopened entirely.
+
+[ENTRY]
+Archive UI: "Discuss the public article's update label?"
+OPEN FIND DANIEL / NOT NOW.
+
+On OPEN: prefill local composer. No NPC message is triggered until a real
+player Send; optional local text is not an in-chat System bubble.
+
+CHOICE S05-C09 — PLAYER [COMPOSER DRAFT + SEND]:
+A. Player: "I checked the update label. We still don't have a verified history of the article."
+   MAYA: Good distinction.
+   MAYA: A label isn't a copy of whatever was there before.
+   SOPHIE (if active member): I hate that you're both right.
+   MAYA: Same, honestly.
+   Relationship: Maya Trust +2. Group knows ONLY this outgoing text.
+
+B. Player: "Does anyone have an actual older copy of that Greyhaven Bulletin article?"
+   MAYA: Not one I can verify.
+   MAYA: If someone sends one, we need to know where they got it.
+   SOPHIE (if active member): I don't have one.
+   Relationship: Maya Trust +1. No older copy spawned.
+
+C. Player: "That 'Updated: Yesterday' label is making me suspicious."
+   MAYA: I understand why.
+   MAYA: But we shouldn't call it evidence of a rewrite yet.
+   SOPHIE (if active member): It's the "yet" that gets me.
+   MAYA: I know.
+   Relationship: Maya Suspicion +1, Trust +0.
+
+If SOPHIE is no longer a member in the user's actual save, omit her group
+lines naturally; do not silently restore membership. If MAYA is not an
+active participant, do not insert her as a member: hide this optional
+branch and preserve the solo case route. No NPC is added or revived.
+
+[OPTIONAL FOLLOW-UP CHOICE S05-C10 — PLAYER SEND, social only]
+A. Player: "Let's keep it to what we can actually check."
+   MAYA (if present): Agreed.
+   SOPHIE (if present): Okay.
+B. Player: "I'm going to leave this here for now."
+   MAYA (if present): That's fine. We'll still have the links.
+C. Player: "If someone finds a copy, ask where it came from first."
+   MAYA (if present): Exactly.
+
+This optional thread cannot report the player's saved inquiry, private
+board or unshared ARC-IDX-GB-041 details. A screenshot/link is NEVER
+attached by implication. No Lucas/Eli/Nora messages.
+
+======================================================================
+08. S05.07 — PRIVATE CASE NOTE / SCENE CONCLUSION
+======================================================================
+
+[ENTRY]
+Available after S05.01 inspected both cards; S05.02 policy read;
+S05.02 supportable observation chosen; S05.03 four checklist items
+inspected. Inquiry, Sophie and group are OPTIONAL and never completion
+gates. The UI may gently show that optional threads remain unread.
+
+[ARCHIVE CASE BOARD — PRIVATE]
+"What can you defend if someone asks tomorrow?"
+
+CHOICE S05-C11 (LOCAL, no Send):
+A. "The Bulletin page displays an update label, but I can't verify a text revision."
+   [SYSTEM] "Saved as an observed limitation."
+B. "I need an authenticated earlier copy or a publisher's dated change record."
+   [SYSTEM] "Saved as a verification plan, not evidence of tampering."
+C. "I won't speculate until the sources can be checked."
+   [SYSTEM] "Saved as a hold decision. The investigation remains open."
+
+Save one private conclusion entry with the exact chosen stance:
+  EV-S05-REVISION-LIMIT-001
+  subject: GB-ARTICLE-001
+  related_ref: ARC-IDX-GB-041 (REFERENCE ONLY)
+  verification: NOT VERIFIED
+  visibility: PLAYER_PRIVATE
+  note: chosen wording / no guilt or motive claim
+
+[FINAL UI]
+"VERSION HISTORY — REVIEWED"
+"Verified earlier article copy: NONE"
+"Verified body change: NONE"
+"Open question: What, if anything, was updated?"
+
+If inquiry delivered: "Corrections request: Delivered. No answer yet."
+If not delivered: "Corrections request: Not sent. Public form still open."
+If draft: "Corrections request: Draft saved."
+
+[MANUAL CTA]
+NEXT LEAD: THE CORRECTIONS DESK
+"Find out what the publisher can actually substantiate."
+OPEN NEXT LEAD / BACK TO PHONE
+
+OPEN NEXT LEAD may enter Scene 06 ONLY when a separately authored Scene 06
+screenplay is implemented. Until then, show an honest in-game placeholder
+"Next lead not yet available" rather than fabricating a response or
+pretending Scene 06 has shipped.
+
+Scene05.complete=true is set only once after S05-C11 selection.
+
+======================================================================
+09. KNOWLEDGE, RECEIPTS, AND SAVE/LOAD SPECIFICATION
+======================================================================
+
+New IDs are DRAFT names, reserve if they do not collide with registry:
+scene_id: chapter_01_scene_05_version_history
+
+Local flags:
+  scene05.entered
+  scene05.viewed_public
+  scene05.viewed_index
+  scene05.policy_read
+  scene05.observation_classified
+  scene05.checklist_viewed[] (4 distinct keys)
+  scene05.inquiry_draft_text
+  scene05.inquiry_status [not_sent|draft|delivered|failed]
+  scene05.inquiry_receipt_id (nullable)
+  scene05.sophie_event_delivered
+  scene05.sophie_cursor
+  scene05.group_optin_sent
+  scene05.group_cursor
+  scene05.conclusion_choice
+  scene05.complete
+
+New source records / event IDs:
+  POL-GB-UPDATES-001 — fictional public policy page, never independent
+    authentication of THIS article's history.
+  NOTE-S05-VERSION-LIMITS — local note, not externally certified evidence.
+  R-GB-VH-001 — optional delivered inquiry receipt, scoped exact text.
+  EV-S05-REVISION-LIMIT-001 — local player stance, verified:false.
+  EV-S05-SOPHIE-OPEN — notification once (not player Send).
+  EV-S05-GROUP-SENT — only actual player Send with exact text.
+
+Evidence semantics:
+  verified_revision=false
+  verified_original=false
+  publisher_response_received=false in Scene 05
+  index_source_verified=false
+  actual_changed_text=unknown
+
+Do not increment knowledge for unsent selected choices. Only the chosen
+sent text reaches the correct recipient. The public policy can be known by
+the player upon reading; it does not make Maya/Sophie know that the player
+read it. No Archive visit sends tracking data to a fictional contact.
+
+Reentry/idempotency:
+- Resume the exact local choice or composer; preserve draft, last read
+  position, source bookmarks and independent optional thread cursors.
+- Do not reset Scene 04 flags/receipts or existing EV-PUBLIC-GB-001 and
+  EV-INDEX-GB-041 source distinctions.
+- Scene 04 saves that bookmarked neither record must STILL reach Scene 05.
+- If the player chose not to inquire, Scene 06 remains accessible.
+- Persist all sent messages and their relationship deltas once by choice ID.
+- Existing historical/legacy routes do not acquire this Scene 05 retroactively.
+- New authored final-route game only. No automatic New Game/reset.
+
+======================================================================
+10. ACCEPTANCE TEST MATRIX — MINIMUM
+======================================================================
+
+T01 — Final Scene 04 Goodnight/offline -> Scene 05 tile visible, not open.
+T02 — Open source cards A/B in either order; no phantom diff or original.
+T03 — No Scene 04 bookmark -> still can inspect page and index.
+T04 — "Updated: Yesterday" does not become a real edit timestamp.
+T05 — Wrong investigation choices explain and recover; no dead end.
+T06 — Back from corrections composer -> no outgoing message/receipt.
+T07 — Send inquiry -> one delivery receipt; reload/reclick no duplicate.
+T08 — Form failure -> retained draft, safe retry.
+T09 — Optional Sophie does not learn Archive specifics automatically.
+T10 — Every Sophie outgoing line waits for actual Send; reload pauses.
+T11 — Optional premium skipped -> no missing essential fact.
+T12 — Group unopened -> no messages; group Send only reveals exact scope.
+T13 — Lucas never reappears as member/sender without separately authored
+       rejoin logic; Eli and Nora never speak privately in Scene 05.
+T14 — Blocked Unknown Sender -> no new hints/forced messages.
+T15 — Scene 04 article and index source IDs remain separate and unverified.
+T16 — S05 conclusion independent of inquiry/Sophie/group participation.
+T17 — Full reload at each gate preserves UI/scroll/inbox state.
+T18 — Historic saves and previous dialogue branches remain unchanged.
+T19 — Device width 320px/375px/430px, long article, notification/keyboard.
+T20 — No new live web fetch; fictional routes remain inside simulated app.
+T21 — Chapter 1 does not present Nora as contacted merely by author byline.
+T22 — If Scene 06 isn't implemented, CTA reports unavailability honestly.
+
+Verification commands AFTER implementation (not run for this draft):
+  npm run typecheck
+  npm run lint
+  npm test -- --maxWorkers=2
+  npm run build
+  [existing Playwright browser journeys + scene05 new journeys]
+
+END OF SCENE 05 DRAFT

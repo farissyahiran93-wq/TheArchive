@@ -1,0 +1,17 @@
+[
+  {
+    "file": "FULL_SCRIPT.txt",
+    "sha256": "7276c69f9fcacd9cfa92391f2cbf751c1c870b3d1df30eb5b688f59f6feabe38",
+    "matchesOriginal": true
+  },
+  {
+    "file": "IMPLEMENTATION_PROMPT.txt",
+    "sha256": "0ff410eabd68bde409e6ac8baf63ae18a38742af80821e1eeecbff0699dc73ac",
+    "matchesOriginal": true
+  },
+  {
+    "file": "HANDOFF_README.txt",
+    "sha256": "6db510b393ffc860a061238e430cac16d2196940821384b9d680685be00255e1",
+    "matchesOriginal": true
+  }
+]

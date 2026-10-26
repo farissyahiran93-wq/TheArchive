@@ -1,0 +1,7 @@
+{
+  "exitCode": 0,
+  "finishedAt": "2026-10-25T23:31:23.4836674+08:00",
+  "command": "PLAYWRIGHT_PORT=4245 npm run test:e2e -- --workers=1 --timeout=180000 --output=artifacts/scene10-full-direct/results",
+  "sourceIntegrityExitCode": 0,
+  "result": "145 passed (45.6m)"
+}

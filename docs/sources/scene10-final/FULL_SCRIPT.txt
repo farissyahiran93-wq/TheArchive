@@ -1,0 +1,1082 @@
+THE ARCHIVE — CHAPTER 1
+SCENE 10: THE INVENTORY SHEET
+FULL ENGLISH IN-GAME SCREENPLAY, ALL CHOICE BRANCHES, SOURCE/EVIDENCE CONTRACT
+Authoring date: 25 October 2026
+STATUS: NEW AUTHORING DRAFT. NOT YET IMPLEMENTED OR TESTED.
+
+===============================================================================
+00 — MANDATE, STARTING CANON AND AUTHORING LIMITS
+===============================================================================
+
+PREDECESSOR: SCENE 09 — THE TRANSFER REGISTER, owner-reported implemented
+with 18 choices / 54 alternatives, 1,217 unit tests and 134 browser tests
+passed at the time of handoff. These are the owner's Scene 09 results,
+NOT tests of this new Scene 10.
+
+ENTRY: only a valid final-route save with actual Scene 09 completion
+(S09-C18 committed and the recorded prerequisite inspections), followed
+by a real player tap on OPEN NEXT LEAD / THE INVENTORY SHEET. Never infer
+entry from viewing the card, reading a push, an older structural route,
+or a test fixture. The existing planning ID, if present, is preserved;
+chapter_01_scene_10_the_inventory_sheet is only an authoring alias.
+
+ESTABLISHED PUBLIC SOURCES — NEVER CHANGE:
+ GB-ARTICLE-001 — Nora Vance's six-paragraph article, published 7 Oct
+ 2026. “Updated: Yesterday” is displayed but not a verified edit log.
+ ARC-IDX-GB-041 — metadata-only record; unknown source and no earlier
+ readable article body.
+ GB-REF-017 — a PUBLISHER reference/label introduced in Scene 07, NOT an
+ official government item number or proof of a notice.
+ GH-PN-ROUTE — routing-desk code, not issuing-office identification.
+ GH-TRANSFER-REGISTER-001 — PUBLIC listed transfer row GH-TR-2022-063,
+ for the BROAD series GH-PN-GEN-2017-2021, transferred in 2022.
+ Former listed SERIES custodian: Civic Secretariat. Receiving listed
+ SERIES custodian: Greyhaven Records Centre. Issuer of any particular
+ notice: unknown.
+ GH-TRANSFER-FINDING-AID-001 — public SERIES summary GH-INV-2022-063,
+ with NO item-level inventory attached to that summary. Does not state
+ that no other public index exists.
+ NOTE-S09-SERIES-NOT-ITEM — player's private source-limited observation,
+ verified:false for any GB-REF-017 connection.
+ R-GH-TR-001 — optional Scene 09 exact-series inquiry. May be absent,
+ draft, sent, reply pending, delivered unread or read. Preserve its
+ actual status; never backfill a reply.
+ R-GH-PN-001, R-GB-VH-001, R-GB-CD-002, R-GB-NV-001 — each independent;
+ do not fabricate a reply, consent, or shared knowledge.
+
+NEW MATERIAL DEVELOPMENT, NOT A RETCON:
+Scene 10 lets the player locate a DISTINCT public, limited BOX INDEX
+EXTRACT for that transferred series through the Records Centre's public
+catalogue. This extract is NOT the finding-aid summary from Scene 09,
+and did not magically materialize inside its earlier page. It identifies
+several BOX-LEVEL DESCRIPTIONS (containers, not itemized original
+notices). One box references a supplemental DESCRIPTION CARD whose text
+is NOT included in this PUBLIC extract. This gives the player a precise
+next-step catalogue key, not the missing notice or proof of deletion.
+
+LOCKED NON-REVELATIONS:
+- No verified GB-REF-017 -> GH-PN-GEN-2017-2021 match.
+- No original notice, notice text, issuing body, item-level custody,
+  verified body edit, editorial actor, hidden government file, culprit,
+  motive, fate/location of Daniel or identity of Unknown Sender.
+- No linking 2019 coverage with the 2019 evacuation, June Ellis, Bus 4,
+  Depot 02, E012, 7-14 or E—I. In particular a catalogue box code is
+  NOT a decoded cipher, clue to 7-14, or proof of evidence suppression.
+- Nora's byline does not make her the website editor, a suspect, or
+  the author of municipal inventory entries.
+- Public pages and forms are LOCAL FICTIONAL content. No live network,
+  real government system, SMS, personal account, or file extraction.
+
+PLAYER: ordinary civilian. Text that starts SYSTEM, CARD, BUTTON,
+NOTIFICATION, STATUS, DIRECTOR, or INTERNAL is non-dialogue; don't render
+it as a character bubble. All PLAYER messages use SELECT -> DRAFT ->
+actual SEND. All local Archive selections are NOT outgoing messages.
+
+CORE MYSTERY:
+“How much can one public catalogue sheet tell you about a document
+whose real title and identifier you still do not have?”
+
+HUMAN CONFLICT:
+“Can the player share a limited finding without asking Daniel's
+friends to treat an administrative gap as proof of danger?”
+
+TITLE CARD:
+    THE INVENTORY SHEET
+    “A box is listed. The page you're looking for isn't.”
+
+===============================================================================
+01 — SCENE FLOW, REGISTRY AND REQUIRED GATES
+===============================================================================
+
+S09.complete + explicit OPEN NEXT LEAD
+ -> S10.01 Archive case bridge / orient
+ -> S10.02 open separate public box index; compare metadata
+ -> S10.03 box entry rows, date-span and field inspections
+ -> S10.04 inspect cross-reference to a descriptor card
+ -> S10.05 check the limits of public availability and non-results
+ -> S10.06 multi-source alignment and which request is authorized
+ -> S10.07 optional limited civic inquiry / response
+ -> S10.08 optional Nora professional thread
+ -> S10.09 optional Sophie private chat
+ -> S10.10 optional FIND DANIEL group
+ -> S10.11 independent source-chain puzzle
+ -> S10.12 private conclusion + explicit Scene 11 lead
+
+S10-C01 through S10-C20: 20 main sets, exactly three authored branches
+A/B/C each, total 60 authored choice alternatives.
+
+REQUIRED PASS CLASSIFICATIONS: C02-B, C03-C, C04-A, C05-C, C06-B,
+C07-A, C08-C, C09-B, C10-A and C19-B. Wrong classifications show
+SPECIFIC retryable feedback, change no fact/relationship and never
+block progress permanently. C01 info-only, C11 strategy and C20 final
+private stance accept any A/B/C. C12–C18 are OPTIONAL real Sends;
+none is mandatory for C19 or C20.
+
+REQUIRED ZERO-SEND ROUTE:
+1) Actual entry tap from completed Scene 09.
+2) Open and explicitly MARK READ independent public box index extract.
+3) Inspect provenance banner, Box 03 row, and public-coverage disclaimer
+   separately. Pass C02 and C03.
+4) Inspect row-level dates and the different meanings of SERIES, BOX,
+   ITEM. Pass C04 and C06.
+5) Inspect Box 03's descriptor reference; MARK REFERENCE INSPECTED.
+   Pass C05 and C07.
+6) Open public availability and access explanation, MARK LIMITS READ;
+   pass C08.
+7) Run at least one of the local catalogue examples, inspect the
+   failure scope, pass C09.
+8) Open comparison panel displaying Scene 09 register, Scene 09
+   summary, Scene 10 extract AND publisher label as separate sources;
+   pass C10.
+9) Solve C19-B evidence-chain check.
+10) Commit C20-A/B/C with SAVE PRIVATE CONCLUSION. No form reply,
+    contact permission, relationship threshold or premium is required.
+
+-------------------------------------------------------------------------------
+S10.01 — ANOTHER SHEET
+-------------------------------------------------------------------------------
+[Real manual entry; brief title card; no auto-incoming chat]
+
+ARCHIVE — FOLLOWING THE TRANSFER
+PUBLIC TRANSFER: GH-TR-2022-063 / SERIES ONLY
+PUBLIC SERIES SUMMARY: GH-INV-2022-063 / NO ITEM LIST ATTACHED
+PUBLISHER LABEL: GB-REF-017 / NOT MATCHED
+CIVIC INQUIRIES: SHOW SAVED STATUS, NOT A SYNTHETIC SUCCESS
+
+SYSTEM:
+“Your previous finding identified a transferred series, not a notice.
+There may be other public catalogue pages for that series. Read each
+one on its own terms.”
+
+S10-C01 — OPTIONAL RECAP PRIORITY (LOCAL, REPLAYABLE; NO SEND)
+ A. “Start with what this new page actually describes.”
+    SYSTEM: “Good. A title and source type come before a conclusion.”
+ B. “Keep the publisher's reference separate while I search.”
+    SYSTEM: “Your comparison will show the reference as unlinked.”
+ C. “Check whether I'm looking at an inventory or original record.”
+    SYSTEM: “The source header and coverage note will tell you.”
+All lead to OPEN PUBLIC BOX INDEX. No reward or hidden knowledge.
+
+-------------------------------------------------------------------------------
+S10.02 — NEW PUBLIC BOX INDEX EXTRACT
+-------------------------------------------------------------------------------
+[PLAYER TAPS OPEN PUBLIC BOX INDEX]
+LOCAL ROUTE: browser://greyhaven/civic-records/catalogue/GH-INV-2022-063/box-index
+NEW SOURCE: GH-BOX-INDEX-EXTRACT-001
+DOCUMENT CODE ON PAGE: GH-INV-2022-063-EX1
+SOURCE CLASS: CIVIC_PUBLIC_PARTIAL_BOX_INDEX (NEW public local fiction)
+
+===================== EXACT IN-WORLD PUBLIC PAGE =====================
+GREYHAVEN RECORDS CENTRE
+PUBLIC BOX INDEX — SELECTED EXTRACT
+
+Extract ID: GH-INV-2022-063-EX1
+Related public inventory summary: GH-INV-2022-063
+Related transfer entry: GH-TR-2022-063
+Series identifier: GH-PN-GEN-2017-2021
+Description level: STORAGE BOX / BROAD SUBJECT
+Extract scope: Selected public catalogue descriptions only
+
+This is a separate, limited catalogue extract. The summary linked in
+the transfer register did not include individual items. Neither this
+extract nor its absence from that summary certifies the completeness
+of the whole series.
+
+BOX REGISTER — PUBLIC SELECTION
+
+BOX 01  | GH-PN-BOX-01 | Public counter information | 2017–2018
+         Public description: broad subjects only
+         Item-level notices: NOT LISTED IN THIS EXTRACT
+
+BOX 02  | GH-PN-BOX-02 | Office access and service postings | 2018–2019
+         Public description: broad subjects only
+         Item-level notices: NOT LISTED IN THIS EXTRACT
+
+BOX 03  | GH-PN-BOX-03 | General administrative postings | 2019–2020
+         Public description: refer to descriptor GH-DSC-03-A
+         Descriptor text: NOT INCLUDED IN THIS PUBLIC EXTRACT
+         Item-level notices: NOT LISTED IN THIS EXTRACT
+
+BOX 04  | GH-PN-BOX-04 | Community information postings | 2020–2021
+         Public description: broad subjects only
+         Item-level notices: NOT LISTED IN THIS EXTRACT
+
+PUBLIC CATALOGUE NOTE
+The box headings and date spans assist with finding-aid enquiries.
+They are not a list of every original notice, a record of disposition,
+or a certification that all boxes are immediately available.
+
+A descriptor reference means that a separate catalogue description
+may need to be checked through the listed access process. Its text
+is not reproduced here. The reference alone does not establish what
+individual records, if any, a box contains.
+
+ORIGINAL INDIVIDUAL NOTICE TEXT: NOT INCLUDED IN THIS EXTRACT
+====================== END EXACT PUBLIC PAGE ========================
+
+[SEPARATE ARCHIVE COMPARISON NOTE — NOT PART OF CIVIC PAGE]
+“Archive comparison: No evidence currently links GB-REF-017 to this
+box index. The public page does not mention GB-REF-017.”
+
+BUTTONS: INSPECT SOURCE / INSPECT BOX 03 / INSPECT PUBLIC COVERAGE /
+MARK BOX INDEX READ / COMPARE TO SCENE 09 / BACK
+
+Persist source banner, Box03 and coverage as three independent manual
+inspections. MARK BOX INDEX READ requires page opened and these three
+inspections, not scrolling. On read create EV-S10-BOX-INDEX-READ;
+actor/knowledge: PLAYER; attribution: GH-BOX-INDEX-EXTRACT-001.
+
+S10-C02 — SOURCE CLASS (LOCAL, NO SEND)
+ A. “This replaces the original public notice.”
+    SYSTEM: “It describes boxes. No original notice text appears.”
+    [STAY]
+ B. “This is a separate partial box-level index associated with
+    the same public inventory summary.”
+    SYSTEM: “Supported. Association between catalogue pages is
+    listed; membership of the publisher's notice is not.” [PASS]
+ C. “This is the Greyhaven Bulletin's older saved article.”
+    SYSTEM: “The civic catalogue is not the publisher's website
+    history or the Archive's metadata-only article index.” [STAY]
+
+S10-C03 — COVERAGE OF FOUR ROWS (LOCAL, NO SEND)
+ A. “Every item in this series is named in the four rows.”
+    SYSTEM: “The extract expressly lists boxes, not all item names.”
+    [STAY]
+ B. “The four rows prove no fifth box or other page ever existed.”
+    SYSTEM: “Selected extract is not an exhaustive holdings audit.”
+    [STAY]
+ C. “Four box-level descriptions are visible; completeness and
+    actual items remain unknown.”
+    SYSTEM: “Supported. The boundaries are part of the finding.”
+    [PASS]
+
+-------------------------------------------------------------------------------
+S10.03 — WHAT A ROW COUNTS
+-------------------------------------------------------------------------------
+[PLAYER TAPS FIELD GUIDE; inspect 'series', 'box' and 'item' separately]
+
+CARD: SERIES
+A broad collection/filing category: GH-PN-GEN-2017-2021.
+CARD: BOX
+A storage-level catalogue heading: for example GH-PN-BOX-03.
+CARD: ITEM
+A specifically identified individual notice. No verified item ID
+or original notice is exposed by this extract.
+
+S10-C04 — READ THE LEVEL (LOCAL, NO SEND)
+ A. “GH-PN-BOX-03 identifies a box-level catalogue heading, not a
+    single original notice.”
+    SYSTEM: “Supported. Keep the description level visible.” [PASS]
+ B. “GH-PN-BOX-03 is the formal municipal equivalent of GB-REF-017.”
+    SYSTEM: “No cross-reference equates those labels.” [STAY]
+ C. “Four boxes mean the original missing document was copied four
+    times.”
+    SYSTEM: “A box count says nothing about copies of one record.”
+    [STAY]
+
+[PLAYER inspects separate BOX ROW 03]
+BOX 03 / GH-PN-BOX-03
+Subject: General administrative postings
+Broad span: 2019–2020
+Descriptor reference: GH-DSC-03-A
+Descriptor text in THIS EXTRACT: NOT INCLUDED
+Notice titles and item IDs: NOT LISTED
+
+SYSTEM: “A reference to another catalogue description is not that
+text. Save the exact source key without filling the blank yourself.”
+
+S10-C05 — THE DESCRIPTOR REFERENCE (LOCAL, NO SEND)
+ A. “GH-DSC-03-A is an identified original notice from 2019.”
+    SYSTEM: “It is a descriptor reference, not an original notice.”
+    [STAY]
+ B. “No displayed text proves the card was destroyed.”
+    SYSTEM: “Correct concern, but that alone doesn't classify the
+    reference. Identify what the code actually points toward.” [STAY]
+ C. “GH-DSC-03-A is a catalogue-description reference; its content
+    and availability outside this extract are not verified.”
+    SYSTEM: “Supported. The label is observable; the descriptor's
+    contents remain unexamined.” [PASS]
+
+[MARK REFERENCE INSPECTED is a separate action after C05-C]
+EVENT: EV-S10-DESCRIPTOR-REFERENCE-NOTED; PLAYER_PRIVATE, idempotent.
+It saves the literal code and absence of text on this PUBLIC extract,
+NOT a verified missing/destroyed document.
+
+-------------------------------------------------------------------------------
+S10.04 — DATES, SIMILARITY AND A FALSE SHORTCUT
+-------------------------------------------------------------------------------
+[PLAYER INSPECTS BOX DATE FIELD]
+
+SYSTEM: “Box 03 spans 2019–2020. It does not prove that an individual
+notice dates from 2019, concerns the evacuation, or belongs to Daniel.”
+
+S10-C06 — WHAT DOES THE DATE PROVE? (LOCAL, NO SEND)
+ A. “The article was edited in 2019 because the box span includes it.”
+    SYSTEM: “This catalogue gives no article revision history.”
+    [STAY]
+ B. “The span is a broad filing range; no individual item date or
+    matching event is established.”
+    SYSTEM: “Supported. Do not convert overlapping years into a
+    case-specific chain of custody.” [PASS]
+ C. “GH-PN-BOX-03 must contain June Ellis's evacuation record.”
+    SYSTEM: “No title, issuing body or original was matched.” [STAY]
+
+[PLAYER OPENS SOURCE-PROVENANCE COMPARE CARD]
+SOURCE 1: GH-TRANSFER-REGISTER-001 => a listed series transfer.
+SOURCE 2: GH-TRANSFER-FINDING-AID-001 => series summary, no items.
+SOURCE 3: GH-BOX-INDEX-EXTRACT-001 => separate selected BOX extract.
+SOURCE 4: GB-REF-017 => publisher label with no official notice match.
+
+S10-C07 — WHAT LINK IS REAL? (LOCAL, NO SEND)
+ A. “The transfer entry, finding-aid summary and new extract
+    publicly cite the same SERIES and associated summary reference;
+    no item match with the publisher reference is shown.”
+    SYSTEM: “Supported. The catalogue-to-catalogue link is visible;
+    a catalogue-to-notice link is not.” [PASS]
+ B. “The publisher reference is proved official because the three
+    civic pages describe public notices.”
+    SYSTEM: “A subject category cannot authenticate a separate
+    publisher's string.” [STAY]
+ C. “Nora's byline authenticates the descriptor card.”
+    SYSTEM: “An author's byline is not a civic catalogue signature.”
+    [STAY]
+
+-------------------------------------------------------------------------------
+S10.05 — WHEN A PUBLIC PAGE DOES NOT SHOW THE CARD
+-------------------------------------------------------------------------------
+[PLAYER OPENS PUBLIC ACCESS LIMITS; scroll text; INSPECT ACCESS NOTE;
+explicit MARK LIMITS READ]
+
+GREYHAVEN RECORDS CENTRE — CATALOGUE ACCESS NOTE
+“An online extract may omit supplementary descriptions. For public
+catalogue questions, quote the extract, series, box and descriptor
+reference. An omission from the extract is not a disposition note.
+Access or additional description, if available, is assessed under
+the usual public enquiry process.”
+
+This card is a NEW separate public procedure note; not an issued
+response to the player's previous R-GH-TR-001. Add source ID
+GH-CATALOGUE-ACCESS-NOTE-001; type CIVIC_GENERAL_ACCESS_GUIDANCE.
+It does not guarantee GH-DSC-03-A exists outside the extract, will be
+released, or refers to a specific notice. No office answer is
+considered received by opening the note.
+
+S10-C08 — WHAT DOES “NOT INCLUDED” MEAN? (LOCAL, NO SEND)
+ A. “The Records Centre has deleted the descriptor card.”
+    SYSTEM: “There is no deletion or destruction certification.”
+    [STAY]
+ B. “The card is definitely in a locked private file.”
+    SYSTEM: “The public note doesn't assert where the card is.”
+    [STAY]
+ C. “The text is absent from this extract; its existence,
+    accessibility and subject require an attributable follow-up.”
+    SYSTEM: “Supported. ‘Not included here’ is not ‘proved lost’.”
+    [PASS]
+
+[PLAYER OPENS LOCAL CATALOGUE QUERY EXAMPLES]
+This is LOCAL OFFLINE demonstration, not a true full-database query:
+ - GH-TR-2022-063 => “Listed transfer row; no items in this result.”
+ - GH-INV-2022-063 => “Series summary; not the complete item list.”
+ - GH-PN-BOX-03 => “Box-level heading found; notices not itemized.”
+ - GH-DSC-03-A => “Descriptor code referenced in EX1; descriptor
+   text not shown here. This is not a negative official search.”
+ - GB-REF-017 => “No direct cross-reference found in THESE displayed
+   public pages. This does not establish existence or deletion.”
+ - 7-14 => “Not a recognized catalogue query in THIS demonstration.
+   No interpretation or case association is provided.”
+
+S10-C09 — INTERPRET THE NON-HIT (LOCAL, NO SEND)
+ A. “The absence of a web snippet proves the descriptor never existed.”
+    SYSTEM: “This view is scoped and cannot certify nonexistence.”
+    [STAY]
+ B. “The demo only shows this selected public extract; a non-hit
+    cannot answer what the descriptor contains or whether it survives.”
+    SYSTEM: “Supported. Scope comes before speculation.” [PASS]
+ C. “Someone removed it because it was about Daniel.”
+    SYSTEM: “No person, cause or connection is established.” [STAY]
+
+-------------------------------------------------------------------------------
+S10.06 — AN AUDITABLE NEXT QUESTION
+-------------------------------------------------------------------------------
+[PLAYER OPENS ASK FOR CATALOGUE DESCRIPTION]
+
+SYSTEM: “The strongest request names the public series, its box and
+the printed descriptor reference. It does not assert what that
+unseen descriptor says, or demand anyone's private materials.”
+
+S10-C10 — REQUEST SCOPE (LOCAL, NO SEND)
+ A. “Ask whether the public description GH-DSC-03-A can be located
+    or whether an access procedure exists, quoting the public
+    series and box identifiers.”
+    SYSTEM: “Supported. This is a catalogue-description request,
+    not a claim about a missing notice.” [PASS]
+ B. “Demand confirmation that the descriptor proves GB-REF-017.”
+    SYSTEM: “The public extract supplies no link to certify.” [STAY]
+ C. “Ask the journalist to release Daniel's private phone archive.”
+    SYSTEM: “The byline conveys no authorization for private files.”
+    [STAY]
+
+S10-C11 — OPTIONAL PRIVATE PRIORITY (LOCAL NO SEND; ALL VALID)
+ A. “Find out what the descriptor card describes first.”
+    SYSTEM: “Private priority: descriptor-first. No message sent.”
+ B. “Check access rules before making assumptions.”
+    SYSTEM: “Private priority: access-first. No message sent.”
+ C. “Keep the publisher label out of the first question.”
+    SYSTEM: “Private priority: scope-first. No message sent.”
+
+All choices remain reachable and save without changing evidence or
+character knowledge. This strategy is optional and never a completion
+gate. END OF REQUIRED PREPARATION; optional communication follows.
+
+===============================================================================
+02 — OPTIONAL RECORDS CENTRE CORRESPONDENCE (S10.07)
+===============================================================================
+
+Availability: only after public extract read, descriptor reference
+inspected, public access note read and C10-A. NOT mandatory for scene
+completion. Show R-GH-TR-001 as its true prior status, independently.
+No role-inbox reply may be inferred from a previously sent Scene09
+question or from a saved draft. Open a new, separately scoped public
+catalogue-enquiry composer, attached to NO private file.
+
+[PLAYER MANUALLY TAPS ASK ABOUT DESCRIPTION GH-DSC-03-A]
+Recipient: Greyhaven Records Centre — Public Catalogue Enquiries
+Local route: browser://greyhaven/civic-records/requests/catalogue-description
+
+PRIVACY REVIEW CARD:
+Included: selected fixed public enquiry text, GH-PN-GEN-2017-2021,
+GH-PN-BOX-03, GH-DSC-03-A and, if selected in branch B, a clearly
+labelled publisher reference. Not included: phone, location, contacts,
+Sophie, Daniel, social chats, group history, Case Board, E012,
+Unknown Sender or the contents of any private investigation note.
+
+S10-C12 — OPTIONAL CIVIC ENQUIRY (SELECT -> DRAFT -> REVIEW -> SEND)
+ A. Player draft:
+    “Your public box index GH-INV-2022-063-EX1 references descriptor
+    GH-DSC-03-A for GH-PN-BOX-03 in series GH-PN-GEN-2017-2021.
+    Is there a public way to locate that descriptor or its access
+    information? I am not asking you to identify an individual notice.”
+    DESK WHEN SENT: receives extract+series+box+descriptor, no
+    publisher label. No reply generated yet.
+ B. Player draft:
+    “I found descriptor reference GH-DSC-03-A in the public box
+    index. I also have a separate publisher label, GB-REF-017, but
+    cannot link it to any official item. Could you tell me how public
+    catalogue descriptions are checked without assuming a match?”
+    DESK WHEN SENT: receives exact four public references, with
+    GB-REF-017 described ONLY as an unrelated publisher label.
+ C. Player draft:
+    “Is there a public procedure for requesting supplementary box
+    descriptions when the selected online extract does not show the
+    description text? I have no item-level document to provide.”
+    DESK WHEN SENT: receives general procedural question; no box
+    or publisher marker automatically appended to the chosen body.
+
+BUTTONS: EDIT / REVIEW RECIPIENT AND SCOPE / SAVE DRAFT /
+SEND ENQUIRY / CANCEL / BACK.
+- Initial select is DRAFT ONLY; Review required to enable Send.
+- Edit or changed branch invalidates review; failed Send retains draft.
+- Cancel/back/saved unsent -> NO outgoing bubble, NO delivery receipt,
+  NO NPC knowledge, NO notification, NO follow-up scheduled.
+- First successful actual Send creates unique R-GH-INV-001 with exact
+  choice/body/scope/time, one local return token, DELIVERED status.
+- Repeated Send/reload is idempotent; never double-deliver.
+- After successful Send ONLY queue one saved-delay role reply event
+  EV-S10-CATALOGUE-DESK-REPLY-001; do not auto-open inbox.
+- A queued reply is not delivered or player-read. Only delivery makes
+  notification eligible; manual open/read updates knowledge.
+
+[ON FIRST DELIVERED ROLE REPLY; NOTIFICATION AFTER DELIVERY]
+NOTIFICATION: “Records Centre — Catalogue enquiry reply”
+PLAYER TAPS OPEN INBOX; NEVER OPENS ITSELF.
+DESK: Hello. Public Catalogue Enquiries here.
+DESK: I can answer the catalogue part of your question.
+DESK: I don't want to imply we've located an individual record.
+
+IF ACTUALLY SENT S10-C12-A:
+DESK: GH-DSC-03-A is a description reference printed in the public
+      extract you quoted.
+DESK: The extract doesn't reproduce that text. A request for the
+      catalogue description can be reviewed, but this reply does not
+      confirm its content or availability.
+IF ACTUALLY SENT S10-C12-B:
+DESK: The publisher's label is separate from our catalogue reference.
+DESK: We can't tell whether those refer to the same original notice
+      from the identifiers in your message.
+IF ACTUALLY SENT S10-C12-C:
+DESK: Public catalogue enquiries can ask whether an additional
+      description is available for inspection.
+DESK: The answer would depend on the actual holding and access
+      conditions. This message isn't a confirmation of an item.
+
+DESK: Sorry this is a narrow answer.
+DESK: Naming the right record is usually the hardest part of asking.
+
+DIRECTOR: This NPC response is REPORTED PROCEDURAL GUIDANCE, not an
+independent file, image, authenticated descriptor copy, promise of
+release or new notice. Do NOT mark GH-DSC-03-A original/verified.
+Do not allow status AVAILABLE before the reply delivery event.
+
+S10-C13 — OPTIONAL INBOX FOLLOW-UP; REQUIRES ACTUALLY READ REPLY;
+SELECT -> DRAFT -> REAL SEND
+ A. Player: “So the public reference is not the same thing as a
+    verified catalogue description?”
+    DESK: That's right. We need the description itself before
+          assigning meaning to it.
+    DESK: The code is a way to ask, not the answer.
+ B. Player: “Could the missing public text prove a notice was
+    removed or concealed?”
+    DESK: Not from this extract. A page that omits text is not a
+          disposition report.
+    DESK: We'd need another attributable record to address that.
+ C. Player: “Thanks. I'll keep the box reference separate from
+    the publisher label.”
+    DESK: That is a sound way to record what you currently have.
+    DESK: Take care.
+
+One sent choice creates a single scoped message/reply receipt,
+EV-S10-CATALOGUE-DESK-FOLLOWUP-001. All other replies are absent.
+No named employee/contact avatar, phone, relationship metrics or
+special access exists. Even if this optional thread is never used,
+S10-C19/C20 remain playable.
+
+===============================================================================
+03 — OPTIONAL NORA PROFESSIONAL THREAD (S10.08)
+===============================================================================
+
+Only if Scene07 R-GB-NV-001 was genuinely sent and its authored Nora
+professional response was delivered, manually opened/read, and the
+professional return channel still exists. Player must choose to open
+that existing inbox. If not all conditions hold, hide this entire
+thread. NO Nora DM by private phone and no new access based on byline.
+If Nora contact was declined or deferred, never generate a nudge.
+
+[PLAYER OPENS EXISTING PUBLIC PROFESSIONAL RETURN CHANNEL]
+NORA: Hi again.
+NORA: You mentioned an inventory sheet?
+NORA: Just tell me what kind of sheet. I don't need the whole file.
+
+S10-C14 — OPTIONAL PROFESSIONAL REPLY; SELECT -> DRAFT -> REAL SEND
+ A. Player: “It's a public box index. It refers to another descriptor
+    card, but doesn't show that card's text. Does that count as an
+    original source for your article?”
+    NORA: No. A description of a box isn't the underlying notice.
+    NORA: If I used it as an original, you'd be right to question me.
+ B. Player: “The label GB-REF-017 still doesn't match any official
+    item number I've seen. Can you publish what that label means?”
+    NORA: I understand why you're asking.
+    NORA: I can explain what I publish and what I can substantiate;
+          I won't invent a document number to give you an answer.
+ C. Player: “I'm not asking you to identify a source who didn't
+    consent. I only want a verifiable public citation if one exists.”
+    NORA: That's a fair distinction.
+    NORA: If something can be made public and checked, I would
+          rather give readers that than ask for blind trust.
+
+NORA: I've got to go back to work.
+NORA: Please don't say a file vanished just because the public
+      version doesn't show it.
+
+DIRECTOR: C14 is entirely optional and not a confirmation of any new
+facts. Nora knows only the exact outgoing line if Sent. She does not
+see the player's private archive or the optional civic enquiry;
+romance/affinity/trust effects must remain within existing approved
+relationship rules, no new baseline or contact creation.
+
+===============================================================================
+04 — OPTIONAL SOPHIE PRIVATE THREAD (S10.09)
+===============================================================================
+
+Only an actual existing private Sophie Messages channel, opened by
+player. No auto-start after her Scene 09 goodnight. Preserve her
+case-detail consent and prior request to ask first. This scene is
+about an ordinary person trying to cope, NOT extracting a clue from
+her grief. If channel absent, skip with no loss.
+
+[PLAYER TAPS CHECK ON SOPHIE / OPENS EXISTING PRIVATE CHAT]
+SOPHIE: Hey.
+SOPHIE: Can I tell you something stupid?
+SOPHIE: I bought a pack of pens today.
+SOPHIE: Six of them. Like an entire adult who knows how to plan ahead.
+SOPHIE: Daniel would have made some horrible joke about it.
+SOPHIE: I nearly texted him a picture.
+SOPHIE: ...
+SOPHIE: Sorry. That got weird fast.
+
+S10-C15 — OPTIONAL PERSONAL RESPONSE; SELECT -> DRAFT -> REAL SEND
+ A. Player: “It's not stupid. Missing someone comes up in ordinary
+    moments.”
+    SOPHIE: Yeah.
+    SOPHIE: I keep expecting it at the dramatic moments, not in
+            the stationery aisle.
+    EFFECT if actually sent, once: Sophie Affinity +2.
+ B. Player: “You don't have to apologise for mentioning him.”
+    SOPHIE: Thanks.
+    SOPHIE: I'm trying not to make every conversation about this.
+    SOPHIE: But some days it just is.
+    EFFECT if actually sent, once: Sophie Trust +1, Affinity +1.
+ C. Player: “We can talk about something else if you'd rather.”
+    SOPHIE: Actually, yeah. For a minute.
+    SOPHIE: Tell me you had a more exciting shopping trip than I did.
+    EFFECT if actually sent, once: Sophie Trust +1, Affinity +1.
+
+[Only after actual C15 Send; paced typing, not instant.]
+SOPHIE: Anyway... how's your evening?
+SOPHIE: And don't feel like you have to give me a progress report.
+
+S10-C16 — OPTIONAL FOLLOW-UP; SELECT -> DRAFT -> REAL SEND
+ A. Player: “I found another public catalogue reference. Still no
+    proof it has anything to do with Daniel.”
+    IF existing scope explicitly permits case updates IN THIS CHAT:
+      SOPHIE: Okay. I'm glad you said what you don't know.
+      SOPHIE: I think I can deal with uncertainty better than false
+              certainty.
+      EFFECT once: Trust +1.
+    IF prior ask-first/no consent or declined-details boundary:
+      SOPHIE: I asked you not to make this a case update tonight.
+      SOPHIE: I know you meant well. I just can't do it right now.
+      EFFECT once: Trust -1. No retroactive permission granted.
+ B. Player: “A bit tired. Might put the phone away for a while.”
+    SOPHIE: That sounds like a good plan.
+    SOPHIE: Maybe I'll do the same. After I find the pen I just put
+            down, obviously.
+    EFFECT once: Affinity +2. No case disclosure.
+ C. Player: “I ate something and forgot about the world for ten
+    minutes. I recommend it.”
+    SOPHIE: Ten whole minutes? Show-off.
+    SOPHIE: I might actually try that.
+    EFFECT once: Affinity +1. No case disclosure.
+
+SOPHIE: Okay. I'm going to make some tea.
+SOPHIE: Goodnight.
+[Delivered-only OFFLINE presence after completion. No case gate.]
+
+No flirty prompt, romance currency, personal document/photo reward,
+new recovered Daniel message or automatic transfer of the index.
+Never reference unsent choices or make her respond during page reload
+unless the outgoing receipt exists.
+
+===============================================================================
+05 — OPTIONAL FIND DANIEL GROUP (S10.10)
+===============================================================================
+
+Only when actual group currently has the PLAYER and at least one
+eligible receiving member. Show precise ACTUAL recipient preview.
+Lucas is departed. Maya and Sophie appear only if still actual members.
+Eli, Nora and Daniel are not automatically present. No new joins.
+Group consent is independent of Sophie private permission.
+
+[PLAYER MANUALLY TAPS FIND DANIEL; role/notification unchanged]
+SYSTEM: “Only these current members will receive what you Send.”
+
+S10-C17 — OPTIONAL GROUP MESSAGE; SELECT -> DRAFT -> REAL SEND
+ A. Player: “The public catalogue lists boxes and refers to a
+    description card, but I can't see the card text or connect it
+    to the Bulletin reference.”
+    MAYA if current member: That's a useful difference.
+    MAYA: It's a direction for a search, not a found document.
+    SOPHIE if currently a member AND group case-detail sharing allowed:
+      SOPHIE: Thanks for keeping it that clear.
+    SOPHIE if currently a member AND ask-first / refused group detail:
+      SOPHIE: Could you please ask before posting more case material?
+      EFFECT once: Sophie Trust -1.
+ B. Player: “There's a box description referencing a separate card.
+    Nothing says it's Daniel's file, or even the notice we need.”
+    MAYA if current member: Right. Please don't circulate the box
+        number without the limitation beside it.
+    SOPHIE if group details allowed: Understood.
+    SOPHIE if boundary disallows group details:
+      SOPHIE: I didn't agree to an update here.
+      EFFECT once: Sophie Trust -1.
+ C. Player: “I'm checking the public sources before sharing a
+    conclusion. I'd rather not put a guess into this chat.”
+    MAYA if current member: Thank you. A guess travels fast.
+    SOPHIE if current member: Yeah. I appreciate that.
+    NO case-detail permission penalty. No new specific evidence sent.
+
+[If C17 was actually Sent; conditional follow-up in same group]
+MAYA if actual member:
+“Can we agree to call anything from that index a lead until an
+individual item can be identified?”
+SOPHIE if actual member:
+“I'd really like that.”
+
+S10-C18 — OPTIONAL GROUP FOLLOW-UP; SELECT -> DRAFT -> REAL SEND
+ A. Player: “Agreed. The box code stays a catalogue lead, not
+    evidence of what happened to Daniel.”
+    MAYA if member: Good. That's how I'll describe it too.
+    SOPHIE if member: Thanks.
+ B. Player: “We can ask about the descriptor card without sharing
+    any private messages or naming a culprit.”
+    MAYA if member: Yes. Keep the request narrow and public.
+    SOPHIE if member and consent permits public-process discussion:
+      SOPHIE: That sounds safer.
+    SOPHIE if member and boundary disallows details:
+      SOPHIE: Please leave me out of the detailed requests for now.
+    EFFECT if violating active group-specific detail boundary:
+      Sophie Trust -1 once.
+ C. Player: “I'm not sending any further details here until we know
+    what the document actually is.”
+    MAYA if member: Fair enough.
+    SOPHIE if member: Appreciate it.
+
+If no Maya is a current group member, Maya prompt and responses are
+OMITTED, not attributed to Sophie. If neither Maya nor Sophie is an
+eligible respondent, do not generate a speaking NPC or fake member;
+allow no-speech Send only when real membership/recipient rules allow,
+otherwise hide optional group composer. No scene mainline gate.
+
+===============================================================================
+06 — PRIVATE SOURCE-CHAIN PUZZLE (S10.11)
+===============================================================================
+
+[PLAYER RETURNS TO ARCHIVE -> ASSESS THE INVENTORY LINK]
+
+LOCAL EVIDENCE BOARD, DO NOT RENDER AS NPC DIALOGUE:
+
+CARD A — GB-REF-017
+ PUBLISHER LABEL. Public reporting reference. No civic item ID.
+CARD B — GH-TR-2022-063
+ PUBLIC REGISTER ENTRY. Listed series custody change in 2022.
+CARD C — GH-INV-2022-063
+ PUBLIC SERIES SUMMARY. No item-level list in that summary.
+CARD D — GH-INV-2022-063-EX1
+ DISTINCT PARTIAL BOX INDEX. Box descriptions, selected only.
+CARD E — GH-DSC-03-A
+ DESCRIPTION REFERENCE PRINTED BY CARD D. NO CONTENT IN EXTRACT.
+CARD F — R-GH-INV-001
+ ACTUAL SAVED STATUS (NOT SENT / DRAFT / DELIVERED / REPLY
+ PENDING / REPLY DELIVERED UNREAD / REPLY READ). No result invented.
+
+DRAG/TAP MATCH PROMPT (local-only; tap alternative for accessibility):
+1. Match TRANSFER ROW -> SERIES SUMMARY by shared official series.
+2. Match SERIES SUMMARY -> SEPARATE BOX EXTRACT by printed extract
+   relationship. No item equivalence.
+3. Match BOX 03 -> DESCRIPTOR LABEL as a reference, NOT as card text.
+4. Leave GB-REF-017 UNLINKED pending an attributable matching source.
+5. Mark any optional public request receipt as COMMUNICATION ONLY.
+
+Player can review each source directly with an explicit panel open.
+Do not autosave false links or fake new NPC knowledge. Failed match
+provides feedback and reset/unlink without progressing.
+
+S10-C19 — FINAL CONNECTION QUESTION (REQUIRED; LOCAL, NO SEND)
+ A. “The descriptor reference proves the Bulletin article used the
+    same original notice as the civic index.”
+    SYSTEM: “There is no original notice or direct cross-reference.
+    Similar subject headings cannot close this gap.” [STAY]
+ B. “The register, summary, extract and descriptor LABEL make a
+    traceable catalogue path, but no item or publisher-code match is
+    verified.”
+    SYSTEM: “Supported. You have a path to ask for a description,
+    not the text of a specific notice.” [PASS]
+ C. “The absent descriptor text proves someone removed Daniel's
+    record after the series was transferred.”
+    SYSTEM: “The page contains no deletion event, Daniel match,
+    date of removal, or actor.” [STAY]
+
+[After C19-B; one-shot event]
+EV-S10-CATALOGUE-PATH-ASSEMBLED
+PLAYER_PRIVATE source comparison; verified:false for case-specific
+connection. Existing public source observations retain independent
+provenance; nothing about the original notice becomes verified.
+
+===============================================================================
+07 — PRIVATE CONCLUSION AND SCENE 11 HANDOFF (S10.12)
+===============================================================================
+
+REQUIRES only saved mainline actions, C02-B, C03-C, C04-A, C05-C,
+C06-B, C07-A, C08-C, C09-B, C10-A and C19-B; any optional chat/form
+may be untouched. Player must explicitly open CASE BOARD and select
+one private stance. No forced recipient Send.
+
+CASE BOARD — WHAT THE SOURCES ACTUALLY SHOW
+
+SUPPORTED:
+- GH-TR-2022-063 lists a series-level transfer in 2022.
+- GH-INV-2022-063 describes that series, with no item list there.
+- A DIFFERENT, partial public box extract GH-INV-2022-063-EX1
+  lists a subset of box descriptions for that same series.
+- Box 03 (GH-PN-BOX-03) has a broad 2019–2020 coverage range and a
+  printed cross-reference GH-DSC-03-A to a supplementary description.
+- The supplementary DESCRIPTION TEXT is NOT reproduced in the public
+  extract. Nothing confirms what it says or whether it is available.
+- Any R-GH-INV-001 or prior R-GH-TR-001 receipt proves only the exact
+  selected public question was sent; a role reply is reported guidance
+  only if actually delivered AND read.
+
+NOT ESTABLISHED:
+- Original text, individual title, item number/date, exact issuer,
+  or item-specific custodian of the supposed notice.
+- Whether GB-REF-017 corresponds to anything in the transferred
+  series, Box 03, descriptor card or indeed any official notice.
+- A changed Bulletin body, a deleted original, a deliberate cover-up,
+  Nora's personal involvement in edits or an allegation against anyone.
+- Connections with June Ellis, the 2019 evacuation, Bus 4, Depot 02,
+  E012, 7-14, E—I, Unknown Sender or Daniel's fate.
+
+S10-C20 — FINAL PRIVATE STANCE (LOCAL, NO SEND; ALL ACCEPTED)
+ A. “The public catalogue identifies a path to a descriptor card,
+    not a notice tied to the Bulletin article.”
+    SYSTEM: “Saved: bounded catalogue lead; publisher link unverified.”
+ B. “I can name the public series, box and descriptor reference
+    without pretending to know what the descriptor contains.”
+    SYSTEM: “Saved: catalogue citation without inferred contents.”
+ C. “Until the source itself connects the records, I won't treat
+    this as Daniel's document or share it as a solved clue.”
+    SYSTEM: “Saved: case attribution withheld; no message sent.”
+
+On the actual C20 commitment only, ONCE:
+ EV-S10-INDEX-LIMIT-001
+ NOTE-S10-DESCRIPTOR-NOT-DOCUMENT
+ source_attribution:
+   GH-TRANSFER-REGISTER-001 + GH-TRANSFER-FINDING-AID-001 +
+   GH-BOX-INDEX-EXTRACT-001 + GH-CATALOGUE-ACCESS-NOTE-001
+ visibility: PLAYER_PRIVATE
+ verified:false (for any case-specific linkage)
+ public_box_extract_observed=true
+ descriptor_code_observed=true
+ descriptor_body_observed=false
+ public_original_notice_observed=false
+ GB_REF_017_item_link_verified=false
+ GB_REF_017_box_link_verified=false
+ GB_REF_017_descriptor_link_verified=false
+ specific_notice_issuer_verified=false
+ article_body_revision_verified=false
+ catalogue_deletion_verified=false
+ suspect_identified=false
+ Daniel_fate_known=false
+ selected_private_stance=EXACT A/B/C
+ S10.complete=true
+ Scene order append Scene 10 only after Scene 09; never rewrite 01–09.
+
+[FINAL SCENE PANEL]
+THE INVENTORY SHEET — REVIEWED
+A series transfer: LISTED
+A selected box index: OPENED
+One box descriptor code: OBSERVED
+Descriptor text: NOT PRESENT IN THIS EXTRACT
+Matching official original: NOT IDENTIFIED
+Connection to GB-REF-017: UNVERIFIED
+
+NEXT LEAD
+THE SECONDARY CARD
+“A reference has a name. The page behind it still doesn't.”
+BUTTONS: OPEN NEXT LEAD / BACK TO PHONE
+
+Scene 11 is NOT implemented by this draft. Until Scene 11 is separately
+authored and deployed, OPEN NEXT LEAD must truthfully show:
+“Next lead not yet available.” It may not silently unlock descriptor
+text, an issuer, a source identity or a new character.
+
+===============================================================================
+08 — SAVE / EVENTS / EVIDENCE / CHARACTER KNOWLEDGE CONTRACT
+===============================================================================
+
+AUTHORING ALIAS: chapter_01_scene_10_the_inventory_sheet
+PRESERVE EXISTING PLANNING ID: discover in active checkout, do not
+rename and do not alter previously delivered scene IDs or cursors.
+CHOICES: S10-C01..S10-C20 (A/B/C each); optional actual outgoing
+messages only C12..C18; local selections C01..C11,C19,C20.
+NEW LIVE CHAT IDS: OPEN-S10-* globally unique per actual NPC/response.
+
+PUBLIC LOCAL SOURCES (separate pages, source attributions):
+ GH-BOX-INDEX-EXTRACT-001: selected public box-level index page.
+ GH-INV-2022-063-EX1: printed identifier of that extract.
+ GH-PN-BOX-01 ... GH-PN-BOX-04: storage-box headings, not item numbers.
+ GH-DSC-03-A: printed supplemental DESCRIPTION reference (no body).
+ GH-CATALOGUE-ACCESS-NOTE-001: generic public access guidance.
+Do not store a fabricated 'GH-DSC-03-A-content' asset or imply the
+Records Centre printed GB-REF-017 on their public pages.
+
+NEW EVENT/RECEIPT IDs:
+ EV-S10-BOX-INDEX-READ (player source read)
+ EV-S10-BOX-FIELDS-INSPECTED (player inspection)
+ EV-S10-DESCRIPTOR-REFERENCE-NOTED (player observed label)
+ EV-S10-ACCESS-LIMITS-READ (player observed general policy)
+ EV-S10-CATALOGUE-PATH-ASSEMBLED (private puzzle success)
+ EV-S10-INDEX-LIMIT-001 (once-only conclusion)
+ NOTE-S10-DESCRIPTOR-NOT-DOCUMENT (private, verified:false)
+ R-GH-INV-001 (optional real civic selected enquiry after Send)
+ EV-S10-CATALOGUE-DESK-REPLY-001 (only after delivered above)
+ EV-S10-CATALOGUE-DESK-FOLLOWUP-001 (after actual C13 Send only)
+ EV-S10-NORA-SENT (only C14 actual Send via approved route)
+ EV-S10-SOPHIE-SENT (only C15/C16 actual Send via private route)
+ EV-S10-GROUP-SENT (only C17/C18 actual Send with member snapshot)
+
+RECEIPTS and KNOWLEDGE:
+- Player source knowledge updates when panels are actually read,
+  not on skipped screens or source titles in notifications.
+- No new public government page is available to Nora, Sophie, Maya or
+  any group member by implication. NPCs know chosen exact messages
+  only after their corresponding outgoing Sends/delivery receipts.
+- New records-centre role inbox gets C12 selected public question
+  only after actual successful Send; no reply before the receipt.
+- A delivered but unread office reply is NOT player-observed content.
+- Nora knows only C14 chosen text through valid existing professional
+  channel; no private or external contact spontaneously appears.
+- Sophie knows only the exact C15/C16 sent content and respects prior
+  choices; her private consent does not transfer to the group.
+- Group members get only C17/C18 exact selected lines at actual send
+  recipient snapshot. Lucas remains out; no phantom Maya, Sophie,
+  Eli, Nora or Daniel messages/membership.
+- Relationship effects applied once per actual Send, clamped by the
+  current relationship model and receipt IDs. No edits for unsent
+  drafts, cancelled forms, local questions or replay.
+- Unknown Sender state and old publisher reply statuses unchanged.
+
+OPTIONAL ADDITIVE SAVE OBJECT, schema v1 compatible:
+ chapter1.inventorySheet = {
+   entered, completed, enteredFromScene09,
+   publicExtractOpened, sourceBannerInspected, box03Inspected,
+   publicCoverageInspected, publicExtractRead,
+   seriesBoxItemGuideInspected, c02Correct, c03Correct, c04Correct,
+   descriptorReferenceInspected, c05Correct,
+   descriptorReferenceMarked, boxDatesInspected, c06Correct,
+   sourceCompareInspected, c07Correct,
+   accessNoteOpened, accessLimitInspected, accessLimitMarked,
+   c08Correct, searchExamplesOpened, searchFeedbackInspected,
+   c09Correct, requestScopeOpened, c10Correct,
+   privatePriority, c19Correct, finalStance,
+   civicDraftOption, civicDraftText, civicReviewFingerprint,
+   civicDeliveryStatus, civicDeliveryReceipt, civicReturnToken,
+   civicReplyScheduledDueAt, civicReplyDeliveredAt, civicReplyRead,
+   civicReplyCursor, civicFollowupDraft, civicFollowupReceipt,
+   noraCursor, noraDraft, noraReceipts,
+   sophieCursor, sophieDrafts, sophieReceipts, sophieOffline,
+   groupCursor, groupDrafts, groupReceipts, groupMemberSnapshots,
+   sourceScroll, chatScroll, parkedRemainingDelays,
+   deliveredMessageIds, appliedEffectReceiptIds
+ }
+The actual implementation must adapt field naming to its typed
+validator. Missing field in old save is valid; allocate only after
+explicit authorized entry. DO NOT bump IndexedDB, erase localStorage,
+reset game, mutate previous scene receipts or alter prior canon.
+
+STORY TIMER / UX:
+- Single existing dialogue runner for NPC pacing, composers, receipt
+  delivery and group membership; no second chat system.
+- Back/pagehide/visibilitychange/reload pauses an active scene cursor
+  and persists the remaining typing/delivery delay; resume exactly
+  once, with no negative deadlines or early arrivals.
+- Notification is delivered only after actual inbound reply delivery.
+  Do not use a completed Scene09 receipt as a trigger for this new
+  Scene10 inbox notification.
+- No auto-open, auto-typing player messages, ghost Sends or forced
+  scroll to bottom when reading older chat; preserve jump indicator.
+- Save and resume fixed drafts, review invalidation, exact sent body,
+  per-panel scroll, correct PENDING/AVAILABLE/READ inbox label.
+- Handle screen widths 320/375/430px, keyboard+composer fit, light/
+  dark themes, reduced-motion, accessible tap-equivalent puzzle.
+- All pages and searches work without real HTTP/network requests.
+- Premium/romance/case-detail consent never gates mandatory evidence.
+
+===============================================================================
+09 — ACCEPTANCE MATRIX / TEST TARGETS (AUTHORING, NOT RESULTS)
+===============================================================================
+
+QA GROUP A — AUTHORING / GRAPH (QA01–QA12)
+QA01. Every one of 20 choice sets has exactly A/B/C and its authored
+      response; all 60 branches compile and have stable IDs.
+QA02. No new dialogue is displayed as an Archive system note, and no
+      director instructions are displayed as NPC dialogue.
+QA03. Public page body omits publisher GB-REF-017; Archive private
+      comparison is rendered visibly apart from the civic page text.
+QA04. Source IDs do not alias historical Bus 4 or prior prototypes.
+QA05. Scene 09 exit C18 and manual action are required for entry.
+QA06. Old final-route saves lacking inventorySheet still load.
+QA07. Historical/C2/structural saves do not silently acquire Scene10.
+QA08. All source limits are explicit on 320/375/430px.
+QA09. No original notice, item title or issuer is fabricated.
+QA10. No character is added to a group or contacted merely by byline.
+QA11. Scene 11 unavailable card is honest and does not auto-advance.
+QA12. Registry uses authoring alias without renumbering legacy cursors.
+
+QA GROUP B — MANDATORY INVESTIGATION (QA13–QA31)
+QA13. Register/summary from Scene09 remain separate and unchanged.
+QA14. Explicit extract page opening is persisted independently.
+QA15. Source banner / Box03 / public coverage inspections all persist.
+QA16. Scrolling without MARK READ does not grant extract-read status.
+QA17. Correct C02-B passes, wrong A/C have retryable feedback.
+QA18. Correct C03-C passes, wrong A/B retry without effects.
+QA19. Correct C04-A passes, wrong B/C retry.
+QA20. Correct C05-C passes, wrong A/B retry.
+QA21. Descriptor-mark event requires actual source inspection.
+QA22. Correct C06-B passes, wrong A/C retry.
+QA23. Correct C07-A passes, wrong B/C retry.
+QA24. Separate public access note must open and mark as read.
+QA25. Correct C08-C passes, wrong A/B retry.
+QA26. Local catalogue demonstration cannot create new source records.
+QA27. Correct C09-B passes, wrong A/C retry.
+QA28. Correct C10-A passes, wrong B/C retry.
+QA29. Private C11 priority can be A/B/C without Send or knowledge.
+QA30. C19-B passes after source puzzle, wrong A/C retry safely.
+QA31. Mainline C20-A/B/C complete with ZERO optional Sends.
+
+QA GROUP C — REQUEST/ROLE INBOX (QA32–QA43)
+QA32. C12-A/B/C drafts have exact distinct text and privacy scope.
+QA33. Review must precede SEND; edit invalidates review fingerprint.
+QA34. Save/cancel/back/failed Send creates no receipt or NPC knowledge.
+QA35. Duplicate successful Send gives only one R-GH-INV-001.
+QA36. Prior R-GH-TR-001 doesn't trigger S10 reply or reset.
+QA37. No new civic reply/notification before actual successful Send.
+QA38. Saved delay does not deliver early or double after reload.
+QA39. Replies match exactly the C12 option actually sent.
+QA40. Delivered unread response does not grant player knowledge.
+QA41. PENDING/AVAILABLE/READ reflect actual persisted status.
+QA42. C13 follow-up requires reply READ and its own Send.
+QA43. No office reply establishes item match, issuer, original or
+      guarantee of release.
+
+QA GROUP D — OPTIONAL HUMAN THREADS (QA44–QA53)
+QA44. Nora optional thread unavailable without actual professional
+      R-GB-NV-001 and a delivered/read authored prior reply.
+QA45. C14 A/B/C effect limited to exact professional Send; no DM.
+QA46. Sophie private chat optional and manual, no forced notification.
+QA47. C15 A/B/C all paced/receipted, relationship once per Send.
+QA48. C16-A without case permission triggers boundary reaction once.
+QA49. C16-B/C do not send investigation facts or incur penalty.
+QA50. Group actual member snapshot controls who can reply.
+QA51. Lucas stays departed; Eli/Nora/Daniel are not added automatically.
+QA52. C17 A/B group detail respects group-specific Sophie boundary;
+      C17-C method-only has no boundary penalty.
+QA53. C18 A/B/C have independent Sent receipts; optional skip never
+      blocks mainline.
+
+QA GROUP E — SAVE/REPLAY/REGRESSION (QA54–QA68)
+QA54. Source panel scroll restored independently from Scene09 scroll.
+QA55. Sophie/group/role inbox independently restore cursors/drafts.
+QA56. Pagehide during typing resumes exact remaining delay.
+QA57. Cancelled/early callbacks cannot consume future saved delivery.
+QA58. Repeated open/reload does not duplicate NPC/message/notification.
+QA59. Restoring during incomplete form leaves it UNSENT.
+QA60. Restoring after successful Send cannot offer duplicate Send.
+QA61. Group member leaves before a Send -> recipient snapshot accurate.
+QA62. Committed C20 note is idempotent and source-attributed privately.
+QA63. No automatic sharing of index, descriptor, Board or civic reply.
+QA64. Unknown Sender blocked/read/replied state unchanged.
+QA65. Existing Scenes01–09 unit and browser journeys still pass.
+QA66. Full responsive browser paths cover zero-message route and all
+      optional correspondence + Sophie/group routes.
+QA67. Lint, typecheck, production build and complete test suites pass
+      only when actually executed; never invent result numbers.
+QA68. Android APK remains unchanged unless owner separately requests
+      a build and physical-device verification.
+
+===============================================================================
+10 — CONTINUITY / NEXT SCENE BOUNDARY
+===============================================================================
+
+Scene10's concrete advance is a QUOTABLE CATALOGUE PATH:
+  Listed 2022 SERIES transfer -> public SERIES summary -> separate
+  partial BOX index -> printed DESCRIPTOR REFERENCE GH-DSC-03-A.
+This is still not an item-level chain to GB-REF-017.
+
+Scene11 suggested title: THE SECONDARY CARD.
+Future authoring may explore whether that catalogue descriptor can be
+located and read. Do NOT pre-author its text, existence certification,
+contents, custodian answer, connection to Daniel, guilt or secrets in
+Scene10. Never place essential evidence behind optional social
+interaction or paid selection.
+
+END OF SCENE 10 FULL AUTHORING DRAFT.

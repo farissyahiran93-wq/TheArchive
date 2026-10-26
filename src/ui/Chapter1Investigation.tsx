@@ -1,3 +1,9 @@
+import { InventorySheet } from './InventorySheet'
+import { TransferRegister } from './TransferRegister'
+import { SourceInvestigation } from './SourceInvestigation'
+import { visibleSource } from '../game/sourceInvestigation'
+import { CorrectionsDesk } from './CorrectionsDesk'
+import { VersionHistory } from './VersionHistory'
 import { PublicStoryArchive } from './PublicStory'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { ArrowLeft, Send } from 'lucide-react'
@@ -9,7 +15,6 @@ import { CharacterAvatar } from './CharacterAvatar'
 import { ChatProfile } from './ChatProfile'
 import { chatGroup } from './chatGrouping'
 import './chapter1.css'
-import { useCaseNavigation } from './CaseNavigation'
 
 export function Chapter1Composer({choiceKey}:{choiceKey:string}) {
   const save=useGameStore(s=>s.save),act=useGameStore(s=>s.chapter1Action)
@@ -20,7 +25,6 @@ export function Chapter1Composer({choiceKey}:{choiceKey:string}) {
 
 export function Chapter1ContactChat({thread,onBack}:{thread:'unknown'|'nora'|'eli'|'maya'|'lucas';onBack:()=>void}) {
   const save=useGameStore(s=>s.save),act=useGameStore(s=>s.chapter1Action)
-  const navigation=useCaseNavigation()
   const n=chapter1Current(save),c=save.chapter1
   const unknown=thread==='unknown'
   const lines=unknown?c?.sender.messages??[]:save.messages.filter(m=>m.id.startsWith('CH1-')&&(m.sender===thread||m.recipient===thread))
@@ -42,7 +46,7 @@ export function Chapter1ContactChat({thread,onBack}:{thread:'unknown'|'nora'|'el
       {unknown&&c?.sender.branch==='ignore'&&<p className="presence-event">Left unanswered.</p>}
     </div>
     {behind&&<button className="opening-jump" onClick={()=>{near.current=true;setBehind(false);if(scroll.current)scroll.current.scrollTop=scroll.current.scrollHeight}}>Jump to latest</button>}
-    {unknown&&final&&<div className="opening-actions"><button className="chat-group-action" onClick={()=>navigation.openGroup()}>BACK TO FIND DANIEL</button>{!c?.sender.blocked?<button className="opening-choice" onClick={()=>act({type:'block-sender'})}>BLOCK NUMBER</button>:<p className="presence-event">Number blocked.</p>}</div>}
+    {unknown&&final&&<div className="opening-actions">{!c?.sender.blocked?<button className="opening-choice" onClick={()=>act({type:'block-sender'})}>BLOCK NUMBER</button>:<p className="presence-event">Number blocked.</p>}</div>}
     {unknown&&c?.publicStory?.flags.includes('sender-hint')?<><Chapter1Composer choiceKey="sender04"/>{!c.sender.branch&&<details><summary>Reply to the first message</summary><Chapter1Composer choiceKey="sender"/></details>}</>:<Chapter1Composer choiceKey={key}/>} 
   </section>
 }
@@ -60,6 +64,9 @@ export function Chapter1Investigation({onHome}:{onHome:()=>void}) {
   const available=chapter1Available(save),gates=chapter1Gate(save)
   const record=c?.panel==='record'&&c.record?available.find(r=>r.id===c.record):undefined
   const has=(id:string)=>c?.flags.includes(id)
+  const source=visibleSource(save);if(source===10)return <InventorySheet onHome={onHome}/>;if(source===9)return <TransferRegister onHome={onHome}/>;if(source)return <SourceInvestigation sceneNumber={source} onHome={onHome}/>
+  if(c?.correctionsDesk?.visible)return <CorrectionsDesk onHome={onHome}/>
+  if(c?.versionHistory)return <VersionHistory onHome={onHome}/>
   if(c?.publicStory&&!c.completed.includes(4))return <PublicStoryArchive onHome={onHome}/>
   if(contact)return <Chapter1ContactChat thread={contact} onBack={()=>setContact(null)}/>
   const step=(id:string)=>act({type:'step',id})

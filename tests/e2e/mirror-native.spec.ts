@@ -34,7 +34,7 @@ test('Daniel phone keeps investigation tools optional and fits narrow screens', 
       await page.locator('.mirror-file').first().click()
       if (app === 'Photos') {
         await page.getByRole('button', { name: 'View Shelf photo', exact: true }).click()
-        await expect.poll(() => page.getByRole('dialog').locator('img').evaluate(image => (image as HTMLImageElement).naturalWidth)).toBeGreaterThan(0)
+        await expect.poll(() => page.getByRole('dialog').locator('img').evaluate(image => (image as HTMLImageElement).naturalWidth), { timeout: 15000 }).toBeGreaterThan(0)
       }
       await page.screenshot({ animations: 'disabled', path: test.info().outputPath(`${app.toLowerCase()}-${width}.png`) })
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)

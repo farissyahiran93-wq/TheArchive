@@ -1,8 +1,8 @@
+import { sourceState, visibleSource, sourceAskFirst } from '../game/sourceInvestigation'
 import { scene04Article } from '../content/scene04Final'
 import { Chapter1Composer } from './Chapter1Investigation'
 import { ChatProfile } from './ChatProfile'
 import { chatGroup } from './chatGrouping'
-import { playtestEnabled } from '../game/playtest'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { ArrowLeft, Send, Star } from 'lucide-react'
 import { useGameStore } from '../game/store'
@@ -10,6 +10,7 @@ import { scene01Choices, scene01Text } from '../game/scene01'
 import { actINodes } from '../content/actIRegistry'
 import { openingPresence } from '../game/phonePresentation'
 import { CharacterAvatar } from './CharacterAvatar'
+import { ChatPhotoViewer } from './ChatPhotoViewer'
 import { useCaseNavigation } from './CaseNavigation'
 import './opening.css'
 import './opening-v4.css'
@@ -27,10 +28,21 @@ export function Scene01Chat({ thread, onBack }: { thread: 'sophie' | 'group'; on
   const pausePrivate = useGameStore(state => state.pauseSophiePrivate)
   const draftPrivate = useGameStore(state => state.draftSophiePrivate)
   useEffect(()=>()=>{if(thread==='group')pausePrivate()},[thread,pausePrivate])
+  const historyEnabled=!!save.chapter1?.versionHistory
+  useEffect(()=>{
+    if(thread!=='group'||!historyEnabled)return
+    const visibility=()=>{if(document.visibilityState==='visible')actI('open-group');else pausePrivate()}
+    visibility()
+    document.addEventListener('visibilitychange',visibility)
+    window.addEventListener('pagehide',pausePrivate)
+    return ()=>{document.removeEventListener('visibilitychange',visibility);window.removeEventListener('pagehide',pausePrivate);pausePrivate()}
+  },[thread,historyEnabled,actI,pausePrivate])
   const navigation = useCaseNavigation()
   const [selected, setSelected] = useState<string | null>(null)
   const [name, setName] = useState(save.player?.name ?? '')
   const [error, setError] = useState('')
+  const [photo,setPhoto]=useState<string|null>(null)
+  const [contactPromptDismissed,setContactPromptDismissed]=useState(false)
   const scroller = useRef<HTMLDivElement>(null)
   const nearEnd = useRef(true)
   const [behind, setBehind] = useState(false)
@@ -39,6 +51,9 @@ export function Scene01Chat({ thread, onBack }: { thread: 'sophie' | 'group'; on
   const queueId = scene?.queue[0]?.id
   const count = group ? scene?.groupMessages.length ?? 0 : scene?.messages.length ?? 0
   const lastCount = useRef(count)
+  const source=visibleSource(save),sourceScene=source?sourceState(save,source):undefined
+  const historyPosition=useRef(sourceScene?sourceScene.scroll[thread]:save.chapter1?.correctionsDesk?.visible?save.chapter1.correctionsDesk.scroll[thread]:save.chapter1?.versionHistory?.scroll[thread])
+  useLayoutEffect(()=>{const top=historyPosition.current;if(top!==undefined&&scroller.current){scroller.current.scrollTop=top;nearEnd.current=scroller.current.scrollHeight-top-scroller.current.clientHeight<90}},[thread])
   const handoffAt = scene?.privateHandoff?.deliveredAt
   useEffect(() => {
     if (group) return
@@ -56,7 +71,9 @@ export function Scene01Chat({ thread, onBack }: { thread: 'sophie' | 'group'; on
     lastCount.current = count
   }, [count, queueId, scene?.invitation, scene?.queue.length])
   if (!scene) return null
-  const s04=scene.nodeId.startsWith('OPEN-S04-')
+  const s06=scene.nodeId.startsWith('OPEN-S06-')
+  const s05=scene.nodeId.startsWith('OPEN-S05-')
+  const s04=scene.nodeId.startsWith('OPEN-S04-')||s05||s06||/^OPEN-(?:S0[789]|S10)-/.test(scene.nodeId)
   const currentNode=actINodes(scene)[scene.nodeId]
   const publicStory=save.chapter1?.publicStory
   const privateTurn = scene.nodeId.startsWith('OPEN-S03-')
@@ -66,7 +83,7 @@ export function Scene01Chat({ thread, onBack }: { thread: 'sophie' | 'group'; on
   const named = scene.introduced
   const lines = group ? scene.groupMessages : scene.messages
   const chapter1Typing = !group && save.pendingEvents.some(e => ['CH1-SENDER-SOPHIE','CH1-ELI-INTRO'].includes(e.id))
-  const typing = !!scene.queue[0]?.typing && (s04 ? publicStory?.reading===(group?'group':'sophie') : privateTurn ? !group : group ? scene.invitation === 'joined' : scene.invitation !== 'joined')
+  const typing = !!scene.queue[0]?.typing && (s04 ? (sourceScene?sourceScene.reading:s06?save.chapter1?.correctionsDesk?.reading:s05?save.chapter1?.versionHistory?.reading:publicStory?.reading)===(group?'group':'sophie') : privateTurn ? !group : group ? scene.invitation === 'joined' : scene.invitation !== 'joined')
   const graph = actINodes(scene)
   const gate = graph[scene.nodeId]
   const pendingNode = queueId ? graph[queueId] : undefined
@@ -74,7 +91,7 @@ export function Scene01Chat({ thread, onBack }: { thread: 'sophie' | 'group'; on
   const actorName = (actor: string) => actor[0].toUpperCase() + actor.slice(1)
   const participants = ['You', ...(['sophie','maya','lucas'] as const).filter(actor => scene.groupMembers?.[actor] !== false).map(actorName)]
   const online = openingPresence(save, 'sophie') === 'online'
-  const canSend = !!choice && (!choice.premiumChoice || playtestEnabled)
+  const canSend = !!choice
   const sendSelected = () => {
     if (!canSend) return
     const clean = name.trim().replace(/\s+/gu, ' ')
@@ -87,26 +104,29 @@ export function Scene01Chat({ thread, onBack }: { thread: 'sophie' | 'group'; on
   const jump = () => { nearEnd.current = true; setBehind(false); setUnseen(0); if (scroller.current) scroller.current.scrollTop = scroller.current.scrollHeight; read(thread) }
   return <section className="opening-screen opening-v4 scene01-chat" data-scene-node={scene.nodeId} data-group-complete={scene.groupComplete ? 'true' : undefined} aria-label={group ? 'FIND DANIEL group conversation' : scene.privateHandoff?.openedAt !== undefined ? 'Sophie private conversation' : 'Sophie first contact conversation'}>
     <header className="opening-chat-header"><button className="icon-button bare" aria-label="Back to inbox" onClick={onBack}><ArrowLeft size={21}/></button>{group ? <span className="opening-group-avatar">FD</span> : <span className="chat-contact-avatar"><CharacterAvatar character={named ? 'sophie' : 'unknown'} fallback={named ? 'S' : '?'} className="opening-avatar"/>{online && <i className="presence-dot" aria-label="Online"/>}</span>}<div><strong>{group ? 'FIND DANIEL' : named ? 'Sophie' : 'Unknown number'}</strong><small aria-label={group ? 'Group participants' : undefined}>{group ? `${participants.length} members · ${participants.join(', ')}` : online ? 'Online' : 'Offline'}</small></div><ChatProfile contact={group ? 'group' : named ? 'sophie' : 'unknown'}/></header>
-    <div className="opening-thread" ref={scroller} onScroll={event => { const node = event.currentTarget; nearEnd.current = node.scrollHeight - node.scrollTop - node.clientHeight < 90; if (nearEnd.current) { setBehind(false); read(thread) } }}>
+    {!group&&scene.sophieBlocked&&<div className="unknown-contact-prompt" role="status"><span>Number blocked. Messages are paused.</span><button onClick={()=>actI('unblock-sophie')}>UNBLOCK</button></div>}
+    {!group&&!scene.sophieBlocked&&!named&&!contactPromptDismissed&&!!scene.messages.length&&<div className="unknown-contact-prompt" role="status"><span>Chat received from a number not in your contacts.</span><button onClick={()=>actI('block-sophie')}>BLOCK NUMBER</button><button onClick={()=>setContactPromptDismissed(true)}>CANCEL</button></div>}
+    <>{!group&&(source===9&&scene.nodeId==='OPEN-S09-C15'||source===10&&scene.nodeId==='OPEN-S10-C16')&&<p className="public-system-feedback">No case-update permission has been granted for this exchange. Option A shares case details; Sophie may decline.</p>}</><>{source&&group&&<p className="public-system-feedback">{source===10?'Only these current members will receive what you Send. ':source===9?'Review recipients before Send. ':''}Current recipients: {(['sophie','maya'] as const).filter(actor=>scene.groupMembers?.[actor]===true).map(actorName).join(", ")}. Only the selected sentence will be sent. {sourceAskFirst(save)?"Sophie asked you to check before sharing case details here.":""}</p>}</><div className="opening-thread" ref={scroller} onScroll={event => { const node = event.currentTarget; if(source)useGameStore.getState().sourceAction(source,{type:'scroll',key:thread,value:node.scrollTop}); if(!source&&save.chapter1?.correctionsDesk?.visible)useGameStore.getState().correctionsDeskAction({type:'scroll',key:thread,value:node.scrollTop}); if(!source&&!save.chapter1?.correctionsDesk?.visible&&save.chapter1?.versionHistory&&Math.abs(node.scrollTop-(save.chapter1.versionHistory.scroll[thread]??0))>24)useGameStore.getState().versionHistoryAction({type:'scroll',key:thread,value:node.scrollTop}); nearEnd.current = node.scrollHeight - node.scrollTop - node.clientHeight < 90; if (nearEnd.current) { setBehind(false); read(thread) } }}>
       <div className="opening-timestamp">{new Date(scene.startedAt).toLocaleDateString([], { weekday: 'long', day: 'numeric', month: 'long' })} · {new Date(scene.startedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-      {lines.map((line, index) => line.sender === 'system' ? <div key={line.id} className="opening-group-system">{line.text}</div> : <div key={line.id} className={`conversation-line ${line.sender === 'player' ? 'outgoing' : 'incoming'} ${chatGroup(lines, index).className}`}>{line.sender !== 'player' && chatGroup(lines, index).last && <span className="chat-contact-avatar"><CharacterAvatar character={group ? line.sender : named ? 'sophie' : 'unknown'} fallback={group ? line.sender[0].toUpperCase() : named ? 'S' : '?'} className="message-avatar"/>{group && openingPresence(save, line.sender) === 'online' && <i className="presence-dot" aria-label={`${actorName(line.sender)} online`}/>}</span>}<div className="conversation-body">{group && line.sender !== 'player' && chatGroup(lines, index).first && <strong className="group-sender">{actorName(line.sender)}</strong>}<div className={`opening-bubble ${line.sender === 'player' ? 'player' : 'sophie'}`}>{line.text}</div></div></div>)}
+      {lines.map((line, index) => line.sender === 'system' ? <div key={line.id} className="opening-group-system">{line.text}</div> : <div key={line.id} className={`conversation-line ${line.sender === 'player' ? 'outgoing' : 'incoming'} ${chatGroup(lines, index).className}`}>{line.sender !== 'player' && chatGroup(lines, index).last && <span className="chat-contact-avatar"><CharacterAvatar character={group ? line.sender : named ? 'sophie' : 'unknown'} fallback={group ? line.sender[0].toUpperCase() : named ? 'S' : '?'} className="message-avatar"/>{group && openingPresence(save, line.sender) === 'online' && <i className="presence-dot" aria-label={`${actorName(line.sender)} online`}/>}</span>}<div className="conversation-body">{line.id==='EV-S05-SOPHIE-OPEN'&&<div className="opening-timestamp">The following morning</div>}{group && line.sender !== 'player' && chatGroup(lines, index).first && <strong className="group-sender">{actorName(line.sender)}</strong>}{group&&line.sender!=='player'&&index>0&&lines[index-1].sender!==line.sender&&<small className="new-message-marker">NEW MESSAGE · {actorName(line.sender)}</small>}{line.photo?<button className="sophie-dinner-photo" onClick={()=>setPhoto(line.photo!)} aria-label="Open Sophie's dinner photo"><img src={line.photo} alt="Sophie's chicken mushroom pasta dinner" onLoad={()=>{if(nearEnd.current&&scroller.current)scroller.current.scrollTop=scroller.current.scrollHeight}}/></button>:<div className={`opening-bubble ${line.sender === 'player' ? 'player' : 'sophie'}`}>{line.text}</div>}</div></div>)}
       {(typing || chapter1Typing) && <div className="opening-v4-typing" role="status" aria-label={group ? `${actorName(typingActor)} is typing` : named ? 'Sophie is typing' : 'Unknown number is typing'}><CharacterAvatar character={group ? typingActor : named ? 'sophie' : 'unknown'} fallback={group ? typingActor[0].toUpperCase() : named ? 'S' : '?'} className="message-avatar"/><span className="typing-dots"><i/><i/><i/></span></div>}
       {!scene.scriptRevision && !group && privateTurn && save.chapter1?.sender.seen && !save.chapter1.sender.disclosed && <details className="c1-disclosure"><summary>Optional: tell Sophie about the warning</summary><Chapter1Composer choiceKey="disclose"/></details>}
       {!group&&publicStory&&(!publicStory.started&&save.deliveredEvents.includes('CH1-S04-LEAD')||scene.nodeId==='OPEN-S04-FOLLOWUP-WAIT'&&save.deliveredEvents.includes('CH1-S04-FOLLOWUP'))&&<button className="chat-group-action" onClick={openPrivate}>Continue conversation →</button>}
       {!group&&publicStory?.flags.includes('link-delivered')&&<article className="public-link-card" aria-label="Public article link"><small>GREYHAVEN BULLETIN · LOCAL NEWS</small><strong>{scene04Article.title}</strong><small>Nora Vance</small><button className="opening-primary" onClick={navigation.openPublicArticle}>READ ARTICLE</button>{scene.nodeId==='OPEN-S04-ARTICLE-GATE'&&<button className="opening-choice" onClick={onBack}>NOT NOW</button>}</article>}
       {!group && !online && <div className="presence-event">Sophie is offline.</div>}
       {!group && scene.invitation !== 'none' && scene.invitation !== 'joined' && !scene.queue.length && <article className="scene01-invitation" aria-label="FIND DANIEL invitation"><strong>FIND DANIEL</strong><p>Please keep anything related to Daniel here.</p>{!scene.invitationDismissed ? <><button className="opening-primary" onClick={() => { invitation(scene.invitation === 'declined' ? 'accept' : 'join'); if (scene.invitation === 'ready' && !scene.scriptRevision) navigation.openGroup() }}>{scene.invitation === 'declined' ? 'Accept invitation' : 'JOIN GROUP'}</button><button className="opening-choice" onClick={() => invitation('dismiss')}>NOT NOW</button></> : <button className="opening-choice" onClick={() => invitation('show')}>View invitation</button>}</article>}
-      {!group && scene.invitation === 'joined' && <button className="chat-group-action" onClick={() => navigation.openGroup()}>Open FIND DANIEL →</button>}
     </div>
     {behind && <button className="opening-jump" onClick={jump}>{unseen ? `${unseen} new · Jump to latest` : 'Jump to latest'}</button>}
     {gate?.kind === 'gate' && ['sender-request','disclosure','deferred'].includes(gate.action) && (group === (gate.action === 'sender-request')) && <div className="opening-actions opening-v4-composer">
       {gate.action === 'sender-request' ? <><button className="opening-primary" onClick={() => { actI('open-sender'); navigation.openCharacter('unknown') }}>OPEN MESSAGE</button><button className="opening-choice" onClick={() => actI('later')}>LATER</button></> : gate.action === 'disclosure' ? <><button className="opening-primary" onClick={() => actI('tell')}>TELL SOPHIE ABOUT THE MESSAGE</button><button className="opening-choice" onClick={() => actI('keep')}>KEEP IT TO YOURSELF</button></> : <button className="opening-primary" onClick={() => actI('continue')}>Continue</button>}
     </div>}
+    {s05&&gate?.kind==='gate'&&gate.action==='s05-bonus'&&!group&&<div className="opening-actions"><button className="opening-choice" onClick={()=>useGameStore.getState().versionHistoryAction({type:'bonus'})}>★ Ask about the receipt</button><button className="opening-choice" onClick={()=>useGameStore.getState().versionHistoryAction({type:'skip-bonus'})}>Continue</button></div>}
     {s04&&gate?.kind==='gate'&&<div className="opening-actions opening-v4-composer">
       {!group&&gate.action==='s04-group'&&<><button className="opening-primary" onClick={navigation.openGroup}>Open FIND DANIEL →</button><button className="opening-choice" onClick={()=>useGameStore.getState().publicStoryAction({type:'group-later'})}>READ GROUP LATER</button></>}
       {group&&gate.action==='s04-return-sophie'&&<button className="opening-primary" onClick={navigation.openSophie}>RETURN TO SOPHIE</button>}
       {!group&&['s04-archive','s04-index-ack','s04-device'].includes(gate.action)&&<button className="opening-primary" onClick={navigation.openArchive}>Open The Archive</button>}
     </div>}
-    {!!options.length && <div className="opening-actions opening-v4-composer"><div className="opening-action-heading">Choose a reply</div><div className="scene01-options">{options.map(option => <button key={`${scene.nodeId}-${option.id}`} className={`opening-choice ${selection === option.id ? 'selected' : ''}`} aria-pressed={selection === option.id} disabled={option.premiumChoice && !playtestEnabled} onClick={() => { if (s04) draftActI(option.id); else if (scene.privateScene03) draftPrivate(option.id); else if (scene.scriptRevision) draftActI(option.id); else setSelected(option.id); setError('') }}>{option.premiumChoice && <Star size={14} aria-label="Premium"/>}{scene01Text(option.text, option.discloseName ? name.trim() || '…' : scene.disclosedName)}</button>)}{choice?.discloseName && <label className="scene01-codename">Your codename<input aria-label="Your codename" maxLength={40} value={name} onChange={event => setName(event.target.value)} autoComplete="nickname"/></label>}{error && <p role="alert">{error}</p>}</div><button className="opening-primary" disabled={!canSend} onClick={sendSelected}><Send size={17}/> Send</button></div>}
+    {!!options.length && <div className="opening-actions opening-v4-composer"><div className="opening-action-heading">Choose a reply</div><div className="scene01-options">{options.map(option => <button key={`${scene.nodeId}-${option.id}`} className={`opening-choice ${selection === option.id ? 'selected' : ''}`} aria-pressed={selection === option.id} onClick={() => { if (s04) draftActI(option.id); else if (scene.privateScene03) draftPrivate(option.id); else if (scene.scriptRevision) draftActI(option.id); else setSelected(option.id); setError('') }}>{option.premiumChoice && <Star size={14} aria-label="Starred reply"/>}{scene01Text(option.text, option.discloseName ? name.trim() || '…' : scene.disclosedName)}</button>)}{choice?.discloseName && <label className="scene01-codename">Your codename<input aria-label="Your codename" maxLength={40} value={name} onChange={event => setName(event.target.value)} autoComplete="nickname"/></label>}{error && <p role="alert">{error}</p>}</div><button className="opening-primary" disabled={!canSend} onClick={sendSelected}><Send size={17}/> Send</button></div>}
+    {photo&&<ChatPhotoViewer src={photo} alt="Sophie's chicken mushroom pasta dinner" onClose={()=>setPhoto(null)}/>}
   </section>
 }

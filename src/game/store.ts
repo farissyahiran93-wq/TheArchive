@@ -1,3 +1,6 @@
+import { sourceAction, type SourceAction, type SourceScene, readingSource } from './sourceInvestigation'
+import { correctionsDeskAction, type DeskAction } from './scene06'
+import { versionHistoryAction, type VersionHistoryAction } from './scene05'
 import { chapter1Action, type Chapter1Action } from './chapter1'
 import { playtestEnabled } from './playtest'
 import { reunionAction } from './chapter2Reunion'
@@ -21,6 +24,9 @@ import { answerGroupFollowup, readFollowup, scheduleGroupProposal, scheduleMayaR
 import type { FollowupContact } from '../content/characterFollowups'
 
 interface GameStore {
+  sourceAction: (scene:SourceScene,action:SourceAction)=>void
+  correctionsDeskAction: (action: DeskAction) => void
+  versionHistoryAction: (action: VersionHistoryAction) => void
   publicStoryAction: (action: PublicStoryAction) => void
   actIAction: (action: ActIAction) => void
   draftActI: (choiceId: string) => void
@@ -167,10 +173,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
   chapter1Action: action => commit(chapter1Action(get().save, action)),
   continueChapter2: () => commit(continueFromChapter1(get().save, Date.now())),
   accessAction: action => commit(chapter2Access(get().save, action, Date.now(), playtestEnabled)),
+  sourceAction: (scene,action) => commit(sourceAction(get().save,scene,action)),
+  correctionsDeskAction: action => commit(correctionsDeskAction(get().save,action)),
+  versionHistoryAction: action => commit(versionHistoryAction(get().save,action)),
   publicStoryAction: action => commit(publicStoryAction(get().save,action)),
   actIAction: action => commit(actIAction(get().save, action)),
   draftActI: choiceId => commit(draftActIChoice(get().save, choiceId)),
-  sendScene01: (id, name) => commit(sendScene01Choice(get().save, id, name, playtestEnabled)),
+  sendScene01: (id, name) => commit(sendScene01Choice(get().save, id, name)),
   scene01Invitation: action => commit(scene01Invitation(get().save, action)),
   openSophiePrivate: () => commit(openScene03(get().save)),
   pauseSophiePrivate: () => commit(pauseScene03(get().save)),
@@ -192,7 +201,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       set({ save: result.save, ready: true, saveError: result.error ?? null, recoveryRequired: result.recoveryRequired ?? false, recoveryRaw: result.raw })
       if (!result.recoveryRequired && result.save.prologue?.scene01?.invitation === 'joined' && !result.save.prologue.scene01.groupScript) { commit(beginScene02(result.save)); return }
       if (!result.recoveryRequired && result.save.prologue?.scene01?.nodeId === 'OPEN-S02-SOURCE-BOUNDARY') { commit(resumeScene02(result.save)); return }
-      if (!result.recoveryRequired && result.save.prologue?.scene01?.privateScene03?.reading) { commit(pauseScene03(result.save)); return }
+      if (!result.recoveryRequired && (result.save.prologue?.scene01?.privateScene03?.reading || result.save.chapter1?.versionHistory?.reading || result.save.chapter1?.correctionsDesk?.reading || readingSource(result.save))) { commit(pauseScene03(result.save)); return }
     if (!result.recoveryRequired && result.save.chapter2Access?.story?.active) { commit(reunionAction(result.save,{type:'story-close',thread:result.save.chapter2Access.story.active},Date.now())); return }
       if (!result.recoveryRequired && !(import.meta.env.DEV && new URLSearchParams(window.location.search).has('legacyopening')) && (result.save.prologue || result.save.player) && !result.save.prologue?.scene01) commit(beginScene01(result.save))
       else if (!result.recoveryRequired && !result.save.prologue?.scene01 && result.save.prologue?.dialogueVersion === 4 && result.save.prologue.stage === 'complete' && !result.save.e01) commit(beginSlice(result.save))
@@ -206,7 +215,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     set({ save: result.save, ready: true, saveError: result.error ?? null, recoveryRequired: result.recoveryRequired ?? false, recoveryRaw: result.raw })
     if (!result.recoveryRequired && result.save.prologue?.scene01?.invitation === 'joined' && !result.save.prologue.scene01.groupScript) { commit(beginScene02(result.save)); return }
     if (!result.recoveryRequired && result.save.prologue?.scene01?.nodeId === 'OPEN-S02-SOURCE-BOUNDARY') { commit(resumeScene02(result.save)); return }
-    if (!result.recoveryRequired && result.save.prologue?.scene01?.privateScene03?.reading) { commit(pauseScene03(result.save)); return }
+    if (!result.recoveryRequired && (result.save.prologue?.scene01?.privateScene03?.reading || result.save.chapter1?.versionHistory?.reading || result.save.chapter1?.correctionsDesk?.reading || readingSource(result.save))) { commit(pauseScene03(result.save)); return }
     if (!result.recoveryRequired && result.save.chapter2Access?.story?.active) { commit(reunionAction(result.save,{type:'story-close',thread:result.save.chapter2Access.story.active},Date.now())); return }
     if (!result.recoveryRequired && !(import.meta.env.DEV && new URLSearchParams(window.location.search).has('legacyopening')) && (result.save.prologue || result.save.player) && !result.save.prologue?.scene01) commit(beginScene01(result.save))
     else if (!result.recoveryRequired && !result.save.prologue?.scene01 && result.save.prologue?.dialogueVersion === 4 && result.save.prologue.stage === 'complete' && !result.save.e01) commit(beginSlice(result.save))

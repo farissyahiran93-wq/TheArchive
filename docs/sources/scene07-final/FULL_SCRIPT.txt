@@ -1,0 +1,903 @@
+THE ARCHIVE — CHAPTER 1
+SCENE 07: THE BYLINE
+COMPLETE ENGLISH IN-GAME SCREENPLAY + BRANCH CONTRACT
+Authoring date: 24 October 2026
+STATUS: NEW OWNER-REVIEW DRAFT; NOT CODED, TESTED, COMMITTED, OR IN APK
+
+=======================================================================
+00 — SCENE PURPOSE / CANON LOCK
+=======================================================================
+
+PREDECESSOR: Scene 06 — THE CORRECTIONS DESK. Entry requires the
+CURRENT final-route Scene 06 completion receipt / scene06.complete and
+a deliberate press on its NEXT LEAD: THE BYLINE action. Never auto-open.
+Scene 06's optional conversations are NOT completion gates.
+
+Canon retained, never rewritten:
+- GB-ARTICLE-001: the unchanged six-paragraph Greyhaven Bulletin Daniel
+  Mercer story; public Nora Vance byline; published 7 October 2026;
+  displayed 'Updated: Yesterday' is a relative, unverified UI label.
+- ARC-IDX-GB-041: UNKNOWN source, author/capture NOT ESTABLISHED,
+  verified original NO, article body UNAVAILABLE. It has never been
+  shown to match GB-ARTICLE-001.
+- GB-CORR-REGISTER-001: the publisher's public register currently lists
+  no formal correction notice. Not a CMS revision history.
+- GB-CORR-SCOPE-001 and POL-GB-UPDATES-001 are publisher policy claims,
+  not an authenticated article diff.
+- Scene 05 inquiry R-GB-VH-001 may be DELIVERED (with A/B/C exact text),
+  draft, failed or absent. Only delivered older inquiry can have the
+  Scene 06 EV-S06-DESK-REPLY-001; response could remain unread.
+- A newly sent Scene 06 question has R-GB-CD-002 with NO authored
+  response in Scene 06. Keep it pending in this scene too.
+- If Scene 06 C05-A requested an editorial referral, no editorial
+  answer is yet authored and none will be conjured here.
+- Nora's printed byline does NOT prove she edited the page, can access
+  its CMS change log, supplied an original, or knows Daniel's fate.
+- Existing conversation recipient scopes and actual FIND DANIEL
+  membership prevail: Lucas stays departed; Maya/Sophie reply only if
+  actually present. No fabricated Eli, Unknown Sender, Daniel, or new
+  member, and no group backfill.
+- Sophie knows only the public story she linked and what she really
+  received in earlier player Sends. She is never handed private Board,
+  desk correspondence, index fields or player drafts automatically.
+- The player remains a civilian. Never grant police, hacker or
+  journalist credentials; no real websites, email, contacts or network.
+- Do not attribute newly authored material to the EXISTING six
+  paragraphs. New public pages below are explicitly NEW, local in-world
+  assets; they are NOT edits, screenshots, earlier editions or
+  authenticated historic records.
+- No proof of a textual alteration, editor, culprit, 7-14, E—I, 2019
+  responsibility, June Ellis implications, or Daniel's location.
+
+Investigation question: 'Whose source is it—and where can I check it?'
+Emotional question: 'Can I ask the right person without turning a lead
+into an accusation?'
+
+Player must gain an actionable, LIMITED lead: a publisher-provided,
+UNLINKED source-reference label, NOT the underlying record. Optional
+Nora professional contact adds PERSONALLY ATTRIBUTED TESTIMONY,
+not independently verified provenance or automatic trust.
+
+In-game text is ENGLISH. Director notes in square brackets, source IDs,
+branch labels, effect instructions and QA text are NOT speech bubbles.
+
+=======================================================================
+01 — MASTER FLOW / INTERACTION CONTRACT
+=======================================================================
+
+ Scene 06 complete / Scene 06 conclusion saved
+   → [PLAYER TAPS] Archive / NEXT LEAD: THE BYLINE
+   → S07.01   THE BYLINE HUB
+   → S07.02   BYLINE PROFILE + ARTICLE CREDIT, local verification
+   → S07.03   PUBLISHED REPORTING NOTE, new separate public page
+   → S07.04   UNLINKED REFERENCE GB-REF-017, inspect limitations
+   → S07.05   OPTIONAL public professional Nora inquiry + reply
+   → S07.06   OPTIONAL Sophie conversation (permission-sensitive)
+   → S07.07   OPTIONAL FIND DANIEL public group message
+   → S07.08   PUBLIC CATALOGUE, provenance mini-puzzle
+   → S07.09   PRIVATE CASE CONCLUSION
+   → Scene07.complete; NEXT LEAD: THE MISSING ISSUER (unavailable
+      until Scene 08 is separately authored / implemented)
+
+Choice registry: S07-C01 through S07-C15. Every choice set has exactly
+A, B, C (45 authored alternatives total). Some optional sets only
+appear if channel, receipt and membership eligibility are satisfied.
+Choices C02-A, C03-B, C05-C, C06-B, C13-A are the supported puzzle
+answers. Wrong informational choices can be retried without rewinding.
+C15 A/B/C all complete the mainline with different private priorities.
+All optional messaging may be skipped WITHOUT blocking S07.complete.
+
+Required only:
+  1. Manually open Scene 07 after Scene 06 complete.
+  2. Inspect original article byline and new reporter listing.
+  3. Classify byline versus page-editor roles (C02-A).
+  4. Compare the published directory channel with its article reference
+     without contacting anyone (C03-B).
+  5. Open and acknowledge both NEW public note and reference card.
+  6. Classify note versus source document (C05-C, C06-B).
+  7. Open the local catalogue and classify its search limits (C13-A).
+  8. Save ONE private C15 conclusion.
+
+The player may read optional inboxes in any order after the public
+profile is available. Optional Nora correspondence can arrive after
+Scene 07 mainline is complete, without reopening or invalidating C15.
+Do not use a 'premium' purchase, a real-time wait, an unread desk
+reply, or an NPC chat to gate required source investigation.
+
+=======================================================================
+02 — S07.01: THE NAME AT THE TOP (ARCHIVE)
+=======================================================================
+
+[PLAYER TAPS NEXT LEAD; displays Archive panel]
+THE BYLINE
+'An author's name is not the name of every source.'
+
+PUBLIC ARTICLE
+  GB-ARTICLE-001 | GREYHAVEN BULLETIN
+  Byline: Nora Vance
+  Published: 7 October 2026
+  On-page label: Updated: Yesterday
+  Article-body revision: NOT VERIFIED
+
+WHERE WE STOPPED
+  Public correction notice: NONE LISTED (publisher register)
+  Earlier authenticated article body: NONE HELD
+  Editorial operator: NOT IDENTIFIED
+  Pending questions: retained exactly as recorded
+
+[BUTTONS] OPEN ARTICLE BYLINE / PUBLIC REPORTER LISTING /
+          PUBLIC REPORTING NOTE (initially gated behind listing) /
+          BACK TO ARCHIVE
+
+S07-C01 — LOCAL INFO/NAVIGATION (NO SEND):
+  A. 'Show the name printed on the article.'
+     SYSTEM: 'The public byline reads Nora Vance. It is an article
+     credit, not a record of every later page operation.'
+  B. 'Does the Corrections Desk speak for Nora?'
+     SYSTEM: 'The desk is a role inbox. It has not provided a private
+     Nora message, nor a certified revision log.'
+  C. 'Can I revisit the older index first?'
+     SYSTEM: 'ARC-IDX-GB-041 remains metadata only. No readable earlier
+     article is available there.'
+
+C01 is informational and replayable. No private outgoing Send or
+relationship adjustment. The three navigation targets remain tappable.
+
+=======================================================================
+03 — S07.02: CREDIT IS NOT CONTROL (BROWSER / PUBLIC)
+=======================================================================
+
+[PLAYER TAPS OPEN ARTICLE BYLINE]
+Open the EXISTING original public article view, unchanged, including
+all six paragraphs. No extra source quotation is inserted into it.
+Save s07.article_byline_inspected after player taps INSPECT CREDIT.
+
+[PLAYER TAPS PUBLIC REPORTER LISTING]
+NEW LOCAL BROWSER ROUTE:
+  browser://greyhaven-bulletin/about/reporters/nora-vance
+SOURCE: GB-NV-PROFILE-001 (new publisher public listing, not independent
+identity verification)
+
+===== EXACT NEW PAGE COPY =====
+GREYHAVEN BULLETIN
+REPORTER DIRECTORY
+
+Nora Vance
+Reporting staff | Public byline listing
+
+Article listed in this directory:
+Daniel Mercer report — GB-ARTICLE-001
+Published: 7 October 2026
+
+What a byline tells you
+The name credits reporting on the published story. It does not show
+who uploaded, maintained, reformatted or updated the site page.
+
+Article questions
+For questions about this report, readers can use the published
+professional reporter channel linked below. This channel is on the
+Bulletin's site. It is not a personal number or an invitation to
+contact anyone's family.
+
+Channel listing:
+GB-NV-CHANNEL-001
+Associated article: GB-ARTICLE-001
+OPEN PROFESSIONAL QUESTION FORM
+
+A public directory entry does not independently authenticate reporting
+sources, identify a site editor or verify any previous article version.
+===== END PAGE COPY =====
+
+[UI BUTTON] MARK LISTING READ (manual; mere scroll is insufficient)
+
+S07-C02 — LOCAL BYLINE CLASSIFICATION (NO SEND):
+  A. 'Nora is credited for reporting; the page editor remains unknown.'
+     SYSTEM: 'Supported. Being named on a story isn't a change log.'
+     PASS s07.byline_distinction=true.
+  B. 'Nora's name means she changed the web article.'
+     SYSTEM: 'Not established. A byline doesn't identify the person
+     who maintained the page. Try again.' [STAY]
+  C. 'The site directory proves her sources are genuine.'
+     SYSTEM: 'It lists the reporter and contact route only. It
+     doesn't authenticate a source. Try again.' [STAY]
+
+S07-C03 — LOCAL CHANNEL-CHECK (NO SEND, NO CONTACT):
+  QUESTION: 'What can you match BEFORE you consider sending?'
+  A. 'The portrait and the first name.'
+     SYSTEM: 'Names and images can be copied. This is not the
+     directory's case-specific route match. Try again.' [STAY]
+  B. 'GB-NV-CHANNEL-001 and its listed GB-ARTICLE-001 association.'
+     SYSTEM: 'The publisher lists this professional route for the
+     article. This checks the route's published context—not who
+     physically reads or answers any message.'
+     PASS s07.channel_context_checked=true.
+  C. 'The timestamp on the public update label.'
+     SYSTEM: 'The relative update label doesn't establish channel
+     identity or message handling. Try again.' [STAY]
+
+The professional form remains OPTIONAL. The directory does not grant
+private contact or change Nora's contacted status. No publisher desk
+response is transferred to her automatically.
+
+=======================================================================
+04 — S07.03: THE REPORTING NOTE (NEW SEPARATE PUBLIC CONTENT)
+=======================================================================
+
+[PLAYER TAPS PUBLIC REPORTING NOTE]
+NEW LOCAL BROWSER ROUTE:
+  browser://greyhaven-bulletin/notes/gb-article-001
+SOURCE: GB-REPORT-NOTE-001
+
+===== EXACT NEW PAGE COPY =====
+GREYHAVEN BULLETIN
+REPORTING NOTE
+Article: GB-ARTICLE-001 — Daniel Mercer report
+
+About this note
+This is a supplementary publisher note about how the story's
+references were organised. It is NOT an earlier edition of the report
+and does not amend the article's published text.
+
+Source categories
+The newsroom's reporting notes refer to public-facing information
+and reporting conversations. This statement describes the
+publisher's working categories; it does not provide interview
+transcripts, identify an unpublished source or independently
+certify the underlying material.
+
+Unlinked reference
+GB-REF-017 is a reference marker retained in the publisher's
+working list. It is tagged here as a 'public notice' lead.
+No document is attached to this marker on this page.
+
+What is missing
+The issuing office, the issuer's record number, the original
+notice text, its date and its verified connection to this story
+are NOT supplied here. You cannot establish their contents from
+this note. The reference marker is not an article revision record.
+
+Readers can ask about published attributions through the listed
+professional route. A question is not permission to receive private
+interviews or unpublished editorial files.
+===== END PAGE COPY =====
+
+[PLAYER ACTION] MARK REPORTING NOTE READ. Source is publisher-authored
+public text, not a recovered file or independent original. It is a
+NEW page for Scene 07; do not retroactively place it into Scene 04.
+
+S07-C04 — LOCAL INTERPRETIVE INSPECTION (NO SEND):
+  A. 'Why would a publisher keep a reference without a document?'
+     SYSTEM: 'The page does not state why the link is missing. A
+     workflow reason would be a guess.'
+  B. 'Does the term public notice mean I can open one here?'
+     SYSTEM: 'No. It is a category assigned on this publisher page.
+     The original notice is not attached.'
+  C. 'Does this note tell me who Daniel spoke to?'
+     SYSTEM: 'No people, transcripts or verified source identities
+     are provided in the new note.'
+
+Every option preserves player-only knowledge; none grants a reporter
+reply or evidence authority. The public note can be revisited later.
+
+=======================================================================
+05 — S07.04: A REFERENCE WITHOUT ITS DOCUMENT (ARCHIVE)
+=======================================================================
+
+[PLAYER TAPS] OPEN GB-REF-017
+SOURCE: GB-REF-017 (new PUBLISHER REFERENCE CARD; not an original file)
+
+===== CARD COPY =====
+REFERENCE GB-REF-017
+Listed by: Greyhaven Bulletin (public reporting note)
+Claimed class: PUBLIC NOTICE LEAD
+Issuer: NOT PROVIDED
+Issuer record ID: NOT PROVIDED
+Original text: NOT AVAILABLE
+Record date: NOT PROVIDED
+External archive location: NOT PROVIDED
+Authenticated original: NO
+Connection to Daniel Mercer article: PUBLISHER REFERENCE ONLY
+
+'If you cannot open the original, you cannot quote its contents.'
+===== END CARD =====
+
+[BUTTONS] INSPECT ISSUER / INSPECT CONTENT / INSPECT CROSS-REFERENCE /
+          ACKNOWLEDGE LIMITATIONS
+
+Each of 3 limitation tiles must be deliberately tapped; marking the
+card read/scrolling does not silently complete them. They may be
+reviewed in any order. ACKNOWLEDGE LIMITATIONS is separate. It does
+not authenticate the reference or create a real civic request.
+
+S07-C05 — LOCAL EVIDENCE CLASSIFICATION (NO SEND):
+  A. 'The reference number is the issuing city's original number.'
+     SYSTEM: 'Not established. GB-REF-017 is a publisher marker.
+     No public issuer has supplied a matching number. Try again.'
+     [STAY]
+  B. 'This proves the article was changed after publication.'
+     SYSTEM: 'It is a source-reference lead, not an article version
+     or text diff. Try again.' [STAY]
+  C. 'This establishes that the publisher has listed a lead, not the
+      existence or contents of the original notice.'
+     SYSTEM: 'Supported. The published marker is real as page text;
+     the underlying record has not been authenticated.'
+     PASS s07.reference_classified=true.
+
+S07-C06 — LOCAL INDEPENDENCE TEST (NO SEND):
+  A. 'Ask Nora to confirm she wrote the report.'
+     SYSTEM: 'That would be testimony about authorship, not
+     independent verification of the notice. Try again.' [STAY]
+  B. 'Find the issuing office and its own record identifier.'
+     SYSTEM: 'A proper custodian could provide a document you can
+     compare. That possibility is a research plan, not yet a find.'
+     PASS s07.independent_check_classified=true.
+  C. 'Search GB-REF-017 in the article's updated label.'
+     SYSTEM: 'The label does not index source documents. Try again.'
+     [STAY]
+
+[PRIVATE NOTE CREATED WHEN BOTH PASS]
+NOTE-S07-REFERENCE-LIMITS (verified:false)
+  'The Bulletin's NEW reporting note lists GB-REF-017 as a public
+  notice lead. No source document, issuing office, original number,
+  date or authenticated relationship to the article is available.'
+
+No older Bus 4, civic export E012, June Ellis or 7-14 key is unlocked.
+
+=======================================================================
+06 — S07.05: A PROFESSIONAL QUESTION (OPTIONAL NORA ROUTE)
+=======================================================================
+
+Only available after S07-C03-B and report note read. The player may
+choose NOT to contact the reporter and still finish Scene 07.
+
+S07-C07 — LOCAL APPROACH CHOICE (NO SEND):
+  A. 'Open the published professional question form.'
+     SYSTEM: 'You can draft a question through the Bulletin's
+     listed reporter route. Opening the form sends nothing.'
+     ACTION: offer OPEN FORM (manual tap).
+  B. 'Keep this as a private lead for now.'
+     SYSTEM: 'No request sent. Public-source research remains open.'
+     ACTION: no contact; optional form remains accessible later.
+  C. 'Is this the same as messaging Nora privately?'
+     SYSTEM: 'No. The site lists a professional case-specific inbox,
+     not her phone or private chat. Any reply belongs to that route.'
+     ACTION: offer public route explanation and optional form.
+
+[PLAYER TAPS OPEN FORM]
+Route: browser://greyhaven-bulletin/contact/reporter/nora-vance
+To: Greyhaven Bulletin — Nora Vance (professional article inbox)
+Article reference: GB-ARTICLE-001
+Return route: local fictional Bulletin return token
+Visible preview: exact question and public article ID ONLY
+Not included: legal name, GPS, contacts, private index, Board,
+Scene 05/06 inquiries, family details or screenshot attachments.
+Not a real external request. No free-text entry that could implicitly
+attach unsanctioned private material; use precisely selected options.
+
+S07-C08 — OPTIONAL FORM QUESTION (SELECT → EDIT/REVIEW → SEND):
+  A. Player [SEND REQUEST]: 'Your public reporting note lists
+     GB-REF-017. How can a reader find the original record without
+     asking you to disclose a private source?'
+     Status after SEND: R-GB-NV-001, option A, delivered, reply pending.
+  B. Player [SEND REQUEST]: 'Does your byline tell us who updated the
+     web page? I am asking about the public credit, not accusing you.'
+     Status after SEND: R-GB-NV-001, option B, delivered, reply pending.
+  C. Player [SEND REQUEST]: 'Is GB-REF-017 a document readers can
+     verify, or only a reference label in your publisher notes?'
+     Status after SEND: R-GB-NV-001, option C, delivered, reply pending.
+
+[FORM CONTROLS] EDIT QUESTION / REVIEW SCOPE / SEND REQUEST /
+SAVE DRAFT / CANCEL / BACK. Changing choice invalidates Review.
+On Review: 'Only your chosen public question will be delivered. The
+published site owns this inbox. Delivery is not a read receipt.'
+On Save/Cancel: 'Draft saved here. Nothing has been sent.'
+On failure: 'Request not delivered. Your draft is safe.'
+On successful real SEND: 'Question delivered to the published reporter
+inbox. Reply not yet received.' Persist exact text, choice ID,
+recipient route, sending action and receipt ONCE. Safe retry.
+No automatic outgoing bubble, Nora contact flag or relationship effects
+when draft/review/cancel/back occurred without SEND. No matching prior
+Scene 06 desk reply may be reused. No unknown sender or phone contact.
+
+[ONLY IF R-GB-NV-001 ACTUALLY DELIVERED]
+One saved, short fictional delivery delay queues professional inbox
+message EV-S07-NORA-PRO-REPLY-001. The player is notified ONCE after
+it is actually delivered. No automatic opening; the NPC reply is not
+sent before its saved deadline; resume after reload without duplicate.
+The player may leave Scene 07 complete without opening the inbox.
+
+[NOTIFICATION]
+Greyhaven Bulletin — Reporter Inbox: 'Reply to your article question'
+
+[PLAYER MANUALLY OPENS INBOX; REPLY IS TESTIMONY, NOT AUTHENTICATED FACT]
+NORA (professional inbox): Hi. Nora here.
+NORA: I saw your question about the Daniel Mercer article.
+NORA: Give me a second. I don't want to answer a different question.
+[brief read/typing beat]
+
+[BRANCH BY PRECISE C08 DELIVERED OPTION — exactly one]
+IF C08-A actually SENT:
+  NORA: You're asking where the underlying public record can be checked.
+  NORA: I can't give you a document from that reference card. It
+  doesn't contain one.
+IF C08-B actually SENT:
+  NORA: You're asking whether my name tells you who updated the page.
+  NORA: It doesn't. I wrote the report, but a byline is not the
+  website's edit history.
+IF C08-C actually SENT:
+  NORA: You're asking whether that reference is something you can verify.
+  NORA: The public note gives you a label. It doesn't publish the
+  original document.
+
+[CONVERGED — applies only to delivered openable reply]
+NORA: I should have made that distinction easier to see.
+NORA: If you want the original, the sensible next step is finding out
+which office issued it.
+NORA: I don't have a confirmed issuer to give you through this thread.
+NORA: And please don't turn the absence of a link into an accusation.
+[brief pause]
+NORA: I know that's not the answer you wanted.
+
+Every line above is Nora's self-described professional testimony at
+publisher route GB-NV-CHANNEL-001; it is NOT independent proof of her
+identity, original-source chain, CMS operations or what she knows
+privately. Only actually delivered and read lines grant player
+knowledge of THIS reported testimony. She is not a phone contact or
+FIND DANIEL member, and she receives NO Scene 05/06 private content.
+
+S07-C09 — OPTIONAL NORA FOLLOW-UP [COMPOSER + REAL SEND]:
+  A. Player: 'Why publish a reference readers can't actually open?'
+     NORA: Because it should be possible to ask where something came from.
+     NORA: We haven't made that easy here. That's a fair criticism.
+     Relationship (professional, if supported): Trust +1.
+     Knowledge to Nora: exact criticism only.
+  B. Player: 'Are you saying Daniel gave you that reference?'
+     NORA: No. I haven't said that.
+     NORA: Please don't attach Daniel's name to a record we haven't seen.
+     Relationship: Suspicion +1; Trust +0.
+     Knowledge to Nora: exact question only. NO Daniel-source link.
+  C. Player: 'I'll look for an issuing office instead of guessing.'
+     NORA: That makes sense.
+     NORA: And if the trail goes cold, say so. That matters too.
+     Relationship: Trust +1; Affinity +1 (only if system has Nora
+     relationship domain; otherwise record conversational tone only).
+
+[END OF OPTIONAL EXCHANGE]
+NORA: I have to get back to work.
+NORA: If I have something I can put on the public record, I'll use
+this inbox. I can't promise there will be anything.
+[status unavailable; not a real-world callback promise or future event]
+
+Skipping C09 or leaving a selected composer unsent causes NO player
+reply, NO NPC C09 branch, NO implied relationship. Repeat entry restores
+saved cursor and previously delivered, read/unread status.
+
+=======================================================================
+07 — S07.06: SOPHIE / LET ME ASK FIRST (OPTIONAL PRIVATE CHAT)
+=======================================================================
+
+Eligibility: existing Sophie private chat is genuinely accessible;
+no forged contact permission or new Sophie number. The existing
+Scene 06 C09 preference (verify_first / ask_first / unset), when
+recorded by actual player Send, must affect the disclosure preview.
+Optional access is through Archive CHECK ON SOPHIE then the existing
+Messages thread manually, not an unsolicited forced social exchange.
+Once-only authored NPC messages can be offered without automatic
+player speech. Sophie never knows R-GB-NV-001, a Nora reply or source
+reference unless exact player speech genuinely disclosed it.
+
+[PLAYER MANUALLY OPENS CHAT]
+SOPHIE: Hey.
+SOPHIE: I've read the same paragraph about Daniel so many times.
+SOPHIE: I don't think I'm even reading the words anymore.
+[2-second typing pause]
+SOPHIE: Did you find anything? You can say no.
+
+S07-C10 — OPTIONAL SOPHIE OPENING [COMPOSER + SEND]:
+  A. Player: 'Can I share one public lead? Nothing private.'
+     SOPHIE: Yeah. One sentence.
+     SOPHIE: I can handle a sentence.
+     SET s07.sophie_public_share_permission=true for THIS exchange.
+     Relationship: Trust +2.
+  B. Player: 'I can hold off if today isn't a good day.'
+     SOPHIE: Maybe we could talk about something else first.
+     SOPHIE: My head is full. That's all.
+     SET permission=false. Relationship: Affinity +2.
+  C. Player: 'How are you doing, actually?'
+     SOPHIE: Honestly? I did laundry today.
+     SOPHIE: That's about the highest achievement I can report.
+     SET permission=false. Relationship: Affinity +1, Trust +1.
+
+[BEAT ONLY AFTER A REAL C10 SEND]
+SOPHIE: Sorry if I'm being difficult.
+SOPHIE: I just don't want to repeat someone's theory like it's fact.
+
+S07-C11 — OPTIONAL SOPHIE REPLY [COMPOSER + SEND]:
+  A. IF C10-A SENT AND PERMISSION GRANTED:
+       Player: 'The reporter's public note has a reference label, but
+       no original document. That's all I can verify from it.'
+       SOPHIE: Okay. I understand that.
+       SOPHIE: Thanks for keeping it to what you've actually seen.
+       Relationship: Trust +2.
+       RECEIPT: Sophie learns ONLY that narrow public-source finding.
+     ELSE (C10-B/C sent, no permission):
+       Player: 'I don't have a new fact I can stand behind yet.'
+       SOPHIE: Then that's enough of an update for today.
+       Relationship: Trust +1.
+       RECEIPT: no GB-REF-017 or note disclosure.
+  B. Player: 'What would help right now?'
+     SOPHIE: Not sure.
+     SOPHIE: Maybe just someone not asking me to be hopeful on command.
+     Relationship: Affinity +2.
+  C. Player: 'Let's talk about something completely normal.'
+     SOPHIE: I bought the wrong kind of tea again.
+     SOPHIE: Daniel would have laughed at me for about a week.
+     SOPHIE: Sorry. That wasn't very normal, was it?
+     Relationship: Affinity +1, Trust +1.
+
+[END — after actual C11 SEND, or explicit optional LEAVE]
+SOPHIE: I'm going to put my phone down for a bit.
+SOPHIE: Thanks for asking first.
+[conditional: if C10-A not sent, use 'Thanks for talking to me.'
+ instead; do NOT attribute a question the player never asked.]
+SOPHIE: Talk later.
+[offline naturally, once]
+
+If Sophie is unreachable, hide optional chat. A saved draft is never
+silently sent, and a user can return without completing this branch.
+No critical lead is gated on receiving Sophie trust.
+
+=======================================================================
+08 — S07.07: FIND DANIEL / OPTIONAL PUBLIC UPDATE
+=======================================================================
+
+If and only if FIND DANIEL exists, player is still a member and at
+least one AUTHORED respondent is currently a real group member
+(Sophie and/or Maya), show an optional group composer. Do not add
+anybody, including Nora, as a result of this scene. Lucas never
+spontaneously returns; Eli stays silent unless an independently
+written scene supplies her dialogue (none here). A potential
+respondent who is not in the group receives nothing.
+
+[PLAYER MANUALLY OPENS EXISTING GROUP]
+[UI] 'Current recipients: [REAL MEMBER LIST]'
+[UI] 'Only this selected sentence will go to current members.'
+If Sophie previously requested ask_first in S06 and has not consented
+in S07, warn before sending public case details to the group. The
+player may still choose; show correct consequence rather than silently
+converting the group into private DM or inventing consent.
+
+S07-C12 — OPTIONAL GROUP PLAYER [COMPOSER + SEND]:
+  A. Player: 'The Bulletin posted a reporting note with an unlinked
+     reference. It doesn't include an original document.'
+     SOPHIE if active and allowed: 'Okay. So we still need the real source.'
+     SOPHIE if active and saved ask_first preference BUT no permission:
+       'Could you ask before dropping the case details in here? Please.'
+       Effect to Sophie: Trust -1 ONCE (only for this combination).
+     MAYA if active: 'A reference isn't a record. At least we know
+     what to look for next.'
+  B. Player: 'Please don't treat Nora's byline as proof she changed
+     the site. We don't have an edit log.'
+     SOPHIE if active: 'Yeah. I don't want us accusing people either.'
+     MAYA if active: 'Agreed. We should keep credit and site changes
+     separate.'
+  C. Player: 'I'm going to try to find a public record issued by the
+     proper office before I share another theory.'
+     SOPHIE if active: 'Okay. Thanks.'
+     MAYA if active: 'That's a better question to ask.'
+
+Only a real SEND generates EV-S07-GROUP-SENT plus the exact recipients.
+No Sophie/Maya reply if member departed. Group is optional and can be
+skipped with NO negative completion consequence. The private reference
+card, reporter inquiry or reply are not attached to group bubble.
+
+=======================================================================
+09 — S07.08: PUBLIC CATALOGUE / THE WRONG NUMBER
+=======================================================================
+
+[PLAYER TAPS] LOOK FOR THE ISSUER
+NEW LOCAL FICTIONAL BROWSER ROUTE:
+  browser://greyhaven/public-records/catalogue/help
+SOURCE: GH-PUBLIC-CATALOGUE-001
+
+===== EXACT NEW PAGE COPY =====
+GREYHAVEN PUBLIC RECORDS — CATALOGUE HELP
+
+Finding a public notice
+This catalogue is organised by the issuing public body and that
+body's own record number. It does not search publishers' private
+working-reference labels as if they were government identifiers.
+
+Trying a publisher reference
+Search term: GB-REF-017
+Result: NO EXACT CATALOGUE MATCH UNDER THIS PUBLISHER LABEL
+
+A missing match for a publisher label is not a finding that the
+original public notice does not exist. The issuing body, original
+number and date have not yet been identified.
+
+To continue, establish a credible issuing office and a custodian
+record identifier from public material before claiming to have
+located, rejected or authenticated a notice.
+===== END PAGE COPY =====
+
+[BUTTONS] INSPECT SEARCH SCOPE / INSPECT NO-MATCH LIMIT /
+          MARK CATALOGUE HELP READ / RETURN TO ARCHIVE
+Reading occurs only after manual tap. Catalogue is a new fictional
+public source explaining search constraints. It contains NO original
+record and never silently makes a live request or searches external
+sites. Don't turn a synthetic no-match into evidence of deletion.
+
+S07-C13 — LOCAL CATALOGUE CLASSIFICATION (NO SEND):
+  A. 'This catalogue can't resolve the publisher's label; I still
+      need an issuer and an official record identifier.'
+     SYSTEM: 'Supported. The search limit is about the label you
+     tried, not a verdict on whether the notice exists.'
+     PASS s07.catalogue_classified=true.
+  B. 'The public notice has been deleted.'
+     SYSTEM: 'Not supported. A publisher's internal reference isn't
+     necessarily the issuer's identifier. Try again.' [STAY]
+  C. 'The reporter invented the source because the search failed.'
+     SYSTEM: 'No. The failed lookup provides no proof of motive,
+     identity or fabrication. Try again.' [STAY]
+
+S07-C14 — LOCAL NEXT STEP (NO SEND):
+  A. 'Keep the public professional reply open, but don't treat it as
+      an original document.'
+     SYSTEM: 'Recorded as a testimony-first research strategy. No
+     reporter contact occurs from choosing a local strategy.'
+  B. 'Look for the actual issuing office and its public notice number.'
+     SYSTEM: 'Recorded as an independent-source research strategy.
+     No verified issuer is found yet.'
+  C. 'Stop before giving anyone an unverified interpretation.'
+     SYSTEM: 'Recorded as a withholding strategy. The next public
+     research route stays open.'
+All advance; none sends a message or implies a particular answer.
+
+=======================================================================
+10 — S07.09: PRIVATE CASE CONCLUSION + SCENE 08 LEAD
+=======================================================================
+
+[ENTRY requires ALL mainline gates from section 01. No optional
+Nora/Sophie/group chat or request is required.]
+
+[ARCHIVE CASE BOARD]
+THE BYLINE — WHAT WE CAN SAY
+
+SUPPORTED OBSERVATIONS
+- Public article GB-ARTICLE-001 credits Nora Vance as reporter.
+- The separate publisher listing identifies a professional reporter
+  question route associated with GB-ARTICLE-001. It is not proof of
+  who personally reads the inbox.
+- Newly published GB-REPORT-NOTE-001 contains a public marker
+  GB-REF-017, categorised there as a possible 'public notice' lead.
+- The new publisher reference card provides NO issuing body, official
+  number, original text, record date or authenticated origin.
+- The new public catalogue does not match GB-REF-017 as an issuing
+  body's record number. It does NOT establish nonexistence/deletion.
+
+NOT ESTABLISHED
+- Nora's access to the site edit log or who modified a page.
+- That article body changed since 7 October 2026.
+- Whether the unlinked notice exists, what it says, who issued it,
+  or whether it was used for a particular sentence.
+- Any private source identities; Daniel's condition or location.
+- Any causal link between GB-REF-017 and the older index, Bus 4,
+  June Ellis, 7-14 or the 2019 incident.
+
+[OPTIONAL CASE STATUS PANEL]
+- Scene 05 prior desk inquiry / Scene 06 desk reply: preserve actual
+  status without inventing a late answer or changing its recipient.
+- Scene 06 new inquiry R-GB-CD-002: delivered_no_reply if actually sent.
+- Scene 07 Nora inquiry R-GB-NV-001: unsent, draft, failed, delivered,
+  reply pending, delivered-unread or read, exactly as saved.
+- Sophie/group: show only actual outgoing Send receipts.
+
+S07-C15 — FINAL PRIVATE CONCLUSION (NO SEND):
+  A. 'Nora is credited, but the person who maintained the site page
+      and the source of GB-REF-017 are unverified.'
+     SYSTEM: 'Saved: separate credit, page operation and provenance.'
+  B. 'GB-REF-017 is a publisher reference, not an authenticated public
+      notice. I need an issuer and the original document.'
+     SYSTEM: 'Saved: a traceable lead with a source gap.'
+  C. 'I will not accuse anyone or quote a missing document.'
+     SYSTEM: 'Saved: a disclosure boundary while the search continues.'
+
+All A/B/C commit a private, ONCE-ONLY event:
+  EV-S07-BYLINE-LIMIT-001 / NOTE-S07-REFERENCE-LIMITS
+  visibility=PLAYER_PRIVATE
+  verified=false
+  authenticated_notice=false
+  authenticated_revision=false
+  original_text_available=false
+  issuer_identified=false
+  nora_editor_identified=false
+  crime_or_culprit_established=false
+  selected_stance=EXACT SELECTED OPTION
+
+S07.complete=true only when C15 is explicitly committed.
+
+[FINAL IN-WORLD UI]
+THE BYLINE — REVIEWED
+Public article credit: NORA VANCE
+Original notice: NOT HELD
+Issuer: UNKNOWN
+Publisher reference: GB-REF-017 (UNLINKED)
+Revision author: NOT ESTABLISHED
+
+NEW LEAD
+THE MISSING ISSUER
+'If GB-REF-017 points to a public notice, who issued the original?'
+[BUTTONS] OPEN NEXT LEAD / BACK TO PHONE
+
+Scene 08 is NOT implemented by this authoring package. Before Scene 08
+is authored, OPEN NEXT LEAD displays 'Next lead not yet available'.
+Never launch a fake records office, authenticate a document, reveal a
+culprit or contact a source automatically.
+
+=======================================================================
+11 — STABLE IDS / SAVE / REACTIONS / KNOWLEDGE CONTRACT
+=======================================================================
+
+Authoring scene ID: chapter_01_scene_07_the_byline
+Existing planning IDs and historic save cursors: KEEP, map this title as
+an alias rather than renumbering. Use current project registry after
+examining active local checkout; do not trust old remote Git HEAD to
+reflect uncommitted Scene 06 work.
+
+New sources (all NEW local in-world page/card assets):
+  GB-NV-PROFILE-001        publisher public reporter listing
+  GB-NV-CHANNEL-001        public professional channel listing
+  GB-REPORT-NOTE-001       supplementary publisher note
+  GB-REF-017               publisher working reference CARD, not notice
+  GH-PUBLIC-CATALOGUE-001  simulated public catalogue help/no-match
+
+Previously existing source IDs remain UNCHANGED:
+  GB-ARTICLE-001, ARC-IDX-GB-041, GB-CORR-REGISTER-001,
+  GB-CORR-SCOPE-001, POL-GB-UPDATES-001.
+
+New player-private evidence and events:
+  NOTE-S07-REFERENCE-LIMITS      no verified notice/document
+  EV-S07-ARTICLE-CREDIT-READ     observed byline
+  EV-S07-PROFILE-READ            publisher route context only
+  EV-S07-REPORT-NOTE-READ        publisher's assertions
+  EV-S07-REFERENCE-READ          reference card boundaries
+  EV-S07-CATALOGUE-READ          label no-match boundary
+  EV-S07-BYLINE-LIMIT-001        final private stance
+
+Optional professional correspondence:
+  R-GB-NV-001                 only if C08 actual SEND, idempotent
+  EV-S07-NORA-PRO-REPLY-001   only if existing delivered receipt
+  EV-S07-NORA-FOLLOWUP-SENT   only C09 actual SEND
+  EV-S07-SOPHIE-OPEN          private optional chat opened/delivered
+  EV-S07-SOPHIE-SENT          actual C10/C11 SENT, scoped
+  EV-S07-GROUP-SENT           only actual C12 SEND, actual membership
+
+If Nora has no initialized relationship tuple, DO NOT manufacture
+one just because she has a public article byline. Initialize the
+preexisting approved contact baseline ONLY after the first attributed
+professional reply is delivered/read AND the user sends a genuine
+C09 response, if the system has a documented rule for that first
+contact. Otherwise record a professional tone receipt without
+changing relationship state; all 3 C09 scripts still playable.
+Never turn public profile viewing into a DM/Contacts import.
+
+Proposed optional scene07 save object (use existing schema v1 additive
+subobject and existing validators/normalizers, not a second store):
+  entered, complete, article_byline_inspected, profile_read,
+  byline_distinction, channel_context_checked, report_note_opened,
+  report_note_read, reference_inspections[3], limitations_acknowledged,
+  reference_classified, independent_check_classified,
+  catalogue_opened, catalogue_scope_inspected, catalogue_no_match_read,
+  catalogue_classified, next_strategy, final_stance,
+  reporter_draft_option, reporter_draft_text, reporter_reviewed,
+  reporter_send_status, reporter_receipt, reporter_reply_queued_at,
+  reporter_reply_delivered, reporter_reply_read, reporter_reply_cursor,
+  reporter_followup_cursor, reporter_followup_sent_option,
+  sophie_cursor, sophie_permission, sophie_drafts, sophie_sent,
+  group_cursor, group_draft, group_sent, source_scroll_offsets,
+  chat_scroll_offsets, delivered_event_ids, queued_delays.
+
+IMPORTANT:
+- Keep reporter status separate from S05/S06 desk statuses and
+  their scoped local return tokens; no cross-delivery.
+- Loading a prior save with no scene07 field is valid. Create it only
+  after explicit Scene 07 entry. Do not reset existing scene flags.
+- Edit/change of a form choice cancels reviewed status. Draft and
+  display name are never delivered automatically. A receipt is created
+  only after a successful Send and cannot be resent after reopening.
+- NPC messages have unique stable IDs; idempotent delayed delivery,
+  pause/resume of remaining wait, hydration-safe on background/reload.
+- True recipient ledger: Sophie knows only actually sent C11-A branch
+  when she permitted it; group learns only actual sent C12 text;
+  Nora knows only C08 exact public question and C09 if actually sent.
+- Unread Nora reply is persisted but NOT player-observed testimony
+  until manually opened/read. No automatic report in Case Board that
+  she said anything until delivery/read.
+- Existing player codename must replace player-name placeholders;
+  no code-debug labels displayed in player-facing bubbles.
+- Preserve near-bottom auto-scroll and new-message indicator behavior.
+- Maintain re-entry after complete for optional pending inquiry reply.
+- Source card evidence never changes verified=false based on trust.
+
+=======================================================================
+12 — QA / ACCEPTANCE CHECKLIST (46 DISTINCT SCENARIOS)
+=======================================================================
+
+T01  Scene 06 completion enables manual S07 entry, no auto-open.
+T02  Incomplete S06 has honest gated/hidden S07 route.
+T03  Historical untagged saves never gain S07 on hydration.
+T04  S07 opening preserves S05/06 source state and receipts.
+T05  GB-ARTICLE-001 six paragraphs/display date unchanged.
+T06  ARC-IDX-GB-041 stays metadata only, unavailable original.
+T07  Profile page read manual; byline vs operator correct C02-A.
+T08  C02-B/C wrong retry with no knowledge/reward progression.
+T09  C03-B requires matching channel + listed article association.
+T10  C03-A/C do not authenticate physical recipient identity.
+T11  New report-note page separated from article (no mutation).
+T12  Report-note source categories never gain independent authority.
+T13  Each of three reference limitation tiles separately inspected.
+T14  Acknowledge limitations requires its actual action.
+T15  C05-A/B wrong; C05-C marks only publisher-reference claim.
+T16  C06-A/C wrong; C06-B records verification plan only.
+T17  No actual missing notice/dated issuer text/diff minted.
+T18  Optional C07 A/B/C never sends a request.
+T19  C08 A/B/C draft/review/edit/cancel with no automatic Send.
+T20  Valid reporter Send creates R-GB-NV-001 exactly once.
+T21  Failed delivery/retry restores exact draft, no duplicate receipt.
+T22  Reporter inbox not created for unsent or canceled forms.
+T23  Reporter reply A matches only delivered C08-A.
+T24  Reporter reply B matches only delivered C08-B.
+T25  Reporter reply C matches only delivered C08-C.
+T26  Nora reply not earlier than saved delivery deadline.
+T27  Nora notification/read/unread idempotent through reload.
+T28  Opening inbox never auto-sends C09 player dialogue.
+T29  C09 A/B/C each require Send; specific Nora replies delivered.
+T30  Unanswered C09 cannot grant relationship/knowledge.
+T31  Nora appears only on professional route, not private Contacts.
+T32  S05/06 desk requests/referrals remain independent/pending.
+T33  Sophie C10 A/B/C full Send and reactions with proper effects.
+T34  Sophie C11-A consent variant exact; no non-consensual disclosure.
+T35  Sophie C11 B/C full Send; boundary and ordinary chat preserved.
+T36  Sophie unavailable route optional; mainline completes.
+T37  FIND DANIEL C12 A/B/C each real Send with membership ledger.
+T38  No phantom Lucas/Eli/Nora/Maya/Sophie group messages.
+T39  Sophie prior 'ask first' preference changes C12-A response.
+T40  Group unsent draft results in no member knowledge.
+T41  Catalog shows 'no match for publisher label', NOT nonexistence.
+T42  C13-A correct, B/C retry; strategy C14 A/B/C all viable.
+T43  All C15 A/B/C once-only private conclusion; optional paths skip.
+T44  Save/load scroll, typing, composer and role inbox at 320/375/430px.
+T45  No network/contact/device permissions; no real publisher message.
+T46  Full old-scene regression; no Scene08 fake unlock or Android QA claim.
+
+Additional browser journeys required (not only test fixtures):
+- no reporter request, no chats, all mainline required screens;
+- Nora form A/B/C, delivered reply + interrupted typing reload;
+- saved unsent professional draft with Scene 07 completion;
+- blocked/unread Unknown Sender unaffected;
+- Sophie ask_first consent/no-consent and group-membership permutations;
+- exact Scene 06→07 navigation plus Scene 04→05→06→07 when feasible;
+- historical saves and declined Maya Messages permissions.
+
+All selected outgoing choices use the pattern SELECT → DRAFT → SEND →
+record sent bubble → eligible NPC typing → NPC message delivery.
+Test that selecting, backing, dismissing, reloading or choosing premium
+without a Send NEVER produces a player bubble.
+
+Run, REPORT EXACT OUTPUT (do not fabricate counts):
+  npm run typecheck
+  npm run lint
+  npm test -- --maxWorkers=2
+  npm run build
+  npm run test:e2e -- --workers=1
+  git diff --check
+
+Do not claim a passing complete 115/115 Scene 06 run on the basis of
+the attached rolling work log. Its last visible update reported 68
+passes while that run was still progressing, without a final summary.
+After Scene 07 integration, obtain a fresh FULL suite result on one
+unchanged implementation; separate partial diagnostics from complete
+runs. Web build is NOT an APK build or physical device acceptance.
+
+END OF SCENE 07 FULL AUTHORING DRAFT.

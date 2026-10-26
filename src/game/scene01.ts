@@ -1,3 +1,5 @@
+import { sourceNumber, sourceEnd, sourceIncoming, sourceSend, sourceChoices, sourceNpcText, openSourceThread, pauseSource, sourceState, readingSource, visibleSource } from './sourceInvestigation'
+import { deskEnd, deskIncoming, deskSend, openDeskThread, pauseDesk } from './scene06'
 import { scene01DelayedWarning, scene01Nodes, scene01Opening, type Scene01Choice } from '../content/scene01'
 import { scene02After08, scene02Id, scene02Opening } from '../content/scene02'
 import { scene03DeliveryDelay, scene03Opening } from '../content/scene03'
@@ -7,25 +9,33 @@ import { actINodes } from '../content/actIRegistry'
 import { actIFinalEntrances, actIFinalSenderRequest } from '../content/actIFinal'
 import { ensureChapter1, chapter1Action } from './chapter1'
 import { publicStoryEvent, publicStoryFlag, publicStoryHas, publicStoryPut, publicStorySave } from './scene04'
+import { versionHistoryAction, versionHistoryPut, versionHistoryEvent, pauseVersionHistory, openVersionHistoryThread } from './scene05'
 import { scene04Entrances } from '../content/scene04Final'
 
+const nextForSkipped = (s:GameSave) => replace(s,{...s.prologue!.scene01!,queue:[]})
+const enter = enterScene01
 type Scene = NonNullable<OpeningState['scene01']>
 export const beginLegacyScene01 = (state: GameSave, now = Date.now()) => beginScene01(state, now, 'legacy')
 function replace(state: GameSave, scene: Scene): GameSave { return { ...state, prologue: { ...state.prologue!, scene01: scene } } }
 function event(state: GameSave, id: string): GameSave { return state.deliveredEvents.includes(id) ? state : { ...state, deliveredEvents: [...state.deliveredEvents, id] } }
 export function scene01Text(text: string, name?: string): string { return text.replaceAll('[PLAYER_NAME]', name ?? '…') }
-function enter(state: GameSave, id: string, now: number): GameSave {
+export function enterScene01(state: GameSave, id: string, now: number): GameSave {
   const node = actINodes(state.prologue?.scene01)[id]
   if (!node || !state.prologue?.scene01) return state
+  if(/^OPEN-(?:S0[789]|S10)-/.test(id) && (node.kind==='npc'&&node.channel==='group'&&state.prologue.scene01.groupMembers?.[node.sender??'sophie']!==true || node.kind==='wait'&&id.includes('-GROUP-')&&state.prologue.scene01.groupMembers?.[node.actor??'sophie']!==true))return enterScene01(state,node.next,now)
+  if(id.startsWith('OPEN-S06-') && (node.kind==='npc'&&node.channel==='group'&&state.prologue.scene01.groupMembers?.[node.sender??'sophie']!==true || node.kind==='wait'&&id.startsWith('OPEN-S06-C13-')&&state.prologue.scene01.groupMembers?.[node.actor??'sophie']!==true))return enterScene01(state,node.next,now)
   const scene = { ...state.prologue.scene01, nodeId: id, queue: [], ...(id.startsWith('OPEN-S03-') && state.prologue.scene01.privateScene03 ? { privateScene03: { ...state.prologue.scene01.privateScene03, draft: undefined } } : {}) } satisfies Scene
   let next = replace(state, scene)
   if (node.kind === 'wait' && node.duration === 0) return enter(event(next, id), node.next, now)
-  if (node.kind === 'npc' || node.kind === 'wait') return replace(next, { ...scene, queue: [{ id, dueAt: now + (node.kind === 'wait' ? node.duration : id.startsWith('OPEN-S03-') ? scene03DeliveryDelay(node.text) : npcDeliveryDelay(node.sender ?? 'sophie', node.text)), typing: node.kind === 'npc' || node.typing }] })
+  if (node.kind === 'npc' || node.kind === 'wait') return replace(next, { ...scene, queue: [{ id, dueAt: now + (node.kind === 'wait' ? node.duration : id.startsWith('OPEN-S05-') ? Math.max(1000,Math.min(3000,node.text.length*20)) : id.startsWith('OPEN-S03-') ? scene03DeliveryDelay(node.text) : npcDeliveryDelay(node.sender ?? 'sophie', node.text)), typing: node.kind === 'npc' || node.typing }] })
   if (node.kind === 'gate' && node.action === 's04-article') return publicStoryFlag(next,'link-delivered')
   if (node.kind === 'choice' || node.kind === 'gate') return next
-  if (node.kind === 'condition') return enter(next, (node.test === 'name-disclosed' ? scene.nameDisclosed : node.test === 's04-group-opened' ? publicStoryHas(next,'group-opened') : next.chapter1?.sender.seen && !next.chapter1.sender.disclosed) ? node.next : node.otherwise, now)
+  if (node.kind === 'condition') return enter(next, (node.test === 's05-sophie-member' ? scene.groupMembers?.sophie === true : node.test === 'name-disclosed' ? scene.nameDisclosed : node.test === 's04-group-opened' ? publicStoryHas(next,'group-opened') : next.chapter1?.sender.seen && !next.chapter1.sender.disclosed) ? node.next : node.otherwise, now)
   if (state.deliveredEvents.includes(id)) return node.next ? enter(next, node.next, now) : next
   next = event(next, id)
+  if (node.event === 'source-thread-end') return sourceEnd(next,node)
+  if (node.event === 's06-thread-end') return deskEnd(next,node)
+  if (node.event === 's05-thread-end') return versionHistoryEvent(next,node)
   if (node.event.startsWith('s04-')) {
     next = publicStoryEvent(next,node,now)
     return node.next ? enter(next,node.next,now) : next
@@ -62,7 +72,7 @@ function enter(state: GameSave, id: string, now: number): GameSave {
   if (node.event === 'presence') {
     const actor = node.actor ?? 'sophie'
     const line = { id, sender: 'system' as const, text: `${actor[0].toUpperCase() + actor.slice(1)} is ${node.online ? 'online' : 'offline'}.`, at: now }
-    return enter(replace(next, { ...scene, groupPresence: { sophie: true, maya: true, lucas: true, ...scene.groupPresence, [actor]: !!node.online }, groupMessages: /^OPEN-S0[34]-/.test(id) ? scene.groupMessages : [...scene.groupMessages, line] }), node.next!, now)
+    return enter(replace(next, { ...scene, groupPresence: { sophie: true, maya: true, lucas: true, ...scene.groupPresence, [actor]: !!node.online }, groupMessages: /^OPEN-S0[345]-/.test(id) ? scene.groupMessages : [...scene.groupMessages, line] }), node.next!, now)
   }
   if (node.event === 'effects') {
     const relationships = { ...next.relationships }
@@ -93,25 +103,38 @@ export function beginScene01(state: GameSave, now = Date.now(), revision: 'legac
 
 export function deliverScene01(state: GameSave, now: number): GameSave {
   const scene = state.prologue?.scene01, queued = scene?.queue[0]
-  if (!scene || !queued || queued.dueAt > now) return state
+  if (!scene || !queued || queued.dueAt > now || scene.sophieBlocked && queued.id.startsWith('OPEN-S01-')) return state
   if (queued.id.startsWith('OPEN-S03-') && queued.id !== 'OPEN-S03-FIRST-MESSAGE' && !scene.privateScene03?.reading) return state
+  if (/^OPEN-(?:S0[789]|S10)-/.test(queued.id) && !sourceState(state,sourceNumber(queued.id))?.reading) return state
+  if (queued.id.startsWith('OPEN-S06-') && !state.chapter1?.correctionsDesk?.reading) return state
+  if (queued.id.startsWith('OPEN-S05-') && !state.chapter1?.versionHistory?.reading) return state
   if (queued.id.startsWith('OPEN-S04-') && !state.chapter1?.publicStory?.reading) return state
   const node = actINodes(scene)[queued.id]
   if (!node || !['npc','wait'].includes(node.kind)) return state
+  if (node.kind === 'npc' && (node.id.startsWith('OPEN-S05-') || node.id.startsWith('OPEN-S06-') || /^OPEN-(?:S0[789]|S10)-/.test(node.id)) && node.channel === 'group' && scene.groupMembers?.[node.sender ?? 'sophie'] !== true) return enter(nextForSkipped(state),node.next,now)
   if (node.kind === 'npc' && node.channel === 'group' && node.sender === 'lucas' && scene.groupMembers?.lucas === false) return replace(state, { ...scene, queue: [] })
   let next = replace(state, { ...scene, queue: [] })
   if (node.kind === 'wait') return enter(event(next, node.id), node.next, now)
   if (node.kind !== 'npc') return state
   if (!state.deliveredEvents.includes(node.id)) {
-    const text = scene01Text(node.text, scene.nameDisclosed ? scene.disclosedName : undefined)
+    if(/^OPEN-(?:S0[789]|S10)-/.test(node.id)){
+      next=sourceIncoming(next,node,now)
+      if(['professional','civic'].includes(sourceState(next,sourceNumber(node.id))!.reading!))return enter({...next,deliveredEvents:[...next.deliveredEvents,node.id],knowledge:{...next.knowledge,player:[...new Set([...next.knowledge.player,...node.heardFacts??[]])]}},node.next,now)
+    }
+    if(node.id.startsWith('OPEN-S06-')) {
+      next=deskIncoming(next,node,now)
+      if(['desk','maya'].includes(next.chapter1!.correctionsDesk!.reading!)) return enter({...next,deliveredEvents:[...next.deliveredEvents,node.id],knowledge:{...next.knowledge,player:[...new Set([...next.knowledge.player,...node.heardFacts??[]])]}},node.next,now)
+    }
+    const text = scene01Text(/^OPEN-(?:S0[789]|S10)-/.test(node.id)?sourceNpcText(next,node):node.text, scene.nameDisclosed ? scene.disclosedName : undefined)
     const sender = node.sender ?? 'sophie'
-    const line = { id: node.id, sender, text, at: now }
+    const line = { id: node.id, sender, text, at: now, ...(node.photo?{photo:node.photo}:{}) }
     // Even the branch without a self-introduction learns her visible group sender name on delivery.
     next = replace(next, { ...scene, queue: [], introduced: scene.introduced || !!node.introducesSophie || !!scene.scriptRevision && node.channel === 'group' && sender === 'sophie', messages: node.channel === 'sophie' ? [...scene.messages, { ...line, sender: 'sophie' }] : scene.messages, groupMessages: node.channel === 'group' ? [...scene.groupMessages, line] : scene.groupMessages, groupReceipts: node.channel === 'group' ? [...scene.groupReceipts ?? [], { eventId: node.id, recipient: 'player', factIds: node.heardFacts ?? [] }] : scene.groupReceipts,
       ...(node.id === 'OPEN-S03-FIRST-MESSAGE' && scene.privateHandoff ? { privateHandoff: { ...scene.privateHandoff, deliveredAt: now } } : {}),
       ...(node.id.startsWith('OPEN-S03-') && scene.privateScene03 ? { privateScene03: { ...scene.privateScene03, receipts: [...scene.privateScene03.receipts, { eventId: node.id, recipient: 'player', factIds: node.heardFacts ?? [] }] } } : {}),
     })
-    next = { ...event(next, node.id), notifications: [...next.notifications, { id: node.id, text: node.channel === 'group' ? `FIND DANIEL · ${sender[0].toUpperCase() + sender.slice(1)}: ${text}` : `${scene.introduced || node.introducesSophie ? 'Sophie' : 'Unknown number'}: ${text}`, read: false }] }
+    next = { ...event(next, node.id), notifications: [...next.notifications, { id: node.id, text: node.channel === 'group' ? `FIND DANIEL · ${sender[0].toUpperCase() + sender.slice(1)}: ${node.photo?'Photo':text}` : `${scene.introduced || node.introducesSophie ? 'Sophie' : 'Unknown number'}: ${text}`, read: false }] }
+    if(node.id.startsWith('OPEN-S05-')&&next.chapter1?.versionHistory)next=versionHistoryPut(next,{receipts:[...next.chapter1.versionHistory.receipts??[],{eventId:node.id,recipient:'player',factIds:node.heardFacts??[]}]})
     if (node.heardFacts?.length) next = { ...next, knowledge: { ...next.knowledge, player: [...new Set([...next.knowledge.player, ...node.heardFacts])] } }
   }
   return enter(next, node.next, now)
@@ -119,23 +142,30 @@ export function deliverScene01(state: GameSave, now: number): GameSave {
 
 export function scene01Choices(state: GameSave): Scene01Choice[] {
   const scene = state.prologue?.scene01
+  if (scene?.sophieBlocked) return []
   if (!scene || scene.queue.length) return []
   if (scene.nodeId.startsWith('OPEN-S03-') && !scene.privateScene03?.reading) return []
   const node = actINodes(scene)[scene.nodeId]
   if (scene.nodeId.startsWith('OPEN-S04-') && node?.kind === 'choice' && !node.uiChoice && state.chapter1?.publicStory?.reading !== (node.channel ?? 'sophie')) return []
+  if(scene.nodeId.startsWith('OPEN-S06-') && !state.chapter1?.correctionsDesk?.reading)return []
+  if(scene.nodeId.startsWith('OPEN-S05-') && (node?.kind!=='choice'||state.chapter1?.versionHistory?.reading!==node.channel))return []
+  if(/^OPEN-(?:S0[789]|S10)-/.test(scene.nodeId))return node?.kind==='choice'?sourceChoices(state,node):[]
   const replied = !!state.chapter1?.sender.branch && !['ignore','ignored'].includes(state.chapter1.sender.branch)
   return node?.kind === 'choice' ? node.choices.filter(choice => !choice.requires || (choice.requires === 'sender-replied' ? replied : !replied)) : []
 }
-export function sendScene01Choice(state: GameSave, choiceId: string, name = '', premiumAllowed = false, now = Date.now()): GameSave {
+export function sendScene01Choice(state: GameSave, choiceId: string, name = '', premiumAllowed = true, now = Date.now()): GameSave {
+  void premiumAllowed // Historical callers retain this argument; starred replies are available to every player.
+  if(/^OPEN-(?:S0[789]|S10)-/.test(state.prologue?.scene01?.nodeId??''))return sourceSend(state,choiceId,now)
+  if(state.prologue?.scene01?.nodeId.startsWith('OPEN-S06-'))return deskSend(state,choiceId,now)
   const scene = state.prologue?.scene01
   const choice = scene01Choices(state).find(item => item.id === choiceId)
-  if (!scene || !choice || choice.premiumChoice && !premiumAllowed) return state
+  if (!scene || !choice) return state
   const id = `${scene.nodeId}-PLAYER-${choice.id}`
   if (state.deliveredEvents.includes(id)) return state
   const clean = name.trim().replace(/\s+/gu, ' ')
   if (choice.discloseName && (!clean || clean.length > 40 || /[\p{Cc}\p{Cf}<>]/u.test(clean))) return state
   const text = scene01Text(choice.text, choice.discloseName ? clean : scene.disclosedName)
-  if (scene.nodeId.startsWith('OPEN-S04-')) {
+  if (scene.nodeId.startsWith('OPEN-S04-') || scene.nodeId.startsWith('OPEN-S05-')) {
     const node = actINodes(scene)[scene.nodeId]
     let next = { ...event(state,id), choices:{...state.choices,[scene.nodeId]:choice.id} }
     if(node.kind==='choice'&&node.uiChoice){
@@ -151,6 +181,7 @@ export function sendScene01Choice(state: GameSave, choiceId: string, name = '', 
     const characters={...state.knowledge.characters}
     for(const actor of recipients)characters[actor]=[...new Set([...characters[actor],...factIds])]
     next={...next,knowledge:{...next.knowledge,characters},messages:[...next.messages,...recipients.map(recipient=>({id:id+'-TO-'+recipient,sender:'player' as const,recipient,channel:'messages' as const,text,at:now,delivery:'delivered' as const,disclosedFactIds:factIds}))],prologue:{...next.prologue!,scene01:{...scene,...(group?{groupMessages:[...scene.groupMessages,{id,sender:'player',text,at:now}]}:{messages:[...scene.messages,{id,sender:'player',text,at:now}]}),draft:undefined}}}
+    if(scene.nodeId==='OPEN-S05-C09') next={...next,deliveredEvents:[...new Set([...next.deliveredEvents,'EV-S05-GROUP-SENT'])]}
     return enter(next,choice.next,now)
   }
   if (scene.nodeId.startsWith('OPEN-S03-') && scene.privateScene03) {
@@ -200,6 +231,9 @@ export function resumeScene02(state: GameSave, now = Date.now()): GameSave {
 /** Manual opening resumes the authored scene after the already delivered handoff, without replaying Hey. */
 export function openScene03(state: GameSave, now = Date.now()): GameSave {
   const scene = state.prologue?.scene01, handoff = scene?.privateHandoff
+  const source=visibleSource(state);if(source){const current=sourceState(state,source)!;return current.reading==='sophie'||current.threads.sophie?openSourceThread(state,source,'sophie',now):pauseScene03(state,now)}
+  if (state.chapter1?.correctionsDesk?.visible) return openDeskThread(state,'sophie',now)
+  if (state.chapter1?.versionHistory) return openVersionHistoryThread(state,'sophie',now)
   if (scene?.privateScene03?.complete) return openPublicStory(state,now)
   if (!scene || handoff?.deliveredAt === undefined || !scene.groupComplete || !scene.lucasLeftGroup || scene.privateScene03?.complete) return state
   const current = scene.privateScene03
@@ -212,6 +246,9 @@ export function openScene03(state: GameSave, now = Date.now()): GameSave {
 }
 
 export function pauseScene03(state: GameSave, now = Date.now()): GameSave {
+  const source=readingSource(state);if(source)return pauseSource(state,source,now)
+  if(state.chapter1?.correctionsDesk?.reading)return pauseDesk(state,now)
+  if(state.chapter1?.versionHistory?.reading)return pauseVersionHistory(state,now)
   const scene = state.prologue?.scene01, current = scene?.privateScene03
   if(state.chapter1?.publicStory?.reading&&scene){
     const queued=scene.queue[0]
@@ -237,11 +274,19 @@ export function markScene01Read(state: GameSave, thread: 'sophie' | 'group'): Ga
   return { ...state, notifications: state.notifications.map(item => ids.has(item.id) ? { ...item, read: true } : item) }
 }
 
-export type ActIAction = 'open-group' | 'open-sender' | 'later' | 'tell' | 'keep' | 'continue'
+export type ActIAction = 'open-group' | 'open-sender' | 'later' | 'tell' | 'keep' | 'continue' | 'block-sophie' | 'unblock-sophie'
 /** Manual navigation gates have no outgoing bubble and never impersonate a player reply. */
 export function actIAction(state: GameSave, action: ActIAction, now = Date.now()): GameSave {
   const scene = state.prologue?.scene01
   if (!scene?.scriptRevision) return state
+  if(action==='block-sophie'){
+    const queued=scene.queue[0]
+    return replace(state,{...scene,sophieBlocked:true,blockedQueue:queued?{id:queued.id,remainingMs:Math.max(0,queued.dueAt-now),typing:queued.typing}:undefined,queue:[]})
+  }
+  if(action==='unblock-sophie')return replace(state,{...scene,sophieBlocked:false,queue:scene.blockedQueue?[{id:scene.blockedQueue.id,dueAt:now+scene.blockedQueue.remainingMs,typing:scene.blockedQueue.typing}]:scene.queue,blockedQueue:undefined})
+  const source=visibleSource(state);if(action==='open-group'&&source)return openSourceThread(state,source,'group',now)
+  if(action==='open-group'&&state.chapter1?.correctionsDesk?.visible)return openDeskThread(state,'group',now)
+  if(action==='open-group'&&state.chapter1?.versionHistory)return openVersionHistoryThread(state,'group',now)
   if(action==='open-group'&&state.chapter1?.publicStory?.groupCheckpoint&&!state.chapter1.publicStory.complete){
     const p=state.chapter1.publicStory,checkpoint=p.groupCheckpoint!,queued=scene.queue[0]
     const parked={nodeId:scene.nodeId,paused:queued?{id:queued.id,remainingMs:Math.max(0,queued.dueAt-now),typing:queued.typing}:p.paused}
@@ -330,6 +375,6 @@ export function publicStoryAction(state:GameSave,action:PublicStoryAction,now=Da
     const next=publicStoryFlag(state,'followup-scheduled')
     return {...replace(next,{...scene,nodeId:'OPEN-S04-FOLLOWUP-WAIT',queue:[]}),pendingEvents:[...next.pendingEvents,{id:'CH1-S04-FOLLOWUP',dueAt:now+2300}]}
   }
-  if(action.type==='version-history'&&p.complete)return chapter1Action(state,{type:'advance'},now)
+  if(action.type==='version-history'&&p.complete)return versionHistoryAction(state,{type:'enter'},now)
   return state
 }

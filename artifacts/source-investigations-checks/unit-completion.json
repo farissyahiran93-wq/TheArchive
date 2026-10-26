@@ -1,0 +1,5 @@
+{
+  "exitCode": 1,
+  "command": "npm test -- --reporter=dot",
+  "finishedAt": "2026-10-25T00:48:40.4226125+08:00"
+}

@@ -1,0 +1,7 @@
+﻿{
+    "exitCode":  0,
+    "startedUtc":  "2026-10-24T11:03:17.4056633Z",
+    "finishedUtc":  "2026-10-24T11:45:19.1635097Z",
+    "command":  "PLAYWRIGHT_PORT=4214 npm run test:e2e -- --workers=1 --timeout=180000 --output=artifacts/scene06-clean-final/results",
+    "location":  "D:\\Web app\\TheArchive"
+}

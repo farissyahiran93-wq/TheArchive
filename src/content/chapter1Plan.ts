@@ -104,23 +104,23 @@ export const chapter1ScenePlan: readonly Chapter1ScenePlan[] = [
   {
     "number": 5,
     "id": "ch01_sc05_an_older_copy",
-    "title": "An Older Copy",
+    "title": "Version History",
     "act": 2,
-    "objective": "Investigation Setup",
+    "objective": "Separate update labels from verified revision history",
     "characters": "Player",
     "surface": "Browser / Documents / Case Board",
     "requirement": "required-beat-with-alternatives",
-    "entry": "Public report historical reference inspected",
-    "exit": "Both versions available for comparison",
-    "requiredKnowledge": "Public report historical source reference",
-    "possibleKnowledge": "Two comparable versions, provenance limitations",
+    "entry": "Manual Version History after final Scene 04 Goodnight and inspections",
+    "exit": "Private observed-limit conclusion; Scene 06 remains unavailable",
+    "requiredKnowledge": "Scene 04 public article and acknowledged index metadata",
+    "possibleKnowledge": "Displayed update label and index limitations; no verified older body or diff",
     "evidenceDependencies": [
-      "E001",
-      "E002"
+      "GB-ARTICLE-001",
+      "ARC-IDX-GB-041"
     ],
     "relationshipDependencies": "No mandatory trust, affinity, romance or premium threshold; preserve authored 01–03 effects.",
-    "implementation": "structural-preview",
-    "approval": "structure-approved-dialogue-provisional",
+    "implementation": "implemented",
+    "approval": "screenplay-integrated",
     "legacyCandidates": [
       "E01-S04",
       "E01-S05"
@@ -132,23 +132,23 @@ export const chapter1ScenePlan: readonly Chapter1ScenePlan[] = [
   {
     "number": 6,
     "id": "ch01_sc06_the_missing_line",
-    "title": "The Missing Line",
+    "title": "The Corrections Desk",
     "act": 2,
-    "objective": "First Major Puzzle",
-    "characters": "Player",
-    "surface": "Document Comparison / Case Board",
+    "objective": "Classify publisher public notices and their limits",
+    "characters": "Player; optional Sophie, permitted Maya and existing group",
+    "surface": "Archive / fictional Browser / return-token inbox / Messages",
     "requirement": "required-beat-with-alternatives",
-    "entry": "Both public document versions accessible",
-    "exit": "Observed field discrepancy recorded; retry permitted",
-    "requiredKnowledge": "Both exact version identities and source limitations",
-    "possibleKnowledge": "Observed missing Escort field; no deliberate falsification finding",
+    "entry": "Scene 05 complete; manual Archive entry",
+    "exit": "Two public pages acknowledged, three supported classifications and private conclusion saved",
+    "requiredKnowledge": "GB-ARTICLE-001 and ARC-IDX-GB-041 remain distinct; no earlier body",
+    "possibleKnowledge": "Publisher public register currently lists no correction notice; no revision, editor or motive established",
     "evidenceDependencies": [
-      "E001",
-      "E002"
+      "GB-CORR-REGISTER-001",
+      "GB-CORR-SCOPE-001"
     ],
     "relationshipDependencies": "No mandatory trust, affinity, romance or premium threshold; preserve authored 01–03 effects.",
-    "implementation": "structural-preview",
-    "approval": "structure-approved-dialogue-provisional",
+    "implementation": "implemented",
+    "approval": "screenplay-integrated",
     "legacyCandidates": [
       "E01-S06",
       "E01-S07"

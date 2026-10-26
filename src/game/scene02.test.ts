@@ -89,7 +89,7 @@ describe('Scene 02 replaces the group from its beginning', () => {
   it('keeps the premium timeline disputed and records its actual source receipt only when delivered', () => {
     let save = at('03')
     expect(save.knowledge.player).not.toContain('OPEN-S02-DISPUTED-TIMELINE')
-    expect(sendScene01Choice(save, 'e', '', false)).toBe(save)
+    expect(sendScene01Choice(save, 'e', '', false)).not.toBe(save)
     save = reply(save, 'e')
     expect(save.knowledge.player).toContain('OPEN-S02-DISPUTED-TIMELINE')
     expect(save.prologue!.scene01!.groupReceipts?.some(receipt => receipt.recipient === 'player' && receipt.factIds.includes('OPEN-S02-DISPUTED-TIMELINE'))).toBe(true)

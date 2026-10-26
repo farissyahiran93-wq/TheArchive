@@ -1,0 +1,67 @@
+[
+  {
+    "path": "artifacts/chat-polish/sophie-390.png",
+    "generatedSha256": "e2e7325e4e0148514c8f3e2650dbeb7a490867933e88a13341deae040dc3b643",
+    "restoredSha256": "483659be15cca40f855b463d24849c45d8764d94371da926cf65d46e2660af33"
+  },
+  {
+    "path": "qa/iphone-redesign/apps/archive-index-320.png",
+    "generatedSha256": "45db41184813b5b21debabeb08b19f5ee97e29fc2c3e4252d6f57017b5a49e2e",
+    "restoredSha256": "0097885f5d0d36a671c35ba033ce25a12e5a0a2864c00d6a364403e7467eaf72"
+  },
+  {
+    "path": "qa/iphone-redesign/apps/mail-320.png",
+    "generatedSha256": "3e820ff44645286e7927f6cefc0f369564be1941a22aaf372cfd173479665b63",
+    "restoredSha256": "0658135f1316b6c7d8c3da35be0913dabf22315430bfbe7b6e865400b1208749"
+  },
+  {
+    "path": "qa/iphone-redesign/apps/maps-320.png",
+    "generatedSha256": "2a613b0a7292d928ed8bb8019d01f3eb4f8bc3fd83e85c03e994a600cea1e4bf",
+    "restoredSha256": "39d03413692f7b7ac7a17b7c46cf17a5b676c4671812a37051c1acffaec57c81"
+  },
+  {
+    "path": "qa/iphone-redesign/apps/media-320.png",
+    "generatedSha256": "0d0f19a39d6a6c73b41bd79fb7c58dd806a320d42b7abc8f935861570b59b9de",
+    "restoredSha256": "d66829650faeecf17bd2dc3b7dbbdebd501bd62ca20a408762a753431268e1f4"
+  },
+  {
+    "path": "qa/iphone-redesign/apps/media-390.png",
+    "generatedSha256": "cbb3e49a413ecef283f23771a50d3542c77ae0771304526e2ce9c1ea1e5f1f6a",
+    "restoredSha256": "c6adcbaf4243ab44ac0f8d5ff2127517fd5ad01b7d8300245a4815e093c0c8f6"
+  },
+  {
+    "path": "qa/iphone-redesign/apps/messages-320.png",
+    "generatedSha256": "a666431b636fae72f08824c8c791063b92c0b9b1a6313c56b93a71b8d906fd9d",
+    "restoredSha256": "d6c1a5696f635048ec13342cbe4b993cd5e8fc1cf421ed97140e20e0ed6655a3"
+  },
+  {
+    "path": "qa/iphone-redesign/apps/messages-430.png",
+    "generatedSha256": "e47e7774bd5a43fec390897101ca15b9f04b925b9ea8ca37416c30362ff87fcf",
+    "restoredSha256": "6f06b049618c837f0290af5dff6172411e240770a6fd563f032c8c1fa0b5f702"
+  },
+  {
+    "path": "qa/iphone-redesign/apps/phone-320.png",
+    "generatedSha256": "e203f3c7cfc381fd3bf911272ef1195b4f41688c6eb6d9d8598ce3bd7c5d31b8",
+    "restoredSha256": "3ed14fb62919dc13404050a79ca2a5828cdfd4cbc586bcdaac5d7b80a44d5c56"
+  },
+  {
+    "path": "qa/iphone-redesign/apps/phone-430.png",
+    "generatedSha256": "2bf97f00b2848159fc47b6437e0b7848a1ddc28704984c8b9d6e347904e042bd",
+    "restoredSha256": "e881536cadc8a1cf5c8b66785180d7ecf39ecb13a86bdfb3c8d622f81121a4bf"
+  },
+  {
+    "path": "qa/phase-03a/maya-chat-390x844.png",
+    "generatedSha256": "07c97ae946de5cb2b025533b6084dfe271b5114104c1c39a2dbff77cdcc1bf5a",
+    "restoredSha256": "d8050fed20f8c07c4b666b47fa86c95ae867ba445b7dddb728f26475787fe4b9"
+  },
+  {
+    "path": "qa/phase-03b/e012-review-390x844.png",
+    "generatedSha256": "ba9e3ebcc4581c3540126196301c388f6b5fe5a9b23699c57bfff4fc581d8850",
+    "restoredSha256": "0cb81f325af9be0546b9bd849e76a7124b1a361954545fe724b8db5124f98c05"
+  },
+  {
+    "path": "qa/phase-03b/s30-quiet-390x844.png",
+    "generatedSha256": "2d1eafd24a53c14401f8163bf58b1196b2ce15a15bdd2296aa004af7b88e77be",
+    "restoredSha256": "39b1384262d79297e0e308256ca7a6708c75ba230ed09391505991484bd1d6d8"
+  }
+]

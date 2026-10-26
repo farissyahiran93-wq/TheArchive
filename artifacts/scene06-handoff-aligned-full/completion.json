@@ -1,0 +1,7 @@
+﻿{
+    "exitCode":  1,
+    "startedUtc":  "2026-10-24T08:04:58.7624203Z",
+    "finishedUtc":  "2026-10-24T08:48:16.9433964Z",
+    "command":  "PLAYWRIGHT_PORT=4211 npm run test:e2e -- --workers=1 --output=artifacts/scene06-handoff-aligned-full/results",
+    "location":  "D:\\Web app\\TheArchive"
+}

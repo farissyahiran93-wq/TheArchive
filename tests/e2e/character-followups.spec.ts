@@ -2,12 +2,12 @@ import { expect, test } from '@playwright/test'
 
 test('public-fact private contacts and consented group reunion persist without duplicate members', async ({ page }) => {
   await page.clock.install({ time: new Date('2026-10-08T09:45:00Z') })
+  await page.clock.pauseAt(new Date('2026-10-08T09:45:01Z'))
   await page.goto('/?legacyopening=1')
   await page.getByRole('button', { name: "Open Sophie's new message" }).click()
   await page.getByLabel('Your name').fill('Alex')
   await page.getByRole('button', { name: 'Set up phone' }).click()
   // Stop authored timers and finish the registration write before replacing the fixture.
-  await page.clock.pauseAt(await page.evaluate(() => Date.now()))
   await expect.poll(() => page.evaluate(() => sessionStorage.getItem('the-archive-reboot:pending-save:v1'))).toBeNull()
   await page.evaluate(async () => {
     const db = await new Promise<IDBDatabase>((resolve, reject) => { const request = indexedDB.open('the-archive-reboot', 1); request.onsuccess = () => resolve(request.result); request.onerror = () => reject(request.error) })
@@ -78,10 +78,13 @@ test('public-fact private contacts and consented group reunion persist without d
 
 test('declining Maya Messages keeps her referral readable in the Bulletin inbox', async ({ page }) => {
   await page.clock.install({ time: new Date('2026-10-08T09:45:00Z') })
+  await page.clock.pauseAt(new Date('2026-10-08T09:45:01Z'))
   await page.goto('/?legacyopening=1')
   await page.getByRole('button', { name: "Open Sophie's new message" }).click()
   await page.getByLabel('Your name').fill('Alex')
   await page.getByRole('button', { name: 'Set up phone' }).click()
+  // Finish the registration journal before replacing this test fixture.
+  await expect.poll(() => page.evaluate(() => sessionStorage.getItem('the-archive-reboot:pending-save:v1'))).toBeNull()
   await page.evaluate(async () => {
     const db = await new Promise<IDBDatabase>((resolve, reject) => { const request = indexedDB.open('the-archive-reboot', 1); request.onsuccess = () => resolve(request.result); request.onerror = () => reject(request.error) })
     await new Promise<void>((resolve, reject) => {

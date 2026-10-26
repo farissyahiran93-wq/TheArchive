@@ -1,0 +1,22 @@
+[
+  {
+    "command": "npm run typecheck",
+    "exitCode": 0,
+    "at": "2026-10-25T12:19:05.8805678+08:00"
+  },
+  {
+    "command": "npm run lint",
+    "exitCode": 0,
+    "at": "2026-10-25T12:19:06.5848181+08:00"
+  },
+  {
+    "command": "npm test -- --maxWorkers=2 --reporter=dot",
+    "exitCode": 0,
+    "at": "2026-10-25T12:20:01.1692496+08:00"
+  },
+  {
+    "command": "npm run build",
+    "exitCode": 0,
+    "at": "2026-10-25T12:20:12.9208482+08:00"
+  }
+]

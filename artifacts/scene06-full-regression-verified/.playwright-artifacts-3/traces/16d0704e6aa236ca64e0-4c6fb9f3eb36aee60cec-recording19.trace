@@ -1,0 +1,1 @@
+{"version":10,"type":"context-options","origin":"library","browserName":"","playwrightVersion":"1.64.0","options":{},"platform":"win32","wallTime":1792825413119,"monotonicTime":2372540.117,"sdkLanguage":"javascript","title":"scene02-handoff.spec.ts:109 › refresh during the 5.5-second handoff retains the deadline and delivers the private message once, with manual chat opening"}

@@ -1,0 +1,75 @@
+CODEX IMPLEMENTATION PROMPT — THE ARCHIVE CHAPTER 1 SCENE 05
+"VERSION HISTORY" (24 October 2026)
+
+IMPORTANT
+The attached THE_ARCHIVE_SCENE_05_VERSION_HISTORY_FINAL_DRAFT.txt is the
+scene's dialogue and flow SOURCE OF TRUTH for this task. Implement ONLY
+Scene 05. Do not advance to Scene 06 or revise Scenes 01–04.
+
+PRE-FLIGHT
+1. Open the current active local working branch/workspace, NOT an older
+   remote main snapshot if the final Scene 04 changes have not been merged.
+2. Read ACT_I_FINAL_IMPLEMENTATION.md, the complete Scene 04 report and
+   actual source/runner/saves/tests. Verify live Scene 04 identities and
+   chronology; the provided Scene 05 draft is subordinate to established
+   existing runtime invariants if a wording/ID conflict is found.
+3. Identify all current IDs and aliases. Preserve exact GB-ARTICLE-001,
+   ARC-IDX-GB-041, EV-PUBLIC-GB-001 and EV-INDEX-GB-041 attributions.
+4. If source file not present on your local workspace, STOP before coding;
+   ask for that exact text file. Do not reconstruct missing dialogue.
+
+IMPLEMENTATION
+A. Import the full provided screenplay as a typed data-driven graph using
+   the current story registry and existing dialogue runner. Give every
+   interaction, branch, local selection and outgoing Send stable IDs.
+B. Add a manual Archive "VERSION HISTORY" entry only after Scene 04 final
+   Goodnight/offline and inspections. Opening this tile must be a real click;
+   no auto-opening Browser, chats, contacts, composer or next lead.
+C. Build/extend minimal existing screens (Archive source cards, simulated
+   Browser public policy, four-item proof checklist, fictional corrections
+   request composer and receipt). Reuse existing components and styling.
+   The policy page is fictional local content, NOT a network request.
+D. Correct gating: both sources inspected; update policy explicitly read;
+   supported-observation selection; four limitations inspected; private
+   conclusion chosen. Inquiry, Sophie, premium social and group are optional.
+E. Every player chat line must wait for selected composer option AND actual
+   Send, with proper NPC typing delays and scroll behavior. Persist all
+   cursors, drafts and remaining delays. No double messages across reload.
+F. Optional Sophie next-morning message is delivered once; manual open only.
+   No automatic Sophie knowledge of private Archive pages or draft inquiry.
+G. FIND DANIEL branch requires real player Send; respect existing group
+   membership. Do not return Lucas, create Nora DM or assert Eli is E—I.
+H. Corrections form sends only the exact chosen public question to a
+   fictional desk, creating one idempotent R-GB-VH-001 receipt. Unsent or
+   failed drafts disclose nothing and do not block progress. No auto-answer.
+I. Finish with a local private conclusion and a manually clicked NEXT LEAD
+   Scene 06 entry. If Scene 06 is not implemented, show its unavailable
+   placeholder honestly, WITHOUT fabricating content.
+J. Save compatibility: additive migration/normalization only. Never reset
+   player progress, historical branches, knowledge or relationships.
+   Existing Scene 04 no-bookmark and blocked Unknown Sender routes work.
+K. Avoid rewriting other data sources, changing calendar chronology or
+   claiming 'Updated: Yesterday' proves an actual article-body revision.
+L. Keep in-game English dialogue EXACTLY as the supplied screenplay except
+   for documented editorial conflicts or accessibility fixes. Do not reduce
+   multiple authored branches to a single generic bot response.
+
+VERIFICATION
+- Add unit tests for all Scene 05 nodes, choice IDs, knowledge/receipt
+  scope, no-send paths, source preservation, optional group and Sophie,
+  idempotent receipt, early/cancelled timers and old-save normalization.
+- Add full browser journeys: Scene 04 -> manual Scene 05 -> mainline;
+  zero bookmark; form Send; unsent form; blocked Unknown Sender; optional
+  Sophie; optional group; reload at each gate; 320px width and keyboard.
+- Run typecheck, lint, all unit tests, build, full Playwright suite and
+  focused failing tests again if necessary. Report pass counts honestly;
+  partial targeted reruns are NOT a clean full-suite pass.
+- Do not rebuild/sign Android APK in this task unless a separate explicit
+  instruction is given. Web build pass is not physical-device QA.
+
+OUTPUT FORMAT
+1. Implementation summary (exact files changed, branch/commit).
+2. Complete Scene 05 choice registry with branch and entry/exit coverage.
+3. Evidence and character knowledge audit for all routes.
+4. Test commands and honest results with failed/skipped counts.
+5. Remaining blockers. No premature Scene 06 completion claims.

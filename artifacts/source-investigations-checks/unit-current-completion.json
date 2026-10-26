@@ -1,0 +1,5 @@
+{
+  "exitCode": 0,
+  "command": "npm test -- --reporter=dot --maxWorkers=4",
+  "finishedAt": "2026-10-25T01:19:30.9017214+08:00"
+}

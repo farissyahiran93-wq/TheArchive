@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 import { openSophie, sceneAt, seedScene } from './scene01-helper'
 
-for (const width of [320, 390]) test(`Sophie groups avatars and keeps the compact group action reachable at ${width}px`, async ({ page }) => {
+for (const width of [320, 390]) test(`Sophie groups avatars and the group stays reachable from Messages at ${width}px`, async ({ page }) => {
   await page.setViewportSize({ width, height: 720 })
   await seedScene(page, sceneAt('G01'))
   await openSophie(page)
@@ -29,13 +29,10 @@ for (const width of [320, 390]) test(`Sophie groups avatars and keeps the compac
   const incoming = layout.filter(row => row.incoming)
   expect(incoming.some(row => !row.end)).toBe(true)
   expect(Math.max(...incoming.map(row => row.x)) - Math.min(...incoming.map(row => row.x))).toBeLessThan(2)
-  const action = chat.getByRole('button', { name: 'Open FIND DANIEL →', exact: true })
-  await expect(action).toBeInViewport()
-  const bounds = await action.boundingBox()
-  expect(bounds!.height).toBeGreaterThanOrEqual(40)
-  expect(bounds!.width).toBeLessThan(width - 90)
+  await expect(chat.getByRole('button', { name: 'Open FIND DANIEL →', exact: true })).toHaveCount(0)
   await page.screenshot({ path: `artifacts/chat-polish/sophie-${width}.png` })
-  await action.click()
+  await page.getByRole('button', { name: 'Back to inbox' }).click()
+  await page.getByRole('button', { name: 'Open FIND DANIEL group conversation' }).click()
   await expect(page.getByRole('region', { name: 'FIND DANIEL group conversation', exact: true })).toBeVisible()
   await page.getByRole('button', { name: 'View FIND DANIEL group info' }).click()
   const group = page.getByRole('dialog', { name: 'FIND DANIEL group info' })

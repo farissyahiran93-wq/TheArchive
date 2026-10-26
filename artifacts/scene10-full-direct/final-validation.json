@@ -1,0 +1,52 @@
+{
+  "typecheck": "passed",
+  "lint": "passed",
+  "unit": {
+    "passed": 1291,
+    "files": 45
+  },
+  "build": "passed",
+  "browser": {
+    "passed": 145,
+    "files": 41,
+    "lastRun": {
+      "status": "passed",
+      "failedTests": []
+    }
+  },
+  "sourceIntegrity": {
+    "unchanged": true,
+    "changed": [],
+    "files": 281
+  },
+  "pinnedSources": {
+    "allByteEqual": true,
+    "files": [
+      {
+        "source": "THE_ARCHIVE_SCENE_10_THE_INVENTORY_SHEET_FULL_SCREENPLAY.txt",
+        "pinned": "FULL_SCRIPT.txt",
+        "bytes": 54672,
+        "sha256": "b680e5aed86533d277bf936548409bcf2399843575b85384f9fa55f9e3cd9367",
+        "byteEqual": true
+      },
+      {
+        "source": "THE_ARCHIVE_SCENE_10_CODEX_IMPLEMENTATION_PROMPT.txt",
+        "pinned": "IMPLEMENTATION_PROMPT.txt",
+        "bytes": 9748,
+        "sha256": "7cab8507d1d2183e6998bab44fc727ebf8f75c6619b6c3764ff6b563b9c89069",
+        "byteEqual": true
+      },
+      {
+        "source": "THE_ARCHIVE_SCENE_10_README.txt",
+        "pinned": "README.txt",
+        "bytes": 1609,
+        "sha256": "81563dd6533ace3891aa85c43976cb6803d672a46b9b78643c757aa4fae73c55",
+        "byteEqual": true
+      }
+    ]
+  },
+  "apkSha256": "403185961ab8fb5ecbff1cf3d9f048e3d8f9b4f8413b9bb27ab58564475f334c",
+  "trackedScreenshotsRestored": 5,
+  "commitOrPush": false,
+  "newApk": false
+}
