@@ -10,14 +10,12 @@ describe('phone continuity revision',()=>{
     const next={...s,prologue:{...s.prologue!,scene01:{...p,nodeId:'OPEN-S01-C02',queue:[]}}}
     expect(scene01Choices(next).some(option=>option.premiumChoice)).toBe(true)
   })
-  it('pauses an unknown Sophie number without delivering a queued message and resumes on unblock',()=>{
+  it('ignores obsolete blocking actions and keeps legitimate delivery active',()=>{
     const s=beginScene01(newGame(),1000),p=s.prologue!.scene01!
     const queued={...s,prologue:{...s.prologue!,scene01:{...p,queue:[{id:p.nodeId,dueAt:2000,typing:true}]}}}
-    const blocked=actIAction(queued,'block-sophie',1200)
-    expect(blocked.prologue!.scene01!.queue).toEqual([])
-    expect(deliverScene01(blocked,99999)).toBe(blocked)
-    const unblocked=actIAction(blocked,'unblock-sophie',5000)
-    expect(unblocked.prologue!.scene01!.queue[0].dueAt).toBe(5800)
+    expect(actIAction(queued,'block-sophie',1200)).toBe(queued)
+    expect(actIAction(queued,'unblock-sophie',5000)).toBe(queued)
+    expect(deliverScene01(queued,99999)).not.toBe(queued)
   })
   it('delivers one real dinner image, converges at the original Lucas response and keeps the C08 choice',()=>{
     const nodes=actINodes({scriptRevision:'final-2026-10-23'})

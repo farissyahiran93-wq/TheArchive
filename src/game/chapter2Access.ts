@@ -54,6 +54,7 @@ const event = (s: GameSave, id: string): GameSave => s.deliveredEvents.includes(
 const notice = (s: GameSave, id: string, text: string): GameSave => s.notifications.some(n => n.id === id) ? s : { ...s, notifications: [...s.notifications, { id, text, read: false }] }
 const read = (s: GameSave, prefix: string): GameSave => s.notifications.some(n => n.id.startsWith(prefix) && !n.read) ? { ...s, notifications: s.notifications.map(n => n.id.startsWith(prefix) ? { ...n, read: true } : n) } : s
 export const accessDelay = (text: string) => Math.min(3800, Math.max(900, 650 + text.split(/\s+/).length * 110))
+export const canStartAccessRecovery = (s: GameSave) => !!s.chapter2Access?.mirrorOpened && !s.chapter2Access.recovery && !!s.chapter2Access.details?.observations.includes('OBS_STORAGE_NOTICE_READ')
 export function accessNextDue(s: GameSave, testing=false): number {
   const c = s.chapter2Access
   if (!c && s.narrativePlan !== 'legacy-access') return Infinity
@@ -81,7 +82,7 @@ function enter(s: GameSave, id: string, now: number): GameSave {
     return enter(put(s, c), hasReference ? node.yes : node.no, now)
   }
   if (node.kind === 'npc') {
-    const extra = node.text === "Daniel left behind something like that." ? 1800 : node.text === 'The Archive is already installed on your device.' ? 2500 : node.text === 'And if you find something...' ? 1800 : 0
+    const extra = node.text === "Daniel left behind something like that." ? 1800 : node.text === 'TRACE is already installed on your device.' ? 2500 : node.text === 'And if you find something...' ? 1800 : 0
     c = { ...c, queue: { id, dueAt: now + accessDelay(node.text) + extra } }
   }
   if (node.kind === 'package') c = { ...c, phase: 'package', packageStatus: c.packageStatus === 'accepted' ? 'accepted' : 'offered' }
@@ -180,7 +181,7 @@ export function chapter2Access(s: GameSave, action: AccessAction, now = Date.now
     return event(put(s, { ...c, viewed: [...c.viewed, action.id], receipts: [...c.receipts, { eventId: id, recipient: 'player', source: 'mirror-fragment' }] }), id)
   }
   if (action.type === 'start-recovery') {
-    if (!c.mirrorOpened || c.recovery || !c.details?.observations.includes('OBS_STORAGE_NOTICE_READ')) return s
+    if (!canStartAccessRecovery(s) || !c.details) return s
     const next = event({...put(s, { ...c, recovery: { startedAt: now, dueAt: now+1500000, ...(testing ? {readyAt:now,testOpened:true} : {}) }, details:{...c.details,observations:[...new Set([...c.details.observations,'OBS_RECOVERY_STARTED'])]}, receipts:[...c.receipts,{eventId:'OBS_RECOVERY_STARTED',recipient:'player',source:'mirror-fragment'}], phase: 'recovery', groupDueAt: now+18000 }), knowledge:{...s.knowledge,player:[...new Set([...s.knowledge.player,'OBS_RECOVERY_STARTED'])]}}, 'C2-RECOVERY-START')
     return testing ? event(next,'C2-RECOVERY-READY') : next
   }

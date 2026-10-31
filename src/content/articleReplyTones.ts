@@ -1,0 +1,31 @@
+import type { Scene01Node } from './scene01'
+
+// Owner revision, 30 October: alternate tones for formerly single-line replies.
+// All variants retain the original continuation, effects and disclosure scope.
+const tones: Record<string, readonly [string, string]> = {
+  "That doesn't answer my question.": ["I still don't know who you are.", "You're avoiding the question."],
+  'Then why should I trust you?': ["What reason do I have to trust you?", "You haven't given me much reason to trust you."],
+  'What record?': ["Which record do you mean?", "What record are you talking about?"],
+  'What is TRACE?': ["Can you explain what TRACE is?", "TRACE? What exactly is that?"],
+  "So it's a backup?": ["Do you mean a backup?", "That sounds like a backup. Is it?"],
+  'Where did it come from?': ["Do you know where it came from?", "Where exactly did you get it?"],
+  "And I'm supposed to believe that?": ["How can I take that on trust?", "You expect me to just believe that?"],
+  'Why send it to me?': ["Why did you choose to send it to me?", "Why me, though?"],
+  "What's in the reference?": ["What does the reference contain?", "What does it actually have in it?"],
+  "It's for a good cause.": ["At least it's for a good cause.", "A good cause deserves the effort."],
+  "He's still your brother when there's nothing to investigate.": ["He's your brother, even when there isn't a lead to follow.", "You don't need something to investigate for him to still be your brother."],
+  "In a recovered index on this device. I haven't verified its source.": ["There's a recovered index on this device. I don't know if its source is reliable.", "A recovered index here on my device. Its source is still unverified."],
+  "I don't want to give you a false answer.": ["I'd hate to give you an answer that isn't true.", "I won't give you an answer I can't stand behind."],
+  "I'd like to survive my second day first.": ["Let me get through day two first.", "One thing at a time. I'm still trying to survive day two."],
+  "So we don't call it suspicious yet.": ["Then let's hold off on calling it suspicious.", "Too early to call it suspicious, then."],
+  "Obvious doesn't mean easy when it's someone you love.": ["Knowing that doesn't make it easier when you love someone.", "It's still hard when it's someone you love, even if it seems obvious."],
+  "Wanting it to be clearer doesn't make it clearer.": ["I wish wanting a clearer answer could make it clearer.", "We can want it to be clearer. That doesn't make it so."],
+  "Then I'll read it properly.": ["I'll take the time to read it carefully.", "All right. I'll give it a proper read."],
+}
+
+export function withArticleReplyTones(node: Scene01Node): Scene01Node {
+  if (node.kind !== 'choice' || node.choices.length !== 1) return node
+  const original = node.choices[0], alternatives = tones[original.text]
+  if (!alternatives) return node
+  return { ...node, choices: [original, ...alternatives.map((text, i) => ({ ...original, id: `${original.id}-tone-${i + 1}`, text }))] }
+}

@@ -1,3 +1,4 @@
+import { originAction } from './archiveOrigin'
 import { sourceAction, type SourceAction, type SourceScene, readingSource } from './sourceInvestigation'
 import { correctionsDeskAction, type DeskAction } from './scene06'
 import { versionHistoryAction, type VersionHistoryAction } from './scene05'
@@ -22,10 +23,13 @@ import { checkS28, checkS30Role, citeS29, completeS30, finishS28, openS28Directo
 import { continuePublicWithoutTip, keepS26Private, openLateTip, openS25Checkin, openS26Frame, returnToFinding, returnToS27, viewS24Note } from './phase03b'
 import { answerGroupFollowup, readFollowup, scheduleGroupProposal, scheduleMayaReferral, sendFollowupChoice, sendFollowupIntro } from './characterFollowups'
 import type { FollowupContact } from '../content/characterFollowups'
+import { captureSceneEntries, libraryScenes, prepareReplay, sceneComplete, sceneVisited, snapshotKey } from './sceneLibrary'
+import { normalizeSave } from './engine'
 
 interface GameStore {
   sourceAction: (scene:SourceScene,action:SourceAction)=>void
   correctionsDeskAction: (action: DeskAction) => void
+  originAction: (action:Parameters<typeof originAction>[1])=>void
   versionHistoryAction: (action: VersionHistoryAction) => void
   publicStoryAction: (action: PublicStoryAction) => void
   actIAction: (action: ActIAction) => void
@@ -155,11 +159,42 @@ interface GameStore {
 let writeQueue = Promise.resolve()
 let hydration: Promise<void> | undefined
 let restarting = false
+let runtimeSuspended = false
+let sessionGeneration = 0
+export function suspendRuntime() { runtimeSuspended = true; sessionGeneration++ }
+export function resumeRuntime() { runtimeSuspended = false; sessionGeneration++ }
+export const runtimeGeneration = () => sessionGeneration
+export async function flushGameWrites() { await writeQueue }
+/** Rewind the primary save atomically to an actual recorded scene entry. */
+export async function startSceneReplay(number: number): Promise<void> {
+  if (restarting) throw new Error('Another save operation is active.')
+  restarting=true
+  suspendRuntime()
+  try {
+    await writeQueue
+    const {save,recoveryRequired}=useGameStore.getState()
+    if(recoveryRequired)throw new Error('Resolve the save warning before starting again.')
+    const scene=libraryScenes.find(item=>item.number===number)
+    if(!scene||!sceneVisited(save,number))throw new Error('This scene has not been discovered.')
+    const id=snapshotKey(save,scene),entry=save.replayEntries?.[id]
+    if(!entry||!Number.isFinite(entry.capturedAt)||entry.save.replayEntries)throw new Error('No reliable scene-entry checkpoint is available for this save.')
+    const snapshot=normalizeSave(entry.save)
+    if(!sceneVisited(snapshot,number)||sceneComplete(snapshot,number))throw new Error('The scene checkpoint cannot be used safely.')
+    const checkpoints:NonNullable<GameSave['replayEntries']>={}
+    for(const item of libraryScenes.filter(item=>item.number<=number)){const key=snapshotKey(save,item),checkpoint=save.replayEntries?.[key];if(checkpoint)checkpoints[key]=checkpoint}
+    const revision=save.saveRevision??0
+    const selected={...prepareReplay({...entry,save:snapshot},Date.now()),settings:save.settings,replayEntries:checkpoints,saveRevision:revision+1}
+    await writeGame(selected,revision)
+    discardPendingSave()
+    useGameStore.setState({save:selected,saveError:null})
+  } finally { restarting=false;resumeRuntime() }
+}
 function commit(next: GameSave) {
-  if (restarting) return
+  if (restarting || runtimeSuspended) return
   if (useGameStore.getState().recoveryRequired) return
   const current = useGameStore.getState().save
   if (next === current) return
+  next = captureSceneEntries(current, next)
   const expectedRevision = current.saveRevision ?? 0
   const revised = { ...next, saveRevision: expectedRevision+1 }
   stagePendingSave(revised,expectedRevision)
@@ -175,6 +210,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   accessAction: action => commit(chapter2Access(get().save, action, Date.now(), playtestEnabled)),
   sourceAction: (scene,action) => commit(sourceAction(get().save,scene,action)),
   correctionsDeskAction: action => commit(correctionsDeskAction(get().save,action)),
+  originAction: action => commit(originAction(get().save,action)),
   versionHistoryAction: action => commit(versionHistoryAction(get().save,action)),
   publicStoryAction: action => commit(publicStoryAction(get().save,action)),
   actIAction: action => commit(actIAction(get().save, action)),
@@ -201,7 +237,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       set({ save: result.save, ready: true, saveError: result.error ?? null, recoveryRequired: result.recoveryRequired ?? false, recoveryRaw: result.raw })
       if (!result.recoveryRequired && result.save.prologue?.scene01?.invitation === 'joined' && !result.save.prologue.scene01.groupScript) { commit(beginScene02(result.save)); return }
       if (!result.recoveryRequired && result.save.prologue?.scene01?.nodeId === 'OPEN-S02-SOURCE-BOUNDARY') { commit(resumeScene02(result.save)); return }
-      if (!result.recoveryRequired && (result.save.prologue?.scene01?.privateScene03?.reading || result.save.chapter1?.versionHistory?.reading || result.save.chapter1?.correctionsDesk?.reading || readingSource(result.save))) { commit(pauseScene03(result.save)); return }
+      if (!result.recoveryRequired && (result.save.prologue?.scene01?.privateScene03?.reading || result.save.chapter1?.archiveOrigin?.reading || result.save.chapter1?.versionHistory?.reading || result.save.chapter1?.correctionsDesk?.reading || readingSource(result.save))) { commit(pauseScene03(result.save)); return }
     if (!result.recoveryRequired && result.save.chapter2Access?.story?.active) { commit(reunionAction(result.save,{type:'story-close',thread:result.save.chapter2Access.story.active},Date.now())); return }
       if (!result.recoveryRequired && !(import.meta.env.DEV && new URLSearchParams(window.location.search).has('legacyopening')) && (result.save.prologue || result.save.player) && !result.save.prologue?.scene01) commit(beginScene01(result.save))
       else if (!result.recoveryRequired && !result.save.prologue?.scene01 && result.save.prologue?.dialogueVersion === 4 && result.save.prologue.stage === 'complete' && !result.save.e01) commit(beginSlice(result.save))
@@ -215,7 +251,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     set({ save: result.save, ready: true, saveError: result.error ?? null, recoveryRequired: result.recoveryRequired ?? false, recoveryRaw: result.raw })
     if (!result.recoveryRequired && result.save.prologue?.scene01?.invitation === 'joined' && !result.save.prologue.scene01.groupScript) { commit(beginScene02(result.save)); return }
     if (!result.recoveryRequired && result.save.prologue?.scene01?.nodeId === 'OPEN-S02-SOURCE-BOUNDARY') { commit(resumeScene02(result.save)); return }
-    if (!result.recoveryRequired && (result.save.prologue?.scene01?.privateScene03?.reading || result.save.chapter1?.versionHistory?.reading || result.save.chapter1?.correctionsDesk?.reading || readingSource(result.save))) { commit(pauseScene03(result.save)); return }
+    if (!result.recoveryRequired && (result.save.prologue?.scene01?.privateScene03?.reading || result.save.chapter1?.archiveOrigin?.reading || result.save.chapter1?.versionHistory?.reading || result.save.chapter1?.correctionsDesk?.reading || readingSource(result.save))) { commit(pauseScene03(result.save)); return }
     if (!result.recoveryRequired && result.save.chapter2Access?.story?.active) { commit(reunionAction(result.save,{type:'story-close',thread:result.save.chapter2Access.story.active},Date.now())); return }
     if (!result.recoveryRequired && !(import.meta.env.DEV && new URLSearchParams(window.location.search).has('legacyopening')) && (result.save.prologue || result.save.player) && !result.save.prologue?.scene01) commit(beginScene01(result.save))
     else if (!result.recoveryRequired && !result.save.prologue?.scene01 && result.save.prologue?.dialogueVersion === 4 && result.save.prologue.stage === 'complete' && !result.save.e01) commit(beginSlice(result.save))

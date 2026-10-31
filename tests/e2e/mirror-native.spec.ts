@@ -9,7 +9,7 @@ test('Daniel phone keeps investigation tools optional and fits narrow screens', 
   await page.getByLabel('Your name').fill('Rae')
   await page.getByRole('button', { name: 'Set up phone' }).click()
   await completeOpening(page)
-  await page.getByRole('button', { name: 'Open The Archive', exact: true }).click()
+  await page.getByRole('button', { name: 'Open TRACE', exact: true }).click()
   for (const width of [390, 320]) {
     await page.setViewportSize({ width, height: width === 320 ? 568 : 844 })
     await expect(page.locator('.mirror-on-home')).not.toContainText(/snapshot|recovered/i)

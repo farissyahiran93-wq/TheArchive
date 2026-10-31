@@ -35,8 +35,8 @@ test('whole Scene 01 → all 13 group choices → Lucas leaves → delayed Hey, 
   await page.clock.install({ time: new Date('2026-10-22T12:00:00Z') })
   // Freeze before navigation, when page startup cannot consume the pause target.
   await page.clock.pauseAt(new Date('2026-10-22T12:00:01Z'))
-  await page.goto('/')
-  await page.getByRole('button', { name: 'Enter the archive', exact: true }).click()
+  await page.goto('/?gameplaytest=1')
+  await page.getByRole('button', { name: 'Unlock phone', exact: true }).click()
   await page.clock.runFor(20_000)
   await page.getByRole('button', { name: 'Open unknown message', exact: true }).click()
   await page.clock.runFor(120_000)
@@ -115,7 +115,7 @@ test('refresh during the 5.5-second handoff retains the deadline and delivers th
   const pending = (await stored(page)).prologue!.scene01!.privateHandoff!
   await page.clock.runFor(1000)
   await page.reload()
-  await page.getByRole('button', { name: 'Enter the archive', exact: true }).click()
+  await page.getByRole('button', { name: 'Unlock phone', exact: true }).click()
   await openGroup(page)
   expect((await stored(page)).prologue!.scene01!.privateHandoff!.dueAt).toBe(pending.dueAt)
   const remaining = pending.dueAt - await page.evaluate(() => Date.now())
@@ -125,7 +125,7 @@ test('refresh during the 5.5-second handoff retains the deadline and delivers th
   await expect(page.getByLabel('Incoming notification', { exact: true })).toContainText('Hey.')
   await expect(page.getByRole('region', { name: 'FIND DANIEL group conversation' })).toBeVisible()
   await page.reload()
-  await page.getByRole('button', { name: 'Enter the archive', exact: true }).click()
+  await page.getByRole('button', { name: 'Unlock phone', exact: true }).click()
   await page.clock.runFor(20_000)
   expect((await stored(page)).prologue!.scene01!.messages.filter(line => line.id === 'OPEN-S03-FIRST-MESSAGE')).toHaveLength(1)
   expect((await stored(page)).deliveredEvents).not.toContain('OPEN-S03-ACTIVATED')

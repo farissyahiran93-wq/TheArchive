@@ -159,7 +159,7 @@ export function normalizeSave(input: unknown): GameSave {
     if (prologue.scene01 !== undefined) {
       const scene = prologue.scene01
       const scene01Nodes = actINodes(scene as never)
-      if (!record(scene) || scene.version !== 1 || scene.scriptRevision !== undefined && scene.scriptRevision !== 'final-2026-10-23' || typeof scene.nodeId !== 'string' || !scene01Nodes[scene.nodeId] || !Number.isFinite(scene.startedAt) ||
+      if (!record(scene) || scene.version !== 1 || scene.traceIntroRevision!==undefined&&scene.traceIntroRevision!=='2026-10-31'||scene.articleAlignment!==undefined&&scene.articleAlignment!=='2026-10-28'||scene.scriptRevision !== undefined && scene.scriptRevision !== 'final-2026-10-23' || typeof scene.nodeId !== 'string' || !scene01Nodes[scene.nodeId] || !Number.isFinite(scene.startedAt) ||
         typeof scene.introduced !== 'boolean' || typeof scene.nameDisclosed !== 'boolean' || typeof scene.invitationDismissed !== 'boolean' || typeof scene.complete !== 'boolean' ||
         !['none','declined','ready','joined'].includes(String(scene.invitation)) || scene.invitationApproved !== undefined && typeof scene.invitationApproved !== 'boolean' ||
         scene.disclosedName !== undefined && (typeof scene.disclosedName !== 'string' || scene.disclosedName.length < 1 || scene.disclosedName.length > 40) || scene.nameDisclosed && !scene.disclosedName ||
@@ -218,5 +218,30 @@ export function normalizeSave(input: unknown): GameSave {
     if (prologue.afterQueue !== undefined && prologue.afterQueue !== 'recovery') throw new Error('Invalid opening destination')
     if (prologue.queue !== undefined && (!Array.isArray(prologue.queue) || prologue.queue.some(line => !record(line) || typeof line.id !== 'string' || typeof line.text !== 'string' || typeof line.dueAt !== 'number' || !Number.isFinite(line.dueAt)))) throw new Error('Invalid opening schedule')
   }
-  return input as unknown as GameSave
+  const candidate=input as unknown as GameSave
+  // A saved chronology makes equivalent stored/journal copies normalize identically.
+  const scene=candidate.prologue?.scene01
+  const checkpointAt=Math.max(scene?.startedAt??0,...scene?.messages.map(m=>m.at)??[],...scene?.groupMessages.map(m=>m.at)??[])
+  return removeObsoleteContactBlocking(candidate,checkpointAt)
+}
+
+/** Forward, idempotent compatibility repair. The v1 database and unrelated progress stay intact. */
+export function removeObsoleteContactBlocking(input:GameSave,now=Date.now()):GameSave {
+  const scene=input.prologue?.scene01,c=input.chapter1
+  if(scene?.sophieBlocked===undefined&&!scene?.blockedQueue&&c?.sender.blocked===undefined)return input
+  let s=input
+  if(scene){
+    const held=scene.blockedQueue
+    const queue=held&&!scene.queue.length&&!s.deliveredEvents.includes(held.id)?[{id:held.id,dueAt:now+held.remainingMs,typing:held.typing}]:scene.queue
+    s={...s,prologue:{...s.prologue!,scene01:{...scene,sophieBlocked:undefined,blockedQueue:undefined,queue}}}
+  }
+  if(c){
+    s={...s,chapter1:{...c,sender:{...c.sender,blocked:undefined}}}
+    const id='scene04_sender_version_hint'
+    if(!scene?.articleAlignment&&c.publicStory?.flags.includes('index-available')&&s.deliveredEvents.includes(id)&&!c.sender.messages.some(m=>m.id===id)){
+      const text="The version you're reading isn't the first."
+      s={...s,chapter1:{...s.chapter1!,sender:{...s.chapter1!.sender,messages:[...c.sender.messages,{id,sender:'unknown',text,at:now}]}},notifications:s.notifications.some(n=>n.id===id)?s.notifications:[...s.notifications,{id,text,read:false}]}
+    }
+  }
+  return s
 }

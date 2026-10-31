@@ -9,7 +9,7 @@ async function expectContained(page: Page) {
 }
 
 async function setUpPhone(page: Page, name = 'Rae') {
-  await page.getByRole('button', { name: /Enter the archive/i }).click()
+  await page.getByRole('button', { name: /Unlock phone/i }).click()
   await page.getByLabel('Your name').fill(name)
   await page.getByRole('button', { name: /Set up phone/i }).click()
   await completeOpening(page)
@@ -19,7 +19,7 @@ async function setUpPhone(page: Page, name = 'Rae') {
 test('phone lock, two home pages and app navigation at 390x844', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/?legacyopening=1')
-  await expect(page.getByRole('button', { name: /Enter the archive/i })).toBeVisible()
+  await expect(page.getByRole('button', { name: /Unlock phone/i })).toBeVisible()
   await expectContained(page)
   await page.screenshot({ animations: 'disabled', scale: 'css', path: test.info().outputPath(`lock-390x844.png`) })
   await setUpPhone(page)
@@ -57,8 +57,8 @@ test('phone lock, two home pages and app navigation at 390x844', async ({ page }
   await expect(page.getByRole('button', { name: 'View current copy' })).toBeEnabled()
   await page.getByRole('button', { name: 'Go home', exact: true }).click()
   await page.getByRole('button', { name: 'Lock phone', exact: true }).click()
-  await expect(page.getByRole('button', { name: /Enter the archive/i })).toBeVisible()
-  await page.getByRole('button', { name: /Enter the archive/i }).click()
+  await expect(page.getByRole('button', { name: /Unlock phone/i })).toBeVisible()
+  await page.getByRole('button', { name: /Unlock phone/i }).click()
   await expect(page.getByRole('main', { name: "Rae's home screen" })).toBeVisible()
   await expect(page.getByLabel('Your name')).toHaveCount(0)
   await page.getByRole('button', { name: 'Open Bulletin', exact: true }).last().click()
@@ -71,11 +71,12 @@ for (const [width, height] of [[320, 568], [1280, 900]] as const) {
   test(`phone presentation remains usable at ${width}x${height}`, async ({ page }) => {
     await page.setViewportSize({ width, height })
     await page.goto('/?devtools=1&legacyopening=1')
-    await expect(page.getByRole('button', { name: /Enter the archive/i })).toBeVisible()
+    await expect(page.getByRole('button', { name: /Unlock phone/i })).toBeVisible()
     await expectContained(page)
     await page.screenshot({ animations: 'disabled', scale: 'css', path: test.info().outputPath(`lock-${width}x${height}.png`) })
     await setUpPhone(page, 'Sam')
     await expect(page.getByRole('button', { name: 'Open Messages', exact: true }).first()).toBeVisible()
+    await page.getByRole('button', { name: 'Read Daniel Mercer brief' }).scrollIntoViewIfNeeded()
     await expect(page.getByRole('button', { name: 'Read Daniel Mercer brief' })).toBeInViewport({ ratio: 1 })
     await expectContained(page)
     await page.screenshot({ animations: 'disabled', scale: 'css', path: test.info().outputPath(`home-${width}x${height}.png`) })

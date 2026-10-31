@@ -1,0 +1,36 @@
+import { expect, test } from '@playwright/test'
+import { completeOpening } from './opening-helper'
+
+test('320px opening resumes pending messages and preserves legacy data', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 740 })
+  await page.goto('/?legacyopening=1')
+  await page.evaluate(() => localStorage.setItem('the-archive:game-save:v1', 'legacy-do-not-touch'))
+  await page.getByRole('button', { name: "Open Sophie's new message" }).click()
+  await page.getByLabel('Your name').fill('Rae')
+  await page.getByRole('button', { name: 'Set up phone' }).click()
+  await expect(page.getByRole('status', { name: 'Sophie is typing' })).toBeVisible()
+  await page.reload()
+  await page.getByRole('button', { name: /Enter the archive/i }).click()
+  await expect(page.getByRole('button', { name: 'Who is Daniel Mercer?' })).toBeVisible()
+  await expect(page.locator('.opening-bubble.sophie')).toHaveCount(6)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  await completeOpening(page)
+  await page.reload()
+  await page.getByRole('button', { name: /Enter the archive/i }).click()
+  await expect(page.getByRole('main', { name: "Rae's home screen" })).toBeVisible()
+  expect(await page.evaluate(() => localStorage.getItem('the-archive:game-save:v1'))).toBe('legacy-do-not-touch')
+  await page.getByRole('button', { name: 'Open Messages' }).first().click()
+  await page.getByRole('button', { name: 'Open Sophie Mercer conversation' }).click()
+  await expect(page.getByText('I need some time before I share anything.', { exact: true })).toBeVisible()
+})
+
+test('reduced motion reveals authored messages without choosing a player response', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/?legacyopening=1')
+  await page.getByRole('button', { name: "Open Sophie's new message" }).click()
+  await page.getByLabel('Your name').fill('Rae')
+  await page.getByRole('button', { name: 'Set up phone' }).click()
+  await expect(page.getByRole('button', { name: 'Who is Daniel Mercer?' })).toBeVisible()
+  await expect(page.locator('.opening-bubble.player')).toHaveCount(0)
+  await expect(page.getByRole('button', { name: 'Send message' })).toBeDisabled()
+})

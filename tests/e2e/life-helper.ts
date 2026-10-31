@@ -26,7 +26,7 @@ export function expandedMirror() {
 }
 export async function seedMirror(page:Page,save=expandedMirror()){
   await seedScene(page,save,{pauseClock:true})
-  await page.getByRole('button',{name:'Open The Archive',exact:true}).click()
+  await page.getByRole('button',{name:'Open TRACE',exact:true}).click()
   await page.getByRole('button',{name:'OPEN PHONE MIRROR',exact:true}).click()
   await page.getByRole('button',{name:'ENTER MIRROR',exact:true}).click()
 }

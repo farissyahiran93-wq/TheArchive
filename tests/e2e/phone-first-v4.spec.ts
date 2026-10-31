@@ -3,8 +3,8 @@ import { openSophie, sceneAt, sceneReply, seedScene, sceneTime } from './scene01
 
 test('fresh opening uses the replacement screenplay without an identity form, note photo or automatic reply', async ({ page }) => {
   await page.clock.install({ time: new Date(sceneTime) })
-  await page.goto('/')
-  await page.getByRole('button', { name: 'Enter the archive', exact: true }).click()
+  await page.goto('/?gameplaytest=1')
+  await page.getByRole('button', { name: 'Unlock phone', exact: true }).click()
   await page.clock.runFor(20_000)
   await page.getByRole('button', { name: 'Open unknown message', exact: true }).click()
   await page.clock.runFor(120_000)
@@ -31,7 +31,7 @@ test('premium dialogue preserves every embedded player Send and resumes after re
   await page.clock.runFor(120_000)
   await expect(page.locator('.opening-bubble.player').filter({ hasText: 'A little.' })).toHaveCount(0)
   await page.reload()
-  await page.getByRole('button', { name: 'Enter the archive', exact: true }).click()
+  await page.getByRole('button', { name: 'Unlock phone', exact: true }).click()
   await openSophie(page)
   await sceneReply(page, 'A little.')
   await expect(page.getByRole('button', { name: "You don't have to explain everything at once.", exact: true })).toBeVisible()

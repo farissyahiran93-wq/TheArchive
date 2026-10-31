@@ -7,7 +7,7 @@ import { chapter1Action } from '../../src/game/chapter1'
 export class ActIFinalFixture {
   now=1800000000000
   save:GameSave
-  constructor(save?:GameSave){this.save=save??beginScene01(newGame(),this.now);this.drain()}
+  constructor(save?:GameSave){this.save=save??beginScene01(newGame(),this.now);if(!save)delete this.save.prologue!.scene01!.articleAlignment;this.drain()}
   drain(){for(let i=0;i<300;i++){const due=this.save.prologue?.scene01?.queue[0]?.dueAt;if(due===undefined)return this;this.now=Math.max(this.now,due);const next=deliverScene01(this.save,this.now);if(next===this.save)return this;this.save=next}throw Error('Dialogue did not settle')}
   act(action:Parameters<typeof actIAction>[1]){this.save=actIAction(this.save,action,this.now+=100);return this.drain()}
   send(id='a'){this.save=sendScene01Choice(this.save,id,'Alex',true,this.now+=100);return this.drain()}

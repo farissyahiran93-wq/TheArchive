@@ -19,7 +19,7 @@ function useVisualHeight() {
   }, [])
 }
 
-export function PhoneShell({ children, onHome, onExitRequest, isHome, theme, reduceMotion, storyTime, surface = 'app', screenKey, overlay }: { children: ReactNode; onHome: () => void; onExitRequest?: () => void; isHome: boolean; theme: 'light' | 'dark'; reduceMotion: boolean; storyTime?: string; surface?: 'home' | 'lock' | 'app'; screenKey?: string; overlay?: ReactNode }) {
+export function PhoneShell({ children, onHome, onExitRequest, isHome, theme, reduceMotion, storyTime, surface = 'app', screenKey, overlay }: { children: ReactNode; onHome: () => void; onExitRequest?: () => void; isHome: boolean; theme: 'light' | 'dark'; reduceMotion: boolean; storyTime?: string; surface?: 'home' | 'lock' | 'app' | 'menu'; screenKey?: string; overlay?: ReactNode }) {
   useVisualHeight()
   const native = Capacitor.isNativePlatform()
   const [time, setTime] = useState(() => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }))
@@ -30,10 +30,10 @@ export function PhoneShell({ children, onHome, onExitRequest, isHome, theme, red
   }, [])
   return <div className={`app-root theme-${theme}${reduceMotion ? ' reduce-motion' : ''}${native ? ' native-app' : ''}`}>
     <div className={`device surface-${surface}`}>
-      {!native && <div className="status-bar" aria-label={storyTime ? `Greyhaven story time 8 October 2026 ${storyTime}` : `Local time ${time}`}><span className="status-time">{(storyTime ?? time).replace(/^0/, '')}</span><span className="device-island" aria-hidden="true"><i/></span><span className="status-indicators" aria-hidden="true"><span className="signal-bars"><i/><i/><i/><i/></span><Wifi size={17} strokeWidth={2.5}/><span className="battery-icon"><span/></span></span></div>}
+      {!native && surface !== 'menu' && <div className="status-bar" aria-label={storyTime ? `Greyhaven story time 8 October 2026 ${storyTime}` : `Local time ${time}`}><span className="status-time">{(storyTime ?? time).replace(/^0/, '')}</span><span className="device-island" aria-hidden="true"><i/></span><span className="status-indicators" aria-hidden="true"><span className="signal-bars"><i/><i/><i/><i/></span><Wifi size={17} strokeWidth={2.5}/><span className="battery-icon"><span/></span></span></div>}
       <div className="phone-content" key={screenKey}>{children}</div>
       {overlay}
-      {!native && <nav className="system-nav" aria-label="Phone navigation"><button onClick={isHome ? onExitRequest : onHome} aria-label={isHome ? 'Exit game' : 'Go home'}><span className="gesture-line"/></button></nav>}
+      {!native && surface !== 'menu' && <nav className="system-nav" aria-label="Phone navigation"><button onClick={isHome ? onExitRequest : onHome} aria-label={isHome ? 'Exit game' : 'Go home'}><span className="gesture-line"/></button></nav>}
     </div>
   </div>
 }

@@ -1,22 +1,27 @@
+import { canonicalVersionAction, conversationRevision, validateConversationCheckpoint } from './archiveOrigin'
+import { versionHistoryDialogue } from '../content/versionHistoryConversationData'
+import { versionHistorySceneId } from '../content/versionHistoryConversation'
 import type { GameSave } from './types'
 import type { Scene01Node } from '../content/scene01'
 import { scene05Entrances, scene05Local, scene05Nodes } from '../content/scene05Final'
 import { enterScene01, pauseScene03 } from './scene01'
 
-type Thread='sophie'|'group'
+type Thread='unknown'|'sophie'|'group'
 type Checkpoint={nodeId:string;draft?:{nodeId:string;choiceId:string};paused?:{id:string;remainingMs:number;typing:boolean};complete?:boolean;scroll?:number}
 export interface VersionHistoryState {
+  revision?:'conversation-2026-10-28'; sceneId?:'ch02_scene05_version_history'; chatChoices?:Record<string,string>; interpretations?:Record<string,'supported_observation'|'hypothesis'|'question'|'strategy'|'shared_assessment'|'preference'>; strategy?:'publisher_clarification'|'independent_copy'|'preserve_uncertainty'; assessment?:'reference_without_verified_revision'|'revision_question_unresolved'|'maintain_source_separation'; comparisonStatus?:'unavailable';
   version:1; entered:boolean; complete:boolean; flags:string[]; checklist:number[];
   panel:'home'|'public'|'index'|'policy'|'form'|'receipt'; scroll:Record<string,number>;
   localChoices:Record<string,string>; feedback?:string;
   inquiry:{status:'not_sent'|'draft'|'delivered'|'failed';choice?:string;text?:string;reviewed?:boolean;receipt?:{id:'R-GB-VH-001';text:string;at:number}};
-  receipts?:{eventId:string;recipient:'player';factIds:string[]}[];
+  receipts?:{eventId:string;recipient:'player'|'unknown';factIds:string[]}[];
   sophieNotified:boolean; reading?:Thread; threads:Partial<Record<Thread,Checkpoint>>;
 }
 const initial=():VersionHistoryState=>({version:1,entered:true,complete:false,flags:[],checklist:[],panel:'home',scroll:{},localChoices:{},inquiry:{status:'not_sent'},sophieNotified:false,threads:{}})
 export const versionHistoryEligible=(s:GameSave)=>s.prologue?.scene01?.scriptRevision==='final-2026-10-23'&&!!s.chapter1?.publicStory?.complete&&!s.chapter1.completed.some(n=>n>4)&&!s.chapter1.inspected.some(id=>['CH1-OLDER','CH1-DIFF-OBS'].includes(id))&&!s.chapter2Access
 export const versionHistoryReady=(s:GameSave)=>{
   const p=s.chapter1?.versionHistory
+  if(p?.revision)return ['public','index','policy','article_metadata_inspected'].every(f=>p.flags.includes(f))&&p.checklist.length===4&&versionHistoryDialogue.slice(0,7).every(g=>p.chatChoices?.[g.id])
   return !!p&&['public','index','policy','observation'].every(f=>p.flags.includes(f))&&p.checklist.length===4
 }
 export function versionHistoryPut(s:GameSave,patch:Partial<VersionHistoryState>):GameSave {
@@ -35,8 +40,9 @@ export function pauseVersionHistory(s:GameSave,now:number):GameSave {
   return {...s,prologue:{...s.prologue!,scene01:{...scene,queue:[],draft:undefined}}}
 }
 export function openVersionHistoryThread(s:GameSave,thread:Thread,now:number):GameSave {
+  if(conversationRevision(s))return canonicalVersionAction(s,{type:'thread',thread},now)
   const p=s.chapter1?.versionHistory,scene=s.prologue?.scene01
-  if(!p||!scene||p.reading===thread||thread==='sophie'&&!p.sophieNotified||thread==='group'&&(!versionHistoryReady(s)||scene.groupMembers?.maya!==true))return s
+  if(!p||!scene||thread==='unknown'||p.reading===thread||thread==='sophie'&&!p.sophieNotified||thread==='group'&&(!versionHistoryReady(s)||scene.groupMembers?.maya!==true))return s
   s=pauseScene03(s,now)
   const current=s.chapter1!.versionHistory!,checkpoint=current.threads[thread]
   if(checkpoint?.complete)return s
@@ -52,14 +58,16 @@ export function versionHistoryEvent(s:GameSave,node:Extract<Scene01Node,{kind:'e
   s=versionHistoryPut(s,{reading:undefined,threads:{...p.threads,[thread]:{nodeId:node.id,complete:true}}})
   return {...s,prologue:{...s.prologue!,scene01:{...scene,queue:[],draft:undefined,groupPresence:{...scene.groupPresence,sophie:false,maya:thread==='group'?false:scene.groupPresence?.maya??false,lucas:false}}}}
 }
-export type VersionHistoryAction = {type:'enter'|'back'|'read-policy'|'not-now'|'review'|'send-request'|'save-draft'|'cancel'|'request-failed'|'next-lead'|'bonus'|'skip-bonus'}
+export type VersionHistoryAction = {type:'inspect-metadata'|'save-update-analysis'|'get-index'|'read-article'|'enter'|'back'|'read-policy'|'not-now'|'review'|'send-request'|'save-draft'|'cancel'|'request-failed'|'next-lead'|'bonus'|'skip-bonus'}
   |{type:'panel';panel:VersionHistoryState['panel']}
   |{type:'local';id:keyof typeof scene05Local;choice:string}
+  |{type:'discuss-source';source:'article'|'index'|'policy'}
   |{type:'check';index:number}
   |{type:'thread';thread:Thread}
   |{type:'scroll';key:string;value:number}
 /** All navigation and disclosure is explicit. The fictional desk performs no network I/O. */
 export function versionHistoryAction(s:GameSave,a:VersionHistoryAction,now=Date.now()):GameSave {
+  if(conversationRevision(s)||a.type==='enter'&&!s.chapter1?.versionHistory)return canonicalVersionAction(s,a,now)
   if(a.type==='enter'){
     if(!s.chapter1?.versionHistory){
       if(!versionHistoryEligible(s))return s
@@ -139,6 +147,11 @@ export function validateVersionHistory(value:unknown):void {
   if(value===undefined)return
   if(!value||typeof value!=='object')throw Error('Invalid Scene 05 state')
   const p=value as VersionHistoryState
+  if(p.revision){
+    if(p.revision!=='conversation-2026-10-28'||p.sceneId!==versionHistorySceneId||p.version!==1||p.entered!==true||typeof p.complete!=='boolean'||!Array.isArray(p.flags)||p.flags.some(f=>typeof f!=='string')||!Array.isArray(p.checklist)||new Set(p.checklist).size!==p.checklist.length||p.checklist.some(i=>!Number.isInteger(i)||i<0||i>3)||!['home','public','index','policy','form','receipt'].includes(p.panel)||!p.scroll||Object.values(p.scroll).some(n=>!Number.isFinite(n)||n<0)||!p.chatChoices||Object.entries(p.chatChoices).some(([id,c])=>!versionHistoryDialogue.find(g=>g.id===id)?.branches.some(b=>b.id===c))||!p.threads||p.reading!==undefined&&!['unknown','sophie','group'].includes(p.reading)||!p.inquiry||!['not_sent','draft','delivered','failed'].includes(p.inquiry.status)||p.inquiry.text!==undefined&&!versionHistoryDialogue[7].branches.some(b=>b.id===p.inquiry.choice&&b.text===p.inquiry.text)||p.inquiry.status==='delivered'&&(!p.inquiry.receipt||p.inquiry.receipt.id!=='R-GB-VH-001'||p.inquiry.receipt.text!==p.inquiry.text||!Number.isFinite(p.inquiry.receipt.at))||p.inquiry.status!=='delivered'&&p.inquiry.receipt!==undefined||p.complete&&(!['public','index','policy','article_metadata_inspected'].every(f=>p.flags.includes(f))||!p.assessment||!p.strategy||p.checklist.length!==4||!versionHistoryDialogue.slice(0,7).every(g=>p.chatChoices?.[g.id])))throw Error('Invalid conversation Version History')
+    for(const [thread,c] of Object.entries(p.threads)){if(!['unknown','sophie','group'].includes(thread))throw Error('Invalid conversation thread');validateConversationCheckpoint(c)}
+    return
+  }
   if(p.receipts!==undefined&&(!Array.isArray(p.receipts)||p.receipts.some(r=>!r||typeof r.eventId!=='string'||r.recipient!=='player'||!Array.isArray(r.factIds)||r.factIds.some(f=>typeof f!=='string'))))throw Error('Invalid Scene 05 receipts')
   const strings=(v:unknown)=>Array.isArray(v)&&v.every(x=>typeof x==='string')
   if(p.version!==1||p.entered!==true||typeof p.complete!=='boolean'||!strings(p.flags)||!Array.isArray(p.checklist)||new Set(p.checklist).size!==p.checklist.length||p.checklist.some(i=>!Number.isInteger(i)||i<0||i>3)||!['home','public','index','policy','form','receipt'].includes(p.panel)||!p.scroll||Object.values(p.scroll).some(n=>!Number.isFinite(n)||n<0)||!p.localChoices||Object.entries(p.localChoices).some(([id,choice])=>!scene05Local[id as keyof typeof scene05Local]?.some(o=>o.id===choice))||typeof p.sophieNotified!=='boolean'||!p.inquiry||!['not_sent','draft','delivered','failed'].includes(p.inquiry.status)||p.inquiry.text!==undefined&&!scene05Local['S05-C04'].some(o=>o.id===p.inquiry.choice&&o.text===p.inquiry.text)||p.inquiry.reviewed!==undefined&&typeof p.inquiry.reviewed!=='boolean'||p.inquiry.status==='delivered'&&(!p.inquiry.receipt||p.inquiry.receipt.id!=='R-GB-VH-001'||p.inquiry.receipt.text!==p.inquiry.text||!Number.isFinite(p.inquiry.receipt.at))||p.inquiry.status!=='delivered'&&p.inquiry.receipt!==undefined||p.reading!==undefined&&!['sophie','group'].includes(p.reading)||!p.threads||Object.entries(p.threads).some(([thread,c])=>!['sophie','group'].includes(thread)||!scene05Nodes[c.nodeId]||c.paused&&(!scene05Nodes[c.paused.id]||!Number.isFinite(c.paused.remainingMs)||c.paused.remainingMs<0||typeof c.paused.typing!=='boolean')||c.draft&&(scene05Nodes[c.draft.nodeId]?.kind!=='choice'||!(scene05Nodes[c.draft.nodeId] as Extract<Scene01Node,{kind:'choice'}>).choices.some(o=>o.id===c.draft!.choiceId)))||p.complete&&(!p.localChoices['S05-C11']||p.checklist.length!==4||!['public','index','policy','observation'].every(f=>p.flags.includes(f))))throw Error('Invalid Scene 05 state')

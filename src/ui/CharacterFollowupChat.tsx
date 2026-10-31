@@ -1,3 +1,5 @@
+import { sceneStartMarkers } from './sceneMarkers'
+import { SceneStartMarker } from './SceneStartMarker'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { ArrowLeft, Send } from 'lucide-react'
 import { type FollowupContact } from '../content/characterFollowups'
@@ -16,6 +18,7 @@ export function CharacterFollowupChat({ contact, onBack, readOnly = false }: { c
   const scroller = useRef<HTMLDivElement>(null)
   const nearEnd = useRef(true)
   const lines = save.messages.filter(message => (message.sender === contact || message.recipient === contact) && (!readOnly || !message.id.startsWith('OPEN-S02-')))
+  const markers = sceneStartMarkers(lines)
   const lastCount = useRef(lines.length)
   const label = contact[0].toUpperCase() + contact.slice(1)
   const pending = !readOnly && save.pendingEvents.some(event => event.id.startsWith(`ARC-E01-${contact.toUpperCase()}-`))
@@ -35,7 +38,7 @@ export function CharacterFollowupChat({ contact, onBack, readOnly = false }: { c
   return <section className="opening-screen opening-v4" aria-label={`${label} private conversation`}>
     <header className="opening-chat-header"><button className="icon-button bare" onClick={onBack} aria-label="Back to inbox"><ArrowLeft size={21}/></button><CharacterAvatar character={contact} fallback={label[0]} className="opening-avatar"/><div><strong>{contact === 'lucas' ? 'Lucas Grey' : contact === 'eli' ? 'Eli Ward' : 'Nora Vance'}</strong><small>{pending || options.length ? 'Online' : 'Offline'}</small></div></header>
     <div className="opening-thread" ref={scroller} onScroll={event => { const node = event.currentTarget; nearEnd.current = node.scrollHeight - node.scrollTop - node.clientHeight < 90; if (nearEnd.current) { setNewCount(0); read(contact) } }}>
-      {lines.map(message => <div key={message.id} className={`conversation-line ${message.sender === 'player' ? 'outgoing' : 'incoming'}`}>{message.sender !== 'player' && <CharacterAvatar character={contact} fallback={label[0]} className="message-avatar"/>}<div className="conversation-body"><div className={`opening-bubble ${message.sender === 'player' ? 'player' : 'sophie'}`}>{message.text}</div></div></div>)}
+      {lines.map(message => <div key={message.id} className={`conversation-line ${message.sender === 'player' ? 'outgoing' : 'incoming'}`}>{message.sender !== 'player' && <CharacterAvatar character={contact} fallback={label[0]} className="message-avatar"/>}<div className="conversation-body"><SceneStartMarker line={message} markers={markers}/><div className={`opening-bubble ${message.sender === 'player' ? 'player' : 'sophie'}`}>{message.text}</div></div></div>)}
       {pending && <div className="opening-v4-typing" role="status" aria-label={`${label} is typing`}><CharacterAvatar character={contact} fallback={label[0]} className="message-avatar"/><span className="typing-dots"><i/><i/><i/></span></div>}
     </div>
     {newCount > 0 && <button className="opening-jump" onClick={() => { if (scroller.current) scroller.current.scrollTop = scroller.current.scrollHeight; nearEnd.current = true; setNewCount(0); read(contact) }}>{newCount} new · Jump to latest</button>}

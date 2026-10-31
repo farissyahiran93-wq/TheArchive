@@ -16,7 +16,7 @@ test('historical master-route save ends on Goodbye and stays outside Unknown/Arc
   await expect(page.getByText('Sophie is offline.', { exact: true })).toBeVisible()
   await page.clock.runFor(3_600_000)
   await page.reload()
-  await page.getByRole('button', { name: 'Enter the archive', exact: true }).click()
+  await page.getByRole('button', { name: 'Unlock phone', exact: true }).click()
   await page.clock.runFor(60_000)
   const pending = await page.evaluate(() => sessionStorage.getItem('the-archive-reboot:pending-save:v1'))
   if (pending) expect(JSON.parse(pending).save.chapter2Access).toBeUndefined()

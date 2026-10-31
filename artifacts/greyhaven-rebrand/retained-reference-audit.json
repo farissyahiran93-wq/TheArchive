@@ -1,0 +1,77 @@
+[
+  {
+    "file": "src/content/e01Phase03b.ts",
+    "line": 116,
+    "text": "  \"The other is a read-only Memory Project workspace. It's called the Archive. It has our source cards and the crop Daniel sent me.\","
+  },
+  {
+    "file": "src/content/e01Phase03b.ts",
+    "line": 121,
+    "text": "  { id: 'P-S16-A', text: 'Can I look at the Archive without joining Messages?', reply: ["
+  },
+  {
+    "file": "src/content/e01Phase03b.ts",
+    "line": 140,
+    "text": "  { id: 'P-S16-D', text: 'Why call it the Archive if most of this is links?', reply: ["
+  },
+  {
+    "file": "src/content/recoverySequence.ts",
+    "line": 34,
+    "text": "    { id: 'meaning', text: 'What does 7\u201314 actually refer to?', lines: [\"A range in the supplied material. We haven't established what it indexes.\", 'Read the ordinary Untitled note and the Archive Index. Compare what each actually says.'] },"
+  },
+  {
+    "file": "src/content/versionHistoryConversation.ts",
+    "line": 94,
+    "text": "  { pre: [\"Before you start looking, there's something I want you to check.\", \"The article and the Archive index show the same public article reference.\", \"That doesn't prove the article was rewritten, or tell us who made the index.\", \"Don't take my word for it. Look at both records yourself.\"],"
+  },
+  {
+    "file": "src/content/versionHistoryConversationData.ts",
+    "line": 96,
+    "text": "      \"Now compare it with the Archive record.\","
+  },
+  {
+    "file": "src/content/versionHistoryConversationData.ts",
+    "line": 183,
+    "text": "      \"If you put the public article next to the Archive reference...\","
+  },
+  {
+    "file": "src/content/versionHistoryConversationData.ts",
+    "line": 294,
+    "text": "        \"text\": \"The public report and the Archive index need to stay separate.\","
+  },
+  {
+    "file": "src/game/traceTools.test.ts",
+    "line": 54,
+    "text": "    oldLine.text = 'THE ARCHIVE \u00b7 Restricted access package'"
+  },
+  {
+    "file": "src/ui/ios-overhaul.css",
+    "line": 1,
+    "text": "/* The Archive \u00b7 iPhone-inspired design system. Original artwork, no Apple assets. */"
+  },
+  {
+    "file": "src/ui/Phase03bScenes.tsx",
+    "line": 130,
+    "text": "  return <><h2>{s.s18Route === 'archive' ? 'THE ARCHIVE \u00b7 Memory Project \u00b7 read-only' : 'Public research path'}</h2><p>{s.s18Route === 'archive' ? 'Inside a workspace is not the same as verified. Open a card to see who holds its original.' : 'The Bulletin preview and civic portal are still open. You can save public links to your private Case Board. No Archive folder is required.'}</p><div className=\"phase-source-list\">{s18SourceLabels.map(item => <button className={s.s18Inspected === item.id ? 'selected' : ''} key={item.id} aria-pressed={s.s18Inspected === item.id} onClick={() => inspect(item.id)}><strong>{item.title}</strong><small>{item.source} \u00b7 {item.status}</small></button>)}</div>{s.s18Inspected && <p className=\"utility-note\">{detail}</p>}<h3>Which label tells you most about the older image?</h3><div className=\"choices\"><button className=\"choice\" disabled={!s.s18Inspected} onClick={() => { setFeedback('Right. It explains why a separate audit request matters.'); answer('preview') }}>Cropped preview; original not held here.</button><button className=\"choice\" onClick={() => setFeedback('A trusted sender can pass on a crop. The 2019 original needs its own source.')}>Daniel sent it, so it is certified.</button></div>{feedback && <p className=\"slice-feedback\" role=\"status\">{feedback}</p>}{!s.s18Inspected && <p className=\"utility-note\">Open one source card before answering.</p>}<button className=\"choice\" onClick={hint}>Hint {Math.min(count+1,3)}</button>{count > 0 && <p className=\"utility-note\">{s18Hints[count-1]}</p>}{s.s16OfferSeen && <button className=\"choice\" onClick={reopen}>Review connection permissions</button>}<p className=\"utility-note\">Public places on Maps do not show a historical Bus 4 route or Daniel's location.</p></>"
+  },
+  {
+    "file": "tests/e2e/phase03b-social-route.spec.ts",
+    "line": 29,
+    "text": "  await page.getByRole('button',{ name: 'Can I look at the Archive without joining Messages?' }).click()"
+  },
+  {
+    "file": "tests/e2e/phase03b-social-route.spec.ts",
+    "line": 35,
+    "text": "  await expect(page.getByRole('heading',{ name: /THE ARCHIVE \u00b7 Memory Project/ })).toBeVisible()"
+  },
+  {
+    "file": "tests/e2e/phase03c-recovery.spec.ts",
+    "line": 145,
+    "text": "  await page.getByRole('button',{ name: 'Can I look at the Archive without joining Messages?' }).click()"
+  },
+  {
+    "file": "tests/e2e/phase03c-recovery.spec.ts",
+    "line": 151,
+    "text": "  await expect(page.getByRole('heading',{ name: /THE ARCHIVE \u00b7 Memory Project/ })).toBeVisible()"
+  }
+]

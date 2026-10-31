@@ -1,4 +1,6 @@
-# THE ARCHIVE — Reboot Episode 01 playable candidate
+# GREYHAVEN — Reboot Episode 01 playable candidate
+
+GREYHAVEN is the game; TRACE is the fictional investigation application. See [the rebranding report](docs/GREYHAVEN_TRACE_REBRANDING_2026-10-31.md) for compatibility, tool gates and verification. Historical reports and delivered APK filenames retain their original names.
 
 This is the isolated reboot workspace for the mobile detective thriller. This supplied workspace uses its own IndexedDB database and does not touch legacy saves. Git metadata is not included in this directory.
 

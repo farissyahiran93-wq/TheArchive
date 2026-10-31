@@ -22,14 +22,14 @@ async function changeSavedE01(page: Page, changes: Record<string,unknown>) {
 
 async function openCaseAfterReload(page: Page) {
   await page.reload()
-  await page.getByRole('button',{ name: /Enter the archive/i }).click()
+  await page.getByRole('button',{ name: /Unlock phone/i }).click()
   await page.getByRole('button',{ name: 'Open Bulletin' }).last().click()
 }
 
 async function reachS27(page: Page) {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/?legacyopening=1')
-  await page.getByRole('button',{ name: /Enter the archive/i }).click()
+  await page.getByRole('button',{ name: /Unlock phone/i }).click()
   await page.getByLabel('Your name').fill('Rae')
   await page.getByRole('button',{ name: /Set up phone/i }).click()
   await completeOpening(page)
@@ -129,7 +129,7 @@ test('valid K02 with unavailable role card reaches the narrower unknown-status e
 test('Archive can be accepted while Messages is declined and public research remains reachable', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/?legacyopening=1')
-  await page.getByRole('button',{ name: /Enter the archive/i }).click()
+  await page.getByRole('button',{ name: /Unlock phone/i }).click()
   await page.getByLabel('Your name').fill('Rae')
   await page.getByRole('button',{ name: /Set up phone/i }).click()
   await completeOpening(page)
@@ -158,7 +158,7 @@ test('Archive can be accepted while Messages is declined and public research rem
 
 test('second tab is stopped on a stale save and can download before an explicit reload', async ({ page, context }) => {
   await page.goto('/?legacyopening=1')
-  await page.getByRole('button',{ name: /Enter the archive/i }).click()
+  await page.getByRole('button',{ name: /Unlock phone/i }).click()
   await page.getByLabel('Your name').fill('Rae')
   await page.getByRole('button',{ name: /Set up phone/i }).click()
   await completeOpening(page)
@@ -169,7 +169,7 @@ test('second tab is stopped on a stale save and can download before an explicit 
   })).toBeGreaterThan(0)
   const other = await context.newPage()
   await other.goto('/?legacyopening=1')
-  await other.getByRole('button',{ name: /Enter the archive/i }).click()
+  await other.getByRole('button',{ name: /Unlock phone/i }).click()
   await page.getByRole('button',{ name: 'Open Bulletin' }).last().click()
   await other.getByRole('button',{ name: 'Open Bulletin' }).last().click()
   await page.getByRole('button',{ name: 'Read public brief' }).click()
@@ -185,13 +185,15 @@ test('second tab is stopped on a stale save and can download before an explicit 
   await expect(backup).toBeInViewport()
   await other.evaluate(() => { document.documentElement.style.zoom = '1' })
   await other.getByRole('button',{ name: 'Reload stored save' }).click()
+  await other.getByRole('button',{ name: 'Unlock phone', exact: true }).click()
+  await other.getByRole('button',{ name: 'Open Bulletin' }).last().click()
   await expect(other.getByRole('button',{ name: 'Read full brief' })).toBeVisible()
   await other.close()
 })
 
 test('same-tab reload replays an interrupted pending save against the exact stored revision', async ({ page }) => {
   await page.goto('/?legacyopening=1')
-  await page.getByRole('button',{ name: /Enter the archive/i }).click()
+  await page.getByRole('button',{ name: /Unlock phone/i }).click()
   await page.getByLabel('Your name').fill('Rae')
   await page.getByRole('button',{ name: /Set up phone/i }).click()
   await completeOpening(page)
@@ -209,7 +211,7 @@ test('same-tab reload replays an interrupted pending save against the exact stor
     sessionStorage.setItem('the-archive-reboot:pending-save:v1',JSON.stringify({ baseRevision: stored.saveRevision, save: { ...stored, saveRevision: stored.saveRevision+1, choices: { ...stored.choices, interruptedDraft: 'kept' } } }))
   })
   await page.reload()
-  await page.getByRole('button',{ name: /Enter the archive/i }).click()
+  await page.getByRole('button',{ name: /Unlock phone/i }).click()
   await expect(page.getByRole('heading',{ name: 'Save needs attention' })).toHaveCount(0)
   const choice = await page.evaluate(async () => {
     const db = await new Promise<IDBDatabase>((resolve,reject) => { const request=indexedDB.open('the-archive-reboot',1); request.onsuccess=()=>resolve(request.result); request.onerror=()=>reject(request.error) })

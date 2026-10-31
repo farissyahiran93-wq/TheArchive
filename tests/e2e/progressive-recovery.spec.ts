@@ -7,7 +7,7 @@ test('partial snapshot distinguishes readable fragments, passwords and unavailab
   await page.getByLabel('Your name').fill('Rae')
   await page.getByRole('button', { name: 'Set up phone' }).click()
   await completeOpening(page)
-  await page.getByRole('button', { name: 'Open The Archive', exact: true }).click()
+  await page.getByRole('button', { name: 'Open TRACE', exact: true }).click()
   await page.getByRole('button', { name: 'Settings', exact: true }).click()
   await expect(page.getByText('Partial', { exact: true })).toBeVisible()
   await expect(page.getByText('Unverified', { exact: true })).toBeVisible()

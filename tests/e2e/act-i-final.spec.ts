@@ -3,7 +3,7 @@ import { ActIFinalFixture } from '../helpers/actIFinal'
 import { seedScene,openSophie,sceneReply } from './scene01-helper'
 test.use({ reducedMotion:'reduce' })
 
-test('all nineteen FINAL Sophie decisions finish on Goodnight and the later article conversation waits for a manual action',async({page})=>{
+test('all nineteen pinned FINAL Sophie decisions finish and the article lead resumes naturally in the open chat',async({page})=>{
   test.setTimeout(150000)
   await seedScene(page,new ActIFinalFixture().until('OPEN-S03-C01').save)
   await openSophie(page)
@@ -17,9 +17,7 @@ test('all nineteen FINAL Sophie decisions finish on Goodnight and the later arti
   }
   await expect(page.getByText('Goodnight.',{exact:true})).toHaveCount(1)
   await expect(page.getByText('I found that article. The one I mentioned.',{exact:true})).toHaveCount(1)
-  await expect(page.locator('[data-scene-node="OPEN-S03-FINAL-COMPLETE"]')).toBeVisible()
-  await page.getByRole('button',{name:'Continue conversation →',exact:true}).click()
-  await page.clock.runFor(120000)
+  await expect(page.getByRole('button',{name:'Continue conversation →',exact:true})).toHaveCount(0)
   await expect(page.locator('[data-scene-node="OPEN-S04-C01"]')).toBeVisible()
   await expect(page.getByRole('article',{name:'Public article link'})).toHaveCount(0)
 })
@@ -44,7 +42,7 @@ test('final Scene 01: defer, resume, explicit Continue, JOIN and manual group op
   expect(await page.locator('.opening-thread').evaluate(el=>el.scrollWidth<=el.clientWidth)).toBe(true)
 })
 
-test('final Scene 02: private sender request preserves group, block and reload, then manual return',async({page})=>{
+test('final Scene 02: private sender request preserves group, navigation and reload, then manual return',async({page})=>{
   await seedScene(page,new ActIFinalFixture().until('OPEN-S02-C09').save)
   await page.getByRole('button',{name:'Open Messages',exact:true}).first().click()
   await page.getByRole('button',{name:'Open FIND DANIEL group conversation',exact:true}).click()
@@ -54,7 +52,7 @@ test('final Scene 02: private sender request preserves group, block and reload, 
   await expect(page.getByText("You shouldn't be talking to her.",{exact:true})).toHaveCount(1)
   await page.getByRole('button',{name:'Who is this?',exact:true}).click()
   await page.getByRole('button',{name:'Send',exact:true}).click()
-  await page.getByRole('button',{name:'BLOCK NUMBER',exact:true}).click()
+  await expect(page.getByRole('button',{name:'BLOCK NUMBER',exact:true})).toHaveCount(0)
   await page.getByRole('button',{name:'Back from conversation'}).click()
   await page.getByRole('button',{name:'Open FIND DANIEL group conversation'}).click()
   await page.clock.runFor(120000)
@@ -63,10 +61,10 @@ test('final Scene 02: private sender request preserves group, block and reload, 
   await expect(page.getByText("You shouldn't be talking to her.",{exact:true})).toHaveCount(0)
   await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'))
   await page.reload()
-  await page.getByRole('button',{name:'Enter the archive',exact:true}).click()
+  await page.getByRole('button',{name:'Unlock phone',exact:true}).click()
   await page.getByRole('button',{name:'Open Messages',exact:true}).first().click()
   await page.getByRole('button',{name:'Open Chapter 1 Unknown Sender conversation',exact:true}).click()
-  await expect(page.getByText('Number blocked.',{exact:true})).toBeVisible()
+  await expect(page.getByText('Number blocked.',{exact:true})).toHaveCount(0)
   await expect(page.getByText('Who is this?',{exact:true})).toHaveCount(1)
 })
 
@@ -88,7 +86,7 @@ test('final Scene 03: disclosure and secondary choices each require Send and sur
   await page.getByRole('button',{name:"I didn't reply.",exact:true}).click()
   await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'))
   await page.reload()
-  await page.getByRole('button',{name:'Enter the archive',exact:true}).click()
+  await page.getByRole('button',{name:'Unlock phone',exact:true}).click()
   await openSophie(page)
   await expect(page.getByRole('button',{name:"I didn't reply.",exact:true})).toHaveAttribute('aria-pressed','true')
   await page.getByRole('button',{name:'Send',exact:true}).click()

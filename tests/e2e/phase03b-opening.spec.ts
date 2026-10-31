@@ -6,7 +6,7 @@ mkdirSync('qa/phase-03b',{ recursive: true })
 
 async function reachEditor(page: Page) {
   await page.goto('/?legacyopening=1')
-  await page.getByRole('button', { name: /Enter the archive/i }).click()
+  await page.getByRole('button', { name: /Unlock phone/i }).click()
   await page.getByLabel('Your name').fill('Rae')
   await page.getByRole('button', { name: /Set up phone/i }).click()
   await completeOpening(page)
@@ -71,7 +71,7 @@ test('explicit text-only R02 and sender scope survive reload', async ({ page }) 
   await page.getByRole('button', { name: /^Send$/ }).click()
   await expect(page.getByText('R02 · text only')).toBeVisible()
   await page.reload()
-  await page.getByRole('button', { name: /Enter the archive/i }).click()
+  await page.getByRole('button', { name: /Unlock phone/i }).click()
   await page.getByRole('button', { name: 'Open Bulletin' }).last().click()
   await expect(page.getByText('R02 · text only')).toBeVisible()
   const scope = await page.evaluate(async () => {

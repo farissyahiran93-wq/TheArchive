@@ -242,7 +242,7 @@ export const chapter1ScenePlan: readonly Chapter1ScenePlan[] = [
     "act": 3,
     "objective": "Digital Exploration",
     "characters": "Player; Daniel through recovered records",
-    "surface": "THE ARCHIVE / Read-Only Device Mirror",
+    "surface": "TRACE / Read-Only Device Mirror",
     "requirement": "required-beat-with-alternatives",
     "entry": "Provenance limitations acknowledged; explicit limited snapshot consent",
     "exit": "Ordinary core fragment inspected; optional sources remain readable",

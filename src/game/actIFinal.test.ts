@@ -59,14 +59,14 @@ describe('final owner Act I replacement',()=>{
     expect(later.knowledge.characters.sophie).not.toContain('CH1-SENDER-WARNING-DISCLOSED')
     expect(later.prologue!.scene01!.groupMessages.some(m=>m.text.includes("You shouldn't"))).toBe(false)
   })
-  it('only resumes group after returning, permits blocking and never creates sender responses',()=>{
+  it('only resumes group after returning, ignores obsolete blocking and never creates sender responses',()=>{
     const f=new ActIFinalFixture().until('OPEN-S02-C09').send('a').act('open-sender')
     expect(f.save.prologue!.scene01!.nodeId).toBe('OPEN-S02-UNKNOWN-01')
     f.save=chapter1Action(f.save,{type:'block-sender'},f.now)
     f.act('open-group').until('OPEN-S02-C10')
-    expect(f.save.chapter1!.sender.blocked).toBe(true)
+    expect(f.save.chapter1!.sender.blocked).toBeUndefined()
     expect(f.save.prologue!.scene01!.groupMessages.filter(m=>m.text==='Maya deleted a message.')).toHaveLength(1)
-    expect(normalizeSave(JSON.parse(JSON.stringify(f.save))).chapter1!.sender.blocked).toBe(true)
+    expect(normalizeSave(JSON.parse(JSON.stringify(f.save))).chapter1!.sender.blocked).toBeUndefined()
   })
   for(const choice of ['a','b','c','d','e'])it(`C11 ${choice}: Lucas leaves once; the new handoff remains exactly 5.5s and never opens itself`,()=>{
     const f=new ActIFinalFixture().until('OPEN-S02-C11').send(choice).until('OPEN-S02-C13').send('d')

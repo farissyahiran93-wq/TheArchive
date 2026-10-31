@@ -120,7 +120,7 @@ export function correctionsDeskAction(s:GameSave,a:DeskAction,now=Date.now()):Ga
   s=deskPut(s,{inquiry:{...p.inquiry,status:'delivered',receipt:{id:'R-GB-CD-002',text:p.inquiry.text,at:now}},feedback:'Request delivered. Reply not yet received.'})
   return {...s,deliveredEvents:[...new Set([...s.deliveredEvents,'R-GB-CD-002','EV-S06-INQUIRY-DELIVERED'])]}
  }
- if(['save-draft','cancel','request-failed'].includes(a.type)&&!p.inquiry.receipt)return deskPut(s,{inquiry:{...p.inquiry,status:p.inquiry.text?a.type==='request-failed'?'failed':'draft':'not_sent'},panel:a.type==='request-failed'?'form':'home',feedback:a.type==='request-failed'?'Could not deliver. Your draft is safe.':'Draft stored locally. Nothing sent.'})
+ if(['save-draft','cancel','request-failed'].includes(a.type)&&!p.inquiry.receipt)return deskPut(s,{inquiry:{...p.inquiry,reviewed:false,status:p.inquiry.text?a.type==='request-failed'?'failed':'draft':'not_sent'},panel:a.type==='request-failed'?'form':'home',feedback:a.type==='request-failed'?'Could not deliver. Your draft is safe.':'Draft stored locally. Nothing sent.'})
  return s
 }
 /** Reuses the Chapter 1 saved-event clock; delivery never opens the inbox. */

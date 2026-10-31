@@ -9,7 +9,7 @@ async function start(page: Page) {
   await page.getByLabel('Your name').fill('Rae')
   await page.getByRole('button', { name: 'Set up phone' }).click()
   await completeOpening(page)
-  await page.getByRole('button', { name: 'Open The Archive', exact: true }).click()
+  await page.getByRole('button', { name: 'Open TRACE', exact: true }).click()
 }
 async function openApp(page: Page, name: string) { await page.locator('.mirror-icon').filter({ hasText: name }).click() }
 async function phone(page: Page) { await page.getByRole('button', { name: 'Daniel phone home', exact: true }).click() }
@@ -36,7 +36,7 @@ for (const width of [320, 375, 390, 430]) {
     await expect(viewer.getByLabel('Zoom level')).toHaveText('100%')
     await viewer.getByRole('button', { name: 'Save to Case Board' }).click()
     await expect(viewer.getByRole('button', { name: 'Saved to Case Board' })).toBeDisabled()
-    await page.screenshot({ path: `qa/iphone-redesign/apps/media-${width}.png`, animations: 'disabled' })
+    await page.screenshot({ path: test.info().outputPath(`media-${width}.png`), animations: 'disabled' })
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     await viewer.getByRole('button', { name: 'Back to album' }).click()
     await page.getByRole('button', { name: 'Back', exact: true }).click()
@@ -57,8 +57,8 @@ for (const width of [320, 375, 390, 430]) {
     await expect(viewer.getByText(/Two cropped images:/)).toBeVisible()
     await page.keyboard.press('Escape')
     await page.reload()
-    await page.getByRole('button', { name: /Enter the archive/i }).click()
-    await page.getByRole('button', { name: 'Open The Archive', exact: true }).click()
+    await page.getByRole('button', { name: /Unlock phone/i }).click()
+    await page.getByRole('button', { name: 'Open TRACE', exact: true }).click()
     await page.getByRole('button', { name: 'Resume Photos' }).click()
     await expect(page.getByRole('button', { name: 'View Index crop 01', exact: true })).toBeVisible()
     await phone(page)
@@ -67,7 +67,7 @@ for (const width of [320, 375, 390, 430]) {
       await openApp(page, app)
       await expect(page.getByRole('heading', { name: app, exact: true })).toBeVisible()
       expect(await page.locator('.mirror').evaluate(el => el.scrollWidth <= el.clientWidth + 1)).toBe(true)
-      await page.screenshot({ path: `qa/iphone-redesign/apps/${app.toLowerCase().replaceAll(' ', '-')}-${width}.png`, animations: 'disabled' })
+      await page.screenshot({ path: test.info().outputPath(`${app.toLowerCase().replaceAll(' ', '-')}-${width}.png`), animations: 'disabled' })
       await phone(page)
     }
 
@@ -107,8 +107,8 @@ test('mailboxes, private source links, contact threads and saved observations st
   await page.getByRole('button', { name: 'Revision history help', exact: true }).click()
   await expect(page.locator('.mirror-address-bar')).toHaveText('Bookmarks')
   await page.reload()
-  await page.getByRole('button', { name: /Enter the archive/i }).click()
-  await page.getByRole('button', { name: 'Open The Archive', exact: true }).click()
+  await page.getByRole('button', { name: /Unlock phone/i }).click()
+  await page.getByRole('button', { name: 'Open TRACE', exact: true }).click()
   await page.getByRole('button', { name: 'Case Board', exact: true }).click()
   await expect(workspace.getByText('Hypothesis', { exact: true })).toBeVisible()
 })

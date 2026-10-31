@@ -4,7 +4,7 @@ import { expect, test } from '@playwright/test'
 test('Messages keeps Bulletin correspondence private and filters its own inbox', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/?devtools=1&legacyopening=1')
-  await page.getByRole('button', { name: /Enter the archive/i }).click()
+  await page.getByRole('button', { name: /Unlock phone/i }).click()
   await page.getByLabel('Your name').fill('Rae')
   await page.getByRole('button', { name: /Set up phone/i }).click()
   await completeOpening(page)
@@ -39,7 +39,7 @@ test('Messages keeps Bulletin correspondence private and filters its own inbox',
   })
 
   await page.reload()
-  await page.getByRole('button', { name: /Enter the archive/i }).click()
+  await page.getByRole('button', { name: /Unlock phone/i }).click()
   await page.getByRole('button', { name: 'Open Messages' }).first().click()
   await expect(page.getByText('Bulletin-only reply marker')).toHaveCount(0)
   await expect(page.getByText('Bulletin-only outgoing marker')).toHaveCount(0)

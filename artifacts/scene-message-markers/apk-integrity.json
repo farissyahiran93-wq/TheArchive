@@ -1,0 +1,182 @@
+{
+  "apk": "D:\\Web app\\TheArchive\\artifacts\\THE_ARCHIVE_2026-10-27_Scene_Message_Fix.apk",
+  "bytes": 20593058,
+  "sha256": "10cb48416f604f4858a23e7a4d7ae36cf5318f77d6767cf3b116efa0a8521a35",
+  "distFiles": 43,
+  "allAssetsMatch": true,
+  "noServerUrl": true,
+  "checks": [
+    {
+      "file": "archive-mark.svg",
+      "matches": true
+    },
+    {
+      "file": "daniel-first-page.svg",
+      "matches": true
+    },
+    {
+      "file": "daniel-note.svg",
+      "matches": true
+    },
+    {
+      "file": "e001-public-escort-row.svg",
+      "matches": true
+    },
+    {
+      "file": "greyhaven-phone-wallpaper.png",
+      "matches": true
+    },
+    {
+      "file": "greyhaven-wallpaper.svg",
+      "matches": true
+    },
+    {
+      "file": "index.html",
+      "matches": true
+    },
+    {
+      "file": "sophie-dinner.png",
+      "matches": true
+    },
+    {
+      "file": "assets/index-B7tBwF_2.js",
+      "matches": true
+    },
+    {
+      "file": "assets/index-EEKY06K2.css",
+      "matches": true
+    },
+    {
+      "file": "assets/web-B4mbxcK1.js",
+      "matches": true
+    },
+    {
+      "file": "media/gallery/01-shelf-photo-thumb.webp",
+      "matches": true
+    },
+    {
+      "file": "media/gallery/01-shelf-photo.png",
+      "matches": true
+    },
+    {
+      "file": "media/gallery/02-message-crop-thumb.webp",
+      "matches": true
+    },
+    {
+      "file": "media/gallery/02-message-crop.png",
+      "matches": true
+    },
+    {
+      "file": "media/gallery/03-index-crop-1-thumb.webp",
+      "matches": true
+    },
+    {
+      "file": "media/gallery/03-index-crop-1.png",
+      "matches": true
+    },
+    {
+      "file": "media/gallery/04-index-crop-2-thumb.webp",
+      "matches": true
+    },
+    {
+      "file": "media/gallery/04-index-crop-2.png",
+      "matches": true
+    },
+    {
+      "file": "media/gallery/05-notice-board-photo-thumb.webp",
+      "matches": true
+    },
+    {
+      "file": "media/gallery/05-notice-board-photo.png",
+      "matches": true
+    },
+    {
+      "file": "media/gallery/06-map-screenshot-thumb.webp",
+      "matches": true
+    },
+    {
+      "file": "media/gallery/06-map-screenshot.png",
+      "matches": true
+    },
+    {
+      "file": "media/portraits/ana-avatar.webp",
+      "matches": true
+    },
+    {
+      "file": "media/portraits/ana.webp",
+      "matches": true
+    },
+    {
+      "file": "media/portraits/daniel-avatar.webp",
+      "matches": true
+    },
+    {
+      "file": "media/portraits/daniel.webp",
+      "matches": true
+    },
+    {
+      "file": "media/portraits/eli-avatar.webp",
+      "matches": true
+    },
+    {
+      "file": "media/portraits/eli.webp",
+      "matches": true
+    },
+    {
+      "file": "media/portraits/june-avatar.webp",
+      "matches": true
+    },
+    {
+      "file": "media/portraits/june.webp",
+      "matches": true
+    },
+    {
+      "file": "media/portraits/lucas-avatar.webp",
+      "matches": true
+    },
+    {
+      "file": "media/portraits/lucas.webp",
+      "matches": true
+    },
+    {
+      "file": "media/portraits/maya-avatar.webp",
+      "matches": true
+    },
+    {
+      "file": "media/portraits/maya.webp",
+      "matches": true
+    },
+    {
+      "file": "media/portraits/nora-avatar.webp",
+      "matches": true
+    },
+    {
+      "file": "media/portraits/nora.webp",
+      "matches": true
+    },
+    {
+      "file": "media/portraits/rowan-avatar.webp",
+      "matches": true
+    },
+    {
+      "file": "media/portraits/rowan.webp",
+      "matches": true
+    },
+    {
+      "file": "media/portraits/sophie-avatar.webp",
+      "matches": true
+    },
+    {
+      "file": "media/portraits/sophie.webp",
+      "matches": true
+    },
+    {
+      "file": "media/portraits/vivian-avatar.webp",
+      "matches": true
+    },
+    {
+      "file": "media/portraits/vivian.webp",
+      "matches": true
+    }
+  ]
+}

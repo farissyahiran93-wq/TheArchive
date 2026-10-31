@@ -1799,7 +1799,7 @@ export const scene10Investigation = {
         {
           "id": "c",
           "text": "This is the Greyhaven Bulletin's older saved article.",
-          "feedback": "The civic catalogue is not the publisher's website history or the Archive's metadata-only article index."
+          "feedback": "The civic catalogue is not the publisher's website history or TRACE's metadata-only article index."
         }
       ]
     },

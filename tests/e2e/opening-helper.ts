@@ -22,7 +22,7 @@ export async function completeOpening(page: Page) {
   await page.getByRole('button', { name: 'Send message' }).click()
   await finishRecoveryConversation(page)
   await page.getByRole('button', { name: 'Inspect permission & origin' }).click()
-  await page.getByRole('button', { name: 'Restore The Archive' }).click()
+  await page.getByRole('button', { name: 'Restore TRACE' }).click()
   await page.locator('.mirror-icon').filter({ hasText: 'Notes' }).click()
   await page.locator('.mirror-file').first().click()
   await page.getByRole('button', { name: "Daniel's Phone" }).click()

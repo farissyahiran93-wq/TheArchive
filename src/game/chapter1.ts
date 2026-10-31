@@ -1,3 +1,4 @@
+import { canonicalTick, validateOrigin, type ArchiveOriginState } from './archiveOrigin'
 import { sourceTick, validateSourceInvestigation, type SourceInvestigationState } from './sourceInvestigation'
 import { deskTick, validateCorrectionsDesk, type CorrectionsDeskState } from './scene06'
 import { validateVersionHistory, type VersionHistoryState } from './scene05'
@@ -7,12 +8,13 @@ import type { CharacterId, GameSave, Message } from './types'
 
 export interface Chapter1State {
   byline?:SourceInvestigationState; issuer?:SourceInvestigationState; transferRegister?:SourceInvestigationState; inventorySheet?:SourceInvestigationState;
+  archiveOrigin?:ArchiveOriginState;
   publicStory?:PublicStoryState;
   versionHistory?:VersionHistoryState; correctionsDesk?:CorrectionsDeskState;
   version:1; completed:number[]; inspected:string[]; flags:string[];
   drafts:Record<string,string>; interpretations:Record<string,string>;
   record?:string; panel:'hub'|'record'|'compare'|'board'; chapterComplete:boolean;
-  sender:{messages:{id:string;sender:string;text:string;at:number}[];seen:boolean;branch?:string;disclosed:boolean;blocked?:boolean};
+  sender:{messages:{id:string;sender:string;text:string;at:number;attachment?:'article'|'index'|'archive-package'}[];seen:boolean;branch?:string;disclosed:boolean;blocked?:boolean};
 }
 export type Chapter1Action = {type:'tick'} | {type:'inspect';id:string} | {type:'save-record';id:string}
   | {type:'choice-draft';key:string;id:string}
@@ -96,8 +98,8 @@ function retain(s:GameSave,id:string,source:string,now:number):GameSave {
 export function chapter1OptionsFor(s:GameSave,key:string) {
   const c=s.chapter1,n=chapter1Current(s),has=(f:string)=>c?.flags.includes(f)
   if(!c||!chapter1Active(s))return []
-  if(key==='sender04')return publicStoryHas(s,'sender-hint')&&c.sender.seen&&!c.sender.blocked&&!c.publicStory?.senderReply?[{id:'version',text:'What version?'},{id:'identity',text:'Who are you?'},{id:'proof',text:'How would you know?'},{id:'boundary',text:'Stop messaging me.'},{id:'ignored',text:'KEEP SILENT'}]:[]
-  if(key==='sender')return c.sender.seen&&!c.sender.branch&&!c.sender.blocked?(s.prologue?.scene01?.scriptRevision?[{id:'who',text:'Who is this?'},{id:'her',text:'Who do you mean by “her”?'},{id:'number',text:'How did you get my number?'},{id:'boundary',text: "Don't contact me again."},{id:'ignore',text: "DON’T REPLY"}]:chapter1Options.sender):[]
+  if(key==='sender04')return !c.archiveOrigin&& publicStoryHas(s,'sender-hint')&&c.sender.seen&&!c.publicStory?.senderReply?[{id:'version',text:'What version?'},{id:'identity',text:'Who are you?'},{id:'proof',text:'How would you know?'},{id:'boundary',text:'Stop messaging me.'},{id:'ignored',text:'KEEP SILENT'}]:[]
+  if(key==='sender')return !c.archiveOrigin&& c.sender.seen&&!c.sender.branch?(s.prologue?.scene01?.scriptRevision?[{id:'who',text:'Who is this?'},{id:'her',text:'Who do you mean by “her”?'},{id:'number',text:'How did you get my number?'},{id:'boundary',text: "Don't contact me again."},{id:'ignore',text: "DON’T REPLY"}]:chapter1Options.sender):[]
   if(key==='disclose')return !s.prologue?.scene01?.scriptRevision&&n>=3&&!c.chapterComplete&&c.sender.seen&&!c.sender.disclosed?chapter1Options.disclose:[]
   if(key==='nora')return n===7&&!has('sent:nora')?chapter1Options.nora:[]
   if(key==='page')return n===8&&!has('sent:page')?chapter1Options.page:[]
@@ -115,10 +117,11 @@ export function chapter1Action(input:GameSave,a:Chapter1Action,now=Date.now()):G
   if(!chapter1Active(input)&&!(input.chapter1&&input.chapter2Access&&['tick','read-contact','read-sender'].includes(a.type)))return input
   let s=ensureChapter1(input),c=s.chapter1!,n=chapter1Current(s)
   if(a.type==='tick'){
+    s=canonicalTick(s,now)
     s=sourceTick(deskTick(s,now),now)
     if(s.prologue?.scene01?.scriptRevision&&s.prologue.scene01.privateScene03?.complete&&!publicStoryHas(s,'lead-scheduled')){
       s=publicStoryPut(s,{flags:['lead-scheduled']})
-      s={...s,pendingEvents:[...s.pendingEvents,{id:'CH1-S04-LEAD',dueAt:now+8000}]}
+      s={...s,pendingEvents:[...s.pendingEvents,{id:'CH1-S04-LEAD',dueAt:(s.prologue?.scene01?.privateScene03?.completedAt??now)+10000}]}
     }
     // A stable pause after Lucas's first confrontation; the pending group choice stays untouched.
     if(!s.prologue?.scene01?.scriptRevision&&!s.prologue?.scene01?.privateScene03?.complete&&s.prologue?.scene01?.groupMessages.some(m=>m.text==="Then maybe our new guest would like to explain why they're here."))s=queue(s,'CH1-SENDER-FIRST',now)
@@ -139,7 +142,7 @@ export function chapter1Action(input:GameSave,a:Chapter1Action,now=Date.now()):G
     if(!s.notifications.some(e=>ids.has(e.id)&&!e.read))return s
     return {...s,notifications:s.notifications.map(e=>ids.has(e.id)?{...e,read:true}:e),messages:s.messages.map(m=>ids.has(m.id)?{...m,delivery:'read'}:m)}
   }
-  if(a.type==='block-sender')return c.sender.messages.length?put(s,{...c,sender:{...c.sender,blocked:true}}):s
+  if(a.type==='block-sender')return s // Obsolete caller; blocking has been removed.
   if(a.type==='read-sender'&&!c.sender.messages.length)return s
   if(a.type==='read-sender')return put({...s,notifications:s.notifications.map(e=>e.id.startsWith('CH1-SENDER')?{...e,read:true}:e)},{...c,sender:{...c.sender,seen:true}})
   if(c.versionHistory&&!(['draft','send'].includes(a.type)&&'key' in a&&['sender','sender04'].includes(a.key)))return s
@@ -230,6 +233,7 @@ export function validateChapter1(value:unknown):void {
   if(value===undefined)return
   if(!value||typeof value!=='object')throw Error('Invalid Chapter 1 state')
   const c=value as Chapter1State
+  validateOrigin(c.archiveOrigin)
   validatePublicStory(c.publicStory)
   validateVersionHistory(c.versionHistory)
   validateCorrectionsDesk(c.correctionsDesk)

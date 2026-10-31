@@ -8,7 +8,7 @@ import {chapter1Action} from '../../src/game/chapter1'
 test.use({reducedMotion:'reduce'})
 const click=async(p:Page,name:string)=>p.getByRole('button',{name,exact:true}).first().click()
 const flush=async(p:Page)=>p.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'))
-const reload=async(p:Page)=>{await flush(p);await p.reload();await click(p,'Enter the archive');await click(p,'Open The Archive')}
+const reload=async(p:Page)=>{await flush(p);await p.reload();await click(p,'Unlock phone');await click(p,'Open TRACE')}
 const local=async(p:Page,id:keyof typeof scene05Local,index=0)=>click(p,scene05Local[id][index].text)
 async function inspect(p:Page){
   await click(p,'INSPECT INDEX');await expect(p.getByText('SOURCE: UNKNOWN',{exact:false})).toBeVisible();await click(p,'RETURN TO VERSION HISTORY')
@@ -21,10 +21,8 @@ async function inspect(p:Page){
 
 test('Scene 05 manual entry, zero bookmarks, every core gate reload, uncertainty and unavailable Scene 06 at 320px',async({page})=>{
   await page.setViewportSize({width:320,height:720})
-  await seedScene(page,new Scene04Fixture().at('complete04').save)
-  await click(page,'Open The Archive');await expect(page.getByRole('button',{name:'REVIEW VERSION HISTORY',exact:true})).toBeEnabled()
-  await expect(page.getByRole('button',{name:'OPEN PUBLIC COPY',exact:true})).toHaveCount(0)
-  await click(page,'REVIEW VERSION HISTORY');await reload(page)
+  await seedScene(page,new Scene05Fixture().save)
+  await click(page,'Open TRACE');await reload(page)
   await click(page,'INSPECT INDEX');await reload(page);await expect(page.getByRole('heading',{name:'ARC-IDX-GB-041',exact:true})).toBeVisible();await click(page,'RETURN TO VERSION HISTORY')
   await click(page,'OPEN PUBLIC COPY');await expect(page.getByText('Public page available; no stored personal copy',{exact:true})).toBeVisible();await expect(page.locator('[data-paragraph]')).toHaveCount(6)
   await reload(page);await click(page,'RETURN TO VERSION HISTORY');await local(page,'S05-C01',2);await reload(page)
@@ -41,14 +39,14 @@ test('Scene 05 manual entry, zero bookmarks, every core gate reload, uncertainty
 })
 
 test('Scene 05 form retains unsent draft; explicit Review and Send produce one exact public receipt',async({page})=>{
-  await seedScene(page,new Scene05Fixture().core().save);await click(page,'Open The Archive')
+  await seedScene(page,new Scene05Fixture().core().save);await click(page,'Open TRACE')
   await click(page,'OPEN CORRECTIONS FORM');await local(page,'S05-C04',1)
-  await expect(page.getByRole('button',{name:'SEND REQUEST',exact:true})).toBeDisabled()
-  await click(page,'REVIEW');await local(page,'S05-C04',2);await expect(page.getByRole('button',{name:'SEND REQUEST',exact:true})).toBeDisabled()
+  await expect(page.getByRole('button',{name:'SEND REQUEST',exact:true})).toHaveCount(0)
+  await click(page,'REVIEW REQUEST');await click(page,'EDIT');await local(page,'S05-C04',2);await expect(page.getByRole('button',{name:'SEND REQUEST',exact:true})).toHaveCount(0)
   await click(page,'Back to version history');await reload(page);await click(page,'OPEN CORRECTIONS FORM')
   await expect(page.getByRole('button',{name:scene05Local['S05-C04'][2].text,exact:true})).toHaveAttribute('aria-pressed','true')
   await expect(page.getByText('Receipt: R-GB-VH-001',{exact:true})).toHaveCount(0)
-  await click(page,'REVIEW');await click(page,'SEND REQUEST');await reload(page)
+  await click(page,'REVIEW REQUEST');await click(page,'SEND REQUEST');await reload(page)
   await expect(page.getByText('Receipt: R-GB-VH-001',{exact:true})).toHaveCount(1)
   await expect(page.getByText(scene05Local['S05-C04'][2].text,{exact:true})).toBeVisible()
   await expect(page.getByText('Status: Delivered / Not yet answered',{exact:true})).toBeVisible()
@@ -59,10 +57,10 @@ test('Scene 05 Sophie and group preserve independent drafts, require Send and fi
   test.setTimeout(150000)
   await seedScene(page,new Scene05Fixture().core().save);await openSophie(page);await page.clock.runFor(120000)
   await expect(page.locator('[data-scene-node="OPEN-S05-C05"]')).toBeVisible()
-  await click(page,"I haven't figured it out either.");await flush(page);await page.reload();await click(page,'Enter the archive');await openSophie(page)
+  await click(page,"I haven't figured it out either.");await flush(page);await page.reload();await click(page,'Unlock phone');await openSophie(page)
   await expect(page.getByRole('button',{name:"I haven't figured it out either.",exact:true})).toHaveAttribute('aria-pressed','true')
   await expect(page.getByText('Weirdly, that helps more than another theory.',{exact:true})).toHaveCount(0)
-  await click(page,'Go home');await click(page,'Open The Archive');await click(page,'OPEN FIND DANIEL')
+  await click(page,'Go home');await click(page,'Open TRACE');await click(page,'OPEN FIND DANIEL')
   await expect(page.locator('[data-scene-node="OPEN-S05-C09"]')).toBeVisible();await expect(page.getByText('Good distinction.',{exact:true})).toHaveCount(0)
   await click(page,"Does anyone have an actual older copy of that Greyhaven Bulletin article?")
   await click(page,'Go home');await openSophie(page);await expect(page.getByRole('button',{name:"I haven't figured it out either.",exact:true})).toHaveAttribute('aria-pressed','true')
@@ -77,28 +75,28 @@ test('Scene 05 Sophie and group preserve independent drafts, require Send and fi
   await expect(page.getByLabel('Group participants')).not.toContainText('Lucas')
 })
 
-for(const width of [375,430])test(`Scene 05 blocked sender and source preservation with keyboard at ${width}px`,async({page})=>{
+for(const width of [375,430])test(`Scene 05 obsolete blocking removal and source preservation with keyboard at ${width}px`,async({page})=>{
   await page.setViewportSize({width,height:800})
   const f=new Scene05Fixture(new Scene04Fixture().at('complete04',{savePick:'a'}).save)
   f.save=chapter1Action(f.save,{type:'block-sender'},f.now)
-  await seedScene(page,f.save);await click(page,'Open The Archive');await inspect(page)
+  await seedScene(page,f.save);await click(page,'Open TRACE');await inspect(page)
   await expect(page.getByRole('heading',{name:'Private case conclusion',exact:true})).toBeVisible()
   await page.keyboard.press('Tab');await page.keyboard.press('Shift+Tab')
   await local(page,'S05-C11',1);await expect(page.getByRole('button',{name:'OPEN NEXT LEAD',exact:true})).toBeVisible()
   expect(await page.locator('.version-history').evaluate(el=>el.scrollWidth<=el.clientWidth+1)).toBe(true)
   await flush(page)
   const state=await page.evaluate(async()=>{const db=await new Promise<IDBDatabase>((resolve,reject)=>{const r=indexedDB.open('the-archive-reboot',1);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)});const s=await new Promise<any>((resolve,reject)=>{const r=db.transaction('saves').objectStore('saves').get('primary');r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)});db.close();return s})
-  expect(state.chapter1.sender.blocked).toBe(true);expect(state.evidence['EV-PUBLIC-GB-001'].verified).toBe(false);expect(state.evidence['EV-INDEX-GB-041'].source).toContain('source UNKNOWN')
+  expect(state.chapter1.sender.blocked).toBeUndefined();expect(state.evidence['EV-PUBLIC-GB-001'].verified).toBe(false);expect(state.evidence['EV-INDEX-GB-041'].source).toContain('source UNKNOWN')
   expect(state.chapter1.versionHistory.threads).toEqual({});expect(state.chapter1.versionHistory.inquiry.receipt).toBeUndefined()
 })
 
 
 test('Scene 05 group typing reload pauses before delivery until manually reopened',async({page})=>{
-  await seedScene(page,new Scene05Fixture().core().save);await click(page,'Open The Archive');await click(page,'OPEN FIND DANIEL')
+  await seedScene(page,new Scene05Fixture().core().save);await click(page,'Open TRACE');await click(page,'OPEN FIND DANIEL')
   await click(page,"I checked the update label. We still don't have a verified history of the article.")
   await click(page,'Send');await expect(page.getByRole('status',{name:'Maya is typing',exact:true})).toBeVisible()
-  await flush(page);await page.reload();await click(page,'Enter the archive');await page.clock.runFor(120000)
-  await click(page,'Open The Archive');await click(page,'OPEN FIND DANIEL')
+  await flush(page);await page.reload();await click(page,'Unlock phone');await page.clock.runFor(120000)
+  await click(page,'Open TRACE');await click(page,'OPEN FIND DANIEL')
   await expect(page.getByText('Good distinction.',{exact:true})).toHaveCount(0)
   await page.clock.runFor(120000);await expect(page.getByText('Good distinction.',{exact:true})).toHaveCount(1)
   await expect(page.locator('[data-scene-node="OPEN-S05-C10"]')).toBeVisible()

@@ -110,7 +110,7 @@ export function RoleCliffhangerScene() {
     ? 'The archive kept the older line. The public page did not. The queue that can change what everyone sees is still enabled—and the public card will not say whose hand is on it.'
     : 'A verified record was changed. The public process still accepts corrections. The status of any individual role remains out of view.'
   if (s.e01Complete) return <div className="phase-finale">
-    <p className="section-caption">THE ARCHIVE · EPISODE 01 COMPLETE</p><h2>The Missing Entry</h2><p>{closingLine}</p>
+    <p className="section-caption">GREYHAVEN · EPISODE 01 COMPLETE</p><h2>The Missing Entry</h2><p>{closingLine}</p>
     <article className="utility-card"><small>CASE BOARD · VERIFIED QUESTION</small><p>One answer: the versions changed after verification.</p><p>One question: who checks the next change?</p><p>No operator identified. No new submission established.</p></article>
     <p className="utility-note">Your GCRO export remains with this request session. Nothing was sent to Maya without your Send.</p>
   </div>

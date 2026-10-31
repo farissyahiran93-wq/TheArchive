@@ -1,3 +1,5 @@
+import { sceneStartMarkers } from './sceneMarkers'
+import { SceneStartMarker } from './SceneStartMarker'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { ArrowLeft, Send } from 'lucide-react'
 import { useGameStore } from '../game/store'
@@ -44,6 +46,7 @@ export function OpeningV4Chat({ thread, onBack }: { thread: 'sophie' | 'group'; 
   if (!opening || opening.dialogueVersion !== 4) return null
   const group = thread === 'group'
   const lines = (group ? opening.social?.messages ?? [] : opening.messages).filter(message => message.id !== 'OPEN-V4-FIRST-PAGE')
+  const markers = sceneStartMarkers(lines)
   const queued = group ? opening.social?.queue ?? [] : opening.queue ?? []
   const typing = group ? opening.social?.queue?.[0]?.sender === 'system' ? null : opening.social?.queue?.[0]?.sender : opening.queue?.length ? 'sophie' : null
   const options = group ? opening.stage === 'group' ? groupChoices(opening) : groupFollowupOptions(save) : openingChoices(opening)
@@ -67,7 +70,7 @@ export function OpeningV4Chat({ thread, onBack }: { thread: 'sophie' | 'group'; 
       <div className="opening-timestamp">Thursday 8 October · {group ? '08:44' : '08:41'}</div>
       {lines.map(message => message.sender === 'system' ? <div key={message.id} className="opening-group-system">{message.text}</div> : <div className={`conversation-line ${message.sender === 'player' ? 'outgoing' : 'incoming'}`} key={message.id}>
         {message.sender !== 'player' && <CharacterAvatar character={group || identified ? message.sender : 'unknown'} fallback={group || identified ? message.sender[0].toUpperCase() : '?'} className="message-avatar"/>}
-        <div className="conversation-body">{group && message.sender !== 'player' && <strong className="group-sender">{message.sender[0].toUpperCase() + message.sender.slice(1)}</strong>}<div className={`opening-bubble ${message.sender === 'player' ? 'player' : 'sophie'}`}>{message.text}</div>
+        <div className="conversation-body">{group && message.sender !== 'player' && <strong className="group-sender">{message.sender[0].toUpperCase() + message.sender.slice(1)}</strong>}<SceneStartMarker line={message} markers={markers}/><div className={`opening-bubble ${message.sender === 'player' ? 'player' : 'sophie'}`}>{message.text}</div>
         {!group && message.id === 'OPEN-SOPHIE-NOTE' && <button className="chat-attachment" onClick={() => setPhoto(true)} aria-label="Open later handwritten note"><img src="/daniel-note.svg" alt="Handwritten note from Sophie"/></button>}</div>
       </div>)}
       {typing && <div className="opening-v4-typing" role="status" aria-label={`${typing[0].toUpperCase() + typing.slice(1)} is typing`}><CharacterAvatar character={group || identified ? typing : 'unknown'} fallback={group || identified ? typing[0].toUpperCase() : '?'} className="message-avatar"/><span className="typing-dots"><i/><i/><i/></span></div>}

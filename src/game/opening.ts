@@ -366,7 +366,7 @@ export function restoreDanielMirror(state: GameSave): GameSave {
     prologue: { ...opening, stage: 'mirror', restored: true },
     deliveredEvents: [...state.deliveredEvents, 'OPEN-MIRROR-RESTORED'],
     knowledge: { ...state.knowledge, player: [...new Set([...state.knowledge.player, 'OPEN-DANIEL-MIRROR-RESTORED', 'OPEN-RECOVERY-TOKEN-USED'])] },
-    notifications: [...state.notifications, { id: 'OPEN-MIRROR-RESTORED', text: 'The Archive restored: Daniel Mercer (read-only mirror)', read: false }],
+    notifications: [...state.notifications, { id: 'OPEN-MIRROR-RESTORED', text: 'TRACE restored: Daniel Mercer (read-only mirror)', read: false }],
   }, 'DANIEL-SNAPSHOT-01')
   return opening.dialogueVersion === 4 && state.choices['OPEN-PRIVATE-stay'] ? beginRecoverySequence(next) : next
 }

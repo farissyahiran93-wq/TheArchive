@@ -1,0 +1,61 @@
+import { expect, test } from '@playwright/test'
+import { openSophie, sceneAt, sceneReply, seedScene, sceneTime } from './scene01-helper'
+
+test('fresh opening uses the replacement screenplay without an identity form, note photo or automatic reply', async ({ page }) => {
+  await page.clock.install({ time: new Date(sceneTime) })
+  await page.goto('/?gameplaytest=1')
+  await page.getByRole('button', { name: 'Enter the archive', exact: true }).click()
+  await page.clock.runFor(20_000)
+  await page.getByRole('button', { name: 'Open unknown message', exact: true }).click()
+  await page.clock.runFor(120_000)
+  await expect(page.getByText('Hi.', { exact: true })).toBeVisible()
+  await expect(page.getByRole('button', { name: "Who's asking?", exact: true })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Open first page photo from unknown number' })).toHaveCount(0)
+  await expect(page.getByRole('button', { name: 'Open later handwritten note' })).toHaveCount(0)
+  await expect(page.getByLabel('Your name', { exact: true })).toHaveCount(0)
+  await expect(page.locator('.opening-bubble.player')).toHaveCount(0)
+  await page.getByRole('button', { name: "Who's asking?", exact: true }).click()
+  await expect(page.locator('.opening-bubble.player')).toHaveCount(0)
+  await page.getByRole('button', { name: 'Send', exact: true }).click()
+  await page.clock.runFor(120_000)
+  await expect(page.getByRole('button', { name: 'Go ahead.', exact: true })).toBeVisible()
+  await expect(page.locator('.opening-bubble.sophie').filter({ hasText: "I'm Sophie." })).toHaveCount(1)
+  await expect(page.locator('.scene01-chat img[src*="daniel"]')).toHaveCount(0)
+})
+
+test('premium dialogue preserves every embedded player Send and resumes after reload', async ({ page }) => {
+  await seedScene(page, sceneAt('02'))
+  await openSophie(page)
+  await sceneReply(page, /You sound nervous. Did something happen/)
+  await expect(page.getByRole('button', { name: 'A little.', exact: true })).toBeVisible()
+  await page.clock.runFor(120_000)
+  await expect(page.locator('.opening-bubble.player').filter({ hasText: 'A little.' })).toHaveCount(0)
+  await page.reload()
+  await page.getByRole('button', { name: 'Enter the archive', exact: true }).click()
+  await openSophie(page)
+  await sceneReply(page, 'A little.')
+  await expect(page.getByRole('button', { name: "You don't have to explain everything at once.", exact: true })).toBeVisible()
+  await sceneReply(page, "You don't have to explain everything at once.")
+  await expect(page.getByRole('button', { name: 'A star?', exact: true })).toBeVisible()
+  await expect(page.locator('.chat-attachment')).toHaveCount(0)
+})
+
+test('the player can withhold a stored codename and no Sophie message reveals it', async ({ page }) => {
+  const save = sceneAt('08'); save.player = { name: 'SECRET-NAME' }
+  await seedScene(page, save)
+  await openSophie(page)
+  await sceneReply(page, "You haven't earned my name yet.")
+  await expect(page.locator('.opening-bubble.sophie')).not.toContainText(['SECRET-NAME'])
+  await expect(page.getByRole('button', { name: "Why didn't you?", exact: true })).toBeVisible()
+})
+
+test('codename disclosure is optional and requires a chosen reply and explicit Send', async ({ page }) => {
+  await seedScene(page, sceneAt('08'))
+  await openSophie(page)
+  await page.getByRole('button', { name: /You can call me/ }).click()
+  await page.getByLabel('Your codename', { exact: true }).fill('Rae')
+  await page.getByRole('button', { name: 'Send', exact: true }).click()
+  await page.clock.runFor(120_000)
+  await expect(page.locator('.opening-bubble.sophie').filter({ hasText: /^Rae\.$/ })).toBeVisible()
+  await expect(page.locator('.opening-bubble').filter({ hasText: '[PLAYER_NAME]' })).toHaveCount(0)
+})

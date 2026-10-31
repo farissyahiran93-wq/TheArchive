@@ -1,0 +1,132 @@
+Boleh. Saya sangat setuju kalau nama game ditukar kepada GREYHAVEN, manakala The Archive ditukar kepada sebuah aplikasi penyiasatan misteri yang dihantar oleh Unknown Sender untuk membantu player mencari Daniel.
+
+Ini akan menjadikan game lebih menarik kerana The Archive bukan lagi nama game dan aplikasi serentak.
+1. Identiti baharu game
+
+
+
+
+
+
+
+tasteray.com
+
+
+GREYHAVEN
+Every secret leaves a trace.
+
+Elemen	Nama baharu
+Nama game	GREYHAVEN
+Genre	Interactive Mystery / Detective Thriller
+Fokus cerita	Kehilangan Daniel
+Aplikasi penyiasatan	TRACE (cadangan)
+Penghantar aplikasi	Unknown Sender
+Misteri utama	Daniel, rekod yang diubah, 7-14 dan E—I
+
+2. Tukar The Archive kepada TRACE
+
+
+
+
+
+
+
+
+
+TRACE — Digital Investigation Tool
+
+Aplikasi misteri yang dipasang pada telefon player selepas menerima mesej daripada Unknown Sender.
+
+Tujuannya membantu player menganalisis bukti, memulihkan data dan menyiasat kehilangan Daniel.
+
+
+Saya cadangkan TRACE mempunyai fungsi yang berkembang mengikut chapter:
+Tool	Fungsi
+Evidence Vault	Menyimpan dan memeriksa bukti
+File Recovery	Memulihkan mesej dan fail rosak
+Metadata Scanner	Menyemak tarikh dan sumber fail
+Connection Map	Menghubungkan suspek, lokasi dan bukti
+Timeline Reconstruction	Menyusun kronologi kejadian
+Audio Analyzer	Menganalisis rakaman suara
+Image Inspector	Memeriksa butiran dalam gambar
+Record Comparison	Mengesan rekod yang dipadam atau diubah
+
+Penting: Jangan unlock semua tools pada Chapter 1. Unknown Sender boleh membuka fungsi baharu secara berperingkat apabila player menemui bukti tertentu.
+3. Bagaimana TRACE diperkenalkan dalam Chapter 1?
+Kita kekalkan flow asal game, cuma ubah identiti aplikasinya.
+Recovered Device
+
+UNKNOWN SENDER · ENCRYPTED MESSAGE
+You want to know what happened to Daniel?
+
+Then stop trusting what you see.
+
+I've sent you something that might help.
+
+Install it. Find the missing entry.
+
+And don't tell anyone where it came from.
+
+TRACE.pkg
+Unknown source · Installation required
+
+TRACE
+ACCESS: PARTIAL
+
+RECOVERED RECORDS: 0
+
+Awaiting evidence...
+
+
+Ini memberi Unknown Sender peranan yang lebih misteri. Player akan tertanya-tanya sama ada aplikasi tersebut benar-benar membantu atau sedang memanipulasi penyiasatan.
+4. Perkara yang perlu dikekalkan
+Saya cadangkan jangan ubah jalan cerita, dialog, pilihan player atau evidence sedia ada hanya kerana penukaran nama.
+
+Kekalkan Daniel, Maya Chen, Sophie, Eli, Lucas, Nora, hubungan watak, sistem Trust/Affinity/Suspicion/Romance dan semua petunjuk utama.
+
+Untuk coding, tukar nama paparan dahulu, tetapi jangan terus menukar internal ID, save schema atau nama pemboleh ubah tanpa audit. Ini penting supaya progress pemain lama tidak rosak.
+5. Prompt untuk Codex
+CODEX — GREYHAVEN REBRANDING & TRACE INVESTIGATION APP
+Objective: Rebrand the existing detective mystery game from THE ARCHIVE to GREYHAVEN and rename the in-game investigation application from The Archive to TRACE.
+1. Game Rebranding
+- Change the displayed game title to GREYHAVEN.
+- Update the Android app label, splash screen, loading screen, game title and relevant UI branding.
+- Preserve the existing save data, chapter progression and game architecture.
+- Do not rename internal identifiers or package IDs unless necessary and migration-safe.
+2. Investigation Application
+- Rename the in-game application The Archive to TRACE.
+- Present TRACE as a mysterious digital investigation tool delivered by Unknown Sender.
+- Preserve the existing Chapter 1 onboarding and installation sequence.
+- Retain ACCESS: PARTIAL and the initial empty recovered-record state.
+- Keep all existing evidence IDs and clue dependencies intact.
+3. Investigation Tool Architecture
+Prepare modular support for:
+- Evidence Vault
+- File Recovery
+- Metadata Scanner
+- Connection Map
+- Timeline Reconstruction
+- Audio Analyzer
+- Image Inspector
+- Record Comparison
+Tools must unlock progressively through story conditions, rather than appearing fully available at the beginning. Do not invent evidence or bypass existing chapter locks.
+4. Unknown Sender
+- Maintain an anonymous sender identity.
+- Do not reveal whether Unknown Sender is an ally, antagonist or existing character.
+- Introduce TRACE through the established narrative flow.
+- Preserve mystery, player agency and evidence-based progression.
+5. Compatibility and Testing
+- Audit all visible references to THE ARCHIVE.
+- Distinguish branding references from story-critical references and internal IDs.
+- Preserve Chapter 1 and Chapter 2 continuity.
+- Verify save migration and existing relationships.
+- Run TypeScript, lint, automated tests and production build.
+- Report all changed files and unresolved issues.
+Critical constraint: Do not rewrite the established story, dialogue, character identities or canonical clues solely for this rebranding.
+
+
+
+
+Cadangan akhir saya: gunakan GREYHAVEN untuk nama game dan TRACE untuk aplikasi penyiasatan. Dua nama ini mempunyai identiti berbeza dan lebih mudah dikembangkan sehingga Chapter 10 atau lebih.
+
+Satu lagi idea yang sangat sesuai: pada awal permainan, TRACE nampak seperti alat yang membantu player, tetapi semakin jauh penyiasatan berjalan, player mula menemui bukti bahawa TRACE sendiri mungkin menyembunyikan sebahagian kebenaran. Ini boleh menjadi misteri tambahan tanpa mendedahkan identiti Unknown Sender terlalu awal.

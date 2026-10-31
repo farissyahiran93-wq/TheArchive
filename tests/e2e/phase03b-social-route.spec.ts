@@ -5,7 +5,7 @@ test('social route accepts separate permissions, opens optional Maya scenes and 
   test.setTimeout(180_000)
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/?legacyopening=1')
-  await page.getByRole('button', { name: /Enter the archive/i }).click()
+  await page.getByRole('button', { name: /Unlock phone/i }).click()
   await page.getByLabel('Your name').fill('Rae')
   await page.getByRole('button', { name: /Set up phone/i }).click()
   await completeOpening(page)
@@ -106,7 +106,7 @@ test('social route accepts separate permissions, opens optional Maya scenes and 
   await page.getByRole('button',{ name: 'Return to case in Bulletin' }).click()
   await expect(page.getByRole('button',{ name: 'End episode' })).toBeEnabled({timeout:15000})
   await page.getByRole('button',{ name: 'End episode' }).click()
-  await expect(page.getByText('THE ARCHIVE · EPISODE 01 COMPLETE')).toBeVisible()
+  await expect(page.getByText('GREYHAVEN · EPISODE 01 COMPLETE')).toBeVisible()
   const status = await page.evaluate(async () => {
     const db = await new Promise<IDBDatabase>((resolve,reject) => { const req = indexedDB.open('the-archive-reboot',1); req.onsuccess = () => resolve(req.result); req.onerror = () => reject(req.error) })
     const result = await new Promise<{r03:number;messages:number;r04:number;mayaFacts:string[];note:boolean;privateFileShared:boolean}>((resolve,reject) => { const req=db.transaction('saves').objectStore('saves').get('primary'); req.onsuccess=() => { const save=req.result; resolve({r03:save.deliveredEvents.filter((id:string)=>id==='R03').length,messages:save.deliveredEvents.filter((id:string)=>id==='CONN-E01-01').length,r04:save.deliveredEvents.filter((id:string)=>id==='R04').length,mayaFacts:save.knowledge.characters.maya,note:save.e01.s24NoteViewed,privateFileShared:save.messages.some((m:{attachmentIds?:string[]})=>m.attachmentIds?.includes('E012'))}) }; req.onerror=()=>reject(req.error) })

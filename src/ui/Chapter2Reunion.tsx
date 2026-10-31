@@ -1,3 +1,5 @@
+import { sceneStartMarkers } from './sceneMarkers'
+import { SceneStartMarker } from './SceneStartMarker'
 import { ChatProfile } from './ChatProfile'
 import { chatGroup } from './chatGrouping'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
@@ -20,6 +22,7 @@ export function ReunionChat({thread,onBack,onThread}:{thread:Active;onBack:()=>v
  const spy=isSpy?r.spy[thread as SpyId]:undefined
  const old=thread==='group'?save.prologue?.scene01?.groupMessages??[]:thread==='sophie'?save.prologue?.scene01?.messages??[]:['maya','eli','lucas','nora'].includes(thread)?save.messages.filter(m=>m.sender===thread||m.sender==='player'&&m.recipient===thread):[]
  const lines=isSpy?spy?.messages??[]:thread==='group'?[...old,...c.groupMessages]:thread==='unknown'?c.messages:[...old,...(r.privateMessages[thread as 'maya'|'eli'|'sophie'|'lucas'|'nora']??[])]
+ const markers=sceneStartMarkers(lines)
  const options=isSpy?[]:reunionChoices(save,thread as StoryThread)
  const node=session?reunionNodes[session.node]:undefined
  const script=thread==='eli-lucas'?eliLucasInterception:mayaLucasInterception(spy?.fullDisclosure??false)
@@ -42,7 +45,7 @@ export function ReunionChat({thread,onBack,onThread}:{thread:Active;onBack:()=>v
  {isSpy&&<div className="spy-source">A private conversation you were not invited to. Context may be missing.</div>}
  {lines.map((line,index)=>line.sender==='system'?<div key={line.id} className="opening-group-system">{line.text}</div>:<div key={line.id} className={`conversation-line ${line.sender==='player'?'outgoing':'incoming'} ${chatGroup(lines,index).className}`}>
  {line.sender!=='player'&&chatGroup(lines,index).last&&<span className="chat-contact-avatar"><CharacterAvatar character={line.sender} fallback={line.sender[0].toUpperCase()} className="message-avatar"/>{!isSpy&&r.presence[line.sender as 'maya']&&<i className="presence-dot" aria-label={`${title(line.sender)} online`}/>}</span>}
- <div className="conversation-body">{(isSpy||thread==='group')&&line.sender!=='player'&&chatGroup(lines,index).first&&<strong className="group-sender">{title(line.sender)}</strong>}<div className={`opening-bubble ${line.sender==='player'?'player':'sophie'}`}>{line.text}</div></div></div>)}
+ <div className="conversation-body">{(isSpy||thread==='group')&&line.sender!=='player'&&chatGroup(lines,index).first&&<strong className="group-sender">{title(line.sender)}</strong>}<SceneStartMarker line={line} markers={markers}/><div className={`opening-bubble ${line.sender==='player'?'player':'sophie'}`}>{line.text}</div></div></div>)}
  {actor&&<div className="opening-v4-typing" role="status" aria-label={`${title(actor)} is typing`}><CharacterAvatar character={actor} fallback={actor[0].toUpperCase()} className="message-avatar"/><span className="typing-dots"><i/><i/><i/></span></div>}
  {spy?.complete&&<div className="opening-group-system">Interception ended.</div>}
  </div>

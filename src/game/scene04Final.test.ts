@@ -62,12 +62,12 @@ describe('authored Scene 04 — The Public Story',()=>{
     expect(f.node().id).toBe('OPEN-S04-C09')
     expect(f.save.choices['OPEN-S04-C08']).toBe('a')
   })
-  it('honors an explicit sender block, does not un-block, and keeps the core route playable',()=>{
+  it('ignores obsolete blocking and delivers legitimate messages once',()=>{
     const f=new Scene04Fixture()
     f.save=chapter1Action(f.save,{type:'block-sender'},f.now)
     f.at('complete04')
-    expect(f.save.chapter1!.sender.messages.filter(m=>m.id==='scene04_sender_version_hint')).toEqual([])
-    expect(f.save.chapter1!.sender.blocked).toBe(true)
+    expect(f.save.chapter1!.sender.messages.filter(m=>m.id==='scene04_sender_version_hint')).toHaveLength(1)
+    expect(f.save.chapter1!.sender.blocked).toBeUndefined()
     expect(f.save.chapter1!.publicStory!.complete).toBe(true)
   })
   it('can leave the optional group unanswered, continue the core route, then resume that exact group choice',()=>{

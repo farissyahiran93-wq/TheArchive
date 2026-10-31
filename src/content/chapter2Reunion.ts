@@ -68,7 +68,7 @@ const withheld=seq('DISCLOSE-NOTHING',[
  ...say('maya',"Okay. Tell us when there's something you're comfortable standing behind."),...say('lucas',"That rule applies to all of us."),...say('eli',"We can work with what we actually have."),
 ],index)
 const g04=choice('G04',[
- {id:'a',text:"I have access to a partial mirror of Daniel's phone through The Archive.",next:full,disclosure:'full',facts:['C2-DISCLOSED-PHONE-MIRROR']},
+ {id:'a',text:"I have access to a partial mirror of Daniel's phone through TRACE.",next:full,disclosure:'full',facts:['C2-DISCLOSED-PHONE-MIRROR']},
  {id:'b',text:'I found a few things that might be relevant.',next:clues,guard:'clues',disclosure:'clues'},
  {id:'c',text:"I don't have anything I'm ready to share yet.",next:withheld,disclosure:'none'},
 ])

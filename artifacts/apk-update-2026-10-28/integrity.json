@@ -1,0 +1,17 @@
+{
+  "apk": "artifacts\\THE_ARCHIVE_2026-10-28_Update.apk",
+  "bytes": 19811620,
+  "sha256": "12cc76c989caf8e106866f53ca5a6efa940985b75d49525859b457cbc672b15e",
+  "package": "com.thearchive.game",
+  "versionCode": 4,
+  "versionName": "0.4.0-playtest",
+  "signerSha256": "444fdc887230aba76bb7a296b3a3817bb35c041ee91d34d0eeb7dc529195f758",
+  "matchesPreviousSigner": true,
+  "zipIntegrity": "passed",
+  "distFilesByteIdentical": 43,
+  "capacitorConfigUnchanged": true,
+  "developmentServer": false,
+  "currentVersionHistoryRuntimePresent": true,
+  "previousApksUnchanged": true,
+  "physicalDeviceInstallation": "not performed"
+}

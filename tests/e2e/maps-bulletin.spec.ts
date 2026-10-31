@@ -8,7 +8,7 @@ mkdirSync(output, { recursive: true })
 
 async function start(page: Page) {
   await page.goto('/?legacyopening=1')
-  await page.getByRole('button', { name: /Enter the archive/i }).click()
+  await page.getByRole('button', { name: /Unlock phone/i }).click()
   await page.getByLabel('Your name').fill('Rae')
   await page.getByRole('button', { name: /Set up phone/i }).click()
   await completeOpening(page)

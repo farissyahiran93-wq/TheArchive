@@ -1,3 +1,4 @@
+import { readMenuPreferences, writeMenuPreferences, type MenuPreferences } from '../game/menuPreferences'
 import { useEffect, useRef, useState } from 'react'
 import { ArrowLeft, Bell, Check, ChevronRight, Download, FileText, LockKeyhole, Moon, Music2, Phone, RotateCcw, Search, Sun, Volume2, type LucideIcon } from 'lucide-react'
 import { apps, searchResults, type AppId } from '../content/phone'
@@ -103,6 +104,7 @@ function SettingsApp({ appearance, setAppearance, audio, setAudio, onRestart }: 
   const save = useGameStore(state => state.save)
   const setReduceMotion = useGameStore(state => state.setReduceMotion)
   const restartStory = useGameStore(state => state.restartStory)
+  const [guidance, setGuidance] = useState(()=>readMenuPreferences().guidance)
   const [confirm, setConfirm] = useState(false)
   const [restarting, setRestarting] = useState(false)
   const cancel = useRef<HTMLButtonElement>(null)
@@ -120,6 +122,7 @@ function SettingsApp({ appearance, setAppearance, audio, setAudio, onRestart }: 
       <label className="settings-row"><span className="setting-icon"><Sun size={18}/></span><span className="setting-copy"><strong>Appearance</strong><small>Phone theme</small></span><select aria-label="Appearance" value={appearance} onChange={event => setAppearance(event.target.value as Appearance)}><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
       <label className="settings-row"><span className="setting-icon"><Moon size={18}/></span><span className="setting-copy"><strong>Reduce Motion</strong><small>Reduce screen animations</small></span><input aria-label="Reduce Motion" type="checkbox" checked={save.settings.reduceMotion} onChange={event => setReduceMotion(event.target.checked)}/></label>
     </div>
+    <p className="section-caption">INVESTIGATION GUIDANCE</p><div className="settings-group"><label className="settings-row"><span className="setting-copy"><strong>Guidance</strong><small>Show available investigation actions</small></span><select aria-label="Investigation guidance" value={guidance} onChange={e=>{const value=e.target.value as MenuPreferences['guidance'];setGuidance(value);writeMenuPreferences({...readMenuPreferences(),guidance:value})}}><option value="on">On</option><option value="minimal">Minimal</option><option value="off">Off</option></select></label></div>
     <p className="section-caption">AUDIO</p>
     <div className="settings-group">
       <label className="settings-row"><span className="setting-icon"><Volume2 size={18}/></span><span className="setting-copy"><strong>Sound Effects</strong><small>Message and notification sounds</small></span><input aria-label="Sound Effects" type="checkbox" checked={audio.effects} onChange={event => setAudio({ ...audio, effects: event.target.checked })}/></label>
@@ -155,7 +158,7 @@ export function UtilityApp({ app, back, appearance, setAppearance, audio, setAud
       {app === 'calls' && <><p className="section-caption">RECENT CALLS</p><EmptyCard Icon={Phone} title="No calls yet" text="Calls appear when a conversation actually becomes available."/></>}
       {app === 'bulletin' && <><p className="section-caption">PUBLIC BULLETIN</p><article className="utility-card bulletin-card"><span>GREYHAVEN CIVIC DESK</span><h2>A city of records</h2><p>Public notices and historical documents are indexed for residents. Check back for new records.</p></article></>}
       {app === 'files' && <><p className="section-caption">LOCAL FILES</p><article className="utility-card file-row"><FileText size={21}/><div><strong>Welcome.txt</strong><small>Device setup · read only</small></div></article><CaseFiles/></>}
-      {app === 'archive' && (save.prologue?.restored ? <DanielMirror/> : <><p className="section-caption">THE ARCHIVE</p><ArchiveCase/></>)}
+      {app === 'archive' && (save.prologue?.restored ? <DanielMirror/> : <><p className="section-caption">TRACE</p><ArchiveCase/></>)}
       {app === 'alerts' && <AlertsApp/>}
       {app === 'mail' && <><p className="section-caption">SHARED MAIL</p><EmptyCard Icon={LockKeyhole} title="No mail shared" text="Only messages explicitly shared through the story will appear here."/></>}
     </div>}

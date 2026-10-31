@@ -44,8 +44,8 @@ async function send(page: Page, text: string) {
   await page.clock.runFor(90000)
 }
 
-for (const app of ['Home','Contacts','The Archive','Messages']) test(`Unknown arrives above ${app} after Sophie completes, without opening itself`, async ({ page }) => {
-  await seedScene(page, completed())
+for (const app of ['Home','Contacts','TRACE','Messages']) test(`Unknown arrives above ${app} after Sophie completes, without opening itself`, async ({ page }) => {
+  await seedScene(page, completed(),{pauseClock:true})
   if (app !== 'Home') await page.getByRole('button', { name: `Open ${app}`, exact: true }).first().click()
   await page.clock.runFor(7100)
   await expect(page.getByRole('complementary', { name: 'Incoming notification' })).toContainText("You're looking in the wrong place.")
@@ -72,7 +72,7 @@ test('Unknown branches, explicit Send, retained decline, consented install, reco
   await expect(page.getByRole('button', { name: 'ACCEPT PACKAGE', exact: true })).toHaveCount(0)
   await expect.poll(() => page.evaluate(() => sessionStorage.getItem('the-archive-reboot:pending-save:v1'))).toBeNull()
   await page.reload()
-  await page.getByRole('button', { name: 'Enter the archive', exact: true }).click()
+  await page.getByRole('button', { name: 'Unlock phone', exact: true }).click()
   await openUnknown(page)
   await page.getByRole('button', { name: 'Inspect package again', exact: true }).click()
   await page.getByRole('button', { name: 'ACCEPT PACKAGE', exact: true }).click()
@@ -91,7 +91,7 @@ test('Unknown branches, explicit Send, retained decline, consented install, reco
   await expect(page.getByRole('dialog', { name: 'SPY MODE', exact: true })).toContainText('Nothing is currently being intercepted.')
   await page.getByRole('button', { name: 'GOT IT', exact: true }).click()
   await page.getByRole('button', { name: 'Back to home', exact: true }).click()
-  await page.getByRole('button', { name: 'Open The Archive', exact: true }).click()
+  await page.getByRole('button', { name: 'Open TRACE', exact: true }).click()
   await page.getByRole('button', { name: 'OPEN PHONE MIRROR', exact: true }).click()
   await expect(page.getByText('Device: NOT CONNECTED', { exact: false })).toBeVisible()
   await page.getByRole('button', { name: 'ENTER MIRROR', exact: true }).click()
@@ -112,7 +112,7 @@ test('Unknown branches, explicit Send, retained decline, consented install, reco
   await page.clock.runFor(20000)
   await expect.poll(() => page.evaluate(() => sessionStorage.getItem('the-archive-reboot:pending-save:v1'))).toBeNull()
   await page.reload()
-  await page.getByRole('button', { name: 'Enter the archive', exact: true }).click()
+  await page.getByRole('button', { name: 'Unlock phone', exact: true }).click()
   await page.getByRole('button', { name: 'Open Messages', exact: true }).first().click()
   await expect(page.getByRole('button', { name: 'Open FIND DANIEL group conversation', exact: true })).toHaveCount(1)
   await page.getByRole('button', { name: 'Open FIND DANIEL group conversation', exact: true }).click()
@@ -140,7 +140,7 @@ test('package questions are idempotent and an unsent response survives reload wi
   expect((await stored(page)).chapter2Access?.installAuthorized).toBe(false)
   await expect.poll(() => page.evaluate(() => sessionStorage.getItem('the-archive-reboot:pending-save:v1'))).toBeNull()
   await page.reload()
-  await page.getByRole('button', { name: 'Enter the archive', exact: true }).click()
+  await page.getByRole('button', { name: 'Unlock phone', exact: true }).click()
   expect((await stored(page)).chapter2Access?.installAuthorized).toBe(false)
   await openUnknown(page)
   expect((await stored(page)).chapter2Access?.messages.filter(m => m.text === 'Who made this package?')).toHaveLength(1)

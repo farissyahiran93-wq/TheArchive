@@ -614,7 +614,7 @@ export const accessNodes: Record<string, AccessNode> = {
   },
   "U06B-COMMON-1": {
     "kind": "npc",
-    "text": "The Archive is already installed on your device.",
+    "text": "TRACE is already installed on your device.",
     "next": "U06B-COMMON-2"
   },
   "U06B-COMMON-2": {
@@ -707,7 +707,7 @@ export const accessNodes: Record<string, AccessNode> = {
   },
   "U07Q_C-0": {
     "kind": "npc",
-    "text": "The Archive gains a device mirror.",
+    "text": "TRACE gains a device mirror.",
     "next": "U07Q_C-1"
   },
   "U07Q_C-1": {
@@ -898,7 +898,7 @@ export const accessNodes: Record<string, AccessNode> = {
       },
       {
         "id": "U08_B",
-        "text": "Did Daniel know about The Archive?",
+        "text": "Did Daniel know about TRACE?",
         "next": "U08_B-0"
       },
       {

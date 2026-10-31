@@ -1,0 +1,34 @@
+{
+  "src/content/chapter2Access.ts": {
+    "brand_only_substitutions": true
+  },
+  "src/content/chapter2Reunion.ts": {
+    "brand_only_substitutions": true
+  },
+  "src/content/versionHistoryConversationData.ts": {
+    "brand_only_substitutions": true
+  },
+  "src/content/versionHistoryConversation.ts": {
+    "brand_only_substitutions": true
+  },
+  "src/content/chapter1Investigation.ts": {
+    "brand_only_substitutions": true
+  },
+  "src/content/chapter1Plan.ts": {
+    "brand_only_substitutions": true
+  },
+  "src/content/scene10Final.ts": {
+    "brand_only_substitutions": true
+  },
+  "src/content/phone.ts": {
+    "brand_only_substitutions": true
+  },
+  "capacitor": {
+    "appName": "GREYHAVEN",
+    "all_other_settings_identical": true
+  },
+  "stores": {
+    "the-archive-reboot": true,
+    "the-archive-reboot:pending-save:v1": true
+  }
+}

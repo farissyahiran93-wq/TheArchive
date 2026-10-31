@@ -14,8 +14,7 @@ function pendingSave(): PendingSave | null {
     if (!raw) return null
     const value = JSON.parse(raw) as PendingSave
     if (!Number.isSafeInteger(value.baseRevision) || value.baseRevision < 0) throw new Error('Invalid pending save base')
-    normalizeSave(value.save)
-    return value
+    return {...value,save:normalizeSave(value.save)}
   } catch { return null }
 }
 
@@ -94,6 +93,25 @@ export async function writeGame(save: GameSave, expectedRevision?: number): Prom
     }
   }
   await tx.store.put(save, KEY)
+  await tx.done
+}
+
+/** Separate playthrough slots never replace the primary investigation. */
+export async function loadScenePlaythrough(number: number, capturedAt: number): Promise<GameSave | undefined> {
+  const db = await database()
+  const raw = await db.get('saves', `scene-playthrough:${number}:${capturedAt}`)
+  return raw === undefined ? undefined : normalizeSave(raw)
+}
+
+export async function writeScenePlaythrough(number: number, capturedAt: number, save: GameSave, expectedRevision?: number): Promise<void> {
+  const db = await database(), tx = db.transaction('saves', 'readwrite'), key = `scene-playthrough:${number}:${capturedAt}`
+  if (expectedRevision !== undefined) {
+    const stored = await tx.store.get(key) as GameSave | undefined
+    if ((stored?.saveRevision ?? 0) !== expectedRevision) {
+      tx.abort(); await tx.done.catch(() => undefined); throw new SaveConflictError()
+    }
+  }
+  await tx.store.put(save, key)
   await tx.done
 }
 

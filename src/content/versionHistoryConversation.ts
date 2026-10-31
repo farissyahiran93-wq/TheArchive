@@ -1,0 +1,126 @@
+import type { Scene01Node } from './scene01'
+import { withArticleReplyTones } from './articleReplyTones'
+import { scene04Article, scene04Nodes } from './scene04Final'
+import { archiveOriginDialogue, versionHistoryClosing, versionHistoryDialogue } from './versionHistoryConversationData'
+
+export const versionHistorySceneId = 'ch02_scene05_version_history' as const
+export type VersionHistoryChoiceId = typeof versionHistoryDialogue[number]['id']
+export const versionHistoryManifest = versionHistoryDialogue.map(g=>({id:g.id,branches:3}))
+export const conversationNodes:Record<string,Scene01Node>={}
+const add=(n:Scene01Node)=>(conversationNodes[n.id]=n,n.id)
+function lines(texts:readonly string[],prefix:string,next:string,channel:'unknown'|'sophie'|'group'='unknown',attachment?:'article'|'index'|'archive-package'){
+  for(let i=texts.length-1;i>=0;i--){
+    const id=`${prefix}-${i+1}`
+    const sender=channel==='group'?'maya':channel
+    next=add({id,kind:'npc',text:texts[i],sender,channel,next,...(attachment&&i===texts.length-1?{attachment}:{})})
+  }
+  return next
+}
+const originEnd=add({id:'OPEN-ORIGIN-END',kind:'event',event:'archive-thread-end'})
+let origin=lines(['Start with the Greyhaven reference.','ARC-IDX-GB-041.',"Don't assume it's an earlier version.","I haven't shown you one."],'OPEN-ORIGIN-PACKAGE-AFTER',originEnd)
+origin=add({id:'OPEN-ORIGIN-PACKAGE',kind:'npc',text:'TRACE · Restricted access package',channel:'unknown',sender:'unknown',attachment:'archive-package',next:origin})
+for(let i=archiveOriginDialogue.length-1;i>=0;i--){
+  const t=archiveOriginDialogue[i],id=`OPEN-ORIGIN-EXPLAIN-${i+1}`
+  origin=t.speaker==='player'?add({id,kind:'choice',channel:'unknown',choices:[{id:'continue',text:t.text,next:origin}]}):lines([t.text],id,origin)
+}
+origin=lines(["You shouldn't.",'Not yet.','Look at the record.','Decide what it means yourself.'],'OPEN-ORIGIN-TRUST-ANSWER',origin)
+origin=add({id:'OPEN-ORIGIN-TRUST',kind:'choice',channel:'unknown',choices:[{id:'continue',text:'Then why should I trust you?',next:origin}]})
+origin=lines(['No.',"It doesn't.","I can't give you an answer you'd be able to verify."],'OPEN-ORIGIN-IDENTITY-ANSWER',origin)
+origin=add({id:'OPEN-ORIGIN-IDENTITY',kind:'choice',channel:'unknown',choices:[{id:'continue',text:"That doesn't answer my question.",next:origin}]})
+const contactChoices=[
+  {id:'who',text:'Who is this?',reply:'Someone who thinks you should see it for yourself.'},
+  {id:'why',text:'Why are you contacting me?',reply:"Because there's a reference connected to Daniel Mercer."},
+  {id:'source',text:'Where did you get the record?',reply:"I can't verify who originally assembled it."},
+]
+origin=add({id:'OPEN-ORIGIN-CONTACT',kind:'choice',channel:'unknown',choices:contactChoices.map(c=>({id:c.id,text:c.text,next:lines([c.reply],`OPEN-ORIGIN-CONTACT-${c.id}`,origin)}))})
+export const originOpening=lines(["There's something connected to it that you haven't seen."],'OPEN-ORIGIN-OPEN',origin)
+export const originFollowup=lines(['Did you find the reference?','The reference exists.',"That's what I wanted you to see.","It doesn't establish when the record was made.",'Or whether the article was changed.','Just be careful what you show them.'],'OPEN-ORIGIN-FOLLOWUP',originEnd)
+
+const end=add({id:'OPEN-VH-END',kind:'event',event:'vh-thread-end'})
+let next=lines(versionHistoryClosing,'OPEN-VH-CLOSING',end)
+export const conversationEntrances:Record<string,string>={}
+for(let i=6;i>=0;i--){
+  const group=versionHistoryDialogue[i],num=String(i+1).padStart(2,'0'),id=`OPEN-VH-C${num}`
+  const converge=lines(group.convergence,`OPEN-VH-AFTER-${num}`,next)
+  add({id,kind:'choice',number:group.id,channel:'unknown',choices:group.branches.map(b=>({id:b.id,text:b.text,next:lines(b.replies,`OPEN-VH-C${num}-${b.id}`,converge,'unknown',i===0?(b.id==='b'?'index':'article'):undefined)}))})
+  next=lines(group.prelude,`OPEN-VH-BEFORE-${num}`,id)
+  if(i>0)next=add({id:`OPEN-VH-GATE-${num}`,kind:'gate',action:'vh-source',next})
+}
+conversationEntrances.unknown=next
+for(const thread of ['sophie','group'] as const){
+  let target=add({id:`OPEN-VH-${thread}-END`,kind:'event',event:'vh-thread-end'})
+  for(const i of thread==='sophie'?[9,8]:[10]){
+    const g=versionHistoryDialogue[i],id=`OPEN-VH-C${i+1}`
+    const after=lines(g.convergence,`OPEN-VH-${thread}-AFTER-${i+1}`,target,thread)
+    add({id,kind:'choice',number:g.id,channel:thread,choices:g.branches.map(b=>{
+      let replies=[...b.replies] as string[]
+      // The last group sentence belongs to Lucas only if he remains a member.
+      let tail=after
+      if(thread==='group'){
+        const last=replies.pop()!
+        tail=add({id:`OPEN-VH-GROUP-${b.id}-LUCAS`,kind:'npc',sender:'lucas',channel:'group',text:last,next:after})
+      }
+      return {id:b.id,text:b.text,next:lines(replies,`OPEN-VH-C${i+1}-${b.id}`,tail,thread)}
+    })})
+    target=lines(g.prelude,`OPEN-VH-${thread}-BEFORE-${i+1}`,id,thread)
+  }
+  conversationEntrances[thread]=target
+}
+
+/** Only the revised route changes the old Scene 04 boundary; historical graphs stay pinned. */
+export const alignedScene04Nodes:Record<string,Scene01Node>={...scene04Nodes}
+for(const [id,node] of Object.entries(scene04Nodes)){
+  alignedScene04Nodes[id]=withArticleReplyTones(node)
+  if(node.kind==='event'&&node.event==='s04-group-notice')alignedScene04Nodes[id]={...node,event:'route'}
+  if(node.kind==='gate'&&node.action==='s04-group')alignedScene04Nodes[id]={id,kind:'event',event:'route',next:node.next}
+  if(node.kind==='npc'&&node.text==='I should put that on a sticky note.')alignedScene04Nodes[id]={...node,next:'OPEN-S04-STICKY-PHOTO'}
+  if(node.kind==='npc'&&node.text==='Thanks for actually reading it.')alignedScene04Nodes[id]={...node,next:'OPEN-S04-COMPLETE'}
+}
+export const canonicalIndexFields=[['REFERENCE ID','ARC-IDX-GB-041'],['PUBLIC ARTICLE',scene04Article.id],['TITLE MATCH','CONFIRMED'],['SOURCE','UNKNOWN'],['CAPTURE TIME','NOT ESTABLISHED'],['ORIGINAL CONTENT','UNAVAILABLE'],['AUTHENTICITY','UNVERIFIED']] as const
+export const verificationGaps=[
+  ['EARLIER ARTICLE COPY — UNAVAILABLE','No verified earlier body of text is available to read.'],
+  ['VERIFIED CHANGE LOG — NOT ESTABLISHED','The public update label supplies no authenticated change log or historical edit times.'],
+  ['CONTENT COMPARISON — UNAVAILABLE','A readable public article and a title reference cannot establish a before-and-after difference.'],
+  ['INDEX ORIGIN — UNVERIFIED','Who assembled the index and how this reference entered it remain unknown.'],
+] as const
+
+alignedScene04Nodes['OPEN-S04-STICKY-PHOTO']={id:'OPEN-S04-STICKY-PHOTO',kind:'npc',sender:'sophie',channel:'sophie',text:"WANTING IT TO BE CLEARER\nDOESN'T MAKE IT CLEARER.",photo:'/sophie-sticky-note.png',next:(scene04Nodes['OPEN-S04-FINAL-C03-e-5'] as Extract<Scene01Node,{kind:'npc'}>).next}
+
+for(const [id,node] of Object.entries(conversationNodes))conversationNodes[id]=withArticleReplyTones(node)
+
+
+// Separate IDs pin already-started conversations to their original graph.
+const revisedGroups = [
+  { pre: ["Before you start looking, there's something I want you to check.", "The article and the Archive index show the same public article reference.", "That doesn't prove the article was rewritten, or tell us who made the index.", "Don't take my word for it. Look at both records yourself."],
+    options: ["I'll start with the article.", "All right. I'll look at the article first.", "Let me check the article for myself."], reply: ["Open the update label on the article.", "You can ask TRACE for the index from there."] },
+  { pre: ["What did the update label tell you?"], options: ["It says the page was updated, but not what changed.", "There's an update label. It doesn't explain the change.", "I can see an update, but I can't tell what was changed."], reply: ["That's all the label establishes.", "The reason and the wording are still open questions."] },
+  { pre: ["What did you find in the index?"], options: ["A reference, but no original article text.", "The reference is there. The original text isn't.", "It points to the article, but it doesn't contain the earlier text."], reply: ["A reference can point to a record without preserving it.", "We don't know who assembled the index either."] },
+  { pre: ["What did you make of the Bulletin's policy?"], options: ["It explains updates generally, not what happened to this article.", "The policy describes a process, not this particular update.", "It doesn't tell us which change was made here."], reply: ["Right. A general policy isn't an article-specific record."] },
+  { pre: ["You have the article, the index and the policy.", "What can you actually confirm?"], options: ["The references match, but there's no earlier text to compare.", "Both show the same reference. I still can't verify a wording change.", "I checked the IDs. They match, but the original wording is unavailable."], reply: ["You found it.", "Now you know I wasn't inventing that connection.", "But don't confuse being right about one thing with being trustworthy about everything.", "Including me."] },
+  { pre: ["You've seen the gaps. What do you want to do next?"], options: ["I'll ask the publisher what records are available.", "The publisher is the next place I'd ask about the records.", "I'll try asking the Bulletin for its records."], reply: ["You can ask.", "A submitted request confirms delivery, not the truth of an answer."] },
+  { pre: ["One last thing. What can you say without guessing?"], options: ["The references match, but a wording change remains unverified.", "I can confirm the matching reference, not a change to the text.", "Same reference in both places. We still can't establish what changed."], reply: ["That's a conclusion you can defend.", "That's enough for now. Not an answer. A boundary around what we know.", "The next lead is in TRACE, if you want to keep going."] },
+] as const
+const revisedEnd=add({id:'OPEN-VH-NEW-END',kind:'event',event:'vh-thread-end'})
+let revisedNext=revisedEnd
+for(let i=revisedGroups.length-1;i>=0;i--){
+  const g=revisedGroups[i],num=String(i+1).padStart(2,'0'),id=`OPEN-VH-NEW-C${num}`
+  const response=lines(g.reply,`OPEN-VH-NEW-REPLY-${num}`,revisedNext)
+  add({id,kind:'choice',number:versionHistoryDialogue[i].id,channel:'unknown',choices:g.options.map((text,j)=>({id:['a','b','c'][j],text,next:response}))})
+  revisedNext=lines(g.pre,`OPEN-VH-NEW-BEFORE-${num}`,id)
+  if(i>0)revisedNext=add({id:`OPEN-VH-NEW-GATE-${num}`,kind:'gate',action:'vh-source',next:revisedNext})
+}
+export const revisedUnknownEntrance=revisedNext
+
+const optionalEndS=add({id:'OPEN-VH-NEW-SOPHIE-END',kind:'event',event:'vh-thread-end'})
+const optionalEndG=add({id:'OPEN-VH-NEW-GROUP-END',kind:'event',event:'vh-thread-end'})
+const sophieEnd=lines(["Thanks for asking."],'OPEN-VH-NEW-SOPHIE-CLOSE',optionalEndS,'sophie')
+const sophie10=add({id:'OPEN-VH-NEW-C10',kind:'choice',number:versionHistoryDialogue[9].id,channel:'sophie',choices:["Only what you're comfortable sharing. We can leave it there.","There's no pressure. We can leave it here.","You don't have to tell me anything you're not ready to share."].map((text,i)=>({id:['a','b','c'][i],text,next:sophieEnd}))})
+const sophieAsk=lines(["What do you need from me?"],'OPEN-VH-NEW-SOPHIE-ASK',sophie10,'sophie')
+const sophieReply=lines(["You can ask.","I don't want you treating what I remember as a record of what was published."],'OPEN-VH-NEW-SOPHIE-REPLY',sophieAsk,'sophie')
+const sophie09=add({id:'OPEN-VH-NEW-C09',kind:'choice',number:versionHistoryDialogue[8].id,channel:'sophie',choices:["Can I ask what you remember about the article?","Would you mind telling me what you remember about the article?","Sophie, what do you remember about that article?"].map((text,i)=>({id:['a','b','c'][i],text,next:sophieReply}))})
+const sophieStart=lines(["Hey. Is everything okay?"],'OPEN-VH-NEW-SOPHIE-OPEN',sophie09,'sophie')
+const groupReply=lines(["So the reference connects them, but it doesn't prove the article changed?"],'OPEN-VH-NEW-GROUP-REPLY',optionalEndG,'group')
+const group11=add({id:'OPEN-VH-NEW-C11',kind:'choice',number:versionHistoryDialogue[10].id,channel:'group',choices:["The article and index display the same reference. That doesn't prove the text changed.","I checked both references; they match, but we can't confirm an edit.","There's a matching reference, but no evidence yet of what changed."].map((text,i)=>({id:['a','b','c'][i],text,next:groupReply}))})
+export const revisedSocialEntrances={sophie:sophieStart,group:group11} as const
+
+conversationNodes['OPEN-VH-NEW-SOURCE-HUB']={id:'OPEN-VH-NEW-SOURCE-HUB',kind:'gate',action:'vh-source',next:'OPEN-VH-NEW-GATE-05'}

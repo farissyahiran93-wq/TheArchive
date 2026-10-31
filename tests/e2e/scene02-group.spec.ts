@@ -43,7 +43,7 @@ test('replacement group begins at the new script and keeps premium sub-replies b
   await expect(page.getByRole('button', { name: "I'm not telling you how to handle anything.", exact: true })).toBeVisible()
   await expect(group.locator('.opening-bubble.player')).toHaveCount(1)
   await page.reload()
-  await page.getByRole('button', { name: 'Enter the archive', exact: true }).click()
+  await page.getByRole('button', { name: 'Unlock phone', exact: true }).click()
   await page.getByRole('button', { name: 'Open Messages', exact: true }).first().click()
   await page.getByRole('button', { name: 'Open FIND DANIEL group conversation', exact: true }).click()
   await send(page, "I'm not telling you how to handle anything.")

@@ -1,5 +1,7 @@
+import { sceneStartMarkers } from './sceneMarkers'
+import { SceneStartMarker } from './SceneStartMarker'
 import { CharacterAvatar } from './CharacterAvatar'
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight, CheckCircle2, FileImage, Fingerprint, LockKeyhole, MessageCircle, Send, ShieldQuestion, Smartphone } from 'lucide-react'
 import { recoveryToken } from '../content/opening'
 import { DanielNoteContent } from './DanielNoteContent'
@@ -38,6 +40,7 @@ export function OpeningPrologue({ onHome }: { onHome: () => void }) {
   }, [prologue?.stage, unreadGroup, unreadSophie, readOpening])
   if (!prologue) return null
   const stage = prologue.stage
+  const markers = sceneStartMarkers(stage === 'group' ? prologue.social?.messages ?? [] : prologue.messages)
   const choices = openingChoices(prologue)
   if (stage === 'group' && prologue.social) {
     const options = groupChoices(prologue)
@@ -45,7 +48,7 @@ export function OpeningPrologue({ onHome }: { onHome: () => void }) {
       <header className="opening-chat-header"><button className="icon-button bare" onClick={onHome} aria-label="Back"><ArrowLeft size={20}/></button><span className="opening-group-avatar">FD</span><div><strong>FIND DANIEL</strong><small>{prologue.social.members.filter(id => id !== 'player').map(id => id[0].toUpperCase() + id.slice(1)).join(', ')}</small></div><MessageCircle size={20}/></header>
       <div className="opening-thread" ref={threadRef} onScroll={() => { const el = threadRef.current; if (el) { nearLatest.current = el.scrollHeight - el.scrollTop - el.clientHeight < 70; if (nearLatest.current) setJump(false) } }}>
         <div className="opening-timestamp">Thursday 8 October · 08:44</div>
-        {prologue.social.messages.map(message => message.sender === 'system' ? <div key={message.id} className="opening-group-system">{message.text}</div> : <div key={message.id} className={`opening-group-line ${message.sender === 'player' ? 'player' : ''}`}><strong>{message.sender === 'player' ? 'You' : message.sender[0].toUpperCase() + message.sender.slice(1)}</strong><div className={`opening-bubble ${message.sender === 'player' ? 'player' : 'sophie'}`}>{message.text}</div></div>)}
+        {prologue.social.messages.map(message => message.sender === 'system' ? <div key={message.id} className="opening-group-system">{message.text}</div> : <div key={message.id} className={`opening-group-line ${message.sender === 'player' ? 'player' : ''}`}><strong>{message.sender === 'player' ? 'You' : message.sender[0].toUpperCase() + message.sender.slice(1)}</strong><SceneStartMarker line={message} markers={markers}/><div className={`opening-bubble ${message.sender === 'player' ? 'player' : 'sophie'}`}>{message.text}</div></div>)}
         {!!prologue.social.queue?.length && <div className="opening-bubble sophie" role="status" aria-label="Someone is typing">...</div>}
       </div>
       {jump && <button className="opening-jump" onClick={() => { nearLatest.current = true; setJump(false); threadRef.current?.scrollTo({ top: threadRef.current.scrollHeight }) }}>Jump to latest</button>}
@@ -56,7 +59,7 @@ export function OpeningPrologue({ onHome }: { onHome: () => void }) {
     <header className="opening-chat-header"><button className="icon-button bare" onClick={onHome} aria-label="Back"><ArrowLeft size={20}/></button><CharacterAvatar character="sophie" fallback="S" className="opening-avatar"/><div><strong>Sophie Mercer</strong><small>Unknown number · identity unverified</small></div><MessageCircle size={20}/></header>
     <div className="opening-thread" ref={threadRef} onScroll={() => { const el = threadRef.current; if (el) { nearLatest.current = el.scrollHeight - el.scrollTop - el.clientHeight < 70; if (nearLatest.current) setJump(false) } }}>
       <div className="opening-timestamp">Thursday 8 October · 08:41</div>
-      {prologue.messages.map(message => <div key={message.id} className={`opening-bubble ${message.sender}`}>{message.text}</div>)}
+      {prologue.messages.map(message => <Fragment key={message.id}><SceneStartMarker line={message} markers={markers}/><div className={`opening-bubble ${message.sender}`}>{message.text}</div></Fragment>)}
       {prologue.step >= 1 && (prologue.dialogueVersion !== 3 || prologue.social?.phase === 'done') && !prologue.queue?.length && <button className="opening-attachment" onClick={() => setNoteOpen(value => !value)}><FileImage size={22}/><span><strong>Daniel's handwritten note</strong><small>Photo received from Sophie · source unverified</small></span><ArrowRight size={17}/></button>}
       {prologue.step >= 1 && (prologue.dialogueVersion !== 3 || prologue.social?.phase === 'done') && noteOpen && <article className="opening-note" role="dialog" aria-modal="true" aria-label="Daniel handwritten note photo" onKeyDown={event => {
         if (event.key === 'Escape') setNoteOpen(false)
@@ -82,7 +85,7 @@ export function OpeningPrologue({ onHome }: { onHome: () => void }) {
   if (stage === 'recovery') return <section className="opening-screen opening-recovery">
     <header className="opening-stage-top"><LockKeyhole size={18}/> SECURE RECOVERY SERVICE <small>UNVERIFIED ORIGIN</small></header>
     <div className="opening-stage-scroll"><div className="opening-center-icon"><Fingerprint size={50}/></div><h1>Recovery package available</h1><button className="opening-choice" onClick={() => setReviewRecovery(true)}>Not yet - review Sophie conversation</button><p>A protected snapshot associated with Daniel Mercer has been assigned to this fictional device.</p><div className="opening-properties"><span>Device owner</span><strong>DANIEL MERCER</strong><span>Assigned role</span><strong>EXTERNAL WITNESS</strong><span>Claimed recovery token</span><strong>{recoveryToken}</strong><span>Sender</span><strong className="opening-warning">UNVERIFIED</strong></div>
-      {!prologue.offerInspected ? <button className="opening-primary" onClick={inspect}><ShieldQuestion size={18}/> Inspect permission & origin</button> : <><div className="opening-legal"><ShieldQuestion size={19}/><p>This is a simulated, read-only archive inside the game—not a real APK installation. No access to your contacts, actual email or phone files is requested. The token matches the note, but its sender is not authenticated.</p></div><button className="opening-primary" onClick={restore}><Smartphone size={18}/> Restore The Archive</button><p className="opening-help">Choose when to proceed. No background installation will occur.</p></>}
+      {!prologue.offerInspected ? <button className="opening-primary" onClick={inspect}><ShieldQuestion size={18}/> Inspect permission & origin</button> : <><div className="opening-legal"><ShieldQuestion size={19}/><p>This is a simulated, read-only archive inside the game—not a real APK installation. No access to your contacts, actual email or phone files is requested. The token matches the note, but its sender is not authenticated.</p></div><button className="opening-primary" onClick={restore}><Smartphone size={18}/> Restore TRACE</button><p className="opening-help">Choose when to proceed. No background installation will occur.</p></>}
     </div>
   </section>
   if (stage === 'mirror') return <section className="opening-screen opening-mirror-stage"><DanielMirror opening onExit={onHome}/></section>

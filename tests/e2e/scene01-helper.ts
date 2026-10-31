@@ -23,15 +23,15 @@ export function sceneAt(number: string, picks: Record<string,string> = {}): Game
 export async function seedScene(page: Page, save: GameSave, options?: { pauseClock?: boolean }) {
   await page.clock.install({ time: new Date(sceneNow(save)) })
   if(options?.pauseClock)await page.clock.pauseAt(new Date(sceneNow(save)+1000))
-  await page.goto('/')
-  await expect(page.getByRole('button', { name: 'Enter the archive', exact: true })).toBeVisible()
+  await page.goto('/?gameplaytest=1')
+  await expect(page.getByRole('button', { name: 'Unlock phone', exact: true })).toBeVisible()
   await page.evaluate(async value => {
     const db = await new Promise<IDBDatabase>((resolve,reject) => { const request = indexedDB.open('the-archive-reboot',1); request.onsuccess = () => resolve(request.result); request.onerror = () => reject(request.error) })
     await new Promise<void>((resolve,reject) => { const tx = db.transaction('saves','readwrite'); tx.objectStore('saves').put(value,'primary'); tx.oncomplete = () => resolve(); tx.onerror = () => reject(tx.error) })
     db.close()
   }, save)
   await page.reload()
-  await page.getByRole('button', { name: 'Enter the archive', exact: true }).click()
+  await page.getByRole('button', { name: 'Unlock phone', exact: true }).click()
 }
 export async function openSophie(page: Page) {
   await page.getByRole('button', { name: 'Open Messages', exact: true }).first().click()

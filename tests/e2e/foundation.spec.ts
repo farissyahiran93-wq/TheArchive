@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 
 test('mobile setup, explicit send, refresh, search and map', async ({ page }) => {
   await page.goto('/?devtools=1&legacyopening=1')
-  await page.getByRole('button', { name: /Enter the archive/i }).click()
+  await page.getByRole('button', { name: /Unlock phone/i }).click()
   await page.getByLabel('Your name').fill('Rae')
   await page.getByRole('button', { name: /Set up phone/i }).click()
   await completeOpening(page)
@@ -20,7 +20,7 @@ test('mobile setup, explicit send, refresh, search and map', async ({ page }) =>
   await expect(page.getByText('The test is complete. Your conversation will be here when you return.')).toBeVisible()
   await expect(page.locator('.bubble.player small')).toContainText('read')
   await page.reload()
-  await page.getByRole('button', { name: /Enter the archive/i }).click()
+  await page.getByRole('button', { name: /Unlock phone/i }).click()
   await page.getByRole('button', { name: 'Open Messages' }).first().click()
   await page.getByRole('button', { name: 'Open Test channel conversation' }).click()
   await expect(page.locator('.bubble.player')).toHaveCount(1)
@@ -40,7 +40,7 @@ test('mobile setup, explicit send, refresh, search and map', async ({ page }) =>
 test('narrow phone layout and message history indicator', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 })
   await page.goto('/?devtools=1&legacyopening=1')
-  await page.getByRole('button', { name: /Enter the archive/i }).click()
+  await page.getByRole('button', { name: /Unlock phone/i }).click()
   await page.getByLabel('Your name').fill('Alex')
   await page.getByRole('button', { name: /Set up phone/i }).click()
   await completeOpening(page)
@@ -69,7 +69,7 @@ test('narrow phone layout and message history indicator', async ({ page }) => {
     db.close()
   })
   await page.reload()
-  await page.getByRole('button', { name: /Enter the archive/i }).click()
+  await page.getByRole('button', { name: /Unlock phone/i }).click()
   await page.getByRole('button', { name: 'Open Messages' }).first().click()
   await page.getByRole('button', { name: 'Open Test channel conversation' }).click()
   await page.locator('.chat-scroll').evaluate(el => { el.scrollTop = 0; el.dispatchEvent(new Event('scroll', { bubbles: true })) })

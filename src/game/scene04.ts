@@ -1,9 +1,10 @@
+import { alignedArticle, scheduleArchiveOrigin } from './archiveOrigin'
 import type { GameSave } from './types'
 import type { Scene01Node } from '../content/scene01'
 import { scene04Article, scene04Notices } from '../content/scene04Final'
 
 export interface PublicStoryState {
-  version:1; flags:string[]; started:boolean; complete:boolean; panel:'home'|'article'|'index'; scroll:number;
+  version:1; flags:string[]; started:boolean; complete:boolean; panel:'home'|'article'|'index'; scroll:number; chatScroll?:number;
   tooltip?:'byline'|'updated'; feedback?:string; reading?:'sophie'|'group'; senderReply?:string;
   paused?:{id:string;remainingMs:number;typing:boolean};
   parked?:{nodeId:string;paused?:{id:string;remainingMs:number;typing:boolean}};
@@ -38,7 +39,7 @@ export function publicStoryEvent(s:GameSave,node:Extract<Scene01Node,{kind:'even
     const {id:sender,text}=scene04Notices.sender
     if(!s.deliveredEvents.includes(sender)){
       s={...s,deliveredEvents:[...s.deliveredEvents,sender]}
-      if(!s.chapter1!.sender.blocked){
+      {
         s=publicStoryFlag(s,'sender-hint')
         s={...s,chapter1:{...s.chapter1!,sender:{...s.chapter1!.sender,messages:[...s.chapter1!.sender.messages,{id:sender,sender:'unknown',text,at:now}]}},notifications:[...s.notifications,{id:sender,text,read:false}]}
       }
@@ -46,8 +47,8 @@ export function publicStoryEvent(s:GameSave,node:Extract<Scene01Node,{kind:'even
     return {...publicStoryPut(s,{reading:undefined}),prologue:{...s.prologue!,scene01:{...s.prologue!.scene01!,groupPresence:{sophie:false,maya:true,lucas:false}}}}
   }
   if(node.event==='s04-complete'){
-    if(!publicStoryHas(s,'article-inspected')||!publicStoryHas(s,'index-acknowledged'))return s
-    return publicStoryPut(publicStoryFlag(s,'version-history-available'),{complete:true,reading:undefined})
+    if(!publicStoryHas(s,'article-inspected')||!alignedArticle(s)&&!publicStoryHas(s,'index-acknowledged'))return s
+    return scheduleArchiveOrigin(publicStoryPut(publicStoryFlag(s,'version-history-available'),{complete:true,reading:undefined}),now)
   }
   return s
 }
@@ -57,5 +58,5 @@ export function validatePublicStory(v:unknown):void {
   if(!v||typeof v!=='object')throw Error('Invalid Scene 04 progress')
   const p=v as PublicStoryState
   const checkpoint=(c:PublicStoryState['paused'])=>!c||typeof c.id==='string'&&c.id.startsWith('OPEN-S04-')&&Number.isFinite(c.remainingMs)&&c.remainingMs>=0&&typeof c.typing==='boolean'
-  if(p.version!==1||!Array.isArray(p.flags)||p.flags.some(f=>typeof f!=='string')||typeof p.started!=='boolean'||typeof p.complete!=='boolean'||!['home','article','index'].includes(p.panel)||!Number.isFinite(p.scroll)||p.scroll<0||p.tooltip!==undefined&&!['byline','updated'].includes(p.tooltip)||p.reading!==undefined&&!['sophie','group'].includes(p.reading)||p.feedback!==undefined&&typeof p.feedback!=='string'||p.senderReply!==undefined&&!['version','identity','proof','boundary','ignored'].includes(p.senderReply)||!checkpoint(p.paused)||p.parked!==undefined&&(typeof p.parked.nodeId!=='string'||!p.parked.nodeId.startsWith('OPEN-S04-')||!checkpoint(p.parked.paused))||p.groupCheckpoint!==undefined&&(typeof p.groupCheckpoint.nodeId!=='string'||!p.groupCheckpoint.nodeId.startsWith('OPEN-S04-')||!checkpoint(p.groupCheckpoint.paused))||p.complete&&(!p.flags.includes('article-inspected')||!p.flags.includes('index-acknowledged')))throw Error('Invalid Scene 04 progress')
+  if(p.version!==1||!Array.isArray(p.flags)||p.flags.some(f=>typeof f!=='string')||typeof p.started!=='boolean'||typeof p.complete!=='boolean'||!['home','article','index'].includes(p.panel)||!Number.isFinite(p.scroll)||p.scroll<0||p.tooltip!==undefined&&!['byline','updated'].includes(p.tooltip)||p.reading!==undefined&&!['sophie','group'].includes(p.reading)||p.feedback!==undefined&&typeof p.feedback!=='string'||p.senderReply!==undefined&&!['version','identity','proof','boundary','ignored'].includes(p.senderReply)||!checkpoint(p.paused)||p.parked!==undefined&&(typeof p.parked.nodeId!=='string'||!p.parked.nodeId.startsWith('OPEN-S04-')||!checkpoint(p.parked.paused))||p.groupCheckpoint!==undefined&&(typeof p.groupCheckpoint.nodeId!=='string'||!p.groupCheckpoint.nodeId.startsWith('OPEN-S04-')||!checkpoint(p.groupCheckpoint.paused))||p.complete&&!p.flags.includes('article-inspected'))throw Error('Invalid Scene 04 progress')
 }

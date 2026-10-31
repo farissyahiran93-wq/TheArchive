@@ -83,6 +83,8 @@ export interface OpeningState {
   scene01?: {
     version: 1
     scriptRevision?: 'final-2026-10-23'
+    articleAlignment?: '2026-10-28'
+    traceIntroRevision?: '2026-10-31'
     draft?: { nodeId: string; choiceId: string }
     nodeId: string
     startedAt: number
@@ -96,8 +98,8 @@ export interface OpeningState {
     invitationApproved?: boolean
     complete: boolean
     queue: { id: string; dueAt: number; typing: boolean }[]
-    messages: { id: string; sender: 'sophie' | 'player'; text: string; at: number; photo?: string }[]
-    groupMessages: { id: string; sender: 'sophie' | 'maya' | 'lucas' | 'player' | 'system'; text: string; at: number; photo?: string }[]
+    messages: { id: string; sender: 'sophie' | 'player'; text: string; at: number; photo?: string; attachment?: 'article'|'index'|'archive-package' }[]
+    groupMessages: { id: string; sender: 'sophie' | 'maya' | 'lucas' | 'player' | 'system'; text: string; at: number; photo?: string; attachment?: 'article'|'index'|'archive-package' }[]
     groupScript?: 'ch01_sc02_uninvited_guest'
     groupPresence?: { sophie: boolean; maya: boolean; lucas: boolean }
     groupSourceBoundary?: boolean
@@ -173,6 +175,8 @@ export interface OpeningState {
 }
 
 export interface GameSave {
+  /** Recorded at real scene entry only. Snapshots never contain this field. */
+  replayEntries?: Record<string, { capturedAt: number; save: GameSave }>
   chapter1?: import('./chapter1').Chapter1State
   /** Absent in historical saves; never inferred from editorial scene numbers. */
   narrativePlan?: 'ch01-master-18' | 'legacy-access'

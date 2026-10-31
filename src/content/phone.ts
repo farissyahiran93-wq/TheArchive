@@ -9,7 +9,7 @@ export const apps = [
   { id: 'files', label: 'Files', icon: FileText, color: 'blue' },
   { id: 'search', label: 'Search', icon: Search, color: 'sand' },
   { id: 'maps', label: 'Maps', icon: MapPinned, color: 'green' },
-  { id: 'archive', label: 'The Archive', icon: Archive, color: 'peach' },
+  { id: 'archive', label: 'TRACE', icon: Archive, color: 'peach' },
   { id: 'board', label: 'Case Board', icon: Network, color: 'green' },
   { id: 'alerts', label: 'Alerts', icon: Bell, color: 'violet' },
   { id: 'calendar', label: 'Calendar', icon: CalendarDays, color: 'sand' },

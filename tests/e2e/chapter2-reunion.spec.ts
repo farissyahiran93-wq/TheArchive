@@ -58,7 +58,7 @@ test('reunion, privacy, optional humanizing SPY, quiet Mirror interlude and Maya
  await page.getByRole('button',{name:'Return to UNKNOWN',exact:true}).click();await page.clock.runFor(180000);await choose(page)
  const end=await storedLife(page);expect(end.chapter2Access!.story!.complete).toBe(true);expect(end.knowledge.characters).toEqual(before)
  await expect.poll(()=>page.evaluate(()=>sessionStorage.getItem('the-archive-reboot:pending-save:v1'))).toBeNull()
- await page.reload();await page.getByRole('button',{name:'Enter the archive',exact:true}).click();expect((await storedLife(page)).chapter2Access!.story!.complete).toBe(true)
+ await page.reload();await page.getByRole('button',{name:'Unlock phone',exact:true}).click();expect((await storedLife(page)).chapter2Access!.story!.complete).toBe(true)
 })
 
 

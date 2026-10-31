@@ -1,3 +1,6 @@
+import { ArchiveOrigin, ConversationWorkspace } from './VersionHistoryConversation'
+import { sceneStartMarkers } from './sceneMarkers'
+import { SceneStartMarker } from './SceneStartMarker'
 import { InventorySheet } from './InventorySheet'
 import { TransferRegister } from './TransferRegister'
 import { SourceInvestigation } from './SourceInvestigation'
@@ -28,6 +31,7 @@ export function Chapter1ContactChat({thread,onBack}:{thread:'unknown'|'nora'|'el
   const n=chapter1Current(save),c=save.chapter1
   const unknown=thread==='unknown'
   const lines=unknown?c?.sender.messages??[]:save.messages.filter(m=>m.id.startsWith('CH1-')&&(m.sender===thread||m.recipient===thread))
+  const markers=sceneStartMarkers(lines)
   const final=!!save.prologue?.scene01?.scriptRevision
   const name=unknown?(final?'Unknown Number':'Unknown Sender'):thread[0].toUpperCase()+thread.slice(1)
   const scroll=useRef<HTMLDivElement>(null),near=useRef(true)
@@ -40,13 +44,12 @@ export function Chapter1ContactChat({thread,onBack}:{thread:'unknown'|'nora'|'el
     <header className="opening-chat-header"><button className="icon-button bare" aria-label="Back from conversation" onClick={onBack}><ArrowLeft size={21}/></button><CharacterAvatar character={thread} fallback="?" className="opening-avatar"/><div><strong>{name}</strong><small>{unknown?'Identity unverified':typing?'Online':'Offline'}</small></div><ChatProfile contact={thread}/></header>
     <div className="opening-thread" ref={scroll} onScroll={e=>{const el=e.currentTarget;near.current=el.scrollHeight-el.scrollTop-el.clientHeight<80;if(near.current)setBehind(false)}}>
       {!final&&<p className="c1-preview">Narrative preview · bridge dialogue</p>}
-      {lines.map((line,i)=><div key={line.id} className={`conversation-line ${line.sender==='player'?'outgoing':'incoming'} ${chatGroup(lines,i).className}`}>{line.sender!=='player'&&chatGroup(lines,i).last&&<span className="chat-contact-avatar"><CharacterAvatar character={thread} fallback="?" className="message-avatar"/></span>}<div className="conversation-body"><div className={`opening-bubble ${line.sender==='player'?'player':'sophie'}`}>{line.text}</div></div></div>)}
+      {lines.map((line,i)=><div key={line.id} className={`conversation-line ${line.sender==='player'?'outgoing':'incoming'} ${chatGroup(lines,i).className}`}>{line.sender!=='player'&&chatGroup(lines,i).last&&<span className="chat-contact-avatar"><CharacterAvatar character={thread} fallback="?" className="message-avatar"/></span>}<div className="conversation-body"><SceneStartMarker line={line} markers={markers}/><div className={`opening-bubble ${line.sender==='player'?'player':'sophie'}`}>{line.text}</div></div></div>)}
       {typing&&<div className="opening-v4-typing" role="status" aria-label={`${name} is typing`}><CharacterAvatar character={thread} className="message-avatar"/><span className="typing-dots"><i/><i/><i/></span></div>}
       {unknown&&!final&&!c?.sender.seen&&<button className="opening-choice" onClick={()=>act({type:'read-sender'})}>Read warning and show responses</button>}
       {unknown&&c?.sender.branch==='ignore'&&<p className="presence-event">Left unanswered.</p>}
     </div>
     {behind&&<button className="opening-jump" onClick={()=>{near.current=true;setBehind(false);if(scroll.current)scroll.current.scrollTop=scroll.current.scrollHeight}}>Jump to latest</button>}
-    {unknown&&final&&<div className="opening-actions">{!c?.sender.blocked?<button className="opening-choice" onClick={()=>act({type:'block-sender'})}>BLOCK NUMBER</button>:<p className="presence-event">Number blocked.</p>}</div>}
     {unknown&&c?.publicStory?.flags.includes('sender-hint')?<><Chapter1Composer choiceKey="sender04"/>{!c.sender.branch&&<details><summary>Reply to the first message</summary><Chapter1Composer choiceKey="sender"/></details>}</>:<Chapter1Composer choiceKey={key}/>} 
   </section>
 }
@@ -66,13 +69,15 @@ export function Chapter1Investigation({onHome}:{onHome:()=>void}) {
   const has=(id:string)=>c?.flags.includes(id)
   const source=visibleSource(save);if(source===10)return <InventorySheet onHome={onHome}/>;if(source===9)return <TransferRegister onHome={onHome}/>;if(source)return <SourceInvestigation sceneNumber={source} onHome={onHome}/>
   if(c?.correctionsDesk?.visible)return <CorrectionsDesk onHome={onHome}/>
+  if(c?.versionHistory?.revision)return <ConversationWorkspace onHome={onHome}/>
+  if(c?.archiveOrigin?.installed&&!c.versionHistory)return <ArchiveOrigin onHome={onHome}/>
   if(c?.versionHistory)return <VersionHistory onHome={onHome}/>
   if(c?.publicStory&&!c.completed.includes(4))return <PublicStoryArchive onHome={onHome}/>
   if(contact)return <Chapter1ContactChat thread={contact} onBack={()=>setContact(null)}/>
   const step=(id:string)=>act({type:'step',id})
   const card=(id:string)=>{const r=chapter1Record(id);return r&&available.some(x=>x.id===id)?<button key={id} className="c1-record-link" onClick={()=>act({type:'inspect',id})}><strong>{r.title}</strong><small>{r.kind} · {c?.inspected.includes(id)?'Inspected':'Not inspected'}</small></button>:null}
   return <section className="c1-app" aria-label="Chapter 1 investigation" data-chapter1-scene={n}>
-    <header className="opening-chat-header"><button className="icon-button bare" aria-label={c?.panel&&c.panel!=='hub'?'Back to investigation':'Back to home'} onClick={()=>c?.panel&&c.panel!=='hub'?act({type:'panel',panel:'hub'}):onHome()}><ArrowLeft size={21}/></button><div><strong>THE ARCHIVE</strong><small>{chapter1Lifecycle(save).replaceAll('_',' ').toUpperCase()}</small></div></header>
+    <header className="opening-chat-header"><button className="icon-button bare" aria-label={c?.panel&&c.panel!=='hub'?'Back to investigation':'Back to home'} onClick={()=>c?.panel&&c.panel!=='hub'?act({type:'panel',panel:'hub'}):onHome()}><ArrowLeft size={21}/></button><div><strong>TRACE</strong><small>{chapter1Lifecycle(save).replaceAll('_',' ').toUpperCase()}</small></div></header>
     <div className="c1-scroll">
       {n<4?<><h2>Investigation dormant</h2><p>No investigation records are available yet. Messages, calls and contacts remain available on your phone.</p><button className="opening-choice" onClick={onHome}>Return to phone</button></>:record?<article aria-label="Investigation record"><small>{record.kind.toUpperCase()} · VERIFIED: NO</small><h2>{record.title}</h2><pre>{record.body}</pre><details><summary>Source and limitations</summary><dl><dt>Source</dt><dd>{record.source}</dd><dt>Date</dt><dd>{record.date}</dd><dt>Confidence</dt><dd>{record.confidence}</dd><dt>Provenance</dt><dd>{record.provenance}</dd></dl></details><button className="opening-choice" disabled={!!save.evidence[record.id]} onClick={()=>act({type:'save-record',id:record.id})}>{save.evidence[record.id]?'Saved with limitations':'Save source with limitations'}</button></article>:<>
       <p className="c1-preview">Chapter 1 · structural preview · dialogue awaiting full authoring</p>
@@ -86,7 +91,7 @@ export function Chapter1Investigation({onHome}:{onHome:()=>void}) {
       {n===10&&<><p>Limited, read-only Recovered Device Snapshot. No live phone session, sending capability, PHONE MIRROR or SPY access is granted.</p><button className="opening-choice" onClick={()=>step('snapshot-consent')}>Authorize limited snapshot</button><button className="opening-choice" onClick={onHome}>Not now — return to phone</button>{card('CH1-LIFE')}</>}
       {n===11&&<>{card('CH1-INDEX')}{card('CH1-INDEX-NOTE')}<Interpretation kind="index" options={[["14-13","14 signed positions / 13 visible entries"],["13-14","13 signed positions / 14 visible entries"],["equal","The counts are equal"]]}/><p>Zero available deletion entries does not establish that no deletion occurred.</p></>}
       {n===12&&<><p>Eli is Daniel’s technical colleague. Ask Sophie for a contact route; no private file will be sent.</p><Chapter1Composer choiceKey="eli-intro"/>{save.prologue?.scene01?.messages.filter(m=>m.id==='CH1-ELI-INTRO').map(m=><p key={m.id}><strong>Sophie:</strong> {m.text}</p>)}{has('heard:CH1-ELI-INTRO')&&<button className="opening-choice" onClick={()=>setContact('eli')}>Open Eli conversation</button>}{has('technical-fallback')&&<p>General recovery guidance: copied metadata, missing context and corrupt fields can create false confidence. Unavailable logs cannot settle a deletion claim.</p>}<button className="opening-choice" onClick={()=>step('technical-ack')}>Acknowledge recovery limitations</button></>}
-      {n===13&&<><p>Maya’s perspective is personal testimony. Nothing private from The Archive is shared automatically.</p><button className="opening-choice" onClick={()=>setContact('maya')}>Open Maya conversation</button></>}
+      {n===13&&<><p>Maya’s perspective is personal testimony. Nothing private from TRACE is shared automatically.</p><button className="opening-choice" onClick={()=>setContact('maya')}>Open Maya conversation</button></>}
       {n===14&&<><p>Lucas remains outside FIND DANIEL. A private exchange does not rejoin him.</p><button className="opening-choice" onClick={()=>setContact('lucas')}>Open Lucas conversation</button></>}
       {n===15&&<>{card('CH1-CLAIM')}<button className="opening-choice" onClick={()=>step('claim-phrase')}>Examine “after verification” against the index</button>{has('claim-phrase')&&<div className="c1-diff"><pre>{chapter1Record('CH1-CLAIM')!.body}</pre><pre>{chapter1Record('CH1-INDEX')!.body}</pre><p>A timing claim and a count mismatch do not authenticate each other.</p></div>}<Interpretation kind="claim" options={[["unverified","An attributed, unverified recovered claim"],["proof","Proof that an entry was deliberately deleted"],["identity","Proof of the operator’s identity"]]}/></>}
       {n===16&&<><p>Request only the earliest copy of the public linked record. No private note, snapshot or interpretation is attached.</p><Chapter1Composer choiceKey="original"/>{has('original-requested')&&<p>Request sent. Response: {save.pendingEvents.some(e=>/CH1-.*-REQUEST/u.test(e.id))?'pending':'no authenticated original supplied'}. You can continue without waiting.</p>}</>}
