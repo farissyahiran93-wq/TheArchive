@@ -178,6 +178,8 @@ export interface GameSave {
   /** Recorded at real scene entry only. Snapshots never contain this field. */
   replayEntries?: Record<string, { capturedAt: number; save: GameSave }>
   chapter1?: import('./chapter1').Chapter1State
+  /** Written only for a genuinely fresh Chapter 1 v2 game. Untagged saves keep their historical graph. */
+  chapter1Edition?: 'ch01-v2-10'
   /** Absent in historical saves; never inferred from editorial scene numbers. */
   narrativePlan?: 'ch01-master-18' | 'legacy-access'
   chapter2Access?: import('./chapter2Access').Chapter2Access

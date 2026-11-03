@@ -6,6 +6,11 @@ import { TransferRegister } from './TransferRegister'
 import { SourceInvestigation } from './SourceInvestigation'
 import { visibleSource } from '../game/sourceInvestigation'
 import { CorrectionsDesk } from './CorrectionsDesk'
+import { StarredNumberV2 } from './StarredNumberV2'
+import { LastCheckInV2 } from './LastCheckInV2'
+import { SecondaryCardV2 } from './SecondaryCardV2'
+import { InventoryFinaleV2 } from './InventoryFinaleV2'
+import { Chapter1V2Hub } from './Chapter1V2Hub'
 import { VersionHistory } from './VersionHistory'
 import { PublicStoryArchive } from './PublicStory'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
@@ -60,13 +65,19 @@ function Interpretation({kind,options}:{kind:string;options:readonly [string,str
   return <div className="c1-choice-block"><label>Choose your interpretation<select aria-label={`Interpret ${kind}`} value={id} onChange={e=>{setError('');act({type:'choice-draft',key:kind,id:e.target.value})}}><option value="">Choose…</option>{options.map(([value,text])=><option key={value} value={value}>{text}</option>)}</select></label><button className="opening-choice" disabled={!id} onClick={()=>{if(kind==='index'&&id!=='14-13'||kind==='claim'&&id!=='unverified')setError('Recheck the displayed source and what it actually supports. You can try again.');act({type:'interpret',key:kind,id})}}>Record interpretation</button>{error&&<p role="status">{error}</p>}</div>
 }
 
-export function Chapter1Investigation({onHome}:{onHome:()=>void}) {
+export function Chapter1Investigation({onHome,onChapterSelect}:{onHome:()=>void;onChapterSelect?:()=>void}) {
   const save=useGameStore(s=>s.save),act=useGameStore(s=>s.chapter1Action),continueChapter2=useGameStore(s=>s.continueChapter2)
   const [contact,setContact]=useState<'nora'|'eli'|'maya'|'lucas'|null>(null)
   const c=save.chapter1,n=chapter1Current(save),plan=chapter1ScenePlan[n-1]
   const available=chapter1Available(save),gates=chapter1Gate(save)
   const record=c?.panel==='record'&&c.record?available.find(r=>r.id===c.record):undefined
   const has=(id:string)=>c?.flags.includes(id)
+  if(c?.inventoryFinaleV2?.visible)return <InventoryFinaleV2 onHome={onHome} onChapterSelect={onChapterSelect}/>
+  if(c?.secondaryCardV2?.visible)return <SecondaryCardV2 onHome={onHome}/>
+  if(c?.lastCheckInV2?.visible)return <LastCheckInV2 onHome={onHome}/>
+  if(c?.starredNumberV2?.visible)return <StarredNumberV2 onHome={onHome}/>
+  if(save.chapter1Edition==='ch01-v2-10'&&c?.correctionsDesk?.visible)return <CorrectionsDesk onHome={onHome}/>
+  if(save.chapter1Edition==='ch01-v2-10'&&c?.correctionsDesk?.complete)return <Chapter1V2Hub onHome={onHome}/>
   const source=visibleSource(save);if(source===10)return <InventorySheet onHome={onHome}/>;if(source===9)return <TransferRegister onHome={onHome}/>;if(source)return <SourceInvestigation sceneNumber={source} onHome={onHome}/>
   if(c?.correctionsDesk?.visible)return <CorrectionsDesk onHome={onHome}/>
   if(c?.versionHistory?.revision)return <ConversationWorkspace onHome={onHome}/>

@@ -148,6 +148,18 @@ function SettingsApp({ appearance, setAppearance, audio, setAudio, onRestart }: 
   </div>
 }
 
+/** Fictional on-device mail; the sole message requires the persisted publisher receipt and delivery event. */
+function EmailApp() {
+  const save=useGameStore(s=>s.save),act=useGameStore(s=>s.correctionsDeskAction),nav=useCaseNavigation()
+  const [open,setOpen]=useState(false)
+  const desk=save.chapter1?.correctionsDesk
+  const receipt=save.chapter1?.versionHistory?.inquiry.receipt
+  const available=!!desk?.prior && receipt?.id==='R-GB-VH-001' && receipt.text===desk.prior.text && save.deliveredEvents.includes('R-GB-VH-001') && desk.replyDelivered && !!desk.reply && save.deliveredEvents.includes('EV-S06-DESK-REPLY-001')
+  if(!available)return <><p className="section-caption">INBOX</p><EmptyCard Icon={LockKeyhole} title="No email yet" text="Fictional messages appear here when delivered in the story."/></>
+  if(!open)return <><p className="section-caption">INBOX</p><button className="settings-row setting-action" onClick={()=>{act({type:'read-email'});setOpen(true)}}><span className="setting-copy"><strong>Greyhaven Bulletin — Corrections Desk</strong><small>Re: Question about the Daniel Mercer article · {desk.flags.includes('email-read')?'Read':'Unread'}</small></span><ChevronRight size={18}/></button></>
+  return <article className="utility-card" aria-label="Greyhaven Bulletin email"><button className="opening-choice" onClick={()=>setOpen(false)}>BACK TO INBOX</button><h2>Re: Question about the Daniel Mercer article</h2><p>From: Greyhaven Bulletin — Corrections Desk</p><p>Hello,</p><p>Thank you for your inquiry about “Questions Remain After Greyhaven Data Specialist Stops Responding.”</p><p>Your request has been received.</p><p>There is currently no formal public correction notice listed for this article in our public corrections register. That does not, by itself, confirm whether the page's wording has changed.</p><p>You may review the public register or continue your inquiry with our Corrections Desk through the official messaging channel.</p><p>Greyhaven Bulletin<br/>Corrections Desk</p><button className="opening-choice" onClick={()=>{nav.openPublication('register')}}>VIEW PUBLIC CORRECTIONS REGISTER</button><button className="opening-choice" onClick={()=>{act({type:'enter'});act({type:'thread',thread:'desk'});nav.openDesk()}}>CONTINUE IN MESSAGES</button></article>
+}
+
 export function UtilityApp({ app, back, appearance, setAppearance, audio, setAudio, onRestart }: { app: AppId; back: () => void; appearance: Appearance; setAppearance: (value: Appearance) => void; audio: AudioPreferences; setAudio: (value: AudioPreferences) => void; onRestart: () => void }) {
   const save = useGameStore(state => state.save)
   const title = apps.find(item => item.id === app)?.label ?? app
@@ -160,7 +172,7 @@ export function UtilityApp({ app, back, appearance, setAppearance, audio, setAud
       {app === 'files' && <><p className="section-caption">LOCAL FILES</p><article className="utility-card file-row"><FileText size={21}/><div><strong>Welcome.txt</strong><small>Device setup · read only</small></div></article><CaseFiles/></>}
       {app === 'archive' && (save.prologue?.restored ? <DanielMirror/> : <><p className="section-caption">TRACE</p><ArchiveCase/></>)}
       {app === 'alerts' && <AlertsApp/>}
-      {app === 'mail' && <><p className="section-caption">SHARED MAIL</p><EmptyCard Icon={LockKeyhole} title="No mail shared" text="Only messages explicitly shared through the story will appear here."/></>}
+      {app === 'mail' && <EmailApp/>}
     </div>}
   </section>
 }

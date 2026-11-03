@@ -8,9 +8,15 @@
 - The source-comparison button comes from a `vh-source` gate in `UnknownConversation`; gate 05 requires public, index and policy flags; gate 06 requires four explicitly reviewed gaps. It opens the existing Version History workspace. The workspace now explains the three sources and distinguishes matching references from unverified changes and the missing earlier copy. It does not synthesize a past article.
 - The visible game and in-game app labels use GREYHAVEN and TRACE. Historical Memory Project Archive names, `Archive Index`, source identifiers, saved transcripts, and internal storage/package IDs have separate meanings and are retained.
 
+## Owner correction: chat-led TRACE
+
+The owner reviewed the supplied screenshot and 96-second video and directed that players follow the Unknown Sender conversation without a guide or checklist inside TRACE. The TRACE workspaces no longer render Current Lead, green markers, the tool overview, Verification gaps checklist or the repeated completion-status list. The actual article, index, publisher policy and manual next-lead controls remain. Once the three sources have genuinely been inspected and the player has explicitly sent the comparison choice, the existing four saved limitation markers are recorded by the pure story transition so the chat can continue without four extra UI acknowledgements. An already-started Version History save at that gate can continue when the same real source and chat conditions are met; no original copy or verified edit is created. Historical Scene 05 graphs and their separate local source actions are preserved.
+
+The video also showed a stale public-register feedback box under the Corrections Desk inbox. That unrelated feedback is now hidden while reading the inbox, while the authored messages and recipient-scoped sends remain intact.
+
 ## Current guidance coverage and limitations
 
-The typed selector `src/game/guidance.ts` projects a single objective from existing state; it creates no unlocks, knowledge, receipts, or save migration. The `on`, `minimal` and `off` setting is local to the existing menu preference store; no mode changes progress. On shows dots in the phone home/dock and selected conversation areas. Minimal shows only the primary home/dock indicator and suppresses detailed dots; the Current Lead remains readable in TRACE. Off suppresses dots while keeping the Current Lead accessible. The implementation covers opening conversation choices, the Unknown Number package and reference, available Version History reads, Scene 06–10 public source reads and eligible private conclusions, and an actionable Chapter 2 Unknown access choice. It deliberately does not guess future objectives or surface inaccessible sources.
+The typed selector `src/game/guidance.ts` projects a single objective from existing state; it creates no unlocks, knowledge, receipts, or save migration. The `on`, `minimal` and `off` setting is local to the existing menu preference store; no mode changes progress. On shows dots in the phone home/dock and selected conversation areas. Minimal shows only the primary home/dock indicator. Off suppresses dots. No Current Lead or checklist is rendered inside TRACE. The implementation covers opening conversation choices, the Unknown Number package and reference, available Version History reads, Scene 06–10 public source reads and eligible private conclusions, and an actionable Chapter 2 Unknown access choice. It deliberately does not guess future objectives or surface inaccessible sources.
 
 Coverage is not yet global across every Chapter 1 Scene 06–10 local interpretation and interactive element, Browser, Calls, Contacts, every conversation list and future app. Optional activities do not receive dots. This is a material limitation relative to the request, not a claim that those paths were implemented.
 
@@ -20,9 +26,12 @@ The dialogue audit checks exact duplicates and choice targets throughout the act
 
 - `src/content/actIRegistry.ts`, `src/game/types.ts`, `src/game/scene01.ts`, `src/game/engine.ts`
 - `src/game/guidance.ts`, `src/game/menuPreferences.ts`, `src/game/scene06.ts`, `src/game/archiveOrigin.ts`
-- `src/ui/HomeScreen.tsx`, `src/ui/Messenger.tsx`, `src/ui/Scene01Chat.tsx`, `src/ui/VersionHistoryConversation.tsx`, `src/ui/CorrectionsDesk.tsx`, `src/ui/PublicStory.tsx`, `src/ui/TraceTools.tsx`, `src/ui/UtilityApps.tsx`, `src/ui/MainMenu.tsx`, `src/ui/trace-tools.css`
+- `src/ui/VersionHistory.tsx`, `src/ui/SourceInvestigation.tsx`, `src/ui/TransferRegister.tsx`, `src/ui/InventorySheet.tsx`, `src/ui/Chapter2Access.tsx`, `src/ui/HomeScreen.tsx`, `src/ui/Messenger.tsx`, `src/ui/Scene01Chat.tsx`, `src/ui/VersionHistoryConversation.tsx`, `src/ui/CorrectionsDesk.tsx`, `src/ui/PublicStory.tsx`, `src/ui/TraceTools.tsx`, `src/ui/UtilityApps.tsx`, `src/ui/MainMenu.tsx`, `src/ui/trace-tools.css`
 - `src/game/guidance.test.ts`, `src/game/dialogueGraph.test.ts`, `src/game/versionHistoryConversation.test.ts`, `tests/e2e/scene06-final.spec.ts`, `tests/e2e/version-history-conversation.spec.ts`, `tests/e2e/guidance.spec.ts`
 
 ## Verification
 
-Results and limitations will be updated when regression testing completes. No APK has been packaged; physical Android behavior has not been tested. Do not uninstall existing playtest installations.
+- TypeScript, lint and production build passed for the chat-led implementation.
+- 1,389 unit tests passed; the subsequently added in-progress-save compatibility test passed separately.
+- Full browser regression: **167 passed** (`artifacts/greyhaven-rebrand/chat-led-full-e2e.log`). Focused chat-led and guidance tests: **8 passed** (`artifacts/greyhaven-rebrand/chat-led-e2e.log`).
+- Android resource and Java compilation passed before this final web-only correction. No APK has been packaged; physical Android behavior has not been tested. Do not uninstall existing playtest installations.

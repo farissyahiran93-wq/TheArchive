@@ -29,8 +29,8 @@ export default function GameEntry() {
   // Reuse the existing recoverable-save screen, preserving its backup controls.
   if(recoveryRequired)return <App/>
   if(!ready)return <div className="boot-message">Opening GREYHAVEN…</div>
-  if(playing)return <App key={session} onMenu={leave} startScene={startScene}/>
-  return <MainMenu save={save} page={page} onPage={setPage} error={error||saveError||undefined} onContinue={enter} onNewGame={async()=>{
+  if(playing)return <App key={session} onMenu={leave} onChapterSelect={()=>{suspendRuntime();setPage('chapters');setPlaying(false)}} startScene={startScene}/>
+  return <MainMenu save={save} page={page} onPage={setPage} error={error||saveError||undefined} onContinue={enter} onBeginChapter2={()=>{if(!useGameStore.getState().save.chapter2Access)useGameStore.getState().continueChapter2();enter()}} onRestore={async key=>useGameStore.getState().restoreHistorical(key)} onNewGame={async()=>{
     setError('');const ok=await useGameStore.getState().restartStory()
     if(ok){enter()}else setError(useGameStore.getState().saveError??'Could not start a new investigation.')
     return ok

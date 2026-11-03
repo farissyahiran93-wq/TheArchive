@@ -1,0 +1,66 @@
+{
+  "scope": "Unknown Number / TRACE introduction dialogue only",
+  "typecheck": {
+    "command": "npm run typecheck",
+    "exit_code": 0
+  },
+  "lint": {
+    "command": "npm run lint",
+    "exit_code": 0
+  },
+  "unit": {
+    "command": "npm test -- --maxWorkers=2 --reporter=dot",
+    "exit_code": 0,
+    "files_passed": 53,
+    "tests_passed": 1414
+  },
+  "build": {
+    "command": "npm run build",
+    "exit_code": 0,
+    "advisory": "Existing client chunk exceeds 500 kB"
+  },
+  "source_checks": {
+    "origin_turns": 31,
+    "player_turns_unchanged": true,
+    "version_history_groups_unchanged": true,
+    "version_history_closing_unchanged": true,
+    "import_idempotent": true
+  },
+  "browser": {
+    "status": "completed_with_remaining_regression",
+    "command": "npm run test:e2e -- --workers=4 --reporter=line",
+    "initial_sandbox_attempt": "spawn EPERM before tests; rerun permitted outside sandbox",
+    "full": {
+      "exit_code": 1,
+      "passed": 166,
+      "failed": 6,
+      "total": 172,
+      "minutes": 20.7
+    },
+    "affected_rerun": {
+      "exit_code": 1,
+      "passed": 7,
+      "failed": 1,
+      "total": 8,
+      "minutes": 6.7
+    },
+    "conversation_scenarios": {
+      "passed": 5,
+      "failed": 0
+    },
+    "remaining_failure": "Legacy Home at 1280x900: Read Daniel Mercer brief viewport ratio 0.9967672228813171; assertion requires 1.0. Unchanged outside this dialogue scope.",
+    "full_clean_rerun": false
+  },
+  "scope_confirmation": "Owner selected Baiki skrip perbualan dahulu; chapter restructuring deferred.",
+  "source_integrity": {
+    "runtime_and_authored_dialogue_unchanged_during_checks": true,
+    "test_only_correction": [
+      "tests/e2e/version-history-conversation.spec.ts"
+    ]
+  },
+  "screenshots": {
+    "snapshotted": 13994,
+    "restored_to_pre_run_working_copy": 46,
+    "temporary_backup_removed": true
+  }
+}

@@ -22,11 +22,13 @@ for i in range(1,12):
 groups[8]['prelude']=q(s[s.index('# ACT 12'):s.index('## CHOICE 09')])
 groups[10]['prelude']=q(s[s.index('# ACT 13'):s.index('## CHOICE 11')])
 # C10 inherits the existing convergence after C09; C11 conditional Lucas replies are marked at authoring time.
-bridge=s[s.index('## ACT 1A'):s.index('## ACT 1B')]
+bridge=Path('docs/sources/trace-origin-2026-11-02/NARRATIVE.md').read_text(encoding='utf-8')
+bridge=bridge[bridge.index('## ACT 1A'):bridge.index('## Revised three-choice introduction')]
 turns=[];who=None
 for line in bridge.splitlines():
  if line in ['PLAYER:','UNKNOWN NUMBER:']:who='player' if line=='PLAYER:' else 'unknown'
  elif line.startswith('"') and line.endswith('"'):turns.append({'speaker':who,'text':line[1:-1]})
+assert len(turns)==31 and [i for i,t in enumerate(turns) if t['speaker']=='player']==[0,3,10,17,22,25,28], 'Origin speaker positions must retain checkpoint IDs'
 final=q(s[s.index('## FINAL UNKNOWN'):s.index('# ACT 11')])
-Path('src/content/versionHistoryConversationData.ts').write_text('// Authored dialogue pinned in docs/sources/version-history-2026-10-28/NARRATIVE.md.\nexport const versionHistoryDialogue = '+json.dumps(groups,ensure_ascii=False,indent=2)+' as const\nexport const archiveOriginDialogue = '+json.dumps(turns,ensure_ascii=False,indent=2)+' as const\nexport const versionHistoryClosing = '+json.dumps(final,ensure_ascii=False,indent=2)+' as const\n',encoding='utf-8')
+Path('src/content/versionHistoryConversationData.ts').write_text('// Authored dialogue pinned in docs/sources/version-history-2026-10-28/NARRATIVE.md.\n// Origin wording revised in docs/sources/trace-origin-2026-11-02/NARRATIVE.md.\nexport const versionHistoryDialogue = '+json.dumps(groups,ensure_ascii=False,indent=2)+' as const\nexport const archiveOriginDialogue = '+json.dumps(turns,ensure_ascii=False,indent=2)+' as const\nexport const versionHistoryClosing = '+json.dumps(final,ensure_ascii=False,indent=2)+' as const\n',encoding='utf-8')
 print([(g['id'],len(g['branches']),len(g['prelude'])) for g in groups])

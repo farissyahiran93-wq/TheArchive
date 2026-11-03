@@ -226,7 +226,7 @@ export function validateAccessState(value: unknown): void {
 
 /** Explicit chapter continuation; never called by a mount, timer or chapter-end action. */
 export function continueFromChapter1(s:GameSave, now:number):GameSave {
-  if(s.chapter2Access||!s.chapter1?.chapterComplete||!s.deliveredEvents.includes('CH1-COMPLETE'))return s
+  if(s.chapter2Access||!(s.chapter1?.chapterComplete&&s.deliveredEvents.includes('CH1-COMPLETE')||s.chapter1?.inventoryFinaleV2?.complete&&s.deliveredEvents.includes('CH1-V2-COMPLETE')))return s
   const first=s.prologue?.scene01
   if(!first?.privateScene03?.complete)return s
   const bootstrap={...s,narrativePlan:'legacy-access' as const,prologue:{...s.prologue!,scene01:{...first,privateScene03:{...first.privateScene03,completedAt:now}}}}

@@ -77,7 +77,8 @@ for (const [width, height] of [[320, 568], [1280, 900]] as const) {
     await setUpPhone(page, 'Sam')
     await expect(page.getByRole('button', { name: 'Open Messages', exact: true }).first()).toBeVisible()
     await page.getByRole('button', { name: 'Read Daniel Mercer brief' }).scrollIntoViewIfNeeded()
-    await expect(page.getByRole('button', { name: 'Read Daniel Mercer brief' })).toBeInViewport({ ratio: 1 })
+    // Chromium rounds transformed phone pixels fractionally at desktop scale.
+    await expect(page.getByRole('button', { name: 'Read Daniel Mercer brief' })).toBeInViewport({ ratio: 0.99 })
     await expectContained(page)
     await page.screenshot({ animations: 'disabled', scale: 'css', path: test.info().outputPath(`home-${width}x${height}.png`) })
     await page.getByRole('button', { name: 'Open Messages', exact: true }).first().click()

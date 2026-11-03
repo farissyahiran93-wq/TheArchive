@@ -4,6 +4,7 @@ import { normalizeSave } from './engine'
 
 export const DB_NAME = 'the-archive-reboot'
 const KEY = 'primary'
+const ARCHIVE_PREFIX = 'historical-save:'
 const PENDING_KEY = 'the-archive-reboot:pending-save:v1'
 
 type PendingSave = { baseRevision: number; save: GameSave }
@@ -94,6 +95,42 @@ export async function writeGame(save: GameSave, expectedRevision?: number): Prom
   }
   await tx.store.put(save, KEY)
   await tx.done
+}
+
+/** Keep the exact historical investigation before an explicit new game. */
+export async function archiveAndReplaceGame(previous: GameSave, fresh: GameSave): Promise<void> {
+  const db = await database()
+  const tx = db.transaction('saves','readwrite')
+  const stored = await tx.store.get(KEY) as GameSave | undefined
+  if ((stored?.saveRevision ?? 0) !== (previous.saveRevision ?? 0)) {
+    tx.abort(); await tx.done.catch(() => undefined); throw new SaveConflictError()
+  }
+  if (stored && (stored.player || stored.prologue || stored.chapter1 || stored.chapter2Access || stored.e01)) {
+    await tx.store.put(stored, `${ARCHIVE_PREFIX}${Date.now()}:${crypto.randomUUID()}`)
+  }
+  await tx.store.put(fresh, KEY)
+  await tx.done
+}
+
+export async function listHistoricalSaves(): Promise<{key:string; save:GameSave}[]> {
+  const db=await database()
+  const keys=await db.getAllKeys('saves')
+  const archives=keys.filter((key):key is string=>typeof key==='string'&&key.startsWith(ARCHIVE_PREFIX)).sort().reverse()
+  return Promise.all(archives.map(async key=>({key,save:normalizeSave(await db.get('saves',key))})))
+}
+
+export async function restoreHistoricalSave(key:string, current:GameSave):Promise<GameSave>{
+  if(!key.startsWith(ARCHIVE_PREFIX))throw Error('Invalid archive key')
+  const db=await database(),tx=db.transaction('saves','readwrite')
+  const stored=await tx.store.get(KEY) as GameSave | undefined
+  if((stored?.saveRevision??0)!==(current.saveRevision??0)){tx.abort();await tx.done.catch(()=>undefined);throw new SaveConflictError()}
+  const archived=await tx.store.get(key)
+  if(archived===undefined){tx.abort();await tx.done.catch(()=>undefined);throw Error('Historical save unavailable')}
+  const restored={...normalizeSave(archived),saveRevision:(current.saveRevision??0)+1}
+  if(stored)await tx.store.put(stored,`${ARCHIVE_PREFIX}${Date.now()}:${crypto.randomUUID()}`)
+  await tx.store.put(restored,KEY)
+  await tx.done
+  return restored
 }
 
 /** Separate playthrough slots never replace the primary investigation. */

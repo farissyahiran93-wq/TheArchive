@@ -1,4 +1,5 @@
 // Authored dialogue pinned in docs/sources/version-history-2026-10-28/NARRATIVE.md.
+// Origin wording revised in docs/sources/trace-origin-2026-11-02/NARRATIVE.md.
 export const versionHistoryDialogue = [
   {
     "id": "s05_c01_investigation_order",
@@ -445,11 +446,11 @@ export const archiveOriginDialogue = [
   },
   {
     "speaker": "unknown",
-    "text": "Something indexed under a name."
+    "text": "A reference to the Bulletin article about Daniel."
   },
   {
     "speaker": "unknown",
-    "text": "TRACE."
+    "text": "You can view it in an app called TRACE."
   },
   {
     "speaker": "player",
@@ -457,27 +458,27 @@ export const archiveOriginDialogue = [
   },
   {
     "speaker": "unknown",
-    "text": "It's not a public website."
+    "text": "It lets you look through a collection of recovered references."
   },
   {
     "speaker": "unknown",
-    "text": "And it's not a search engine."
+    "text": "Some entries point to documents."
   },
   {
     "speaker": "unknown",
-    "text": "Think of it as a collection of references."
+    "text": "Others only have a title or reference number."
   },
   {
     "speaker": "unknown",
-    "text": "Records pointing to things that existed somewhere else."
+    "text": "An entry can be there even when the document itself is missing."
   },
   {
     "speaker": "unknown",
-    "text": "Some of the original material is still there."
+    "text": "Sometimes a copy of the document is included."
   },
   {
     "speaker": "unknown",
-    "text": "Some of it isn't."
+    "text": "Sometimes only the reference is left."
   },
   {
     "speaker": "player",
@@ -489,23 +490,23 @@ export const archiveOriginDialogue = [
   },
   {
     "speaker": "unknown",
-    "text": "A backup would imply someone preserved the whole thing."
+    "text": "A backup should contain a copy of the actual document."
   },
   {
     "speaker": "unknown",
-    "text": "This doesn't always have the whole thing."
+    "text": "This collection doesn't always have that copy."
   },
   {
     "speaker": "unknown",
-    "text": "Sometimes all that's left is a title."
+    "text": "An entry might list a title."
   },
   {
     "speaker": "unknown",
-    "text": "A reference number."
+    "text": "Or a reference number."
   },
   {
     "speaker": "unknown",
-    "text": "Or a piece of metadata without the file it belonged to."
+    "text": "That doesn't mean the document itself is there."
   },
   {
     "speaker": "player",
@@ -513,7 +514,7 @@ export const archiveOriginDialogue = [
   },
   {
     "speaker": "unknown",
-    "text": "The copy I have was already incomplete."
+    "text": "It was already incomplete when I got it."
   },
   {
     "speaker": "unknown",
@@ -521,11 +522,11 @@ export const archiveOriginDialogue = [
   },
   {
     "speaker": "unknown",
-    "text": "I can't verify who originally assembled it."
+    "text": "I don't know who first put it together."
   },
   {
     "speaker": "unknown",
-    "text": "Or how every record ended up there."
+    "text": "Or where each entry came from."
   },
   {
     "speaker": "player",
@@ -533,11 +534,11 @@ export const archiveOriginDialogue = [
   },
   {
     "speaker": "unknown",
-    "text": "No."
+    "text": "You don't have to."
   },
   {
     "speaker": "unknown",
-    "text": "You're supposed to understand the difference between what the package claims and what the records actually show."
+    "text": "Check what you can see. Don't take my explanation as proof."
   },
   {
     "speaker": "player",
@@ -545,11 +546,11 @@ export const archiveOriginDialogue = [
   },
   {
     "speaker": "unknown",
-    "text": "Because there's a reference connected to Daniel Mercer."
+    "text": "It points to the article about Daniel."
   },
   {
     "speaker": "unknown",
-    "text": "And because you read the article."
+    "text": "You can compare the reference with the public page yourself."
   },
   {
     "speaker": "player",
@@ -557,11 +558,11 @@ export const archiveOriginDialogue = [
   },
   {
     "speaker": "unknown",
-    "text": "Very little."
+    "text": "The article title and a reference number."
   },
   {
     "speaker": "unknown",
-    "text": "But enough to ask a question."
+    "text": "There's no original article text in that entry."
   }
 ] as const
 export const versionHistoryClosing = [

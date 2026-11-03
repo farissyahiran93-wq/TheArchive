@@ -1,6 +1,10 @@
 import { canonicalTick, validateOrigin, type ArchiveOriginState } from './archiveOrigin'
 import { sourceTick, validateSourceInvestigation, type SourceInvestigationState } from './sourceInvestigation'
 import { deskTick, validateCorrectionsDesk, type CorrectionsDeskState } from './scene06'
+import { starredNumberTick, validateStarredNumberV2, type StarredNumberV2State } from './starredNumberV2'
+import { lastCheckInTick, validateLastCheckInV2, type LastCheckInV2State } from './lastCheckInV2'
+import { secondaryCardTick, validateSecondaryCardV2, type SecondaryCardV2State } from './secondaryCardV2'
+import { inventoryFinaleTick, validateInventoryFinaleV2, type InventoryFinaleV2State } from './inventoryFinaleV2'
 import { validateVersionHistory, type VersionHistoryState } from './scene05'
 import { publicStoryPut, publicStoryHas, validatePublicStory, type PublicStoryState } from './scene04'
 import { chapter1Options, chapter1Record, chapter1Records, chapter1Replies } from '../content/chapter1Investigation'
@@ -11,6 +15,9 @@ export interface Chapter1State {
   archiveOrigin?:ArchiveOriginState;
   publicStory?:PublicStoryState;
   versionHistory?:VersionHistoryState; correctionsDesk?:CorrectionsDeskState;
+  starredNumberV2?:StarredNumberV2State;
+  lastCheckInV2?:LastCheckInV2State;
+  secondaryCardV2?:SecondaryCardV2State; inventoryFinaleV2?:InventoryFinaleV2State;
   version:1; completed:number[]; inspected:string[]; flags:string[];
   drafts:Record<string,string>; interpretations:Record<string,string>;
   record?:string; panel:'hub'|'record'|'compare'|'board'; chapterComplete:boolean;
@@ -118,7 +125,7 @@ export function chapter1Action(input:GameSave,a:Chapter1Action,now=Date.now()):G
   let s=ensureChapter1(input),c=s.chapter1!,n=chapter1Current(s)
   if(a.type==='tick'){
     s=canonicalTick(s,now)
-    s=sourceTick(deskTick(s,now),now)
+    s=inventoryFinaleTick(secondaryCardTick(lastCheckInTick(starredNumberTick(sourceTick(deskTick(s,now),now),now),now),now),now)
     if(s.prologue?.scene01?.scriptRevision&&s.prologue.scene01.privateScene03?.complete&&!publicStoryHas(s,'lead-scheduled')){
       s=publicStoryPut(s,{flags:['lead-scheduled']})
       s={...s,pendingEvents:[...s.pendingEvents,{id:'CH1-S04-LEAD',dueAt:(s.prologue?.scene01?.privateScene03?.completedAt??now)+10000}]}
@@ -237,6 +244,14 @@ export function validateChapter1(value:unknown):void {
   validatePublicStory(c.publicStory)
   validateVersionHistory(c.versionHistory)
   validateCorrectionsDesk(c.correctionsDesk)
+  validateStarredNumberV2(c.starredNumberV2)
+  validateLastCheckInV2(c.lastCheckInV2)
+  validateSecondaryCardV2(c.secondaryCardV2)
+  validateInventoryFinaleV2(c.inventoryFinaleV2)
+  if(c.starredNumberV2&&!c.correctionsDesk?.complete)throw Error('Invalid starred-number prerequisite')
+  if(c.lastCheckInV2&&!c.starredNumberV2?.complete)throw Error('Invalid last check-in prerequisite')
+  if(c.secondaryCardV2&&!c.lastCheckInV2?.complete)throw Error('Invalid secondary-card prerequisite')
+  if(c.inventoryFinaleV2&&!c.secondaryCardV2?.complete)throw Error('Invalid inventory-finale prerequisite')
   validateSourceInvestigation(c.byline,7)
   validateSourceInvestigation(c.issuer,8)
   validateSourceInvestigation(c.transferRegister,9)

@@ -27,6 +27,7 @@ export function enterScene01(state: GameSave, id: string, now: number): GameSave
     const done=['s05_c02_update_label','s05_c03_index_meaning','s05_c04_policy_meaning'].every(key=>progress.chatChoices?.[key])
     id=done?'OPEN-VH-NEW-GATE-05':'OPEN-VH-NEW-SOURCE-HUB'
   }
+  if(id==='OPEN-S07-REV-NORA-INDEX'&&!state.chapter1?.archiveOrigin?.initialInspected&&!state.chapter1?.publicStory?.flags.includes('index-acknowledged'))id='OPEN-S07-REV-professional-END'
   const node = actINodes(state.prologue?.scene01)[id]
   if (!node || !state.prologue?.scene01) return state
   if(/^OPEN-(?:S0[789]|S10)-/.test(id) && (node.kind==='npc'&&node.channel==='group'&&state.prologue.scene01.groupMembers?.[(node.sender??'sophie') as 'sophie'|'maya'|'lucas']!==true || node.kind==='wait'&&id.includes('-GROUP-')&&state.prologue.scene01.groupMembers?.[(node.actor??'sophie') as 'sophie'|'maya'|'lucas']!==true))return enterScene01(state,node.next,now)
@@ -169,6 +170,7 @@ export function scene01Choices(state: GameSave): Scene01Choice[] {
   if(scene.nodeId.startsWith('OPEN-VH-')&&(node?.kind!=='choice'||state.chapter1?.versionHistory?.reading!==node.channel))return []
   if (scene.nodeId.startsWith('OPEN-S04-') && node?.kind === 'choice' && !node.uiChoice && state.chapter1?.publicStory?.reading !== (node.channel ?? 'sophie')) return []
   if(scene.nodeId.startsWith('OPEN-S06-') && !state.chapter1?.correctionsDesk?.reading)return []
+  if(node?.kind==='choice'&&['OPEN-S06-REV-SOPHIE','OPEN-S06-REV-GROUP'].includes(node.id)&&!state.chapter1?.correctionsDesk?.flags.some(f=>f==='register-opened'||f==='register-read'))return node.choices.filter(choice=>choice.id!=='a')
   if(scene.nodeId.startsWith('OPEN-S05-') && (node?.kind!=='choice'||state.chapter1?.versionHistory?.reading!==node.channel))return []
   if(/^OPEN-(?:S0[789]|S10)-/.test(scene.nodeId))return node?.kind==='choice'?sourceChoices(state,node):[]
   const replied = !!state.chapter1?.sender.branch && !['ignore','ignored'].includes(state.chapter1.sender.branch)

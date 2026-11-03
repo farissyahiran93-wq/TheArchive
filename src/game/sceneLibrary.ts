@@ -1,4 +1,5 @@
 import { chapter1ScenePlan } from '../content/chapter1Plan'
+import { chapter1V2 } from '../content/chapter1V2'
 import { sourceInvestigations } from '../content/sourceInvestigations'
 import { versionHistorySceneId } from '../content/versionHistoryConversation'
 import type { GameSave } from './types'
@@ -10,10 +11,13 @@ export const chapterLibrary = [{ id: 'chapter-1', number: 1, title: 'The Missing
   .map(scene => ({ number: scene.number, id: scene.id, title: ({7:'The Byline',8:'The Missing Issuer',9:'The Transfer Register',10:'The Inventory Sheet'} as Record<number,string>)[scene.number] ?? scene.title })) }]
 export const libraryScenes = chapterLibrary.flatMap(chapter => chapter.scenes)
 export type LibraryScene = typeof libraryScenes[number]
+export const chapterLibraryForSave=(save:GameSave)=>save.chapter1Edition==='ch01-v2-10'?[{id:'chapter-1-v2',number:1,title:'The Missing Entry',scenes:chapter1V2.scenes.map(({number,id,title})=>({number,id,title}))}]:chapterLibrary
+export const libraryScenesForSave=(save:GameSave)=>chapterLibraryForSave(save).flatMap(chapter=>chapter.scenes)
 
 export function sceneVisited(save: GameSave, n: number): boolean {
   const s = save.prologue?.scene01, c = save.chapter1
-  if (s?.scriptRevision !== 'final-2026-10-23' || save.chapter2Access) return false
+  if (s?.scriptRevision !== 'final-2026-10-23' || save.chapter2Access&&save.chapter1Edition!=='ch01-v2-10') return false
+  if(save.chapter1Edition==='ch01-v2-10'&&n>=7)return n===7?!!c?.starredNumberV2:n===8?!!c?.lastCheckInV2:n===9?!!c?.secondaryCardV2:n===10?!!c?.inventoryFinaleV2:false
   switch (n) {
     case 1: return !!s
     case 2: return !!s.groupScript
@@ -31,6 +35,7 @@ export function sceneVisited(save: GameSave, n: number): boolean {
 export function sceneComplete(save: GameSave, n: number): boolean {
   const s = save.prologue?.scene01, c = save.chapter1
   if (!sceneVisited(save, n)) return false
+  if(save.chapter1Edition==='ch01-v2-10'&&n>=7)return n===7?!!c?.starredNumberV2?.complete:n===8?!!c?.lastCheckInV2?.complete:n===9?!!c?.secondaryCardV2?.complete:!!c?.inventoryFinaleV2?.complete
   return n === 1 ? s?.invitation === 'joined' : n === 2 ? !!s?.groupComplete : n === 3 ? !!s?.privateScene03?.complete
     : n === 4 ? !!c?.publicStory?.complete : n === 5 ? !!c?.versionHistory?.complete : n === 6 ? !!c?.correctionsDesk?.complete
     : n === 7 ? !!c?.byline?.complete : n === 8 ? !!c?.issuer?.complete : n === 9 ? !!c?.transferRegister?.complete : !!c?.inventorySheet?.complete
@@ -39,7 +44,7 @@ export function snapshotKey(save: GameSave, scene: LibraryScene): string {
   return scene.number === 5 && save.prologue?.scene01?.articleAlignment ? versionHistorySceneId : scene.id
 }
 export function captureSceneEntries(before: GameSave, next: GameSave, now = Date.now()): GameSave {
-  const entered = libraryScenes.filter(scene => !sceneVisited(before, scene.number) && sceneVisited(next, scene.number))
+  const entered = libraryScenesForSave(next).filter(scene => !sceneVisited(before, scene.number) && sceneVisited(next, scene.number))
   if (!entered.length) return next
   const entries = { ...before.replayEntries, ...next.replayEntries }
   const { replayEntries: _entries, ...snapshot } = next
@@ -53,7 +58,7 @@ export const hasInvestigation = (s: GameSave) => !!(s.prologue || s.player || s.
 export function resumeLabel(s: GameSave): string {
   if (s.chapter2Access) return 'The People He Left Behind · historical route'
   if (s.prologue?.scene01?.scriptRevision !== 'final-2026-10-23') return 'Saved investigation'
-  const scene = [...libraryScenes].reverse().find(scene => sceneVisited(s, scene.number))
+  const scene = [...libraryScenesForSave(s)].reverse().find(scene => sceneVisited(s, scene.number))
   return scene ? `Chapter 1 · Scene ${String(scene.number).padStart(2, '0')} · ${scene.title}` : 'Saved investigation'
 }
 

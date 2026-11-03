@@ -1,4 +1,3 @@
-import { TraceTools } from './TraceTools'
 import { sceneStartMarkers } from './sceneMarkers'
 import { SceneStartMarker } from './SceneStartMarker'
 import { ChatProfile } from './ChatProfile'
@@ -78,7 +77,7 @@ export function AccessInstallation() {
 }
 
 export function AccessArchive({ onHome }: { onHome: () => void }) {
-  const save = useGameStore(s => s.save), c = save.chapter2Access
+  const c = useGameStore(s => s.save.chapter2Access)
   const act = useGameStore(s => s.accessAction)
   const [page, setPage] = useState<'archive' | 'intro' | 'mirror'>('archive')
   const [relay, setRelay] = useState(false)
@@ -86,7 +85,7 @@ export function AccessArchive({ onHome }: { onHome: () => void }) {
   if (page === 'mirror' && c?.mirrorOpened) return <DanielLifePhone onExit={() => setPage('archive')}/>
   return <section className="access-archive" aria-label="TRACE access extension">
     <header className="opening-chat-header"><button className="icon-button bare" aria-label={page === 'archive' ? 'Back to home' : 'Back to TRACE'} onClick={() => page === 'archive' ? onHome() : setPage('archive')}><ArrowLeft size={21}/></button><div><strong>TRACE</strong><small>{c?.installCompleted ? 'ACCESS: EXPANDED' : 'ACCESS: INACTIVE'}</small></div></header>
-    <div className="access-content">{!c?.installCompleted ? <><h2>TRACE</h2><p>Access extension not activated.</p><p>No device mirror is available.</p></> : page === 'archive' ? <><h2>Daniel Mercer's Phone</h2><ContinuationLinks/><p>Mirrored dataset · Partially indexed</p><p>Access available</p><p>Content may be incomplete. Changes made in this mirror do not affect the original device.</p><button className="opening-primary" onClick={() => setPage('intro')}>OPEN PHONE MIRROR</button><button className="opening-choice" onClick={() => setRelay(true)}>RELAY MONITOR · {c?.relayAvailable?'AVAILABLE':'STANDBY'}</button><p>SESSION SOURCE: UNVERIFIED</p><TraceTools save={save}/></> : <><h2>Daniel Mercer</h2><p>Dataset: MIRROR/02<br/>Device: NOT CONNECTED</p><p>This is a reconstruction of recovered records, not a connection to Daniel's physical phone.</p><p>Source integrity: UNVERIFIED</p><p>Recovered entries may be incomplete, reordered or outdated.</p><button className="opening-primary" onClick={() => {act({type:'open-mirror'});setPage('mirror')}}>ENTER MIRROR</button></>}</div>
+    <div className="access-content">{!c?.installCompleted ? <><h2>TRACE</h2><p>Access extension not activated.</p><p>No device mirror is available.</p></> : page === 'archive' ? <><h2>Daniel Mercer's Phone</h2><ContinuationLinks/><p>Mirrored dataset · Partially indexed</p><p>Access available</p><p>Content may be incomplete. Changes made in this mirror do not affect the original device.</p><button className="opening-primary" onClick={() => setPage('intro')}>OPEN PHONE MIRROR</button><button className="opening-choice" onClick={() => setRelay(true)}>RELAY MONITOR · {c?.relayAvailable?'AVAILABLE':'STANDBY'}</button><p>SESSION SOURCE: UNVERIFIED</p></> : <><h2>Daniel Mercer</h2><p>Dataset: MIRROR/02<br/>Device: NOT CONNECTED</p><p>This is a reconstruction of recovered records, not a connection to Daniel's physical phone.</p><p>Source integrity: UNVERIFIED</p><p>Recovered entries may be incomplete, reordered or outdated.</p><button className="opening-primary" onClick={() => {act({type:'open-mirror'});setPage('mirror')}}>ENTER MIRROR</button></>}</div>
     {relay&&<RelaySheet onClose={() => setRelay(false)}/>}
   </section>
 }

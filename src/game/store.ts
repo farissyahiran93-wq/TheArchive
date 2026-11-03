@@ -1,6 +1,10 @@
 import { originAction } from './archiveOrigin'
 import { sourceAction, type SourceAction, type SourceScene, readingSource } from './sourceInvestigation'
-import { correctionsDeskAction, type DeskAction } from './scene06'
+import { correctionsDeskAction, resumeScene0607, type DeskAction } from './scene06'
+import { starredNumberAction, type StarredAction } from './starredNumberV2'
+import { lastCheckInAction, type LastCheckInAction } from './lastCheckInV2'
+import { secondaryCardAction, type SecondaryCardAction } from './secondaryCardV2'
+import { inventoryFinaleAction, type InventoryFinaleAction } from './inventoryFinaleV2'
 import { versionHistoryAction, type VersionHistoryAction } from './scene05'
 import { chapter1Action, type Chapter1Action } from './chapter1'
 import { playtestEnabled } from './playtest'
@@ -13,7 +17,7 @@ import { deliverPhoneOpeningEvent, deliverOpening, compareMirrorIndex, finishOpe
 import type { MirrorArea, MirrorLockId } from '../content/opening'
 import { create } from 'zustand'
 import { dueEvent, enterFixture, markMessagesRead, registerPlayer, sendFixtureChoice } from './engine'
-import { clearPendingSave, discardPendingSave, loadGame, stagePendingSave, writeGame } from './save'
+import { archiveAndReplaceGame, clearPendingSave, discardPendingSave, loadGame, restoreHistoricalSave, stagePendingSave, writeGame } from './save'
 import { newGame, type GameSave, type Pronouns } from './types'
 import { linkBoardPair, unlinkBoardPair, type BoardSourceId } from './board'
 import { advanceSlice, answerComparison, answerEditor, beginSlice, inspectPreview, openSliceInbox, readBrief, readSliceMessages, recheckComparison, saveLead, sendS11Choice, sendTip, setS11Draft, setTipDraft, showComparisonHint } from './slice'
@@ -23,12 +27,16 @@ import { checkS28, checkS30Role, citeS29, completeS30, finishS28, openS28Directo
 import { continuePublicWithoutTip, keepS26Private, openLateTip, openS25Checkin, openS26Frame, returnToFinding, returnToS27, viewS24Note } from './phase03b'
 import { answerGroupFollowup, readFollowup, scheduleGroupProposal, scheduleMayaReferral, sendFollowupChoice, sendFollowupIntro } from './characterFollowups'
 import type { FollowupContact } from '../content/characterFollowups'
-import { captureSceneEntries, libraryScenes, prepareReplay, sceneComplete, sceneVisited, snapshotKey } from './sceneLibrary'
+import { captureSceneEntries, libraryScenesForSave, prepareReplay, sceneComplete, sceneVisited, snapshotKey } from './sceneLibrary'
 import { normalizeSave } from './engine'
 
 interface GameStore {
   sourceAction: (scene:SourceScene,action:SourceAction)=>void
   correctionsDeskAction: (action: DeskAction) => void
+  starredNumberAction: (action: StarredAction) => void
+  lastCheckInAction: (action: LastCheckInAction) => void
+  secondaryCardAction: (action: SecondaryCardAction) => void
+  inventoryFinaleV2Action: (action: InventoryFinaleAction) => void
   originAction: (action:Parameters<typeof originAction>[1])=>void
   versionHistoryAction: (action: VersionHistoryAction) => void
   publicStoryAction: (action: PublicStoryAction) => void
@@ -83,6 +91,7 @@ interface GameStore {
   readMessages: () => void
   setReduceMotion: (value: boolean) => void
   restartStory: () => Promise<boolean>
+  restoreHistorical: (key:string) => Promise<boolean>
   beginEpisodeSlice: () => void
   nextSliceScene: () => void
   openBrief: () => void
@@ -174,14 +183,14 @@ export async function startSceneReplay(number: number): Promise<void> {
     await writeQueue
     const {save,recoveryRequired}=useGameStore.getState()
     if(recoveryRequired)throw new Error('Resolve the save warning before starting again.')
-    const scene=libraryScenes.find(item=>item.number===number)
+    const scene=libraryScenesForSave(save).find(item=>item.number===number)
     if(!scene||!sceneVisited(save,number))throw new Error('This scene has not been discovered.')
     const id=snapshotKey(save,scene),entry=save.replayEntries?.[id]
     if(!entry||!Number.isFinite(entry.capturedAt)||entry.save.replayEntries)throw new Error('No reliable scene-entry checkpoint is available for this save.')
     const snapshot=normalizeSave(entry.save)
     if(!sceneVisited(snapshot,number)||sceneComplete(snapshot,number))throw new Error('The scene checkpoint cannot be used safely.')
     const checkpoints:NonNullable<GameSave['replayEntries']>={}
-    for(const item of libraryScenes.filter(item=>item.number<=number)){const key=snapshotKey(save,item),checkpoint=save.replayEntries?.[key];if(checkpoint)checkpoints[key]=checkpoint}
+    for(const item of libraryScenesForSave(save).filter(item=>item.number<=number)){const key=snapshotKey(save,item),checkpoint=save.replayEntries?.[key];if(checkpoint)checkpoints[key]=checkpoint}
     const revision=save.saveRevision??0
     const selected={...prepareReplay({...entry,save:snapshot},Date.now()),settings:save.settings,replayEntries:checkpoints,saveRevision:revision+1}
     await writeGame(selected,revision)
@@ -210,6 +219,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
   accessAction: action => commit(chapter2Access(get().save, action, Date.now(), playtestEnabled)),
   sourceAction: (scene,action) => commit(sourceAction(get().save,scene,action)),
   correctionsDeskAction: action => commit(correctionsDeskAction(get().save,action)),
+  starredNumberAction: action => commit(starredNumberAction(get().save,action)),
+  lastCheckInAction: action => commit(lastCheckInAction(get().save,action)),
+  secondaryCardAction: action => commit(secondaryCardAction(get().save,action)),
+  inventoryFinaleV2Action: action => commit(inventoryFinaleAction(get().save,action)),
   originAction: action => commit(originAction(get().save,action)),
   versionHistoryAction: action => commit(versionHistoryAction(get().save,action)),
   publicStoryAction: action => commit(publicStoryAction(get().save,action)),
@@ -235,6 +248,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     hydration = (async () => {
       const result = await loadGame()
       set({ save: result.save, ready: true, saveError: result.error ?? null, recoveryRequired: result.recoveryRequired ?? false, recoveryRaw: result.raw })
+      if(!result.recoveryRequired){const migrated=resumeScene0607(result.save,Date.now());if(migrated!==result.save){commit(migrated);result.save=get().save}}
       if (!result.recoveryRequired && result.save.prologue?.scene01?.invitation === 'joined' && !result.save.prologue.scene01.groupScript) { commit(beginScene02(result.save)); return }
       if (!result.recoveryRequired && result.save.prologue?.scene01?.nodeId === 'OPEN-S02-SOURCE-BOUNDARY') { commit(resumeScene02(result.save)); return }
       if (!result.recoveryRequired && (result.save.prologue?.scene01?.privateScene03?.reading || result.save.chapter1?.archiveOrigin?.reading || result.save.chapter1?.versionHistory?.reading || result.save.chapter1?.correctionsDesk?.reading || readingSource(result.save))) { commit(pauseScene03(result.save)); return }
@@ -249,6 +263,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     discardPendingSave()
     const result = await loadGame()
     set({ save: result.save, ready: true, saveError: result.error ?? null, recoveryRequired: result.recoveryRequired ?? false, recoveryRaw: result.raw })
+      if(!result.recoveryRequired){const migrated=resumeScene0607(result.save,Date.now());if(migrated!==result.save){commit(migrated);result.save=get().save}}
     if (!result.recoveryRequired && result.save.prologue?.scene01?.invitation === 'joined' && !result.save.prologue.scene01.groupScript) { commit(beginScene02(result.save)); return }
     if (!result.recoveryRequired && result.save.prologue?.scene01?.nodeId === 'OPEN-S02-SOURCE-BOUNDARY') { commit(resumeScene02(result.save)); return }
     if (!result.recoveryRequired && (result.save.prologue?.scene01?.privateScene03?.reading || result.save.chapter1?.archiveOrigin?.reading || result.save.chapter1?.versionHistory?.reading || result.save.chapter1?.correctionsDesk?.reading || readingSource(result.save))) { commit(pauseScene03(result.save)); return }
@@ -257,7 +272,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     else if (!result.recoveryRequired && !result.save.prologue?.scene01 && result.save.prologue?.dialogueVersion === 4 && result.save.prologue.stage === 'complete' && !result.save.e01) commit(beginSlice(result.save))
   },
   register: (name, pronouns) => commit(registerPlayer(get().save, name, pronouns)),
-  startPhone: () => commit(startPhoneOpening(get().save)),
+  startPhone: () => {const current=get().save;const fresh=!current.player&&!current.prologue&&!current.chapter1&&!current.chapter2Access&&current.deliveredEvents.length===0&&current.pendingEvents.length===0;commit(startPhoneOpening(fresh?{...current,chapter1Edition:'ch01-v2-10'}:current))},
   sendOpeningName: name => commit(sendOpeningName(get().save, name)),
   decidePendingRecovery: decision => commit(decidePendingRecovery(get().save, decision)),
   openFixture: () => commit(enterFixture(get().save, Date.now())),
@@ -306,8 +321,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
       if (get().recoveryRequired) return false
       const current = get().save
       const revision = current.saveRevision ?? 0
-      const fresh = { ...newGame(), saveRevision: revision + 1, settings: { reduceMotion: current.settings.reduceMotion } }
-      await writeGame(fresh, revision)
+      const fresh = { ...newGame(), chapter1Edition:'ch01-v2-10' as const, saveRevision: revision + 1, settings: { reduceMotion: current.settings.reduceMotion } }
+      await archiveAndReplaceGame(current, fresh)
       discardPendingSave()
       set({ save: fresh, saveError: null })
       return true
@@ -315,6 +330,18 @@ export const useGameStore = create<GameStore>((set, get) => ({
       set({ saveError: error instanceof Error ? error.message : 'Restart failed' })
       return false
     } finally { restarting = false }
+  },
+  restoreHistorical: async key => {
+    if(restarting||get().recoveryRequired)return false
+    restarting=true
+    try{
+      await writeQueue
+      const restored=await restoreHistoricalSave(key,get().save)
+      discardPendingSave()
+      set({save:restored,saveError:null})
+      return true
+    }catch(error){set({saveError:error instanceof Error?error.message:'Restore failed'});return false}
+    finally{restarting=false}
   },
   beginEpisodeSlice: () => commit(beginSlice(get().save)),
   nextSliceScene: () => commit(advanceSlice(get().save, Date.now())),

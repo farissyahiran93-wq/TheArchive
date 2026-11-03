@@ -1,3 +1,4 @@
+import { revisedScene0607Nodes, revisedDeskEntry, revisedDeskSocial, revisedDeskQuestions } from '../content/scene0607Revision'
 import { sourceAction, sourcePut } from './sourceInvestigation'
 import type { GameSave } from './types'
 import type { Scene01Node } from '../content/scene01'
@@ -7,7 +8,7 @@ export type DeskThread='desk'|'sophie'|'maya'|'group'
 type Checkpoint={nodeId:string;draft?:{nodeId:string;choiceId:string};paused?:{id:string;remainingMs:number;typing:boolean};complete?:boolean}
 type Line={id:string;sender:'desk'|'maya'|'player';text:string;at:number}
 export interface CorrectionsDeskState {
- version:1;entered:true;complete:boolean;visible:boolean;panel:'home'|'register'|'scope'|'inbox'|'form';flags:string[];cards:string[];choices:Record<string,string>;scroll:Record<string,number>;feedback?:string;
+ version:1;flowRevision?:'2026-10-31';entered:true;complete:boolean;visible:boolean;panel:'home'|'register'|'scope'|'inbox'|'form';flags:string[];cards:string[];choices:Record<string,string>;scroll:Record<string,number>;feedback?:string;
  reply?:{id:'EV-S06-DESK-REPLY-001';requestId:'R-GB-VH-001';text:string[];at:number};
  prior?:{id:'R-GB-VH-001';choice:'a'|'b'|'c';text:string};replyDelivered:boolean;replyRead:boolean;
  inquiry:{status:'not_sent'|'draft'|'failed'|'delivered';choice?:string;text?:string;reviewed?:boolean;receipt?:{id:'R-GB-CD-002';text:string;at:number}};
@@ -20,7 +21,7 @@ export const deskReady=(s:GameSave)=>{const p=s.chapter1?.correctionsDesk;return
 export function deskEligible(s:GameSave,t:DeskThread){
  const scene=s.prologue?.scene01,p=s.chapter1?.correctionsDesk
  if(!p||!scene)return false
- if(t==='desk')return p.replyDelivered
+ if(t==='desk')return p.flowRevision==='2026-10-31'?!!p.prior:p.replyDelivered
  if(t==='sophie')return scene.introduced&&!!scene.privateScene03?.complete
  // This final route has no authorized two-way Maya DM. Historical structural DMs are separate.
  if(t==='maya')return false
@@ -41,7 +42,7 @@ export function openDeskThread(s:GameSave,t:DeskThread,now:number):GameSave {
  s=deskPut(s,{reading:cp?.complete?undefined:t,replyRead:t==='desk'?true:c.replyRead,panel:t==='desk'?'inbox':c.panel})
  if(t==='desk')s={...s,notifications:s.notifications.map(n=>n.id==='EV-S06-DESK-REPLY-001'?{...n,read:true}:n)}
  if(cp?.complete)return s
- const id=cp?.nodeId??(scene06Entrances as Record<string,string>)[t==='desk'?`desk_${c.prior!.choice}`:t]
+ const id=cp?.nodeId??(c.flowRevision==='2026-10-31'?(t==='desk'?revisedDeskEntry:revisedDeskSocial[t as 'sophie'|'group']):(scene06Entrances as Record<string,string>)[t==='desk'?`desk_${c.prior!.choice}`:t])
  s={...s,prologue:{...s.prologue!,scene01:{...s.prologue!.scene01!,nodeId:id,queue:[],draft:cp?.draft}}}
  if(cp?.paused)return {...s,prologue:{...s.prologue!,scene01:{...s.prologue!.scene01!,queue:[{id:cp.paused.id,dueAt:now+cp.paused.remainingMs,typing:cp.paused.typing}]}}}
  return enterScene01(s,id,now)
@@ -60,26 +61,26 @@ export function deskIncoming(s:GameSave,node:Extract<Scene01Node,{kind:'npc'}>,n
 export function deskSend(s:GameSave,choiceId:string,now:number):GameSave {
  const p=s.chapter1?.correctionsDesk,scene=s.prologue?.scene01
  if(!p?.reading||!scene||scene.queue.length||!deskEligible(s,p.reading))return s
- const node=scene06Nodes[scene.nodeId]
+ const node=scene06Nodes[scene.nodeId]??revisedScene0607Nodes[scene.nodeId]
  if(node?.kind!=='choice'||scene.draft?.nodeId!==node.id||scene.draft.choiceId!==choiceId)return s
  const choice=node.choices.find(o=>o.id===choiceId),id=node.id+'-PLAYER-'+choiceId
  if(!choice||s.deliveredEvents.includes(id))return s
- const t=p.reading,recipients=t==='group'?(['sophie','maya'] as const).filter(a=>scene.groupMembers?.[a]===true):[t]
+ const t=p.reading,recipients=t==='group'?(p.flowRevision==='2026-10-31'?(['sophie','maya','lucas'] as const):(['sophie','maya'] as const)).filter(a=>scene.groupMembers?.[a]===true):[t]
  const facts=[id+':claim'],characters={...s.knowledge.characters}
- for(const a of recipients)if(a==='sophie'||a==='maya')characters[a]=[...new Set([...characters[a],...facts])]
+ for(const a of recipients)if(a==='sophie'||a==='maya'||a==='lucas')characters[a]=[...new Set([...characters[a],...facts])]
  s=deskPut(s,{choices:{...p.choices,[node.id.replace('OPEN-','')]:choiceId},receipts:[...p.receipts,...recipients.map(recipient=>({eventId:id,recipient,factIds:facts}))],...(['desk','maya'].includes(t)?{inbox:[...p.inbox,{id,sender:'player',text:choice.text,at:now}]}:{})})
  if(t==='desk')s=deskPut(s,{followupStatus:choiceId==='a'?'referral_requested':choiceId==='b'?'byline_question_sent':'acknowledgment_sent'})
- s={...s,deliveredEvents:[...s.deliveredEvents,id,...(t==='desk'?['EV-S06-DESK-FOLLOWUP-001']:t==='group'?['EV-S06-GROUP-SENT']:[])],knowledge:{...s.knowledge,characters},messages:[...s.messages,...recipients.filter((a):a is 'sophie'|'maya'=>a==='sophie'||a==='maya').map(recipient=>({id:id+'-TO-'+recipient,sender:'player' as const,recipient,channel:'messages' as const,text:choice.text,at:now,delivery:'delivered' as const,disclosedFactIds:facts}))],prologue:{...s.prologue!,scene01:{...scene,draft:undefined,...(t==='sophie'?{messages:[...scene.messages,{id,sender:'player',text:choice.text,at:now}]}:t==='group'?{groupMessages:[...scene.groupMessages,{id,sender:'player',text:choice.text,at:now}]}:{})}}}
+ s={...s,deliveredEvents:[...s.deliveredEvents,id,...(t==='desk'?['EV-S06-DESK-FOLLOWUP-001']:t==='group'?['EV-S06-GROUP-SENT']:[])],knowledge:{...s.knowledge,characters},messages:[...s.messages,...recipients.filter((a):a is 'sophie'|'maya'|'lucas'=>a==='sophie'||a==='maya'||a==='lucas').map(recipient=>({id:id+'-TO-'+recipient,sender:'player' as const,recipient,channel:'messages' as const,text:choice.text,at:now,delivery:'delivered' as const,disclosedFactIds:facts}))],prologue:{...s.prologue!,scene01:{...scene,draft:undefined,...(t==='sophie'?{messages:[...scene.messages,{id,sender:'player',text:choice.text,at:now}]}:t==='group'?{groupMessages:[...scene.groupMessages,{id,sender:'player',text:choice.text,at:now}]}:{})}}}
  return enterScene01(s,choice.next,now)
 }
-export type DeskAction={type:'enter'|'back'|'archive'|'read'|'review'|'send-request'|'save-draft'|'cancel'|'request-failed'|'next-lead'}|{type:'panel';panel:CorrectionsDeskState['panel']}|{type:'local';id:keyof typeof scene06Local;choice:string}|{type:'card';id:'article'|'index'|'register'}|{type:'thread';thread:DeskThread}|{type:'scroll';key:string;value:number}
+export type DeskAction={type:'enter'|'activate'|'back'|'archive'|'read'|'review'|'send-request'|'save-draft'|'cancel'|'request-failed'|'next-lead'|'read-email'|'save-finding'}|{type:'panel';panel:CorrectionsDeskState['panel']}|{type:'local';id:keyof typeof scene06Local;choice:string}|{type:'card';id:'article'|'index'|'register'}|{type:'thread';thread:DeskThread}|{type:'scroll';key:string;value:number}
 export function correctionsDeskAction(s:GameSave,a:DeskAction,now=Date.now()):GameSave {
- if(a.type==='enter'){
+ if(a.type==='enter'||a.type==='activate'){
   if(s.prologue?.scene01?.scriptRevision!=='final-2026-10-23'||!s.chapter1?.versionHistory?.complete||s.chapter2Access)return s
   s=pauseScene03(s,now)
   if(!s.chapter1!.correctionsDesk){
-   const q=s.chapter1!.versionHistory!.inquiry,prior=q.status==='delivered'&&q.receipt?.id==='R-GB-VH-001'&&['a','b','c'].includes(q.choice??'')?{id:'R-GB-VH-001' as const,choice:q.choice as 'a'|'b'|'c',text:q.receipt.text}:undefined
-   s={...s,chapter1:{...s.chapter1!,correctionsDesk:{version:1,entered:true,visible:true,complete:false,panel:'home',flags:[],cards:[],choices:{},scroll:{},prior,replyDelivered:false,replyRead:false,inquiry:{status:'not_sent'},threads:{},inbox:[],receipts:[]}}}
+   const q=s.chapter1!.versionHistory!.inquiry,prior=q.status==='delivered'&&q.receipt?.id==='R-GB-VH-001'&&q.receipt.text===q.text&&s.deliveredEvents.includes('R-GB-VH-001')&&['a','b','c'].includes(q.choice??'')?{id:'R-GB-VH-001' as const,choice:q.choice as 'a'|'b'|'c',text:q.receipt.text}:undefined
+   s={...s,chapter1:{...s.chapter1!,correctionsDesk:{version:1,...(a.type==='activate'?{flowRevision:'2026-10-31' as const}:{}),entered:true,visible:true,complete:false,panel:'home',flags:[],cards:[],choices:{},scroll:{},prior,replyDelivered:false,replyRead:false,inquiry:{status:'not_sent'},threads:{},inbox:[],receipts:[]}}}
    if(prior)s={...s,pendingEvents:[...s.pendingEvents,{id:'CH1-S06-DESK-REPLY',dueAt:now+1600}]}
   }
   s=sourcePut(sourcePut(sourcePut(sourcePut(s,7,{visible:false}),8,{visible:false}),9,{visible:false}),10,{visible:false})
@@ -87,6 +88,17 @@ export function correctionsDeskAction(s:GameSave,a:DeskAction,now=Date.now()):Ga
  }
  const p=s.chapter1?.correctionsDesk
  if(!p)return s
+ if(a.type==='save-finding'){
+  if(p.flowRevision!=='2026-10-31'||p.panel!=='register'||p.complete)return s
+  const note="There's no public correction notice for this article. That doesn't prove the words stayed the same. Nora Vance wrote it. That doesn't tell me who managed the page."
+  s=deskPut(s,{complete:true,flags:[...new Set([...p.flags,'register-read'])],choices:{...p.choices,'S06-C14':'a'},conclusion:{version_authenticated:false,article_body_changed:'unknown',author_equals_editor:'unknown',index_validated:false,choice:note},feedback:'Finding saved privately.'})
+  s={...s,chapter1:{...s.chapter1!,completed:[...new Set([...s.chapter1!.completed,6])]},evidence:{...s.evidence,'NOTE-S06-DESK-LIMITS':{id:'NOTE-S06-DESK-LIMITS',source:'PLAYER_PRIVATE / GB-CORR-REGISTER-001 / '+note,verified:false,collectedAt:now}}}
+  if(s.chapter1Edition==='ch01-v2-10')return {...s,deliveredEvents:[...new Set([...s.deliveredEvents,'CH1-S07V2-LEAD'])],notifications:s.notifications.some(n=>n.id==='CH1-S07V2-LEAD')?s.notifications:[...s.notifications,{id:'CH1-S07V2-LEAD',text:'NEW LEAD — THE STARRED NUMBER',read:false}]}
+  s=sourceAction(s,7,{type:'enter'},now)
+  if(s.chapter1?.byline&&!s.deliveredEvents.includes('CH1-S07-LEAD'))s={...s,deliveredEvents:[...s.deliveredEvents,'CH1-S07-LEAD'],notifications:[...s.notifications,{id:'CH1-S07-LEAD',text:'NEW LEAD — THE BYLINE',read:false}]}
+  return sourcePut(s,7,{visible:false})
+ }
+ if(a.type==='read-email')return p.prior && p.replyDelivered && !p.flags.includes('email-read') ? deskPut({...s,notifications:s.notifications.map(n=>n.id==='EV-S06-DESK-REPLY-001'?{...n,read:true}:n)},{flags:[...p.flags,'email-read']}) : s
  if(a.type==='thread')return openDeskThread(s,a.thread,now)
  if(a.type==='scroll')return Number.isFinite(a.value)&&a.value>=0?deskPut(s,{scroll:{...p.scroll,[a.key]:a.value}}):s
  if(a.type==='archive')return deskPut(pauseScene03(s,now),{visible:false})
@@ -99,7 +111,7 @@ export function correctionsDeskAction(s:GameSave,a:DeskAction,now=Date.now()):Ga
  }
  if(a.type==='card')return !p.flags.includes('claim')?s:deskPut(s,{cards:[...new Set([...p.cards,a.id])]})
  if(a.type==='local'){
-  const opt=scene06Local[a.id].find(o=>o.id===a.choice)
+  const opt=p.flowRevision==='2026-10-31'&&a.id==='S06-C06'?revisedDeskQuestions.map((text,i)=>({id:'abc'[i],text,feedback:''})).find(o=>o.id===a.choice):scene06Local[a.id].find(o=>o.id===a.choice)
   if(!opt||a.id==='S06-C02'&&!p.flags.includes('register-read')||a.id==='S06-C03'&&!['scope-read','register-read'].every(f=>p.flags.includes(f))||a.id==='S06-C04'&&(p.cards.length!==3||!p.flags.includes('claim'))||a.id==='S06-C07'&&!p.flags.includes('provenance')||a.id==='S06-C14'&&(!deskReady(s)||p.complete)||a.id==='S06-C06'&&(p.prior||p.inquiry.receipt||p.panel!=='form'))return s
   if(a.id==='S06-C06')return deskPut(s,{inquiry:{status:'draft',choice:a.choice,text:opt.text},feedback:undefined})
   const pass=({'S06-C03':'b','S06-C04':'c','S06-C07':'a'} as Record<string,string>)[a.id]
@@ -137,5 +149,20 @@ export function validateCorrectionsDesk(v:unknown):void {
  if(v===undefined)return
  if(!v||typeof v!=='object')throw Error('Invalid Scene 06 state')
  const p=v as CorrectionsDeskState
- if(p.version!==1||p.entered!==true||typeof p.visible!=='boolean'||typeof p.complete!=='boolean'||!['home','register','scope','inbox','form'].includes(p.panel)||!Array.isArray(p.flags)||p.flags.some(f=>typeof f!=='string')||!Array.isArray(p.cards)||p.cards.some(c=>!['article','index','register'].includes(c))||new Set(p.cards).size!==p.cards.length||!p.choices||!p.scroll||Object.values(p.scroll).some(n=>!Number.isFinite(n)||n<0)||!p.inquiry||!['not_sent','draft','failed','delivered'].includes(p.inquiry.status)||p.inquiry.text!==undefined&&!scene06Local['S06-C06'].some(o=>o.id===p.inquiry.choice&&o.text===p.inquiry.text)||p.inquiry.status==='delivered'&&(!p.inquiry.receipt||p.inquiry.receipt.id!=='R-GB-CD-002'||p.inquiry.receipt.text!==p.inquiry.text||!Number.isFinite(p.inquiry.receipt.at))||p.inquiry.status!=='delivered'&&p.inquiry.receipt!==undefined||typeof p.replyDelivered!=='boolean'||typeof p.replyRead!=='boolean'||p.replyDelivered&&!p.prior||p.prior&&(p.prior.id!=='R-GB-VH-001'||!['a','b','c'].includes(p.prior.choice)||typeof p.prior.text!=='string')||!p.threads||Object.values(p.threads).some(c=>!scene06Nodes[c.nodeId]||c.paused&&(!scene06Nodes[c.paused.id]||!Number.isFinite(c.paused.remainingMs)||c.paused.remainingMs<0))||!Array.isArray(p.inbox)||!Array.isArray(p.receipts)||p.complete&&(!p.choices['S06-C14']||!['register-read','scope-read','claim','provenance','byline'].every(f=>p.flags.includes(f))||p.cards.length!==3))throw Error('Invalid Scene 06 state')
+ if(p.version!==1||p.entered!==true||typeof p.visible!=='boolean'||typeof p.complete!=='boolean'||!['home','register','scope','inbox','form'].includes(p.panel)||!Array.isArray(p.flags)||p.flags.some(f=>typeof f!=='string')||!Array.isArray(p.cards)||p.cards.some(c=>!['article','index','register'].includes(c))||new Set(p.cards).size!==p.cards.length||!p.choices||!p.scroll||Object.values(p.scroll).some(n=>!Number.isFinite(n)||n<0)||!p.inquiry||!['not_sent','draft','failed','delivered'].includes(p.inquiry.status)||p.inquiry.text!==undefined&&!(p.flowRevision==='2026-10-31'&&revisedDeskQuestions.some((text,i)=>'abc'[i]===p.inquiry.choice&&text===p.inquiry.text)||scene06Local['S06-C06'].some(o=>o.id===p.inquiry.choice&&o.text===p.inquiry.text))||p.inquiry.status==='delivered'&&(!p.inquiry.receipt||p.inquiry.receipt.id!=='R-GB-CD-002'||p.inquiry.receipt.text!==p.inquiry.text||!Number.isFinite(p.inquiry.receipt.at))||p.inquiry.status!=='delivered'&&p.inquiry.receipt!==undefined||typeof p.replyDelivered!=='boolean'||typeof p.replyRead!=='boolean'||p.replyDelivered&&!p.prior||p.prior&&(p.prior.id!=='R-GB-VH-001'||!['a','b','c'].includes(p.prior.choice)||typeof p.prior.text!=='string')||!p.threads||Object.values(p.threads).some(c=>!(scene06Nodes[c.nodeId]??revisedScene0607Nodes[c.nodeId])||c.paused&&(!(scene06Nodes[c.paused.id]??revisedScene0607Nodes[c.paused.id])||!Number.isFinite(c.paused.remainingMs)||c.paused.remainingMs<0))||!Array.isArray(p.inbox)||!Array.isArray(p.receipts)||p.complete&&(!p.choices['S06-C14']||(p.flowRevision==='2026-10-31'?!p.flags.includes('register-read'):!['register-read','scope-read','claim','provenance','byline'].every(f=>p.flags.includes(f))||p.cards.length!==3)))throw Error('Invalid Scene 06 state')
+}
+
+/** Upgrade unfinished work without replacing its transcript, choices, receipts or deadline. */
+export function resumeScene0607(s:GameSave,now:number):GameSave {
+ const c=s.chapter1
+ if(!c?.versionHistory?.revision||!c.versionHistory.complete||s.chapter2Access)return s
+ if(!c.correctionsDesk&&!c.byline&&!c.issuer){
+  const started=correctionsDeskAction(s,{type:'activate'},now)
+  s=deskPut(started,{visible:false})
+ }else if(c.correctionsDesk&&!c.correctionsDesk.complete&&!c.correctionsDesk.flowRevision){
+  s=deskPut(s,{flowRevision:'2026-10-31'})
+ }
+ const byline=s.chapter1?.byline
+ if(byline&&!byline.complete&&!byline.flowRevision)s=sourcePut(s,7,{flowRevision:'2026-10-31'})
+ return s
 }

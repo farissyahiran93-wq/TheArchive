@@ -87,7 +87,7 @@ describe('canonical Unknown Number / Version History',()=>{
     for(let index=0;index<4;index++)f.do({type:'check',index})
     f.save=pauseScene03(f.save,f.now);f.unknown().send('a').send('b')
     expect(f.save.chapter1!.versionHistory!.complete).toBe(true)
-    expect(f.save.chapter1!.correctionsDesk).toBeUndefined()
+    expect(f.save.chapter1!.correctionsDesk).toMatchObject({flowRevision:'2026-10-31',visible:false,complete:false})
     f.save=correctionsDeskAction(f.save,{type:'enter'},f.now)
     expect(f.save.chapter1!.correctionsDesk!.visible).toBe(true)
   })
@@ -145,13 +145,13 @@ describe('canonical Unknown Number / Version History',()=>{
     expect(f.save.chapter1!.versionHistory).toBeUndefined()
     f.enter();expect(f.save.chapter1!.versionHistory!.sceneId).toBe('ch02_scene05_version_history')
   })
-  for(const pick of ['a','b','c'])it(`all seven required exchanges converge on ${pick}, preserve uncertainty and unlock manual Scene 06`,()=>{
+  for(const pick of ['a','b','c'])it(`all seven required exchanges converge on ${pick}, preserve uncertainty and activate Scene 06 without navigation`,()=>{
     const f=new ConversationFixture().core(pick),p=f.save.chapter1!.versionHistory!
     expect(p.complete).toBe(true);expect(versionHistoryReady(f.save)).toBe(true)
     expect(p.checklist).toHaveLength(4)
     expect(Object.keys(p.chatChoices!)).toHaveLength(7)
     expect(p.inquiry.receipt).toBeUndefined()
-    expect(f.save.chapter1!.correctionsDesk).toBeUndefined()
+    expect(f.save.chapter1!.correctionsDesk).toMatchObject({flowRevision:'2026-10-31',visible:false,complete:false})
     expect(f.save.knowledge.characters.sophie.some(id=>id.startsWith('OPEN-VH'))).toBe(false)
     expect(f.save.knowledge.characters.maya.some(id=>id.startsWith('OPEN-VH'))).toBe(false)
     expect(p.receipts?.filter(r=>r.recipient==='unknown')).toHaveLength(7)
@@ -180,8 +180,8 @@ describe('canonical Unknown Number / Version History',()=>{
     f.do({type:'panel',panel:'policy'}).do({type:'read-policy'}).do({type:'panel',panel:'index'}).do({type:'back'}).unknown()
     expect(f.node().id).toBe('OPEN-VH-GATE-02')
     f.sources().unknown();expect(f.node().id).toBe('OPEN-VH-C02')
-    f.atChoice('OPEN-VH-GATE-06');expect(f.save.chapter1!.versionHistory!.complete).toBe(false)
-    expect(scene01Choices(f.save)).toEqual([])
+    f.atChoice('OPEN-VH-C06');expect(f.save.chapter1!.versionHistory!.complete).toBe(false)
+    expect(f.save.chapter1!.versionHistory!.checklist).toHaveLength(4)
   })
   for(const b of versionHistoryDialogue[7].branches)it(`C08/${b.id}: reviewed request, receipt only and Scene 06 continuity`,()=>{
     const f=new ConversationFixture().core(),sophie=f.save.knowledge.characters.sophie

@@ -103,6 +103,8 @@ export function normalizeSave(input: unknown): GameSave {
   const record = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null && !Array.isArray(value)
   if (!record(input) || input.schemaVersion !== 1) throw new Error('Unsupported save schema')
   validateChapter1(input.chapter1)
+  if(input.chapter1Edition!==undefined&&input.chapter1Edition!=='ch01-v2-10')throw new Error('Invalid Chapter 1 edition')
+  if(input.chapter1Edition==='ch01-v2-10'&&input.chapter1!==undefined&&(!record(input.chapter1)||input.chapter1.version!==1))throw new Error('Invalid Chapter 1 v2 state')
   if (input.narrativePlan !== undefined && !['ch01-master-18','legacy-access'].includes(String(input.narrativePlan))) throw new Error('Invalid narrative plan')
   validateAccessState(input.chapter2Access)
   if (input.saveRevision !== undefined && (!Number.isSafeInteger(input.saveRevision) || Number(input.saveRevision) < 0)) throw new Error('Invalid save revision')

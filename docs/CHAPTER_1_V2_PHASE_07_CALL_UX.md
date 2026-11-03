@@ -1,0 +1,13 @@
+# Chapter 1 v2 — Phase 07 call and ending UX
+
+The finale now uses a reusable `PhoneCallScreen` for ringing, voicemail, connected dialogue and call termination. It shows Sophie's existing identity portrait, status, a timer based on the saved connection timestamp, a scrollable subtitle log and separate answer/decline controls. Player lines still require a selected response and a visible Say action. Subtitle appearance follows saved line timestamps; reload and app visibility changes catch up without replaying or duplicating the call.
+
+Audio uses short synthesized Web Audio tones for ringing, connection and ending, plus low ambience while connected. There are no licensed call audio or voice files in the repository. Tones start only after an actual pointer or keyboard gesture and honor the existing master, effects, music and volume settings. The general phone ambience is muted during the call; the warning has a brief quiet interval. Unsupported or blocked audio never blocks subtitles or controls. TTS is not enabled because no suitable Sophie voice asset or guaranteed platform voice is available.
+
+The end screen presents the chapter title, completion state, a source-limited evidence summary, and a Continue to Chapter Select action. Chapter 2 appears as locked in the chapter menu until a valid Chapter 1 completion. The player may start it from the menu or the ending screen; it never starts automatically. Historical Chapter 1 saves and the older route retain their existing IDs and completion fields.
+
+Critical call phases pause the app's unrelated story timer; pending events resume after the call ends. The call's own answer, decline and missed-call state remains persisted. Automated checks cover repeated ring suppression, save/restore, Chapter 2 gating, mobile-size touch UI, desktop UI, decline/callback, layout bounds and subtitles with Web Audio absent. Browser viewport testing is not a physical Android device test.
+
+## Verification on 2 November 2026
+
+TypeScript, lint, 1,438 unit tests and production build passed. The new call browser tests passed at 390×844 and 1280×800. The full Playwright run completed with 161 passed and 13 failed. Ten failures arose from the new Chapter 2 menu card and a changed legacy Scene 06 button label; after updating those expectations and restoring the label, the affected 17 tests passed on rerun. Two other legacy route failures passed when rerun with two workers. The remaining legacy desktop phone test reports a 0.9967 viewport ratio where it requires exactly 1; the call screen's own desktop and mobile overflow checks passed. No physical Android device test was performed.

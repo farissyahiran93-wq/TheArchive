@@ -1,3 +1,4 @@
+import { revisedScene0607Nodes } from './scene0607Revision'
 import type { Scene01Node } from './scene01'
 import { alignedScene04Nodes, conversationNodes } from './versionHistoryConversation'
 import { sourceInvestigationNodes } from './sourceInvestigations'
@@ -9,22 +10,22 @@ import { scene02DinnerRevision } from './scene02DinnerRevision'
 import { scene01Nodes } from './scene01'
 import type { OpeningState } from '../game/types'
 
-const finalNodes = { ...scene02DinnerRevision(actIFinalNodes), ...scene04Nodes, ...scene05Nodes, ...scene06Nodes, ...sourceInvestigationNodes, ...conversationNodes }
+const finalNodes = { ...scene02DinnerRevision(actIFinalNodes), ...scene04Nodes, ...scene05Nodes, ...scene06Nodes, ...sourceInvestigationNodes, ...revisedScene0607Nodes, ...conversationNodes }
 
 const alignedNodes:Record<string,Scene01Node>={...finalNodes,...alignedScene04Nodes, 'OPEN-S03-FINAL-AFTER-19-6':{...finalNodes['OPEN-S03-FINAL-AFTER-19-6'],text:'Goodbye.'} as typeof finalNodes[string]}
 
 const introNodes: Record<string, Scene01Node> = {
-  'OPEN-ORIGIN-EXPLAIN-2-1': { id:'OPEN-ORIGIN-EXPLAIN-2-1', kind:'npc', channel:'unknown', sender:'unknown', text:'The one connected to Daniel.', next:'OPEN-ORIGIN-INTRO-TRACES' },
-  'OPEN-ORIGIN-INTRO-TRACES': { id:'OPEN-ORIGIN-INTRO-TRACES', kind:'npc', channel:'unknown', sender:'unknown', text:'Some original material is missing, but references may still exist.', next:'OPEN-ORIGIN-INTRO-TOOL' },
-  'OPEN-ORIGIN-INTRO-TOOL': { id:'OPEN-ORIGIN-INTRO-TOOL', kind:'npc', channel:'unknown', sender:'unknown', text:"There's a tool that can help you examine what's missing. It's called TRACE.", next:'OPEN-ORIGIN-EXPLAIN-4' },
+  'OPEN-ORIGIN-EXPLAIN-2-1': { id:'OPEN-ORIGIN-EXPLAIN-2-1', kind:'npc', channel:'unknown', sender:'unknown', text:'A reference to the Bulletin article about Daniel.', next:'OPEN-ORIGIN-INTRO-TRACES' },
+  'OPEN-ORIGIN-INTRO-TRACES': { id:'OPEN-ORIGIN-INTRO-TRACES', kind:'npc', channel:'unknown', sender:'unknown', text:"The title is there, but the original article text isn't.", next:'OPEN-ORIGIN-INTRO-TOOL' },
+  'OPEN-ORIGIN-INTRO-TOOL': { id:'OPEN-ORIGIN-INTRO-TOOL', kind:'npc', channel:'unknown', sender:'unknown', text:'You can view the entry in an app called TRACE.', next:'OPEN-ORIGIN-EXPLAIN-4' },
   'OPEN-ORIGIN-EXPLAIN-4': { id:'OPEN-ORIGIN-EXPLAIN-4', kind:'choice', channel:'unknown', choices:[
     {id:'continue',text:'What exactly is TRACE?',next:'OPEN-ORIGIN-INTRO-CURIOUS'},
     {id:'continue-tone-1',text:"How did you get access to Daniel's files?",next:'OPEN-ORIGIN-INTRO-SUSPICIOUS'},
     {id:'continue-tone-2',text:'Why should I install something you sent?',next:'OPEN-ORIGIN-INTRO-CAUTIOUS'},
   ] },
-  'OPEN-ORIGIN-INTRO-CURIOUS': { id:'OPEN-ORIGIN-INTRO-CURIOUS', kind:'npc', channel:'unknown', sender:'unknown', text:"A tool for examining references. It can't tell you which ones to trust.", next:'OPEN-ORIGIN-EXPLAIN-5-1' },
-  'OPEN-ORIGIN-INTRO-SUSPICIOUS': { id:'OPEN-ORIGIN-INTRO-SUSPICIOUS', kind:'npc', channel:'unknown', sender:'unknown', text:"I can't verify where the collection came from, or whether these references came from Daniel's files.", next:'OPEN-ORIGIN-EXPLAIN-5-1' },
-  'OPEN-ORIGIN-INTRO-CAUTIOUS': { id:'OPEN-ORIGIN-INTRO-CAUTIOUS', kind:'npc', channel:'unknown', sender:'unknown', text:"You shouldn't install it just because I sent it. Inspect the package and decide for yourself.", next:'OPEN-ORIGIN-EXPLAIN-5-1' },
+  'OPEN-ORIGIN-INTRO-CURIOUS': { id:'OPEN-ORIGIN-INTRO-CURIOUS', kind:'npc', channel:'unknown', sender:'unknown', text:"It's how you open the collection. You'll still have to check whether the records are reliable.", next:'OPEN-ORIGIN-EXPLAIN-5-1' },
+  'OPEN-ORIGIN-INTRO-SUSPICIOUS': { id:'OPEN-ORIGIN-INTRO-SUSPICIOUS', kind:'npc', channel:'unknown', sender:'unknown', text:"I haven't established that these came from Daniel's files. I don't know who first assembled the collection.", next:'OPEN-ORIGIN-EXPLAIN-5-1' },
+  'OPEN-ORIGIN-INTRO-CAUTIOUS': { id:'OPEN-ORIGIN-INTRO-CAUTIOUS', kind:'npc', channel:'unknown', sender:'unknown', text:"You don't have to. Look at the package details first, then decide whether you want to install it.", next:'OPEN-ORIGIN-EXPLAIN-5-1' },
 }
 // New starts use distinct intentions while existing saves retain their pinned text and IDs.
 const revisedChoiceTexts: Record<string, readonly [string,string,string]> = {

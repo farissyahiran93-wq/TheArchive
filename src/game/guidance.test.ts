@@ -4,7 +4,7 @@ import { newGame } from './types'
 import { actINodes } from '../content/actIRegistry'
 import { currentObjective } from './guidance'
 import { normalizeSave } from './engine'
-import { canonicalSent } from './archiveOrigin'
+import { canonicalSent, canonicalSourceGate } from './archiveOrigin'
 import { ConversationFixture } from '../../tests/helpers/versionHistoryConversation'
 import { SourceFixture } from '../../tests/helpers/sourceInvestigation'
 import { readMenuPreferences, writeMenuPreferences } from './menuPreferences'
@@ -146,6 +146,19 @@ describe('TRACE introduction and conservative guidance', () => {
     expect(currentObjective(f.save)?.title).toBe('Inspect the public box index')
     expect(f.save.chapter1!.inventorySheet!.flags).not.toContain('box-index-read')
     expect(f.save.chapter1!.completed).not.toContain(10)
+  })
+
+  it('resumes an older in-progress comparison without the visual checklist but still requires all source reads', () => {
+    const f = new ConversationFixture().bridge().install().enter()
+    const p=f.save.chapter1!.versionHistory!;p.chatChoices={...p.chatChoices,s05_c05_comparison:'a'};p.checklist=[]
+    expect(canonicalSourceGate(f.save,'OPEN-VH-NEW-GATE-06')).toBe(false)
+    f.sources()
+    expect(canonicalSourceGate(f.save,'OPEN-VH-NEW-GATE-06')).toBe(true)
+    const scene=f.save.prologue!.scene01!;scene.nodeId='OPEN-VH-NEW-C06';scene.draft={nodeId:scene.nodeId,choiceId:'a'}
+    const node=actINodes(scene)[scene.nodeId];if(node.kind!=='choice')throw Error('Missing choice')
+    const result=canonicalSent(f.save,node,'a',f.now)
+    expect(result.chapter1!.versionHistory!.checklist).toEqual([0,1,2,3])
+    expect(result.chapter1!.versionHistory!.complete).toBe(false)
   })
 
 })

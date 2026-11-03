@@ -1,0 +1,190 @@
+{
+  "snapshotted": 13994,
+  "restored": 46,
+  "files": [
+    {
+      "path": "artifacts/chat-polish/sophie-320.png",
+      "sha256": "1386798184f9214e8a43bb0293ad296816eed45a691919d6af49e6d383fe6684"
+    },
+    {
+      "path": "artifacts/chat-polish/sophie-390.png",
+      "sha256": "45e619d8d4181ec568a08c3613c03a28066bdab428146b5f7c875ed3996e2d18"
+    },
+    {
+      "path": "artifacts/main-menu/chapters-320.png",
+      "sha256": "b7bce7bd43c822c603b243fd04bcc8c3d5cac459cfa50c56c1c20617fe54b0b0"
+    },
+    {
+      "path": "artifacts/main-menu/chapters-360.png",
+      "sha256": "ec46fd4677fba354e0a6aff0d7347f35633ec9fd8bd412f4b32c1ffcf9ada49a"
+    },
+    {
+      "path": "artifacts/main-menu/chapters-390.png",
+      "sha256": "e5817783b804deaa0f731ce712388d5b11577357b6072a1e6e9e9a19b7958fd0"
+    },
+    {
+      "path": "artifacts/main-menu/chapters-844.png",
+      "sha256": "75d0b6a9a940168966922958ee5792e9eb531c42cca4bbbf326ce77ff8ebe756"
+    },
+    {
+      "path": "artifacts/main-menu/menu-1440x1000.png",
+      "sha256": "9bdccacb9ceac07635f8b56267e129f333cc74bab8fafd6c0c38cdac58f06987"
+    },
+    {
+      "path": "artifacts/main-menu/menu-320x568.png",
+      "sha256": "be5edb297611a89b5c5c3c943af12d5ffe3d3a40ee3cf55722d0d334cdb8bcfd"
+    },
+    {
+      "path": "artifacts/main-menu/menu-360x780.png",
+      "sha256": "0d47e2a3b3b56e32a20e90cf0827dfbda9fecc41f65c4cb85b0d65518ae83e03"
+    },
+    {
+      "path": "artifacts/main-menu/menu-390x844.png",
+      "sha256": "0b89cf01a49d906b6591bf117a9f6d5aa50c959633f03ae0495c7a6128e0bafd"
+    },
+    {
+      "path": "artifacts/main-menu/menu-412x915.png",
+      "sha256": "4a159a96e850f8f5d114b70ce3918754f52a68b53687c6cbb7be070ea2b6bfee"
+    },
+    {
+      "path": "artifacts/main-menu/menu-844x390.png",
+      "sha256": "a54d9cec2004054b1981401f5d3211ded3c337638d3c1fb47587a8d5e24cc341"
+    },
+    {
+      "path": "artifacts/main-menu/new-game-confirmation.png",
+      "sha256": "fd9185c2a8f07e0594714d08d21ba8647811d9e8dde247dbd70e59486e7d42ac"
+    },
+    {
+      "path": "artifacts/main-menu/scenes-1440.png",
+      "sha256": "31c512edc87f26b8826d74b142fcbff7f408c620a99c48539e3ba700200d5b40"
+    },
+    {
+      "path": "artifacts/main-menu/scenes-320.png",
+      "sha256": "5245d1c8c261ea5f6fe39c2ee2f6d76503653d4b64af8dc3f289e75594e01d4e"
+    },
+    {
+      "path": "artifacts/main-menu/scenes-360.png",
+      "sha256": "ccb22a346c286209a60dc5d38394ada8a36e82d39e3fb3aed4b6fd5da3e38a6c"
+    },
+    {
+      "path": "artifacts/main-menu/scenes-390.png",
+      "sha256": "ab0f6081283611432d5e67d488a131b6288e8a071c9eb0ed9922405f424fe859"
+    },
+    {
+      "path": "artifacts/main-menu/scenes-412.png",
+      "sha256": "ccfc71a38aa2044b37818069cfc2f4c4cb62206af2704df6c4cb557f1ba29b81"
+    },
+    {
+      "path": "artifacts/main-menu/settings-1440.png",
+      "sha256": "1195cd4943326d58c26b0e9dcd064798333c6eee937d454d01dce1040359314d"
+    },
+    {
+      "path": "artifacts/main-menu/settings-320.png",
+      "sha256": "0b493daf23c341e6947d9e38d25af0968cef695bd0bba5123ac3d1ed2f682aae"
+    },
+    {
+      "path": "artifacts/main-menu/settings-360.png",
+      "sha256": "efa1b6828d418c101faf8fbcc3ccc890ba811b9444f82295ab21dfa026677bbf"
+    },
+    {
+      "path": "artifacts/main-menu/settings-390.png",
+      "sha256": "7451b85e23a1402a246398632f9df8531f5035c516358584638ca73908923854"
+    },
+    {
+      "path": "artifacts/main-menu/settings-412.png",
+      "sha256": "5ea8a175f300b1d1a45f16815f430ff660509853b95b8cbfc6d1b001548870d5"
+    },
+    {
+      "path": "artifacts/main-menu/settings-844.png",
+      "sha256": "6a46c768d671587d0eb000c360845152bbcf1b163ea8c7bef278e69f14d47277"
+    },
+    {
+      "path": "artifacts/scene-message-markers/find-daniel.png",
+      "sha256": "89fa653e167da49f9c002312d018e7b05e9233c3ade0ca10e50ea8447de76f20"
+    },
+    {
+      "path": "qa/iphone-redesign/apps/daniel-home-redesign-390.png",
+      "sha256": "e679160951c0618d11b9649711fec7e6eed680a0afdc5c39fb1bec4a710b2003"
+    },
+    {
+      "path": "qa/iphone-redesign/apps/daniel-messages-redesign-390.png",
+      "sha256": "a7c32c7bfcf30ebf5e61369e43404ef83656ce3a44e44d46f9203f02b899d08a"
+    },
+    {
+      "path": "qa/iphone-redesign/apps/password-375x480.png",
+      "sha256": "96d3d3566ee1880a27f0af2dfae96b0b137e2a2e14131df163a8d5a9f00dc73d"
+    },
+    {
+      "path": "qa/phase-03a/after-reload-390x844.png",
+      "sha256": "973fd60c6f4f7cba28199e7d86961949efe3649ec972520a1c95e1457b25e731"
+    },
+    {
+      "path": "qa/phase-03a/handle-focused-390x560.png",
+      "sha256": "62df6ada317f8768dda3734cfeda2eabf4fc4765a191f96e08292626527a7269"
+    },
+    {
+      "path": "qa/phase-03a/home-390x844.png",
+      "sha256": "9e6d8d29735e91e91a32386a82c8a4c3c32612626c8b785f92328c6814e6c1ab"
+    },
+    {
+      "path": "qa/phase-03a/investigation-390x844.png",
+      "sha256": "5f89ea5814eb9204a80d4f0c9266365924533d9f967196e23011df61c3c31ac3"
+    },
+    {
+      "path": "qa/phase-03a/maya-chat-390x844.png",
+      "sha256": "91afa25be64af65c8389e5f43985c08138dc9f95631730111cf7cddfd80d3ea1"
+    },
+    {
+      "path": "qa/phase-03b/case-board-390x844.png",
+      "sha256": "1e40df7c022f3a641e5ed8eb9d62fd5a2f107affb63944248322b1b8aa969bdd"
+    },
+    {
+      "path": "qa/phase-03b/e012-review-390x844.png",
+      "sha256": "13533e4ef4a91bef562137122f84f4bd2461caa75fcc913c674b70850637ba6b"
+    },
+    {
+      "path": "qa/phase-03b/editor-note-quiet-390x844.png",
+      "sha256": "2485c316efafb1842934b40530977d8a4dc9ccc4afb030252b6a506686d9cfd7"
+    },
+    {
+      "path": "qa/phase-03b/s30-quiet-390x844.png",
+      "sha256": "904b1e5881df233a986ce90165ccf09bbb7e3adc600d7d71c131fa9ba5201bb7"
+    },
+    {
+      "path": "qa/phase-03c/gcro-correction-pending-390x844.png",
+      "sha256": "25daedbc7bcccda462d161aa1ff1827b3713cc814ef3c310068320bce2d7edc6"
+    },
+    {
+      "path": "qa/phase-03c/gcro-delayed-390x844.png",
+      "sha256": "f593defba1b205365aff0685a371d07a6152b8237d27b546170d86c3bc162f97"
+    },
+    {
+      "path": "qa/phase-03c/gcro-invalid-390x844.png",
+      "sha256": "37232c60116658c5b49cbf4b7e59c42ab00eddb7bce6628ca7825e715592b673"
+    },
+    {
+      "path": "qa/phase-03c/gcro-refused-390x844.png",
+      "sha256": "f593defba1b205365aff0685a371d07a6152b8237d27b546170d86c3bc162f97"
+    },
+    {
+      "path": "qa/phase-03c/s30-role-unknown-390x844.png",
+      "sha256": "ebb8af59423c9d3e729ee61c38e8897df166e96a8a83f848ec57aec2062cea23"
+    },
+    {
+      "path": "qa/phase-03c/save-conflict-390x844.png",
+      "sha256": "39ca94a7ce7a1fc5e17957dc7a52f98ffda3d453ec6f7c154f042b6a08c29dbc"
+    },
+    {
+      "path": "qa/phone-interaction/group-banner.png",
+      "sha256": "4c9fc2e8b0b5034349e3cfc221a513c257661dfd0344d7a823a25a0d9bb94cda"
+    },
+    {
+      "path": "qa/scene01/invitation.png",
+      "sha256": "3274edcf75b16fc277fdde4a03d2738ddc5dd45a6a3e52b501f37cedc34fb757"
+    },
+    {
+      "path": "qa/ui-01/home-desktop-1280x900.png",
+      "sha256": "7b7919ab8a260bdf652883cb739a918613171a9ac11d1f247ec1f11023d70bb8"
+    }
+  ]
+}

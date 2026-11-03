@@ -1,3 +1,4 @@
+import { correctionsDeskAction, deskPut } from './scene06'
 import { conversationNodeForValidation } from '../content/actIRegistry'
 import type { GameSave } from './types'
 import type { Scene01Node } from '../content/scene01'
@@ -104,7 +105,7 @@ export function canonicalSourceGate(s:GameSave,id:string):boolean {
   if(id.endsWith('03'))return p.flags.includes('index')
   if(id.endsWith('04'))return p.flags.includes('policy')
   if(id.endsWith('05'))return ['public','index','policy'].every(f=>p.flags.includes(f))
-  if(id.endsWith('06'))return p.checklist.length===4
+  if(id.endsWith('06'))return p.checklist.length===4 || !!p.chatChoices?.s05_c05_comparison && ['public','index','policy'].every(f=>p.flags.includes(f))
   return true
 }
 export function openCanonicalThread(s:GameSave,t:'unknown'|'sophie'|'group',now:number):GameSave {
@@ -142,6 +143,7 @@ export function canonicalSent(s:GameSave,node:Extract<Scene01Node,{kind:'choice'
       const interpretation=num===1?'preference':num===6?'strategy':num===7?'shared_assessment':choiceId==='a'?'supported_observation':choice.text.endsWith('?')?'question':'hypothesis'
       patch.interpretations={...p.interpretations,[node.number!]:interpretation}
       if(num===5)patch.comparisonStatus='unavailable'
+      if(num>=5 && ['public','index','policy'].every(flag=>p.flags.includes(flag)) && (num===5 || p.chatChoices?.s05_c05_comparison))patch.checklist=[0,1,2,3]
       if(num===6)patch.strategy=p.flags.includes('new_dialogue')&&!scene.traceIntroRevision?'publisher_clarification':({a:'publisher_clarification',b:'independent_copy',c:'preserve_uncertainty'} as const)[choiceId as 'a']
       if(num===7)patch.assessment=p.flags.includes('new_dialogue')&&!scene.traceIntroRevision?'reference_without_verified_revision':({a:'reference_without_verified_revision',b:'revision_question_unresolved',c:'maintain_source_separation'} as const)[choiceId as 'a']
       s=versionHistoryPut(s,patch)
@@ -163,6 +165,8 @@ export function canonicalEnd(s:GameSave,id:string,now:number):GameSave {
   if(thread!=='unknown')return s
   s=versionHistoryPut(s,{complete:true})
   s={...s,chapter1:{...s.chapter1!,completed:[...new Set([...s.chapter1!.completed,4,5])]},evidence:{...s.evidence,'EV-S05-REVISION-LIMIT-001':{id:'EV-S05-REVISION-LIMIT-001',source:`PLAYER_PRIVATE / ${p.assessment} / revision history UNVERIFIED / no earlier text`,verified:false,collectedAt:now}}}
+  s=deskPut(correctionsDeskAction(s,{type:'activate'},now),{visible:false})
+  if(s.chapter1?.correctionsDesk?.flowRevision==='2026-10-31'&&!s.deliveredEvents.includes('CH1-S06-LEAD'))s={...s,deliveredEvents:[...s.deliveredEvents,'CH1-S06-LEAD'],notifications:[...s.notifications,{id:'CH1-S06-LEAD',text:'NEW LEAD — THE CORRECTIONS DESK',read:false}]}
   if(p.flags.includes('new_dialogue'))return versionHistoryPut(s,{sophieNotified:true,flags:[...new Set([...s.chapter1!.versionHistory!.flags,'group-notified'])]})
   return schedule(schedule(s,'CH1-VH-SOPHIE',now+3000),'CH1-VH-GROUP',now+4500)
 }
@@ -204,7 +208,13 @@ export function canonicalVersionAction(s:GameSave,a:VersionHistoryAction,now:num
   if(a.type==='cancel'||a.type==='save-draft')return versionHistoryPut(s,{panel:'home',inquiry:{...p.inquiry,reviewed:false}})
   if(a.type==='send-request'&&p.panel==='form'&&p.inquiry.reviewed&&p.inquiry.text&&!p.inquiry.receipt){
     const receipt={id:'R-GB-VH-001' as const,text:p.inquiry.text,at:now}
-    return {...versionHistoryPut(s,{panel:'receipt',inquiry:{...p.inquiry,status:'delivered',receipt},chatChoices:{...p.chatChoices,s05_c08_corrections_question:p.inquiry.choice!}}),deliveredEvents:[...new Set([...s.deliveredEvents,receipt.id])]}
+    s={...versionHistoryPut(s,{panel:'receipt',inquiry:{...p.inquiry,status:'delivered',receipt},chatChoices:{...p.chatChoices,s05_c08_corrections_question:p.inquiry.choice!}}),deliveredEvents:[...new Set([...s.deliveredEvents,receipt.id])]}
+    const desk=s.chapter1?.correctionsDesk
+    if(desk?.flowRevision==='2026-10-31'&&!desk.prior&&['a','b','c'].includes(p.inquiry.choice??'')){
+      s=deskPut(s,{prior:{id:'R-GB-VH-001',choice:p.inquiry.choice as 'a'|'b'|'c',text:receipt.text}})
+      s=schedule(s,'CH1-S06-DESK-REPLY',now+1600)
+    }
+    return s
   }
   return s
 }

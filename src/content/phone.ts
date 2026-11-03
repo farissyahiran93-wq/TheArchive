@@ -14,7 +14,7 @@ export const apps = [
   { id: 'alerts', label: 'Alerts', icon: Bell, color: 'violet' },
   { id: 'calendar', label: 'Calendar', icon: CalendarDays, color: 'sand' },
   { id: 'notes', label: 'Notes', icon: NotebookPen, color: 'sand' },
-  { id: 'mail', label: 'Mail', icon: Mail, color: 'blue' },
+  { id: 'mail', label: 'Email', icon: Mail, color: 'blue' },
   { id: 'settings', label: 'Settings', icon: Settings2, color: 'blue' },
 ] as const
 

@@ -2,7 +2,6 @@ import { test,expect,type Page } from '@playwright/test'
 import { ConversationFixture } from '../helpers/versionHistoryConversation'
 import { seedScene,sceneReply } from './scene01-helper'
 import { versionHistoryDialogue } from '../../src/content/versionHistoryConversationData'
-import { verificationGaps } from '../../src/content/versionHistoryConversation'
 const click=(p:Page,name:string)=>p.getByRole('button',{name,exact:true}).first().click()
 const home=(p:Page)=>click(p,'Go home')
 const unknown=async(p:Page)=>{await click(p,'Open Messages');await p.getByRole('button',{name:/Open Chapter 1 Unknown Sender conversation/}).click();await p.clock.runFor(120000)}
@@ -18,7 +17,15 @@ test('Unknown origin: notification, explicit bridge Sends, cancel, installation 
   await unknown(page)
   await expect(page.getByRole('button',{name:'Send',exact:true})).toBeDisabled()
   const replies=['Who is this?',"That doesn't answer my question.",'Then why should I trust you?','What record?','What exactly is TRACE?',"So it's a backup?",'Where did it come from?',"And I'm supposed to believe that?",'Why send it to me?',"What's in the reference?"]
-  for(const reply of replies){await expect(page.locator('.scene01-options .opening-choice')).toHaveCount(['Who is this?','What exactly is TRACE?'].includes(reply)?3:1);await sceneReply(page,reply)}
+  for(const reply of replies){
+    await expect(page.locator('.scene01-options .opening-choice')).toHaveCount(['Who is this?','What exactly is TRACE?'].includes(reply)?3:1)
+    await sceneReply(page,reply)
+    if(reply==='What record?'){
+      await expect(page.getByText('A reference to the Bulletin article about Daniel.',{exact:true})).toBeVisible()
+      await expect(page.getByText('You can view the entry in an app called TRACE.',{exact:true})).toBeVisible()
+      await expect(page.getByText('Something indexed under a name.',{exact:true})).toHaveCount(0)
+    }
+  }
   await expect(page.locator('.chat-contact-avatar .message-avatar').last()).toHaveText('UK')
   await expect(page.locator('.opening-chat-header .opening-avatar')).toHaveText('UK')
   await expect(page.getByRole('button',{name:'VIEW ACCESS PACKAGE',exact:true})).toBeVisible()
@@ -37,10 +44,8 @@ test('Unknown origin: notification, explicit bridge Sends, cancel, installation 
   await expect(page.getByRole('button',{name:'Open TRACE',exact:true})).toBeVisible()
   await click(page,'Open TRACE');await expect(page.getByText('ACCESS: PARTIAL',{exact:true})).toBeVisible()
   await expect(page.getByText('RECOVERED RECORDS: 0',{exact:true})).toBeVisible()
-  await page.getByText('TRACE tools · Access overview',{exact:true}).click()
-  await expect(page.locator('.trace-tools li').filter({hasText:'AVAILABLE'})).toHaveCount(1)
-  await expect(page.locator('.trace-tools li').filter({hasText:'LOCKED'})).toHaveCount(7)
-  await page.screenshot({path:'artifacts/greyhaven-rebrand/trace-initial-320.png',animations:'disabled',scale:'css'})
+  await expect(page.getByText('TRACE tools · Access overview',{exact:true})).toHaveCount(0)
+  await expect(page.getByRole('region',{name:'Current lead'})).toHaveCount(0)
   await click(page,'ARC-IDX-GB-041');await expect(page.getByText('AUTHENTICITY: UNVERIFIED',{exact:false})).toBeVisible()
   await expect(page.getByRole('button',{name:'REVIEW VERSION HISTORY',exact:true})).toBeEnabled()
   await click(page,'REVIEW VERSION HISTORY');await expect(page.getByRole('region',{name:'Version History investigation'})).toBeVisible()
@@ -76,7 +81,7 @@ for(const width of [320,430])test(`Version History source investigation, chat dr
   await click(page,'Send');await page.clock.runFor(120000)
   for(let i=1;i<5;i++)await sceneReply(page,versionHistoryDialogue[i].branches[width===320?1:2].text)
   await home(page);await click(page,'Open TRACE')
-  for(const [title] of verificationGaps){await page.getByRole('button',{name:new RegExp(title)}).click();await click(page,'MARK REVIEWED')}
+  await expect(page.getByRole('heading',{name:'Verification gaps'})).toHaveCount(0)
   await home(page);await unknown(page)
   await sceneReply(page,versionHistoryDialogue[5].branches[1].text)
   await sceneReply(page,versionHistoryDialogue[6].branches[2].text)
@@ -98,7 +103,7 @@ for(const width of [320,430])test(`Version History source investigation, chat dr
   await click(page,'SEND REQUEST');await expect(page.getByText('Status: RESPONSE PENDING',{exact:true})).toBeVisible()
   await flush(page);await page.reload();await click(page,'Unlock phone');await click(page,'Open TRACE')
   await expect(page.getByRole('heading',{name:'VERSION HISTORY — REVIEWED',exact:true})).toBeVisible()
-  await click(page,'OPEN NEXT LEAD');await expect(page.getByRole('heading',{name:'THE CORRECTIONS DESK',exact:true})).toBeVisible()
+  await click(page,'THE CORRECTIONS DESK');await expect(page.getByRole('heading',{name:'THE CORRECTIONS DESK',exact:true})).toBeVisible()
 })
 
 
@@ -118,13 +123,13 @@ test('new dialogue: flexible source discussions, explicit Send, reload and Scene
   await flush(page);await page.reload();await click(page,'Unlock phone');await unknown(page)
   await expect(page.getByText('You found it.',{exact:true})).toHaveCount(1)
   await home(page);await click(page,'Open TRACE')
-  for(const [title] of verificationGaps){await page.getByRole('button',{name:new RegExp(title)}).click();await click(page,'MARK REVIEWED')}
+  await expect(page.getByRole('heading',{name:'Verification gaps'})).toHaveCount(0)
   await home(page);await unknown(page)
   await sceneReply(page,"I'll ask the publisher what records are available.")
   await sceneReply(page,'The references match, but a wording change remains unverified.')
   await home(page);await click(page,'Open TRACE')
   await expect(page.getByRole('heading',{name:'VERSION HISTORY — REVIEWED'})).toBeVisible()
-  await click(page,'OPEN NEXT LEAD');await expect(page.getByRole('heading',{name:'THE CORRECTIONS DESK'})).toBeVisible()
+  await click(page,'THE CORRECTIONS DESK');await expect(page.getByRole('heading',{name:'THE CORRECTIONS DESK'})).toBeVisible()
 })
 
 

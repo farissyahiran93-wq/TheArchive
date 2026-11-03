@@ -1,0 +1,7 @@
+{
+  "src/content/actIRegistry.ts": "b7a84b291b5f546325aaa0077c7af0d21c56c21c2868010f6842536bcdc607a8",
+  "src/content/versionHistoryConversationData.ts": "a008154c9d55424f9037ed7f1d4d0aa03dced8d1241d1e47f07459a8850fc8ec",
+  "scripts/import-version-history-conversation.py": "9d49f8e3db105703e06098f1db33df712742f1eb6de476a2651e186f54a54d90",
+  "tests/e2e/version-history-conversation.spec.ts": "5f59e86fb0697ae8a0593586895bd9cd8257907006f1c6afcc326888628ed4ca",
+  "docs/sources/trace-origin-2026-11-02/NARRATIVE.md": "fcab6385d3e93919c9296ba65d09b9861ced3f32af1bc82505c6a8c035817b4b"
+}

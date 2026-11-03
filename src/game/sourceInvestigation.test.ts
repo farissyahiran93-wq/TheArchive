@@ -1,6 +1,8 @@
 import {describe,it,expect} from 'vitest'
 import {readFileSync} from 'node:fs'
 import {createHash} from 'node:crypto'
+import {Scene05Fixture} from '../../tests/helpers/scene05Final'
+import {correctionsDeskAction} from './scene06'
 import {SourceFixture} from '../../tests/helpers/sourceInvestigation'
 import {sourceInvestigations,sourceInvestigationNodes} from '../content/sourceInvestigations'
 import {sourceAction,sourceState,sourceTick,sourceEligible,sourceReady,sourceAskFirst,pauseSource,validateSourceInvestigation} from './sourceInvestigation'
@@ -9,6 +11,25 @@ import {normalizeSave} from './engine'
 import {newGame} from './types'
 
 describe('Final source investigations',()=>{
+ it('new private findings require the observed sources and survive a save reload',()=>{
+  const f=new Scene05Fixture();f.core();f.do({type:'local',id:'S05-C11',choice:'a'})
+  let save=correctionsDeskAction(f.save,{type:'activate'},f.now)
+  expect(correctionsDeskAction(save,{type:'save-finding'},f.now)).toBe(save)
+  save=correctionsDeskAction(save,{type:'panel',panel:'register'},f.now)
+  const knowledge=structuredClone(save.knowledge.characters)
+  save=correctionsDeskAction(save,{type:'save-finding'},f.now)
+  expect(save.chapter1?.correctionsDesk?.complete).toBe(true)
+  expect(save.chapter1?.byline).toMatchObject({complete:false,visible:false})
+  expect(save.knowledge.characters).toEqual(knowledge)
+  save=sourceAction(save,7,{type:'enter'},f.now)
+  expect(sourceAction(save,7,{type:'save-source-question'},f.now)).toBe(save)
+  for(const page of ['article','profile']){save=sourceAction(save,7,{type:'panel',panel:page},f.now);save=sourceAction(save,7,{type:'read',page},f.now)}
+  save=sourceAction(save,7,{type:'save-source-question'},f.now)
+  expect(save.chapter1?.byline?.complete).toBe(true)
+  expect(save.chapter1?.issuer).toMatchObject({complete:false,visible:false})
+  expect(save.knowledge.characters).toEqual(knowledge)
+  expect(normalizeSave(JSON.parse(JSON.stringify(save)))).toEqual(save)
+ })
  for(const n of [7,8] as const){
   it(`pins Scene ${n} dialogue, pages and all stable choices to its manuscript`,()=>{
    const raw=readFileSync(`docs/sources/scene0${n}-final/FULL_SCRIPT.txt`),s=raw.toString('utf8').replace(/\s+/g,' '),c=sourceInvestigations[n]

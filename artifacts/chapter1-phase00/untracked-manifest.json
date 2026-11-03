@@ -1,0 +1,147 @@
+[
+  {
+    "path": "artifacts/GREYHAVEN_2026-10-31_Scene06-07_Update.apk",
+    "bytes": 23581054,
+    "sha256": "66f420e6677cf18a9bb53ce4831ba3c8eb4c651d0f173ad2bd3b436e002646ae"
+  },
+  {
+    "path": "artifacts/greyhaven-rebrand/owner-video-0.png",
+    "bytes": 122617,
+    "sha256": "345daccecad1e69534851a08c7c16c453b32e5dce746832a10780422c5e97a68"
+  },
+  {
+    "path": "artifacts/greyhaven-rebrand/owner-video-1.png",
+    "bytes": 119137,
+    "sha256": "db51ba4a8544356e431885e6d3c0c4b3435ace92821fb512e56b3ce9c34d4939"
+  },
+  {
+    "path": "artifacts/greyhaven-rebrand/owner-video-2.png",
+    "bytes": 135616,
+    "sha256": "a49bcefb90fdc14bf18e722983300834f30d6af75d34b163ec8599a4bfdd9466"
+  },
+  {
+    "path": "artifacts/greyhaven-rebrand/owner-video-3.png",
+    "bytes": 134818,
+    "sha256": "5550106066a1581f06e8b1ebc494b09fbd20f7cd79d1d8c54778909846b62c67"
+  },
+  {
+    "path": "artifacts/greyhaven-rebrand/owner-video-4.png",
+    "bytes": 127740,
+    "sha256": "5e5d5a3c50c670b1d24e23c297ab58b9414d4619533b1e67e74fd15f9c82ad02"
+  },
+  {
+    "path": "artifacts/greyhaven-rebrand/read-owner-video.mjs",
+    "bytes": 700,
+    "sha256": "2204395b66c4cf4d240ed827d6112c9d0bb1b068f912a9509018baf35886fa89"
+  },
+  {
+    "path": "artifacts/trace-origin-2026-11-02/rerun-results/.last-run.json",
+    "bytes": 96,
+    "sha256": "165ae1079011c4070a16ad2c5c09eff4ac96d2fe10cb0219a9eb6942a0d72789"
+  },
+  {
+    "path": "artifacts/trace-origin-2026-11-02/rerun-results/phone-polish-phone-presentation-remains-usable-at-1280x900/error-context.md",
+    "bytes": 7544,
+    "sha256": "d202ffb954a44db1e85d9d3e431c6690feb9b1aa3a7d0897be8a581fac7e5bce"
+  },
+  {
+    "path": "artifacts/trace-origin-2026-11-02/rerun-results/phone-polish-phone-presentation-remains-usable-at-1280x900/lock-1280x900.png",
+    "bytes": 879263,
+    "sha256": "e51aff189ce8864689934ac42a94db37142d6c2b84705fa3f855773ea1058f6e"
+  },
+  {
+    "path": "artifacts/trace-origin-2026-11-02/rerun-results/version-history-conversati-346f1-and-manual-handoff-at-430px/policy-430.png",
+    "bytes": 188894,
+    "sha256": "8fd82d7603d1a83b7ec2ae123dc3b55dcb91d97f2a84585bffe1f431d6dca166"
+  },
+  {
+    "path": "artifacts/trace-origin-2026-11-02/rerun-results/version-history-conversati-346f1-and-manual-handoff-at-430px/reviewed-430.png",
+    "bytes": 155330,
+    "sha256": "111e26b94412308aac98db1023344876cef86ff0ed9fdf32902d86db81a1ec73"
+  },
+  {
+    "path": "artifacts/trace-origin-2026-11-02/rerun-results/version-history-conversati-610c7-and-manual-handoff-at-320px/policy-320.png",
+    "bytes": 167967,
+    "sha256": "738e3b808330c4e37c349461892279d05dd58a850d05340f436980a230586154"
+  },
+  {
+    "path": "artifacts/trace-origin-2026-11-02/rerun-results/version-history-conversati-610c7-and-manual-handoff-at-320px/reviewed-320.png",
+    "bytes": 153106,
+    "sha256": "19f1877f5b354a546f2d41624bdb7f087451a138034cde3dff0dcaca23821408"
+  },
+  {
+    "path": "artifacts/trace-origin-2026-11-02/rerun-results/version-history-conversati-b4cba--and-manual-reference-entry/installation-complete-320.png",
+    "bytes": 521872,
+    "sha256": "69ec1a96702ca44569776145dfd191065d2009bd145880f1357ee60c41407035"
+  },
+  {
+    "path": "artifacts/trace-origin-2026-11-02/rerun-results/version-history-conversati-b4cba--and-manual-reference-entry/workspace-320-light.png",
+    "bytes": 141235,
+    "sha256": "b9d92e2f94a2a332c4f186e8ba588c0923281cba7f70bdc340c72d1fa9d94354"
+  },
+  {
+    "path": "artifacts/trace-origin-2026-11-02/restored-screenshots.json",
+    "bytes": 7218,
+    "sha256": "8122f78cbf0f0edce273044536283229963ec2c4def6ca4e78207c1bb28ab19c"
+  },
+  {
+    "path": "artifacts/trace-origin-2026-11-02/source-integrity-after.json",
+    "bytes": 823,
+    "sha256": "e2ded416725ac432665fb8c1fab09914ec0e5dbbc30e527b328c496912d3e53d"
+  },
+  {
+    "path": "artifacts/trace-origin-2026-11-02/source-integrity.json",
+    "bytes": 591,
+    "sha256": "df139cfb45367ec27d883eed8eaa7aae22c1d7b97dcd275a6c270abe95f207db"
+  },
+  {
+    "path": "artifacts/trace-origin-2026-11-02/validation.json",
+    "bytes": 1945,
+    "sha256": "da42458c046b19474d259414a1db3ccb6601a03d392e47a91e9353e67be3a211"
+  },
+  {
+    "path": "docs/APK_UPDATE_2026-10-31.md",
+    "bytes": 1038,
+    "sha256": "01d93c882fdc18431bf11d86d039f5e6e6f48d2a985aa0dafdf2c897a3fddca3"
+  },
+  {
+    "path": "docs/SCENES_06_07_REVISION_2026-10-31.md",
+    "bytes": 2997,
+    "sha256": "ae9683142251639894ae84f3b2e02110f63f9b94aa80be16d96e152f7e43a9fc"
+  },
+  {
+    "path": "docs/TRACE_ORIGIN_DIALOGUE_2026-11-02.md",
+    "bytes": 5310,
+    "sha256": "4e3747f0bbaa60b99f87131d6f471b4ee42d2106f0eb402a4ff1c8d496de23da"
+  },
+  {
+    "path": "docs/sources/scene06-07-revision-2026-10-31/markdown.txt",
+    "bytes": 42209,
+    "sha256": "ab38d21b2a340890fc119c2925b20098cdc83e9be7242bdc409684285bef16a8"
+  },
+  {
+    "path": "docs/sources/scene06-07-revision-2026-10-31/plain.txt",
+    "bytes": 39314,
+    "sha256": "1b4c391b7ef9bff1b942b071c7842bc72b21a622e4555fc6c1f08f01dfac3ba0"
+  },
+  {
+    "path": "docs/sources/trace-origin-2026-11-02/NARRATIVE.md",
+    "bytes": 3176,
+    "sha256": "fcab6385d3e93919c9296ba65d09b9861ced3f32af1bc82505c6a8c035817b4b"
+  },
+  {
+    "path": "src/content/scene0607Revision.ts",
+    "bytes": 9874,
+    "sha256": "6c59c0e2a3b016c03df3bc22c94a2c4525e8a3c09dfbaa30770db7fd91c6fe18"
+  },
+  {
+    "path": "src/game/scene0607Revision.test.ts",
+    "bytes": 6899,
+    "sha256": "78722991e375c65675cba2af0284310563be9dc2877fd78e93f9ae017a88c1e2"
+  },
+  {
+    "path": "tests/e2e/scene0607-email.spec.ts",
+    "bytes": 5269,
+    "sha256": "ea33c033867adfba5c05ad89b924f0ad33fdb3a1c9ff25b6d0dfdc552a772641"
+  }
+]

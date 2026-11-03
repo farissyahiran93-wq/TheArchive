@@ -1,0 +1,820 @@
+# THE ARCHIVE — SCENE 06 & 07
+## PRODUCTION-READY CODEX MASTER PROMPT + COMPLETE PLAYABLE DIALOGUE
+
+**Scope:** Chapter 2, Scene 06 — `THE CORRECTIONS DESK` → Scene 07 — `THE BYLINE`  
+**Goal:** Natural, suspenseful, mobile-first detective storytelling rather than document audits.  
+**Instruction to Codex:** IMPLEMENT in the existing repository. Do not simply summarize this prompt or create disconnected demo components. Inspect the live code, preserve canon and existing saves, integrate all dialogue into the actual story runtime, run tests, and report the results.
+
+---
+
+## 0. NON-NEGOTIABLE CONTINUITY
+
+Read the existing story bible, current Scene 04–07 data, application registry, dialogue runner, Story/Knowledge/Relationship/Event state, notifications, and save migrations **before editing**. The canonical repository is authoritative where its facts differ from an illustrative line below. Preserve existing IDs; use proposed IDs as aliases only when no collision exists. If a proposed beat contradicts confirmed canon, keep the canon and adjust only the prose/branch to match, reporting the adjustment.
+
+Confirmed boundaries to preserve:
+
+- Chapter 2 uses Daniel Mercer, Greyhaven Bulletin, author Nora Vance, and the incomplete public article/archive-index trail. Daniel is associated with Axiom Recovery. His fate is unresolved.
+- Existing public article: `GB-ARTICLE-001`, **“Questions Remain After Greyhaven Data Specialist Stops Responding”**, by Nora Vance, published **7 October 2026**, with an authored `Updated: Yesterday` label. Preserve its six existing paragraphs, metadata, and story-local label; do not calculate the update label using today's real date.
+- `ARC-IDX-GB-041` is **metadata only**. Matching reference IDs are not proof that the index is authentic or that an earlier article was changed. There is no authenticated original article body, complete before/after pair, or verified capture time.
+- Scene 05's existing publisher-request delivery receipt is `R-GB-VH-001` (if present in the runtime). **It exists only after the player explicitly selects and sends the request.** Merely previewing/choosing a question is not delivery.
+- Scene 06's proposed new request receipt `R-GB-CD-002` confirms **delivery only**, not receipt of a publisher answer and not factual validity.
+- The public corrections register lists **no formal public correction notice for this article**. That is not proof there was no change, nor proof that an edit occurred.
+- Nora Vance is the public **byline author**, not a verified site editor. Who edited the page, whether the body changed, what an older copy said, and whether the Archive index is authentic all remain unresolved.
+- The Unknown Number's identity, Archive Access Package origin, `7-14`, `E—I`, Session 02, Participant B, and Daniel's fate must **not** be resolved or artificially connected to the newspaper in these scenes.
+- Sophie, Maya, Lucas, and other characters know only what they witnessed or were explicitly told. Do not leak private information to NPCs or group chats. A relationship-sensitive or private-channel branch may appear **only when an actual authorized channel exists**.
+- All **player** messages require a visible choice/composer and an actual **Send** action; never auto-send, including after save/load.
+
+**Authoring boundary:** Dialogue below is the requested NEW screenplay for this refactor, not a claim that these lines already exist in the repository. Use existing canonical dialogue where conflict occurs. In particular, do not invent a named original issuing office, a real contact address, new authenticated article history, a publisher's admission, or a link from the article to a major protected clue.
+
+---
+
+## 1. GAMEPLAY EXPERIENCE — THE NEW RULES
+
+### Scene 06 desired duration and mechanics
+
+- Core experience: approximately **3–5 minutes** at natural reading speed. Optional correspondence can extend it.
+- Scene 05 completion immediately sets Scene 06 as **active/unlocked** (not necessarily forces screen navigation). Remove the artificial `OPEN NEXT LEAD` button/gate. Let the player retain UI control and encounter a contextual, non-blocking notification or lead tile.
+- Main path requires only: **open the register → understand its single verified finding → save one private note**. No three-card inspections, repeated `READ/ACKNOWLEDGE`, or C03/C04/C07 exam questions.
+- Email and the Corrections Desk in Messages are **optional narrative depth**. Lack of prior email request must not soft-lock the main path.
+- Once the private finding is saved, Scene 06 is complete; Scene 07 automatically becomes active/unlocked. Do not require `OPEN NEXT LEAD`. Open Nora's byline/profile entry organically from the article or via a new lead card, without asserting she is the editor.
+
+### Scene 07 desired duration and mechanics
+
+- Core experience: approximately **4–7 minutes** including optional Nora chat. Shift focus to a **human being**, not another document review.
+- Core progression: inspect the existing byline → find a professional contact route from an **existing or verifiable in-game professional directory** → record a source-oriented next question. Sending Nora a message and receiving her reply remain optional unless the existing canonical story explicitly requires contact; never force a message from the player.
+- Nora can respond only to a **sent** professional inquiry and after a saved event. Dialogue is emotionally believable, careful with facts, and does **not** expose protected plot answers.
+- Contact destination must be grounded in the existing byline/professional directory. Do not hardcode a fabricated email address, phone number, social handle, or external real-world URL. If the exact contact does not exist, create a fictional in-game directory channel with explicit provenance tied to the article byline, not a claim of independent third-party verification.
+- The next investigation axis is **where the original account/information came from**, not more attempts to guess whether the article was edited.
+
+### Mobile UX
+
+- Email available on Home from the start of Chapter 1, alongside existing starter applications; **do not change the three-app onboarding gate** (Messages/Calls/Contacts). Email must not be required for Chapter 1 progression.
+- Do not expose Archive early or change its installation sequence. Preserve Browser's existing unlock/availability rules; if Browser is not a starting app, do not show it early just to match a mock-up.
+- Distinct visual states for unread/read email, pending/outgoing/received messages, request delivery receipt, and new-lead indicators. New indicators clear on actual viewing.
+- Links inside in-game email open **internal** Browser register or internal Messages desk thread. Back navigation returns correctly; do not reset scroll or duplicate content.
+- Keep typing indicators, delays, focus, and auto-scroll natural: show all NPC messages with pacing; never require the player to drag to the bottom just to see their own composed/sent line. Respect reduced motion, app backgrounding, and restoration.
+
+---
+
+## 2. IMPLEMENTATION CONTRACT
+
+### A. Persisted Email app (starting Home)
+
+Implement Email as an actual in-game app backed by the existing persistent state and router, not an isolated visual mockup. Minimum surfaces: Inbox, thread detail, sender/subject/time, unread state, action links, back navigation, notification badge. Empty Inbox on new game is fine; do **not** invent unrelated mail just to fill the screen.
+
+Only this *fictional in-game* Email is required: **do not access the player's real Gmail or request an external email account.** Reuse current app design language.
+
+### B. Conditional Scene 06 email
+
+On Scene 06 activation, check the **committed** delivery proof of the Scene 05 request:
+
+```text
+IF sent publisher request is verified by canonical receipt R-GB-VH-001:
+    schedule SC06_PUBLISHER_EMAIL once, persisted due time = now + 1600 ms
+    upon due time: store a single incoming Email, mark unread, show Email badge
+ELSE:
+    DO NOT create publisher email
+    DO NOT schedule publisher email
+```
+
+Use saved event IDs and idempotency keys. If old save data holds a pending legitimate publisher request, migrate/reconcile without fabricating delivery. Use the existing event queue scheduler; respect background/foreground lifecycle. On restoration, display the saved mail once if event completed, or complete a due event once. Never replay as a duplicate.
+
+**Important distinction:** The 1600 ms is an in-game delivery event timing, not proof that a real publisher answered in real time.
+
+### C. Corrections Desk Messages handoff
+
+- The Email link opens the official in-game `Corrections Desk` thread in Messages. Browser may also expose `Ask the Desk` in both paths.
+- The app may show a **system banner** (`Official channel — choose a question to send`) upon opening, but must not present it as a human staff reply or create a conversation initiated by the player.
+- For prior-request path, the player can ask follow-up questions with **select → review → Send**. Desk answers must stay limited to what's confirmed and may be delayed using the existing event system.
+- For no-prior-request path, the `Ask the Desk` control opens a **new inquiry composer**. If the player chooses and sends, save `R-GB-CD-002` or existing canonical equivalent. Display `Request sent / Delivery confirmed`. **No immediate answer** follows. Optional later response must be backed by a separate explicitly authored event; do not invent one in this scope.
+- Prevent duplicate submissions on double tap or re-entry. Persist composer, sent status, receipts, and thread history.
+- A tapped email link is **navigation, not consent to send a message**.
+
+### D. Register and evidence
+
+Register contents (respect existing canonical UI):
+
+```text
+GREYHAVEN BULLETIN
+PUBLIC CORRECTIONS REGISTER
+Article: Questions Remain After Greyhaven Data Specialist Stops Responding
+Formal public correction notice: None listed for this article.
+
+A page's 'updated' label may reflect several kinds of changes. The public
+register alone cannot confirm whether article wording changed.
+```
+
+Optionally offer one collapsed `What counts as a correction notice?` help sentence. Do not turn it into a blocking policy acknowledgement. Clicking `Save finding` privately records:
+
+> No formal public correction notice is listed for this article. This does not establish whether the article text changed. Nora Vance is the named author; page editor unknown.
+
+This record is **private**, not automatically shared with Sophie/Maya/Lucas or the Corrections Desk. Preserve old evidence/knowledge ID mapping and no duplicate cards.
+
+### E. Completion + migration
+
+- Proposed stable new markers, only if non-conflicting: `sc06_active`, `sc06_register_viewed`, `sc06_finding_saved`, `sc06_complete`, `sc07_active`, `sc07_directory_viewed`, `sc07_source_question_saved`, `sc07_complete`.
+- Map prior C01–C14/legacy Scene 06 progress to the revised completion condition. Players who already legitimately finished the old Scene 06 must not lose Scene 07 access. Partially completed saves should resume without rerunning submitted requests.
+- Preserve scene IDs and core game story graph. No mass rename of existing choice/evidence IDs. Add typed alias/migration layer where needed.
+- Use authored story-local date strings, not wall-clock current date, for displayed story metadata. Persist delayed event timestamps as appropriate in runtime time domain.
+- If the same app/thread is opened on different routes, there must be **one canonical** mail or message record; do not duplicate identical content per scene.
+
+---
+
+## 3. FULL SCENE 06 PLAYABLE SCREENPLAY
+
+**Scene:** `06 — THE CORRECTIONS DESK`  
+**Core dramatic question:** *If the public record doesn't show a correction, what can I actually conclude?*  
+**Allowed final answer:** Only that **no formal public correction notice is listed**, not that the text was changed or unchanged.  
+**Narrative strategy:** One small uncertainty → one human contact → move on.
+
+### 06.00 — Auto-activation after Scene 05
+
+`TRIGGER: Scene 05 marked complete`  
+`ACTION: Scene 06 active; no mandatory extra tap or scene-selection screen`
+
+```dialogue
+SYSTEM (subtle lead notification): NEW LEAD — THE CORRECTIONS DESK
+SYSTEM (secondary): Find out whether Greyhaven published a correction.
+```
+
+This is a non-blocking lead; stay in the currently open app. Do not force a cutscene or open an unread email automatically.
+
+### 06.01-A — Prior Scene 05 publisher request WAS sent
+
+`CONDITION: canonical committed receipt R-GB-VH-001 exists`  
+`SCHEDULE: 1600 ms persisted, once`  
+`DEVICE: Email notification`:
+
+```dialogue
+SYSTEM: New email — Greyhaven Bulletin
+```
+
+`EMAIL MESSAGE (complete authored copy):`
+
+```text
+From: Greyhaven Bulletin — Corrections Desk
+Subject: Re: Question about the Daniel Mercer article
+
+Hello,
+
+Thank you for your inquiry about “Questions Remain After Greyhaven Data
+Specialist Stops Responding.”
+
+Your request has been received.
+
+There is currently no formal public correction notice listed for this
+article in our public corrections register. That does not, by itself,
+confirm whether the page's wording has changed.
+
+You may review the public register or continue your inquiry with our
+Corrections Desk through the official messaging channel.
+
+Greyhaven Bulletin
+Corrections Desk
+
+[VIEW PUBLIC CORRECTIONS REGISTER]
+[CONTINUE IN MESSAGES]
+```
+
+The two bracketed items are clickable in-game actions, not literal HTML or off-platform links. Reading the email sets read/unread only; **it does not save the scene finding** and **does not send a reply**.
+
+### 06.01-B — No Scene 05 request was sent
+
+`CONDITION: no committed R-GB-VH-001`:
+
+```dialogue
+SYSTEM: No publisher reply is available.
+SYSTEM (hint, displayed in Browser's article view or lead tile): Public corrections are searchable without contacting the publisher.
+```
+
+**No ghost email.** Browser has a clear `PUBLIC CORRECTIONS REGISTER` entry reachable from the article page or Scene 06 lead card.
+
+### 06.02 — Public register (both paths)
+
+`NAVIGATION: Browser → Greyhaven Bulletin article → Public Corrections Register`  
+`OR: Email → View Public Corrections Register`
+
+```text
+PUBLIC CORRECTIONS REGISTER
+For this article: No formal public correction notice is listed.
+
+Updated does not necessarily mean corrected.
+No verified earlier text is supplied by this register.
+
+[WHAT DOES THIS MEAN?] (optional, 1 sentence)
+[SAVE FINDING]
+[ASK THE DESK] (optional)
+```
+
+`WHAT DOES THIS MEAN?` optional popover:
+
+```text
+A correction notice publicly records a formal correction. Its absence
+cannot establish whether small or large edits happened without a verified
+version history.
+```
+
+`SAVE FINDING` creates a quiet private note rather than a three-answer test:
+
+```dialogue
+PLAYER PRIVATE NOTE (not sent): There's no public correction notice for this article.
+PLAYER PRIVATE NOTE (continued): That doesn't prove the words stayed the same.
+PLAYER PRIVATE NOTE (continued): Nora Vance wrote it. That doesn't tell me who managed the page.
+SYSTEM: Finding saved privately.
+```
+
+**Important:** Private note may be shown via neutral UI, not as an unsolicited player text bubble in Messages. No automatic group message. This alone completes Scene 06 and activates Scene 07. If the player returns later, Email/desk optional conversations remain accessible.
+
+### 06.03-A — Corrections Desk in Messages (prior request exists)
+
+`ENTRY: player manually taps Email → CONTINUE IN MESSAGES or Browser → ASK THE DESK`  
+`CONDITION: R-GB-VH-001 exists`  
+`THREAD HEADER: Corrections Desk • Official Greyhaven Bulletin channel`  
+`BANNER, not NPC message: Your earlier request was delivered. Choose a follow-up to send.`
+
+**CHOICE SC06_DESK_QUESTION** — choose ONE and tap **Send**:
+
+- `D-A` Player: `Was a public correction posted for Daniel Mercer's article?`
+- `D-B` Player: `Does “Updated: Yesterday” mean the article's wording changed?`
+- `D-C` Player: `Can the article's byline tell me who edited the page?`
+
+On Send, persist selected outbound bubble, and schedule the corresponding **limited** desk answer (with existing NPC typing cadence):
+
+`IF D-A:`
+```dialogue
+CORRECTIONS DESK: No formal public correction notice is listed for that article.
+CORRECTIONS DESK: The register can't tell you everything that may have happened to the page.
+```
+
+`IF D-B:`
+```dialogue
+CORRECTIONS DESK: Not necessarily. An update label alone doesn't say what changed.
+CORRECTIONS DESK: We can't authenticate an earlier version from the public register.
+```
+
+`IF D-C:`
+```dialogue
+CORRECTIONS DESK: The byline identifies the named author, not necessarily the person who updated the page.
+CORRECTIONS DESK: The page doesn't establish who made any edit.
+```
+
+**RECONVERGE, after a delivered answer (not before):**
+```dialogue
+CORRECTIONS DESK: If you'd like to ask the author about the reporting, use the professional contact route linked to the byline.
+```
+
+**OPTIONAL ONE-FOLLOW-UP CHOICE SC06_DESK_FOLLOWUP (choose → Send):**
+
+- `F-A` Player: `Understood. I'll check the byline.`
+- `F-B` Player: `I still need an older copy before drawing conclusions.`
+- `F-C` Player: `Thank you. I won't treat the update label as proof.`
+
+`RESPONSE (all F branches):`
+```dialogue
+CORRECTIONS DESK: Thank you for checking the source carefully.
+```
+
+This does not unlock secret proof or affect the main-scene gate. It simply closes the professional exchange. If player never sends, no desk reply is generated.
+
+### 06.03-B — Corrections Desk: NO prior request, NEW request optional
+
+`ENTRY: Browser → ASK THE DESK, if R-GB-VH-001 absent`  
+`THREAD HEADER: Corrections Desk • Official Greyhaven Bulletin channel`  
+`SYSTEM BANNER: New inquiries require a written request.`
+
+`CHOICE SC06_NEW_REQUEST` — choose ONE; show selected text in a review composer; Send is a separate, explicit user action:
+
+- `N-A` Player: `Could you confirm whether a formal correction notice exists for the Daniel Mercer article?`
+- `N-B` Player: `Could you explain what the article's update label means?`
+- `N-C` Player: `Could you advise where questions about the article's original sources should be directed?`
+
+`PRE-SEND UI:`
+```text
+REVIEW REQUEST
+[Chosen question]
+[CANCEL] [SEND REQUEST]
+```
+
+`AFTER explicit SEND, once:`
+```dialogue
+SYSTEM (receipt, not desk reply): Request delivered.
+SYSTEM (receipt detail): Reference: R-GB-CD-002
+SYSTEM (receipt detail): Delivery confirmed. A response has not been received.
+```
+
+No `Corrections Desk: ...` answer should appear on this path in Scene 06. The player can still complete Scene 06 through the register. Leaving mid-composer or after sending is safe across reload.
+
+### 06.04 — Optional Sophie check-in
+
+`CONDITION: existing Sophie contact is available and scene's Sophie continuity allows it`  
+`ENTRY: player chooses to open Sophie chat; no automatic player disclosure`
+
+`CHOICE SC06_SOPHIE` (choose → Send):
+
+- `S-A` Player: `I checked the corrections register for that Greyhaven article.`
+- `S-B` Player: `I still can't tell whether an older version of the article exists.`
+- `S-C` Player: `I don't want this to turn into another rumor about Daniel.`
+
+`IF S-A:`
+```dialogue
+SOPHIE: Did it explain what happened?
+PLAYER RESPONSE OPTIONS (choose → Send):
+  S-A1: Not really. There's no formal correction notice listed.
+  S-A2: It only tells me what the public register doesn't show.
+SOPHIE: Then don't let anyone turn that into a certainty.
+```
+
+`IF S-B:`
+```dialogue
+SOPHIE: I know. It's frustrating when the same words keep leading nowhere.
+SOPHIE: But guessing won't give us the missing page.
+```
+
+`IF S-C:`
+```dialogue
+SOPHIE: Neither do I.
+SOPHIE: Daniel is more than a headline.
+```
+
+No Sophie branch proves article manipulation or reveals protected information. Use current established trust/affinity variation only if already supported; do not add romance by default.
+
+### 06.05 — Optional group sharing
+
+`ENTRY: only via explicit player action in existing FIND DANIEL group`  
+`CHOICE SC06_SHARE (choose → Send):`
+
+- `G-A` Player: `Greyhaven's public register lists no formal correction for Daniel's article.`
+- `G-B` Player: `I found the author: Nora Vance. That doesn't tell us who edited the page.`
+- `G-C` Player: `I still don't have a verified earlier copy of that article.`
+
+`AFTER G-A:`
+```dialogue
+MAYA: Good to know. But no notice isn't the same as no change.
+```
+
+`AFTER G-B:`
+```dialogue
+LUCAS: Author and editor aren't automatically the same person.
+MAYA: We can follow the byline without blaming her.
+```
+
+`AFTER G-C:`
+```dialogue
+MAYA: Then keep it marked unverified.
+```
+
+Only participants of the actual active group should receive the line; check membership and NPC knowledge conditions. Sending one option should not secretly send the others.
+
+### 06.06 — Scene 06 final handoff
+
+`TRIGGER: sc06_finding_saved, once`:
+
+```dialogue
+SYSTEM (quiet): Finding saved.
+SYSTEM (lead tile): THE BYLINE — Nora Vance
+SYSTEM (hint): The author may be a better person to ask than the page itself.
+```
+
+**STATE:** `sc06_complete = true; sc07_active = true`. No `OPEN NEXT LEAD` gate, no automatic message to Nora, no hidden accusation. Let the player tap the lead tile/byline to see Scene 07 content. Player can go back to Email and Messages.
+
+---
+
+## 4. FULL SCENE 07 PLAYABLE SCREENPLAY
+
+**Scene:** `07 — THE BYLINE`  
+**Core dramatic question:** *Who can tell me where the story's information originally came from?*  
+**Narrative purpose:** Turn a web page into a credible, cautious **human conversation** without turning Nora into an omniscient narrator or the perpetrator.
+
+### 07.00 — Opening (automatically active after Scene 06)
+
+`TRIGGER: sc06_complete`:
+
+```dialogue
+SYSTEM (lead): THE BYLINE
+SYSTEM (subheading): A name on the page. Maybe a person who can explain it.
+```
+
+Keep this non-blocking. Article/byline must remain accessible through existing Browser navigation.
+
+### 07.01 — Article byline → directory
+
+`BROWSER ARTICLE VIEW (existing facts only):`
+
+```text
+GREYHAVEN BULLETIN
+Questions Remain After Greyhaven Data Specialist Stops Responding
+By Nora Vance
+Published: 7 October 2026
+Updated: Yesterday
+
+[VIEW AUTHOR PROFILE]
+```
+
+`AUTHOR PROFILE / IN-GAME PROFESSIONAL DIRECTORY:`
+
+```text
+NORA VANCE
+Byline author — Greyhaven Bulletin
+Associated work: Daniel Mercer article
+
+The article identifies Nora Vance as its author.
+This profile alone does not identify who edited or updated the page.
+
+[CONTACT VIA PROFESSIONAL CHANNEL]
+[BACK TO ARTICLE]
+```
+
+The **contact** control must route to a fictional in-game professional contact entry sourced from the byline/directory. If the repo already has a canonical Nora professional route, use it instead of inventing another. Contact is not verification of the page's editorial history.
+
+`IF player chooses NOT to contact Nora:`
+```dialogue
+PLAYER PRIVATE NOTE (on explicit Save question): The byline gives me a person to ask, not proof of who edited the page.
+PLAYER PRIVATE NOTE (continued): The next useful question is where the published information first came from.
+SYSTEM: Source question saved. (Private only.)
+```
+
+This is a valid Scene 07 main-route completion. Keep Nora outreach optional and accessible if the player returns.
+
+### 07.02 — Contact composer: manually sent, three tonal openings
+
+`ENTRY: CONTACT VIA PROFESSIONAL CHANNEL`  
+`CONDITION: route actually viewed; no fabricated direct-contact identity`  
+`CHOICE SC07_NORA_OPEN (choose → REVIEW → SEND):`
+
+- `O-A / cautious` Player: `Hello, Nora. I'm checking your Greyhaven article about Daniel Mercer. Could I ask about the information behind it?`
+- `O-B / direct` Player: `Hi. I'm trying to trace where the first account of Daniel Mercer came from. Can you help?`
+- `O-C / skeptical` Player: `Your article says “Updated.” Did you change it after publication?`
+
+`BEFORE SEND:`
+```text
+MESSAGE NORA VANCE
+[Chosen message]
+[BACK] [SEND]
+```
+
+`AFTER SEND:` persist exactly one outbound message. Show `Message sent` (delivery state only). Schedule a saved Nora reply event under existing timing policy. Do not create an inbound Nora reply before a real send; do not reopen composer as a second send after reload.
+
+### 07.03 — Nora's first response, conditional opening
+
+`TRIGGER: scheduled reply due AND O-A/O-B/O-C has been actually sent`  
+`THREAD: Nora Vance — Professional Channel`
+
+`COMMON FIRST MESSAGE (preserve if equivalent canonical authored text exists):`
+```dialogue
+NORA: Hi. Nora here. I saw your question about the Daniel Mercer article.
+```
+
+`IF O-A:`
+```dialogue
+NORA: I can tell you what I can stand behind. What are you trying to establish?
+```
+
+`IF O-B:`
+```dialogue
+NORA: You're asking about the source of the reporting, not just the page. That's an important distinction.
+NORA: What part do you want to verify?
+```
+
+`IF O-C:`
+```dialogue
+NORA: I wrote the article. That doesn't mean I personally handled every change to the published page.
+NORA: I can't confirm a specific change without a reliable earlier version.
+NORA: What are you trying to establish?
+```
+
+### 07.04 — Nora focus choice (player input required)
+
+`CHOICE SC07_NORA_FOCUS (choose → Send):`
+
+- `Q-A / published wording` Player: `I want to know whether the published words were changed.`
+- `Q-B / source trail` Player: `I want to know where the information about Daniel came from.`
+- `Q-C / human context` Player: `I want to know if the article tells the whole story about Daniel.`
+
+`IF Q-A:`
+```dialogue
+NORA: I can't give you a verified before-and-after copy of the page.
+NORA: The update label doesn't answer that question on its own.
+```
+
+`IF Q-B:`
+```dialogue
+NORA: The article is a published account. It isn't the original source of every fact in it.
+NORA: If you're checking the account itself, start with where the information was first issued or documented.
+```
+
+`IF Q-C:`
+```dialogue
+NORA: A news article is never the whole of a person.
+NORA: I can speak about reporting I can verify. I won't guess at what happened to Daniel after that.
+```
+
+`COMMON RECONVERGENCE:`
+```dialogue
+NORA: I don't want a label or a byline to become more evidence than it really is.
+```
+
+### 07.05 — Choose a practical next question
+
+`CHOICE SC07_NORA_NEXT (choose → Send):`
+
+- `N-A / editor` Player: `Do you know who edited the page?`
+- `N-B / next source` Player: `What's the next thing I should try to verify?`
+- `N-C / author accountability` Player: `Then what can you personally confirm about the article?`
+
+`IF N-A:`
+```dialogue
+NORA: My byline doesn't identify the person who handled the page.
+NORA: I won't give you a name I can't substantiate.
+```
+
+`IF N-B:`
+```dialogue
+NORA: Find the earliest attributable account you can.
+NORA: Who issued it? Is there an original statement or record, rather than somebody repeating the article?
+NORA: Until you have that, a later copy won't settle the question.
+```
+
+`IF N-C:`
+```dialogue
+NORA: I can confirm my name is on the published story.
+NORA: I can't use that fact to authenticate an older page or identify a later editor.
+```
+
+`COMMON HUMAN BEAT:`
+```dialogue
+NORA: I know that's not the neat answer you wanted.
+NORA: But a neat answer would be worse if I couldn't prove it.
+```
+
+### 07.06 — Player tone response and closure (manual send)
+
+`CHOICE SC07_NORA_CLOSE (choose → Send):`
+
+- `C-A / respectful` Player: `That's fair. I'll look for the original source.`
+- `C-B / unsettled` Player: `It feels like every answer points somewhere else.`
+- `C-C / guarded` Player: `I'll keep checking. I don't want to accuse the wrong person.`
+
+`IF C-A:`
+```dialogue
+NORA: If you find something attributable, look at what it actually says before you interpret it.
+```
+
+`IF C-B:`
+```dialogue
+NORA: I get that.
+NORA: Just don't let an unanswered question turn into an answer by itself.
+```
+
+`IF C-C:`
+```dialogue
+NORA: Good. A name on a page isn't a confession.
+```
+
+`COMMON CLOSING (if one has not already been shown):`
+```dialogue
+NORA: Take care with what you share. Real people are attached to this story.
+```
+
+NPC typing cadence applies between Nora bubbles. **No forced immediate answer** from the player. Each next choice appears after previous received messages have completed. Thread may remain open; not blocked by optional narrative completion.
+
+### 07.07 — Optional index disclosure (only if player actually knows it)
+
+`CONDITION: player has legitimately viewed ARC-IDX-GB-041 and Nora dialogue is active`  
+`OPTIONAL CHOICE (choose → Send):`
+
+- `I-A` Player: `I found an archive index with a reference matching the article. Does that mean the record is authentic?`
+- `I-B` Player: `I have a reference number from another source, but I can't verify the document behind it.`
+- `I-C` Player: `I'd rather not share a record I can't authenticate.`
+
+`IF I-A:`
+```dialogue
+NORA: I haven't authenticated that index.
+NORA: A matching reference can help you ask a question. It doesn't prove the source is genuine.
+```
+
+`IF I-B:`
+```dialogue
+NORA: Then you're right to keep the source separate from your interpretation.
+```
+
+`IF I-C:`
+```dialogue
+NORA: That's your choice. Don't feel pressured to hand over something you're unsure about.
+```
+
+Nora must **not** suddenly reference `The Archive`, `7-14`, `E—I`, or any private device evidence unless the player explicitly disclosed the precise information in the same or prior authorized chat. Do not expose index disclosure to group automatically.
+
+### 07.08 — Optional Sophie contact (personal dimension)
+
+`ENTRY: user opens existing Sophie chat; conditional on real contact availability.`
+
+`CHOICE SC07_SOPHIE (choose → Send):`
+
+- `P-A` Player: `I found the person credited on Daniel's Greyhaven article.`
+- `P-B` Player: `I still don't have proof that the page was changed.`
+- `P-C` Player: `I thought an answer would feel different.`
+
+`IF P-A:`
+```dialogue
+SOPHIE: The writer?
+PLAYER RESPONSE (choose → Send):
+  P-A1: Yes. Nora Vance. I can ask about the reporting, not assume she edited the page.
+  P-A2: Yes. But I'm not going to blame her just because her name is there.
+SOPHIE: Good. A headline isn't the same thing as knowing someone.
+```
+
+`IF P-B:`
+```dialogue
+SOPHIE: Then you don't have to pretend you do.
+SOPHIE: I'd rather hear “we don't know” than another story about Daniel that sounds certain.
+```
+
+`IF P-C:`
+```dialogue
+SOPHIE: Maybe because it isn't an answer yet.
+SOPHIE: You can tell me when you find something real.
+```
+
+Respect relationship and disclosure conditions. No mandatory romance interaction.
+
+### 07.09 — Optional group update (strict knowledge boundaries)
+
+`ENTRY: explicit group share composer, not automatic`  
+`CHOICE SC07_GROUP_SHARE (choose → Send):`
+
+- `H-A` Player: `Nora Vance is the article's byline author. The page doesn't identify its editor.`
+- `H-B` Player: `The next useful lead is the original source behind the published account.`
+- `H-C` Player: `I found a professional route to ask Nora. I haven't confirmed anything new yet.`
+
+`H-A` may be shared once byline was viewed. `H-B` is available after the source question was saved OR Nora actually delivered that advice. `H-C` is available after finding the contact route; adapt tense to whether the player has actually messaged Nora, and do not claim to have heard from her if no reply arrived.
+
+`AFTER H-A:`
+```dialogue
+MAYA: Then we shouldn't treat her name as proof of an edit.
+LUCAS: Agreed. Who controls the published page is still an open question.
+```
+
+`AFTER H-B:`
+```dialogue
+MAYA: That sounds like the better lead.
+LUCAS: Something attributable. Not a copy of a copy.
+```
+
+`AFTER H-C:`
+```dialogue
+MAYA: Good. Keep any reply separate from what we've already verified.
+```
+
+The group may speak only if the relevant member is actually present and currently available. Character knowledge should record exactly which statement player sent, not every available option.
+
+### 07.10 — Save source question and Scene 07 ending
+
+`ENTRY: on the profile or lead panel after byline + directory have been inspected. Explicit private action; do not impersonate an outgoing message.`
+
+`DISPLAY:`
+
+```text
+YOUR NEXT QUESTION
+Where did the information in the article first come from?
+
+What I know:
+• Nora Vance is the public author.
+• Who edited the page is not established.
+• The public register gives no verified older copy.
+
+[SAVE AS PRIVATE LEAD]
+```
+
+`ON SAVE (once):`
+```dialogue
+SYSTEM: Private lead saved — TRACE THE ORIGINAL SOURCE.
+SYSTEM: Scene 07 complete.
+```
+
+This does **not** establish the identity of an office, an original document, or any other protected revelation. Activate the next existing canonical story node using the real graph; do not author or rename Scene 08 in this task. Preserve pending Nora or Desk events and keep their threads available after Scene 07 completion.
+
+**Optional closing atmosphere, only if it does not introduce a new fact:** a brief silent beat on the article byline / muted notification sound; no invented threatening message, no sudden unknown-number plot reveal, no jump scare.
+
+---
+
+## 5. STATE MACHINE AND CONDITIONAL ROUTES
+
+### Conditions
+
+```text
+hasPublisherReceipt       = committed R-GB-VH-001 (or authoritative existing equivalent)
+emailReplyDueOrDelivered   = idempotent persisted SC06_PUBLISHER_EMAIL event
+hasNewDeskReceipt          = committed R-GB-CD-002 (or authoritative existing equivalent)
+registerViewed            = true when exact article's register inspected
+findingSaved              = true only on private Save finding
+noraDirectoryViewed        = true on real profile/directory view
+noraOutboundSent           = true only after explicit Send
+noraInboundDelivered       = true only after persisted scheduled event
+sourceQuestionSaved        = true only on explicit Save private lead
+```
+
+### Progress diagram
+
+```text
+SCENE 05 COMPLETE
+      |
+      v
+SCENE 06 ACTIVE (automatic)
+      |
+      +-- has R-GB-VH-001? -- yes --> persisted 1.6s Email reply
+      |                                  |           |
+      |                                  v           v
+      |                                 Inbox      Browser register
+      |                                  |
+      |                                  v
+      |                             Messages Desk (optional, manual Send)
+      |
+      +-- no receipt --> Browser register directly
+      |                          |
+      |                          +--> New Desk Request (optional)
+      |                               choose > review > Send
+      |                               receipt only; NO instant answer
+      |
+      +-----------------------> Open public register
+                                   |
+                                   v
+                             SAVE PRIVATE FINDING
+                                   |
+                                   v
+                              SCENE 07 ACTIVE
+                                   |
+                                   v
+                       Byline > Professional directory
+                                   |
+                                   +--> Nora outreach (optional)
+                                   |      choose > review > Send
+                                   |      saved reply event > Messages
+                                   |
+                                   v
+                         SAVE SOURCE QUESTION
+                                   |
+                                   v
+                              SCENE 07 COMPLETE
+                                   |
+                                   v
+                       Existing next canonical node
+```
+
+### Notification/communication separation
+
+- `Email received` means incoming mail stored/readable; it is neither a message sent by player nor a fact the player has read until opened.
+- `Request delivered` means outgoing request accepted; not evidence of a reply.
+- `Messages delivered` is not equal to `Messages read`, nor necessarily `NPC learned private evidence`.
+- `Private lead saved` is never shared unless an explicit Send action later occurs.
+- No character may quote an email, article interpretation, private note, or index reference they were not shown or allowed to know.
+
+---
+
+## 6. TEST MATRIX / ACCEPTANCE GATES
+
+Create or update real automated tests using existing project test framework and conventions. At minimum:
+
+1. **Initial Home:** Email icon exists on a new game; original Chapter 1 Messages/Calls/Contacts prerequisite still expects only those three apps; Archive remains unavailable until canonical installation.
+2. **Scene 5 → 6:** Scene 06 activates immediately on completion, no `OPEN NEXT LEAD` dependency.
+3. **Receipt true:** exactly one email arrives after persisted ~1600 ms event; one notification; unread state.
+4. **Receipt false:** no email and no publisher reply, even after timers, reload, or tapping register.
+5. **Receipt not committed:** a selected/previewed but unsent Scene 05 question does not count.
+6. **Background/save/reload:** pending email event delivers once when due; no duplicate on repeated loads.
+7. **Email deep links:** register opens Browser; desk opens Messages; back navigation and unread/read state work.
+8. **No auto player message:** clicking links never sends player messages; selection without Send never commits anything.
+9. **Desk prior-request:** each selected actual Send yields only the corresponding limited reply; no fallback answers to unsent questions.
+10. **Desk new-request:** explicit Send creates one `R-GB-CD-002`; no immediate incoming desk reply; safe double-tap and restore.
+11. **Core without correspondence:** Scene 06 can be completed via register + private finding even with no email and no desk contact.
+12. **Truth constraints:** no “article changed,” “article never changed,” “Nora edited it,” “index genuine,” or “source office X” added as known facts.
+13. **Scene 06 → 7:** saving finding automatically activates Scene 07 without extra manual scene gate.
+14. **Nora opt-in:** professional contact cannot originate a player message unless the player taps Send; no Nora reply before Send.
+15. **Nora branches:** O-A/B/C, Q-A/B/C, N-A/B/C, C-A/B/C all route to correct text and converge without duplicate bubbles.
+16. **Nora saved event:** notification, typing, read/open state, and pending reply survive app background and save/load.
+17. **Index optional:** ARC-IDX-GB-041 only discussable with Nora if player already encountered it and explicitly shared it.
+18. **Group knowledge:** no optional Sophie/group dialogue reveals information not shared. Sending G-A does not send G-B/C.
+19. **Private lead:** saved finding and source question create no outbound chat bubbles or NPC knowledge updates.
+20. **Migration:** completed legacy Scene 06 save stays completed; active legacy Scene 06 resumes on revised path without duplicate publisher contact or lost evidence.
+21. **Screen UX:** all scroll positions, keyboard input, long text, unread badges, app switching and compact Android device layouts remain usable.
+22. **Build hygiene:** lint, type check, tests, production build; no compile warnings caused by the change.
+
+If a test cannot run (e.g. Android device unavailable), report it as **not executed**, never PASS.
+
+---
+
+## 7. EXPECTED CODEX WORK PROCESS AND OUTPUT
+
+1. **Inspect** story graph, all Scene 05–07 authoring, canonical article, receipt implementation, event queue, app registry/Home, router, Email if any, Messages, Browser, evidence ledger, knowledge store, and save migrations.
+2. **Implement** the smallest maintainable changes integrated into the real systems. Prefer data-driven dialogue and typed navigation/actions; avoid hardcoded disconnected screens or copying the same correspondence into different stores.
+3. **Map canonical IDs** and old C01–C14 semantics to revised flows. Add deterministic story/event IDs if needed, without renaming existing canonical public identifiers.
+4. **Insert ALL gameplay copy and branching lines above**, with exact eligibility and player-initiated Send handling. You may polish punctuation to match existing localization style; do not change facts, invent evidence or omit requested branches.
+5. **Run the full relevant test suite**, lint, TypeScript validation, and production build. Fix regressions.
+6. **Report:** changed files, scene transition changes, application architecture changes, event/receipt/state migration choices, branch coverage, exact commands/results, current limitations, and Android real-device test status. Include example walkthroughs for all three core paths:
+   - existing Scene 05 request → Email → optional desk → register → Scene 07;
+   - no earlier request → Browser register → optional new desk request → Scene 07;
+   - register-only → Scene 07 without any correspondence.
+
+### FINAL QUALITY BAR
+
+The player should feel they are **following a person and a source**, not being examined on editorial policy. Suspense must arise from a plausible unanswered question, emotionally careful exchanges, and player-controlled disclosure—not fabricated revelations, excessive forms, gates, or rote quizzes. A smooth, complete implementation matters more than the count of choices.
+
+**Do the work; do not stop at a plan.**

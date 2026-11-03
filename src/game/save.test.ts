@@ -4,7 +4,7 @@ import { openDB } from 'idb'
 import { registerPlayer } from './engine'
 import { draftPhase03b, sendPhase03b } from './phase03b'
 import { linkBoardPair } from './board'
-import { discardPendingSave, loadGame, SaveConflictError, stagePendingSave, writeGame } from './save'
+import { discardPendingSave, listHistoricalSaves, loadGame, SaveConflictError, stagePendingSave, writeGame } from './save'
 import { newGame, type GameSave } from './types'
 import { useGameStore } from './store'
 
@@ -165,6 +165,16 @@ describe('IndexedDB save', () => {
     expect(fresh.relationships.sophie.trust).toBe(0)
     expect(fresh.settings.reduceMotion).toBe(true)
     expect(fresh.saveRevision).toBe(5)
+    expect(fresh.chapter1Edition).toBe('ch01-v2-10')
+    const archives=await listHistoricalSaves()
+    expect(archives).toHaveLength(1)
+    expect(archives[0].save).toEqual(initial)
+    expect(await useGameStore.getState().restoreHistorical(archives[0].key)).toBe(true)
+    const restored=(await loadGame()).save
+    expect(restored.player?.name).toBe('Rae')
+    expect(restored.relationships.sophie).toEqual(initial.relationships.sophie)
+    expect(restored.chapter1Edition).toBeUndefined()
+    expect((await listHistoricalSaves()).some(item=>item.save.chapter1Edition==='ch01-v2-10')).toBe(true)
     expect(localStorage.getItem('the-archive:game-save:v1')).toBe('legacy-save-sentinel')
     expect(localStorage.getItem('the-archive-reboot:appearance:v1')).toBe('dark')
     expect(localStorage.getItem('the-archive-reboot:audio:v1')).toBe('{"effects":false,"music":true}')
