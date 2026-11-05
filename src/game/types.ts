@@ -83,6 +83,7 @@ export interface OpeningState {
   scene01?: {
     version: 1
     scriptRevision?: 'final-2026-10-23'
+    masterScene01?: true
     articleAlignment?: '2026-10-28'
     traceIntroRevision?: '2026-10-31'
     traceUiRevision?: '2026-11-03'
@@ -178,6 +179,7 @@ export interface OpeningState {
 }
 
 export interface GameSave {
+  masterOpening?: true
   /** Recorded at real scene entry only. Snapshots never contain this field. */
   replayEntries?: Record<string, { capturedAt: number; save: GameSave }>
   chapter1?: import('./chapter1').Chapter1State

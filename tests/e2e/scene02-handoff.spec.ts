@@ -1,7 +1,8 @@
 import { expect, test, type Page } from '@playwright/test'
 import { actIFinalManifest } from '../../src/content/actIFinal'
 import { sceneAt, seedScene } from './scene01-helper'
-import type { GameSave } from '../../src/game/types'
+import { newGame, type GameSave } from '../../src/game/types'
+import { beginScene01 } from '../../src/game/scene01'
 
 async function stored(page: Page): Promise<GameSave> {
   return page.evaluate(async () => {
@@ -32,13 +33,10 @@ async function reachPending(page: Page) {
 
 test('whole Scene 01 → all 13 group choices → Lucas leaves → delayed Hey, with no automatic chat opening or forced scroll', async ({ page }) => {
   test.setTimeout(180_000)
-  await page.clock.install({ time: new Date('2026-10-22T12:00:00Z') })
-  // Freeze before navigation, when page startup cannot consume the pause target.
-  await page.clock.pauseAt(new Date('2026-10-22T12:00:01Z'))
-  await page.goto('/?gameplaytest=1')
-  await page.getByRole('button', { name: 'Unlock phone', exact: true }).click()
-  await page.clock.runFor(20_000)
-  await page.getByRole('button', { name: 'Open unknown message', exact: true }).click()
+  // This regression exercises the historical opening; fresh games use the new master graph.
+  await seedScene(page, beginScene01(newGame(), Date.parse('2026-10-22T12:00:00Z')), { pauseClock: true })
+  await page.getByRole('button', { name: 'Open Messages', exact: true }).first().click()
+  await page.getByRole('button', { name: 'Open Unknown number conversation', exact: true }).click()
   await page.clock.runFor(120_000)
   for (const entry of actIFinalManifest.filter(m=>m.id.startsWith('OPEN-S01-'))) {
     const beat={id:entry.id.slice(-2)}

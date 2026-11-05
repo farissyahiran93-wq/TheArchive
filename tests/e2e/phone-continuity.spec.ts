@@ -3,7 +3,7 @@ import {beginScene01} from '../../src/game/scene01'
 import {newGame} from '../../src/game/types'
 import {seedScene} from './scene01-helper'
 
-test('Home keeps Maps and Contacts in place, hides early Archive, and starred reply can be sent',async({page})=>{
+test('Home keeps Maps and Contacts in place, hides early Archive, and a first reply can be sent',async({page})=>{
   await page.clock.install({time:new Date('2026-10-26T09:00:00+08:00')})
   await page.goto('/?gameplaytest=1')
   await page.getByRole('button',{name:'Unlock phone',exact:true}).click()
@@ -14,10 +14,10 @@ test('Home keeps Maps and Contacts in place, hides early Archive, and starred re
   const before=await apps.locator('button').allTextContents()
   await page.clock.runFor(20_000)
   await expect(apps.locator('button')).toHaveText(before)
-  await page.getByRole('button',{name:'Open unknown message',exact:true}).click()
+  await page.getByRole('button',{name:'Open notification from Sophie',exact:true}).click()
   await page.clock.runFor(120_000)
   await expect(page.getByRole('button',{name:/BLOCK NUMBER|UNBLOCK/})).toHaveCount(0)
-  await page.getByRole('button',{name:"Who's asking?",exact:true}).click()
+  await page.getByRole('button',{name:"I don't think so. Is everything okay?",exact:true}).click()
   await page.getByRole('button',{name:'Send',exact:true}).click()
   await page.clock.runFor(120_000)
   await page.getByRole('button',{name:'Back to inbox'}).click()

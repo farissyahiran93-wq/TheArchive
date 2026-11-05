@@ -1,5 +1,7 @@
 # TheArchive — TRACE phone recovery specification
 
+> **Canon lock update:** see [the dated source chain](THEARCHIVE_CANON_LOCK_2026-11-05.md). Lucas's proposed encrypted second backup requires his explicit authorised handoff or relay; Rowan's altered contact export remains a separate external artifact and awards no recovery units.
+
 Date: 5 November 2026. Status: MASTER PLANNING ONLY. SPOILER / DEVELOPER ONLY.
 
 This specification describes future work. It does not unlock a module, amend a save, replace a scene, or authorize an APK. The owner-supplied 50-scene brief is the authority for the new campaign's recovery milestones. The current runtime remains intact.
@@ -12,6 +14,8 @@ This specification describes future work. It does not unlock a module, amend a s
 - **OPEN DESIGN DECISION:** final manifest contents, approved evidence text, media, exact segment sizes, keys and source transport. A milestone cannot be implemented by inventing recovered material.
 
 Read alongside [the narrative state specification](THEARCHIVE_NARRATIVE_STATE_SPEC.md), [the scene matrix](THEARCHIVE_50_SCENE_MATRIX.md), [the story bible](THEARCHIVE_STORY_BIBLE.md) and [the gap register](THEARCHIVE_PLOT_GAP_REGISTER.md).
+
+The [revised continuity recommendation](THEARCHIVE_STARRED_NUMBER_CONTINUITY.md) distinguishes Eli's retained phone snapshot, a second authorised partial snapshot and Rowan's separately altered export. Only preallocated unique phone-manifest fragments count toward recovery.
 
 ## Existing implementation audit
 

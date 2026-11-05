@@ -48,7 +48,7 @@ interface GameStore {
   continueChapter2: () => void
   accessAction: (action: AccessAction) => void
   sendScene01: (id: string, name?: string) => void
-  scene01Invitation: (action: 'accept' | 'join' | 'dismiss' | 'show') => void
+  scene01Invitation: (action: 'accept' | 'join' | 'dismiss' | 'show' | 'decline') => void
   openSophiePrivate: () => void
   pauseSophiePrivate: () => void
   draftSophiePrivate: (choiceId: string) => void
@@ -252,7 +252,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       const result = await loadGame()
       set({ save: result.save, ready: true, saveError: result.error ?? null, recoveryRequired: result.recoveryRequired ?? false, recoveryRaw: result.raw })
       if(!result.recoveryRequired){const migrated=resumeScene0607(result.save,Date.now());if(migrated!==result.save){commit(migrated);result.save=get().save}}
-      if (!result.recoveryRequired && result.save.prologue?.scene01?.invitation === 'joined' && !result.save.prologue.scene01.groupScript) { commit(beginScene02(result.save)); return }
+      if (!result.recoveryRequired && result.save.prologue?.scene01?.invitation === 'joined' && !result.save.prologue.scene01.groupScript && !result.save.prologue.scene01.masterScene01) { commit(beginScene02(result.save)); return }
       if (!result.recoveryRequired && result.save.prologue?.scene01?.nodeId === 'OPEN-S02-SOURCE-BOUNDARY') { commit(resumeScene02(result.save)); return }
       if (!result.recoveryRequired && (result.save.prologue?.scene01?.privateScene03?.reading || result.save.chapter1?.archiveOrigin?.reading || result.save.chapter1?.versionHistory?.reading || result.save.chapter1?.correctionsDesk?.reading || readingSource(result.save))) { commit(pauseScene03(result.save)); return }
     if (!result.recoveryRequired && result.save.chapter2Access?.story?.active) { commit(reunionAction(result.save,{type:'story-close',thread:result.save.chapter2Access.story.active},Date.now())); return }
@@ -267,7 +267,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const result = await loadGame()
     set({ save: result.save, ready: true, saveError: result.error ?? null, recoveryRequired: result.recoveryRequired ?? false, recoveryRaw: result.raw })
       if(!result.recoveryRequired){const migrated=resumeScene0607(result.save,Date.now());if(migrated!==result.save){commit(migrated);result.save=get().save}}
-    if (!result.recoveryRequired && result.save.prologue?.scene01?.invitation === 'joined' && !result.save.prologue.scene01.groupScript) { commit(beginScene02(result.save)); return }
+    if (!result.recoveryRequired && result.save.prologue?.scene01?.invitation === 'joined' && !result.save.prologue.scene01.groupScript && !result.save.prologue.scene01.masterScene01) { commit(beginScene02(result.save)); return }
     if (!result.recoveryRequired && result.save.prologue?.scene01?.nodeId === 'OPEN-S02-SOURCE-BOUNDARY') { commit(resumeScene02(result.save)); return }
     if (!result.recoveryRequired && (result.save.prologue?.scene01?.privateScene03?.reading || result.save.chapter1?.archiveOrigin?.reading || result.save.chapter1?.versionHistory?.reading || result.save.chapter1?.correctionsDesk?.reading || readingSource(result.save))) { commit(pauseScene03(result.save)); return }
     if (!result.recoveryRequired && result.save.chapter2Access?.story?.active) { commit(reunionAction(result.save,{type:'story-close',thread:result.save.chapter2Access.story.active},Date.now())); return }
@@ -275,7 +275,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     else if (!result.recoveryRequired && !result.save.prologue?.scene01 && result.save.prologue?.dialogueVersion === 4 && result.save.prologue.stage === 'complete' && !result.save.e01) commit(beginSlice(result.save))
   },
   register: (name, pronouns) => commit(registerPlayer(get().save, name, pronouns)),
-  startPhone: () => {const current=get().save;const fresh=!current.player&&!current.prologue&&!current.chapter1&&!current.chapter2Access&&current.deliveredEvents.length===0&&current.pendingEvents.length===0;commit(startPhoneOpening(fresh?{...current,chapter1Edition:'ch01-v2-10'}:current))},
+  startPhone: () => {const current=get().save;const fresh=!current.player&&!current.prologue&&!current.chapter1&&!current.chapter2Access&&current.deliveredEvents.length===0&&current.pendingEvents.length===0;commit(startPhoneOpening(fresh?{...current,chapter1Edition:'ch01-v2-10',masterOpening:true}:current))},
   sendOpeningName: name => commit(sendOpeningName(get().save, name)),
   decidePendingRecovery: decision => commit(decidePendingRecovery(get().save, decision)),
   openFixture: () => commit(enterFixture(get().save, Date.now())),
@@ -324,7 +324,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       if (get().recoveryRequired) return false
       const current = get().save
       const revision = current.saveRevision ?? 0
-      const fresh = { ...newGame(), chapter1Edition:'ch01-v2-10' as const, saveRevision: revision + 1, settings: { reduceMotion: current.settings.reduceMotion } }
+      const fresh = { ...newGame(), chapter1Edition:'ch01-v2-10' as const, masterOpening:true as const, saveRevision: revision + 1, settings: { reduceMotion: current.settings.reduceMotion } }
       await archiveAndReplaceGame(current, fresh)
       discardPendingSave()
       set({ save: fresh, saveError: null })

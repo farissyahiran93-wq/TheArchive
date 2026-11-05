@@ -1,8 +1,12 @@
 # TheArchive — implementation roadmap and repository audit
 
+> **Canon lock update:** [resolved decisions, remaining assumptions and readiness](THEARCHIVE_CANON_LOCK_2026-11-05.md). Scene 1 is ready for a separately authorised dialogue/source packet and implementation; later scenes remain gated by their own approved sources, including the proposed Lucas backup. This review itself authorises no gameplay change or APK.
+
 Status: **MASTER PLANNING ONLY — 5 November 2026**. **SPOILER / DEVELOPER ONLY**. This is a future build plan, not a runtime implementation report. The supplied brief defines exactly five chapters of ten scenes; optional calls, evidence views, requests and conversations remain activities within those fifty scenes.
 
 Authority: the owner-supplied [master story brief](sources/master-story-2026-11-05/MASTER_STORY_BIBLE_50_SCENES.txt), pinned verbatim for this planning revision. Its “STOP AFTER MASTER PLANNING” instruction is the task boundary. See the [50-Scene Matrix](THEARCHIVE_50_SCENE_MATRIX.md) for individual entry/action/exit contracts.
+
+The [revised starred-number continuity](THEARCHIVE_STARRED_NUMBER_CONTINUITY.md) replaces the prior Eli-written-card candidate. Its proposed dates, source artifacts and remaining decisions require review before dependent scene implementation.
 
 The seven-document package replaces earlier plans as the proposed direction for future work. It does not change existing scene files, routes, UI, save bytes, application identity or APKs. Earlier manuscripts and reports remain historical evidence of delivered versions. **CONFIRMED CANON**, **PROPOSED DESIGN** and **OPEN DESIGN DECISION** have the meanings in the [Story Bible](THEARCHIVE_STORY_BIBLE.md). All future work needs a separate scene/chapter implementation instruction, as explicitly required by the supplied brief.
 

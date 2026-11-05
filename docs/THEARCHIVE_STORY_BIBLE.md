@@ -1,5 +1,7 @@
 # TheArchive — Master Story Bible
 
+> **Canon lock update:** use [the owner decisions and dated provenance](THEARCHIVE_CANON_LOCK_2026-11-05.md) where this document's older proposed chain differs. The number comes from an internal restricted enquiry system; Sophie uses Daniel's shared family folder; Daniel writes the warning card; Sophie tells Eli before his anonymous contact. Lucas's custody of a second encrypted backup remains proposed. The older Eli-authored-card candidate is superseded.
+
 **Status: MASTER PLANNING ONLY · 5 November 2026 · SPOILER / DEVELOPER ONLY**
 
 This is the narrative planning baseline for [the owner's supplied five-chapter brief](sources/master-story-2026-11-05/MASTER_STORY_BIBLE_50_SCENES.txt), pinned verbatim (SHA-256 `4EEAA0FAB750CB2D45C0E046CA384E11C24501384D17D31D548AC59CD1AB16F3`). It does not activate a route, replace a screenplay, change a save, or authorize APK packaging. The existing runtime remains the delivered GREYHAVEN build until a separate implementation instruction.
@@ -102,6 +104,10 @@ GH-DSC-03-A is on Maya's **secondary reference card**. It is not the warning car
 
 ### Recommended complete causal chain
 
+> **Superseded candidate:** the owner now proposes Daniel authored the warning, not Eli. Use the [revised dated continuity recommendation](THEARCHIVE_STARRED_NUMBER_CONTINUITY.md) as the controlling proposed chain. The earlier table below is retained as historical design discussion and must not drive new scenes.
+
+<details><summary>Earlier candidate — superseded</summary>
+
 Everything in this subsection is **PROPOSED DESIGN — OPEN DESIGN DECISION**, not additional canon. It is the shared candidate used by the gap register. Owner approval and source authoring are required before the dependent new route is implemented.
 
 | Link | Recommended mechanism | Later proof / implementation gate |
@@ -115,7 +121,9 @@ Everything in this subsection is **PROPOSED DESIGN — OPEN DESIGN DECISION**, n
 | Why Unknown selects this player | Eli sees an uninvolved outsider has been exposed by the planted number and independently warns/approaches that number. He offers scoped encrypted material to preserve a copy outside channels he fears are compromised. He asks what the player knows; he does not assume Sophie has spoken to them. | Unknown's opening must avoid private-chat knowledge. His fear is a belief, not confirmed surveillance. Later reveal explains and criticises his risky civilian recruitment. If timing needs coordination, author an actual communication rather than infer it. |
 | Why not contact only Rachel | Fear of exposing his own failure makes Eli hesitate; he wants independent preservation before naming himself. This is a flawed character decision with consequences. | An optional safe official reporting route remains available; key evidence must still reach Rachel by C5S8. Decide believable duration and what Eli unsuccessfully attempted. |
 
-The chain is designed to answer how and why without coincidence. It is **not production-ready canon** until the exact roster, actors, documents, custody dates and Eli's choice are approved. Do not seed these details into early dialogue, evidence, art, or NPC knowledge on the authority of this proposal alone.
+This earlier chain is superseded by the revised recommendation.
+
+</details>
 
 ## Evidence and deduction contract
 
@@ -157,7 +165,7 @@ The [chapter plan](THEARCHIVE_CHAPTER_MASTER_PLAN.md) specifies knowledge moveme
 
 ## Nine-day working timeline
 
-The **7–10 day playable duration is CONFIRMED CANON**. The following nine-day arrangement and all relative pre-game intervals are **PROPOSED DESIGN**. Calendar dates, exact kidnapping time, transport, care arrangements and record retention windows are **OPEN DESIGN DECISION**. Gameplay waiting is paced inside scenes; this is not a nine-day real-time lock.
+The **7–10 day playable duration is CONFIRMED CANON**. The [revised continuity recommendation](THEARCHIVE_STARRED_NUMBER_CONTINUITY.md) proposes 31 October–8 November 2026 and dated pre-play events. Those dates, exact transport, care arrangements and record retention windows are **PROPOSED DESIGN** pending approval. Gameplay waiting is paced inside scenes; this is not a nine-day real-time lock.
 
 | Time | Actual events — developer view | Character belief at this time | Player knowledge | Independently verified ceiling |
 | --- | --- | --- | --- | --- |

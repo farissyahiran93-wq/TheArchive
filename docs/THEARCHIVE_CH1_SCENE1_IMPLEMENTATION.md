@@ -1,0 +1,13 @@
+# Chapter 1 Scene 1 — implementation report
+
+The new first-contact graph uses `TA-S01-*` IDs from `src/content/masterScene01.ts`, with nine choices of three alternatives. Fresh starts select it using `masterOpening` and persist `masterScene01` on the scene. Existing saves without these fields continue on their pinned graphs. The existing chat renderer, scheduler, explicit Send, notifications, scene node and saved message history are reused. Selecting a reply does not send it.
+
+The invitation appears after the last authored response. Join explicitly stores group membership and the `TA-S01-SCENE02-UNLOCKED` event. Not Now hides the invitation for later; Decline marks it declined; reconsidering returns it to a reviewable state and still requires Join. The master route stops before `beginScene02`, including after hydration; historical routes retain their prior behavior. The message thread reports the next scene is unlocked but unavailable. Scene 2 is not implemented by this work.
+
+The focused reducer test traverses every one of the 27 choices, checks the corresponding response, normalizes saves at each decision and checks the joining guard. The browser test starts a fresh game and opens Sophie manually, then separately exercises all nine choice points, decline/reconsider/defer, reload and join. These checks do not replace a human acceptance playthrough.
+
+Verification on the final code: typecheck and lint passed; production build passed with the existing large-chunk warning; 1,478 unit tests passed. Both focused Playwright tests passed. The final isolated full browser suite passed **192/192** in 17.9 minutes; its log is `artifacts/master-story-2026-11-05/scene1-isolated-browser.log`. An earlier run had 179 passes and 12 failures while code and shared-server tests were changing; historical invitation labels and tests selecting the previous fresh opening were corrected, and the stable isolated suite was rerun.
+
+Changed implementation: `src/content/masterScene01.ts`, `src/content/actIRegistry.ts`, `src/game/types.ts`, `src/game/scene01.ts`, `src/game/engine.ts`, `src/game/store.ts`, `src/ui/Scene01Chat.tsx`; tests: `src/game/masterScene01.test.ts`, `tests/e2e/master-scene01.spec.ts`, `phone-continuity.spec.ts`, `phone-first-v4.spec.ts`, `scene02-handoff.spec.ts`. The existing screenplay source is `docs/THEARCHIVE_CH1_SCENE1_SCREENPLAY.md`. Empathetic choices at selected beats award one affinity once; cautious responses remain neutral.
+
+Known follow-up: physical-device and human pacing/accessibility acceptance remain untested. Scene 1 is ready for the owner's acceptance playthrough. Explicit separate authorization and new authored content are required for Scene 2.

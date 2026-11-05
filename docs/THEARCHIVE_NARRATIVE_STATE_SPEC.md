@@ -1,8 +1,12 @@
 # TheArchive — narrative state and persistence specification
 
+> **Canon lock update:** [the dated source chain](THEARCHIVE_CANON_LOCK_2026-11-05.md) requires Sophie's actual message to Eli before Unknown contacts the player, preserves consent for the proposed Lucas backup relay, and distinguishes Rachel's report receipt from independent verification and rescue.
+
 Date: 5 November 2026. Status: MASTER PLANNING ONLY. SPOILER / DEVELOPER ONLY.
 
 The new campaign has exactly five chapters of ten scenes. This file proposes content/state contracts for future progressive implementation; it changes no production code, dialogue, route, UI, save or APK. Confirmed story requirements come from the owner's new master brief; technical type names and field layouts below are **PROPOSED DESIGN**, not APIs that already exist.
+
+The [revised continuity recommendation](THEARCHIVE_STARRED_NUMBER_CONTINUITY.md) requires an actual Sophie-to-Eli receipt before Unknown may know she contacted and invited the player. Daniel's warning-card authorship must remain hidden until the planned corroborated C05-S05 reveal.
 
 ## Repository audit and reuse boundaries
 

@@ -1,10 +1,14 @@
 # TheArchive — Five-Chapter Master Plan
 
+> **Canon lock update:** the [owner decisions and dated source chain](THEARCHIVE_CANON_LOCK_2026-11-05.md) control the starred-number and rescue details. Daniel authored the warning; Rowan obtained the number from a restricted internal enquiry system. Lucas as second-backup custodian remains proposed. The five chapters and fifty titles are unchanged.
+
 **Status: MASTER PLANNING ONLY · 5 November 2026 · SPOILER / DEVELOPER ONLY**
 
 This plan applies [the supplied owner brief](sources/master-story-2026-11-05/MASTER_STORY_BIBLE_50_SCENES.txt) to a future route of **five chapters × ten scenes = fifty scenes**. Chapter and scene titles below are **CONFIRMED CANON**. All detailed mechanics, evidence acquisition solutions, branch convergence and day allocation beyond the brief are **PROPOSED DESIGN**. Missing source content, exact causal mechanisms and conflicting historical details remain **OPEN DESIGN DECISION** in [the gap register](THEARCHIVE_PLOT_GAP_REGISTER.md).
 
 The [story bible](THEARCHIVE_STORY_BIBLE.md) holds hidden truth and the proposed number/card chain; [the scene matrix](THEARCHIVE_50_SCENE_MATRIX.md) is the detailed interaction authority when this summary abbreviates a proposed action. Planning IDs `TA-C01-S01` etc. do not rename existing graph/save/event IDs. This task makes no runtime change.
+
+The [revised continuity recommendation](THEARCHIVE_STARRED_NUMBER_CONTINUITY.md) supersedes the earlier Eli-written-card idea: Daniel writes the warning before his kidnapping. Its dates and supporting artifacts remain proposed.
 
 ## Arc, pacing and capability progression
 

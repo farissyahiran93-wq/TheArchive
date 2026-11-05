@@ -1,5 +1,7 @@
 # TheArchive — 50-scene master matrix
 
+> **Canon lock update:** apply [the resolved starred-number decisions and source chronology](THEARCHIVE_CANON_LOCK_2026-11-05.md). Daniel wrote the warning, the player's enquiry number was held internally, and Sophie's actual message precedes Unknown's contact. Lucas's second-backup custody and authorised relay are proposed, not yet approved. Existing scene contracts remain planning-only.
+
 Status: **MASTER PLANNING ONLY · 5 November 2026 · SPOILER / DEVELOPER ONLY**.
 
 Authority: [the supplied master brief](sources/master-story-2026-11-05/MASTER_STORY_BIBLE_50_SCENES.txt). This document replaces earlier scene counts and Bulletin-led new-campaign plans **for future development**, without changing the running game. See the [story bible](THEARCHIVE_STORY_BIBLE.md), [chapter plan](THEARCHIVE_CHAPTER_MASTER_PLAN.md), [recovery specification](THEARCHIVE_TRACE_RECOVERY_SPEC.md), [state specification](THEARCHIVE_NARRATIVE_STATE_SPEC.md), [gap register](THEARCHIVE_PLOT_GAP_REGISTER.md), and [roadmap](THEARCHIVE_IMPLEMENTATION_ROADMAP.md).
@@ -419,7 +421,7 @@ Proposed story calendar: Chapter 1 day 1; Chapter 2 days 2–3; Chapter 3 days 4
 - **Purpose / characters:** Resolve how and why an uninvolved number was inserted. Player; Rowan/custodian testimony as approved, corroborated by records.
 - **Start / dependencies:** TA-C05-S03 complete, technical insertion established and the approved origin/custody artifacts actually acquired.
 - **Required play:** Compare the originating number record, export modification history and accountable statement; trace each transfer; Save a causal explanation with separate facts and inferences.
-- **Information / evidence:** `TA-EX-NUMBER-ORIGIN` and existing phone fragments explain acquisition, deliberate decoy selection and insertion. The shared roster/Rowan candidate is **PROPOSED DESIGN** pending approval; the player never gains a retroactive Daniel friendship.
+- **Information / evidence:** `TA-EX-NUMBER-ORIGIN` and corroborating records establish Rowan's misuse of an internal enquiry system, deliberate decoy selection and insertion. The player never gains a retroactive Daniel friendship. Specific source contents remain to be authored.
 - **Branches / knowledge:** Challenge the statement against independent records. No unsupported confession-only solution or present-day access to real third-party contact lists.
 - **Completion / handoff:** Every causal link has an inspected source or explicit unresolved label; approved full resolution enables warning-card authorship in TA-C05-S05. **Recovery: 94%.**
 
@@ -428,7 +430,7 @@ Proposed story calendar: Chapter 1 day 1; Chapter 2 days 2–3; Chapter 3 days 4
 - **Purpose / characters:** Resolve the distinction between planted contact, star marker and protective warning. Player, Sophie and source accounts delivered within their knowledge.
 - **Start / dependencies:** TA-C05-S04 complete, original warning-card preservation and approved production/custody evidence available.
 - **Required play:** Compare the contact-marking record, card production/custody trail and independent statements; inspect each link and Save who marked the entry, who produced the warning and how it reached Sophie.
-- **Information / evidence:** `TA-FN-STAR-CARD-CHAIN` resolves intent and flawed delayed delivery. If the selected proposal makes Unknown the card writer, this scene establishes only that anonymous role; the name Eli is confirmed in TA-C05-S06.
+- **Information / evidence:** `TA-FN-STAR-CARD-CHAIN` resolves intent and delayed discovery. Daniel's note, older folder photo and custody evidence corroborate Daniel as writer; handwriting resemblance alone is insufficient. Unknown is confirmed as Eli only in TA-C05-S06.
 - **Branches / knowledge:** Permit Sophie's response without blame for following a misleading export. Attribution needs more than handwriting resemblance; exact artifacts and makers remain authoring blockers.
 - **Completion / handoff:** A corroborated chain and actual Sophie exchange make explicit Unknown identity confirmation available next. **Recovery: 94%.**
 
@@ -464,7 +466,7 @@ Proposed story calendar: Chapter 1 day 1; Chapter 2 days 2–3; Chapter 3 days 4
 - **Purpose / characters:** Resolve the immediate disappearance through an official rescue. Rachel, player, Sophie and Maya; Daniel after independently confirmed rescue.
 - **Start / dependencies:** TA-C05-S08 delivered report and actual Rachel assessment. Authorities independently corroborate the facility lead and follow an approved fictional operational process; delivery alone does not launch a raid.
 - **Required play:** Open official updates, provide a requested clarification through an explicit Send if needed, receive the verified rescue confirmation and review a carefully scoped family notification before sending/acknowledging it.
-- **Information / evidence:** **Daniel is found alive at the old harbor storage facility by authorities under Rachel.** His identity and safe recovery are confirmed through the official source; the player does not conduct the operation.
+- **Information / evidence:** **Daniel is found alive at the old harbor storage facility by authorities under Rachel**, after official corroboration of contractor vehicle records, storage access logs, witness evidence and independent location confirmation. His identity and safe recovery are confirmed through the official source; the player does not conduct the operation.
 - **Branches / knowledge:** Safe waiting/review interactions preserve agency without asking the player to direct tactics. Sophie and Maya learn survival only through actual official/family delivery, never a global flag before a message.
 - **Completion / handoff:** Commit official rescue confirmation and actual family notification receipts, then offer the final resolution in TA-C05-S10. **Recovery: 100%.**
 

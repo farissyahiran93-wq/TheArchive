@@ -1,5 +1,7 @@
 # TheArchive — plot gap and continuity register
 
+> **Canon lock update:** G01–G04 and G06 are resolved at the narrative-decision level by [the canon lock](THEARCHIVE_CANON_LOCK_2026-11-05.md): restricted internal enquiry source, Rowan's insertion, Sophie's shared-folder access and message to Eli, and Daniel's handwritten warning. Card confirmation requires the note, older folder photo and custody evidence together. G13's four-source official rescue verification is locked. G16's Lucas-custodied second backup is **proposed pending final approval**. Dates, source bodies and technical access grants remain authoring assumptions. Prior open decisions and candidates below are historical where they conflict with this update.
+
 Status: **MASTER PLANNING ONLY — 5 November 2026**. **SPOILER / DEVELOPER ONLY**. This register accompanies the [Story Bible](THEARCHIVE_STORY_BIBLE.md), [Chapter Master Plan](THEARCHIVE_CHAPTER_MASTER_PLAN.md), [50-Scene Matrix](THEARCHIVE_50_SCENE_MATRIX.md), [TRACE specification](THEARCHIVE_TRACE_RECOVERY_SPEC.md), [state specification](THEARCHIVE_NARRATIVE_STATE_SPEC.md), and [implementation roadmap](THEARCHIVE_IMPLEMENTATION_ROADMAP.md).
 
 Authority: the pinned owner-supplied [master story brief](sources/master-story-2026-11-05/MASTER_STORY_BIBLE_50_SCENES.txt). Open explanations below are recommendations requested by that brief; they do not silently extend confirmed canon.
@@ -10,6 +12,10 @@ The supplied 50-scene brief confirms the ending and the central conspiracy. It d
 
 ## Shared recommended causal chain
 
+> **Continuity revision, 5 November 2026:** the owner's new direction replaces the earlier Eli-authored-card candidate. The controlling recommendation, dated events, provenance and character knowledge matrix are in [THEARCHIVE_STARRED_NUMBER_CONTINUITY.md](THEARCHIVE_STARRED_NUMBER_CONTINUITY.md). Daniel detects the altered export and writes the separate warning before his kidnapping. Sophie later tells Eli she contacted the number; he learns only that delivered information. All detailed mechanisms and dates remain proposed pending approval. The earlier candidate below is retained only as superseded decision history; it must not be used in scene authoring.
+
+<details><summary>Superseded earlier candidate — do not use</summary>
+
 **CONFIRMED CANON:** the player has no genuine prior relationship with Daniel; their number was inserted into a manipulated contact copy; a separate warning card exists; Unknown is Eli; the card is discovered too late to prevent Sophie's initial contact. The following is one coherent **PROPOSED DESIGN**, shared across the planning documents:
 
 1. An ordinary, earlier project consultation or administrative inquiry places the player's fictional contact number in a project-held contact roster. This establishes an accessible source without a Daniel relationship. The exact mundane transaction and retention context remain **OPEN DESIGN DECISION**; no real user contacts, phone number or accounts are accessed.
@@ -19,7 +25,9 @@ The supplied 50-scene brief confirms the ending and the central conspiracy. It d
 5. Eli independently contacts the number he saw in the manipulated export. He asks what happened and offers limited encrypted material. He cannot observe the player's chats, group membership, choices or location. His warning and preservation motive explain the approach; fear, delay and choosing an outsider remain morally questionable decisions for which he later accounts.
 6. Chapter 4 can establish insertion through corroborated versions and access records without identifying every actor. Chapter 5 separately establishes the roster origin, who made the warning, custody and purpose using more than Eli's confession. Unknown's personal identity is confirmed at `TA-C05-S06`.
 
-The exact folder handoff, discovery order, pre-play dates, retained baseline and confirming documents are **OPEN DESIGN DECISIONS**. The project roster, Rowan's insertion action and Eli's card authorship are recommended additions, not facts supplied in the brief. If the author rejects any link, revise the chain in all seven documents before producing new dialogue. Do not keep an attractive cliffhanger with an unresolved causal mechanism.
+The exact folder handoff, discovery order, pre-play dates, retained baseline and confirming documents were open in this superseded candidate.
+
+</details>
 
 ## Required continuity questions
 
@@ -45,8 +53,8 @@ The exact folder handoff, discovery order, pre-play dates, retained baseline and
 ### G03 — Warning-card maker and creation time
 
 - **Severity:** Critical. **Canon anchor:** exact warning and Chapter 1 cliffhanger; maker unspecified.
-- **PROPOSED DESIGN:** Eli prints the card after seeing the suspect export but before Sophie discovers it. His intention is “do not trust this contact entry,” not a supernatural prediction about the player.
-- **Reasoning:** the caution responds to a known manipulated artifact. It also gives Eli a consequential mistake: a paper warning can fail without making him omniscient.
+- **PROPOSED DESIGN:** Daniel writes the card on 29 October after identifying an unexpected entry in the derived export, before his kidnapping. His warning concerns an untrusted entry, not a claim the player is dangerous.
+- **Reasoning:** the caution responds to an observed discrepancy; Daniel's delayed explanation fails when he is intercepted.
 - **Dependency / reveal:** do not assert author identity in `TA-C01-S10` or `TA-C02-S02`; establish author/intention in `TA-C05-S05`, then connect to Unknown only at S06.
 - **Acceptance evidence:** retained draft or dated printing/delivery account plus corroborating custody; typography alone cannot identify the author. Early evidence labels writer/date unknown.
 - **Decision:** **OPEN DESIGN DECISION** — approve printed medium, creation interval and confirming record. Existing runtime references to writing or handwriting remain historical version differences.
@@ -54,11 +62,11 @@ The exact folder handoff, discovery order, pre-play dates, retained baseline and
 ### G04 — How the separate warning reaches Sophie
 
 - **Severity:** Critical. **Canon anchor:** Sophie discovers it after contacting the player; it is not Maya's reference card.
-- **PROPOSED DESIGN:** Eli places the warning in Daniel's working folder; Maya transfers the closed folder with effects; Sophie finds the card during later sorting. The export arrived through a separate file path.
+- **PROPOSED DESIGN:** Daniel places the warning in his own paper folder; Maya transfers the sealed folder after his disappearance; Sophie finds the card during later sorting. The export arrives through a separate shared-folder path.
 - **Reasoning:** a finite custody chain explains the delay without a courier conveniently knowing the plot or a retroactively generated prop.
 - **Dependency / reveal:** establish harmless folder context before the call; collect front/back and custody statement in `TA-C02-S02`; corroborate maker in `TA-C05-S05`.
 - **Acceptance evidence:** a custody ledger names each transfer, approximate interval, whether opened and what each witness actually saw. Maya cannot know the reverse warning merely from carrying the folder.
-- **Decision:** **OPEN DESIGN DECISION** — exact physical access and timing must be approved before S10, including why Eli could place it and did not use a quicker trusted channel. His fear/delay is a flaw, not an adequate unexamined excuse.
+- **Decision:** **OPEN DESIGN DECISION** — approve the handoff and why Sophie did not open the folder sooner; Daniel's intended later explanation is interrupted by his kidnapping.
 
 ### G05 — Eli's acquisition and retention of the backup
 
@@ -72,7 +80,7 @@ The exact folder handoff, discovery order, pre-play dates, retained baseline and
 ### G06 — Why Eli selects the player
 
 - **Severity:** Critical. **Canon anchor:** anonymous coworker contacts outsider; no omniscience and no prior Daniel bond.
-- **PROPOSED DESIGN:** Eli sees the decoy number through his limited export comparison, worries that the outsider is exposed, and independently offers a warning and scoped archive review. He begins by asking what the player has encountered. His desire to avoid revealing his own earlier failure explains, but does not excuse, avoiding a direct transparent authority handoff.
+- **PROPOSED DESIGN:** Sophie tells Eli she contacted the number and invited its owner to help. Eli independently compares the export with his retained baseline, learns the number and offers scoped archive review. He begins by asking what the player has encountered. His fear and earlier failure explain, but do not excuse, avoiding a transparent authority handoff.
 - **Reasoning:** the player's involvement follows the deliberate planted clue. Eli need not intercept Sophie's messages or know a refusal/consent choice he never received.
 - **Dependency / reveal:** source-limited trust questions at `TA-C01-S04`; gradual account in `TA-C04-S05`; complete motive at `TA-C05-S06`.
 - **Acceptance evidence:** no Unknown line refers to undisclosed player actions; archive sharing is bounded and voluntarily accepted; the player can raise privacy concerns, decline for now and resume without punishment. A safeguarding route to Rachel can be offered without automatic Send.
@@ -204,7 +212,7 @@ Apply the Story Bible's reveal schedule to **every** scene and every optional br
 | Sophie | Her export/custody account, family memories, discovery of warning. | Unknown's identity, player TRACE findings, Maya's private disclosures, card maker before corroboration. | Actual delivery to Sophie; manual call/open; scoped reports. |
 | Maya | Her own relationship/history, her source capture/card, any sealed-folder transfer she witnessed. | Warning text inside a closed folder, player theories, private Sophie consent, Unknown identity. | Actual inspected source and player Send to Maya; own disclosures are attributed. |
 | Lucas | His conversations/copy custody and privacy reason for leaving. | Group dialogue after departure, private sources, full archive, unrestricted invitation back. | Optional recontact, consent and scoped delivery; fallback keeps main route possible. |
-| Eli / Unknown | His work access, backup custody, overlooked access and own proposed warning actions. | Captivity address, other private conversations, player's unsent selection, all system logs. | His own observed records or a delivered recipient-specific disclosure; admissions reveal facts gradually. |
+| Eli / Unknown | His work access, backup custody, overlooked access and Sophie's delivered limited message. | Card authorship, captivity address, other private conversations, player's unsent selection, all system logs. | His own observed records or a delivered recipient-specific disclosure; admissions reveal facts gradually. |
 | Daniel | His work with June, disclosure to Rowan, preservation request and own captivity experience. | Outside events during captivity or final player theories. | Limited authenticated communications and post-rescue explanation; no early all-knowing message. |
 | Rachel | Official case records and evidence her inquiry actually obtained. | Entire private board, every fragment or player inference merely because chapter is complete. | Reviewed explicit report delivery, independent corroboration and received official update. |
 | Nora | Reference conventions and records she has lawful access to. | Authorship or body of an unseen original, Daniel's fate, private family material. | Introduced professional route and scoped request/reply; no automatic group membership. |
@@ -216,7 +224,7 @@ Apply the Story Bible's reveal schedule to **every** scene and every optional br
 
 ## Timeline and consistency acceptance
 
-The Chapter Master Plan's proposed nine-day schedule separates actual events, character beliefs, player access and independent verification: C1 Day 1, C2 Days 2–3, C3 Days 4–5, C4 Days 6–7, C5 Days 8–9. Pin exact pre-play dates only after G01–G17 decisions; maintain relative order where dates are unknown. Before approving each scene:
+The [continuity recommendation](THEARCHIVE_STARRED_NUMBER_CONTINUITY.md) proposes 31 October–8 November 2026 for the nine playable days and explicit pre-play dates. All dates remain subject to approval. Before approving each scene:
 
 1. Check all displayed times against source timezone/clock uncertainty and story day. A filesystem time is not a witnessed human action.
 2. Check the actual speaker's receipt history and group membership at the delivery moment. No knowledge is retroactively granted on joining.
