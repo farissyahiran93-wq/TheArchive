@@ -1,5 +1,7 @@
 # THE ARCHIVE — Story Bible v2 ruling and Episode 01 contact map
 
+> **5 November 2026 planning authority:** [THEARCHIVE_STORY_BIBLE.md](THEARCHIVE_STORY_BIBLE.md) and its linked six master specifications now define the future five-chapter / fifty-scene plan. This v2 document and its later-version notices remain historical provenance and save-compatibility references. No historical dialogue, receipt or runtime route is rewritten by the new planning package.
+
 > **21 October 2026 authorial update:** The supplied Story Bible V6 supersedes this document's proposed *new-game* character canon. V6 makes Eli an initial FIND DANIEL member, requires Lucas then Maya to leave while Sophie remains, and assigns independent Bulletin authorship to Nora. The group membership and departure order have been implemented; the Bulletin and Evidence 002 restructuring remain open. See [the V6 implementation audit](EPISODE_01_FINAL_V6_IMPLEMENTATION_REPORT.md). This historical v2 record remains for save-compatibility and decision provenance; it is not current acceptance evidence.
 
 20 October 2026. This document records the author's supplied ruling for **new phone-first games**. It supersedes older notes that place Maya's first player-visible introduction after the recovered mirror. Existing v2/v3 saves keep their actual history and are not rewritten.

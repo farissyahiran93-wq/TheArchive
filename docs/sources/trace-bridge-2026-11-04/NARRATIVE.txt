@@ -1,0 +1,298 @@
+THE ARCHIVE — SCENE 4 → SCENE 5 BRIDGE
+UNKNOWN NUMBER / TRACE: TRUST, INSTALLATION AND FIRST REFERENCE
+Narrative revision: 3.0 | 4 November 2026
+IN-GAME LANGUAGE: ENGLISH
+Implementation notes: BM + English
+
+SCOPE
+Replace ONLY the Unknown Number segment beginning with the existing beat:
+"There's something else you can check."
+Do not rewrite the completed Sophie scene, Bulletin article, the read receipt, or the authored identity of Unknown Number.
+This sequence starts AFTER Sophie conversation is genuinely complete AND the player has read the Greyhaven Bulletin article.
+End after the initial TRACE scan has been discussed by an explicit player Send, then hand over to Scene 5's Updated-label investigation.
+
+CANON RULES
+- Daniel's public article is GB-ARTICLE-001. Recovered reference: ARC-IDX-GB-041.
+- The index contains a matching public article reference, NOT a validated earlier article version.
+- The archive/index source, author, capture time and original article body remain unverified/unavailable.
+- Unknown can credibly claim to have built the TRACE *viewer/tool*, but explicitly did NOT claim to author or verify the recovered index. This claim is testimony, not authenticated fact.
+- A scan can parse/compare existing reference fields; it cannot recover absent text, identify an editor or prove an article alteration.
+- Never force player trust. Preserve skeptic and cautious responses without punishment or a dead end.
+- Every outgoing player chat line is selected and then explicitly SENT. Tapping a tool does not send messages to Unknown.
+- No three-source checklist, no mandatory rereading of article, no automatic publisher inquiry, no Scene 6 unlock.
+
+DIALOGUE NOTATION
+UNKNOWN > NPC message, delivered one bubble at a time with human pacing.
+PLAYER A/B/C > three choices; apply only on explicit SEND; corresponding responses have same letter.
+SYSTEM > local phone UI only; never a speaker in Unknown's chat.
+ACTION > deliberate user tap in one of the in-game apps.
+GATE > reducer/state persistence; never show in user-facing conversation.
+When player moves to another app, preserve chat choices, draft, scroll, progression and scene checkpoint.
+
+====================================================================
+BEAT 01 — A NEW CONTACT, A REASON TO BE SUSPICIOUS
+====================================================================
+GATE: Sophie conversation has ended AND Bulletin article MARK READ is saved.
+After a short, story-authored pause, show notification "Unknown Number — New message". Do not open the chat automatically.
+
+UNKNOWN > There's something else you can check.
+UNKNOWN > I found an anomaly in a reference tied to the Greyhaven Bulletin article.
+UNKNOWN > Not in the article itself. In a record pointing to it.
+
+PLAYER A > "Who is this? And how do you know what I've read?"
+PLAYER B > "An anomaly? That sounds conveniently vague."
+PLAYER C > "I'm listening. But start with what you actually found."
+[SEND REQUIRED]
+UNKNOWN A > Fair question. I know the public story. I don't have access to your messages.
+UNKNOWN A > I assumed you'd seen it. And no, I'm not giving you my name. Not yet.
+UNKNOWN B > It is vague. Because the record is incomplete, and I won't fill in what isn't there.
+UNKNOWN C > A reference number. And one field that appears to point to the same public article.
+
+UNKNOWN > The reference is ARC-IDX-GB-041.
+UNKNOWN > It points to GB-ARTICLE-001 — Daniel Mercer's Greyhaven Bulletin story.
+UNKNOWN > The public article exists. The reference exists in the copy I have.
+UNKNOWN > But I can't establish who created that index or when this entry was captured.
+
+====================================================================
+BEAT 02 — WHY SHOULD I BELIEVE YOU?
+====================================================================
+PLAYER A > "Why should I trust an anonymous number with a file about Daniel?"
+PLAYER B > "You could have made that reference yourself."
+PLAYER C > "If you've found something real, why not just send me a screenshot?"
+[SEND REQUIRED]
+UNKNOWN A > You shouldn't trust me just because I contacted you.
+UNKNOWN A > You don't know me. That's a good reason to be careful.
+UNKNOWN B > I could be wrong. And I can't prove the source of the index from the copy I have.
+UNKNOWN B > That's exactly why I don't want you treating it as evidence of a changed article.
+UNKNOWN C > A screenshot would show you what I chose to show you.
+UNKNOWN C > I want you to inspect the fields yourself, including the ones marked unknown.
+
+UNKNOWN > I am not asking you to believe my explanation.
+UNKNOWN > I'm asking you to check whether the reference says what I claim it says.
+
+====================================================================
+BEAT 03 — SO WHAT EXACTLY IS THIS REFERENCE?
+====================================================================
+PLAYER A > "Does this mean someone changed the article?"
+PLAYER B > "If there's no earlier copy, what's the point of this index?"
+PLAYER C > "What makes a reference different from the actual document?"
+[SEND REQUIRED]
+UNKNOWN A > No. A matching reference doesn't prove an edit.
+UNKNOWN A > We have no verified earlier wording to compare.
+UNKNOWN B > It gives us a place to start. It tells us what record the entry points toward.
+UNKNOWN B > It doesn't tell us whether the document survived.
+UNKNOWN C > A reference can hold an ID, a title, or a pointer without holding the content itself.
+UNKNOWN C > Think of a library catalogue entry for a book that's no longer on the shelf.
+
+UNKNOWN > The strange part is that this entry survived without the source material I would need to place it in time.
+UNKNOWN > I want you to see that limitation before you decide what it means.
+
+====================================================================
+BEAT 04 — INTRODUCING TRACE
+====================================================================
+UNKNOWN > You'll need TRACE to inspect the reference properly.
+
+PLAYER A > "TRACE? What is that supposed to be?"
+PLAYER B > "Another app? Did you make it?"
+PLAYER C > "Why can't I just open the reference in the Browser?"
+[SEND REQUIRED]
+UNKNOWN A > It's a small forensic viewer. It reads damaged references and separates the fields it can recover from the ones it can't.
+UNKNOWN B > I built the viewer. I didn't create the index it reads.
+UNKNOWN B > The index came to me incomplete. I still can't authenticate who assembled it.
+UNKNOWN C > A public browser can open the article. The reference isn't a public web page.
+UNKNOWN C > TRACE reads the local index package and compares the identifiers it contains.
+
+UNKNOWN > It can inspect metadata, follow pointers, and compare available records.
+UNKNOWN > If a file contains an encrypted payload, a separate tool can attempt a local decode or recovery when the story provides a valid input.
+UNKNOWN > But it can't invent a missing document. And it can't turn an unverified record into a verified one.
+
+====================================================================
+BEAT 05 — THE PLAYER CHALLENGES THE TOOL'S TRUSTWORTHINESS
+====================================================================
+PLAYER A > "And I'm supposed to install software from someone who won't even give me a name?"
+PLAYER B > "How do I know TRACE isn't altering the results?"
+PLAYER C > "What's in it for you? Why do you want me to look?"
+[SEND REQUIRED]
+UNKNOWN A > You're right to question it.
+UNKNOWN A > The package won't have a verified publisher. The phone should warn you about that.
+UNKNOWN A > You can stop here. I won't pretend the risk isn't there.
+UNKNOWN B > You don't know that. I can tell you what I built it to do, but that isn't independent proof.
+UNKNOWN B > Read the raw fields. Keep the uncertainty visible. Don't accept a result just because TRACE displays it.
+UNKNOWN C > Because I found the reference but couldn't resolve it myself.
+UNKNOWN C > I want another person to examine the same surviving fields.
+UNKNOWN C > That doesn't mean you owe me an answer.
+
+UNKNOWN > If you decide to continue, I can send the in-game package.
+UNKNOWN > Inspect it on your terms.
+
+====================================================================
+BEAT 06 — CONSENT AND PACKAGE DELIVERY
+====================================================================
+PLAYER A > "All right. Send the package. I'll decide after I see the warning."
+PLAYER B > "Not yet. Tell me one more thing: will this access my messages?"
+PLAYER C > "I'm not installing an unknown app right now."
+[SEND REQUIRED]
+UNKNOWN A > Fair enough. I won't call it safe just because I wrote the viewer.
+UNKNOWN A > The package is below. You make the decision.
+UNKNOWN B > This viewer is designed to work with its packaged reference data, not your conversations.
+UNKNOWN B > But that is still my description, not proof of its origin or integrity.
+UNKNOWN B > You should see the device warning before deciding.
+UNKNOWN C > Then don't install it yet.
+UNKNOWN C > The reference won't become more trustworthy just because you're in a hurry.
+UNKNOWN C > If you change your mind, ask me for the package again.
+
+GATE: A or B reveals the in-game attachment. C keeps the intro in a resumable "deferred" state; reply option "Send TRACE again" must be reachable without replaying the whole conversation.
+
+[CHAT ATTACHMENT — shown only after relevant sender delivery]
+Title: TRACE.pkg
+Subtitle: Local reference viewer · Publisher unknown · Integrity not verified
+CTA: INSPECT PACKAGE
+No external APK URL, no real device installation, no real OS security bypass.
+
+ACTION: Player taps INSPECT PACKAGE.
+SYSTEM: DEVICE SECURITY
+SYSTEM: Package: TRACE.pkg
+SYSTEM: Publisher: UNKNOWN
+SYSTEM: Origin: UNVERIFIED
+SYSTEM: Integrity: NOT ESTABLISHED
+SYSTEM: Requested in-game data: Packaged recovered references
+SYSTEM: This is an unverified in-game package.
+Buttons: INSTALL / NOT NOW
+
+IF NOT NOW: return to Unknown chat; player keeps agency, no loss or softlock.
+IF INSTALL:
+SYSTEM: Preparing local package…
+SYSTEM: Reading package manifest…
+SYSTEM: Installing TRACE viewer…
+SYSTEM: Setting up reference workspace…
+SYSTEM: Installation complete.
+SYSTEM: TRACE icon appears on the phone Home. Never claim authenticity has become verified.
+
+UNKNOWN > Open TRACE when you're ready.
+UNKNOWN > You should see one incoming reference: ARC-IDX-GB-041.
+UNKNOWN > Tap it, then run the scan. Start with the PUBLIC_ARTICLE field.
+UNKNOWN > Don't use the Decryptor yet. We haven't established that there's anything encrypted here.
+UNKNOWN > You don't have to send me anything until you've checked it.
+
+====================================================================
+BEAT 07 — FIRST LAUNCH: A CONTROLLED, INTERACTIVE SCAN
+====================================================================
+ACTION: Player opens TRACE from Home. No auto-launch.
+UI: DARK TRACE HOME, one clear primary action, not a multi-module checklist.
+Header: TRACE / ACCESS: PARTIAL
+Card: INCOMING REFERENCE
+ID: ARC-IDX-GB-041
+Metadata status: UNRESOLVED
+CTA: INSPECT REFERENCE
+
+ACTION: Player taps INSPECT REFERENCE.
+UI: Reference inspector with a terminal-like status output.
+SYSTEM: Target: ARC-IDX-GB-041
+SYSTEM: Available container: Recovered index / authenticity unknown
+CTA: SCAN REFERENCE
+
+ACTION: Player taps SCAN REFERENCE.
+Timed game simulation (4–7 seconds total; respect reduced motion; deterministic, resume-safe):
+00% INITIALIZING INDEX READER
+18% READING REFERENCE HEADER
+37% PARSING AVAILABLE FIELDS
+62% MATCHING PUBLIC ARTICLE IDENTIFIER
+83% CHECKING DATA AVAILABILITY
+100% SCAN COMPLETE
+
+Sample log (in-world visual only):
+> Loading reference ARC-IDX-GB-041
+> Header decoded: reference fields recovered
+> PUBLIC_ARTICLE: GB-ARTICLE-001
+> TITLE: Questions Remain After Greyhaven Data Specialist Stops Responding
+> SOURCE: UNKNOWN
+> CAPTURE_TIME: NOT ESTABLISHED
+> ORIGINAL_BODY: UNAVAILABLE
+> Encrypted payload: NONE DETECTED
+> Result: MATCHING REFERENCE — REVISION UNVERIFIED
+
+No fake IPs, backdoors, passwords, camera hacks, secret timestamps or discovered body text.
+
+ACTION: Player taps VIEW FINDINGS.
+INTERACTIVE FIELD COMPARISON: Player taps the PUBLIC_ARTICLE row, then COMPARE WITH PUBLIC COPY. TRACE displays GB-ARTICLE-001 on both sides, with an explicit SOURCE NOT AUTHENTICATED label. If the player instead taps TITLE first, show a brief hint: "Titles can match without proving identity. Try the article identifier." No punishment, no fake deduction.
+UI FINDINGS (tap-expand rows, not a static checklist):
+1. ARTICLE REFERENCE MATCH — GB-ARTICLE-001; only the displayed identifier matches.
+2. SOURCE/DATE — Cannot authenticate index origin or capture time.
+3. ORIGINAL ARTICLE CONTENT — Not present; no before-and-after comparison possible.
+4. DECRYPTION — Not applicable to this record: no encrypted payload detected. Do not use fake decrypt animation here.
+CTA: SAVE FINDINGS TO TRACE (optional if automatically persisted on first VIEW FINDINGS; must be idempotent)
+CTA: RETURN TO MESSAGES
+
+TECH DESIGN: Show a 'DECRYPTOR' tool in the app's overall navigation as a future capability, but on ARC-IDX-GB-041 it must display 'NO ENCRYPTED PAYLOAD' and explain the difference between decoding a header and decrypting a file.
+
+====================================================================
+BEAT 08 — THE PLAYER REPORTS THE RESULT, NOT THE APP
+====================================================================
+ACTION: Player returns to Unknown Number thread.
+UNKNOWN > You opened the reference?
+UNKNOWN > What did TRACE actually show you?
+
+PLAYER A > "The article ID matches. But the original text isn't there."
+PLAYER B > "Your tool can't verify where the index came from. Why did you call it an anomaly?"
+PLAYER C > "I thought I was going to decrypt an older article. There's nothing to decrypt."
+[SEND REQUIRED]
+UNKNOWN A > That's what I wanted you to see. A reference survived. The document didn't come with it.
+UNKNOWN A > That doesn't tell us whether the article was changed.
+UNKNOWN B > Because the entry points to a public article, but the provenance and capture details are missing.
+UNKNOWN B > It may just be an incomplete extraction. I'm not calling it proof of tampering.
+UNKNOWN C > Because the original content isn't encrypted here. It's absent.
+UNKNOWN C > Decoding the reference fields isn't the same as decrypting a missing article.
+
+UNKNOWN > So we have a lead. Not an answer.
+UNKNOWN > The public page still gives us one more thing we can examine.
+UNKNOWN > That "Updated" label.
+UNKNOWN > Have another look at what the label actually tells the reader.
+UNKNOWN > Save your observation to TRACE when you're ready.
+
+[CONTEXTUAL ATTACHMENT: OPEN BULLETIN ARTICLE]
+GATE: Scene 5 Updated-label investigation becomes available. The previously completed Scene 4 article-read status carries forward. Do not ask for MARK READ again; only inspect the label and SAVE ANALYSIS TO TRACE.
+
+====================================================================
+OPTIONAL BRANCH — IF PLAYER DEFERS INSTALLATION OR BACKS OUT
+====================================================================
+If the player taps NOT NOW, cancels the installer or leaves TRACE before scanning:
+- Unknown does not spam reminders or repeat the explanation.
+- The thread remains at the actual pending point.
+- A context action like "Ask for TRACE package" or "Continue inspecting" is available when player reopens the same conversation.
+- No phantom scan, fabricated findings, forced Send, chapter completion or Scene 5 source receipt.
+- If player chose distrust, preserve that tone. Do not rewrite it as agreement.
+
+Example reentry:
+PLAYER > "Send TRACE again. I want to check the reference."
+[SEND REQUIRED]
+UNKNOWN > All right. The package is still here. Remember what I said about its source.
+
+====================================================================
+IMPLEMENTATION AND QUALITY CONTRACT
+====================================================================
+1) Insert new node IDs, e.g. OPEN-S04-TRACE-INTRO-V3-*, with unique, deterministic event IDs; keep old graph IDs for older saves. Never break completed scenes.
+2) Canonical story gate from existing Article Read and Sophie complete receipts, NOT from elapsed time alone.
+3) `TRACE.pkg` link is an in-game attachment. Do not direct player to install a real APK or relax OS security outside game.
+4) Separate: link_delivered, installation_consented, installed, scan_started, scan_complete, findings_viewed, findings_disclosed_to_unknown, and article_update_analysis_saved. Validate/migrate against existing flags rather than creating conflicting second truths.
+5) The tool developer's identity is Unknown Number's unverified claim, not established canon about index provenance.
+6) A source inspection unlocks applicable reply choices; it does NOT inject the result into Unknown's knowledge until player SEND confirms disclosure.
+7) No automatic player reply or send on opening package, typing animation end, installing, viewing findings, tapping Return to Messages or background restore.
+8) No premature Scene 5 comparison, publisher inquiry, corrections desk unlock or Scene 6 activation.
+9) App still opens normally after scan; findings persist and are inspectable without replay.
+10) UI: terminal look with tasteful neon green accents, readable dark surfaces, proper mobile safe areas, sticky header/controls without covering text, one primary action per state, accessible contrast and reduced-motion alternative.
+11) For B/C branches, avoid falsely claiming trust or rewriting a player's skepticism into compliance.
+12) Test phone back navigation, resume during install/scan, save migration, retry idempotence, and exactly-once notifications.
+
+ACCEPTANCE TESTS
+- Sophie still sends actual Bulletin link, Bulletin widget unlocks, article is read once.
+- Unknown messages start only after Sophie completion; no player auto-speak.
+- Player can challenge sender, ask who made TRACE, decline install, or defer.
+- UI never claims Unknown identity or recovered index has been verified.
+- Package delivered as a fictional in-app attachment; security warning precedes install.
+- Installation never reports VERIFIED publisher or VERIFIED integrity.
+- Scanning cannot discover missing article text or an authenticated earlier copy.
+- "Decode reference" is not represented as successful decryption of an absent payload.
+- VIEW FINDINGS, save/resume, repeat view are deterministic and idempotent.
+- Returning to chat waits for selected + Send to disclose findings.
+- Scene 5 follows smoothly with Updated label and no re-MARK READ requirement.
+- Corrections Desk and Scene 6 remain locked until their later authored gate.

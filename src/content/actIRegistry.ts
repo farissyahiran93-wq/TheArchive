@@ -1,4 +1,6 @@
+import { traceBridgeNodes } from './traceBridgeV3'
 import { revisedScene0607Nodes } from './scene0607Revision'
+import { naturalNodes, naturalSophieOverrides } from './naturalConversation'
 import type { Scene01Node } from './scene01'
 import { alignedScene04Nodes, conversationNodes } from './versionHistoryConversation'
 import { sourceInvestigationNodes } from './sourceInvestigations'
@@ -10,7 +12,7 @@ import { scene02DinnerRevision } from './scene02DinnerRevision'
 import { scene01Nodes } from './scene01'
 import type { OpeningState } from '../game/types'
 
-const finalNodes = { ...scene02DinnerRevision(actIFinalNodes), ...scene04Nodes, ...scene05Nodes, ...scene06Nodes, ...sourceInvestigationNodes, ...revisedScene0607Nodes, ...conversationNodes }
+const finalNodes = { ...scene02DinnerRevision(actIFinalNodes), ...scene04Nodes, ...scene05Nodes, ...scene06Nodes, ...sourceInvestigationNodes, ...revisedScene0607Nodes, ...conversationNodes, ...naturalNodes }
 
 const alignedNodes:Record<string,Scene01Node>={...finalNodes,...alignedScene04Nodes, 'OPEN-S03-FINAL-AFTER-19-6':{...finalNodes['OPEN-S03-FINAL-AFTER-19-6'],text:'Goodbye.'} as typeof finalNodes[string]}
 
@@ -80,8 +82,46 @@ for (const [id, replies] of Object.entries(intentReplies)) {
   })}
 }
 
+// The new entry is selected only before Version History begins. Delivered text and
+// already-started conversations remain pinned to the graph they were using.
+export const traceUnknownEntrance = 'OPEN-VH-TRACE-INTRO-1'
+const traceNodes: Record<string, Scene01Node> = { ...revisedIntroNodes }
+const traceIntro = ["You've already seen the Bulletin article.", "Good. You don't need to read it again.", "I've added a reference to TRACE.", 'ARC-IDX-GB-041.', "Track the reference. Don't assume it's an older version.", 'Tell me what the index actually contains.']
+traceIntro.forEach((text,i) => {
+  const id=`OPEN-VH-TRACE-INTRO-${i+1}`
+  traceNodes[id]={id,kind:'npc',channel:'unknown',sender:'unknown',text,next:i===traceIntro.length-1?'OPEN-VH-NEW-C01':`OPEN-VH-TRACE-INTRO-${i+2}`,...(i===traceIntro.length-1?{attachment:'index' as const}:{})}
+})
+const traceChoice = traceNodes['OPEN-VH-NEW-C01']
+if(traceChoice.kind==='choice')traceNodes[traceChoice.id]={...traceChoice,choices:[
+  {id:'a',text:"I'll trace the reference and see what it holds.",next:'OPEN-VH-TRACE-REPLY-a'},
+  {id:'b',text:'Why should I trust a reference you added?',next:'OPEN-VH-TRACE-REPLY-b'},
+  {id:'c',text:"I'll check the fields. A match won't prove an edit.",next:'OPEN-VH-TRACE-REPLY-c'},
+]}
+for(const [id,text] of Object.entries({a:'Look at the available fields, then decide what they support.',b:"You shouldn't trust its origin. Inspect what it actually contains.",c:'Keep that distinction. A reference is not an earlier copy.'})){
+  const key=`OPEN-VH-TRACE-REPLY-${id}`
+  traceNodes[key]={id:key,kind:'npc',channel:'unknown',sender:'unknown',text,next:'OPEN-VH-NEW-SOURCE-HUB'}
+}
+
+const naturalGraph:Record<string,Scene01Node>={...traceNodes,...naturalNodes,...naturalSophieOverrides}
+const sophieRead=naturalGraph['OPEN-S04-C03']
+if(sophieRead.kind==='choice')naturalGraph[sophieRead.id]={...sophieRead,choices:sophieRead.choices.map((c,i)=>{
+  if(i>2)return c
+  const id=`OPEN-S04-NAT-READ-${c.id}`
+  naturalGraph[id]={id,kind:'npc',channel:'sophie',sender:'sophie',text:["Me too. I thought it might make things clearer.","That's what I was afraid of.","I know. It was just the only public thing I could find."][i],next:c.next}
+  return {...c,text:["Yeah. I read it. I'm still thinking about what it says.","I read it. Some of it raises more questions than answers.","I saw the report, but I don't want to assume it's all accurate."][i],next:id}
+})}
+
 /** Historical saves keep their pinned graph. Stable main choice IDs are shared, internal IDs aren't. */
-export const actINodes = (scene?: Pick<NonNullable<OpeningState['scene01']>, 'scriptRevision'|'articleAlignment'|'traceIntroRevision'>) => scene?.scriptRevision === 'final-2026-10-23' ? scene.articleAlignment ? scene.traceIntroRevision ? revisedIntroNodes : alignedNodes : finalNodes : scene01Nodes
+const bridgeGraph = { ...naturalGraph, ...traceBridgeNodes }
+type GraphRevision = Pick<NonNullable<OpeningState['scene01']>,
+  'scriptRevision' | 'articleAlignment' | 'traceIntroRevision' | 'traceUiRevision' | 'naturalFlowRevision' | 'traceBridgeRevision'>
+export function actINodes(scene?: GraphRevision) {
+  if (scene?.scriptRevision !== 'final-2026-10-23') return scene01Nodes
+  if (!scene.articleAlignment) return finalNodes
+  if (scene.naturalFlowRevision) return scene.traceBridgeRevision ? bridgeGraph : naturalGraph
+  if (scene.traceUiRevision) return traceNodes
+  return scene.traceIntroRevision ? revisedIntroNodes : alignedNodes
+}
 
 /** Union lookup for checkpoints: original IDs keep their old definitions, new IDs remain valid. */
-export const conversationNodeForValidation = (id: string) => finalNodes[id] ?? revisedIntroNodes[id]
+export const conversationNodeForValidation = (id: string) => finalNodes[id] ?? revisedIntroNodes[id] ?? traceNodes[id] ?? bridgeGraph[id]

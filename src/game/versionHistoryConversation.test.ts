@@ -87,6 +87,9 @@ describe('canonical Unknown Number / Version History',()=>{
     for(let index=0;index<4;index++)f.do({type:'check',index})
     f.save=pauseScene03(f.save,f.now);f.unknown().send('a').send('b')
     expect(f.save.chapter1!.versionHistory!.complete).toBe(true)
+    expect(f.save.chapter1!.correctionsDesk).toBeUndefined()
+    expect(correctionsDeskAction(f.save,{type:'enter'},f.now)).toBe(f.save)
+    f.authorizeDesk()
     expect(f.save.chapter1!.correctionsDesk).toMatchObject({flowRevision:'2026-10-31',visible:false,complete:false})
     f.save=correctionsDeskAction(f.save,{type:'enter'},f.now)
     expect(f.save.chapter1!.correctionsDesk!.visible).toBe(true)
@@ -145,12 +148,15 @@ describe('canonical Unknown Number / Version History',()=>{
     expect(f.save.chapter1!.versionHistory).toBeUndefined()
     f.enter();expect(f.save.chapter1!.versionHistory!.sceneId).toBe('ch02_scene05_version_history')
   })
-  for(const pick of ['a','b','c'])it(`all seven required exchanges converge on ${pick}, preserve uncertainty and activate Scene 06 without navigation`,()=>{
+  for(const pick of ['a','b','c'])it(`all seven required exchanges converge on ${pick}, preserve uncertainty and await an acknowledged Scene 06 instruction`,()=>{
     const f=new ConversationFixture().core(pick),p=f.save.chapter1!.versionHistory!
     expect(p.complete).toBe(true);expect(versionHistoryReady(f.save)).toBe(true)
     expect(p.checklist).toHaveLength(4)
     expect(Object.keys(p.chatChoices!)).toHaveLength(7)
     expect(p.inquiry.receipt).toBeUndefined()
+    expect(f.save.chapter1!.correctionsDesk).toBeUndefined()
+    expect(correctionsDeskAction(f.save,{type:'enter'},f.now)).toBe(f.save)
+    f.authorizeDesk()
     expect(f.save.chapter1!.correctionsDesk).toMatchObject({flowRevision:'2026-10-31',visible:false,complete:false})
     expect(f.save.knowledge.characters.sophie.some(id=>id.startsWith('OPEN-VH'))).toBe(false)
     expect(f.save.knowledge.characters.maya.some(id=>id.startsWith('OPEN-VH'))).toBe(false)
@@ -184,7 +190,7 @@ describe('canonical Unknown Number / Version History',()=>{
     expect(f.save.chapter1!.versionHistory!.checklist).toHaveLength(4)
   })
   for(const b of versionHistoryDialogue[7].branches)it(`C08/${b.id}: reviewed request, receipt only and Scene 06 continuity`,()=>{
-    const f=new ConversationFixture().core(),sophie=f.save.knowledge.characters.sophie
+    const f=new ConversationFixture().core().authorizeDesk().finishRegister().send('a'),sophie=f.save.knowledge.characters.sophie
     f.do({type:'panel',panel:'form'}).do({type:'local',id:'S05-C04',choice:b.id}).do({type:'send-request'})
     expect(f.save.chapter1!.versionHistory!.inquiry.receipt).toBeUndefined()
     f.do({type:'review'});f.save=round(f.save);f.do({type:'send-request'})
@@ -192,7 +198,8 @@ describe('canonical Unknown Number / Version History',()=>{
     expect(receipt?.text).toBe(b.text);f.do({type:'send-request'});expect(f.save.chapter1!.versionHistory!.inquiry.receipt).toEqual(receipt)
     expect(f.save.knowledge.characters.sophie).toEqual(sophie)
     f.save=correctionsDeskAction(f.save,{type:'enter'},f.now)
-    expect(f.save.chapter1!.correctionsDesk!.prior?.text).toBe(b.text)
+    expect(f.save.chapter1!.correctionsDesk!.prior).toBeUndefined()
+    expect(f.save.pendingEvents.some(e=>e.id==='CH1-S06-DESK-REPLY')).toBe(false)
   })
   for(const i of [8,9,10])for(const b of versionHistoryDialogue[i].branches)it(`optional ${versionHistoryDialogue[i].id}/${b.id} uses Send and actual recipients`,()=>{
     const f=new ConversationFixture().core();f.tickOne().tickOne().tickOne().tickOne()

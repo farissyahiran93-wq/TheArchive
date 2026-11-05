@@ -85,6 +85,9 @@ export interface OpeningState {
     scriptRevision?: 'final-2026-10-23'
     articleAlignment?: '2026-10-28'
     traceIntroRevision?: '2026-10-31'
+    traceUiRevision?: '2026-11-03'
+    naturalFlowRevision?: '2026-11-03'
+    traceBridgeRevision?: '2026-11-04'
     draft?: { nodeId: string; choiceId: string }
     nodeId: string
     startedAt: number
@@ -98,8 +101,8 @@ export interface OpeningState {
     invitationApproved?: boolean
     complete: boolean
     queue: { id: string; dueAt: number; typing: boolean }[]
-    messages: { id: string; sender: 'sophie' | 'player'; text: string; at: number; photo?: string; attachment?: 'article'|'index'|'archive-package' }[]
-    groupMessages: { id: string; sender: 'sophie' | 'maya' | 'lucas' | 'player' | 'system'; text: string; at: number; photo?: string; attachment?: 'article'|'index'|'archive-package' }[]
+    messages: { id: string; sender: 'sophie' | 'player'; text: string; at: number; photo?: string; attachment?: 'article'|'index'|'archive-package'|'register'|'inquiry' }[]
+    groupMessages: { id: string; sender: 'sophie' | 'maya' | 'lucas' | 'player' | 'system'; text: string; at: number; photo?: string; attachment?: 'article'|'index'|'archive-package'|'register'|'inquiry' }[]
     groupScript?: 'ch01_sc02_uninvited_guest'
     groupPresence?: { sophie: boolean; maya: boolean; lucas: boolean }
     groupSourceBoundary?: boolean

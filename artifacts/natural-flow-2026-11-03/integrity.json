@@ -1,0 +1,12 @@
+{
+  "apk": "artifacts\\GREYHAVEN_2026-11-03_Scenes04-06_TRACE_Update.apk",
+  "applicationId": "com.thearchive.game",
+  "versionCode": 11,
+  "versionName": "1.1.0-playtest",
+  "bytes": 23623886,
+  "sha256": "bb155881cddf2e74d181eca5eadeb7d8e528cdd47456c9a6f291b045ebb15ff5",
+  "distFilesByteIdentical": 47,
+  "capacitorConfigUnchanged": true,
+  "priorApksUnchanged": 14,
+  "zipIntegrity": true
+}

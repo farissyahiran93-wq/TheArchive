@@ -1,0 +1,5 @@
+.guidance-dot{display:inline-block;flex:none;width:9px;height:9px;border-radius:50%;background:#2ecf72;border:1px solid #105b30;margin-left:6px;vertical-align:middle;pointer-events:none;animation:guidance-pulse 1.8s ease-in-out infinite}
+@keyframes guidance-pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 #2ecf7240}50%{opacity:.55;box-shadow:0 0 0 5px #2ecf7200}}
+.guidance-dot.guidance-static,.reduce-motion .guidance-dot{animation:none;opacity:1}
+@media(prefers-reduced-motion:reduce){.guidance-dot{animation:none;opacity:1}}
+.app-tile,.dock>button,.bulletin-home-widget{position:relative}.app-tile>.guidance-dot{position:absolute;top:1px;right:calc(50% - 29px);margin:0}.dock>button>.guidance-dot{position:absolute;top:2px;right:3px;margin:0}.bulletin-home-widget>.guidance-dot{position:absolute;right:13px;top:14px;margin:0}.trace-tabs button>.guidance-dot{position:absolute;right:12px;top:5px;margin:0}.trace-tabs button{position:relative}

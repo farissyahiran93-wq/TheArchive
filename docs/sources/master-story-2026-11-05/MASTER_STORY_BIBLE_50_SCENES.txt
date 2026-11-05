@@ -1,0 +1,870 @@
+# THEARCHIVE — MASTER STORY BIBLE & 50-SCENE DEVELOPMENT PLAN
+
+## ROLE
+
+You are the Lead Narrative Designer, Mystery Game Director, Technical Game Designer, and Software Architect for **TheArchive**, a fictional interactive detective mystery game set in Greyhaven.
+
+Your task is to audit the existing repository and create the complete narrative and gameplay master plan covering all five chapters and all fifty scenes.
+
+**IMPORTANT: THIS IS THE MASTER PLANNING PHASE ONLY.**
+
+Do not implement or rewrite all 50 scenes yet. Do not modify existing production gameplay, scene files, UI, routes, save data, or progression logic during this task.
+
+First inspect the current codebase, identify existing architecture and narrative content, then produce comprehensive planning documents. We will implement the game chapter by chapter and scene by scene in subsequent tasks.
+
+Preserve existing working systems and assets.
+
+---
+
+# 1. GAME STRUCTURE — NON-NEGOTIABLE
+
+Game: TheArchive
+
+Setting: Greyhaven
+
+Genre: Interactive Mystery / Detective / Chat-Based Investigation
+
+Total chapters: **5**
+
+Scenes per chapter: **Exactly 10**
+
+Total scenes: **50**
+
+Primary mystery: The disappearance of Daniel Mercer.
+
+Secondary mystery: The suspicious death of June Ellis.
+
+Underlying conspiracy: Manipulation of safety approval records associated with the Greyhaven Harbor Renewal project.
+
+Primary investigation tool: TRACE.
+
+The story must have a continuous narrative, escalating tension, credible character motivations, player-driven investigations, and a definitive conclusion in Chapter 5.
+
+Do not create additional numbered scenes or chapters.
+
+Sub-scenes, interactive documents, messages, calls, puzzles, and optional activities may exist within an existing scene.
+
+The original Chapter 1 Bulletin-heavy investigation is superseded by the new Daniel Phone Recovery storyline.
+
+---
+
+# 2. OFFICIAL CHARACTERS
+
+These names and relationships are canon and must not be altered.
+
+### Sophie Mercer
+- Daniel's younger sister.
+- First person to contact the player.
+- Emotionally concerned about Daniel.
+- Initiates the FIND DANIEL group invitation.
+- Has a crucial connection to the starred-number mystery.
+
+### Maya Chen
+- Daniel's fiancée.
+- Member of FIND DANIEL.
+- Has personal knowledge of Daniel's behaviour before his disappearance.
+- Holds relevant photographs, communications, and information.
+
+### Lucas Grey
+- Daniel's best friend.
+- Initially part of FIND DANIEL.
+- Leaves the group in Chapter 1 Scene 2 because of privacy concerns.
+- Later becomes an important source of information about another copy of a record.
+
+### Daniel Mercer
+- Missing person and central investigation subject.
+- Previously investigated the death of June Ellis.
+- Secretly held evidence related to the Greyhaven conspiracy.
+- Was kidnapped and is being held against his will.
+- Is alive and must be rescued in Chapter 5.
+
+### Eli Ward
+- Daniel's coworker.
+- Secret identity behind Unknown Sender.
+- Helped Daniel preserve an encrypted phone archive.
+- Introduces the player to TRACE.
+- Knows more about the original investigation than he initially reveals.
+- Is not the primary antagonist.
+- His identity must remain hidden from the player until the intended later reveal.
+
+### Player
+- Customizable player identity.
+- Initially has no genuine personal relationship with Daniel.
+- Investigates through messaging, calls, files, TRACE, and evidence comparison.
+- Must have meaningful choices without being automatically forced into unwanted actions.
+
+### Detective Rachel Hayes
+- Official investigator.
+- Responsible for investigating Daniel's disappearance.
+- Evaluates verified evidence.
+- Coordinates Daniel's rescue in Chapter 5.
+- The player does not personally conduct a dangerous rescue operation.
+
+### Nora Vance
+- Greyhaven records management officer.
+- Knows how physical inventory references and archival indexes work.
+- Helps distinguish official records from unsupported assumptions.
+
+### June Ellis
+- Junior records auditor.
+- Discovered suspicious changes to original safety records.
+- Died before the beginning of the game.
+- Her death was reported as an accident.
+- Her death is connected to the cover-up.
+- She is genuinely deceased; do not use a fake-death twist.
+
+### Ana Pierce
+- Journalist at Greyhaven Bulletin.
+- June's friend.
+- Has unpublished reporting material and communication from June.
+- Initially withholds sensitive information because of fear and source protection.
+- Eventually helps establish the truth.
+
+### Rowan Bell
+- Senior systems engineer associated with the archival digitisation project.
+- Has access to relevant logs and version records.
+- Participated in record manipulation under pressure.
+- Passed information about June's meeting to Vivian.
+- Is morally compromised, but not the mastermind.
+
+### Vivian Hale
+- Director associated with the Greyhaven records modernisation and redevelopment programme.
+- Principal antagonist behind the cover-up.
+- Has a financial and institutional motive to conceal the original safety findings.
+- Uses influence and intermediaries to obstruct the investigation.
+- Her responsibility must ultimately be established through evidence, not assumptions.
+
+Existing character portrait files must be reused where available. Do not replace them with AI-generated placeholders.
+
+---
+
+# 3. DEFINITIVE SECRET STORY — WRITER KNOWLEDGE ONLY
+
+This section contains the actual truth behind the mystery.
+
+Do not expose these facts to players prematurely.
+
+## June Ellis
+
+June discovered discrepancies between original structural safety reports and published approval records relating to the Greyhaven Harbor Renewal project.
+
+She began collecting evidence and requested Daniel's assistance.
+
+Daniel trusted Rowan Bell and disclosed information about a planned meeting with June.
+
+Rowan passed this information to Vivian Hale.
+
+A contracted security operative attempted to retrieve June's original evidence. During the confrontation, June fell and sustained fatal injuries.
+
+Her death was subsequently concealed as an accident.
+
+Vivian knew that the true circumstances had been covered up.
+
+## Daniel Mercer
+
+Daniel blamed himself for exposing June's meeting.
+
+He continued investigating June's death, collecting messages, records, logs, and original document references.
+
+He asked his coworker Eli Ward to preserve an encrypted backup of relevant phone data.
+
+Daniel later attempted to obtain a physical copy of the original records before bringing the evidence to Detective Rachel Hayes.
+
+He was intercepted and kidnapped by security operatives connected to Vivian's cover-up.
+
+Daniel is held alive at an old harbor storage facility because the perpetrators still need information about the hidden original evidence and recovery keys.
+
+Daniel claims that evidence may be released if he fails to complete a check-in, making the kidnappers reluctant to kill him.
+
+The entire playable investigation should occur over approximately 7–10 days, with a documented timeline that makes the captivity and recovery plausible.
+
+## Eli Ward / Unknown Sender
+
+Eli is afraid of being exposed because he previously failed to report suspicious system access.
+
+He possesses Daniel's encrypted backup and contacts the player anonymously.
+
+He does not know Daniel's exact holding location.
+
+His motivations include guilt, concern for Daniel, fear of retaliation, and the desire to preserve evidence.
+
+He introduces TRACE as a means to inspect and recover parts of the archive.
+
+## The Starred Number
+
+The player has no prior personal relationship with Daniel.
+
+The player's phone number appears in a manipulated copy of Daniel's contact records.
+
+The manipulation is part of an attempt to misdirect, monitor, or compromise the investigation.
+
+A separate warning card states:
+
+"DO NOT CONTACT THE STARRED NUMBER."
+
+At the end of Chapter 1, Sophie reports discovering the card and says:
+
+"But… I already did."
+
+The exact origin of the player's number, how it was obtained, who physically produced the warning card, and how the card reached Sophie must be logically resolved in the Story Bible before implementation.
+
+Do not rely on coincidence or magical foreknowledge.
+
+## Ending
+
+Daniel is rescued alive in Chapter 5 by the authorities under Rachel Hayes.
+
+The cover-up surrounding June's death and manipulated archival records is exposed.
+
+Rowan must face the consequences of his actions and may cooperate with investigators.
+
+Vivian's role is established through corroborated evidence.
+
+Daniel eventually messages the player to express his gratitude.
+
+The final ending should provide emotional closure for Sophie, Maya, Daniel, and the player.
+
+---
+
+# 4. TRACE PHONE RECOVERY SYSTEM
+
+Daniel's encrypted phone archive is recovered progressively.
+
+The cumulative recovery targets are:
+
+- Chapter 1: 20%
+- Chapter 2: 40%
+- Chapter 3: 60%
+- Chapter 4: 80%
+- Chapter 5: 100%
+
+The percentages represent recoverable content within a defined archive manifest, not the percentage of the mystery solved or all data ever present on Daniel's physical phone.
+
+The recovered data categories include:
+
+- Messages
+- Notes
+- Activity logs
+- Gallery
+- Call history
+- Voice recordings
+- Deleted fragments
+- File metadata
+- Selected archived records
+
+Recovery is progressive and persistent.
+
+For example, a message first encountered in Chapter 1 may contain unrecovered sections. Additional fragments recovered in Chapter 2 or later should be integrated into that same message record.
+
+TRACE must never fabricate missing message content.
+
+Use clear labels such as:
+- RECOVERED
+- PARTIALLY RECOVERED
+- UNRECOVERED
+- CORRUPTED
+- SOURCE UNVERIFIED
+- INFERENCE ONLY
+
+TRACE functions must evolve across chapters:
+
+Chapter 1:
+- Initial file recovery
+- Read messages and notes
+- Evidence summary
+- Basic timeline
+
+Chapter 2:
+- Additional fragment recovery
+- File comparison
+- Photo metadata
+- Compare backup sources
+
+Chapter 3:
+- Timeline reconstruction
+- Source correlation
+- Contradiction analysis
+
+Chapter 4:
+- File provenance
+- Version history
+- Access records
+- Tamper analysis
+
+Chapter 5:
+- Final reconstruction
+- Complete archive review
+- Evidence synthesis
+- Final case report
+
+Evidence originating from Sophie, Maya, Lucas, Nora, Rachel, public records, or other external sources must be distinguished from the Daniel phone archive. External findings must not artificially increase the phone recovery percentage.
+
+---
+
+# 5. OFFICIAL CHAPTER AND SCENE MASTER FLOW
+
+Preserve the following chapter names, scene names, story beats, and cliffhangers.
+
+## CHAPTER 1 — THE FIRST TRACE
+
+Theme: Introduction, trust, Daniel's disappearance, the first digital evidence, and the starred-number mystery.
+
+Recovery: 0% → 20%.
+
+Scene 1 — A Message from Sophie
+- Sophie contacts the player about Daniel.
+- Player questions how Sophie obtained their number.
+- Player can establish boundaries.
+- Sophie offers invitation to FIND DANIEL.
+- Joining the group requires explicit player consent.
+
+Scene 2 — The Uninvited Guest
+- Player meets Sophie, Maya, and Lucas.
+- Privacy concerns cause conflict.
+- Lucas exits the group.
+- Sophie sends a private message.
+- Player must manually open the DM.
+
+Scene 3 — Just Between Us
+- Sophie discusses Daniel and his relationships.
+- Dialogue choices influence available context.
+- Sophie goes offline.
+- The scene must transition naturally to the first Unknown Sender contact.
+
+Scene 4 — The Unknown Sender
+- Unknown contacts the player.
+- Unknown claims to possess a copy of Daniel's phone data.
+- Player questions identity, access, trust, and source.
+- Unknown offers an encrypted archive.
+- Player inspects and accepts the file.
+- Sophie does NOT provide the phone backup.
+
+Scene 5 — The Digital Archive
+- Unknown introduces TRACE.
+- Player reviews installation concerns and explicitly installs TRACE.
+- Player opens Daniel's archive.
+- Partial messages and notes become available.
+- June Ellis appears as a partial lead.
+- Recovery target: approximately 12%.
+
+Scene 6 — The Missing Hour
+- TRACE recovers activity logs.
+- Player reconstructs Daniel's timeline.
+- Player distinguishes log timestamps from verified human activity.
+- Player saves findings.
+- Recovery target: 20%.
+
+Scene 7 — The Starred Number
+- Sophie provides a contact export.
+- Player inspects labels, partially masked numbers, and the starred entry.
+- Player questions Sophie.
+- Source authenticity remains limited.
+- Optional sharing with the group.
+
+Scene 8 — The Last Check-In
+- Maya or Lucas provides a message capture referencing "another copy."
+- Player examines dates, missing context, and source authenticity.
+- It does not conclusively identify the other copy.
+
+Scene 9 — The Secondary Card
+- Maya provides a photo of a reference card.
+- Reference: GH-DSC-03-A.
+- Player examines the card and its provenance.
+- Player identifies a possible records search target.
+- No premature connection between records is confirmed.
+
+Scene 10 — The Inventory Sheet
+- Player checks the public inventory.
+- Player records a private conclusion.
+- Player returns to Home.
+- Sophie calls; the player must answer.
+- Sophie reports a separate card displaying the player's number, a star, and the warning:
+  "DO NOT CONTACT THE STARRED NUMBER."
+- Final line:
+  "But… I already did."
+- Chapter 2 unlocks.
+
+## CHAPTER 2 — THE OTHER COPY
+
+Theme: Competing data sources, private relationships, and June's hidden case.
+
+Recovery: 20% → 40%.
+
+Scene 1 — After the Call
+- Investigate Sophie's discovery and emotional reaction.
+
+Scene 2 — The Marked Card
+- Inspect both sides of the warning card and its provenance.
+
+Scene 3 — Two Contact Lists
+- Compare Sophie's export against partially recovered Daniel contact records.
+- Recovery target: approximately 28%.
+
+Scene 4 — Lucas Breaks His Silence
+- Reopen contact with Lucas through a credible optional route.
+- Investigate the meaning of "another copy."
+
+Scene 5 — Fragments of a Photograph
+- Recover partial gallery content.
+- Introduce photo evidence linked to Greyhaven records.
+- Recovery target: approximately 34%.
+
+Scene 6 — The Meeting Point
+- Use recovered metadata and testimony to identify a possible meeting location.
+
+Scene 7 — What Maya Didn't Say
+- Maya discloses knowledge of Daniel's behaviour and his investigation.
+
+Scene 8 — The Second Backup
+- Obtain a credible second archive fragment.
+- Compare manifests and recover additional data.
+- Recovery target: 40%.
+
+Scene 9 — The Unsent Draft
+- Recover a partially completed message or note from Daniel.
+- Strengthen the connection to June Ellis.
+
+Scene 10 — Two Versions of the Truth
+- Compare records from different sources.
+- Introduce Ana Pierce and June's death as meaningful case developments if not already directly established.
+- End with an incomplete recording:
+  "The original… isn't where they said it was."
+- The speaker remains unverified.
+
+## CHAPTER 3 — THE BROKEN TIMELINE
+
+Theme: June's death, Daniel's last movements, and contradictions between people and records.
+
+Recovery: 40% → 60%.
+
+Scene 1 — The Voice Fragment
+- Analyse the audio fragment and its limitations.
+
+Scene 2 — The Wrong Date
+- Recover additional logs and reconcile timestamp discrepancies.
+- Recovery target: approximately 48%.
+
+Scene 3 — Maya's Account
+- Collect Maya's timeline of her final communication with Daniel.
+
+Scene 4 — Lucas's Missing Message
+- Recover missing communication with Lucas.
+- Explore why Lucas withheld information.
+
+Scene 5 — The Last Known Place
+- Investigate locations and metadata linked to Daniel's movements.
+- Recovery target: approximately 54%.
+
+Scene 6 — The Camera Gap
+- Inspect lawfully obtained video-related evidence.
+- Identify gaps without claiming missing footage proves guilt.
+
+Scene 7 — The Archive Key
+- Revisit GH-DSC-03-A.
+- Introduce Nora Vance's knowledge of physical archive references.
+
+Scene 8 — Two Timelines
+- Reconstruct digital and witness timelines.
+- Highlight confirmed matches and unresolved contradictions.
+- Recovery target: 60%.
+
+Scene 9 — Who Was There?
+- Interview a relevant witness or records custodian.
+- Develop the evidence surrounding June's last known interactions.
+
+Scene 10 — The Last Sighting
+- Establish stronger evidence about Daniel's last known movements.
+- Discover access identifier U-17.
+- Unknown recognises the identifier, raising suspicion.
+
+## CHAPTER 4 — THE HIDDEN HAND
+
+Theme: Institutional manipulation, hidden involvement, and the true nature of Unknown.
+
+Recovery: 60% → 80%.
+
+Scene 1 — The Access ID
+- Confront Unknown about U-17.
+
+Scene 2 — The Redacted Ledger
+- Recover additional index information.
+- Compare archival references.
+- Recovery target: approximately 67%.
+
+Scene 3 — The Restricted Conversation
+- Recover conversations relating to June and the original evidence.
+- Recovery target: approximately 74%.
+
+Scene 4 — Sophie's Decision
+- Explore the consequences of sharing sensitive information with Daniel's sister.
+
+Scene 5 — The Person Behind TRACE
+- Unknown explains part of his connection to the archive and Daniel.
+- Do not reveal every fact without proper setup.
+
+Scene 6 — The Altered Contact
+- Analyse contact export manipulation.
+- Establish meaningful technical evidence that the player's number was inserted.
+
+Scene 7 — The Watcher's Account
+- Investigate accounts associated with suspicious records access.
+
+Scene 8 — The Offer
+- Someone connected to the cover-up attempts to influence the player.
+- Present meaningful choices and consequences.
+
+Scene 9 — Trust Under Pressure
+- Compare testimony, access logs, and technical evidence.
+- Recovery target: 80%.
+
+Scene 10 — The Live Signal
+- Receive a message allegedly from Daniel.
+- Source identity remains unverified.
+- Unknown admits more about Daniel's backup.
+- End with a credible indication Daniel may still be alive.
+
+## CHAPTER 5 — THE ORIGINAL RECORD
+
+Theme: Final reconstruction, June's truth, Daniel's rescue, and closure.
+
+Recovery: 80% → 100%.
+
+Scene 1 — The Final Recovery Key
+- Unlock the remaining protected archive segment through evidence-based investigation.
+
+Scene 2 — The Missing Conversation
+- Recover crucial Daniel communications.
+- Recovery target: approximately 88%.
+
+Scene 3 — The Original Index
+- Recover and compare original archival records against published material.
+- Recovery target: approximately 94%.
+
+Scene 4 — The Planted Number
+- Establish how and why the player's number appeared in manipulated records.
+
+Scene 5 — Who Marked the Star?
+- Resolve the origin and intention of the starred number and warning card.
+
+Scene 6 — Unknown Revealed
+- Confirm Unknown is Eli Ward.
+- Explain his relationship with Daniel, the encrypted backup, and his earlier omissions.
+
+Scene 7 — The Missing Hour — Revisited
+- Reconstruct Daniel's actual last movements.
+- Identify credible evidence linking his kidnapping to a contractor facility.
+
+Scene 8 — Recovery Complete
+- Reach 100% recoverable archive processing.
+- Finalise an evidence report that distinguishes facts, hypotheses, and witness claims.
+- Deliver actionable evidence to Detective Rachel Hayes.
+
+Scene 9 — The Final Contact
+- Rachel coordinates the official rescue.
+- Daniel is found alive at the old harbor storage facility.
+- Sophie and Maya learn that Daniel survived.
+
+Scene 10 — The Archive Closes
+- Reveal how June died, how records were manipulated, and why Daniel was kidnapped.
+- Establish Vivian's involvement with corroborated evidence.
+- Resolve Rowan's and Eli's roles.
+- Provide emotional closure for Sophie, Maya, Lucas, Daniel, and the player.
+- Daniel personally messages the player to thank them.
+- Display the final case resolution and epilogue.
+
+---
+
+# 6. PLAYER-DRIVEN GAMEPLAY REQUIREMENTS
+
+TheArchive must not be a passive visual novel in which events automatically complete without player interaction.
+
+Required interaction categories:
+
+1. Receive and open chats.
+2. Choose dialogue responses.
+3. Accept or decline group invitations.
+4. Manually open private messages.
+5. Inspect evidence attachments.
+6. Review and install TRACE with consent.
+7. Manually start recovery operations.
+8. Read recovered content.
+9. Use TRACE summaries with direct source references.
+10. Build timelines from evidence.
+11. Compare conflicting sources.
+12. Save findings.
+13. Review before sending sensitive information.
+14. Send acknowledgments or reports when required.
+15. Answer incoming calls.
+16. Return Home when required by scene progression.
+17. Review evidence boards and previously recovered files.
+
+Optional actions must remain optional.
+
+Required story gates must be clearly distinguishable from optional interactions.
+
+Do not silently auto-send messages, auto-join groups, auto-install software, or auto-open evidence.
+
+Choices should modify relationships, dialogue, evidence presentation, and reactions without permanently locking the player out of the main mystery.
+
+Provide credible alternative routes where necessary.
+
+---
+
+# 7. NARRATIVE QUALITY RULES
+
+Every scene must have:
+
+- Clear story objective.
+- Start trigger.
+- Active character(s).
+- Player interaction.
+- New information or dramatic development.
+- Optional dialogue branches where useful.
+- Evidence inspected or acquired, if applicable.
+- Meaningful scene completion conditions.
+- Ending beat or cliffhanger.
+- Connection to the following scene.
+
+Do not use filler conversations solely to increase scene count.
+
+Each scene should create at least one of:
+- New credible evidence.
+- New relationship development.
+- New contradiction.
+- New risk or obstacle.
+- Meaningful change in what the player believes.
+
+Daniel must feel like a real person with relationships, mistakes, fears, routines, and regrets.
+
+Sophie should behave like a concerned younger sister.
+
+Maya should behave like Daniel's fiancée.
+
+Lucas's privacy conflict must remain consistent.
+
+Eli should not behave like an omniscient AI. He knows only what he has personally observed or learned.
+
+June's death should be handled seriously, with realistic investigative and emotional consequences.
+
+No character should know facts without a credible source.
+
+Preserve uncertainty whenever evidence is incomplete.
+
+The Greyhaven Bulletin should remain useful through Ana Pierce and the June Ellis investigation, but do not repeat the former three-scene Bulletin version-history investigation.
+
+---
+
+# 8. TECHNICAL PLANNING REQUIREMENTS
+
+Inspect the current repository before proposing implementation changes.
+
+Identify:
+
+- Existing chapter/scene definitions.
+- Narrative/dialogue schema.
+- Player choice handling.
+- Scene transition logic.
+- Message and group chat UI.
+- Calls and notifications.
+- Evidence viewer and storage.
+- TRACE integration or placeholders.
+- Save-game persistence.
+- Chapter unlocking.
+- Existing assets.
+- Tests and validation scripts.
+
+Do not invent file paths or APIs without checking the repository.
+
+Design a maintainable content-driven architecture.
+
+The planning documents must define:
+
+### Narrative Scene Schema
+- chapterId
+- sceneId
+- title
+- entryConditions
+- characters
+- dialogueNodes
+- playerChoices
+- requiredActions
+- optionalActions
+- evidenceReferences
+- stateChanges
+- completionConditions
+- nextScene
+
+### Evidence Schema
+- evidenceId
+- source
+- provenance
+- timestamps
+- authenticityStatus
+- recoveredFragments
+- recoveryStage
+- analysisSummary
+- uncertainty
+- playerObservations
+
+### TRACE Recovery Schema
+- archiveManifest
+- archiveEntries
+- chapterRecoveryTargets
+- currentRecoveryPercentage
+- fragmentUnlockConditions
+- recoveredVersions
+- sourceReferences
+- persistentRecoveryState
+
+### Relationship State
+- trust
+- tension
+- knownInformation
+- disclosureFlags
+- conversationHistory
+
+### Game Persistence
+- activeChapter
+- activeScene
+- completedScenes
+- dialogueHistory
+- playerChoices
+- installedApps
+- evidenceViewed
+- findingsSaved
+- recoveryProgress
+- unlockedEvidence
+- pendingMessages
+- pendingCalls
+- chapterUnlocks
+
+Plan backwards-compatible save migration.
+
+Avoid unnecessary breaking changes to existing game systems.
+
+---
+
+# 9. PLOT CONSISTENCY AUDIT
+
+Before implementation, create a spoiler-aware plot continuity audit covering all five chapters.
+
+Specifically resolve or explicitly flag:
+
+- How Sophie obtained the player's phone number.
+- How the number entered the manipulated contact export.
+- Who physically created the warning card and when.
+- How Sophie obtained the separate warning card.
+- How Eli obtained and retained Daniel's backup.
+- Why Eli selected the player.
+- How Daniel and June knew one another.
+- Why Daniel trusted Rowan.
+- Why Rowan cooperated with Vivian.
+- How June's death was initially classified as accidental.
+- Why Daniel was kept alive.
+- How the captors avoided discovery during the investigation.
+- How Rachel establishes sufficient evidence for a rescue.
+- Why TRACE recovery increases in each chapter.
+- How June's original records relate to GH-DSC-03-A.
+- Why the two archive copies differ.
+- How the original records become admissible or verifiable evidence.
+
+If a fact is not yet determined, label it OPEN DESIGN DECISION.
+
+Provide recommended solutions with reasoning, but do not silently declare new plot facts canon.
+
+Also check every character's knowledge at every point in the story.
+
+Create a timeline separating:
+1. Actual events.
+2. What characters believe.
+3. What the player knows.
+4. What has been independently verified.
+
+---
+
+# 10. REQUIRED OUTPUT DOCUMENTS
+
+Create the following documents, preferably under the repository's existing documentation convention:
+
+1. `docs/THEARCHIVE_STORY_BIBLE.md`
+   - Canonical story truth, character relationships, motivations, conspiracy and ending.
+
+2. `docs/THEARCHIVE_CHAPTER_MASTER_PLAN.md`
+   - The complete narrative arc for all five chapters.
+
+3. `docs/THEARCHIVE_50_SCENE_MATRIX.md`
+   - Exactly 50 scenes.
+   - Each with purpose, characters, start trigger, key interactions, evidence, gameplay, dependencies, end trigger and next-scene handoff.
+
+4. `docs/THEARCHIVE_TRACE_RECOVERY_SPEC.md`
+   - Five-stage recovery system, archive manifest, partial evidence rendering, re-recovery and chapter targets.
+
+5. `docs/THEARCHIVE_NARRATIVE_STATE_SPEC.md`
+   - Flags, branching, relationship states, unlock rules, save-game persistence and proposed content schemas.
+
+6. `docs/THEARCHIVE_PLOT_GAP_REGISTER.md`
+   - Continuity gaps, missing explanations, possible contradictions and proposed resolutions.
+
+7. `docs/THEARCHIVE_IMPLEMENTATION_ROADMAP.md`
+   - Future chapter-by-chapter and scene-by-scene build plan.
+   - Define implementation order, testing requirements and acceptance criteria.
+   - Do not implement the scene content during this planning task.
+
+If the repository already has equivalent documents, inspect and reconcile them instead of blindly duplicating conflicting specifications.
+
+Clearly distinguish:
+- CONFIRMED CANON
+- PROPOSED DESIGN
+- OPEN DESIGN DECISION
+- SPOILER / DEVELOPER ONLY
+
+---
+
+# 11. QUALITY REQUIREMENTS
+
+The plan should be suitable for a production-quality interactive detective game.
+
+Target design quality: 10/10.
+
+Prioritise:
+- Narrative consistency.
+- Believable mystery progression.
+- Emotional character development.
+- Meaningful player agency.
+- Clear player objectives.
+- Evidence-based deduction.
+- Logical chapter cliffhangers.
+- Balanced pacing.
+- Progressive TRACE functionality.
+- Reliable save and chapter progression.
+- Non-linear dialogue without unnecessary story divergence.
+- Complete resolution of the primary mystery.
+
+Avoid repetitive puzzles and unnecessary exposition.
+
+Do not imitate or reproduce copyrighted dialogue, characters, or story content from other mystery games.
+
+---
+
+# 12. FINAL RESPONSE REQUIRED FROM CODEX
+
+After reviewing the repository and preparing the planning documents, provide:
+
+1. Existing repository audit summary.
+2. Confirmation of 5 chapters and exactly 50 scenes.
+3. Chapter-by-chapter narrative summary.
+4. TRACE recovery progression summary.
+5. Character and reveal schedule.
+6. Critical plot gaps requiring decisions.
+7. Proposed future development phases.
+8. Files created or updated.
+9. Tests or checks performed, if applicable.
+10. Recommendation for beginning Chapter 1 Scene 1 implementation.
+
+**STOP AFTER MASTER PLANNING.**
+
+Do not implement Chapter 1 or future chapters during this task.
+
+Wait for a separate instruction to implement each chapter and scene progressively.
+
+All planned story material must remain consistent with the canonical plot described above.

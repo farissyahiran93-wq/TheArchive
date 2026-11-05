@@ -1,5 +1,7 @@
 # Chapter 1 v2 — save protection and deterministic mapping (Phase 01)
 
+> **Historical Phase 01 contract.** The runtime now has the released `ch01-v2-10` route and explicit atomic archive/restart/restore operations. The no-active-field/staged statements below describe their earlier phase. The new fifty-scene campaign is a separate **planning-only** proposal: use [THEARCHIVE_NARRATIVE_STATE_SPEC.md](THEARCHIVE_NARRATIVE_STATE_SPEC.md) and [the inspected save audit](THEARCHIVE_IMPLEMENTATION_ROADMAP.md). No existing save is converted, reset or assigned new completion/authorization by this task.
+
 Status: **contract only**. No save migration, new save field, default route or normalizer change is active. `src/content/chapter1V2.ts` contains the staged ten-scene manifest and a pure 18-row legacy disposition table. Existing `the-archive-reboot` IndexedDB schema v1, pending-save journal and the separate legacy localStorage key are untouched.
 
 ## Classification before any future conversion

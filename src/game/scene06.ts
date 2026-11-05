@@ -1,3 +1,6 @@
+import { canOpenPublisherInquiry, canOpenScene6Register, hasPublisherReceipt, investigationLocksApply } from './investigationAccess'
+import { migrateNaturalLocks } from './naturalConversation'
+import { naturalInquiryQuestions } from '../content/naturalConversation'
 import { revisedScene0607Nodes, revisedDeskEntry, revisedDeskSocial, revisedDeskQuestions } from '../content/scene0607Revision'
 import { sourceAction, sourcePut } from './sourceInvestigation'
 import type { GameSave } from './types'
@@ -21,6 +24,7 @@ export const deskReady=(s:GameSave)=>{const p=s.chapter1?.correctionsDesk;return
 export function deskEligible(s:GameSave,t:DeskThread){
  const scene=s.prologue?.scene01,p=s.chapter1?.correctionsDesk
  if(!p||!scene)return false
+ if(t==='desk'&&investigationLocksApply(s)&&(!canOpenScene6Register(s)||!canOpenPublisherInquiry(s)))return false
  if(t==='desk')return p.flowRevision==='2026-10-31'?!!p.prior:p.replyDelivered
  if(t==='sophie')return scene.introduced&&!!scene.privateScene03?.complete
  // This final route has no authorized two-way Maya DM. Historical structural DMs are separate.
@@ -76,6 +80,7 @@ export function deskSend(s:GameSave,choiceId:string,now:number):GameSave {
 export type DeskAction={type:'enter'|'activate'|'back'|'archive'|'read'|'review'|'send-request'|'save-draft'|'cancel'|'request-failed'|'next-lead'|'read-email'|'save-finding'}|{type:'panel';panel:CorrectionsDeskState['panel']}|{type:'local';id:keyof typeof scene06Local;choice:string}|{type:'card';id:'article'|'index'|'register'}|{type:'thread';thread:DeskThread}|{type:'scroll';key:string;value:number}
 export function correctionsDeskAction(s:GameSave,a:DeskAction,now=Date.now()):GameSave {
  if(a.type==='enter'||a.type==='activate'){
+  if(!canOpenScene6Register(s))return s
   if(s.prologue?.scene01?.scriptRevision!=='final-2026-10-23'||!s.chapter1?.versionHistory?.complete||s.chapter2Access)return s
   s=pauseScene03(s,now)
   if(!s.chapter1!.correctionsDesk){
@@ -88,9 +93,15 @@ export function correctionsDeskAction(s:GameSave,a:DeskAction,now=Date.now()):Ga
  }
  const p=s.chapter1?.correctionsDesk
  if(!p)return s
+ if(investigationLocksApply(s)&&!canOpenScene6Register(s)&&!['archive','back','read-email'].includes(a.type))return s
+ if((a.type==='panel'&&a.panel==='form'||a.type==='local'&&a.id==='S06-C06'||a.type==='review'||a.type==='send-request')&&investigationLocksApply(s)&&(!canOpenPublisherInquiry(s)||hasPublisherReceipt(s)))return s
  if(a.type==='save-finding'){
   if(p.flowRevision!=='2026-10-31'||p.panel!=='register'||p.complete)return s
   const note="There's no public correction notice for this article. That doesn't prove the words stayed the same. Nora Vance wrote it. That doesn't tell me who managed the page."
+  if(investigationLocksApply(s)){
+    s=deskPut(s,{flags:[...new Set([...p.flags,'register-read','finding-saved'])],choices:{...p.choices,'S06-C14':'a'},conclusion:{version_authenticated:false,article_body_changed:'unknown',author_equals_editor:'unknown',index_validated:false,choice:note},feedback:'Finding saved privately. No request sent.'})
+    return s.evidence['NOTE-S06-DESK-LIMITS']?s:{...s,evidence:{...s.evidence,'NOTE-S06-DESK-LIMITS':{id:'NOTE-S06-DESK-LIMITS',source:'PLAYER_PRIVATE / GB-CORR-REGISTER-001 / '+note,verified:false,collectedAt:now}}}
+  }
   s=deskPut(s,{complete:true,flags:[...new Set([...p.flags,'register-read'])],choices:{...p.choices,'S06-C14':'a'},conclusion:{version_authenticated:false,article_body_changed:'unknown',author_equals_editor:'unknown',index_validated:false,choice:note},feedback:'Finding saved privately.'})
   s={...s,chapter1:{...s.chapter1!,completed:[...new Set([...s.chapter1!.completed,6])]},evidence:{...s.evidence,'NOTE-S06-DESK-LIMITS':{id:'NOTE-S06-DESK-LIMITS',source:'PLAYER_PRIVATE / GB-CORR-REGISTER-001 / '+note,verified:false,collectedAt:now}}}
   if(s.chapter1Edition==='ch01-v2-10')return {...s,deliveredEvents:[...new Set([...s.deliveredEvents,'CH1-S07V2-LEAD'])],notifications:s.notifications.some(n=>n.id==='CH1-S07V2-LEAD')?s.notifications:[...s.notifications,{id:'CH1-S07V2-LEAD',text:'NEW LEAD — THE STARRED NUMBER',read:false}]}
@@ -111,7 +122,7 @@ export function correctionsDeskAction(s:GameSave,a:DeskAction,now=Date.now()):Ga
  }
  if(a.type==='card')return !p.flags.includes('claim')?s:deskPut(s,{cards:[...new Set([...p.cards,a.id])]})
  if(a.type==='local'){
-  const opt=p.flowRevision==='2026-10-31'&&a.id==='S06-C06'?revisedDeskQuestions.map((text,i)=>({id:'abc'[i],text,feedback:''})).find(o=>o.id===a.choice):scene06Local[a.id].find(o=>o.id===a.choice)
+  const opt=p.flowRevision==='2026-10-31'&&a.id==='S06-C06'?(investigationLocksApply(s)?naturalInquiryQuestions:revisedDeskQuestions).map((text,i)=>({id:'abc'[i],text,feedback:''})).find(o=>o.id===a.choice):scene06Local[a.id].find(o=>o.id===a.choice)
   if(!opt||a.id==='S06-C02'&&!p.flags.includes('register-read')||a.id==='S06-C03'&&!['scope-read','register-read'].every(f=>p.flags.includes(f))||a.id==='S06-C04'&&(p.cards.length!==3||!p.flags.includes('claim'))||a.id==='S06-C07'&&!p.flags.includes('provenance')||a.id==='S06-C14'&&(!deskReady(s)||p.complete)||a.id==='S06-C06'&&(p.prior||p.inquiry.receipt||p.panel!=='form'))return s
   if(a.id==='S06-C06')return deskPut(s,{inquiry:{status:'draft',choice:a.choice,text:opt.text},feedback:undefined})
   const pass=({'S06-C03':'b','S06-C04':'c','S06-C07':'a'} as Record<string,string>)[a.id]
@@ -149,13 +160,14 @@ export function validateCorrectionsDesk(v:unknown):void {
  if(v===undefined)return
  if(!v||typeof v!=='object')throw Error('Invalid Scene 06 state')
  const p=v as CorrectionsDeskState
- if(p.version!==1||p.entered!==true||typeof p.visible!=='boolean'||typeof p.complete!=='boolean'||!['home','register','scope','inbox','form'].includes(p.panel)||!Array.isArray(p.flags)||p.flags.some(f=>typeof f!=='string')||!Array.isArray(p.cards)||p.cards.some(c=>!['article','index','register'].includes(c))||new Set(p.cards).size!==p.cards.length||!p.choices||!p.scroll||Object.values(p.scroll).some(n=>!Number.isFinite(n)||n<0)||!p.inquiry||!['not_sent','draft','failed','delivered'].includes(p.inquiry.status)||p.inquiry.text!==undefined&&!(p.flowRevision==='2026-10-31'&&revisedDeskQuestions.some((text,i)=>'abc'[i]===p.inquiry.choice&&text===p.inquiry.text)||scene06Local['S06-C06'].some(o=>o.id===p.inquiry.choice&&o.text===p.inquiry.text))||p.inquiry.status==='delivered'&&(!p.inquiry.receipt||p.inquiry.receipt.id!=='R-GB-CD-002'||p.inquiry.receipt.text!==p.inquiry.text||!Number.isFinite(p.inquiry.receipt.at))||p.inquiry.status!=='delivered'&&p.inquiry.receipt!==undefined||typeof p.replyDelivered!=='boolean'||typeof p.replyRead!=='boolean'||p.replyDelivered&&!p.prior||p.prior&&(p.prior.id!=='R-GB-VH-001'||!['a','b','c'].includes(p.prior.choice)||typeof p.prior.text!=='string')||!p.threads||Object.values(p.threads).some(c=>!(scene06Nodes[c.nodeId]??revisedScene0607Nodes[c.nodeId])||c.paused&&(!(scene06Nodes[c.paused.id]??revisedScene0607Nodes[c.paused.id])||!Number.isFinite(c.paused.remainingMs)||c.paused.remainingMs<0))||!Array.isArray(p.inbox)||!Array.isArray(p.receipts)||p.complete&&(!p.choices['S06-C14']||(p.flowRevision==='2026-10-31'?!p.flags.includes('register-read'):!['register-read','scope-read','claim','provenance','byline'].every(f=>p.flags.includes(f))||p.cards.length!==3)))throw Error('Invalid Scene 06 state')
+ if(p.version!==1||p.entered!==true||typeof p.visible!=='boolean'||typeof p.complete!=='boolean'||!['home','register','scope','inbox','form'].includes(p.panel)||!Array.isArray(p.flags)||p.flags.some(f=>typeof f!=='string')||!Array.isArray(p.cards)||p.cards.some(c=>!['article','index','register'].includes(c))||new Set(p.cards).size!==p.cards.length||!p.choices||!p.scroll||Object.values(p.scroll).some(n=>!Number.isFinite(n)||n<0)||!p.inquiry||!['not_sent','draft','failed','delivered'].includes(p.inquiry.status)||p.inquiry.text!==undefined&&!(p.flowRevision==='2026-10-31'&&[revisedDeskQuestions,naturalInquiryQuestions].some(questions=>questions.some((text,i)=>'abc'[i]===p.inquiry.choice&&text===p.inquiry.text))||scene06Local['S06-C06'].some(o=>o.id===p.inquiry.choice&&o.text===p.inquiry.text))||p.inquiry.status==='delivered'&&(!p.inquiry.receipt||p.inquiry.receipt.id!=='R-GB-CD-002'||p.inquiry.receipt.text!==p.inquiry.text||!Number.isFinite(p.inquiry.receipt.at))||p.inquiry.status!=='delivered'&&p.inquiry.receipt!==undefined||typeof p.replyDelivered!=='boolean'||typeof p.replyRead!=='boolean'||p.replyDelivered&&!p.prior||p.prior&&(p.prior.id!=='R-GB-VH-001'||!['a','b','c'].includes(p.prior.choice)||typeof p.prior.text!=='string')||!p.threads||Object.values(p.threads).some(c=>!(scene06Nodes[c.nodeId]??revisedScene0607Nodes[c.nodeId])||c.paused&&(!(scene06Nodes[c.paused.id]??revisedScene0607Nodes[c.paused.id])||!Number.isFinite(c.paused.remainingMs)||c.paused.remainingMs<0))||!Array.isArray(p.inbox)||!Array.isArray(p.receipts)||p.complete&&(!p.choices['S06-C14']||(p.flowRevision==='2026-10-31'?!p.flags.includes('register-read'):!['register-read','scope-read','claim','provenance','byline'].every(f=>p.flags.includes(f))||p.cards.length!==3)))throw Error('Invalid Scene 06 state')
 }
 
 /** Upgrade unfinished work without replacing its transcript, choices, receipts or deadline. */
 export function resumeScene0607(s:GameSave,now:number):GameSave {
  const c=s.chapter1
  if(!c?.versionHistory?.revision||!c.versionHistory.complete||s.chapter2Access)return s
+ if(investigationLocksApply(s))return migrateNaturalLocks(s,now)
  if(!c.correctionsDesk&&!c.byline&&!c.issuer){
   const started=correctionsDeskAction(s,{type:'activate'},now)
   s=deskPut(started,{visible:false})

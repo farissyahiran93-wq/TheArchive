@@ -1,0 +1,205 @@
+THE ARCHIVE — SCENES 4–6 NATURAL CONVERSATION REWRITE
+Version: 2.1 | Working narrative script for implementation
+Language: In-game English | Direction notes: Malay
+CANON: Do not change Daniel's fate, public record wording, author attribution, index authenticity, or disclose secrets to NPCs without player Send.
+
+KEY
+NPC: Incoming authored message; can be delayed for human rhythm.
+PLAYER A/B/C: Distinct choices; only committed on explicit Send, never auto-sent.
+SYSTEM: Local game UI; not a message to Unknown Number.
+[action]: Player-initiated action in the appropriate app.
+GATE: Persisted state check; do not show as a checklist.
+The below dialogue is the preferred natural route; if a source is visited early, acknowledge its genuine progress and continue without repetition. Source discussions may happen in any order.
+
+================================================================
+SCENE 4 — THE PUBLIC STORY (DO NOT REMOVE ORIGINAL STORY BEATS)
+================================================================
+
+Sophie: I found the article I mentioned.
+Sophie: It's from Greyhaven Bulletin.
+Sophie: I don't know if it'll answer anything, but... you should see it.
+[ATTACHMENT: Actual existing authored article URL and title; do not invent a new URL.]
+SYSTEM: Bulletin widget changes from empty shell to available link when Sophie ATTACHMENT_DELIVERED is persisted. No other receipt unlocks it.
+[PLAYER opens Bulletin from widget -> reads article -> presses MARK READ]
+SYSTEM: Read receipt saved; Bulletin remains reachable via its widget. Do not imply that updated-label analysis has already been saved.
+
+Sophie: Did you manage to open it?
+PLAYER A: "Yeah. I read it. I'm still thinking about what it says." [SEND]
+PLAYER B: "I read it. Some of it raises more questions than answers." [SEND]
+PLAYER C: "I saw the report, but I don't want to assume it's all accurate." [SEND]
+Sophie A: "Me too. I thought it might make things clearer."
+Sophie B: "That's what I was afraid of."
+Sophie C: "I know. It was just the only public thing I could find."
+Sophie: I keep looking at the parts that aren't explained.
+Sophie: Thanks for reading it.
+[Sophie conversation ends under existing authored relationship/knowledge/choice rules.]
+
+[After authored delay, Unknown Number becomes available; no automatic player reply.]
+Unknown Number: You've seen the Greyhaven Bulletin article.
+Unknown Number: Then there's something else you can check.
+Unknown Number: I added a recovered reference to TRACE.
+Unknown Number: ARC-IDX-GB-041.
+Unknown Number: It points to the same public article. That doesn't make it an earlier copy.
+Unknown Number: Open it. Tell me what the record actually holds.
+[ATTACHMENT: INDEX ADDED TO TRACE / OPEN TRACE]
+PLAYER A: "I'll check the reference." [SEND]
+PLAYER B: "You keep saying it's a reference. What's missing from it?" [SEND]
+PLAYER C: "I'll inspect it, but I won't treat it as proof yet." [SEND]
+Unknown A: "Start with what it contains."
+Unknown B: "Enough that I want you to look. Not enough for me to claim more."
+Unknown C: "Good. Don't take my word for it."
+
+[PLAYER taps OPEN TRACE -> reference tracking simulation -> VIEW FINDINGS]
+SYSTEM/TRACE: Indexed reference ARC-IDX-GB-041 found.
+SYSTEM/TRACE: Matching public article field GB-ARTICLE-001 observed.
+SYSTEM/TRACE: Source provenance: UNVERIFIED.
+SYSTEM/TRACE: Capture time: NOT ESTABLISHED.
+SYSTEM/TRACE: Original article body: UNAVAILABLE.
+SYSTEM/TRACE: Article revision: NOT VERIFIED.
+[PLAYER inspects actual findings; persist TRACE_INDEX_FINDINGS_VIEWED; simulation never gives false data.]
+SYSTEM: RETURN TO CHAT available. This finishes Scene 4's TRACE bridge. Scene 5 begins on an authored Unknown Number message, not on scan animation alone.
+
+================================================================
+SCENE 5 — VERSION HISTORY, WITHOUT A CHECKLIST
+================================================================
+
+OPENING — AFTER TRACE SCAN
+Unknown Number: Did the reference tell you what happened to the article?
+PLAYER A: "It matches the article ID. That's about all I can confirm." [SEND]
+PLAYER B: "Why does your index have no original article text?" [SEND]
+PLAYER C: "I found a reference, not an earlier version." [SEND]
+Unknown A: "Then we're looking at the same limit."
+Unknown B: "I don't know. The copy I received was already incomplete."
+Unknown C: "Exactly. And that distinction matters."
+Unknown Number: The Bulletin page has an update label.
+Unknown Number: Read what the label actually says. Not what it makes you suspect.
+Unknown Number: Save that observation to TRACE. We can compare it with what you found.
+[Optional context CTA in message: OPEN BULLETIN; no "SOURCE A / SOURCE B" buttons.]
+
+ARTICLE UPDATE — WHEN PLAYER RETURNS FROM BROWSER
+[PLAYER opens existing Bulletin article; taps "Updated"; reads explanation; taps "SAVE ANALYSIS TO TRACE". This is a new analysis receipt, not a second article-read receipt.]
+SYSTEM: Update-label observation saved locally in TRACE.
+SYSTEM: RETURN TO CHAT; do not auto-send player's observations.
+Unknown Number: What does the update label establish?
+PLAYER A: "It says the page was updated. It doesn't say what changed." [SEND]
+PLAYER B: "It could be a correction, but there's no detail proving that." [SEND]
+PLAYER C: "There's an update marker. I still can't tell whether the article's wording changed." [SEND]
+Unknown A: "That's the limit of what the page tells us."
+Unknown B: "Right. A possibility isn't a record."
+Unknown C: "And without an earlier copy, you can't compare the text."
+Unknown Number: Keep that observation separate from the index. Two different sources.
+
+INDEX DISCUSSION — IF ALREADY SCANNED, NEVER REQUIRE A SECOND SCAN
+Unknown Number: Now look at what TRACE actually recovered.
+Unknown Number: Does it contain a second version of the article?
+[Optional context CTA: VIEW TRACE FINDINGS; opens persisted result without replay.]
+PLAYER A: "No. Only the reference and a matching public article ID." [SEND]
+PLAYER B: "The source and capture time can't be verified. Why trust it?" [SEND]
+PLAYER C: "It's a pointer. It doesn't contain the original body." [SEND]
+Unknown A: "Then the match is real within what the two records display. Not proof of a revision."
+Unknown B: "You shouldn't trust its origin. I can't authenticate it either."
+Unknown C: "Exactly. A pointer isn't the document."
+Unknown Number: That still leaves the publisher's own explanation.
+Unknown Number: The Bulletin has a page about how it labels updates.
+Unknown Number: See if it answers the question we're actually asking.
+[Optional context CTA: OPEN BULLETIN POLICY in Browser.]
+
+PUBLISHER POLICY — RETURN FROM BROWSER
+[PLAYER opens published policy via Browser; taps READ POLICY. Preserve distinct source receipt.]
+SYSTEM: Policy read locally. RETURN TO CHAT.
+Unknown Number: What did their policy tell you?
+PLAYER A: "It explains how updates are labelled in general." [SEND]
+PLAYER B: "It doesn't give us a change log for Daniel's article." [SEND]
+PLAYER C: "It explains the process, but not what happened on this page." [SEND]
+Unknown A: "Right. A general explanation. Not a record of this change."
+Unknown B: "That's the missing piece."
+Unknown C: "Which is why the label still leaves us with a question."
+
+FLEXIBLE-ORDER RULE
+The text above is a default editorial order, not a technical checklist. If the player read the policy first or saved the update analysis early, allow the matching discussion next. The NPC may only speak as though the player has revealed a private observation AFTER the player presses Send. Source actions remain available through normal app navigation. Never show three outstanding tasks together, three status cards, "complete 1/3", or a blocked send composer labelled "INSPECT FIRST".
+
+SYNTHESIS — ONLY AFTER THREE SEPARATE PLAYER MESSAGES ABOUT THREE ACTUAL SOURCES
+Unknown Number: Put them together for a moment.
+Unknown Number: The public page, the recovered reference, and the policy.
+Unknown Number: If someone asked you whether the article was rewritten, what could you defend?
+PLAYER A: "The reference matches, but a text revision is still unverified." [SEND]
+PLAYER B: "I suspect there's more to the update, but I can't prove what changed." [SEND]
+PLAYER C: "We have an update label, a reference, and a policy. Not a before-and-after copy." [SEND]
+Unknown A: "That's supported by what we have."
+Unknown B: "You can keep the question open. Just don't turn suspicion into a finding."
+Unknown C: "That's the separation I needed you to see."
+Unknown Number: You don't know who edited the page.
+Unknown Number: And neither do I.
+
+STRATEGY — DISTINCT CHOICES WITH REAL DIFFERENT REPLIES
+Unknown Number: So where would you go from here?
+PLAYER A: "I'd ask the publisher whether a previous copy or change record exists." [SEND]
+PLAYER B: "I'd look for an independently dated copy before contacting anyone." [SEND]
+PLAYER C: "I'd keep the result private until there's something we can verify." [SEND]
+Unknown A: "Ask for a record. Not an explanation you can't check."
+Unknown B: "If you find one, you'll still need to establish where and when it was captured."
+Unknown C: "That's a reasonable boundary. The open question won't disappear."
+Unknown Number: One more thing before we leave this.
+Unknown Number: An update label isn't the same as a formal public correction notice.
+Unknown Number: I want you to check whether the Bulletin lists one for this article.
+Unknown Number: Open the public Corrections Register. Don't mistake the absence of a notice for proof that nothing changed.
+[NEW INCOMING ATTACHMENT / CTA: CORRECTIONS REGISTER AVAILABLE]
+PLAYER A: "I'll check the public register." [SEND]
+PLAYER B: "And if there's no correction listed?" [SEND]
+PLAYER C: "I'll record what it says, without jumping to conclusions." [SEND]
+Unknown A: "Tell me what the listing actually shows."
+Unknown B: "Then you can say no formal notice is listed. Nothing more."
+Unknown C: "That's all I'm asking."
+
+[Only now set the persistent SCENE6_PUBLIC_REGISTER_UNLOCKED gate. This gate is authored and tied to an incoming Unknown instruction + completed explicit player Send. No auto-opening Corrections Desk.]
+
+================================================================
+SCENE 6 — THE CORRECTIONS DESK: LOCKED UNTIL THE PROMPT
+================================================================
+
+BEFORE UNLOCK
+SYSTEM: Corrections Desk / Public Register: LOCKED · No investigation route received.
+No ability to open the desk from TRACE, Browser, direct app navigation, deep links, or saved card; no publisher inquiry form before permission. A prior optional inquiry receipt stays visible in its own history but does not create a Scene 6 shortcut.
+
+AFTER UNLOCK
+[PLAYER opens newly available public Corrections Register in the Bulletin Browser. This is a public listing, not private correspondence.]
+PAGE: For this article, no formal public correction notice is listed.
+PAGE: This does not establish whether the text changed, when a change occurred, or who edited the page.
+[PLAYER taps SAVE FINDING; persist private note NOTE-S06-DESK-LIMITS once.]
+SYSTEM: Finding saved privately. No request sent.
+[PLAYER returns to Unknown Number chat.]
+Unknown Number: What did the register say?
+PLAYER A: "There's no formal correction notice listed for that article." [SEND]
+PLAYER B: "Nothing is listed, but that doesn't prove the article stayed the same." [SEND]
+PLAYER C: "I saved the finding. It doesn't tell us who edited the page." [SEND]
+Unknown A: "Right. The public listing is limited."
+Unknown B: "Exactly. No notice isn't a verified version history."
+Unknown C: "And the byline doesn't identify the page editor either."
+Unknown Number: Keep the finding. We still don't have an authenticated earlier copy.
+[Scene 6 core conclusion reached, next canonical lead may unlock as authored. No automatic publisher request.]
+
+OPTIONAL PUBLISHER INQUIRY — AUTHORIZED ONLY BY AN EXPLICIT UNKNOWN MESSAGE
+[This optional exchange may occur after discussing the register, never as a default form appearing on entry.]
+Unknown Number: If you want to take it further, the Bulletin has a public corrections inbox.
+Unknown Number: You can ask whether an earlier copy or article-specific change record is available.
+Unknown Number: But I can't promise they'll answer. And a reply wouldn't be an authenticated log.
+PLAYER A: "I'll send a specific question through the public desk." [SEND]
+PLAYER B: "I'd rather not contact the publisher yet." [SEND]
+PLAYER C: "I'll save the question as a draft for now." [SEND]
+Unknown A: "Keep it about the record. Don't make an accusation."
+Unknown B: "Then leave it open. Nothing has been sent."
+Unknown C: "A draft stays on your phone. It isn't a delivered request."
+[On A ONLY: UNLOCK OPTIONAL REQUEST COMPOSER; requires player to choose question, REVIEW, then tap SEND REQUEST. Never auto-submit.]
+[On B: no request, no unlock necessary, optional choice may recur under controlled authored reentry.]
+[On C: create or preserve local draft only; do not send.]
+[If earlier legitimate publisher request was sent in Scene 5, preserve its receipt; do not send a duplicate.]
+
+================================================================
+NO-AUTO-SEND / KNOWLEDGE / SAVE CONTRACT
+================================================================
+1. No player line, phone message, publisher email, or corrections inquiry is sent by opening a page, finishing an animation, backgrounding, or receiving NPC text. Selection + explicit SEND is always required for chats, and REVIEW + SEND REQUEST for publisher inquiry.
+2. NPCs cannot know private metadata the player has not explicitly disclosed in chat; source completion can unlock a choice, not grant character knowledge by itself.
+3. An already-read Scene 4 article satisfies article read. Scene 5's SAVE ANALYSIS TO TRACE is separate. The TRACE scan is the Scene 4→5 bridge and its saved findings are reused.
+4. Source results may be explored in any order, but each is discussed via its own sent player message. The player should never face a simultaneous all-source checklist.
+5. Game-save migration must not reset replies, source receipts, completed scan, optional inquiries, or knowledge/relationships.
+6. Evidence conclusion: no formal correction notice publicly listed; no authenticated earlier text; body revision not established; actual editor not identified; index origin unverified; Daniel's fate unresolved.

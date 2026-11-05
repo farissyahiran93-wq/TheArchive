@@ -25,7 +25,7 @@ describe('TRACE introduction and conservative guidance', () => {
       if (response.kind !== 'npc') throw Error('Missing reply')
       expect(nodes[response.next!]).toBeDefined()
     }
-    const old = { ...scene, traceIntroRevision: undefined }
+    const old = { ...scene, traceIntroRevision: undefined, traceUiRevision: undefined, naturalFlowRevision: undefined }
     const legacyChoice = actINodes(old)['OPEN-ORIGIN-EXPLAIN-4']
     expect(legacyChoice.kind === 'choice' && legacyChoice.choices[0].text).toBe('What is TRACE?')
     expect(normalizeSave(JSON.parse(JSON.stringify(save))).prologue!.scene01!.traceIntroRevision).toBe('2026-10-31')

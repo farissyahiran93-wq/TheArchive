@@ -1,0 +1,127 @@
+CODEX PROMPT V2 — THE ARCHIVE / NATURAL CONVERSATION FLOW + SCENE 6 LOCK
+Mission
+Implement the attached companion script THE_ARCHIVE_SCENE_04_05_06_CONVERSATION_REWRITE.txt in the CURRENT active THE ARCHIVE React/TypeScript story engine. This supersedes conflicting Scene 4–6 instructions in the prior TRACE 2.0 prompt. Preserve the TRACE app redesign, Bulletin widget and Decryptor design from the previous approved TRACE 2.0 specification. Deliver working gameplay, save-state migration and tests; not a static mockup.
+
+Repository: farissyahiran93-wq/TheArchive. Before edits, read AGENTS.md, ARCHITECTURE.md, active graph/reducers and tests; inspect current branch, do not assume historical file variants are active. Use the supplied dialogue as desired narrative beats, not permission to overwrite existing canonical role/knowledge constraints.
+The player's six non-negotiable decisions
+1. Scene 4: Sophie delivers the actual authored Bulletin link; Bulletin home widget activates on attachment delivery only. Read article once, mark read, finish Sophie conversation, then Unknown Number introduces TRACE. The first scan bridges Scenes 4 and 5.
+2. Scene 5: The already-read article is not reread as a mandatory task. The Updated → SAVE ANALYSIS TO TRACE action is a new distinct observation. The existing index scan/finding is reused; no second scan. Publisher policy stays in Browser and requires READ POLICY.
+3. The three sources are story interactions, not a visible checklist: contextual Unknown Number dialogue naturally guides them, source actions happen inside apps, and the player returns to chat to select an authored answer + press Send. Players can inspect sources in any order; progress is resumable and must never reset or repeat.
+4. Scene 5 contains source discussion, a genuinely distinct comparison choice, strategy choice and final assessment. Avoid three paraphrases, repeated tutorials, NPC omniscience and compulsory optional dialogue.
+5. Scene 6 Corrections Desk is LOCKED until Unknown Number itself introduces the public Corrections Register after Scene 5 final assessment and the player explicitly presses Send on an acknowledgement. Do not auto-activate the desk, surface its new-lead notification or expose a direct entry route at Scene 5 completion. The register must not open before that authorization.
+6. A publisher inquiry is optional and its form/send is LOCKED until Unknown Number explicitly offers this route in Scene 6, and the player chooses it via Send. Never auto-submit. The essential Scene 6 task is inspecting the public register and pressing SAVE FINDING. This must remain independently completable when the player declines to contact the publisher.
+Actual code inspection targets (verified in main as of the audit)
+- src/content/versionHistoryConversation.ts: revisedGroups, revisedUnknownEntrance, conversationNodes. The current revised groups ask about article/index/policy through repetitive choices and OPEN-VH-NEW-GATE-*.
+- src/ui/VersionHistoryConversation.tsx: UnknownNumberConversation, ConversationWorkspace, attachment actions. Current OPEN-VH-NEW-SOURCE-HUB renders source actions as a checklist. Remove/rewrite active source-hub presentation; don't delete migration paths blindly.
+- src/game/archiveOrigin.ts: canonicalSourceGate, openCanonicalThread, canonicalSent, canonicalEnd currently calls correctionsDeskAction({type:'activate'}) and emits CH1-S06-LEAD. Replace with a delayed authored Unknown Number follow-up with durable authorization; don't unlock desk at canonicalEnd.
+- src/game/scene05.ts: versionHistoryReady, versionHistoryAction, save flags, read-policy and analysis actions. canonicalSent currently uses patch.checklist=[0,1,2,3] as a synthetic progress artifact. Do not expose or depend on a visible checklist; migrate old progress safely.
+- src/game/scene06.ts: correctionsDeskAction currently permits enter/activate after versionHistory.complete, so this is insufficient for the new lock. Its save-finding marks the narrow finding complete, which should be preserved after proper authorization.
+- src/ui/CorrectionsDesk.tsx: panel==='register' currently has SAVE FINDING AND an always-accessible ASK THE DESK button. Hide/disable all entry points until gated; only unlock optional request after an authored Unknown Number choice. Guard at reducer level too, not merely CSS.
+- src/App.tsx, src/ui/CaseNavigation.tsx, src/ui/HomeScreen.tsx, src/ui/PublicationReference.tsx, src/ui/TraceTools.tsx, src/game/store.ts, src/game/types.ts, src/game/save.ts, src/content/scene04Final.ts, src/content/scene0607Revision.ts and applicable tests. Use existing story graph, queued-message typing, pause/resume and chapter/access restrictions.
+Required story-state model (conceptual; derive naming from current schema)
+Persist separate facts and use them for dialogue routing, not hardcoded screen-scrolling assumptions:
+- bulletinLinkDeliveredBySophie (authored source-delivery receipt)
+- publicArticleRead (existing Scene 4 receipt; do not reset)
+- traceIndexAvailable (received index; no evidence authenticity implied)
+- traceScanFinished (local animation outcome; not evidence claim)
+- traceFindingsViewed (explicit user inspection; durable)
+- updatedLabelInspected
+- updatedAnalysisSavedToTrace (explicit button; separate from article-read)
+- publisherPolicyRead (via Browser READ POLICY)
+- sourceDiscussed.article | index | policy (only on player SEND; store outgoing receipt in knowledge-provenance system)
+- comparisonSent, strategySent, assessmentSent (distinct choices + sends)
+- unknownDeskInstructionDelivered (incoming authored message)
+- deskInstructionAcknowledgedByPlayerSend (outgoing authored reply)
+- scene6RegisterAuthorized = derived from both events, and not automatically equivalent to versionHistory.complete
+- publicRegisterOpened, publicRegisterFindingSaved (explicit SAVE FINDING; idempotent)
+- unknownPublisherInquiryOfferDelivered, playerOptedToInquireBySend (optional)
+- publisherInquiryPermission = derived from the explicit offer + opt-in, but user still must REVIEW + SEND REQUEST.
+Prefer event IDs and selectors over many mutable booleans. Use the smallest save-schema migration compatible with current validations, and do not forge past user actions for old saves.
+Route and gate architecture
+S04 Sophie sends actual Bulletin link
+   -> widget activated
+   -> player opens Bulletin and MARK READ
+   -> Sophie conversation resumes and finishes
+   -> Unknown Number introduces TRACE reference
+   -> player chooses response + Send
+   -> INDEX ADDED TO TRACE -> player opens TRACE
+   -> initial local scan -> VIEW FINDINGS (explicit)
+
+S05 Unknown: what did TRACE actually show?
+   -> player response + Send
+   -> Unknown contextual prompt for article Updated
+   -> Browser: inspect Updated -> SAVE ANALYSIS TO TRACE
+   -> player returns to chat -> 1 article-source message + Send
+   -> Unknown contextual prompt for index (reuse saved scan)
+   -> TRACE: VIEW FINDINGS -> 1 index-source message + Send
+   -> Unknown contextual prompt for publisher policy
+   -> Browser: READ POLICY -> 1 policy-source message + Send
+   -> comparison + Send -> strategy + Send -> final assessment + Send
+   -> Unknown sends register instruction (not automatic desk access)
+   -> player acknowledgement + Send
+   -> only then unlock Scene 6 public register
+
+S06 public Corrections Register (NOT the private publisher inbox)
+   -> player checks article's register entry
+   -> SAVE FINDING -> private note persisted once
+   -> return to Unknown chat -> player's summary + Send
+   -> optional Unknown inquiry offer
+      -> A: player opts in + Send, form unlocks, REVIEW + SEND REQUEST
+      -> B: not now, nothing sent
+      -> C: draft only, nothing sent
+   -> existing next canonical lead only after Scene 6 approved close
+The linear chart is the default authored script order, not a UI to render. A player who has pre-visited a source must not get its visit prompt repeated; show the matching dialogue when an outgoing response is available. If the three sources were inspected in a different order, the conversation should coherently adapt. Only one contextual next-action CTA is visible at a time within chat; avoid three source-card gates, visible 1/3 progress, verification-gap checkboxes, or repeated INSPECT FIRST disabled chips. The old UI may preserve a subtle hint only where truly necessary, e.g. OPEN BULLETIN, VIEW TRACE FINDINGS or VIEW POLICY.
+Exact sources; strict boundaries
+- The public article belongs in Bulletin Browser accessed from the widget, not inside TRACE.
+- Updated: Yesterday is a publisher-displayed label. Saving this label is not evidence of any body rewrite.
+- Index ARC-IDX-GB-041 points to GB-ARTICLE-001. Original body is unavailable; origin/capture time/authenticity not verified. No decrypted source, GPS trace, live network hack, suspicious identity or verified earlier body may be invented.
+- Publisher policy explains general procedure, not the specific article's change log.
+- Corrections Register GB-CORR-REGISTER-001 displays no formal public correction notice listed for this article. This does NOT prove the article was unchanged or identify who edited it. Nora Vance is a public byline, not authenticated CMS editor metadata.
+- Keep NOTE-S06-DESK-LIMITS, existing evidence IDs, notifications and optional inquiry receipts idempotent. Do not convert unverified evidence into verified to make a gate pass.
+- Unknown Number may guide the player but cannot know private actions until the player discloses them. An outgoing message can be drafted/selected without creating any NPC receipt or remote knowledge until Send.
+- Sophie/group conversation, publisher inquiry and desk replies remain optional. Do not silently send letters or post private notes.
+Corrections Desk lock — server of truth is the reducer
+Currently canonicalEnd in src/game/archiveOrigin.ts activates the desk on scene closure. Do not do so. Instead:
+1. Scene 5 assessment completion stores a pending authored follow-up, not correctionsDesk.visible=true.
+2. Unknown Number sends a contextual instruction to check the public register. Delivery is durable and does not itself unlock a form.
+3. The player picks an acknowledgment and presses Send. Validate the source node/choice ID and idempotent outgoing receipt. Only then authorize public register navigation.
+4. Every entry path (enter, activate, main CTA, Browser, TRACE, saved links, deep link, resuming old panel, navigation utilities) must call a single canOpenScene6Register(save) selector. Unapproved attempts are no-op with optional concise LOCKED explanation, not partial state creation. If auto-navigation exists, remove it.
+5. The optional publisher inquiry ASK THE DESK control is hidden/disabled until its own offer + opt-in. It does not block SAVE FINDING or chapter progression. If prior valid request already exists, preserve its receipt without duplicate sends.
+6. Scene 6 summary after SAVE FINDING is shown in the Unknown Number conversation and still requires select + Send. Do not treat opening/saving the record as a message to Unknown Number.
+Chat authorship and realistic UX
+- Implement the companion dialogue with naturally different A/B/C responses and branch-specific NPC replies. They must differ in intent (cooperative, challenge, methodological caution), not three synonyms. Do not replace users' already-sent history on old saves.
+- Source transitions depend on persisted source activity; dialogue cannot instantly reveal content player has not read.
+- NPC typing and delayed delivery use the existing queue/timer; no instant wall of messages, no mysterious player auto-reply.
+- Preserve last-message auto-scroll except when player scrolls back; then show Jump to latest. Do not force scrolling under the phone reply composer.
+- Maintain the phone's consistent light native shell for public Bulletin; TRACE alone has cyber-noir branding and useful terminal feedback, with reduced-motion support.
+- Back/reopen/resume must return to the correct conversation node and pending reply; never rewind to Scene 4 once the article is marked read.
+Tests — must add or update
+S04
+1. Fresh save Bulletin widget empty; it becomes visible/active only after Sophie attachment delivered; no premature icon/dock/notif duplication.
+2. Player marks article read and resumes Sophie; Unknown follows only at authored point.
+3. Subsequent scenes retain article-read without forcing repeated MARK READ.
+4. First TRACE scan happens at S04→S05 boundary. VIEW FINDINGS explicitly saved. Reopen only shows saved result, replay cosmetic.
+S05
+5. Article Updated analysis, TRACE finding and policy are three distinct action receipts. All can be visited in different order.
+6. UI exposes no simultaneous three-source checklist; context prompts and transitions are via NPC conversation + relevant CTA.
+7. Three separate player Send actions needed to mark source discussion, even if all three sources were already visited.
+8. No auto-send from selecting choice, opening article, saving analysis, completing scan, reading policy or returning to app.
+9. Comparison/strategy/assessment each require explicit Send; branches have meaningfully different responses.
+10. Unknown does not claim private discoveries unless disclosed; article/index/policy remain epistemically distinct.
+
+S06
+11. versionHistory.complete alone does NOT authorize entry. Before Unknown instruction + player Send, all Scene 6 access paths are locked (including direct reducer action).
+12. Unknown instruction alone is insufficient; player acknowledgment must be sent. No premature notification/shortcut/form.
+13. Once authorized, register opens; SAVE FINDING creates NOTE-S06-DESK-LIMITS once, not a publisher message.
+14. Public conclusion exactly: no formal correction listed; body-change and editor remain unverified.
+15. Publisher inquiry form is unavailable until separate Unknown offer + opt-in Send; request requires REVIEW + SEND REQUEST; declining leaves story completable; drafts are not deliveries.
+16. Existing legitimately delivered inquiry receipts survive migration; no duplicate requests, no unsolicited replies.
+17. Quitting mid-typing, scanning, reading, choosing or navigating resumes correctly; no duplicate events/notification/evidence.
+18. Old saves midway through S04/S05/S06 migrate without losing history. Do not retroactively fabricate Unknown authorization or erase a completed legitimate Scene 6.
+19. Chapter 2 remains locked until existing canonical gates, and missing evidence or suspect remains unresolved.
+Deliverables and completion standard
+- Refactor active TSX UI, authored graph, reducer gating, typed save schemas/migration and tests; no parallel fake state machine.
+- Provide before/after route documentation, screenshots or emulated Android-size captures, a compact narrative state table, and changed-file list.
+- Run TypeScript, lint, full automated tests and production build, and report actual results. If Android APK compilation or device testing is unavailable, say so; never claim tested.
+- Do not commit or push without the user's explicit direction unless the active coding workflow already clearly authorizes it.
+Acceptance statement: The player experiences a flowing, suspenseful chat where each tool is used for a specific reason, not a chore list. The Corrections Desk remains truly locked until the Unknown sender invites the route; any publisher send remains a deliberate, optional player action. All canonical uncertainty is preserved.

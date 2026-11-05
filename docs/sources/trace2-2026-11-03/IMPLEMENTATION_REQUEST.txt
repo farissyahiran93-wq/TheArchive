@@ -1,0 +1,112 @@
+CODEX IMPLEMENTATION PROMPT — THE ARCHIVE / TRACE 2.0
+Role and task
+You are the senior gameplay systems engineer, React/TypeScript developer, UI designer and narrative-integrity reviewer for THE ARCHIVE. Implement a polished, playable, mobile-first TRACE application in the existing repository; do not deliver just a design mockup. The work is a UX and narrative-flow refactor, not permission to alter the core canon or invent evidence.
+
+Repository: farissyahiran93-wq/TheArchive.
+
+First read project instructions (AGENTS.md), architecture and existing tests. Discover and verify current implementation before editing. There are newer revision paths, legacy paths and overlapping screens: only refactor the active runtime, retaining required migration and test compatibility.
+
+Existing files to inspect:
+- src/App.tsx, src/GameEntry.tsx, src/ui/CaseNavigation.tsx
+- src/ui/HomeScreen.tsx, src/content/phone.ts, src/ui/AppIcon.tsx
+- src/ui/VersionHistoryConversation.tsx, especially ArchiveOrigin, ConversationWorkspace and UnknownNumberConversation
+- src/ui/VersionHistory.tsx and src/ui/PublicationReference.tsx to identify active versus legacy paths
+- src/ui/TraceTools.tsx, src/ui/trace-tools.css, src/content/traceTools.ts, src/game/traceTools.ts
+- src/game/archiveOrigin.ts, src/game/scene05.ts, src/game/store.ts, src/game/save.ts, src/game/types.ts
+- src/content/versionHistoryConversation.ts, src/content/versionHistoryConversationData.ts, src/content/scene04Final.ts
+- Tests including src/game/traceTools.test.ts, src/game/versionHistoryConversation.test.ts and relevant opening / source-investigation tests.
+User-approved decisions — do not compromise
+1. TRACE must become a real app UI, launched from the existing archive/TRACE app identity and case navigation. Do not present TRACE as a mere expandable capability list, giant text-based Version History page, or an external website.
+2. The public Greyhaven Bulletin article must not be duplicated inside TRACE. The article and publisher policy belong in the Bulletin browser/widget. TRACE holds the recovered ARC-IDX-GB-041 reference and its own locally generated analysis receipt; it may show public reference IDs, but never a copy of the article body as a TRACE source card.
+3. At the home screen, add a Greyhaven Bulletin widget below Gallery and Calendar. It must start EMPTY: no headline, thumbnail, preview, fake breaking news, notification, active tap target or auto-filled article. It becomes populated and tappable only when Sophie sends the actual authored Bulletin link. The widget must be the entry point to the Bulletin article after activation. Do not show Bulletin as an additional duplicate home app icon or dock icon in this path.
+4. If the player already read the public article in the current story branch, do not force a second read. Unknown Number should move straight to the TRACE reference and point the player to where to inspect it. An already-satisfied reading flag must remain satisfied.
+5. When the player receives or taps INDEX ADDED TO TRACE, present an engaging simulated in-world local tracking animation: startup, indexed-reference lookup, field verification, public reference match, limitations, and completion. This is a fictional UI animation — it does not connect to remote servers, perform real hacking, search actual people, collect GPS, or access private devices.
+6. TRACE includes a Decryptor tool, in a terminal-like visual style inspired by the supplied references, but the current index reference itself is not encrypted content and does NOT magically yield Daniel's missing article. Show the Decryptor in a meaningful 'NO ENCRYPTED PAYLOAD' locked/empty state until a legitimately authored future encrypted fragment is available.
+7. Preserve canonical story chronology, existing character knowledge boundaries, evidence identifiers, case gating, current saved games, progression semantics, and all chapter locks. Do not unlock Chapter 2, fake a culprit, resolve Daniel's disappearance, or claim the article was rewritten.
+Target UX / mobile screens
+A. Home widget
+- Retain photo/Gallery and Calendar widgets in the existing style.
+- Add one full-width Bulletin widget directly beneath them. Initially visually empty/neutral, with at most the brand name as a header. No headline/preview/content and no click action before Sophie sends the link.
+- Populate the widget with the actual story-appropriate headline and official article route on Sophie-link receipt. Tapping opens Bulletin browser at the article, not TRACE.
+- Keep the widget state derived from the authoritative story receipt/event, not a transient local React boolean. It must persist after app restart and save migration.
+- Eliminate premature Bulletin app, dock entry and home story-alert duplication in this specific active flow. Keep other historical scenes' required accesses compatible.
+- If Sophie has not yet sent the link, an earlier article read through a different legitimate route must not inadvertently activate the widget.
+B. TRACE App — Workspace
+- Visual design: cyber-noir investigative system; charcoal/near-black surfaces, restrained neon green (#55ef97) and cyan accents, amber verification warnings. Calm modern UI, not an overwhelming endless stream of random hacker code.
+- Preserve the phone status bar, safe areas, Android hardware back behavior, existing theme/reduced-motion preferences, and reasonable touch targets.
+- Header: TRACE. / DIGITAL FORENSICS · LOCAL WORKSPACE / ACCESS: PARTIAL.
+- Home panel: Active Target ARC-IDX-GB-041, unverified provenance, public article ID if present, original body unavailable, START REFERENCE TRACE.
+- Compact functional navigation: Workspace, Tracker, Decryptor, Vault, Activity (tabs or app-navigation). Avoid nested horizontal scrolling on 320–430 px phone widths.
+- Do not surface every locked future module as a wall of feature cards. Reuse existing traceToolStates gates and keep unimplemented capabilities locked without fake functionality.
+C. Tracker — cinematic but credible
+- On INDEX ADDED TO TRACE, open the actual TRACE app to Tracker and begin first-run analysis (or provide an immediate single clear start action if required by existing story gate).
+- Stage sequence: INITIALIZING → INDEX LOOKUP → FIELD MATCH → VERIFYING SOURCE LIMITATIONS → COMPLETE.
+- Animate a progress bar, rotating/scrolling terminal logs, activity heartbeat, and a small reference-node graph (local index → public ID match; missing original content + unverified revision remain distinct unresolved nodes).
+- Use contextually meaningful simulated logs such as:TRACE ENGINE // LOCAL INDEX
+  [INIT] Opening recovered reference store...
+  [FOUND] ARC-IDX-GB-041
+  [MATCH] Public article reference: GB-ARTICLE-001
+  [WARN] Provenance: UNVERIFIED
+  [MISSING] Original article text: NOT AVAILABLE
+  [CHECK] Authenticated capture time: NOT ESTABLISHED
+  [LIMIT] No earlier text available for a before/after comparison
+  [DONE] Reference linked. Revision history NOT VERIFIED.
+- This sequence should last roughly 4–7 seconds under normal animation settings, support a reduced-motion immediate-results mode and optional Skip animation after an introductory moment. It should not repeatedly block returning players.
+- Drive phase timing from a small reusable presentation state machine, not 100 separate timers. Timer cleanup and pause/resume must work on exit, background, return, rerender, and app suspension. Never let animation timers unlock story evidence without the required user action.
+- Re-entering TRACE should show the persisted result and provide an optional Replay animation that cannot duplicate evidence, notifications or relationship effects.
+- The result MUST be conservative: exact known public article ID matches the index field; source/capture time and original content remain unverified or unavailable; revision NOT VERIFIED. A match is not an earlier version, proof of editing, or proof of tampering.
+C2. After-scan interaction and handoff
+- At the end of the first scan, show a clear VIEW FINDINGS action so the player can inspect the matched public reference ID, unverified origin, missing original text and unavailable revision comparison.
+- Allow tapping each result node to inspect a short explanation. These interactions are functional and accessible, not inert visuals; retain the same canonical limitations in every view.
+- Show RETURN TO UNKNOWN NUMBER / CONTINUE INVESTIGATION when the existing authored conversation is waiting. Navigate back to the correct thread and respect the existing response options, instead of auto-sending a player answer or causing an unsolicited chat response.
+- Keep the current chapter progression tied to the proper authored gate/choice. A cosmetic progress bar reaching 100% is not sufficient by itself to mark narrative tasks complete.
+D. Decryptor
+- Dedicated visually distinct terminal panel, with integrity status, staged unlock and future fragment hooks.
+- Initial state: NO ENCRYPTED PAYLOAD DETECTED; unavailable action clearly explained. ARC-IDX-GB-041 is not a decryptable article copy.
+- When later authored story content provides a valid encrypted fragment, support a future gameplay flow of Validate payload → Stabilize bytes → Decode fragment and indicate partial/low-confidence recovery.
+- For this change, do not invent a decoded message, password, malware, real exploit, live camera/Wi-Fi access, unknown suspect identity or missing article body. Mock technical visuals are allowed; narrative outcomes must be authored.
+- Connect unlocks to existing typed capability and save gates, not always-on booleans.
+E. Evidence Vault and Activity
+- Vault includes recovered reference metadata and the player's completed local analysis record; no full public Bulletin article.
+- Preserve the existing canonical evidence records and IDs; do not generate conflicting or duplicative receipts on refresh.
+- Activity log should show actual local story events/analysis completions, not fake external network traffic.
+- Comparison decisions and optional publisher inquiry remain available through existing canonical paths without leaking source data or changing prior disclosure boundaries.
+Chat and story changes
+- Inspect active Unknown Number scenes and skip article-first prompt if the public article is already read. Do not globally delete old narrative nodes needed by other entry states.
+- Use narrative logic equivalent to the following when article-read is true:Unknown Number: You've already seen the Bulletin article.
+  Unknown Number: Good. You don't need to read it again.
+  Unknown Number: I've added a reference to TRACE.
+  Unknown Number: ARC-IDX-GB-041.
+  Unknown Number: Track the reference. Don't assume it's an older version.
+  Unknown Number: Tell me what the index actually contains.
+  [ATTACHMENT: INDEX ADDED TO TRACE] [OPEN TRACE]
+- Provide 3 DISTINCT player responses with genuinely different tone, e.g. cooperative, skeptical, evidence-first. Never three paraphrases of “I'll read the article.” Maintain authored relationship effects/branches and a shared safe convergence. Avoid unsolicited automatic player replies.
+- Existing article-read false paths can remain available with coherent onboarding, but the new default must honor already-read source status.
+- Ensure Sophie sends the Bulletin link at the appropriate canonical narrative moment, not as an early shortcut. Widget activation is triggered by delivered source, not the player merely opening Sophie's chat. Treat link received and article opened/read as separate events.
+Technical implementation guidance
+- Prefer adding a dedicated src/ui/TraceApp.tsx (or equivalent) and src/ui/trace-app.css with small components for the tabs/terminal. Use state selectors and the current case navigation, not a parallel fake app engine.
+- Keep archive as the canonical existing app ID in src/content/phone.ts unless an audited migration is essential; it already represents TRACE in the current code. Avoid rewriting all saved app references.
+- Refactor ConversationWorkspace and ArchiveOrigin only insofar as needed to delegate to the new TRACE shell, preserving the existing VersionHistoryState and reducer semantics. VersionHistory.tsx may be legacy; inspect actual call sites and do not delete it blindly.
+- Use the canonical story reducer to record index available, index inspected, reference analysis complete as distinct states where needed, without marking article read, policy read, source disclosure, revision proven, or case complete from animation alone.
+- Derive widget activation from an explicit Sophie-link receipt. If none currently exists, introduce the smallest story-authored event with save-version-aware migration. Do not infer the link from a generic Sophie notification or relationship value.
+- Build UI labels/content from canonical scene04Article and index field definitions. Do not copy/paste article details in multiple components.
+- Respect pauseScene03, delayed events, scroll restoration, notifications, relationship and knowledge stores. No duplicate queued message delivery.
+- Reuse existing audio preferences; any scan click, typing or completion sound should be subtle, user-controlled, and never autoplay before a gesture.
+- The final product must run offline in installed Android/PWA builds and must not require external APIs, permissions or actual cyber-intrusion.
+Required test cases and acceptance criteria
+1. Fresh install → Gallery and Calendar at Home → Bulletin widget visible but completely empty/inert.
+2. Before Sophie sends her link, no Bulletin headline or duplicate Bulletin dock/app tile/notification is prematurely populated.
+3. Sophie link is delivered by authored story event → widget populates exactly once and persists after resume/restart → widget opens the correct public article in the browser.
+4. Already-read article + Unknown Number follow-up → no repeated mandatory article task → index attachment offered, and player replies are not near-duplicates.
+5. Tap INDEX ADDED TO TRACE → opens TRACE Tracker; in-world simulated scan advances visually; completing scan yields only the permitted index facts.
+6. First-run interruption, background/resume, back button and reopened app leave valid state; neither lost progress nor duplicate evidence/notifications.
+7. Replay has visual effect only. Repeated replays cannot modify evidence counts or chapter progression.
+8. Decryptor visible, initially unavailable; no false article recovery; future authored fragment gating tested. Each Tracker result node is inspectable and first-run completion offers a valid return to the existing chat without auto-answering.
+9. Existing Version History, policy questions, corrections receipts, optional Sophie/group scenes and downstream chapter gates remain reachable; no premature solves.
+10. Old saves and active revision migrate safely; tests for duplicate evidence, UI restoration, story branch invariants, 320–430 px viewport, dark/light preferences and reduced motion.
+11. TypeScript, lint, unit/integration tests and production build pass. Run available tests and report exact commands/results. Explicitly disclose if real-device Android testing cannot be done.
+12. Deliver a final changed-file list, new gating/receipt semantics, screenshots if supported, and any remaining limitations. Do not mark work complete when only static mockups or placeholder buttons exist.
+Optional visual reference
+The user has a separate local HTML concept, TRACE_2_0_UI_Prototype.html, to indicate the visual direction and interaction sequence. It is not source of truth for story or app code. The actual game implementation must use repository components, canonical data, and save/store architecture.
+
+Begin by auditing the active entry path, then implement end-to-end. Keep the public Bulletin outside TRACE, preserve the mystery, and prioritize playable UI over decorative panels.

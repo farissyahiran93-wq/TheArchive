@@ -5,10 +5,15 @@ import { beginScene01, draftActIChoice, pauseScene03 } from '../../src/game/scen
 import { chapter1Action, chapter1NextDue } from '../../src/game/chapter1'
 import { originAction } from '../../src/game/archiveOrigin'
 import { versionHistoryAction, type VersionHistoryAction } from '../../src/game/scene05'
+import { correctionsDeskAction } from '../../src/game/scene06'
 
 export class ConversationFixture extends ActIFinalFixture {
   constructor(save?:GameSave){
     super(save??new Scene04Fixture(new ActIFinalFixture(beginScene01(newGame(),1800000000000)).until('complete').save).at('complete04').save)
+    if (!save) {
+      delete this.save.prologue!.scene01!.naturalFlowRevision
+      delete this.save.prologue!.scene01!.traceBridgeRevision
+    }
   }
   override send(id='a'){this.save=draftActIChoice(this.save,id);return super.send(id)}
   tickOne(){const due=chapter1NextDue(this.save);if(Number.isFinite(due)){this.now=Math.max(this.now,due);this.save=chapter1Action(this.save,{type:'tick'},this.now)}return this}
@@ -16,7 +21,9 @@ export class ConversationFixture extends ActIFinalFixture {
   do(a:VersionHistoryAction){this.save=versionHistoryAction(this.save,a,this.now+=100);return this.drain()}
   bridge(){this.tickOne().origin('open');for(let i=0;i<30&&!this.save.chapter1!.archiveOrigin!.checkpoint?.complete;i++){const n=this.node();if(n.kind!=='choice')throw Error(n.id);this.send(n.choices[0].id)}return this}
   install(){this.origin('security').origin('install');for(let i=0;i<3;i++)this.tickOne();return this.origin('cancel')}
-  enter(){this.origin('inspect').do({type:'enter'});const p=this.save.chapter1!.versionHistory!;p.flags=p.flags.filter(f=>f!=='new_dialogue'&&f!=='flexible_sources');return this}
+  // This fixture exercises the pinned 28 October graph; TRACE 2.0 tests enter
+  // through the reducer directly to exercise the new already-read entry.
+  enter(){this.origin('inspect').do({type:'enter'});delete this.save.prologue!.scene01!.traceUiRevision;const p=this.save.chapter1!.versionHistory!;p.flags=p.flags.filter(f=>f!=='new_dialogue'&&f!=='flexible_sources'&&f!=='index_requested');return this}
   sources(){return this.do({type:'panel',panel:'public'}).do({type:'read-article'}).do({type:'inspect-metadata'}).do({type:'save-update-analysis'}).do({type:'get-index'}).do({type:'panel',panel:'index'}).do({type:'panel',panel:'policy'}).do({type:'read-policy'}).do({type:'back'})}
   unknown(){if(!this.save.deliveredEvents.includes('CH1-VH-START')){for(let i=0;i<4&&!this.save.deliveredEvents.includes('CH1-VH-START');i++)this.tickOne()}return this.do({type:'thread',thread:'unknown'})}
   atChoice(target:string,pick='a'){
@@ -33,4 +40,12 @@ export class ConversationFixture extends ActIFinalFixture {
     throw Error('Unreachable '+target)
   }
   core(pick='a'){return this.bridge().install().enter().sources().unknown().atChoice('OPEN-VH-END',pick)}
+  authorizeDesk(){
+    for(let i=0;i<12&&!this.save.deliveredEvents.includes('CH1-VH-NAT-REGISTER');i++)this.tickOne()
+    return this.unknown().send('a')
+  }
+  finishRegister(){
+    for(const action of [{type:'enter'},{type:'panel',panel:'register'},{type:'save-finding'}] as const)this.save=correctionsDeskAction(this.save,action,this.now+=100)
+    return this.unknown().send('a')
+  }
 }

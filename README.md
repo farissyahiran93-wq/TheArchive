@@ -1,5 +1,7 @@
 # GREYHAVEN — Reboot Episode 01 playable candidate
 
+> **5 November 2026 — new master planning baseline:** [TheArchive story bible](docs/THEARCHIVE_STORY_BIBLE.md), [five-chapter plan](docs/THEARCHIVE_CHAPTER_MASTER_PLAN.md), [exactly 50 scenes](docs/THEARCHIVE_50_SCENE_MATRIX.md), [TRACE recovery](docs/THEARCHIVE_TRACE_RECOVERY_SPEC.md), [narrative/save state](docs/THEARCHIVE_NARRATIVE_STATE_SPEC.md), [plot decisions](docs/THEARCHIVE_PLOT_GAP_REGISTER.md), and [repository audit / future roadmap](docs/THEARCHIVE_IMPLEMENTATION_ROADMAP.md). This package supersedes conflicting earlier plans for future development. It is **planning only**; the current runtime, GREYHAVEN title, save graphs and APKs are unchanged. Implementation needs a separate scene/chapter instruction. The older sections below retain development history; use the linked audit for the actual current architecture and released ten-scene route.
+
 GREYHAVEN is the game; TRACE is the fictional investigation application. See [the rebranding report](docs/GREYHAVEN_TRACE_REBRANDING_2026-10-31.md) for compatibility, tool gates and verification. Historical reports and delivered APK filenames retain their original names.
 
 This is the isolated reboot workspace for the mobile detective thriller. This supplied workspace uses its own IndexedDB database and does not touch legacy saves. Git metadata is not included in this directory.

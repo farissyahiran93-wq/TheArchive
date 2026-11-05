@@ -1,4 +1,5 @@
 import { validateChapter1 } from './chapter1'
+import { upgradeUnansweredTraceBridge } from './traceBridge'
 import { mirrorConnections, mirrorEntry, mirrorPairKey, recoverySources } from '../content/mirror'
 import { validateAccessState } from './chapter2Access'
 import { actINodes } from '../content/actIRegistry'
@@ -161,7 +162,7 @@ export function normalizeSave(input: unknown): GameSave {
     if (prologue.scene01 !== undefined) {
       const scene = prologue.scene01
       const scene01Nodes = actINodes(scene as never)
-      if (!record(scene) || scene.version !== 1 || scene.traceIntroRevision!==undefined&&scene.traceIntroRevision!=='2026-10-31'||scene.articleAlignment!==undefined&&scene.articleAlignment!=='2026-10-28'||scene.scriptRevision !== undefined && scene.scriptRevision !== 'final-2026-10-23' || typeof scene.nodeId !== 'string' || !scene01Nodes[scene.nodeId] || !Number.isFinite(scene.startedAt) ||
+      if (!record(scene) || scene.version !== 1 || scene.traceBridgeRevision !== undefined && scene.traceBridgeRevision !== '2026-11-04' || scene.naturalFlowRevision!==undefined&&scene.naturalFlowRevision!=='2026-11-03'||scene.traceUiRevision!==undefined&&scene.traceUiRevision!=='2026-11-03'||scene.traceIntroRevision!==undefined&&scene.traceIntroRevision!=='2026-10-31'||scene.articleAlignment!==undefined&&scene.articleAlignment!=='2026-10-28'||scene.scriptRevision !== undefined && scene.scriptRevision !== 'final-2026-10-23' || typeof scene.nodeId !== 'string' || !scene01Nodes[scene.nodeId] || !Number.isFinite(scene.startedAt) ||
         typeof scene.introduced !== 'boolean' || typeof scene.nameDisclosed !== 'boolean' || typeof scene.invitationDismissed !== 'boolean' || typeof scene.complete !== 'boolean' ||
         !['none','declined','ready','joined'].includes(String(scene.invitation)) || scene.invitationApproved !== undefined && typeof scene.invitationApproved !== 'boolean' ||
         scene.disclosedName !== undefined && (typeof scene.disclosedName !== 'string' || scene.disclosedName.length < 1 || scene.disclosedName.length > 40) || scene.nameDisclosed && !scene.disclosedName ||
@@ -224,7 +225,7 @@ export function normalizeSave(input: unknown): GameSave {
   // A saved chronology makes equivalent stored/journal copies normalize identically.
   const scene=candidate.prologue?.scene01
   const checkpointAt=Math.max(scene?.startedAt??0,...scene?.messages.map(m=>m.at)??[],...scene?.groupMessages.map(m=>m.at)??[])
-  return removeObsoleteContactBlocking(candidate,checkpointAt)
+  return upgradeUnansweredTraceBridge(removeObsoleteContactBlocking(candidate,checkpointAt))
 }
 
 /** Forward, idempotent compatibility repair. The v1 database and unrelated progress stay intact. */

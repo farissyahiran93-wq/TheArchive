@@ -1,3 +1,8 @@
+import { naturalOriginEntrance, naturalUnknownEntrance } from '../content/naturalConversation'
+import { canOpenPublisherInquiry, hasPublisherReceipt, investigationLocksApply, naturalConversation, naturalCore } from './investigationAccess'
+import { handoffTraceBridge, naturalOriginFirst, naturalSent, naturalTick, queueRegisterInstruction, revisitNaturalInquiry, scheduleNaturalStart, sourceActivity } from './naturalConversation'
+import { bridgeEnd, traceBridgeEntrance, traceBridgeNodes } from '../content/traceBridgeV3'
+import { traceBridgeV3 } from './traceBridge'
 import { correctionsDeskAction, deskPut } from './scene06'
 import { conversationNodeForValidation } from '../content/actIRegistry'
 import type { GameSave } from './types'
@@ -11,7 +16,7 @@ import { versionHistoryPut, type VersionHistoryAction, type VersionHistoryState 
 export type ConversationCheckpoint={nodeId:string;draft?:{nodeId:string;choiceId:string};paused?:{id:string;remainingMs:number;typing:boolean};complete?:boolean}
 export interface ArchiveOriginState {
   version:1; contacted:boolean; packageDelivered:boolean; installed:boolean; legacyInstalled?:boolean;
-  securityOpen:boolean; installStage?:'CONNECTING'|'DECRYPTING PACKAGE'|'INSTALLING'|'INSTALL COMPLETE';
+  securityOpen:boolean; installStage?:InstallStage;
   initialInspected:boolean; followupNotified:boolean; reading?:boolean; checkpoint?:ConversationCheckpoint;
   receipts:{eventId:string;recipient:'player'|'unknown';factIds:string[]}[]; scroll?:number;
 }
@@ -21,15 +26,31 @@ const originInitial=():ArchiveOriginState=>({version:1,contacted:false,packageDe
 export const originPut=(s:GameSave,p:Partial<ArchiveOriginState>):GameSave=>s.chapter1?{...s,chapter1:{...s.chapter1,archiveOrigin:{...s.chapter1.archiveOrigin??originInitial(),...p}}}:s
 const schedule=(s:GameSave,id:string,at:number)=>s.deliveredEvents.includes(id)||s.pendingEvents.some(e=>e.id===id)?s:{...s,pendingEvents:[...s.pendingEvents,{id,dueAt:at}]}
 export const archiveInstallStageMs = 1800
+const installStages = ['CONNECTING', 'DECRYPTING PACKAGE', 'INSTALLING', 'SETTING UP'] as const
+type InstallStage = typeof installStages[number] | 'INSTALL COMPLETE'
+const bridgeInstallEvent = 'CH1-TRACE-V3-INSTALL'
+const bridgeInstallLabels: Record<InstallStage, string> = {
+  CONNECTING: 'Preparing local package…',
+  'DECRYPTING PACKAGE': 'Reading package manifest…',
+  INSTALLING: 'Installing TRACE viewer…',
+  'SETTING UP': 'Setting up reference workspace…',
+  'INSTALL COMPLETE': 'Installation complete.',
+}
+export function archiveInstallLabel(s: GameSave) {
+  const stage = s.chapter1?.archiveOrigin?.installStage
+  return stage && (traceBridgeV3(s) ? bridgeInstallLabels[stage] : stage)
+}
 /** Presentation follows the saved stage deadline; it never installs or advances state. */
 export function archiveInstallProgress(s:GameSave,now:number):number {
   const stage=s.chapter1?.archiveOrigin?.installStage
   if(!stage)return 0
   if(stage==='INSTALL COMPLETE')return 100
-  const index=['CONNECTING','DECRYPTING PACKAGE','INSTALLING'].indexOf(stage)
-  const due=s.pendingEvents.find(e=>e.id===`CH1-ARCHIVE-INSTALL-${index+1}`)?.dueAt
+  const index = installStages.indexOf(stage)
+  const bridge = traceBridgeV3(s)
+  const event = bridge ? bridgeInstallEvent : `CH1-ARCHIVE-INSTALL-${index+1}`
+  const due=s.pendingEvents.find(e=>e.id===event)?.dueAt
   const fraction=due===undefined?0:Math.max(0,Math.min(1,1-(due-now)/archiveInstallStageMs))
-  return Math.min(99,Math.floor((index+fraction)*100/3))
+  return Math.min(99,Math.floor((index+fraction)*100/(bridge ? installStages.length : 3)))
 }
 function notice(s:GameSave,id:string,text:string,now:number,recipient:'unknown'|'sophie'|'group'='unknown'):GameSave {
   if(s.deliveredEvents.includes(id))return s
@@ -40,15 +61,42 @@ function notice(s:GameSave,id:string,text:string,now:number,recipient:'unknown'|
 }
 export function scheduleArchiveOrigin(s:GameSave,now:number):GameSave {
   if(!alignedArticle(s)||archiveInstalled(s))return s
+  if (traceBridgeV3(s) && !bridgeOriginReady(s)) return s
+  if(!s.chapter1?.archiveOrigin?.contacted&&!naturalConversation(s))s={...s,prologue:{...s.prologue!,scene01:{...s.prologue!.scene01!,naturalFlowRevision:'2026-11-03'}}}
   return schedule(originPut(s,{}),'CH1-ARCHIVE-FIRST',now+3000)
 }
+function bridgeOriginReady(s: GameSave) {
+  const story = s.chapter1?.publicStory
+  return !!story?.complete && story.flags.includes('article-inspected')
+}
 export function canonicalTick(s:GameSave,now:number):GameSave {
-  const ids=['CH1-ARCHIVE-FIRST','CH1-ARCHIVE-INSTALL-1','CH1-ARCHIVE-INSTALL-2','CH1-ARCHIVE-INSTALL-3','CH1-ARCHIVE-FOLLOWUP','CH1-VH-START','CH1-VH-SOPHIE','CH1-VH-GROUP']
+  const natural=naturalTick(s,now);if(natural!==s)return natural
+  const ids=['CH1-ARCHIVE-FIRST','CH1-ARCHIVE-INSTALL-1','CH1-ARCHIVE-INSTALL-2','CH1-ARCHIVE-INSTALL-3',bridgeInstallEvent,'CH1-ARCHIVE-FOLLOWUP','CH1-VH-START','CH1-VH-SOPHIE','CH1-VH-GROUP']
   const due=s.pendingEvents.filter(e=>ids.includes(e.id)&&e.dueAt<=now).sort((a,b)=>a.dueAt-b.dueAt||a.id.localeCompare(b.id))[0]
   if(!due)return s
   s={...s,pendingEvents:s.pendingEvents.filter(e=>e.id!==due.id)}
   if(s.deliveredEvents.includes(due.id))return s
+  if (due.id === 'CH1-ARCHIVE-FIRST' && traceBridgeV3(s)) {
+    const origin = s.chapter1?.archiveOrigin
+    const first = traceBridgeNodes[traceBridgeEntrance]
+    if (!bridgeOriginReady(s) || !origin || origin.contacted || first.kind !== 'npc') return s
+    s = notice(s, due.id, first.text, now)
+    return originPut(s, {
+      contacted: true,
+      checkpoint: { nodeId: first.next },
+      receipts: [...origin.receipts, { eventId: due.id, recipient: 'player', factIds: [] }],
+    })
+  }
+  if(due.id==='CH1-ARCHIVE-FIRST'&&naturalConversation(s)){const first=naturalOriginFirst();if(first.kind==='npc')return originPut(notice(s,due.id,first.text,now),{contacted:true,checkpoint:{nodeId:first.next}})}
   if(due.id==='CH1-ARCHIVE-FIRST')return originPut(notice(s,due.id,'About the Greyhaven Bulletin article.',now),{contacted:true,checkpoint:{nodeId:originOpening}})
+  if (due.id === bridgeInstallEvent) {
+    const origin = s.chapter1?.archiveOrigin
+    if (!traceBridgeV3(s) || !origin?.securityOpen || !origin.installStage || origin.installed || origin.installStage === 'INSTALL COMPLETE') return s
+    const next = installStages[installStages.indexOf(origin.installStage) + 1]
+    if (next) return schedule(originPut(s, { installStage: next }), bridgeInstallEvent, now + archiveInstallStageMs)
+    s = { ...s, deliveredEvents: [...s.deliveredEvents, bridgeInstallEvent] }
+    return publicStoryFlag(originPut(s, { installed: true, installStage: 'INSTALL COMPLETE' }), 'index-available')
+  }
   if(due.id.startsWith('CH1-ARCHIVE-INSTALL')){
     const stage=Number(due.id.at(-1)),done=stage===3
     s={...s,deliveredEvents:[...s.deliveredEvents,due.id]}
@@ -57,7 +105,7 @@ export function canonicalTick(s:GameSave,now:number):GameSave {
     return publicStoryFlag(s,'index-available')
   }
   if(due.id==='CH1-ARCHIVE-FOLLOWUP')return originPut(notice(s,due.id,'Did you find the reference?',now),{followupNotified:true,checkpoint:{nodeId:conversationNodes[originFollowup].kind==='npc'? (conversationNodes[originFollowup] as Extract<Scene01Node,{kind:'npc'}>).next:originFollowup}})
-  if(due.id==='CH1-VH-START')return notice(s,due.id,s.chapter1?.versionHistory?.flags.includes('new_dialogue')?"Before you start looking, there's something I want you to check.":'The reference matches the title.',now)
+  if(due.id==='CH1-VH-START')return notice(s,due.id,s.prologue?.scene01?.traceUiRevision?"You've already seen the Bulletin article.":s.chapter1?.versionHistory?.flags.includes('new_dialogue')?"Before you start looking, there's something I want you to check.":'The reference matches the title.',now)
   const thread=due.id==='CH1-VH-SOPHIE'?'sophie':'group'
   s=versionHistoryPut(s,thread==='sophie'?{sophieNotified:true}:{flags:[...new Set([...s.chapter1!.versionHistory!.flags,'group-notified'])]})
   return notice(s,due.id,thread==='sophie'?'I kept thinking about that article.':'Does anyone actually know what changed in that article?',now,thread)
@@ -73,8 +121,10 @@ export function openOrigin(s:GameSave,now:number):GameSave {
   if(s.chapter1?.versionHistory?.revision)return openCanonicalThread(s,'unknown',now)
   const p=s.chapter1?.archiveOrigin
   if(!p?.contacted||p.reading||p.checkpoint?.complete)return s
+  if (traceBridgeV3(s) && p.securityOpen) return s
   s=pauseScene03(s,now);s=originPut(s,{reading:true})
-  return restore(s,p.checkpoint??{nodeId:originOpening},now)
+  const entrance = traceBridgeV3(s) ? traceBridgeEntrance : naturalConversation(s) ? naturalOriginEntrance : originOpening
+  return restore(s, p.checkpoint ?? { nodeId: entrance }, now)
 }
 function restore(s:GameSave,c:ConversationCheckpoint,now:number):GameSave {
   const scene=s.prologue!.scene01!
@@ -87,11 +137,21 @@ export function originAction(s:GameSave,a:{type:'open'|'security'|'cancel'|'inst
   if(!p)return s
   if(a.type==='scroll')return Number.isFinite(a.value)&&a.value!>=0?originPut(s,{scroll:a.value}):s
   if(a.type==='security')return p.packageDelivered&&!p.installed?originPut(pauseScene03(s,now),{securityOpen:true}):s
+  if (a.type === 'cancel' && traceBridgeV3(s) && p.securityOpen && !p.installed) {
+    return originPut({
+      ...s, pendingEvents: s.pendingEvents.filter(event => event.id !== bridgeInstallEvent),
+    }, { securityOpen: false, installStage: undefined })
+  }
   if(a.type==='cancel')return p.installStage&&p.installStage!=='INSTALL COMPLETE'?s:originPut(s,{securityOpen:false})
-  if(a.type==='install')return !p.securityOpen||p.installed||p.installStage?s:schedule(originPut(s,{installStage:'CONNECTING'}),'CH1-ARCHIVE-INSTALL-1',now+archiveInstallStageMs)
+  if (a.type === 'install') {
+    if (!p.securityOpen || !p.packageDelivered || p.installed || p.installStage) return s
+    return schedule(originPut(s, { installStage: 'CONNECTING' }), traceBridgeV3(s) ? bridgeInstallEvent : 'CH1-ARCHIVE-INSTALL-1', now + archiveInstallStageMs)
+  }
   if(a.type==='close-index')return publicStoryPut(s,{panel:'home'})
   if(a.type==='inspect'&&p.installed){
+    if(naturalConversation(s)&&!p.initialInspected&&s.chapter1?.trace?.scan.status!=='complete')return s
     s=originPut(publicStoryPut(publicStoryFlag(publicStoryFlag(s,'index-opened'),'index-acknowledged'),{panel:'index'}),{initialInspected:true})
+    if(naturalConversation(s))return scheduleNaturalStart(s,now)
     if(!p.followupNotified)s=schedule(s,'CH1-ARCHIVE-FOLLOWUP',now+2000)
     return s
   }
@@ -114,8 +174,9 @@ export function openCanonicalThread(s:GameSave,t:'unknown'|'sophie'|'group',now:
   const cp=p.threads[t]
   if(cp?.complete)return s
   s=pauseScene03(s,now);s=versionHistoryPut(s,{reading:t})
-  let start=p.flags.includes('new_dialogue')?(t==='unknown'?revisedUnknownEntrance:revisedSocialEntrances[t]):conversationEntrances[t]
-  const first=conversationNodes[start]
+  let start=p.flags.includes('new_dialogue')?(t==='unknown'?(naturalCore(s)?naturalUnknownEntrance:s.prologue?.scene01?.traceUiRevision?'OPEN-VH-TRACE-INTRO-1':revisedUnknownEntrance):revisedSocialEntrances[t]):conversationEntrances[t]
+  const firstNode=s.prologue?.scene01?.traceUiRevision&&t==='unknown'?{kind:'npc' as const,next:'OPEN-VH-TRACE-INTRO-2'}:conversationNodes[start]
+  const first=firstNode
   const noticeId=t==='unknown'?'CH1-VH-START':t==='sophie'?'CH1-VH-SOPHIE':'CH1-VH-GROUP'
   if(!cp&&s.deliveredEvents.includes(noticeId)&&first?.kind==='npc'&&(!p.flags.includes('new_dialogue')||t==='unknown'))start=first.next
   return restore(s,cp??{nodeId:start},now)
@@ -129,6 +190,7 @@ export function canonicalIncoming(s:GameSave,node:Extract<Scene01Node,{kind:'npc
 }
 export function canonicalSent(s:GameSave,node:Extract<Scene01Node,{kind:'choice'}>,choiceId:string,now:number):GameSave {
   const scene=s.prologue!.scene01!,choice=node.choices.find(c=>c.id===choiceId)
+  if(node.id.startsWith('OPEN-VH-NAT-')||node.id.startsWith('OPEN-ORIGIN-NAT-'))return naturalSent(s,node,choiceId,now)
   if(!choice||scene.draft?.nodeId!==node.id||scene.draft.choiceId!==choiceId)return s
   const id=`${node.id}-PLAYER-${choiceId}`
   if(s.deliveredEvents.includes(id))return s
@@ -159,12 +221,14 @@ export function canonicalSent(s:GameSave,node:Extract<Scene01Node,{kind:'choice'
   return enterScene01(s,choice.next,now)
 }
 export function canonicalEnd(s:GameSave,id:string,now:number):GameSave {
+  if (id === bridgeEnd) return handoffTraceBridge(s, now)
   if(id.startsWith('OPEN-ORIGIN-'))return originPut(s,{reading:false,checkpoint:{nodeId:id,complete:true}})
   const p=s.chapter1!.versionHistory!,thread=p.reading!
   s=versionHistoryPut(s,{reading:undefined,threads:{...p.threads,[thread]:{nodeId:id,complete:true}}})
   if(thread!=='unknown')return s
   s=versionHistoryPut(s,{complete:true})
   s={...s,chapter1:{...s.chapter1!,completed:[...new Set([...s.chapter1!.completed,4,5])]},evidence:{...s.evidence,'EV-S05-REVISION-LIMIT-001':{id:'EV-S05-REVISION-LIMIT-001',source:`PLAYER_PRIVATE / ${p.assessment} / revision history UNVERIFIED / no earlier text`,verified:false,collectedAt:now}}}
+  if(investigationLocksApply(s)){s=versionHistoryPut(s,{sophieNotified:true,flags:[...new Set([...s.chapter1!.versionHistory!.flags,'group-notified'])]});return queueRegisterInstruction(s,now)}
   s=deskPut(correctionsDeskAction(s,{type:'activate'},now),{visible:false})
   if(s.chapter1?.correctionsDesk?.flowRevision==='2026-10-31'&&!s.deliveredEvents.includes('CH1-S06-LEAD'))s={...s,deliveredEvents:[...s.deliveredEvents,'CH1-S06-LEAD'],notifications:[...s.notifications,{id:'CH1-S06-LEAD',text:'NEW LEAD — THE CORRECTIONS DESK',read:false}]}
   if(p.flags.includes('new_dialogue'))return versionHistoryPut(s,{sophieNotified:true,flags:[...new Set([...s.chapter1!.versionHistory!.flags,'group-notified'])]})
@@ -173,14 +237,20 @@ export function canonicalEnd(s:GameSave,id:string,now:number):GameSave {
 export function canonicalVersionAction(s:GameSave,a:VersionHistoryAction,now:number):GameSave {
   if(a.type==='enter'){
     if(s.chapter1?.versionHistory)return pauseScene03(s,now)
+    if (traceBridgeV3(s)) return s
+    if(naturalConversation(s))return scheduleNaturalStart(pauseScene03(s,now),now)
     const c=s.chapter1
     if(s.prologue?.scene01?.scriptRevision!=='final-2026-10-23'||c?.completed.some(n=>n>4)||!c?.publicStory?.complete||!archiveInstalled(s)||!(c.archiveOrigin?.initialInspected||c.publicStory.flags.includes('index-acknowledged'))||s.chapter2Access)return s
-    s=versionHistoryPut(s,{version:1,entered:true,revision:'conversation-2026-10-28',sceneId:versionHistorySceneId,complete:false,flags:['article_flow','new_dialogue','flexible_sources'],checklist:[],panel:'home',scroll:{},localChoices:{},chatChoices:{},inquiry:{status:'not_sent'},sophieNotified:false,threads:{}})
+    const read=c.publicStory.flags.includes('article-inspected')
+    const traceFlow=read&&alignedArticle(s)
+    if(traceFlow)s={...s,prologue:{...s.prologue!,scene01:{...s.prologue!.scene01!,traceUiRevision:'2026-11-03'}}}
+    s=versionHistoryPut(s,{version:1,entered:true,revision:'conversation-2026-10-28',sceneId:versionHistorySceneId,complete:false,flags:['article_flow','new_dialogue','flexible_sources',...(read?['public']:[]),...(traceFlow?['index_requested']:[])],checklist:[],panel:'home',scroll:{},localChoices:{},chatChoices:{},inquiry:{status:'not_sent'},sophieNotified:false,threads:{}})
     s={...s,chapter1:{...s.chapter1!,completed:[...new Set([...s.chapter1!.completed,4])]}}
     return schedule(pauseScene03(s,now),'CH1-VH-START',now+1800)
   }
   const p=s.chapter1?.versionHistory
   if(!p?.revision)return s
+  if(a.type==='revisit-inquiry')return revisitNaturalInquiry(s,now)
   if(a.type==='thread')return openCanonicalThread(s,a.thread,now)
   if(a.type==='discuss-source'){
     const target={article:['02','s05_c02_update_label'],index:['03','s05_c03_index_meaning'],policy:['04','s05_c04_policy_meaning']}[a.source]
@@ -189,17 +259,19 @@ export function canonicalVersionAction(s:GameSave,a:VersionHistoryAction,now:num
   }
   if(a.type==='scroll')return Number.isFinite(a.value)&&a.value>=0?versionHistoryPut(s,{scroll:{...p.scroll,[a.key]:a.value}}):s
   if(a.type==='panel'){
+    if(a.panel==='form'&&investigationLocksApply(s)&&!canOpenPublisherInquiry(s)&&!hasPublisherReceipt(s))return s
     if(a.panel==='receipt'&&!p.inquiry.receipt||a.panel==='index'&&p.flags.includes('article_flow')&&!p.flags.includes('index_requested'))return s
     s=pauseScene03(s,now)
     return versionHistoryPut(s,{panel:a.panel,flags:a.panel==='index'?[...new Set([...p.flags,'index'])]:p.flags})
   }
   if(a.type==='back')return versionHistoryPut(pauseScene03(s,now),{panel:'home'})
   if(a.type==='inspect-metadata')return p.panel!=='public'?s:versionHistoryPut(s,{flags:[...new Set([...p.flags,'article_metadata_inspected'])]})
-  if(a.type==='save-update-analysis')return p.panel!=='public'||!p.flags.includes('article_metadata_inspected')?s:versionHistoryPut(s,{flags:[...new Set([...p.flags,'update_analysis_saved'])]})
+  if(a.type==='save-update-analysis')return p.panel!=='public'||!p.flags.includes('article_metadata_inspected')?s:sourceActivity(versionHistoryPut(s,{flags:[...new Set([...p.flags,'update_analysis_saved'])]}),'article')
   if(a.type==='get-index')return p.panel!=='public'||!archiveInstalled(s)?s:versionHistoryPut(s,{flags:[...new Set([...p.flags,'index_requested'])]})
   if(a.type==='read-article')return p.panel!=='public'?s:versionHistoryPut(s,{flags:[...new Set([...p.flags,'public'])]})
-  if(a.type==='read-policy')return p.panel==='policy'?versionHistoryPut(s,{flags:[...new Set([...p.flags,'policy'])]}):s
+  if(a.type==='read-policy')return p.panel==='policy'?sourceActivity(versionHistoryPut(s,{flags:[...new Set([...p.flags,'policy'])]}),'policy'):s
   if(a.type==='check')return !p.chatChoices?.s05_c05_comparison||p.flags.includes('new_dialogue')&&!s.deliveredEvents.includes('OPEN-VH-NEW-REPLY-05-4')||!Number.isInteger(a.index)||a.index<0||a.index>3?s:versionHistoryPut(s,{checklist:[...new Set([...p.checklist,a.index])]})
+  if(['local','review','send-request'].includes(a.type)&&investigationLocksApply(s)&&(!canOpenPublisherInquiry(s)||hasPublisherReceipt(s)))return s
   if(a.type==='local'&&a.id==='S05-C04'){
     const opt=versionHistoryDialogue[7].branches.find(b=>b.id===a.choice)
     return !opt||p.inquiry.receipt?s:versionHistoryPut(s,{inquiry:{status:'draft',choice:a.choice,text:opt.text}})
@@ -210,7 +282,7 @@ export function canonicalVersionAction(s:GameSave,a:VersionHistoryAction,now:num
     const receipt={id:'R-GB-VH-001' as const,text:p.inquiry.text,at:now}
     s={...versionHistoryPut(s,{panel:'receipt',inquiry:{...p.inquiry,status:'delivered',receipt},chatChoices:{...p.chatChoices,s05_c08_corrections_question:p.inquiry.choice!}}),deliveredEvents:[...new Set([...s.deliveredEvents,receipt.id])]}
     const desk=s.chapter1?.correctionsDesk
-    if(desk?.flowRevision==='2026-10-31'&&!desk.prior&&['a','b','c'].includes(p.inquiry.choice??'')){
+    if(!investigationLocksApply(s)&&desk?.flowRevision==='2026-10-31'&&!desk.prior&&['a','b','c'].includes(p.inquiry.choice??'')){
       s=deskPut(s,{prior:{id:'R-GB-VH-001',choice:p.inquiry.choice as 'a'|'b'|'c',text:receipt.text}})
       s=schedule(s,'CH1-S06-DESK-REPLY',now+1600)
     }
@@ -222,7 +294,7 @@ export function canonicalVersionAction(s:GameSave,a:VersionHistoryAction,now:num
 export function validateOrigin(value:unknown):void {
   if(value===undefined)return
   const p=value as ArchiveOriginState
-  if(!p||p.version!==1||['contacted','packageDelivered','installed','securityOpen','initialInspected','followupNotified'].some(k=>typeof p[k as keyof ArchiveOriginState]!=='boolean')||!Array.isArray(p.receipts)||p.receipts.some(r=>!r||typeof r.eventId!=='string'||!['player','unknown'].includes(r.recipient)||!Array.isArray(r.factIds))||p.installStage!==undefined&&!['CONNECTING','DECRYPTING PACKAGE','INSTALLING','INSTALL COMPLETE'].includes(p.installStage)||p.initialInspected&&!p.installed)throw Error('Invalid Archive origin')
+  if(!p||p.version!==1||['contacted','packageDelivered','installed','securityOpen','initialInspected','followupNotified'].some(k=>typeof p[k as keyof ArchiveOriginState]!=='boolean')||!Array.isArray(p.receipts)||p.receipts.some(r=>!r||typeof r.eventId!=='string'||!['player','unknown'].includes(r.recipient)||!Array.isArray(r.factIds))||p.installStage!==undefined&&p.installStage!=='INSTALL COMPLETE'&&!installStages.includes(p.installStage)||p.initialInspected&&!p.installed)throw Error('Invalid Archive origin')
   validateConversationCheckpoint(p.checkpoint)
 }
 export function validateConversationCheckpoint(c:ConversationCheckpoint|undefined):void {

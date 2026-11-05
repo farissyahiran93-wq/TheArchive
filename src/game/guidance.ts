@@ -1,11 +1,101 @@
+import { canOpenPublisherInquiry, canOpenScene6Register, hasPublisherReceipt, investigationLocksApply, naturalConversation, naturalCore } from './investigationAccess'
+import { naturalInquiryChoice, naturalSources } from '../content/naturalConversation'
 import type { GameSave } from './types'
 import { archiveInstalled } from './archiveOrigin'
 import { actINodes } from '../content/actIRegistry'
 import { accessChoices } from './chapter2Access'
 import { visibleSource, sourceState, sourceLocalEligible, sourceFinalChoice } from './sourceInvestigation'
 import { deskReady } from './scene06'
+import { bridgeFindingsWait, bridgeInstallWait } from '../content/traceBridgeV3'
+import { bridgeComparisonEvent, bridgeInspectionEvent, traceBridgeV3 } from './traceBridge'
 
 export type GuidanceObjective = { app: 'messages' | 'archive'; title: string; detail: string }
+export type GuidanceAction = 'open-thread'|'choose-reply'|'send-reply'|'review-package'|'install'|'installation-done'|'open-article'|'mark-article-read'|'inspect-update'|'save-update-analysis'|'open-policy'|'read-policy'|'inspect-reference'|'start-trace'|'view-findings'|'compare-reference'|'enter-version-history'|'discuss-article'|'discuss-index'|'discuss-policy'|'open-register'|'save-register-finding'|'enter-desk'|'next-lead'|'open-inquiry'|'choose-inquiry'|'review-inquiry'|'send-inquiry'|'open-app'
+export type GuidanceTarget = { app: 'messages'|'archive'|'bulletin'; action: GuidanceAction; thread?: 'sophie'|'group'|'unknown' }
+
+/** One next action, derived from actual progress. Pure presentation; never a gate. */
+export function guidanceTarget(save: GameSave): GuidanceTarget | undefined {
+  const scene=save.prologue?.scene01,c=save.chapter1,p=c?.publicStory,origin=c?.archiveOrigin,vh=c?.versionHistory,desk=c?.correctionsDesk
+  const reply=(thread:'sophie'|'group'|'unknown'):GuidanceTarget=>({app:'messages',thread,action:scene?.draft?'send-reply':'choose-reply'})
+  if(scene?.privateHandoff?.deliveredAt!==undefined&&scene.privateHandoff.openedAt===undefined)return {app:'messages',thread:'sophie',action:'open-thread'}
+  if(p&&!p.complete&&save.deliveredEvents.includes('CH1-S04-LEAD')) {
+    if(p.flags.includes('link-delivered')&&!p.flags.includes('article-inspected'))return {app:'bulletin',action:p.flags.includes('article-opened')?'mark-article-read':'open-article'}
+    return reply('sophie')
+  }
+  if(origin?.securityOpen){
+    if(origin.installed)return {app:'messages',thread:'unknown',action:'installation-done'}
+    if(!origin.installStage)return {app:'messages',thread:'unknown',action:'install'}
+    return undefined
+  }
+  if (traceBridgeV3(save) && origin?.contacted && !vh) {
+    const checkpoint = origin.reading ? scene?.nodeId : origin.checkpoint?.nodeId
+    if (!origin.installed) {
+      if (origin.packageDelivered && checkpoint === bridgeInstallWait) return {app:'messages',thread:'unknown',action:'review-package'}
+      return reply('unknown')
+    }
+    if (c?.trace?.scan.status === 'running') return undefined
+    if (!origin.reading && c?.trace?.findingsOpen && !save.deliveredEvents.includes(bridgeComparisonEvent)) return {app:'archive',action:'compare-reference'}
+    if (origin.initialInspected || checkpoint !== bridgeFindingsWait) return reply('unknown')
+    if (c?.trace?.scan.status === 'complete') return {app:'archive',action:'view-findings'}
+    const inspected = save.deliveredEvents.includes(bridgeInspectionEvent)
+    return {app:'archive',action:inspected ? 'start-trace' : 'inspect-reference'}
+  }
+  if(origin?.contacted&&!origin.installed){
+    if(origin.packageDelivered&&origin.checkpoint?.complete)return {app:'messages',thread:'unknown',action:'review-package'}
+    return reply('unknown')
+  }
+  if(origin?.installed&&!origin.initialInspected){
+    if(c?.trace?.scan.status==='running')return undefined
+    return {app:'archive',action:c?.trace?.scan.status==='complete'?'view-findings':'start-trace'}
+  }
+  if(origin?.installed&&origin.initialInspected&&!vh&&p?.complete&&naturalConversation(save))return {app:'messages',thread:'unknown',action:'open-thread'}
+  if(origin?.installed&&origin.initialInspected&&!vh&&p?.complete)return {app:'archive',action:'enter-version-history'}
+  if(investigationLocksApply(save)&&vh?.complete&&!c?.starredNumberV2&&!c?.byline&&!c?.issuer&&!c?.transferRegister&&!c?.inventorySheet){
+    if(!canOpenScene6Register(save))return reply('unknown')
+    if(!desk?.complete){
+      if(save.evidence['NOTE-S06-DESK-LIMITS'])return reply('unknown')
+      return {app:'bulletin',action:desk?.panel==='register'?'save-register-finding':'open-register'}
+    }
+    if(scene?.nodeId===naturalInquiryChoice&&vh.reading==='unknown')return reply('unknown')
+    if(canOpenPublisherInquiry(save)&&!hasPublisherReceipt(save)){
+      const inquiry=!desk.inquiry.text&&vh.inquiry.text?vh.inquiry:desk.inquiry
+      return {app:'bulletin',action:desk.panel==='form'?inquiry.reviewed?'send-inquiry':inquiry.text?'review-inquiry':'choose-inquiry':'open-inquiry'}
+    }
+    return {app:'archive',action:'next-lead'}
+  }
+  if(desk?.visible){
+    if(desk.complete)return {app:'archive',action:'next-lead'}
+    if(desk.flowRevision==='2026-10-31')return {app:'archive',action:desk.panel==='register'?'save-register-finding':'open-register'}
+  }
+  if(vh&&!vh.complete){
+    const node=scene?actINodes(scene)[scene.nodeId]:undefined
+    if(naturalCore(save)){
+      if(node?.kind==='choice'&&node.channel==='unknown')return reply('unknown')
+      const source=(['article','index','policy'] as const).find(source=>naturalSources[source].wait===node?.id)
+      if(source==='article')return {app:'bulletin',action:vh.flags.includes('article_metadata_inspected')?'save-update-analysis':'inspect-update'}
+      if(source==='index')return {app:'archive',action:'view-findings'}
+      if(source==='policy')return {app:'bulletin',action:vh.panel==='policy'?'read-policy':'open-policy'}
+      return {app:'messages',thread:'unknown',action:'open-thread'}
+    }
+    if(!vh.chatChoices?.s05_c01_investigation_order)return reply('unknown')
+    if(node?.kind==='choice'&&node.channel==='unknown')return reply('unknown')
+    if(vh.flags.includes('flexible_sources')&&node?.id==='OPEN-VH-NEW-SOURCE-HUB'){
+      if(vh.flags.includes('update_analysis_saved')&&!vh.chatChoices?.s05_c02_update_label)return {app:'messages',thread:'unknown',action:'discuss-article'}
+      if(vh.flags.includes('index')&&!vh.chatChoices?.s05_c03_index_meaning)return {app:'messages',thread:'unknown',action:'discuss-index'}
+      if(vh.flags.includes('policy')&&!vh.chatChoices?.s05_c04_policy_meaning)return {app:'messages',thread:'unknown',action:'discuss-policy'}
+    }
+    if(!vh.flags.includes('article_metadata_inspected'))return {app:'bulletin',action:'inspect-update'}
+    if(!vh.flags.includes('update_analysis_saved')&&vh.flags.includes('article_flow'))return {app:'bulletin',action:'save-update-analysis'}
+    if(!vh.flags.includes('index'))return {app:'archive',action:'view-findings'}
+    if(!vh.flags.includes('policy'))return {app:'bulletin',action:vh.panel==='policy'?'read-policy':'open-policy'}
+    return {app:'messages',thread:'unknown',action:'open-thread'}
+  }
+  if(vh?.complete&&!desk?.complete)return {app:'archive',action:'enter-desk'}
+  const node=scene?actINodes(scene)[scene.nodeId]:undefined
+  if(node?.kind==='choice'&&!scene?.queue.length&&/^OPEN-S0[123]-/.test(node.id))return reply(node.channel==='group'?'group':'sophie')
+  const objective=currentObjective(save)
+  return objective?{app:objective.app,action:'open-app'}:undefined
+}
 /** Conservative projections: only actions already available in the saved route are surfaced. */
 export function currentObjective(save: GameSave): GuidanceObjective | undefined {
   const scene = save.prologue?.scene01

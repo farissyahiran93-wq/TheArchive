@@ -1,4 +1,6 @@
-> Superseded where it conflicts: the latest official implementation source places Unknown Sender in Scene 02, Nora’s retained page in Scene 08, Archive first investigation record in Scene 04, and the recovered post-verification claim in Scene 15. Scenes 04–18 now have playable structural previews. See [current implementation report](CH01_OFFICIAL_IMPLEMENTATION_REPORT.md). Earlier material below is retained as editorial history.
+> **5 November 2026:** this eighteen-scene document and the dated notice below are historical. Future development follows [the new five-chapter plan](THEARCHIVE_CHAPTER_MASTER_PLAN.md) and [exactly fifty-scene matrix](THEARCHIVE_50_SCENE_MATRIX.md), with ten scenes per chapter. The new package is planning only and does not renumber or modify any historical save or production route. [Current repository audit](THEARCHIVE_IMPLEMENTATION_ROADMAP.md).
+
+> Historical notice: Superseded where it conflicts: the latest official implementation source places Unknown Sender in Scene 02, Nora’s retained page in Scene 08, Archive first investigation record in Scene 04, and the recovered post-verification claim in Scene 15. Scenes 04–18 now have playable structural previews. See [implementation report at that time](CH01_OFFICIAL_IMPLEMENTATION_REPORT.md). Earlier material below is retained as editorial history.
 
 # Chapter 1 master scene flow — 18 scenes
 

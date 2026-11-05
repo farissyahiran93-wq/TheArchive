@@ -68,17 +68,17 @@ describe('Scene 06/07 revised conversations',()=>{
  })
 
  it('resumes unfinished old Scene 06 without removing evidence, pending work or prior messages',()=>{
-  const f=new ConversationFixture().core(),desk=f.save.chapter1!.correctionsDesk!
+  const f=new ConversationFixture().core().authorizeDesk(),desk=f.save.chapter1!.correctionsDesk!
   delete desk.flowRevision;desk.flags.push('register-read');desk.cards.push('article')
   const evidence=structuredClone(f.save.evidence),messages=structuredClone(f.save.messages),prior=structuredClone(desk)
   const migrated=resumeScene0607(f.save,f.now)
-  expect(migrated.chapter1!.correctionsDesk).toMatchObject({...prior,flowRevision:'2026-10-31'})
+  expect(migrated.chapter1!.correctionsDesk).toEqual(prior)
   expect(migrated.evidence).toEqual(evidence);expect(migrated.messages).toEqual(messages)
   expect(resumeScene0607(migrated,f.now+1000)).toBe(migrated)
   expect(normalizeSave(JSON.parse(JSON.stringify(migrated)))).toEqual(migrated)
  })
  it('does not revise an already completed historical Scene 06',()=>{
-  const f=new ConversationFixture().core();const desk=f.save.chapter1!.correctionsDesk!
+  const f=new ConversationFixture().core().authorizeDesk();const desk=f.save.chapter1!.correctionsDesk!
   delete desk.flowRevision;desk.complete=true
   expect(resumeScene0607(f.save,f.now)).toBe(f.save)
  })

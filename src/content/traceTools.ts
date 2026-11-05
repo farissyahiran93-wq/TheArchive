@@ -1,5 +1,6 @@
 /** Display catalog only. Tool IDs never replace existing evidence or save IDs. */
 export const traceTools = [
+  { id: 'decryptor', label: 'Decryptor', description: 'No eligible encrypted payload is available.' },
   { id: 'evidence-vault', label: 'Evidence Vault', description: 'Inspect available references and retain sources with their limitations.' },
   { id: 'file-recovery', label: 'File Recovery', description: 'Review the recovery job in the phone mirror.' },
   { id: 'metadata-scanner', label: 'Metadata Scanner', description: 'Additional metadata tools are unavailable.' },

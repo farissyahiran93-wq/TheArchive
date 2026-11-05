@@ -1,3 +1,4 @@
+import { canOpenScene6Register } from './investigationAccess'
 import { chapter1ScenePlan } from '../content/chapter1Plan'
 import { chapter1V2 } from '../content/chapter1V2'
 import { sourceInvestigations } from '../content/sourceInvestigations'
@@ -24,7 +25,7 @@ export function sceneVisited(save: GameSave, n: number): boolean {
     case 3: return !!s.privateScene03
     case 4: return !!c?.publicStory?.started
     case 5: return !!c?.versionHistory?.entered
-    case 6: return !!c?.correctionsDesk?.entered
+    case 6: return canOpenScene6Register(save)&&!!c?.correctionsDesk?.entered
     case 7: return !!c?.byline
     case 8: return !!c?.issuer
     case 9: return !!c?.transferRegister
@@ -64,12 +65,23 @@ export function resumeLabel(s: GameSave): string {
 
 /** Rebase deadlines, not history. Preserve relative timing without delivering an
  * entire old queue at once. All pending queues in this save use dueAt/readyAt. */
-export function prepareReplay(entry: NonNullable<GameSave['replayEntries']>[string], now: number): GameSave {
+export function prepareReplay(entry: NonNullable<GameSave['replayEntries']>[string], now: number, sceneNumber?: number): GameSave {
   const rebase = (value: unknown): unknown => {
     if (Array.isArray(value)) return value.map(rebase)
     if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).filter(([key]) => key !== 'replayEntries').map(([key, child]) =>
       [key, (key === 'dueAt' || key === 'readyAt') && typeof child === 'number' ? now + Math.max(0, child - entry.capturedAt) : rebase(child)]))
     return value
   }
-  return rebase(entry.save) as GameSave
+  const replay = rebase(entry.save) as GameSave
+  const scene = replay.prologue?.scene01
+  // A requested Scene 4 replay uses today's authored bridge, even when its
+  // recorded entry predates the natural-flow revisions. Keep the entry immutable.
+  if (sceneNumber === 4 && scene?.scriptRevision === 'final-2026-10-23' &&
+    scene.articleAlignment === '2026-10-28' && !replay.chapter1?.archiveOrigin?.contacted &&
+    !replay.chapter1?.versionHistory && !replay.chapter2Access) {
+    return { ...replay, prologue: { ...replay.prologue!, scene01: {
+      ...scene, naturalFlowRevision: '2026-11-03', traceBridgeRevision: '2026-11-04',
+    } } }
+  }
+  return replay
 }

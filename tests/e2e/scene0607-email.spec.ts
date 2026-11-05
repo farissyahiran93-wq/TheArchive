@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { sourceAction, sourcePut } from '../../src/game/sourceInvestigation'
 import { ConversationFixture } from '../helpers/versionHistoryConversation'
 import { Scene05Fixture } from '../helpers/scene05Final'
 import { chapter1Action } from '../../src/game/chapter1'
@@ -61,11 +62,9 @@ test('the register alone saves a private finding and activates the byline',async
 
 
 test('article author profile opens the fictional professional composer in Messages',async({page})=>{
-  const f=new ConversationFixture().core()
-  f.save=correctionsDeskAction(f.save,{type:'enter'},f.now)
-  f.save=correctionsDeskAction(f.save,{type:'panel',panel:'register'},f.now)
-  f.save=correctionsDeskAction(f.save,{type:'save-finding'},f.now)
-  f.save=deskPut(f.save,{visible:false})
+  const f=new ConversationFixture().core().authorizeDesk().finishRegister().send('b')
+  f.save=sourceAction(f.save,7,{type:'enter'},f.now)
+  f.save=sourcePut(deskPut(f.save,{visible:false}),7,{visible:false})
   await seedScene(page,f.save,{pauseClock:true})
   await page.getByRole('button',{name:'Open TRACE',exact:true}).click()
   await page.getByRole('button',{name:'VIEW ARTICLE',exact:true}).click()

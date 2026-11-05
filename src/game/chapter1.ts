@@ -1,4 +1,5 @@
 import { canonicalTick, validateOrigin, type ArchiveOriginState } from './archiveOrigin'
+import { validateTrace, type TraceState } from './trace'
 import { sourceTick, validateSourceInvestigation, type SourceInvestigationState } from './sourceInvestigation'
 import { deskTick, validateCorrectionsDesk, type CorrectionsDeskState } from './scene06'
 import { starredNumberTick, validateStarredNumberV2, type StarredNumberV2State } from './starredNumberV2'
@@ -11,6 +12,7 @@ import { chapter1Options, chapter1Record, chapter1Records, chapter1Replies } fro
 import type { CharacterId, GameSave, Message } from './types'
 
 export interface Chapter1State {
+  trace?:TraceState;
   byline?:SourceInvestigationState; issuer?:SourceInvestigationState; transferRegister?:SourceInvestigationState; inventorySheet?:SourceInvestigationState;
   archiveOrigin?:ArchiveOriginState;
   publicStory?:PublicStoryState;
@@ -21,7 +23,7 @@ export interface Chapter1State {
   version:1; completed:number[]; inspected:string[]; flags:string[];
   drafts:Record<string,string>; interpretations:Record<string,string>;
   record?:string; panel:'hub'|'record'|'compare'|'board'; chapterComplete:boolean;
-  sender:{messages:{id:string;sender:string;text:string;at:number;attachment?:'article'|'index'|'archive-package'}[];seen:boolean;branch?:string;disclosed:boolean;blocked?:boolean};
+  sender:{messages:{id:string;sender:string;text:string;at:number;attachment?:'article'|'index'|'archive-package'|'register'|'inquiry'}[];seen:boolean;branch?:string;disclosed:boolean;blocked?:boolean};
 }
 export type Chapter1Action = {type:'tick'} | {type:'inspect';id:string} | {type:'save-record';id:string}
   | {type:'choice-draft';key:string;id:string}
@@ -241,6 +243,7 @@ export function validateChapter1(value:unknown):void {
   if(!value||typeof value!=='object')throw Error('Invalid Chapter 1 state')
   const c=value as Chapter1State
   validateOrigin(c.archiveOrigin)
+  validateTrace(c.trace)
   validatePublicStory(c.publicStory)
   validateVersionHistory(c.versionHistory)
   validateCorrectionsDesk(c.correctionsDesk)

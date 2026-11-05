@@ -2,5 +2,5 @@ import type { PublicationPage } from './PublicationReference'
 import { createContext, useContext } from 'react'
 import type { FollowupContact } from '../content/characterFollowups'
 
-export const CaseNavigation = createContext({ openDesk: () => {}, openProfessional: () => {}, openMaya: () => {}, openSophie: () => {}, openCharacter: (_contact: FollowupContact | 'unknown') => {}, openBulletin: () => {}, openArchive: () => {}, openPublication: (_page:PublicationPage)=>{}, openPublicArticle: () => {}, openGroup: () => {} })
+export const CaseNavigation = createContext({ openDesk: () => {}, openProfessional: () => {}, openMaya: () => {}, openSophie: () => {}, openCharacter: (_contact: FollowupContact | 'unknown') => {}, openBulletin: () => {}, openArchive: () => {}, openTraceTracker: () => {}, openPublication: (_page:PublicationPage)=>{}, openPublicArticle: () => {}, openGroup: () => {} })
 export const useCaseNavigation = () => useContext(CaseNavigation)

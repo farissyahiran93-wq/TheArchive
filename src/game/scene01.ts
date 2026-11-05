@@ -1,3 +1,6 @@
+import { naturalCanSend, naturalChoices, naturalEvent, naturalGateNext } from './naturalConversation'
+import { bridgeReportChoice } from '../content/traceBridgeV3'
+import { bridgeGateReady, bridgeFindingsReviewed } from './traceBridge'
 import { canonicalSourceGate, canonicalIncoming, canonicalSent, canonicalEnd, pauseOrigin } from './archiveOrigin'
 import { sourceNumber, sourceEnd, sourceIncoming, sourceSend, sourceChoices, sourceNpcText, openSourceThread, pauseSource, sourceState, readingSource, visibleSource } from './sourceInvestigation'
 import { deskEnd, deskIncoming, deskSend, openDeskThread, pauseDesk } from './scene06'
@@ -41,11 +44,14 @@ export function enterScene01(state: GameSave, id: string, now: number): GameSave
     if(!next.deliveredEvents.includes('OPEN-S04-ARTICLE-ATTACHMENT'))next={...event(next,'OPEN-S04-ARTICLE-ATTACHMENT'),prologue:{...next.prologue!,scene01:{...next.prologue!.scene01!,messages:[...next.prologue!.scene01!.messages,{id:'OPEN-S04-ARTICLE-ATTACHMENT',sender:'sophie',text:'Greyhaven Bulletin · Daniel Mercer',attachment:'article',at:now}]}}}
     return next
   }
+  if(node.kind==='gate'&&['natural-source','natural-register'].includes(node.action)){const target=naturalGateNext(next,node.id);return target?enter(next,target,now):next}
+  if (node.kind === 'gate' && node.action === 'trace-bridge') return bridgeGateReady(next, node.id) ? enter(next, node.next, now) : next
   if(node.kind==='gate'&&node.action==='vh-source'&&canonicalSourceGate(next,id))return enter(next,node.next,now)
   if (node.kind === 'choice' || node.kind === 'gate') return next
   if (node.kind === 'condition') return enter(next, (node.test === 's05-sophie-member' ? scene.groupMembers?.sophie === true : node.test === 'name-disclosed' ? scene.nameDisclosed : node.test === 's04-group-opened' ? publicStoryHas(next,'group-opened') : next.chapter1?.sender.seen && !next.chapter1.sender.disclosed) ? node.next : node.otherwise, now)
   if (state.deliveredEvents.includes(id)) return node.next ? enter(next, node.next, now) : next
   next = event(next, id)
+  if(node.event==='natural-assessment'||node.event==='natural-end'||node.event==='natural-desk-complete')return naturalEvent(next,node,now)
   if(node.event==='archive-thread-end'||node.event==='vh-thread-end')return canonicalEnd(next,node.id,now)
   if (node.event === 'source-thread-end') return sourceEnd(next,node)
   if (node.event === 's06-thread-end') return deskEnd(next,node)
@@ -110,7 +116,7 @@ export function beginScene01(state: GameSave, now = Date.now(), revision: 'legac
   if (state.prologue?.scene01) return state
   const prologue: OpeningState = state.prologue ?? { dialogueVersion: 4, stage: 'chat', step: 0, messages: [], noteSeen: false, offerInspected: false, restored: false, viewed: [], indexCompared: false }
   const opening = revision === 'legacy' ? scene01Opening : actIFinalEntrances.scene01
-  const scene: Scene = { version: 1, ...(revision === 'legacy' ? {} : { scriptRevision: revision, articleAlignment:'2026-10-28' as const, traceIntroRevision:'2026-10-31' as const }), nodeId: opening, startedAt: now, introduced: false, nameDisclosed: false, invitation: 'none', invitationDismissed: false, complete: false, queue: [], messages: [], groupMessages: [] }
+  const scene: Scene = { version: 1, ...(revision === 'legacy' ? {} : { scriptRevision: revision, articleAlignment:'2026-10-28' as const, traceIntroRevision:'2026-10-31' as const, naturalFlowRevision:'2026-11-03' as const, traceBridgeRevision:'2026-11-04' as const }), nodeId: opening, startedAt: now, introduced: false, nameDisclosed: false, invitation: 'none', invitationDismissed: false, complete: false, queue: [], messages: [], groupMessages: [] }
   const next = enter({ ...state, prologue: { ...prologue, scene01: scene } }, opening, now)
   return deliverScene01(replace(next, { ...next.prologue!.scene01!, queue: [{ id: opening, dueAt: now, typing: false }] }), now)
 }
@@ -167,12 +173,14 @@ export function scene01Choices(state: GameSave): Scene01Choice[] {
   if (scene.nodeId.startsWith('OPEN-S03-') && !scene.privateScene03?.reading) return []
   const node = actINodes(scene)[scene.nodeId]
   if(scene.nodeId.startsWith('OPEN-ORIGIN-')&&!state.chapter1?.archiveOrigin?.reading)return []
+  if (scene.nodeId === bridgeReportChoice && !bridgeFindingsReviewed(state)) return []
   if(scene.nodeId.startsWith('OPEN-VH-')&&(node?.kind!=='choice'||state.chapter1?.versionHistory?.reading!==node.channel))return []
   if (scene.nodeId.startsWith('OPEN-S04-') && node?.kind === 'choice' && !node.uiChoice && state.chapter1?.publicStory?.reading !== (node.channel ?? 'sophie')) return []
   if(scene.nodeId.startsWith('OPEN-S06-') && !state.chapter1?.correctionsDesk?.reading)return []
   if(node?.kind==='choice'&&['OPEN-S06-REV-SOPHIE','OPEN-S06-REV-GROUP'].includes(node.id)&&!state.chapter1?.correctionsDesk?.flags.some(f=>f==='register-opened'||f==='register-read'))return node.choices.filter(choice=>choice.id!=='a')
   if(scene.nodeId.startsWith('OPEN-S05-') && (node?.kind!=='choice'||state.chapter1?.versionHistory?.reading!==node.channel))return []
   if(/^OPEN-(?:S0[789]|S10)-/.test(scene.nodeId))return node?.kind==='choice'?sourceChoices(state,node):[]
+  if(node?.kind==='choice'&&(node.id.startsWith('OPEN-VH-NAT-')||node.id.startsWith('OPEN-ORIGIN-NAT-')))return naturalCanSend(state,node)?naturalChoices(state,node):[]
   const replied = !!state.chapter1?.sender.branch && !['ignore','ignored'].includes(state.chapter1.sender.branch)
   return node?.kind === 'choice' ? node.choices.filter(choice => !choice.requires || (choice.requires === 'sender-replied' ? replied : !replied)) : []
 }

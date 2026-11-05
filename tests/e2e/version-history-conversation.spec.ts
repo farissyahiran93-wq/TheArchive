@@ -46,7 +46,7 @@ test('Unknown origin: notification, explicit bridge Sends, cancel, installation 
   await expect(page.getByText('RECOVERED RECORDS: 0',{exact:true})).toBeVisible()
   await expect(page.getByText('TRACE tools · Access overview',{exact:true})).toHaveCount(0)
   await expect(page.getByRole('region',{name:'Current lead'})).toHaveCount(0)
-  await click(page,'ARC-IDX-GB-041');await expect(page.getByText('AUTHENTICITY: UNVERIFIED',{exact:false})).toBeVisible()
+  await click(page,'ARC-IDX-GB-041');await click(page,'RUN LOCAL TRACE');await click(page,'VIEW FINDINGS');await page.getByText('Inspect recovered index fields',{exact:true}).click();await expect(page.getByText('AUTHENTICITY: UNVERIFIED',{exact:false})).toBeVisible()
   await expect(page.getByRole('button',{name:'REVIEW VERSION HISTORY',exact:true})).toBeEnabled()
   await click(page,'REVIEW VERSION HISTORY');await expect(page.getByRole('region',{name:'Version History investigation'})).toBeVisible()
   await expect(page.getByText('Personal notes',{exact:true})).toHaveCount(0)
@@ -72,7 +72,7 @@ for(const width of [320,430])test(`Version History source investigation, chat dr
   expect(contrast).toBeGreaterThanOrEqual(4.5)
   await page.screenshot({path:test.info().outputPath(`policy-${width}.png`)})
   await click(page,'Close article');await click(page,'Close article')
-  await click(page,'VIEW INDEX');await expect(page.getByText('ORIGINAL CONTENT: UNAVAILABLE',{exact:false})).toBeVisible();await click(page,'Back to version history')
+  await click(page,'VIEW INDEX');await page.getByText('Inspect recovered index fields',{exact:true}).click();await expect(page.getByText('ORIGINAL CONTENT: UNAVAILABLE',{exact:false})).toBeVisible();await click(page,'Back to version history')
   await home(page);await unknown(page)
   const option=versionHistoryDialogue[0].branches[width===320?1:2]
   await click(page,option.text);await flush(page);await page.reload();await click(page,'Unlock phone');await unknown(page)
@@ -89,21 +89,22 @@ for(const width of [320,430])test(`Version History source investigation, chat dr
   await home(page);await click(page,'Open TRACE');await expect(page.getByRole('heading',{name:'VERSION HISTORY — REVIEWED',exact:true})).toBeVisible()
   await page.screenshot({path:test.info().outputPath(`reviewed-${width}.png`)})
   expect(await page.locator('.version-history').evaluate(el=>el.scrollWidth<=el.clientWidth+1)).toBe(true)
-  await click(page,'VIEW ARTICLE');await click(page,'CORRECTIONS DESK')
-  await click(page,versionHistoryDialogue[7].branches[2].text)
-  await expect(page.locator('.vh-draft')).toHaveCount(0)
-  await click(page,'REVIEW REQUEST')
-  await expect(page.locator('.vh-options')).toHaveCount(0)
-  await expect(page.locator('.vh-draft')).toHaveText(versionHistoryDialogue[7].branches[2].text)
-  await expect(page.getByText('Recipient: Greyhaven Bulletin Corrections Desk',{exact:false})).toBeVisible()
-  await click(page,'EDIT REQUEST')
-  await expect(page.locator('.vh-draft')).toHaveCount(0)
-  await click(page,'REVIEW REQUEST')
-  await expect(page.getByRole('button',{name:'SEND REQUEST',exact:true})).toBeVisible()
-  await click(page,'SEND REQUEST');await expect(page.getByText('Status: RESPONSE PENDING',{exact:true})).toBeVisible()
+  // A pinned Scene 5 graph now joins the new explicit authorization tail.
+  await home(page);await unknown(page)
+  await sceneReply(page,"I'll check the public register.")
+  await click(page,'OPEN PUBLIC CORRECTIONS REGISTER');await click(page,'SAVE FINDING')
+  await click(page,'RETURN TO CHAT');await page.clock.runFor(120000)
+  await sceneReply(page,"There's no formal correction notice listed for that article.")
+  await sceneReply(page,"I'll send a specific question through the public desk.")
+  await click(page,'OPEN OPTIONAL REQUEST')
+  const question='Is an article-specific change record available for the Daniel Mercer article?'
+  await click(page,question);await click(page,'REVIEW REQUEST')
+  await expect(page.locator('.vh-draft')).toHaveText(question)
+  await click(page,'EDIT REQUEST');await expect(page.locator('.vh-draft')).toHaveCount(0)
+  await click(page,'REVIEW REQUEST');await click(page,'SEND REQUEST')
+  await expect(page.getByRole('heading',{name:'REQUEST SUBMITTED'})).toBeVisible()
   await flush(page);await page.reload();await click(page,'Unlock phone');await click(page,'Open TRACE')
-  await expect(page.getByRole('heading',{name:'VERSION HISTORY — REVIEWED',exact:true})).toBeVisible()
-  await click(page,'THE CORRECTIONS DESK');await expect(page.getByRole('heading',{name:'THE CORRECTIONS DESK',exact:true})).toBeVisible()
+  await expect(page.getByRole('heading',{name:'THE CORRECTIONS DESK — REVIEWED',exact:true})).toBeVisible()
 })
 
 
@@ -116,7 +117,7 @@ test('new dialogue: flexible source discussions, explicit Send, reload and Scene
   await click(page,'CORRECTIONS & UPDATES POLICY');await click(page,'READ POLICY');await click(page,'Close article');await click(page,'Close article')
   await click(page,'VIEW INDEX');await click(page,'Back to version history');await home(page);await unknown(page)
   await sceneReply(page,"I'll start with the article.")
-  for(const [source,reply] of [['INDEX','A reference, but no original article text.'],['POLICY',"It explains updates generally, not what happened to this article."],['ARTICLE',"It says the page was updated, but not what changed."]] as const){await click(page,`DISCUSS · ${source}`);await page.clock.runFor(120000);await sceneReply(page,reply)}
+  for(const [source,reply] of [['ARTICLE',"It says the page was updated, but not what changed."],['INDEX','A reference, but no original article text.'],['POLICY',"It explains updates generally, not what happened to this article."]] as const){await click(page,`DISCUSS · ${source}`);await page.clock.runFor(120000);await sceneReply(page,reply)}
   await expect(page.getByText('You found it.',{exact:true})).toHaveCount(0)
   await sceneReply(page,"The references match, but there's no earlier text to compare.")
   await expect(page.getByText('You found it.',{exact:true})).toHaveCount(1)
@@ -129,7 +130,8 @@ test('new dialogue: flexible source discussions, explicit Send, reload and Scene
   await sceneReply(page,'The references match, but a wording change remains unverified.')
   await home(page);await click(page,'Open TRACE')
   await expect(page.getByRole('heading',{name:'VERSION HISTORY — REVIEWED'})).toBeVisible()
-  await click(page,'THE CORRECTIONS DESK');await expect(page.getByRole('heading',{name:'THE CORRECTIONS DESK'})).toBeVisible()
+  await home(page);await unknown(page);await sceneReply(page,"I'll check the public register.")
+  await home(page);await click(page,'Open TRACE');await click(page,'THE CORRECTIONS DESK');await expect(page.getByRole('heading',{name:'THE CORRECTIONS DESK',exact:true})).toBeVisible()
 })
 
 

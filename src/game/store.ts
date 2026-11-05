@@ -1,4 +1,5 @@
 import { originAction } from './archiveOrigin'
+import { traceAction, type TraceAction } from './trace'
 import { sourceAction, type SourceAction, type SourceScene, readingSource } from './sourceInvestigation'
 import { correctionsDeskAction, resumeScene0607, type DeskAction } from './scene06'
 import { starredNumberAction, type StarredAction } from './starredNumberV2'
@@ -31,6 +32,7 @@ import { captureSceneEntries, libraryScenesForSave, prepareReplay, sceneComplete
 import { normalizeSave } from './engine'
 
 interface GameStore {
+  traceAction: (action: TraceAction) => void
   sourceAction: (scene:SourceScene,action:SourceAction)=>void
   correctionsDeskAction: (action: DeskAction) => void
   starredNumberAction: (action: StarredAction) => void
@@ -192,7 +194,7 @@ export async function startSceneReplay(number: number): Promise<void> {
     const checkpoints:NonNullable<GameSave['replayEntries']>={}
     for(const item of libraryScenesForSave(save).filter(item=>item.number<=number)){const key=snapshotKey(save,item),checkpoint=save.replayEntries?.[key];if(checkpoint)checkpoints[key]=checkpoint}
     const revision=save.saveRevision??0
-    const selected={...prepareReplay({...entry,save:snapshot},Date.now()),settings:save.settings,replayEntries:checkpoints,saveRevision:revision+1}
+    const selected={...prepareReplay({...entry,save:snapshot},Date.now(),number),settings:save.settings,replayEntries:checkpoints,saveRevision:revision+1}
     await writeGame(selected,revision)
     discardPendingSave()
     useGameStore.setState({save:selected,saveError:null})
@@ -214,6 +216,7 @@ function commit(next: GameSave) {
 }
 
 export const useGameStore = create<GameStore>((set, get) => ({
+  traceAction: action => commit(traceAction(get().save,action)),
   chapter1Action: action => commit(chapter1Action(get().save, action)),
   continueChapter2: () => commit(continueFromChapter1(get().save, Date.now())),
   accessAction: action => commit(chapter2Access(get().save, action, Date.now(), playtestEnabled)),

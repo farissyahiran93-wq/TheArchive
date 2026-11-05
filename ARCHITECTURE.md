@@ -1,5 +1,7 @@
 # Architecture - Sophie-first Episode 01, Phase 05
 
+> **Historical Phase 05 snapshot.** For the inspected 5 November 2026 code baseline and proposed future architecture, use [the implementation roadmap](docs/THEARCHIVE_IMPLEMENTATION_ROADMAP.md), [narrative state spec](docs/THEARCHIVE_NARRATIVE_STATE_SPEC.md), and [TRACE recovery spec](docs/THEARCHIVE_TRACE_RECOVERY_SPEC.md). The new master plan is exactly five chapters of ten scenes and supersedes conflicting future-planning counts below. It does not alter the existing production route, IDs, save schema or the historical systems described here.
+
 ## Runtime and authoring
 
 React 19, strict TypeScript, Vite 8 and Zustand render a fictional player phone and Daniel's separate read-only recovered snapshot. The canonical episode has exactly E01-S01 through E01-S30. S01 identity has its original receipt; the separate Sophie prologue runs before S02 Home/Bulletin. Its fourteen outline labels are OPEN-B01-OPEN-B14 and do not expand the canonical scene count.

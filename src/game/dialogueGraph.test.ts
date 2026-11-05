@@ -45,7 +45,10 @@ describe('new-route dialogue graph', () => {
   })
 
   it('reaches each new introduction and conversation branch from a real entrance', () => {
-    const nodes=graph(), seen=new Set<string>(), pending=[originOpening,originFollowup,revisedUnknownEntrance,revisedSocialEntrances.sophie,revisedSocialEntrances.group,'OPEN-VH-NEW-SOURCE-HUB']
+    const save=beginScene01(newGame(),1800000000000)
+    // This assertion audits the previous introduction graph, which remains
+    // pinned for saves that already began it before the natural rewrite.
+    const nodes=actINodes({...save.prologue!.scene01!,traceUiRevision:undefined,naturalFlowRevision:undefined}), seen=new Set<string>(), pending=[originOpening,originFollowup,revisedUnknownEntrance,revisedSocialEntrances.sophie,revisedSocialEntrances.group,'OPEN-VH-NEW-SOURCE-HUB']
     while(pending.length) {
       const id=pending.pop()!
       if(seen.has(id))continue

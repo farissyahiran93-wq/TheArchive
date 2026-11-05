@@ -7,6 +7,10 @@ import { flushGameWrites, resumeRuntime, startSceneReplay, suspendRuntime, useGa
 import { discardPendingSave, loadGame, writeGame } from './save'
 import { ActIFinalFixture } from '../../tests/helpers/actIFinal'
 import { SourceFixture } from '../../tests/helpers/sourceInvestigation'
+import { naturalScene04 } from '../../tests/helpers/naturalConversation'
+import { Scene04Fixture } from '../../tests/helpers/scene04Final'
+import { ConversationFixture } from '../../tests/helpers/versionHistoryConversation'
+import { traceBridgePrefix } from '../content/traceBridgeV3'
 
 const now=1800000000000
 function recordedOpening() { return captureSceneEntries(newGame(),beginScene01(newGame(),now),now) }
@@ -47,6 +51,24 @@ describe('production scene library',()=>{
 })
 
 describe('scene restart replaces the primary save',()=>{
+  it('uses the current trust flow when replaying an old Scene 4 entry without a reload',async()=>{
+    const f=naturalScene04()
+    delete f.save.prologue!.scene01!.naturalFlowRevision
+    delete f.save.prologue!.scene01!.traceBridgeRevision
+    const snapshot=structuredClone(f.save)
+    const main=f.at('complete04').save
+    const key=chapterLibrary[0].scenes.find(s=>s.number===4)!.id
+    main.replayEntries={[key]:{capturedAt:f.now,save:snapshot}}
+    await writeGame(main);useGameStore.setState({save:main})
+    await startSceneReplay(4)
+    const replay=useGameStore.getState().save
+    expect(replay.prologue!.scene01!.traceBridgeRevision).toBe('2026-11-04')
+    expect(replay.replayEntries![key].save).toEqual(snapshot)
+    const finished=new Scene04Fixture(replay).at('complete04')
+    const unknown=new ConversationFixture(finished.save).tickOne().origin('open')
+    expect(unknown.node().id).toBe(traceBridgePrefix+'C01')
+    expect(unknown.save.chapter1!.archiveOrigin!.packageDelivered).toBe(false)
+  })
   it('rewinds to the real entry, saves new choices to primary and survives reload',async()=>{
     const main=new ActIFinalFixture(recordedOpening()).until('OPEN-S01-C02').save
     await writeGame(main);useGameStore.setState({save:main})

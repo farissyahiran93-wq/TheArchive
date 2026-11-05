@@ -1,0 +1,85 @@
+CODEX IMPLEMENTATION PROMPT — THE ARCHIVE
+Scene 4 Unknown Number: Suspicion → TRACE introduction → install → first reference scan
+Canonical dialogue source: THE_ARCHIVE_SCENE4_UNKNOWN_TRACE_INTRO_V3.txt (provided alongside this prompt). Implement the full authored dialogue, response branches, UI and story gates. Use the actual repo's canonical names for objects/events where possible. Do not paraphrase or truncate the script, replace branches with a generic fallback, or silently add lore.
+Objective
+Replace the post-Sophie Unknown Number conversation beginning with "There's something else you can check." The player must have meaningful opportunities to distrust the sender, ask what TRACE is, ask whether the sender built it, question whether the reference was planted, challenge the safety of the package, and defer or refuse installation without corrupting a save. Unknown Number explains why only an incomplete recovered reference can be inspected. The in-game TRACE.pkg attachment is delivered after the conversation authorizes it. An interactive, believable metadata scan leads to the first findings and a player-authored Send reporting those findings. THEN Scene 5 starts with the Bulletin's Updated-label observation.
+
+Do not automatically trigger the TRACE introduction the instant Sophie sends a link; it begins only after her actual conversation concludes and the article has been marked read. The notification may arrive shortly afterward, but the player must open the chat themselves.
+Repo-aware investigation before changes
+Inspect at least:
+- src/content/versionHistoryConversation.ts and src/content/versionHistoryConversationData.ts
+- src/content/scene04Final.ts, src/content/scene05Final.ts
+- src/game/archiveOrigin.ts, src/game/scene05.ts, src/game/scene06.ts
+- src/game/store.ts, src/game/save.ts, src/game/types.ts
+- src/ui/VersionHistoryConversation.tsx, src/ui/TraceTools.tsx, src/ui/VersionHistory.tsx
+- src/ui/HomeScreen.tsx, src/ui/CorrectionsDesk.tsx, src/App.tsx
+- any existing traceIntroRevision, origin-install stage, index-acknowledgement, Scene 4 completion, or canonicalSourceGate / canonicalEnd logic.
+First map current runtime nodes, save flags, scene transitions and package installation path. Prefer additive changes and existing reducer actions. Do not assume this document reflects the repo's latest implementation: inspect first and preserve new code already present.
+Story & branching contract
+1. Retain Sophie link delivery, Bulletin widget activation, actual article, original read receipt, her whole authored conversation and any relationship effects. Do not alter Chapter 1 protected facts.
+2. Once her conversation completes, schedule an Unknown Number notification; do not create his spoken messages in Sophie's thread.
+3. Use a dedicated, versioned graph (...TRACE-INTRO-V3-... node IDs). All A/B/C options are distinct, and the corresponding NPC response is delivered for the option the player actually selected + sent.
+4. Allow the player to challenge Unknown immediately, again about index trust, and again about installation. Responses must not force agreement or implicitly increase trust.
+5. Unknown's claim "I built the viewer; I didn't create the index" is an unverified NPC claim. Do not infer identity, earlier article text, index authenticity or culprit from it.
+6. The install choice is reversible and resumable. NOT NOW is respected; an authored re-entry lets the player ask for the package again without replaying everything. Already-installed saves skip repeat installer and use a compatible catch-up line.
+7. Never automatically select, send, disclose, install, scan, save a publisher request, or unlock Scene 6.
+8. NPC knowledge is delivery/receipt-based; viewing findings only updates the player's private knowledge. Unknown does not know what the player found until their chosen message is explicitly sent.
+9. Upon sent conclusion, transition into Scene 5's label observation: Updated → SAVE ANALYSIS TO TRACE. The existing Scene 4 MARK READ counts; no forced rereading of the full article.
+10. Keep the later publisher policy and Corrections Desk path intact; Scene 6 must remain locked by its later authored instruction and explicit player Send.
+TRACE first-run gameplay
+Purpose: a suspenseful digital-forensic viewer, not a generic hacking toy.
+
+Home: ACCESS: PARTIAL, one incoming reference ARC-IDX-GB-041, one main CTA INSPECT REFERENCE.
+
+Inspector: a short terminal-like scan with staged progress (initializing → reading header → parsing fields → matching article ID → data check → complete). Use deterministic timer/state semantics; handle back navigation, tab switch, background, quit/reopen and reduced motion. No phantom completion on mount.
+
+Findings display the already-authored facts:
+- reference ID ARC-IDX-GB-041
+- PUBLIC_ARTICLE: GB-ARTICLE-001
+- a matching displayed article identifier, not proof of a changed article
+- original article body: unavailable
+- capture time and origin: unverified
+- revision / earlier version: not authenticated
+Add one small interactive comparison: player inspects PUBLIC_ARTICLE and taps COMPARE WITH PUBLIC COPY. Display the two matching IDs and a persistent uncertainty label. Wrong-field selection may prompt a gentle hint without fake penalties or a forced solution.
+
+Decryptor distinction: No encrypted payload has been established for this reference. Show an understandable NO ENCRYPTED PAYLOAD status. Decoding a damaged metadata header is not decrypting a missing article. Keep Decryptor visible as a future investigation capability only; don't invent ciphertext, key, recovered paragraph, deleted timestamp, author identity or security bypass. No fake camera/Wi-Fi/IP hacking logs or nonsensical spam.
+
+All tool activity remains within the fictional app. TRACE.pkg must never link to a real downloadable APK or require device-wide permission changes. The in-game installer retains credible unverified-publisher warnings; do not mark authenticity as confirmed after installation.
+UI/UX
+- Mobile-first, native-looking, modern dark TRACE with precise neon green accents; no noisy all-green page.
+- Distinct Message app screen vs TRACE app. TRACE should be its own application, not a giant checklist under Version History.
+- Present one contextual action at a time, supported by Unknown's conversational guidance.
+- Do not render 'SOURCE A/B/C', '3 of 3', tri-source dashboard, mandatory checklist, or redundant article recap.
+- Preserve fixed app header, scroll-to-latest behavior, non-obscured chat composer, bottom safe area, font scaling, accessibility, concise progress logs, touch targets >=44px.
+- Every NPC message uses existing human typing rhythm, not instantaneous bot dumps; every player choice requires explicit Send.
+- The installation animation is in the phone UI, not a real system installation; no ungrounded claims of safety.
+Reducer & persistence
+Create or map stable progression receipts for:
+- Sophie conversation complete / article read (existing canonical source of truth)
+- Unknown TRACE intro delivered and replied to
+- package offered / deferred / accepted / installed
+- scan initiated / completed / findings reviewed / reference ID compared
+- player's findings disclosed via Send
+- handoff to Scene 5 Updated-label investigation
+Prefer existing save objects and the established schema validation/migration. Make receipts idempotent; dedupe notification IDs and event delivery. Do not treat timeouts or render effects as player input. If an older save is mid-Scene 4, map it safely to an appropriate checkpoint. If the first scan was already completed, reuse saved findings and resume the subsequent conversation; do not reset existing Scene 5/6 progress.
+
+Potential hazard to audit: canonicalEnd() in src/game/archiveOrigin.ts previously activated the Corrections Desk after Scene 5. Ensure this new bridge cannot trigger correctionsDeskAction({type:'activate'}) prematurely and cannot silently satisfy any Scene 6 gate. Do not delete unrelated Scene 6 logic.
+Required tests
+- Pre-link, article unread, Sophie conversation active: Unknown intro cannot run early.
+- Sophie complete + article read: Unknown notification available; chat not auto-opened.
+- A/B/C responses across three trust challenges retain correct distinct replies.
+- Send disabled until selected; no ghost player lines after timeout, screen return, animation end or app switch.
+- Defer/decline install; reopen, re-request package, choose install later without duplicate messages.
+- Package warnings accurately show unverified status and no real permission bypass.
+- Install progress resume/abort and idempotent re-entry.
+- Scan progress, field comparison, reduced motion, interrupted/resumed scan and reinspection work.
+- No fabricated earlier copy, source date, editor, decrypted article or false verification.
+- Player views TRACE findings; Unknown cannot quote them until player Send.
+- Scene 5 begins with update-label analysis, retaining article read receipt.
+- Later optional inquiry and Scene 6 remain gated; existing saves continue.
+- Lint, TypeScript, unit tests and production build pass. Use existing test framework; document device-specific UAT if not possible.
+Delivery
+Implement in the existing project. Return changed files, exact story graph IDs, any save migrations, tests added/results, and a walkthrough:
+Sophie chat complete → Unknown suspicious intro → challenge sender → TRACE explained → inspect package → install → inspect ARC-IDX-GB-041 → scan → compare displayed IDs → return to chat → choose + Send findings → Scene 5 Updated label.
+
+Do not report success unless the actual gameplay integration, tests and production build complete.

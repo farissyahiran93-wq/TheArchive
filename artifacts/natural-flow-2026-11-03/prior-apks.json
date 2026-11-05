@@ -1,0 +1,58 @@
+{
+  "artifacts\\GREYHAVEN_2026-10-31_Scene06-07_Update.apk": {
+    "bytes": 23581054,
+    "sha256": "66f420e6677cf18a9bb53ce4831ba3c8eb4c651d0f173ad2bd3b436e002646ae"
+  },
+  "artifacts\\GREYHAVEN_2026-11-02_Chapter1_V2_Scenes01-10_Playtest.apk": {
+    "bytes": 23601286,
+    "sha256": "34ecdd00fd66adce9af956901045bd0a1e99a0769fe05e57887c273a0864c34d"
+  },
+  "artifacts\\THE_ARCHIVE_2026-10-22_Playtest.apk": {
+    "bytes": 16742847,
+    "sha256": "b33303c9a9c12917a512a2bf5408392306fedf9ebdaed060c55c07f4586dd9fc"
+  },
+  "artifacts\\THE_ARCHIVE_2026-10-23_Nora_Playtest.apk": {
+    "bytes": 16763095,
+    "sha256": "635491b0277b7c2db1fd2c647b836fd82969349f4e0b5a36cd99209d73520293"
+  },
+  "artifacts\\THE_ARCHIVE_2026-10-24_Scene06_Playtest.apk": {
+    "bytes": 17191564,
+    "sha256": "403185961ab8fb5ecbff1cf3d9f048e3d8f9b4f8413b9bb27ab58564475f334c"
+  },
+  "artifacts\\THE_ARCHIVE_2026-10-26_Latest_Playtest.apk": {
+    "bytes": 20098098,
+    "sha256": "52aed3ff2d07c8b837f207f0f1951de24d38222cf0f5924b8cbcb24321ae8c3a"
+  },
+  "artifacts\\THE_ARCHIVE_2026-10-27_Scene_Message_Fix.apk": {
+    "bytes": 20593058,
+    "sha256": "10cb48416f604f4858a23e7a4d7ae36cf5318f77d6767cf3b116efa0a8521a35"
+  },
+  "artifacts\\THE_ARCHIVE_2026-10-28_Cinematic_Menu_Update.apk": {
+    "bytes": 21349081,
+    "sha256": "0682a7a5a1075567fdcb2e1abaa3f0c831bfeb69335c2c83876f4b6c0a345e34"
+  },
+  "artifacts\\THE_ARCHIVE_2026-10-28_Update.apk": {
+    "bytes": 19811620,
+    "sha256": "12cc76c989caf8e106866f53ca5a6efa940985b75d49525859b457cbc672b15e"
+  },
+  "artifacts\\THE_ARCHIVE_2026-10-30_Scene05_Update.apk": {
+    "bytes": 23567811,
+    "sha256": "530fa2036f92ff4c89d740e6f0a10bacdbc4e032ef13021b9a6f0e39e480b528"
+  },
+  "artifacts\\THE_ARCHIVE_2026-10-30_Scene_Playthrough_Update.apk": {
+    "bytes": 23568231,
+    "sha256": "e1ebdeeb12fe1755076b7da744171bb6bbe9319abb14d03e1b7b09fa7c15be99"
+  },
+  "artifacts\\THE_ARCHIVE_2026-10-30_Scene_Restart_Update.apk": {
+    "bytes": 23567679,
+    "sha256": "6d4f4b2fcb916ed6554175f57defff64e46e9fa0320b7fefeb06f63b3c373793"
+  },
+  "artifacts\\THE_ARCHIVE_EP01_2026-10-21_iPhone-preview.apk": {
+    "bytes": 16642627,
+    "sha256": "82016221b551a4cc657babf161f479db28b9cc7fa104e02802238a326dd2b33c"
+  },
+  "artifacts\\THE_ARCHIVE_UI_Prototype_2026-10-12-debug.apk": {
+    "bytes": 4226194,
+    "sha256": "c7a68fbb8224b3c007ed8487ee8ce95c2b64b10f172248593cb10291aa40bc37"
+  }
+}

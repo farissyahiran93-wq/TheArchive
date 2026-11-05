@@ -1,5 +1,7 @@
 # Chapter 1 v2 — ten-scene story map (Phase 01)
 
+> **Historical Phase 01 staging record.** As inspected on 5 November 2026, `src/content/chapter1V2.ts` is released and selected for tagged saves; current v2 Scenes 7–10 and the finale call are implemented. The staged status below records the earlier phase. The future narrative is now [THE FIRST TRACE in the new five-chapter master plan](THEARCHIVE_CHAPTER_MASTER_PLAN.md), with Unknown / Digital Archive / Missing Hour replacing new-campaign Scenes 4–6. That replacement is planning only. Retain the released route and historical saves; see [the current code audit](THEARCHIVE_IMPLEMENTATION_ROADMAP.md).
+
 Status: **staged definition only**. `src/content/chapter1V2.ts` is not imported by the live chapter library, graph, UI, save normalizer or event scheduler. The current playable route remains the baseline described in `CHAPTER_1_REWRITE_AUDIT.md`. This map specifies narrative obligations; it supplies no replacement dialogue, phone call or evidence asset.
 
 | # | Act | Main scene | Identity | Required narrative contract |

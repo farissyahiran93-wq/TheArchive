@@ -1,0 +1,31 @@
+{
+  "unit": {
+    "passed": 1465,
+    "files": 59
+  },
+  "typecheck": "passed",
+  "lint": "passed",
+  "productionBuild": "passed",
+  "browserFullInitial": {
+    "passed": 175,
+    "failed": 9,
+    "total": 184
+  },
+  "browserStableRerun": {
+    "passed": 9,
+    "failed": 0
+  },
+  "additionalNewBrowserScenarios": 2,
+  "distinctBrowserScenariosWithPassingResults": 186,
+  "remainingFailingCases": 0,
+  "androidBuild": "passed",
+  "physicalAndroidTest": false,
+  "generatedTrackedCapturesRestored": [
+    "artifacts/scene-message-markers/find-daniel.png",
+    "qa/phase-03a/home-390x844.png",
+    "qa/phase-03b/e012-review-390x844.png",
+    "qa/phase-03b/s30-quiet-390x844.png",
+    "qa/scene01/invitation.png",
+    "qa/ui-01/home-desktop-1280x900.png"
+  ]
+}
