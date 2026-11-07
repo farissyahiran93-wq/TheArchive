@@ -1,4 +1,6 @@
 import { masterScene01Nodes } from './masterScene01'
+import { masterScene02Nodes } from './masterScene02'
+import { masterScene03Nodes } from './masterScene03'
 import { traceBridgeNodes } from './traceBridgeV3'
 import { revisedScene0607Nodes } from './scene0607Revision'
 import { naturalNodes, naturalSophieOverrides } from './naturalConversation'
@@ -117,7 +119,7 @@ const bridgeGraph = { ...naturalGraph, ...traceBridgeNodes }
 type GraphRevision = Pick<NonNullable<OpeningState['scene01']>,
   'scriptRevision' | 'masterScene01' | 'articleAlignment' | 'traceIntroRevision' | 'traceUiRevision' | 'naturalFlowRevision' | 'traceBridgeRevision'>
 export function actINodes(scene?: GraphRevision) {
-  if (scene?.masterScene01) return masterScene01Nodes
+  if (scene?.masterScene01) return { ...masterScene01Nodes, ...masterScene02Nodes, ...masterScene03Nodes }
   if (scene?.scriptRevision !== 'final-2026-10-23') return scene01Nodes
   if (!scene.articleAlignment) return finalNodes
   if (scene.naturalFlowRevision) return scene.traceBridgeRevision ? bridgeGraph : naturalGraph

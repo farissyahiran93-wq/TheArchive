@@ -84,6 +84,8 @@ export interface OpeningState {
     version: 1
     scriptRevision?: 'final-2026-10-23'
     masterScene01?: true
+    familyPhotoRevision?: 1
+    familyPhotoReply?: { draft?:number; replied?:number }
     articleAlignment?: '2026-10-28'
     traceIntroRevision?: '2026-10-31'
     traceUiRevision?: '2026-11-03'
@@ -119,6 +121,7 @@ export interface OpeningState {
       complete: boolean
       completedAt?: number
       nextEventReady: boolean
+      photoRevision?: 1
       paused?: { id: string; remainingMs: number; typing: boolean }
       draft?: { nodeId: string; choiceId: string }
       receipts: { eventId: string; recipient: 'player' | 'sophie'; factIds: string[] }[]
@@ -179,6 +182,14 @@ export interface OpeningState {
 }
 
 export interface GameSave {
+  masterScene04?: import('./masterScene04').MasterScene04
+  masterScene05?: import('./masterScene05').MasterScene05
+  masterScene06?: import('./masterScene06').MasterScene06
+  masterScene07?: import('./masterScene07').MasterScene07
+  masterScene08?: import('./masterScene08').MasterScene08
+  masterScene09?: import('./masterScene09').MasterScene09
+  masterScene10?: import('./masterScene10').MasterScene10
+  lucasPhoto?: import('./lucasPhoto').LucasPhotoState
   masterOpening?: true
   /** Recorded at real scene entry only. Snapshots never contain this field. */
   replayEntries?: Record<string, { capturedAt: number; save: GameSave }>

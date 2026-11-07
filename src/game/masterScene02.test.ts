@@ -1,0 +1,49 @@
+import { describe, expect, it } from 'vitest'
+import { masterScene02Nodes } from '../content/masterScene02'
+import { beginScene01, beginScene02, deliverScene01, openScene03, scene01Invitation, sendScene01Choice } from './scene01'
+import { normalizeSave } from './engine'
+import { newGame, type GameSave } from './types'
+
+function settle(save: GameSave): GameSave {
+  for (let n = 0; n < 100; n++) {
+    const queued = save.prologue?.scene01?.queue[0]
+    if (!queued) return save
+    save = deliverScene01(save, queued.dueAt)
+  }
+  throw Error('Queue did not settle')
+}
+function joined(): GameSave {
+  let save = settle(beginScene01({ ...newGame(), masterOpening: true }, 1000))
+  for (let i = 0; i < 9; i++) save = settle(sendScene01Choice(save, 'a', '', true, 20000 + i * 1000))
+  return scene01Invitation(save, 'join')
+}
+describe('master Scene 2', () => {
+  it('requires joining and traverses every option with source-scoped departure and DM handoff', () => {
+    expect(beginScene02(newGame()).prologue).toBeUndefined()
+    for (let selectedBeat = 1; selectedBeat <= 9; selectedBeat++) for (const selected of ['a', 'b', 'c']) {
+      let save = settle(beginScene02(joined(), 40000))
+      for (let beat = 1; beat <= 9; beat++) {
+        const id = `TA-S02-C${String(beat).padStart(2, '0')}`, node = masterScene02Nodes[id]
+        expect(save.prologue!.scene01!.nodeId).toBe(id)
+        expect(node.kind).toBe('choice')
+        if (node.kind !== 'choice') throw Error('Missing choice')
+        expect(node.choices).toHaveLength(3)
+        const choice = node.choices.find(c => c.id === (beat === selectedBeat ? selected : 'a'))!
+        const response = masterScene02Nodes[choice.next]
+        if (beat < 9) expect(save.prologue!.scene01!.groupMembers!.lucas).toBe(true)
+        save = settle(sendScene01Choice(save, choice.id, '', true, 50000 + beat * 1000))
+        if (response.kind === 'npc') expect(save.prologue!.scene01!.groupMessages.some(m => m.id === response.id && m.text === response.text)).toBe(true)
+        save = normalizeSave(JSON.parse(JSON.stringify(save)))
+      }
+      const scene = save.prologue!.scene01!
+      expect(scene.groupMembers!.lucas).toBe(false)
+      expect(scene.groupMessages.filter(m => m.text === 'Lucas Grey left the group.')).toHaveLength(1)
+      expect(scene.groupMessages.some(m => m.sender === 'lucas')).toBe(true)
+      expect(scene.privateHandoff?.deliveredAt).toBeDefined()
+      expect(save.deliveredEvents).toContain('TA-S02-SCENE03-UNLOCKED')
+      expect(scene.messages.filter(m => m.id === 'TA-S03-FIRST-MESSAGE')).toHaveLength(1)
+      expect(scene.privateScene03).toBeUndefined()
+      expect(openScene03(save).prologue!.scene01!.privateScene03?.reading).toBe(true)
+    }
+  })
+})

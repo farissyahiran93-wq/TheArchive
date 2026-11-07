@@ -234,3 +234,5 @@ The [continuity recommendation](THEARCHIVE_STARRED_NUMBER_CONTINUITY.md) propose
 6. Check the final explanation pays off the number origin, warning, two backups, June's death, Rowan's choices, Eli's omissions, Vivian's responsibility and Daniel's rescue.
 
 **Planning completion criterion:** all questions have a canon anchor, candidate solution and explicit decision boundary. **Implementation readiness criterion:** the critical items affecting the next scene are approved with sources and a knowledge ledger. This register meets the first criterion; it does not claim that open plot decisions are resolved canon or that the 50 scenes are implemented.
+
+**G15 owner proposal:** See [the detailed Harbor Renewal proposal](THEARCHIVE_HARBOR_RENEWAL_PROPOSAL.md). The exact Warehouse 3 report, secondary-index hierarchy and item-level relationship remain unresolved; Scene 9 must expose only the photographed reference and its limits.

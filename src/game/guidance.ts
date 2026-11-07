@@ -15,6 +15,12 @@ export type GuidanceTarget = { app: 'messages'|'archive'|'bulletin'; action: Gui
 
 /** One next action, derived from actual progress. Pure presentation; never a gate. */
 export function guidanceTarget(save: GameSave): GuidanceTarget | undefined {
+  if(save.masterScene09){if(save.masterScene09.complete)return undefined;return save.masterScene09.beat===8&&!save.masterScene09.saved?{app:'archive',action:'open-app'}:{app:'messages',action:'open-app'}}
+  if(save.masterScene08?.complete)return {app:'messages',action:'open-app'}
+  if(save.masterScene08)return save.masterScene08.beat===8&&!save.masterScene08.saved?{app:'archive',action:'open-app'}:{app:'messages',action:'open-app'}
+  if(save.masterScene07?.phase==='complete')return {app:'messages',action:'open-app'}
+  if(save.masterScene04?.complete){const p=save.masterScene05,six=save.masterScene06;if(p?.complete){if(six?.complete)return undefined;if(six&&six.beat===8&&!six.saved)return {app:'archive',action:'open-app'};return {app:'messages',thread:'unknown',action:'open-thread'}}if(p?.packageStatus==='installed'&&(!p.recovered||p.read.length<4||!p.saved.length))return {app:'archive',action:'open-app'};return {app:'messages',thread:'unknown',action:'open-thread'}}
+  if(save.masterScene04&&!save.masterScene04.complete){if(save.masterScene04.pending)return undefined;return {app:'messages',thread:'unknown',action:save.masterScene04.opened?(save.masterScene04.draft===undefined?'choose-reply':'send-reply'):'open-thread'}}
   const scene=save.prologue?.scene01,c=save.chapter1,p=c?.publicStory,origin=c?.archiveOrigin,vh=c?.versionHistory,desk=c?.correctionsDesk
   const reply=(thread:'sophie'|'group'|'unknown'):GuidanceTarget=>({app:'messages',thread,action:scene?.draft?'send-reply':'choose-reply'})
   if(scene?.privateHandoff?.deliveredAt!==undefined&&scene.privateHandoff.openedAt===undefined)return {app:'messages',thread:'sophie',action:'open-thread'}
@@ -98,6 +104,13 @@ export function guidanceTarget(save: GameSave): GuidanceTarget | undefined {
 }
 /** Conservative projections: only actions already available in the saved route are surfaced. */
 export function currentObjective(save: GameSave): GuidanceObjective | undefined {
+  if(save.masterScene09?.complete)return {app:'messages',title:'Scene 10 unlocked',detail:'The public inventory search is the next lead.'}
+  if(save.masterScene09)return save.masterScene09.beat===8&&!save.masterScene09.saved?{app:'archive',title:'Examine the reference card',detail:'Analyse the photo, compare sources and save a private finding.'}:{app:'messages',title:'Continue with Maya',detail:'Discuss the photograph and inspect its source.'}
+  if(save.masterScene08?.complete)return {app:'messages',title:'Scene 9 unlocked',detail:'Open Maya’s conversation when ready to inspect the photograph.'}
+  if(save.masterScene08)return save.masterScene08.beat===8&&!save.masterScene08.saved?{app:'archive',title:'Examine Maya’s capture',detail:'Compare sources and save a provisional finding.'}:{app:'messages',title:'Continue with Maya',detail:'Discuss and inspect the earlier check-in.'}
+  if(save.masterScene07?.phase==='complete')return {app:'messages',title:'Scene 8 unlocked',detail:'Open Maya’s conversation when ready.'}
+  if(save.masterScene04?.complete){const p=save.masterScene05,six=save.masterScene06;if(p?.complete){if(six?.complete)return {app:'messages',title:'Scene 7 unlocked',detail:'Sophie’s contact export is a separate source for the next investigation.'};if(six&&six.beat===8&&!six.saved)return {app:'archive',title:'Reconstruct the timeline',detail:'Inspect the activity log and save a source-grounded finding.'};return {app:'messages',title:six?'Continue with Unknown':'Scene 6 unlocked',detail:six?'Continue the conversation or review your report.':'Start The Missing Hour when ready.'}}if(p?.packageStatus==='installed'&&(!p.recovered||p.read.length<4||!p.saved.length))return {app:'archive',title:'Examine Daniel’s archive',detail:'Open TRACE and inspect the available sources.'};return {app:'messages',title:p?'Continue with Unknown':'Scene 5 unlocked',detail:p?'Review the offer or send your selected response.':'Open Unknown and start The Digital Archive when ready.'}}
+  if(save.masterScene04)return {app:'messages',title:'Review Unknown’s message',detail:'Question the source and decide whether to accept the encrypted archive.'}
   const scene = save.prologue?.scene01
   if (scene?.privateHandoff?.deliveredAt !== undefined && scene.privateHandoff.openedAt === undefined) return {app:'messages',title:'Open Sophie’s message',detail:'Sophie has sent a private message.'}
   if (save.chapter2Access?.groupQueued && save.chapter2Access.groupMessages.length && !save.chapter2Access.groupOpened) return {app:'messages',title:'Open FIND DANIEL',detail:'The group conversation is ready to read.'}

@@ -20,7 +20,8 @@ test('fresh opening uses the replacement screenplay without an identity form, no
   await page.clock.runFor(120_000)
   await expect(page.getByRole('button', { name: 'Has something happened to him?', exact: true })).toBeVisible()
   await expect(page.locator('.opening-bubble.sophie').filter({ hasText: 'My name is Sophie Mercer.' })).toHaveCount(1)
-  await expect(page.locator('.scene01-chat img[src*="daniel"]')).toHaveCount(0)
+  await expect(page.getByRole('button', { name: /Open Sophie.s photo: Birthday photograph/ })).toHaveCount(1)
+  await expect(page.getByRole('button', { name: 'Open later handwritten note' })).toHaveCount(0)
 })
 
 test('premium dialogue preserves every embedded player Send and resumes after reload', async ({ page }) => {

@@ -1,0 +1,11 @@
+import { captureHypotheses, captureId } from '../content/masterScene08'
+import { captureFields } from '../game/masterScene08'
+import { useGameStore } from '../game/store'
+export function MasterScene08Evidence(){
+ const p=useGameStore(s=>s.save.masterScene08),act=useGameStore(s=>s.masterScene08Action)
+ if(!p?.received)return null
+ return <article className="scene01-invitation" aria-label="Capture analysis"><h3>External evidence · {captureId}</h3><p>Supplied by Maya; a cropped capture of her conversation with Daniel. External evidence adds no phone recovery units.</p><button className="opening-choice" disabled={p.beat<8||!captureFields.every(f=>p.inspected.includes(f))||p.imported} onClick={()=>act({type:'import'})}>IMPORT MESSAGE CAPTURE</button>
+ {p.imported&&<><p>Visible: labels Maya/Daniel, 21:14 and “another copy”. Source testimony: Maya says she made the crop. Date, time zone, original thread and context outside the crop remain unavailable. None is independently authenticated.</p><button className="opening-choice" onClick={()=>act({type:'analyse'})}>REVIEW CAPTURE LIMITATIONS</button></>}
+ {p.analysis&&<><p>TRACE cannot authenticate the image or identify the subject of the copy. A document, backup, records or unrelated item are possible, not established. Source: {captureId}.</p><button className="opening-choice" onClick={()=>act({type:'compare'})}>COMPARE WITH CONTACT EXPORT</button>{p.compared&&<><p>{captureId} refers to “another copy”. TA-EX-STARRED-ENTRY is a separate contact export. Neither source establishes that the phrase refers to that export or that the two have the same provenance.</p><h3>Choose a private interpretation</h3>{captureHypotheses.map((h,i)=><button className="opening-choice" key={h} disabled={p.saved} aria-pressed={p.hypothesis===i} onClick={()=>act({type:'hypothesis',index:i})}>{h}</button>)}<button className="opening-choice" disabled={p.hypothesis===undefined||p.saved} onClick={()=>act({type:'review'})}>REVIEW FINDING</button>{p.reviewed&&p.hypothesis!==undefined&&<><blockquote>{captureHypotheses[p.hypothesis]}</blockquote><button className="opening-primary" disabled={p.saved} onClick={()=>act({type:'save'})}>{p.saved?'FINDING SAVED':'SAVE FINDING'}</button></>}</>}</>}
+ </article>
+}

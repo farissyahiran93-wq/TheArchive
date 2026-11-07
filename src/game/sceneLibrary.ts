@@ -12,12 +12,19 @@ export const chapterLibrary = [{ id: 'chapter-1', number: 1, title: 'The Missing
   .map(scene => ({ number: scene.number, id: scene.id, title: ({7:'The Byline',8:'The Missing Issuer',9:'The Transfer Register',10:'The Inventory Sheet'} as Record<number,string>)[scene.number] ?? scene.title })) }]
 export const libraryScenes = chapterLibrary.flatMap(chapter => chapter.scenes)
 export type LibraryScene = typeof libraryScenes[number]
-export const chapterLibraryForSave=(save:GameSave)=>save.chapter1Edition==='ch01-v2-10'?[{id:'chapter-1-v2',number:1,title:'The Missing Entry',scenes:chapter1V2.scenes.map(({number,id,title})=>({number,id,title}))}]:chapterLibrary
+export const chapterLibraryForSave=(save:GameSave)=>save.chapter1Edition==='ch01-v2-10'?[{id:'chapter-1-v2',number:1,title:save.masterOpening?'The First Trace':'The Missing Entry',scenes:chapter1V2.scenes.map(({number,id,title})=>({number,id,title:save.masterOpening?({4:'The Unknown Sender',5:'The Digital Archive',6:'The Missing Hour',7:'The Starred Number',8:'The Last Check-In',9:'The Secondary Card',10:'The Inventory Sheet'} as Record<number,string>)[number]??title:title}))}]:chapterLibrary
 export const libraryScenesForSave=(save:GameSave)=>chapterLibraryForSave(save).flatMap(chapter=>chapter.scenes)
 
 export function sceneVisited(save: GameSave, n: number): boolean {
   const s = save.prologue?.scene01, c = save.chapter1
   if (s?.scriptRevision !== 'final-2026-10-23' || save.chapter2Access&&save.chapter1Edition!=='ch01-v2-10') return false
+  if (s.masterScene01 && n === 4) return !!save.masterScene04
+  if (s.masterScene01 && n === 5) return !!save.masterScene05
+  if (s.masterScene01 && n === 6) return !!save.masterScene06
+  if (s.masterScene01 && n === 7) return !!save.masterScene07
+  if (s.masterScene01 && n === 8) return !!save.masterScene08
+  if (s.masterScene01 && n === 9) return !!save.masterScene09
+  if (s.masterScene01 && n === 10) return !!save.masterScene10
   if(save.chapter1Edition==='ch01-v2-10'&&n>=7)return n===7?!!c?.starredNumberV2:n===8?!!c?.lastCheckInV2:n===9?!!c?.secondaryCardV2:n===10?!!c?.inventoryFinaleV2:false
   switch (n) {
     case 1: return !!s
@@ -36,6 +43,14 @@ export function sceneVisited(save: GameSave, n: number): boolean {
 export function sceneComplete(save: GameSave, n: number): boolean {
   const s = save.prologue?.scene01, c = save.chapter1
   if (!sceneVisited(save, n)) return false
+  if (s?.masterScene01 && n === 4) return !!save.masterScene04?.complete
+  if (s?.masterScene01 && n === 5) return !!save.masterScene05?.complete
+  if (s?.masterScene01 && n === 6) return !!save.masterScene06?.complete
+  if (s?.masterScene01 && n === 7) return save.masterScene07?.phase==='complete'
+  if (s?.masterScene01 && n === 8) return !!save.masterScene08?.complete
+  if (s?.masterScene01 && n === 9) return !!save.masterScene09?.complete
+  if (s?.masterScene01 && n === 10) return save.masterScene10?.phase==='complete'
+  if (s?.masterScene01 && n === 2) return !!s.groupComplete && save.deliveredEvents.includes('TA-S02-SCENE03-UNLOCKED')
   if(save.chapter1Edition==='ch01-v2-10'&&n>=7)return n===7?!!c?.starredNumberV2?.complete:n===8?!!c?.lastCheckInV2?.complete:n===9?!!c?.secondaryCardV2?.complete:!!c?.inventoryFinaleV2?.complete
   return n === 1 ? s?.invitation === 'joined' : n === 2 ? !!s?.groupComplete : n === 3 ? !!s?.privateScene03?.complete
     : n === 4 ? !!c?.publicStory?.complete : n === 5 ? !!c?.versionHistory?.complete : n === 6 ? !!c?.correctionsDesk?.complete

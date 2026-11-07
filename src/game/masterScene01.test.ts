@@ -3,6 +3,8 @@ import { masterScene01Nodes, masterScene01Start } from '../content/masterScene01
 import { newGame, type GameSave } from './types'
 import { normalizeSave } from './engine'
 import { beginScene01, beginScene02, deliverScene01, scene01Choices, scene01Invitation, sendScene01Choice } from './scene01'
+import { familyPhotoAction } from './familyPhoto'
+import { storyPhotos, familyPhotoReplies } from '../content/storyPhotos'
 
 function drain(state: GameSave): GameSave {
   for (let n = 0; n < 100; n++) {
@@ -14,6 +16,24 @@ function drain(state: GameSave): GameSave {
 }
 
 describe('new Scene 1 authored graph', () => {
+  it('delivers the family photo only on new runs and sends one selected reply explicitly', () => {
+    let initial = drain(beginScene01({ ...newGame(), masterOpening: true }, 1000))
+    expect(initial.deliveredEvents).not.toContain(storyPhotos.sophieFamily.id)
+    const old = structuredClone(initial)
+    delete old.prologue!.scene01!.familyPhotoRevision
+    expect(drain(sendScene01Choice(old, 'a', '', true, 10000)).deliveredEvents).not.toContain(storyPhotos.sophieFamily.id)
+    initial = drain(sendScene01Choice(initial, 'a', '', true, 10000))
+    expect(initial.deliveredEvents.filter(id => id === storyPhotos.sophieFamily.id)).toHaveLength(1)
+    for (let i=0;i<3;i++) {
+      let s=familyPhotoAction(initial,{type:'draft',index:i})
+      expect(s.messages.some(m=>m.text===familyPhotoReplies.choices[i])).toBe(false)
+      s=normalizeSave(JSON.parse(JSON.stringify(s)))
+      s=familyPhotoAction(s,{type:'send'},12000)
+      expect(s.messages.some(m=>m.text===familyPhotoReplies.choices[i]&&m.recipient==='sophie')).toBe(true)
+      expect(s.messages.some(m=>m.text===familyPhotoReplies.replies[i])).toBe(true)
+      expect(familyPhotoAction(s,{type:'send'})).toEqual(s)
+    }
+  })
   it('has nine choices with three distinct responses and valid branch targets', () => {
     expect(masterScene01Nodes[masterScene01Start]?.kind).toBe('npc')
     for (let i = 1; i <= 9; i++) {
@@ -53,7 +73,8 @@ describe('new Scene 1 authored graph', () => {
       state = scene01Invitation(state, 'join')
       expect(state.prologue!.scene01!.complete).toBe(true)
       expect(state.deliveredEvents).toContain('TA-S01-SCENE02-UNLOCKED')
-      expect(beginScene02(state)).toBe(state)
+      expect(state.prologue!.scene01!.groupScript).toBeUndefined()
+      expect(beginScene02(state).prologue!.scene01!.groupScript).toBe('ch01_sc02_uninvited_guest')
       expect(normalizeSave(JSON.parse(JSON.stringify(state))).prologue!.scene01!.groupScript).toBeUndefined()
     }
   })

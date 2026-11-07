@@ -3,6 +3,14 @@ import { upgradeUnansweredTraceBridge } from './traceBridge'
 import { mirrorConnections, mirrorEntry, mirrorPairKey, recoverySources } from '../content/mirror'
 import { validateAccessState } from './chapter2Access'
 import { actINodes } from '../content/actIRegistry'
+import { validateMasterScene04 } from './masterScene04'
+import { validateMasterScene05 } from './masterScene05'
+import { validateMasterScene06 } from './masterScene06'
+import { validateMasterScene07 } from './masterScene07'
+import { validateMasterScene08 } from './masterScene08'
+import { validateMasterScene09 } from './masterScene09'
+import { validateMasterScene10 } from './masterScene10'
+import { validateLucasPhoto } from './lucasPhoto'
 import { beginOpening, deliverPhoneOpeningEvent } from './opening'
 import { fixtureChoices, fixtureLine, type FixtureEventId } from './fixture'
 import { episodeRequirements } from '../content/episodes'
@@ -184,14 +192,16 @@ export function normalizeSave(input: unknown): GameSave {
         const node = scene01Nodes[draft.nodeId]
         if (node?.kind !== 'choice' || !node.choices.some(c => c.id === draft.choiceId)) throw new Error('Invalid Act I draft')
       }
+      if(scene.familyPhotoRevision!==undefined&&scene.familyPhotoRevision!==1)throw new Error('Invalid family photo revision')
+      if(scene.familyPhotoReply!==undefined){const r=scene.familyPhotoReply;if(!record(r)||r.draft!==undefined&&(!Number.isInteger(r.draft)||Number(r.draft)<0||Number(r.draft)>2)||r.replied!==undefined&&(!Number.isInteger(r.replied)||Number(r.replied)<0||Number(r.replied)>2))throw new Error('Invalid family photo reply')}
       if (scene.privateScene03 !== undefined) {
         const privateScene = scene.privateScene03
-        if (!record(privateScene) || privateScene.version !== 1 || !Number.isFinite(privateScene.startedAt) || typeof privateScene.reading !== 'boolean' || typeof privateScene.complete !== 'boolean' || typeof privateScene.nextEventReady !== 'boolean' || privateScene.completedAt !== undefined && !Number.isFinite(privateScene.completedAt) ||
+        if (!record(privateScene) || privateScene.version !== 1 || privateScene.photoRevision !== undefined && privateScene.photoRevision !== 1 || !Number.isFinite(privateScene.startedAt) || typeof privateScene.reading !== 'boolean' || typeof privateScene.complete !== 'boolean' || typeof privateScene.nextEventReady !== 'boolean' || privateScene.completedAt !== undefined && !Number.isFinite(privateScene.completedAt) ||
           !Array.isArray(privateScene.receipts) || privateScene.receipts.some(receipt => !record(receipt) || typeof receipt.eventId !== 'string' || !['player','sophie'].includes(String(receipt.recipient)) || !Array.isArray(receipt.factIds) || receipt.factIds.some(fact => typeof fact !== 'string'))) throw new Error('Invalid Scene 03 progress')
         const paused = privateScene.paused, draft = privateScene.draft
-        if (paused !== undefined && (!record(paused) || typeof paused.id !== 'string' || !paused.id.startsWith('OPEN-S03-') || !['npc','wait'].includes(scene01Nodes[paused.id]?.kind) || !Number.isFinite(paused.remainingMs) || Number(paused.remainingMs) < 0 || typeof paused.typing !== 'boolean' || privateScene.reading)) throw new Error('Invalid Scene 03 checkpoint')
+        if (paused !== undefined && (!record(paused) || typeof paused.id !== 'string' || !(paused.id.startsWith('OPEN-S03-') || scene.masterScene01 && paused.id.startsWith('TA-S03-')) || !['npc','wait'].includes(scene01Nodes[paused.id]?.kind) || !Number.isFinite(paused.remainingMs) || Number(paused.remainingMs) < 0 || typeof paused.typing !== 'boolean' || privateScene.reading)) throw new Error('Invalid Scene 03 checkpoint')
         if (draft !== undefined) {
-          if (!record(draft) || typeof draft.nodeId !== 'string' || typeof draft.choiceId !== 'string' || !draft.nodeId.startsWith('OPEN-S03-')) throw new Error('Invalid Scene 03 draft')
+          if (!record(draft) || typeof draft.nodeId !== 'string' || typeof draft.choiceId !== 'string' || !(draft.nodeId.startsWith('OPEN-S03-') || scene.masterScene01 && draft.nodeId.startsWith('TA-S03-'))) throw new Error('Invalid Scene 03 draft')
           const node = scene01Nodes[draft.nodeId]
           if (node?.kind !== 'choice' || !node.choices.some(choice => choice.id === draft.choiceId)) throw new Error('Invalid Scene 03 draft')
         }
@@ -221,6 +231,14 @@ export function normalizeSave(input: unknown): GameSave {
     if (prologue.afterQueue !== undefined && prologue.afterQueue !== 'recovery') throw new Error('Invalid opening destination')
     if (prologue.queue !== undefined && (!Array.isArray(prologue.queue) || prologue.queue.some(line => !record(line) || typeof line.id !== 'string' || typeof line.text !== 'string' || typeof line.dueAt !== 'number' || !Number.isFinite(line.dueAt)))) throw new Error('Invalid opening schedule')
   }
+  validateMasterScene04(input.masterScene04)
+  validateMasterScene05(input.masterScene05)
+  validateMasterScene06(input.masterScene06)
+  validateMasterScene07(input.masterScene07)
+  validateMasterScene08(input.masterScene08)
+  validateMasterScene09(input.masterScene09)
+  validateMasterScene10(input.masterScene10)
+  validateLucasPhoto(input.lucasPhoto)
   const candidate=input as unknown as GameSave
   // A saved chronology makes equivalent stored/journal copies normalize identically.
   const scene=candidate.prologue?.scene01

@@ -8,6 +8,15 @@ import { secondaryCardAction, type SecondaryCardAction } from './secondaryCardV2
 import { inventoryFinaleAction, type InventoryFinaleAction } from './inventoryFinaleV2'
 import { versionHistoryAction, type VersionHistoryAction } from './scene05'
 import { chapter1Action, type Chapter1Action } from './chapter1'
+import { masterScene04Action, type MasterScene04Action } from './masterScene04'
+import { masterScene05Action, type MasterScene05Action } from './masterScene05'
+import { masterScene06Action, type MasterScene06Action } from './masterScene06'
+import { masterScene07Action, type MasterScene07Action } from './masterScene07'
+import { masterScene08Action, type MasterScene08Action } from './masterScene08'
+import { masterScene09Action, type MasterScene09Action } from './masterScene09'
+import { masterScene10Action, type MasterScene10Action } from './masterScene10'
+import { familyPhotoAction, type FamilyPhotoAction } from './familyPhoto'
+import { lucasPhotoAction, type LucasPhotoAction } from './lucasPhoto'
 import { playtestEnabled } from './playtest'
 import { reunionAction } from './chapter2Reunion'
 import { saveMirrorEvidence, linkMirrorEvidence, unlinkMirrorEvidence, navigateMirror } from './mirror'
@@ -49,6 +58,15 @@ interface GameStore {
   accessAction: (action: AccessAction) => void
   sendScene01: (id: string, name?: string) => void
   scene01Invitation: (action: 'accept' | 'join' | 'dismiss' | 'show' | 'decline') => void
+  masterScene04Action: (action: MasterScene04Action) => void
+  masterScene05Action: (action: MasterScene05Action) => void
+  masterScene06Action: (action: MasterScene06Action) => void
+  masterScene07Action: (action: MasterScene07Action) => void
+  masterScene08Action: (action: MasterScene08Action) => void
+  masterScene09Action: (action: MasterScene09Action) => void
+  masterScene10Action: (action: MasterScene10Action) => void
+  familyPhotoAction: (action: FamilyPhotoAction) => void
+  lucasPhotoAction: (action: LucasPhotoAction) => void
   openSophiePrivate: () => void
   pauseSophiePrivate: () => void
   draftSophiePrivate: (choiceId: string) => void
@@ -216,6 +234,15 @@ function commit(next: GameSave) {
 }
 
 export const useGameStore = create<GameStore>((set, get) => ({
+  masterScene04Action: action => commit(masterScene04Action(get().save,action)),
+  masterScene05Action: action => commit(masterScene05Action(get().save,action)),
+  masterScene06Action: action => commit(masterScene06Action(get().save,action)),
+  masterScene07Action: action => commit(masterScene07Action(get().save,action)),
+  masterScene08Action: action => commit(masterScene08Action(get().save,action)),
+  masterScene09Action: action => commit(masterScene09Action(get().save,action)),
+  masterScene10Action: action => commit(masterScene10Action(get().save,action)),
+  familyPhotoAction: action => commit(familyPhotoAction(get().save,action)),
+  lucasPhotoAction: action => commit(lucasPhotoAction(get().save,action)),
   traceAction: action => commit(traceAction(get().save,action)),
   chapter1Action: action => commit(chapter1Action(get().save, action)),
   continueChapter2: () => commit(continueFromChapter1(get().save, Date.now())),
@@ -298,7 +325,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   tick: () => {
     const current = get().save
     const now = Date.now()
-    if (current.prologue?.scene01) { commit(chapter2Access(chapter1Action(deliverScene01(current, now), { type: 'tick' }, now), { type: 'tick' }, now, playtestEnabled)); return }
+    if (current.prologue?.scene01) { commit(masterScene04Action(chapter2Access(chapter1Action(deliverScene01(current, now), { type: 'tick' }, now), { type: 'tick' }, now, playtestEnabled), {type:'tick'}, now)); return }
     if (current.prologue?.flow === 'mirror-first') {
       const next = deliverOpening(current, now)
       commit(next === current ? deliverPhoneOpeningEvent(current, now) : next)

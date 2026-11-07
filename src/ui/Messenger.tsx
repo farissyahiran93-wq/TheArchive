@@ -4,6 +4,9 @@ import { CorrectionsDesk } from './CorrectionsDesk'
 import { GuidanceDot } from './GuidanceDot'
 import { usePhoneBack } from './usePhoneBack'
 import { UnknownConversation } from './VersionHistoryConversation'
+import { MasterUnknownConversation } from './MasterUnknownConversation'
+import { MasterScene08Chat } from './MasterScene08Chat'
+import { LucasPhotoChat } from './LucasPhotoChat'
 import { sceneStartMarkers } from './sceneMarkers'
 import { SceneStartMarker } from './SceneStartMarker'
 import { Chapter1ContactChat } from './Chapter1Investigation'
@@ -143,8 +146,8 @@ function GroupHistory({ onBack }: { onBack: () => void }) {
 }
 
 export function Messenger({ onHome, initialThread = null, onThreadChange }: { onHome: () => void; onThreadChange?:(thread:'professional'|'desk'|'unknown'|'sophie'|'group'|'maya'|'eli'|'lucas'|'nora'|'eli-lucas'|'maya-lucas'|null)=>void; initialThread?: 'professional' | 'desk' | 'unknown' | 'group' | 'eli-lucas' | 'maya-lucas' | 'maya' | 'sophie' | FollowupContact | null }) {
-  const [threadOpen, setThreadValue] = useState<'professional' | 'desk' | 'unknown' | 'eli-lucas' | 'maya-lucas' | 'fixture' | 'maya' | 'sophie' | 'group' | FollowupContact | null>(initialThread)
-  const setThreadOpen=(thread:typeof threadOpen)=>{setThreadValue(thread);if(thread!=='fixture')onThreadChange?.(thread)}
+  const [threadOpen, setThreadValue] = useState<'professional' | 'desk' | 'unknown' | 'eli-lucas' | 'maya-lucas' | 'lucas-photo' | 'fixture' | 'maya' | 'sophie' | 'group' | FollowupContact | null>(initialThread)
+  const setThreadOpen=(thread:typeof threadOpen)=>{setThreadValue(thread);if(thread!=='fixture'&&thread!=='lucas-photo')onThreadChange?.(thread)}
   usePhoneBack(()=>setThreadOpen(null),!!threadOpen)
   const [relay, setRelay] = useState(false)
   const openSophiePrivate=useGameStore(s=>s.openSophiePrivate)
@@ -159,6 +162,9 @@ export function Messenger({ onHome, initialThread = null, onThreadChange }: { on
   const reunion=save.chapter2Access?.story
   if(threadOpen==='professional'&&save.chapter1?.byline)return <SourceInvestigation sceneNumber={7} messagesMode onHome={()=>setThreadOpen(null)}/>
   if(threadOpen==='desk'&&save.chapter1?.correctionsDesk)return <CorrectionsDesk messagesMode onHome={()=>setThreadOpen(null)}/>
+  if(threadOpen==='unknown'&&save.masterScene04)return <MasterUnknownConversation onBack={()=>setThreadOpen(null)}/>
+  if(threadOpen==='maya'&&save.masterScene07?.phase==='complete')return <MasterScene08Chat onBack={()=>setThreadOpen(null)}/>
+  if(threadOpen==='lucas-photo')return <LucasPhotoChat onBack={()=>setThreadOpen(null)}/>
   if(threadOpen==='unknown'&&(save.chapter1?.archiveOrigin||save.chapter1?.versionHistory?.revision))return <UnknownConversation onBack={()=>setThreadOpen(null)}/>
   if(save.chapter1&&!save.chapter2Access?.unknownCreated&&threadOpen==='unknown'&&save.chapter1?.sender.messages.length)return <Chapter1ContactChat thread="unknown" onBack={()=>setThreadOpen(null)}/>
   if(save.chapter1&&threadOpen&&['nora','eli','maya','lucas'].includes(threadOpen)&&!reunion?.sessions[threadOpen as 'nora'|'eli'|'maya'|'lucas']&&save.messages.some(m=>m.id.startsWith('CH1-')&&(m.sender===threadOpen||m.recipient===threadOpen)))return <Chapter1ContactChat thread={threadOpen as 'nora'|'eli'|'maya'|'lucas'} onBack={()=>setThreadOpen(null)}/>
@@ -193,7 +199,7 @@ export function Messenger({ onHome, initialThread = null, onThreadChange }: { on
   const mayaMatches = mayaConnected && `Maya Chen ${mayaLatest?.text ?? ''}`.toLowerCase().includes(query.trim().toLowerCase())
   const followups = (save.prologue?.scene01 ? ['lucas'] as FollowupContact[] : ['lucas','eli','nora'] as FollowupContact[]).filter(contact => !reunion?.sessions[contact as 'lucas'] && followupAvailable(save, contact) && `${contact} ${save.messages.filter(message => message.sender === contact || message.recipient === contact).at(-1)?.text ?? ''}`.toLowerCase().includes(query.trim().toLowerCase()))
   const chapter1Matches = !!save.chapter1 && (!!save.chapter1.sender.messages.length && !save.chapter2Access?.unknownCreated && 'unknown sender unknown number'.includes(query.toLowerCase()) || (['nora','eli','maya','lucas'] as const).some(who=>!reunion?.sessions[who]&&who.includes(query.toLowerCase())&&save.messages.some(m=>m.id.startsWith('CH1-')&&(m.sender===who||m.recipient===who))))
-  const extraMatches = chapter1Matches || !!save.chapter2Access?.unknownCreated && `UNKNOWN ${save.chapter2Access.messages.map(m=>m.text).join(' ')}`.toLowerCase().includes(query.trim().toLowerCase()) || !!reunion && ((['eli-lucas','maya-lucas'] as const).some(id=>reunion.spy[id]?.unlocked&&id.replace('-',' ').includes(query.toLowerCase())) || (['maya','eli','lucas','nora'] as const).some(who=>(reunion.privateMessages[who]?.length||reunion.sessions[who])&&who.includes(query.toLowerCase())))
+  const extraMatches = chapter1Matches || !!save.masterScene04 && 'unknown'.includes(query.toLowerCase()) || !!save.chapter2Access?.unknownCreated && `UNKNOWN ${save.chapter2Access.messages.map(m=>m.text).join(' ')}`.toLowerCase().includes(query.trim().toLowerCase()) || !!reunion && ((['eli-lucas','maya-lucas'] as const).some(id=>reunion.spy[id]?.unlocked&&id.replace('-',' ').includes(query.toLowerCase())) || (['maya','eli','lucas','nora'] as const).some(who=>(reunion.privateMessages[who]?.length||reunion.sessions[who])&&who.includes(query.toLowerCase())))
   return <section className="inbox-screen native-messenger" aria-label="Messages inbox">
     <header className="native-inbox-header">
       <div className="native-inbox-toolbar"><button className="icon-button bare native-back-button" onClick={onHome} aria-label="Back to home"><ChevronLeft size={27}/><span>Home</span></button></div>
@@ -201,6 +207,9 @@ export function Messenger({ onHome, initialThread = null, onThreadChange }: { on
       <label className="search-field native-inbox-search"><Search size={18}/><input aria-label="Search conversations" placeholder="Search" value={query} onChange={event => setQuery(event.target.value)}/></label>
     </header>
     <div className="inbox-content">
+      {(!!save.lucasPhoto||!!save.masterScene08&&save.masterScene08.beat>=2&&!!save.prologue?.scene01?.lucasLeftGroup)&&'lucas'.includes(query.toLowerCase())&&<button className="thread-row" aria-label="Open Lucas private photo conversation" onClick={()=>setThreadOpen('lucas-photo')}><CharacterAvatar character="lucas" fallback="L" className="contact-avatar"/><span className="thread-text"><strong>Lucas Grey</strong><small>{save.lucasPhoto?.messages.at(-1)?.text??'Private conversation · open when ready'}</small></span><ChevronRight size={15}/></button>}
+      {save.masterScene07?.phase==='complete'&&'maya'.includes(query.toLowerCase())&&<button className="thread-row" aria-label="Open Maya Scene 8 conversation" onClick={()=>setThreadOpen('maya')}><CharacterAvatar character="maya" fallback="M" className="contact-avatar"/><span className="thread-text"><strong>Maya Chen</strong><small>{save.masterScene08?.messages.at(-1)?.text??'Earlier check-in · open when ready'}</small></span><ChevronRight size={15}/></button>}
+      {save.masterScene04&&'unknown'.includes(query.toLowerCase())&&<button className="thread-row" aria-label="Open Unknown conversation" onClick={()=>setThreadOpen('unknown')}><CharacterAvatar character="unknown" fallback="?" className="contact-avatar"/><span className="thread-text"><strong>Unknown</strong><small>{save.masterScene04.messages.at(-1)?.text}</small></span><span className="thread-meta"><ChevronRight size={15}/>{save.notifications.some(n=>!n.read&&save.masterScene04?.messages.some(m=>m.id===n.id))&&<b>1</b>}</span></button>}
       {save.chapter1?.byline?.flowRevision==='2026-10-31'&&save.chapter1.byline.inquiry.receipt&&'nora vance professional'.includes(query.toLowerCase())&&<button className="thread-row" onClick={()=>{if(useGameStore.getState().save.chapter1?.byline?.reply)useGameStore.getState().sourceAction(7,{type:'thread',thread:'professional'});else useGameStore.getState().sourceAction(7,{type:'pending-professional'});setThreadOpen('professional')}}><span className="contact-avatar">NV</span><span className="thread-text"><strong>Nora Vance</strong><small>Professional channel</small></span><ChevronRight size={15}/></button>}
       {save.chapter1?.correctionsDesk&&'corrections desk'.includes(query.toLowerCase())&&<button className="thread-row" onClick={()=>{const p=useGameStore.getState().save.chapter1!.correctionsDesk!;useGameStore.getState().correctionsDeskAction(p.prior?{type:'thread',thread:'desk'}:{type:'panel',panel:'form'});setThreadOpen('desk')}}><span className="contact-avatar">GB</span><span className="thread-text"><strong>Corrections Desk</strong><small>Official Greyhaven Bulletin channel</small></span><ChevronRight size={15}/></button>}
       {save.chapter1&&!save.chapter2Access?.unknownCreated&&!!save.chapter1.sender.messages.length&&'unknown sender unknown number'.includes(query.toLowerCase())&&<button className="thread-row" aria-label="Open Chapter 1 Unknown Sender conversation" onClick={()=>setThreadOpen('unknown')}><CharacterAvatar character="unknown" fallback="?" className="contact-avatar"/><span className="thread-text"><strong>{save.prologue?.scene01?.scriptRevision?'Unknown Number':'Unknown Sender'}<GuidanceDot save={save} thread="unknown"/></strong><small>{visibleUnknownMessages(save).at(-1)?.text ?? 'New message'}</small></span><span className="thread-meta"><ChevronRight size={15}/>{save.notifications.some(n=>!n.read&&save.chapter1?.sender.messages.some(m=>m.id===n.id))&&<b>1</b>}</span></button>}

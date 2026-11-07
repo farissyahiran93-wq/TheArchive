@@ -192,3 +192,7 @@ No epilogue adds a sixth chapter or a fifty-first numbered scene. All closure an
 ## Authoring readiness
 
 This bible is a planning deliverable, not fifty approved scripts. Critical pre-implementation decisions are tracked in [the gap register](THEARCHIVE_PLOT_GAP_REGISTER.md). In particular, approve the number/export/card causal chain, early player biography limit, Eli continuity, future display branding, calendar/captivity timeline and evidence sources before activating the new Chapter 1 route. Reuse existing systems while writing scene-specific dialogue progressively under separate instructions. Preserve delivered historical messages and legitimate completion records throughout.
+
+## Owner proposal — detailed Harbor Renewal (not yet canon)
+
+The owner's newer detailed proposal is recorded in [THEARCHIVE_HARBOR_RENEWAL_PROPOSAL.md](THEARCHIVE_HARBOR_RENEWAL_PROPOSAL.md). Warehouse 3, its exact defects, proposed report wording, detailed motives and the item-level GH-DSC-03-A relationship remain proposed pending a final decision and source-chain review. Do not reveal them in Chapter 1 or treat incidental image markings as established identities.

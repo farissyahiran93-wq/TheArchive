@@ -1,0 +1,34 @@
+import { describe, expect, it } from 'vitest'
+import { masterFragments, masterScene05Beats } from '../content/masterScene05'
+import { masterRecoveryUnits, masterScene05Action as act } from './masterScene05'
+import { normalizeSave } from './engine'
+import { newGame, type GameSave } from './types'
+
+const ready=():GameSave=>({...newGame(),masterScene04:{version:1,opened:true,beat:10,messages:[],status:'accepted',inspected:true,complete:true,preview:false}})
+const reload=(s:GameSave)=>normalizeSave(JSON.parse(JSON.stringify(s)))
+describe('Scene 5 TRACE',()=>{
+ it('requires the actual archive, explicit consent, recovery and source-limited disclosure',()=>{
+  const empty=newGame();expect(act(empty,{type:'start'})).toBe(empty)
+  let s=act(ready(),{type:'start'})
+  for(let i=0;i<8;i++){s=act(s,{type:'draft',index:i%3});s=act(s,{type:'send'})}
+  expect(s.masterScene05?.messages[2].text).toBe(masterScene05Beats[0].choices[0])
+  expect(act(s,{type:'install'})).toBe(s)
+  s=act(s,{type:'inspect'});s=act(s,{type:'risks'});s=act(s,{type:'decline'});s=reload(s)
+  expect(s.masterScene05?.packageStatus).toBe('declined')
+  s=act(s,{type:'reconsider'});s=act(s,{type:'defer'});s=act(s,{type:'reconsider'});s=act(s,{type:'install'})
+  expect(act(s,{type:'recover'})).toBe(s)
+  s=act(s,{type:'open-trace'});s=act(s,{type:'select'});s=act(s,{type:'recover'});s=reload(s)
+  expect(masterRecoveryUnits(s.masterScene05!)).toBe(120)
+  expect(act(s,{type:'recover'})).toBe(s)
+  expect(s.masterScene05?.read).toEqual([])
+  for(const f of masterFragments)s=act(s,{type:'read',id:f.id})
+  expect(s.masterScene05?.saved).toEqual([])
+  s=act(s,{type:'save',id:masterFragments[0].id});s=reload(s)
+  expect(s.evidence[masterFragments[0].id].verified).toBe(false)
+  for(let i=0;i<2;i++){s=act(s,{type:'draft',index:2});s=act(s,{type:'send'})}
+  expect(s.masterScene05?.complete).toBe(true)
+  expect(s.deliveredEvents).toContain('TA-S05-SCENE06-UNLOCKED')
+  expect(s.masterScene05?.messages.slice(-4).map(m=>m.text).join(' ')).not.toContain('June Ellis')
+  expect(reload(s).masterScene05?.complete).toBe(true)
+ })
+})

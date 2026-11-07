@@ -1,0 +1,3623 @@
+[
+  {
+    "start": 0.0,
+    "end": 8.8,
+    "text": " Hey, I'm glad you picked up. Sorry for calling out of nowhere. I just... I found something, and...",
+    "words": [
+      {
+        "start": 0.0,
+        "end": 0.3,
+        "word": " Hey,"
+      },
+      {
+        "start": 0.84,
+        "end": 1.42,
+        "word": " I'm"
+      },
+      {
+        "start": 1.42,
+        "end": 1.62,
+        "word": " glad"
+      },
+      {
+        "start": 1.62,
+        "end": 1.8,
+        "word": " you"
+      },
+      {
+        "start": 1.8,
+        "end": 1.96,
+        "word": " picked"
+      },
+      {
+        "start": 1.96,
+        "end": 2.26,
+        "word": " up."
+      },
+      {
+        "start": 3.02,
+        "end": 3.58,
+        "word": " Sorry"
+      },
+      {
+        "start": 3.58,
+        "end": 3.9,
+        "word": " for"
+      },
+      {
+        "start": 3.9,
+        "end": 4.16,
+        "word": " calling"
+      },
+      {
+        "start": 4.16,
+        "end": 4.46,
+        "word": " out"
+      },
+      {
+        "start": 4.46,
+        "end": 4.58,
+        "word": " of"
+      },
+      {
+        "start": 4.58,
+        "end": 4.84,
+        "word": " nowhere."
+      },
+      {
+        "start": 5.76,
+        "end": 5.88,
+        "word": " I"
+      },
+      {
+        "start": 5.88,
+        "end": 6.84,
+        "word": " just..."
+      },
+      {
+        "start": 6.84,
+        "end": 7.44,
+        "word": " I"
+      },
+      {
+        "start": 7.44,
+        "end": 7.7,
+        "word": " found"
+      },
+      {
+        "start": 7.7,
+        "end": 8.2,
+        "word": " something,"
+      },
+      {
+        "start": 8.56,
+        "end": 8.86,
+        "word": " and..."
+      }
+    ]
+  },
+  {
+    "start": 9.64,
+    "end": 12.08,
+    "text": " I didn't really want to explain it over text.",
+    "words": [
+      {
+        "start": 9.64,
+        "end": 10.24,
+        "word": " I"
+      },
+      {
+        "start": 10.24,
+        "end": 10.54,
+        "word": " didn't"
+      },
+      {
+        "start": 10.54,
+        "end": 10.66,
+        "word": " really"
+      },
+      {
+        "start": 10.66,
+        "end": 10.9,
+        "word": " want"
+      },
+      {
+        "start": 10.9,
+        "end": 11.0,
+        "word": " to"
+      },
+      {
+        "start": 11.0,
+        "end": 11.38,
+        "word": " explain"
+      },
+      {
+        "start": 11.38,
+        "end": 11.6,
+        "word": " it"
+      },
+      {
+        "start": 11.6,
+        "end": 11.78,
+        "word": " over"
+      },
+      {
+        "start": 11.78,
+        "end": 12.08,
+        "word": " text."
+      }
+    ]
+  },
+  {
+    "start": 13.64,
+    "end": 19.44,
+    "text": " Remember that contact list I told you about? The one I found in Daniel's old folder?",
+    "words": [
+      {
+        "start": 13.64,
+        "end": 14.24,
+        "word": " Remember"
+      },
+      {
+        "start": 14.24,
+        "end": 14.64,
+        "word": " that"
+      },
+      {
+        "start": 14.64,
+        "end": 15.16,
+        "word": " contact"
+      },
+      {
+        "start": 15.16,
+        "end": 15.72,
+        "word": " list"
+      },
+      {
+        "start": 15.72,
+        "end": 15.96,
+        "word": " I"
+      },
+      {
+        "start": 15.96,
+        "end": 16.1,
+        "word": " told"
+      },
+      {
+        "start": 16.1,
+        "end": 16.28,
+        "word": " you"
+      },
+      {
+        "start": 16.28,
+        "end": 16.52,
+        "word": " about?"
+      },
+      {
+        "start": 17.66,
+        "end": 17.86,
+        "word": " The"
+      },
+      {
+        "start": 17.86,
+        "end": 18.02,
+        "word": " one"
+      },
+      {
+        "start": 18.02,
+        "end": 18.16,
+        "word": " I"
+      },
+      {
+        "start": 18.16,
+        "end": 18.4,
+        "word": " found"
+      },
+      {
+        "start": 18.4,
+        "end": 18.58,
+        "word": " in"
+      },
+      {
+        "start": 18.58,
+        "end": 19.06,
+        "word": " Daniel's"
+      },
+      {
+        "start": 19.06,
+        "end": 19.18,
+        "word": " old"
+      },
+      {
+        "start": 19.18,
+        "end": 19.44,
+        "word": " folder?"
+      }
+    ]
+  },
+  {
+    "start": 20.6,
+    "end": 26.76,
+    "text": " I've been going through it again. And there's something I completely missed the first time.",
+    "words": [
+      {
+        "start": 20.6,
+        "end": 21.2,
+        "word": " I've"
+      },
+      {
+        "start": 21.2,
+        "end": 21.34,
+        "word": " been"
+      },
+      {
+        "start": 21.34,
+        "end": 21.5,
+        "word": " going"
+      },
+      {
+        "start": 21.5,
+        "end": 21.78,
+        "word": " through"
+      },
+      {
+        "start": 21.78,
+        "end": 21.96,
+        "word": " it"
+      },
+      {
+        "start": 21.96,
+        "end": 22.18,
+        "word": " again."
+      },
+      {
+        "start": 23.14,
+        "end": 23.44,
+        "word": " And"
+      },
+      {
+        "start": 23.44,
+        "end": 24.14,
+        "word": " there's"
+      },
+      {
+        "start": 24.14,
+        "end": 24.42,
+        "word": " something"
+      },
+      {
+        "start": 24.42,
+        "end": 24.7,
+        "word": " I"
+      },
+      {
+        "start": 24.7,
+        "end": 25.2,
+        "word": " completely"
+      },
+      {
+        "start": 25.2,
+        "end": 25.78,
+        "word": " missed"
+      },
+      {
+        "start": 25.78,
+        "end": 26.18,
+        "word": " the"
+      },
+      {
+        "start": 26.18,
+        "end": 26.42,
+        "word": " first"
+      },
+      {
+        "start": 26.42,
+        "end": 26.76,
+        "word": " time."
+      }
+    ]
+  },
+  {
+    "start": 27.560000000000002,
+    "end": 32.64,
+    "text": " There's a section 4 remarks. Just little notes beside the contacts.",
+    "words": [
+      {
+        "start": 27.560000000000002,
+        "end": 27.98,
+        "word": " There's"
+      },
+      {
+        "start": 27.98,
+        "end": 28.1,
+        "word": " a"
+      },
+      {
+        "start": 28.1,
+        "end": 28.4,
+        "word": " section"
+      },
+      {
+        "start": 28.4,
+        "end": 28.82,
+        "word": " 4"
+      },
+      {
+        "start": 28.82,
+        "end": 29.36,
+        "word": " remarks."
+      },
+      {
+        "start": 30.58,
+        "end": 30.96,
+        "word": " Just"
+      },
+      {
+        "start": 30.96,
+        "end": 31.36,
+        "word": " little"
+      },
+      {
+        "start": 31.36,
+        "end": 31.66,
+        "word": " notes"
+      },
+      {
+        "start": 31.66,
+        "end": 31.98,
+        "word": " beside"
+      },
+      {
+        "start": 31.98,
+        "end": 32.32,
+        "word": " the"
+      },
+      {
+        "start": 32.32,
+        "end": 32.64,
+        "word": " contacts."
+      }
+    ]
+  },
+  {
+    "start": 33.82,
+    "end": 43.18,
+    "text": " Most of them are empty, but one isn't. It says, don't call this number.",
+    "words": [
+      {
+        "start": 33.82,
+        "end": 34.38,
+        "word": " Most"
+      },
+      {
+        "start": 34.38,
+        "end": 34.6,
+        "word": " of"
+      },
+      {
+        "start": 34.6,
+        "end": 34.72,
+        "word": " them"
+      },
+      {
+        "start": 34.72,
+        "end": 34.84,
+        "word": " are"
+      },
+      {
+        "start": 34.84,
+        "end": 35.14,
+        "word": " empty,"
+      },
+      {
+        "start": 35.46,
+        "end": 35.7,
+        "word": " but"
+      },
+      {
+        "start": 35.7,
+        "end": 37.04,
+        "word": " one"
+      },
+      {
+        "start": 37.04,
+        "end": 37.8,
+        "word": " isn't."
+      },
+      {
+        "start": 38.62,
+        "end": 39.44,
+        "word": " It"
+      },
+      {
+        "start": 39.44,
+        "end": 39.76,
+        "word": " says,"
+      },
+      {
+        "start": 40.56,
+        "end": 41.94,
+        "word": " don't"
+      },
+      {
+        "start": 41.94,
+        "end": 42.24,
+        "word": " call"
+      },
+      {
+        "start": 42.24,
+        "end": 42.76,
+        "word": " this"
+      },
+      {
+        "start": 42.76,
+        "end": 43.18,
+        "word": " number."
+      }
+    ]
+  },
+  {
+    "start": 45.08,
+    "end": 53.68,
+    "text": " Yeah, that's exactly what it says. No explanation, no name, just those four words.",
+    "words": [
+      {
+        "start": 44.88999999999999,
+        "end": 45.3,
+        "word": " Yeah,"
+      },
+      {
+        "start": 45.9,
+        "end": 46.48,
+        "word": " that's"
+      },
+      {
+        "start": 46.48,
+        "end": 46.72,
+        "word": " exactly"
+      },
+      {
+        "start": 46.72,
+        "end": 47.38,
+        "word": " what"
+      },
+      {
+        "start": 47.38,
+        "end": 47.48,
+        "word": " it"
+      },
+      {
+        "start": 47.48,
+        "end": 47.72,
+        "word": " says."
+      },
+      {
+        "start": 48.82,
+        "end": 49.3,
+        "word": " No"
+      },
+      {
+        "start": 49.3,
+        "end": 49.62,
+        "word": " explanation,"
+      },
+      {
+        "start": 50.76,
+        "end": 51.0,
+        "word": " no"
+      },
+      {
+        "start": 51.0,
+        "end": 51.34,
+        "word": " name,"
+      },
+      {
+        "start": 52.06,
+        "end": 52.56,
+        "word": " just"
+      },
+      {
+        "start": 52.56,
+        "end": 52.96,
+        "word": " those"
+      },
+      {
+        "start": 52.96,
+        "end": 53.28,
+        "word": " four"
+      },
+      {
+        "start": 53.28,
+        "end": 53.68,
+        "word": " words."
+      }
+    ]
+  },
+  {
+    "start": 54.92,
+    "end": 61.92,
+    "text": " The strange thing is, the file doesn't look quite right. Some of the details are missing,",
+    "words": [
+      {
+        "start": 54.92,
+        "end": 55.56,
+        "word": " The"
+      },
+      {
+        "start": 55.56,
+        "end": 56.14,
+        "word": " strange"
+      },
+      {
+        "start": 56.14,
+        "end": 56.42,
+        "word": " thing"
+      },
+      {
+        "start": 56.42,
+        "end": 56.74,
+        "word": " is,"
+      },
+      {
+        "start": 57.56,
+        "end": 57.76,
+        "word": " the"
+      },
+      {
+        "start": 57.76,
+        "end": 58.08,
+        "word": " file"
+      },
+      {
+        "start": 58.08,
+        "end": 58.66,
+        "word": " doesn't"
+      },
+      {
+        "start": 58.66,
+        "end": 58.88,
+        "word": " look"
+      },
+      {
+        "start": 58.88,
+        "end": 59.16,
+        "word": " quite"
+      },
+      {
+        "start": 59.16,
+        "end": 59.48,
+        "word": " right."
+      },
+      {
+        "start": 60.5,
+        "end": 60.86,
+        "word": " Some"
+      },
+      {
+        "start": 60.86,
+        "end": 60.98,
+        "word": " of"
+      },
+      {
+        "start": 60.98,
+        "end": 61.1,
+        "word": " the"
+      },
+      {
+        "start": 61.1,
+        "end": 61.42,
+        "word": " details"
+      },
+      {
+        "start": 61.42,
+        "end": 61.68,
+        "word": " are"
+      },
+      {
+        "start": 61.68,
+        "end": 61.92,
+        "word": " missing,"
+      }
+    ]
+  },
+  {
+    "start": 62.34,
+    "end": 69.26,
+    "text": " and a few entries don't line up properly. I can't even tell for certain which number that",
+    "words": [
+      {
+        "start": 62.34,
+        "end": 62.62,
+        "word": " and"
+      },
+      {
+        "start": 62.62,
+        "end": 63.28,
+        "word": " a"
+      },
+      {
+        "start": 63.28,
+        "end": 63.5,
+        "word": " few"
+      },
+      {
+        "start": 63.5,
+        "end": 63.86,
+        "word": " entries"
+      },
+      {
+        "start": 63.86,
+        "end": 64.3,
+        "word": " don't"
+      },
+      {
+        "start": 64.3,
+        "end": 64.44,
+        "word": " line"
+      },
+      {
+        "start": 64.44,
+        "end": 64.62,
+        "word": " up"
+      },
+      {
+        "start": 64.62,
+        "end": 65.0,
+        "word": " properly."
+      },
+      {
+        "start": 65.9,
+        "end": 66.46,
+        "word": " I"
+      },
+      {
+        "start": 66.46,
+        "end": 66.74,
+        "word": " can't"
+      },
+      {
+        "start": 66.74,
+        "end": 66.86,
+        "word": " even"
+      },
+      {
+        "start": 66.86,
+        "end": 67.1,
+        "word": " tell"
+      },
+      {
+        "start": 67.1,
+        "end": 67.36,
+        "word": " for"
+      },
+      {
+        "start": 67.36,
+        "end": 67.68,
+        "word": " certain"
+      },
+      {
+        "start": 67.68,
+        "end": 68.54,
+        "word": " which"
+      },
+      {
+        "start": 68.54,
+        "end": 69.02,
+        "word": " number"
+      },
+      {
+        "start": 69.02,
+        "end": 69.26,
+        "word": " that"
+      }
+    ]
+  },
+  {
+    "start": 69.26,
+    "end": 75.56,
+    "text": " remark belongs to. But there's one number in that section with a little star beside it.",
+    "words": [
+      {
+        "start": 69.26,
+        "end": 69.46,
+        "word": " remark"
+      },
+      {
+        "start": 69.46,
+        "end": 69.8,
+        "word": " belongs"
+      },
+      {
+        "start": 69.8,
+        "end": 70.26,
+        "word": " to."
+      },
+      {
+        "start": 71.06,
+        "end": 71.7,
+        "word": " But"
+      },
+      {
+        "start": 71.7,
+        "end": 72.12,
+        "word": " there's"
+      },
+      {
+        "start": 72.12,
+        "end": 72.36,
+        "word": " one"
+      },
+      {
+        "start": 72.36,
+        "end": 72.78,
+        "word": " number"
+      },
+      {
+        "start": 72.78,
+        "end": 72.94,
+        "word": " in"
+      },
+      {
+        "start": 72.94,
+        "end": 73.08,
+        "word": " that"
+      },
+      {
+        "start": 73.08,
+        "end": 73.56,
+        "word": " section"
+      },
+      {
+        "start": 73.56,
+        "end": 74.3,
+        "word": " with"
+      },
+      {
+        "start": 74.3,
+        "end": 74.42,
+        "word": " a"
+      },
+      {
+        "start": 74.42,
+        "end": 74.66,
+        "word": " little"
+      },
+      {
+        "start": 74.66,
+        "end": 74.92,
+        "word": " star"
+      },
+      {
+        "start": 74.92,
+        "end": 75.22,
+        "word": " beside"
+      },
+      {
+        "start": 75.22,
+        "end": 75.56,
+        "word": " it."
+      }
+    ]
+  },
+  {
+    "start": 76.42,
+    "end": 79.86,
+    "text": " And it's the number I use to contact you.",
+    "words": [
+      {
+        "start": 76.42,
+        "end": 76.82,
+        "word": " And"
+      },
+      {
+        "start": 76.82,
+        "end": 77.76,
+        "word": " it's"
+      },
+      {
+        "start": 77.76,
+        "end": 77.92,
+        "word": " the"
+      },
+      {
+        "start": 77.92,
+        "end": 78.3,
+        "word": " number"
+      },
+      {
+        "start": 78.3,
+        "end": 78.56,
+        "word": " I"
+      },
+      {
+        "start": 78.56,
+        "end": 78.78,
+        "word": " use"
+      },
+      {
+        "start": 78.78,
+        "end": 79.06,
+        "word": " to"
+      },
+      {
+        "start": 79.06,
+        "end": 79.4,
+        "word": " contact"
+      },
+      {
+        "start": 79.4,
+        "end": 79.86,
+        "word": " you."
+      }
+    ]
+  },
+  {
+    "start": 81.39999999999999,
+    "end": 87.28,
+    "text": " I know, I know how that sounds. Believe me, I've been staring at it for ages,",
+    "words": [
+      {
+        "start": 81.39999999999999,
+        "end": 81.96,
+        "word": " I"
+      },
+      {
+        "start": 81.96,
+        "end": 82.2,
+        "word": " know,"
+      },
+      {
+        "start": 82.76,
+        "end": 83.12,
+        "word": " I"
+      },
+      {
+        "start": 83.12,
+        "end": 83.34,
+        "word": " know"
+      },
+      {
+        "start": 83.34,
+        "end": 83.62,
+        "word": " how"
+      },
+      {
+        "start": 83.62,
+        "end": 83.78,
+        "word": " that"
+      },
+      {
+        "start": 83.78,
+        "end": 84.28,
+        "word": " sounds."
+      },
+      {
+        "start": 85.04,
+        "end": 85.4,
+        "word": " Believe"
+      },
+      {
+        "start": 85.4,
+        "end": 85.74,
+        "word": " me,"
+      },
+      {
+        "start": 85.86,
+        "end": 86.0,
+        "word": " I've"
+      },
+      {
+        "start": 86.0,
+        "end": 86.12,
+        "word": " been"
+      },
+      {
+        "start": 86.12,
+        "end": 86.4,
+        "word": " staring"
+      },
+      {
+        "start": 86.4,
+        "end": 86.76,
+        "word": " at"
+      },
+      {
+        "start": 86.76,
+        "end": 86.84,
+        "word": " it"
+      },
+      {
+        "start": 86.84,
+        "end": 87.0,
+        "word": " for"
+      },
+      {
+        "start": 87.0,
+        "end": 87.28,
+        "word": " ages,"
+      }
+    ]
+  },
+  {
+    "start": 88.0,
+    "end": 92.78,
+    "text": " trying to make sense of it. I think Daniel might have written that remark,",
+    "words": [
+      {
+        "start": 88.0,
+        "end": 88.46,
+        "word": " trying"
+      },
+      {
+        "start": 88.46,
+        "end": 88.64,
+        "word": " to"
+      },
+      {
+        "start": 88.64,
+        "end": 88.76,
+        "word": " make"
+      },
+      {
+        "start": 88.76,
+        "end": 89.0,
+        "word": " sense"
+      },
+      {
+        "start": 89.0,
+        "end": 89.24,
+        "word": " of"
+      },
+      {
+        "start": 89.24,
+        "end": 89.44,
+        "word": " it."
+      },
+      {
+        "start": 90.58,
+        "end": 90.98,
+        "word": " I"
+      },
+      {
+        "start": 90.98,
+        "end": 91.18,
+        "word": " think"
+      },
+      {
+        "start": 91.18,
+        "end": 91.6,
+        "word": " Daniel"
+      },
+      {
+        "start": 91.6,
+        "end": 91.96,
+        "word": " might"
+      },
+      {
+        "start": 91.96,
+        "end": 92.08,
+        "word": " have"
+      },
+      {
+        "start": 92.08,
+        "end": 92.32,
+        "word": " written"
+      },
+      {
+        "start": 92.32,
+        "end": 92.54,
+        "word": " that"
+      },
+      {
+        "start": 92.54,
+        "end": 92.78,
+        "word": " remark,"
+      }
+    ]
+  },
+  {
+    "start": 93.68,
+    "end": 102.06,
+    "text": " but I can't prove it. It's just a copy of a file. Someone could have changed it, or maybe I'm reading",
+    "words": [
+      {
+        "start": 93.68,
+        "end": 94.06,
+        "word": " but"
+      },
+      {
+        "start": 94.06,
+        "end": 94.16,
+        "word": " I"
+      },
+      {
+        "start": 94.16,
+        "end": 94.48,
+        "word": " can't"
+      },
+      {
+        "start": 94.48,
+        "end": 94.72,
+        "word": " prove"
+      },
+      {
+        "start": 94.72,
+        "end": 94.96,
+        "word": " it."
+      },
+      {
+        "start": 95.76,
+        "end": 96.12,
+        "word": " It's"
+      },
+      {
+        "start": 96.12,
+        "end": 96.48,
+        "word": " just"
+      },
+      {
+        "start": 96.48,
+        "end": 96.68,
+        "word": " a"
+      },
+      {
+        "start": 96.68,
+        "end": 97.0,
+        "word": " copy"
+      },
+      {
+        "start": 97.0,
+        "end": 97.16,
+        "word": " of"
+      },
+      {
+        "start": 97.16,
+        "end": 97.26,
+        "word": " a"
+      },
+      {
+        "start": 97.26,
+        "end": 97.58,
+        "word": " file."
+      },
+      {
+        "start": 98.52,
+        "end": 99.08,
+        "word": " Someone"
+      },
+      {
+        "start": 99.08,
+        "end": 99.36,
+        "word": " could"
+      },
+      {
+        "start": 99.36,
+        "end": 99.44,
+        "word": " have"
+      },
+      {
+        "start": 99.44,
+        "end": 99.68,
+        "word": " changed"
+      },
+      {
+        "start": 99.68,
+        "end": 100.06,
+        "word": " it,"
+      },
+      {
+        "start": 100.2,
+        "end": 100.42,
+        "word": " or"
+      },
+      {
+        "start": 100.42,
+        "end": 101.58,
+        "word": " maybe"
+      },
+      {
+        "start": 101.58,
+        "end": 101.86,
+        "word": " I'm"
+      },
+      {
+        "start": 101.86,
+        "end": 102.06,
+        "word": " reading"
+      }
+    ]
+  },
+  {
+    "start": 102.06,
+    "end": 109.86,
+    "text": " it wrong. Daniel was always leaving himself little reminders on scraps of paper, old receipts,",
+    "words": [
+      {
+        "start": 102.06,
+        "end": 102.32,
+        "word": " it"
+      },
+      {
+        "start": 102.32,
+        "end": 102.54,
+        "word": " wrong."
+      },
+      {
+        "start": 103.78,
+        "end": 104.38,
+        "word": " Daniel"
+      },
+      {
+        "start": 104.38,
+        "end": 104.58,
+        "word": " was"
+      },
+      {
+        "start": 104.58,
+        "end": 104.84,
+        "word": " always"
+      },
+      {
+        "start": 104.84,
+        "end": 105.16,
+        "word": " leaving"
+      },
+      {
+        "start": 105.16,
+        "end": 105.66,
+        "word": " himself"
+      },
+      {
+        "start": 105.66,
+        "end": 105.92,
+        "word": " little"
+      },
+      {
+        "start": 105.92,
+        "end": 106.32,
+        "word": " reminders"
+      },
+      {
+        "start": 106.32,
+        "end": 107.7,
+        "word": " on"
+      },
+      {
+        "start": 107.7,
+        "end": 108.08,
+        "word": " scraps"
+      },
+      {
+        "start": 108.08,
+        "end": 108.34,
+        "word": " of"
+      },
+      {
+        "start": 108.34,
+        "end": 108.54,
+        "word": " paper,"
+      },
+      {
+        "start": 109.26,
+        "end": 109.5,
+        "word": " old"
+      },
+      {
+        "start": 109.5,
+        "end": 109.86,
+        "word": " receipts,"
+      }
+    ]
+  },
+  {
+    "start": 110.8,
+    "end": 120.62,
+    "text": " pretty much anything he could find. It used to drive me crazy. But this doesn't feel like one",
+    "words": [
+      {
+        "start": 110.8,
+        "end": 111.3,
+        "word": " pretty"
+      },
+      {
+        "start": 111.3,
+        "end": 111.54,
+        "word": " much"
+      },
+      {
+        "start": 111.54,
+        "end": 111.9,
+        "word": " anything"
+      },
+      {
+        "start": 111.9,
+        "end": 112.28,
+        "word": " he"
+      },
+      {
+        "start": 112.28,
+        "end": 112.4,
+        "word": " could"
+      },
+      {
+        "start": 112.4,
+        "end": 112.66,
+        "word": " find."
+      },
+      {
+        "start": 113.88,
+        "end": 114.48,
+        "word": " It"
+      },
+      {
+        "start": 114.48,
+        "end": 114.64,
+        "word": " used"
+      },
+      {
+        "start": 114.64,
+        "end": 114.9,
+        "word": " to"
+      },
+      {
+        "start": 114.9,
+        "end": 115.12,
+        "word": " drive"
+      },
+      {
+        "start": 115.12,
+        "end": 115.32,
+        "word": " me"
+      },
+      {
+        "start": 115.32,
+        "end": 115.56,
+        "word": " crazy."
+      },
+      {
+        "start": 117.42,
+        "end": 117.74,
+        "word": " But"
+      },
+      {
+        "start": 117.74,
+        "end": 118.04,
+        "word": " this"
+      },
+      {
+        "start": 118.04,
+        "end": 119.94,
+        "word": " doesn't"
+      },
+      {
+        "start": 119.94,
+        "end": 120.14,
+        "word": " feel"
+      },
+      {
+        "start": 120.14,
+        "end": 120.44,
+        "word": " like"
+      },
+      {
+        "start": 120.44,
+        "end": 120.62,
+        "word": " one"
+      }
+    ]
+  },
+  {
+    "start": 120.62,
+    "end": 127.24,
+    "text": " of his ordinary reminders. I can't imagine why he'd tell himself not to call someone.",
+    "words": [
+      {
+        "start": 120.62,
+        "end": 120.74,
+        "word": " of"
+      },
+      {
+        "start": 120.74,
+        "end": 120.88,
+        "word": " his"
+      },
+      {
+        "start": 120.88,
+        "end": 121.34,
+        "word": " ordinary"
+      },
+      {
+        "start": 121.34,
+        "end": 121.98,
+        "word": " reminders."
+      },
+      {
+        "start": 123.06,
+        "end": 123.66,
+        "word": " I"
+      },
+      {
+        "start": 123.66,
+        "end": 123.96,
+        "word": " can't"
+      },
+      {
+        "start": 123.96,
+        "end": 124.36,
+        "word": " imagine"
+      },
+      {
+        "start": 124.36,
+        "end": 124.62,
+        "word": " why"
+      },
+      {
+        "start": 124.62,
+        "end": 124.8,
+        "word": " he'd"
+      },
+      {
+        "start": 124.8,
+        "end": 125.0,
+        "word": " tell"
+      },
+      {
+        "start": 125.0,
+        "end": 125.22,
+        "word": " himself"
+      },
+      {
+        "start": 125.22,
+        "end": 126.28,
+        "word": " not"
+      },
+      {
+        "start": 126.28,
+        "end": 126.6,
+        "word": " to"
+      },
+      {
+        "start": 126.6,
+        "end": 126.82,
+        "word": " call"
+      },
+      {
+        "start": 126.82,
+        "end": 127.24,
+        "word": " someone."
+      }
+    ]
+  },
+  {
+    "start": 128.84,
+    "end": 130.28,
+    "text": " Can I ask you something?",
+    "words": [
+      {
+        "start": 128.84,
+        "end": 129.36,
+        "word": " Can"
+      },
+      {
+        "start": 129.36,
+        "end": 129.54,
+        "word": " I"
+      },
+      {
+        "start": 129.54,
+        "end": 129.78,
+        "word": " ask"
+      },
+      {
+        "start": 129.78,
+        "end": 129.96,
+        "word": " you"
+      },
+      {
+        "start": 129.96,
+        "end": 130.28,
+        "word": " something?"
+      }
+    ]
+  },
+  {
+    "start": 131.5,
+    "end": 138.44,
+    "text": " Since I first contacted you, has anyone else reached out to you about Daniel? Anyone you didn't",
+    "words": [
+      {
+        "start": 131.5,
+        "end": 132.02,
+        "word": " Since"
+      },
+      {
+        "start": 132.02,
+        "end": 132.2,
+        "word": " I"
+      },
+      {
+        "start": 132.2,
+        "end": 132.48,
+        "word": " first"
+      },
+      {
+        "start": 132.48,
+        "end": 133.04,
+        "word": " contacted"
+      },
+      {
+        "start": 133.04,
+        "end": 133.42,
+        "word": " you,"
+      },
+      {
+        "start": 134.16,
+        "end": 134.52,
+        "word": " has"
+      },
+      {
+        "start": 134.52,
+        "end": 134.76,
+        "word": " anyone"
+      },
+      {
+        "start": 134.76,
+        "end": 135.14,
+        "word": " else"
+      },
+      {
+        "start": 135.14,
+        "end": 135.4,
+        "word": " reached"
+      },
+      {
+        "start": 135.4,
+        "end": 135.68,
+        "word": " out"
+      },
+      {
+        "start": 135.68,
+        "end": 135.92,
+        "word": " to"
+      },
+      {
+        "start": 135.92,
+        "end": 136.02,
+        "word": " you"
+      },
+      {
+        "start": 136.02,
+        "end": 136.2,
+        "word": " about"
+      },
+      {
+        "start": 136.2,
+        "end": 136.46,
+        "word": " Daniel?"
+      },
+      {
+        "start": 137.46,
+        "end": 137.86,
+        "word": " Anyone"
+      },
+      {
+        "start": 137.86,
+        "end": 138.2,
+        "word": " you"
+      },
+      {
+        "start": 138.2,
+        "end": 138.44,
+        "word": " didn't"
+      }
+    ]
+  },
+  {
+    "start": 138.44,
+    "end": 145.04,
+    "text": " recognize? It's okay if you'd rather not say. I know you've already been dragged into something",
+    "words": [
+      {
+        "start": 138.44,
+        "end": 138.72,
+        "word": " recognize?"
+      },
+      {
+        "start": 140.28,
+        "end": 140.8,
+        "word": " It's"
+      },
+      {
+        "start": 140.8,
+        "end": 141.02,
+        "word": " okay"
+      },
+      {
+        "start": 141.02,
+        "end": 141.26,
+        "word": " if"
+      },
+      {
+        "start": 141.26,
+        "end": 141.38,
+        "word": " you'd"
+      },
+      {
+        "start": 141.38,
+        "end": 141.54,
+        "word": " rather"
+      },
+      {
+        "start": 141.54,
+        "end": 141.78,
+        "word": " not"
+      },
+      {
+        "start": 141.78,
+        "end": 142.02,
+        "word": " say."
+      },
+      {
+        "start": 142.9,
+        "end": 143.06,
+        "word": " I"
+      },
+      {
+        "start": 143.06,
+        "end": 143.24,
+        "word": " know"
+      },
+      {
+        "start": 143.24,
+        "end": 143.54,
+        "word": " you've"
+      },
+      {
+        "start": 143.54,
+        "end": 143.8,
+        "word": " already"
+      },
+      {
+        "start": 143.8,
+        "end": 144.04,
+        "word": " been"
+      },
+      {
+        "start": 144.04,
+        "end": 144.28,
+        "word": " dragged"
+      },
+      {
+        "start": 144.28,
+        "end": 144.66,
+        "word": " into"
+      },
+      {
+        "start": 144.66,
+        "end": 145.04,
+        "word": " something"
+      }
+    ]
+  },
+  {
+    "start": 145.04,
+    "end": 157.22,
+    "text": " you never asked to be part of. I just need you to be careful. If someone contacts you from a number",
+    "words": [
+      {
+        "start": 145.04,
+        "end": 145.22,
+        "word": " you"
+      },
+      {
+        "start": 145.22,
+        "end": 145.46,
+        "word": " never"
+      },
+      {
+        "start": 145.46,
+        "end": 145.82,
+        "word": " asked"
+      },
+      {
+        "start": 145.82,
+        "end": 146.02,
+        "word": " to"
+      },
+      {
+        "start": 146.02,
+        "end": 146.1,
+        "word": " be"
+      },
+      {
+        "start": 146.1,
+        "end": 146.3,
+        "word": " part"
+      },
+      {
+        "start": 146.3,
+        "end": 146.56,
+        "word": " of."
+      },
+      {
+        "start": 147.42,
+        "end": 147.94,
+        "word": " I"
+      },
+      {
+        "start": 147.94,
+        "end": 148.18,
+        "word": " just"
+      },
+      {
+        "start": 148.18,
+        "end": 148.5,
+        "word": " need"
+      },
+      {
+        "start": 148.5,
+        "end": 148.66,
+        "word": " you"
+      },
+      {
+        "start": 148.66,
+        "end": 148.76,
+        "word": " to"
+      },
+      {
+        "start": 148.76,
+        "end": 148.84,
+        "word": " be"
+      },
+      {
+        "start": 148.84,
+        "end": 149.16,
+        "word": " careful."
+      },
+      {
+        "start": 150.04,
+        "end": 150.56,
+        "word": " If"
+      },
+      {
+        "start": 150.56,
+        "end": 150.78,
+        "word": " someone"
+      },
+      {
+        "start": 150.78,
+        "end": 151.3,
+        "word": " contacts"
+      },
+      {
+        "start": 151.3,
+        "end": 151.66,
+        "word": " you"
+      },
+      {
+        "start": 151.66,
+        "end": 157.16,
+        "word": " from"
+      },
+      {
+        "start": 157.16,
+        "end": 157.16,
+        "word": " a"
+      },
+      {
+        "start": 157.16,
+        "end": 157.22,
+        "word": " number"
+      }
+    ]
+  },
+  {
+    "start": 157.22,
+    "end": 165.42,
+    "text": " looking into this, not until we understand what that remark means. I've been so desperate to find",
+    "words": [
+      {
+        "start": 157.22,
+        "end": 157.4,
+        "word": " looking"
+      },
+      {
+        "start": 157.4,
+        "end": 157.6,
+        "word": " into"
+      },
+      {
+        "start": 157.6,
+        "end": 157.88,
+        "word": " this,"
+      },
+      {
+        "start": 158.74,
+        "end": 159.22,
+        "word": " not"
+      },
+      {
+        "start": 159.22,
+        "end": 159.64,
+        "word": " until"
+      },
+      {
+        "start": 159.64,
+        "end": 159.8,
+        "word": " we"
+      },
+      {
+        "start": 159.8,
+        "end": 160.12,
+        "word": " understand"
+      },
+      {
+        "start": 160.12,
+        "end": 160.84,
+        "word": " what"
+      },
+      {
+        "start": 160.84,
+        "end": 161.08,
+        "word": " that"
+      },
+      {
+        "start": 161.08,
+        "end": 161.3,
+        "word": " remark"
+      },
+      {
+        "start": 161.3,
+        "end": 161.8,
+        "word": " means."
+      },
+      {
+        "start": 163.46,
+        "end": 163.98,
+        "word": " I've"
+      },
+      {
+        "start": 163.98,
+        "end": 164.08,
+        "word": " been"
+      },
+      {
+        "start": 164.08,
+        "end": 164.38,
+        "word": " so"
+      },
+      {
+        "start": 164.38,
+        "end": 164.98,
+        "word": " desperate"
+      },
+      {
+        "start": 164.98,
+        "end": 165.2,
+        "word": " to"
+      },
+      {
+        "start": 165.2,
+        "end": 165.42,
+        "word": " find"
+      }
+    ]
+  },
+  {
+    "start": 165.42,
+    "end": 172.06,
+    "text": " my brother that I never really stopped to think about you. You were just a stranger when I messaged",
+    "words": [
+      {
+        "start": 165.42,
+        "end": 165.58,
+        "word": " my"
+      },
+      {
+        "start": 165.58,
+        "end": 165.94,
+        "word": " brother"
+      },
+      {
+        "start": 165.94,
+        "end": 166.82,
+        "word": " that"
+      },
+      {
+        "start": 166.82,
+        "end": 166.94,
+        "word": " I"
+      },
+      {
+        "start": 166.94,
+        "end": 167.22,
+        "word": " never"
+      },
+      {
+        "start": 167.22,
+        "end": 167.52,
+        "word": " really"
+      },
+      {
+        "start": 167.52,
+        "end": 167.84,
+        "word": " stopped"
+      },
+      {
+        "start": 167.84,
+        "end": 168.12,
+        "word": " to"
+      },
+      {
+        "start": 168.12,
+        "end": 168.3,
+        "word": " think"
+      },
+      {
+        "start": 168.3,
+        "end": 168.52,
+        "word": " about"
+      },
+      {
+        "start": 168.52,
+        "end": 168.76,
+        "word": " you."
+      },
+      {
+        "start": 169.74,
+        "end": 170.3,
+        "word": " You"
+      },
+      {
+        "start": 170.3,
+        "end": 170.42,
+        "word": " were"
+      },
+      {
+        "start": 170.42,
+        "end": 170.64,
+        "word": " just"
+      },
+      {
+        "start": 170.64,
+        "end": 170.82,
+        "word": " a"
+      },
+      {
+        "start": 170.82,
+        "end": 171.28,
+        "word": " stranger"
+      },
+      {
+        "start": 171.28,
+        "end": 171.52,
+        "word": " when"
+      },
+      {
+        "start": 171.52,
+        "end": 171.64,
+        "word": " I"
+      },
+      {
+        "start": 171.64,
+        "end": 172.06,
+        "word": " messaged"
+      }
+    ]
+  },
+  {
+    "start": 172.06,
+    "end": 179.46,
+    "text": " you. And now I'm asking you to help me make sense of something. I barely understand myself.",
+    "words": [
+      {
+        "start": 172.06,
+        "end": 172.26,
+        "word": " you."
+      },
+      {
+        "start": 173.5,
+        "end": 173.78,
+        "word": " And"
+      },
+      {
+        "start": 173.78,
+        "end": 174.0,
+        "word": " now"
+      },
+      {
+        "start": 174.0,
+        "end": 174.44,
+        "word": " I'm"
+      },
+      {
+        "start": 174.44,
+        "end": 174.76,
+        "word": " asking"
+      },
+      {
+        "start": 174.76,
+        "end": 175.02,
+        "word": " you"
+      },
+      {
+        "start": 175.02,
+        "end": 175.12,
+        "word": " to"
+      },
+      {
+        "start": 175.12,
+        "end": 175.32,
+        "word": " help"
+      },
+      {
+        "start": 175.32,
+        "end": 175.48,
+        "word": " me"
+      },
+      {
+        "start": 175.48,
+        "end": 175.7,
+        "word": " make"
+      },
+      {
+        "start": 175.7,
+        "end": 175.9,
+        "word": " sense"
+      },
+      {
+        "start": 175.9,
+        "end": 176.12,
+        "word": " of"
+      },
+      {
+        "start": 176.12,
+        "end": 176.5,
+        "word": " something."
+      },
+      {
+        "start": 177.58,
+        "end": 178.14,
+        "word": " I"
+      },
+      {
+        "start": 178.14,
+        "end": 178.4,
+        "word": " barely"
+      },
+      {
+        "start": 178.4,
+        "end": 178.9,
+        "word": " understand"
+      },
+      {
+        "start": 178.9,
+        "end": 179.46,
+        "word": " myself."
+      }
+    ]
+  },
+  {
+    "start": 181.12,
+    "end": 187.02,
+    "text": " I'm sorry. Really. You didn't deserve to be put in this position.",
+    "words": [
+      {
+        "start": 181.12,
+        "end": 181.68,
+        "word": " I'm"
+      },
+      {
+        "start": 181.68,
+        "end": 181.98,
+        "word": " sorry."
+      },
+      {
+        "start": 182.86,
+        "end": 183.34,
+        "word": " Really."
+      },
+      {
+        "start": 184.54,
+        "end": 184.86,
+        "word": " You"
+      },
+      {
+        "start": 184.86,
+        "end": 185.3,
+        "word": " didn't"
+      },
+      {
+        "start": 185.3,
+        "end": 185.62,
+        "word": " deserve"
+      },
+      {
+        "start": 185.62,
+        "end": 185.92,
+        "word": " to"
+      },
+      {
+        "start": 185.92,
+        "end": 186.02,
+        "word": " be"
+      },
+      {
+        "start": 186.02,
+        "end": 186.28,
+        "word": " put"
+      },
+      {
+        "start": 186.28,
+        "end": 186.44,
+        "word": " in"
+      },
+      {
+        "start": 186.44,
+        "end": 186.56,
+        "word": " this"
+      },
+      {
+        "start": 186.56,
+        "end": 187.02,
+        "word": " position."
+      }
+    ]
+  },
+  {
+    "start": 188.74,
+    "end": 195.7,
+    "text": " I can send you the export, the actual copy I have, not just a screenshot. Maybe you'll notice",
+    "words": [
+      {
+        "start": 188.74,
+        "end": 188.94,
+        "word": " I"
+      },
+      {
+        "start": 188.94,
+        "end": 189.08,
+        "word": " can"
+      },
+      {
+        "start": 189.08,
+        "end": 189.26,
+        "word": " send"
+      },
+      {
+        "start": 189.26,
+        "end": 189.46,
+        "word": " you"
+      },
+      {
+        "start": 189.46,
+        "end": 189.58,
+        "word": " the"
+      },
+      {
+        "start": 189.58,
+        "end": 189.8,
+        "word": " export,"
+      },
+      {
+        "start": 190.6,
+        "end": 190.84,
+        "word": " the"
+      },
+      {
+        "start": 190.84,
+        "end": 191.06,
+        "word": " actual"
+      },
+      {
+        "start": 191.06,
+        "end": 191.6,
+        "word": " copy"
+      },
+      {
+        "start": 191.6,
+        "end": 191.76,
+        "word": " I"
+      },
+      {
+        "start": 191.76,
+        "end": 192.04,
+        "word": " have,"
+      },
+      {
+        "start": 192.44,
+        "end": 192.74,
+        "word": " not"
+      },
+      {
+        "start": 192.74,
+        "end": 192.96,
+        "word": " just"
+      },
+      {
+        "start": 192.96,
+        "end": 193.14,
+        "word": " a"
+      },
+      {
+        "start": 193.14,
+        "end": 193.42,
+        "word": " screenshot."
+      },
+      {
+        "start": 194.42,
+        "end": 194.98,
+        "word": " Maybe"
+      },
+      {
+        "start": 194.98,
+        "end": 195.44,
+        "word": " you'll"
+      },
+      {
+        "start": 195.44,
+        "end": 195.7,
+        "word": " notice"
+      }
+    ]
+  },
+  {
+    "start": 195.7,
+    "end": 203.74,
+    "text": " something I haven't. I don't want you taking my word for any of this. But please, let's not",
+    "words": [
+      {
+        "start": 195.7,
+        "end": 196.04,
+        "word": " something"
+      },
+      {
+        "start": 196.04,
+        "end": 196.28,
+        "word": " I"
+      },
+      {
+        "start": 196.28,
+        "end": 196.94,
+        "word": " haven't."
+      },
+      {
+        "start": 197.62,
+        "end": 198.16,
+        "word": " I"
+      },
+      {
+        "start": 198.16,
+        "end": 198.52,
+        "word": " don't"
+      },
+      {
+        "start": 198.52,
+        "end": 198.68,
+        "word": " want"
+      },
+      {
+        "start": 198.68,
+        "end": 198.8,
+        "word": " you"
+      },
+      {
+        "start": 198.8,
+        "end": 199.04,
+        "word": " taking"
+      },
+      {
+        "start": 199.04,
+        "end": 199.3,
+        "word": " my"
+      },
+      {
+        "start": 199.3,
+        "end": 199.58,
+        "word": " word"
+      },
+      {
+        "start": 199.58,
+        "end": 199.8,
+        "word": " for"
+      },
+      {
+        "start": 199.8,
+        "end": 200.08,
+        "word": " any"
+      },
+      {
+        "start": 200.08,
+        "end": 200.22,
+        "word": " of"
+      },
+      {
+        "start": 200.22,
+        "end": 200.42,
+        "word": " this."
+      },
+      {
+        "start": 201.5,
+        "end": 201.7,
+        "word": " But"
+      },
+      {
+        "start": 201.7,
+        "end": 202.02,
+        "word": " please,"
+      },
+      {
+        "start": 203.06,
+        "end": 203.58,
+        "word": " let's"
+      },
+      {
+        "start": 203.58,
+        "end": 203.74,
+        "word": " not"
+      }
+    ]
+  },
+  {
+    "start": 203.74,
+    "end": 209.12,
+    "text": " share everyone's contact details with the group. Some of those numbers belong to people",
+    "words": [
+      {
+        "start": 203.74,
+        "end": 204.06,
+        "word": " share"
+      },
+      {
+        "start": 204.06,
+        "end": 204.62,
+        "word": " everyone's"
+      },
+      {
+        "start": 204.62,
+        "end": 204.82,
+        "word": " contact"
+      },
+      {
+        "start": 204.82,
+        "end": 205.5,
+        "word": " details"
+      },
+      {
+        "start": 205.5,
+        "end": 205.72,
+        "word": " with"
+      },
+      {
+        "start": 205.72,
+        "end": 205.84,
+        "word": " the"
+      },
+      {
+        "start": 205.84,
+        "end": 206.06,
+        "word": " group."
+      },
+      {
+        "start": 207.12,
+        "end": 207.42,
+        "word": " Some"
+      },
+      {
+        "start": 207.42,
+        "end": 207.58,
+        "word": " of"
+      },
+      {
+        "start": 207.58,
+        "end": 207.72,
+        "word": " those"
+      },
+      {
+        "start": 207.72,
+        "end": 208.06,
+        "word": " numbers"
+      },
+      {
+        "start": 208.06,
+        "end": 208.52,
+        "word": " belong"
+      },
+      {
+        "start": 208.52,
+        "end": 208.8,
+        "word": " to"
+      },
+      {
+        "start": 208.8,
+        "end": 209.12,
+        "word": " people"
+      }
+    ]
+  },
+  {
+    "start": 209.12,
+    "end": 214.62,
+    "text": " who have nothing to do with Daniel disappearing. We should be careful about that.",
+    "words": [
+      {
+        "start": 209.12,
+        "end": 209.78,
+        "word": " who"
+      },
+      {
+        "start": 209.78,
+        "end": 209.94,
+        "word": " have"
+      },
+      {
+        "start": 209.94,
+        "end": 210.28,
+        "word": " nothing"
+      },
+      {
+        "start": 210.28,
+        "end": 210.76,
+        "word": " to"
+      },
+      {
+        "start": 210.76,
+        "end": 210.94,
+        "word": " do"
+      },
+      {
+        "start": 210.94,
+        "end": 211.2,
+        "word": " with"
+      },
+      {
+        "start": 211.2,
+        "end": 211.46,
+        "word": " Daniel"
+      },
+      {
+        "start": 211.46,
+        "end": 211.88,
+        "word": " disappearing."
+      },
+      {
+        "start": 213.2,
+        "end": 213.38,
+        "word": " We"
+      },
+      {
+        "start": 213.38,
+        "end": 213.56,
+        "word": " should"
+      },
+      {
+        "start": 213.56,
+        "end": 213.7,
+        "word": " be"
+      },
+      {
+        "start": 213.7,
+        "end": 214.0,
+        "word": " careful"
+      },
+      {
+        "start": 214.0,
+        "end": 214.34,
+        "word": " about"
+      },
+      {
+        "start": 214.34,
+        "end": 214.62,
+        "word": " that."
+      }
+    ]
+  },
+  {
+    "start": 215.96,
+    "end": 223.9,
+    "text": " Maya's already worried enough. And Lucas, well, you saw how he reacted to you being in the group.",
+    "words": [
+      {
+        "start": 215.96,
+        "end": 216.5,
+        "word": " Maya's"
+      },
+      {
+        "start": 216.5,
+        "end": 216.78,
+        "word": " already"
+      },
+      {
+        "start": 216.78,
+        "end": 217.14,
+        "word": " worried"
+      },
+      {
+        "start": 217.14,
+        "end": 217.48,
+        "word": " enough."
+      },
+      {
+        "start": 218.8,
+        "end": 219.02,
+        "word": " And"
+      },
+      {
+        "start": 219.02,
+        "end": 219.28,
+        "word": " Lucas,"
+      },
+      {
+        "start": 220.02,
+        "end": 220.38,
+        "word": " well,"
+      },
+      {
+        "start": 221.46,
+        "end": 221.64,
+        "word": " you"
+      },
+      {
+        "start": 221.64,
+        "end": 221.86,
+        "word": " saw"
+      },
+      {
+        "start": 221.86,
+        "end": 222.16,
+        "word": " how"
+      },
+      {
+        "start": 222.16,
+        "end": 222.32,
+        "word": " he"
+      },
+      {
+        "start": 222.32,
+        "end": 222.66,
+        "word": " reacted"
+      },
+      {
+        "start": 222.66,
+        "end": 223.08,
+        "word": " to"
+      },
+      {
+        "start": 223.08,
+        "end": 223.18,
+        "word": " you"
+      },
+      {
+        "start": 223.18,
+        "end": 223.4,
+        "word": " being"
+      },
+      {
+        "start": 223.4,
+        "end": 223.56,
+        "word": " in"
+      },
+      {
+        "start": 223.56,
+        "end": 223.66,
+        "word": " the"
+      },
+      {
+        "start": 223.66,
+        "end": 223.9,
+        "word": " group."
+      }
+    ]
+  },
+  {
+    "start": 224.68,
+    "end": 230.68,
+    "text": " I don't think showing everyone a strange warning without knowing what it means is going to help.",
+    "words": [
+      {
+        "start": 224.68,
+        "end": 225.28,
+        "word": " I"
+      },
+      {
+        "start": 225.28,
+        "end": 225.66,
+        "word": " don't"
+      },
+      {
+        "start": 225.66,
+        "end": 225.8,
+        "word": " think"
+      },
+      {
+        "start": 225.8,
+        "end": 226.08,
+        "word": " showing"
+      },
+      {
+        "start": 226.08,
+        "end": 226.62,
+        "word": " everyone"
+      },
+      {
+        "start": 226.62,
+        "end": 226.84,
+        "word": " a"
+      },
+      {
+        "start": 226.84,
+        "end": 227.2,
+        "word": " strange"
+      },
+      {
+        "start": 227.2,
+        "end": 227.8,
+        "word": " warning"
+      },
+      {
+        "start": 227.8,
+        "end": 228.58,
+        "word": " without"
+      },
+      {
+        "start": 228.58,
+        "end": 229.06,
+        "word": " knowing"
+      },
+      {
+        "start": 229.06,
+        "end": 229.32,
+        "word": " what"
+      },
+      {
+        "start": 229.32,
+        "end": 229.42,
+        "word": " it"
+      },
+      {
+        "start": 229.42,
+        "end": 229.64,
+        "word": " means"
+      },
+      {
+        "start": 229.64,
+        "end": 230.04,
+        "word": " is"
+      },
+      {
+        "start": 230.04,
+        "end": 230.26,
+        "word": " going"
+      },
+      {
+        "start": 230.26,
+        "end": 230.44,
+        "word": " to"
+      },
+      {
+        "start": 230.44,
+        "end": 230.68,
+        "word": " help."
+      }
+    ]
+  },
+  {
+    "start": 232.12,
+    "end": 237.76,
+    "text": " There's something else I want to check. Daniel kept some old papers in the same folder.",
+    "words": [
+      {
+        "start": 232.12,
+        "end": 232.72,
+        "word": " There's"
+      },
+      {
+        "start": 232.72,
+        "end": 232.96,
+        "word": " something"
+      },
+      {
+        "start": 232.96,
+        "end": 233.22,
+        "word": " else"
+      },
+      {
+        "start": 233.22,
+        "end": 233.4,
+        "word": " I"
+      },
+      {
+        "start": 233.4,
+        "end": 233.54,
+        "word": " want"
+      },
+      {
+        "start": 233.54,
+        "end": 233.66,
+        "word": " to"
+      },
+      {
+        "start": 233.66,
+        "end": 233.92,
+        "word": " check."
+      },
+      {
+        "start": 235.1,
+        "end": 235.68,
+        "word": " Daniel"
+      },
+      {
+        "start": 235.68,
+        "end": 235.88,
+        "word": " kept"
+      },
+      {
+        "start": 235.88,
+        "end": 236.16,
+        "word": " some"
+      },
+      {
+        "start": 236.16,
+        "end": 236.32,
+        "word": " old"
+      },
+      {
+        "start": 236.32,
+        "end": 236.72,
+        "word": " papers"
+      },
+      {
+        "start": 236.72,
+        "end": 237.04,
+        "word": " in"
+      },
+      {
+        "start": 237.04,
+        "end": 237.12,
+        "word": " the"
+      },
+      {
+        "start": 237.12,
+        "end": 237.34,
+        "word": " same"
+      },
+      {
+        "start": 237.34,
+        "end": 237.76,
+        "word": " folder."
+      }
+    ]
+  },
+  {
+    "start": 238.9,
+    "end": 244.96,
+    "text": " I remember seeing them, but I haven't gone through everything properly. I'm going to look again,",
+    "words": [
+      {
+        "start": 238.9,
+        "end": 239.06,
+        "word": " I"
+      },
+      {
+        "start": 239.06,
+        "end": 239.28,
+        "word": " remember"
+      },
+      {
+        "start": 239.28,
+        "end": 239.72,
+        "word": " seeing"
+      },
+      {
+        "start": 239.72,
+        "end": 240.08,
+        "word": " them,"
+      },
+      {
+        "start": 240.24,
+        "end": 240.42,
+        "word": " but"
+      },
+      {
+        "start": 240.42,
+        "end": 241.16,
+        "word": " I"
+      },
+      {
+        "start": 241.16,
+        "end": 241.54,
+        "word": " haven't"
+      },
+      {
+        "start": 241.54,
+        "end": 241.68,
+        "word": " gone"
+      },
+      {
+        "start": 241.68,
+        "end": 241.94,
+        "word": " through"
+      },
+      {
+        "start": 241.94,
+        "end": 242.22,
+        "word": " everything"
+      },
+      {
+        "start": 242.22,
+        "end": 242.66,
+        "word": " properly."
+      },
+      {
+        "start": 243.84,
+        "end": 244.18,
+        "word": " I'm"
+      },
+      {
+        "start": 244.18,
+        "end": 244.34,
+        "word": " going"
+      },
+      {
+        "start": 244.34,
+        "end": 244.52,
+        "word": " to"
+      },
+      {
+        "start": 244.52,
+        "end": 244.7,
+        "word": " look"
+      },
+      {
+        "start": 244.7,
+        "end": 244.96,
+        "word": " again,"
+      }
+    ]
+  },
+  {
+    "start": 245.74,
+    "end": 253.52,
+    "text": " carefully this time. Maybe there's something that explains the remark. Or at least tells us whether",
+    "words": [
+      {
+        "start": 245.74,
+        "end": 246.08,
+        "word": " carefully"
+      },
+      {
+        "start": 246.08,
+        "end": 246.54,
+        "word": " this"
+      },
+      {
+        "start": 246.54,
+        "end": 246.84,
+        "word": " time."
+      },
+      {
+        "start": 247.66,
+        "end": 248.26,
+        "word": " Maybe"
+      },
+      {
+        "start": 248.26,
+        "end": 248.6,
+        "word": " there's"
+      },
+      {
+        "start": 248.6,
+        "end": 248.9,
+        "word": " something"
+      },
+      {
+        "start": 248.9,
+        "end": 249.14,
+        "word": " that"
+      },
+      {
+        "start": 249.14,
+        "end": 249.48,
+        "word": " explains"
+      },
+      {
+        "start": 249.48,
+        "end": 249.78,
+        "word": " the"
+      },
+      {
+        "start": 249.78,
+        "end": 250.0,
+        "word": " remark."
+      },
+      {
+        "start": 251.28,
+        "end": 251.52,
+        "word": " Or"
+      },
+      {
+        "start": 251.52,
+        "end": 252.36,
+        "word": " at"
+      },
+      {
+        "start": 252.36,
+        "end": 252.56,
+        "word": " least"
+      },
+      {
+        "start": 252.56,
+        "end": 252.98,
+        "word": " tells"
+      },
+      {
+        "start": 252.98,
+        "end": 253.26,
+        "word": " us"
+      },
+      {
+        "start": 253.26,
+        "end": 253.52,
+        "word": " whether"
+      }
+    ]
+  },
+  {
+    "start": 253.52,
+    "end": 260.56,
+    "text": " Daniel actually wrote it. You know what's really bothering me? I called you because I",
+    "words": [
+      {
+        "start": 253.52,
+        "end": 253.94,
+        "word": " Daniel"
+      },
+      {
+        "start": 253.94,
+        "end": 254.46,
+        "word": " actually"
+      },
+      {
+        "start": 254.46,
+        "end": 254.92,
+        "word": " wrote"
+      },
+      {
+        "start": 254.92,
+        "end": 255.18,
+        "word": " it."
+      },
+      {
+        "start": 255.96,
+        "end": 256.54,
+        "word": " You"
+      },
+      {
+        "start": 256.54,
+        "end": 256.72,
+        "word": " know"
+      },
+      {
+        "start": 256.72,
+        "end": 256.98,
+        "word": " what's"
+      },
+      {
+        "start": 256.98,
+        "end": 257.24,
+        "word": " really"
+      },
+      {
+        "start": 257.24,
+        "end": 257.62,
+        "word": " bothering"
+      },
+      {
+        "start": 257.62,
+        "end": 258.1,
+        "word": " me?"
+      },
+      {
+        "start": 258.92,
+        "end": 259.52,
+        "word": " I"
+      },
+      {
+        "start": 259.52,
+        "end": 259.78,
+        "word": " called"
+      },
+      {
+        "start": 259.78,
+        "end": 260.12,
+        "word": " you"
+      },
+      {
+        "start": 260.12,
+        "end": 260.4,
+        "word": " because"
+      },
+      {
+        "start": 260.4,
+        "end": 260.56,
+        "word": " I"
+      }
+    ]
+  },
+  {
+    "start": 260.56,
+    "end": 267.08,
+    "text": " thought that number might help us find him. And now? I don't even know whether I was supposed",
+    "words": [
+      {
+        "start": 260.56,
+        "end": 260.8,
+        "word": " thought"
+      },
+      {
+        "start": 260.8,
+        "end": 261.0,
+        "word": " that"
+      },
+      {
+        "start": 261.0,
+        "end": 261.38,
+        "word": " number"
+      },
+      {
+        "start": 261.38,
+        "end": 261.68,
+        "word": " might"
+      },
+      {
+        "start": 261.68,
+        "end": 262.0,
+        "word": " help"
+      },
+      {
+        "start": 262.0,
+        "end": 262.2,
+        "word": " us"
+      },
+      {
+        "start": 262.2,
+        "end": 262.42,
+        "word": " find"
+      },
+      {
+        "start": 262.42,
+        "end": 262.74,
+        "word": " him."
+      },
+      {
+        "start": 263.8,
+        "end": 263.94,
+        "word": " And"
+      },
+      {
+        "start": 263.94,
+        "end": 264.18,
+        "word": " now?"
+      },
+      {
+        "start": 265.1,
+        "end": 265.6,
+        "word": " I"
+      },
+      {
+        "start": 265.6,
+        "end": 265.82,
+        "word": " don't"
+      },
+      {
+        "start": 265.82,
+        "end": 265.94,
+        "word": " even"
+      },
+      {
+        "start": 265.94,
+        "end": 266.24,
+        "word": " know"
+      },
+      {
+        "start": 266.24,
+        "end": 266.56,
+        "word": " whether"
+      },
+      {
+        "start": 266.56,
+        "end": 266.76,
+        "word": " I"
+      },
+      {
+        "start": 266.76,
+        "end": 266.86,
+        "word": " was"
+      },
+      {
+        "start": 266.86,
+        "end": 267.08,
+        "word": " supposed"
+      }
+    ]
+  },
+  {
+    "start": 267.08,
+    "end": 273.74,
+    "text": " to call it in the first place. I keep telling myself it could mean absolutely nothing.",
+    "words": [
+      {
+        "start": 267.08,
+        "end": 267.3,
+        "word": " to"
+      },
+      {
+        "start": 267.3,
+        "end": 267.56,
+        "word": " call"
+      },
+      {
+        "start": 267.56,
+        "end": 267.8,
+        "word": " it"
+      },
+      {
+        "start": 267.8,
+        "end": 267.96,
+        "word": " in"
+      },
+      {
+        "start": 267.96,
+        "end": 268.06,
+        "word": " the"
+      },
+      {
+        "start": 268.06,
+        "end": 268.24,
+        "word": " first"
+      },
+      {
+        "start": 268.24,
+        "end": 268.64,
+        "word": " place."
+      },
+      {
+        "start": 270.1,
+        "end": 270.66,
+        "word": " I"
+      },
+      {
+        "start": 270.66,
+        "end": 270.86,
+        "word": " keep"
+      },
+      {
+        "start": 270.86,
+        "end": 271.16,
+        "word": " telling"
+      },
+      {
+        "start": 271.16,
+        "end": 271.6,
+        "word": " myself"
+      },
+      {
+        "start": 271.6,
+        "end": 272.0,
+        "word": " it"
+      },
+      {
+        "start": 272.0,
+        "end": 272.12,
+        "word": " could"
+      },
+      {
+        "start": 272.12,
+        "end": 272.3,
+        "word": " mean"
+      },
+      {
+        "start": 272.3,
+        "end": 272.94,
+        "word": " absolutely"
+      },
+      {
+        "start": 272.94,
+        "end": 273.74,
+        "word": " nothing."
+      }
+    ]
+  },
+  {
+    "start": 274.64,
+    "end": 282.3,
+    "text": " Just an old note, or some mistake in the file. But every time I try to convince myself of that,",
+    "words": [
+      {
+        "start": 274.64,
+        "end": 275.02,
+        "word": " Just"
+      },
+      {
+        "start": 275.02,
+        "end": 275.26,
+        "word": " an"
+      },
+      {
+        "start": 275.26,
+        "end": 275.42,
+        "word": " old"
+      },
+      {
+        "start": 275.42,
+        "end": 275.7,
+        "word": " note,"
+      },
+      {
+        "start": 276.44,
+        "end": 276.72,
+        "word": " or"
+      },
+      {
+        "start": 276.72,
+        "end": 277.26,
+        "word": " some"
+      },
+      {
+        "start": 277.26,
+        "end": 277.66,
+        "word": " mistake"
+      },
+      {
+        "start": 277.66,
+        "end": 277.94,
+        "word": " in"
+      },
+      {
+        "start": 277.94,
+        "end": 278.02,
+        "word": " the"
+      },
+      {
+        "start": 278.02,
+        "end": 278.34,
+        "word": " file."
+      },
+      {
+        "start": 279.3,
+        "end": 279.6,
+        "word": " But"
+      },
+      {
+        "start": 279.6,
+        "end": 280.04,
+        "word": " every"
+      },
+      {
+        "start": 280.04,
+        "end": 280.5,
+        "word": " time"
+      },
+      {
+        "start": 280.5,
+        "end": 280.74,
+        "word": " I"
+      },
+      {
+        "start": 280.74,
+        "end": 280.9,
+        "word": " try"
+      },
+      {
+        "start": 280.9,
+        "end": 281.08,
+        "word": " to"
+      },
+      {
+        "start": 281.08,
+        "end": 281.38,
+        "word": " convince"
+      },
+      {
+        "start": 281.38,
+        "end": 281.84,
+        "word": " myself"
+      },
+      {
+        "start": 281.84,
+        "end": 282.04,
+        "word": " of"
+      },
+      {
+        "start": 282.04,
+        "end": 282.3,
+        "word": " that,"
+      }
+    ]
+  },
+  {
+    "start": 283.08000000000004,
+    "end": 293.7,
+    "text": " I think about Daniel and how he just disappeared. I don't want to jump to conclusions. I just",
+    "words": [
+      {
+        "start": 283.08000000000004,
+        "end": 283.6,
+        "word": " I"
+      },
+      {
+        "start": 283.6,
+        "end": 283.86,
+        "word": " think"
+      },
+      {
+        "start": 283.86,
+        "end": 284.1,
+        "word": " about"
+      },
+      {
+        "start": 284.1,
+        "end": 284.48,
+        "word": " Daniel"
+      },
+      {
+        "start": 284.48,
+        "end": 285.96,
+        "word": " and"
+      },
+      {
+        "start": 285.96,
+        "end": 286.24,
+        "word": " how"
+      },
+      {
+        "start": 286.24,
+        "end": 286.48,
+        "word": " he"
+      },
+      {
+        "start": 286.48,
+        "end": 286.74,
+        "word": " just"
+      },
+      {
+        "start": 286.74,
+        "end": 288.1,
+        "word": " disappeared."
+      },
+      {
+        "start": 290.2,
+        "end": 290.42,
+        "word": " I"
+      },
+      {
+        "start": 290.42,
+        "end": 290.72,
+        "word": " don't"
+      },
+      {
+        "start": 290.72,
+        "end": 290.86,
+        "word": " want"
+      },
+      {
+        "start": 290.86,
+        "end": 290.98,
+        "word": " to"
+      },
+      {
+        "start": 290.98,
+        "end": 291.18,
+        "word": " jump"
+      },
+      {
+        "start": 291.18,
+        "end": 291.36,
+        "word": " to"
+      },
+      {
+        "start": 291.36,
+        "end": 291.84,
+        "word": " conclusions."
+      },
+      {
+        "start": 293.18,
+        "end": 293.38,
+        "word": " I"
+      },
+      {
+        "start": 293.38,
+        "end": 293.7,
+        "word": " just"
+      }
+    ]
+  },
+  {
+    "start": 294.8,
+    "end": 302.12,
+    "text": " I don't want to make another mistake. Thank you for listening. I'll send you the",
+    "words": [
+      {
+        "start": 294.8,
+        "end": 295.32,
+        "word": " I"
+      },
+      {
+        "start": 295.32,
+        "end": 295.84,
+        "word": " don't"
+      },
+      {
+        "start": 295.84,
+        "end": 295.98,
+        "word": " want"
+      },
+      {
+        "start": 295.98,
+        "end": 296.06,
+        "word": " to"
+      },
+      {
+        "start": 296.06,
+        "end": 296.28,
+        "word": " make"
+      },
+      {
+        "start": 296.28,
+        "end": 296.66,
+        "word": " another"
+      },
+      {
+        "start": 296.66,
+        "end": 297.22,
+        "word": " mistake."
+      },
+      {
+        "start": 298.7,
+        "end": 299.22,
+        "word": " Thank"
+      },
+      {
+        "start": 299.22,
+        "end": 299.46,
+        "word": " you"
+      },
+      {
+        "start": 299.46,
+        "end": 299.62,
+        "word": " for"
+      },
+      {
+        "start": 299.62,
+        "end": 300.0,
+        "word": " listening."
+      },
+      {
+        "start": 301.26,
+        "end": 301.64,
+        "word": " I'll"
+      },
+      {
+        "start": 301.64,
+        "end": 301.86,
+        "word": " send"
+      },
+      {
+        "start": 301.86,
+        "end": 302.02,
+        "word": " you"
+      },
+      {
+        "start": 302.02,
+        "end": 302.12,
+        "word": " the"
+      }
+    ]
+  },
+  {
+    "start": 302.12,
+    "end": 306.94,
+    "text": " file so you can look at it yourself. And if you find anything strange,",
+    "words": [
+      {
+        "start": 302.12,
+        "end": 302.4,
+        "word": " file"
+      },
+      {
+        "start": 302.4,
+        "end": 302.66,
+        "word": " so"
+      },
+      {
+        "start": 302.66,
+        "end": 302.8,
+        "word": " you"
+      },
+      {
+        "start": 302.8,
+        "end": 302.96,
+        "word": " can"
+      },
+      {
+        "start": 302.96,
+        "end": 303.12,
+        "word": " look"
+      },
+      {
+        "start": 303.12,
+        "end": 303.3,
+        "word": " at"
+      },
+      {
+        "start": 303.3,
+        "end": 303.42,
+        "word": " it"
+      },
+      {
+        "start": 303.42,
+        "end": 303.7,
+        "word": " yourself."
+      },
+      {
+        "start": 305.18,
+        "end": 305.34,
+        "word": " And"
+      },
+      {
+        "start": 305.34,
+        "end": 305.52,
+        "word": " if"
+      },
+      {
+        "start": 305.52,
+        "end": 305.62,
+        "word": " you"
+      },
+      {
+        "start": 305.62,
+        "end": 305.9,
+        "word": " find"
+      },
+      {
+        "start": 305.9,
+        "end": 306.18,
+        "word": " anything"
+      },
+      {
+        "start": 306.18,
+        "end": 306.94,
+        "word": " strange,"
+      }
+    ]
+  },
+  {
+    "start": 307.64,
+    "end": 320.12,
+    "text": " will you tell me? Okay. I'll check those papers and let you know what I find. And please, be careful.",
+    "words": [
+      {
+        "start": 307.64,
+        "end": 308.32,
+        "word": " will"
+      },
+      {
+        "start": 308.32,
+        "end": 308.48,
+        "word": " you"
+      },
+      {
+        "start": 308.48,
+        "end": 308.68,
+        "word": " tell"
+      },
+      {
+        "start": 308.68,
+        "end": 308.88,
+        "word": " me?"
+      },
+      {
+        "start": 310.48,
+        "end": 311.16,
+        "word": " Okay."
+      },
+      {
+        "start": 312.46,
+        "end": 312.78,
+        "word": " I'll"
+      },
+      {
+        "start": 312.78,
+        "end": 312.98,
+        "word": " check"
+      },
+      {
+        "start": 312.98,
+        "end": 313.2,
+        "word": " those"
+      },
+      {
+        "start": 313.2,
+        "end": 313.54,
+        "word": " papers"
+      },
+      {
+        "start": 313.54,
+        "end": 314.66,
+        "word": " and"
+      },
+      {
+        "start": 314.66,
+        "end": 314.86,
+        "word": " let"
+      },
+      {
+        "start": 314.86,
+        "end": 315.04,
+        "word": " you"
+      },
+      {
+        "start": 315.04,
+        "end": 315.26,
+        "word": " know"
+      },
+      {
+        "start": 315.26,
+        "end": 315.46,
+        "word": " what"
+      },
+      {
+        "start": 315.46,
+        "end": 315.56,
+        "word": " I"
+      },
+      {
+        "start": 315.56,
+        "end": 315.9,
+        "word": " find."
+      },
+      {
+        "start": 317.0,
+        "end": 317.68,
+        "word": " And"
+      },
+      {
+        "start": 317.68,
+        "end": 318.04,
+        "word": " please,"
+      },
+      {
+        "start": 318.68,
+        "end": 319.64,
+        "word": " be"
+      },
+      {
+        "start": 319.64,
+        "end": 320.12,
+        "word": " careful."
+      }
+    ]
+  },
+  {
+    "start": 321.6,
+    "end": 324.08,
+    "text": " Talk soon. Bye.",
+    "words": [
+      {
+        "start": 321.6,
+        "end": 322.28,
+        "word": " Talk"
+      },
+      {
+        "start": 322.28,
+        "end": 322.6,
+        "word": " soon."
+      },
+      {
+        "start": 323.98,
+        "end": 324.08,
+        "word": " Bye."
+      }
+    ]
+  }
+]

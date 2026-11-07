@@ -10,6 +10,7 @@ export function phoneNotices(save: GameSave): PhoneNotice[] {
   const scene = save.prologue?.scene01
   if (scene) {
     const incoming: PhoneNotice[] = scene.messages.filter(line => line.sender === 'sophie').map(line => ({ id: line.id, title: scene.introduced ? 'Sophie' : 'Unknown number', text: line.text, thread: 'sophie', avatar: scene.introduced ? 'sophie' : 'unknown' }))
+    for(const line of save.masterScene04?.messages??[])if(line.sender==='unknown')incoming.push({id:line.id,title:'Unknown',text:line.text,thread:'unknown',avatar:'unknown'})
     for(const line of visibleUnknownMessages(save))if(line.sender==='unknown')incoming.push({id:line.id,title:scene.scriptRevision?'Unknown Number':'Unknown Sender',text:line.id==='CH1-ARCHIVE-FIRST'&&traceBridgeV3(save)?'New message':line.text,thread:'unknown',avatar:'unknown'})
     for(const line of save.messages)if(line.id.startsWith('CH1-')&&line.sender!=='player'&&['nora','eli','maya','lucas'].includes(line.sender))incoming.push({id:line.id,title:names[line.sender],text:line.text,thread:line.sender as PhoneNotice['thread'],avatar:line.sender})
     incoming.push(...scene.groupMessages.filter(line => line.sender !== 'system' && line.sender !== 'player').map(line => ({ id: line.id, title: 'FIND DANIEL', text: `${line.sender[0].toUpperCase() + line.sender.slice(1)}: ${line.text}`, thread: 'group' as const, avatar: line.sender })))

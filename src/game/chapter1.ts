@@ -128,7 +128,7 @@ export function chapter1Action(input:GameSave,a:Chapter1Action,now=Date.now()):G
   if(a.type==='tick'){
     s=canonicalTick(s,now)
     s=inventoryFinaleTick(secondaryCardTick(lastCheckInTick(starredNumberTick(sourceTick(deskTick(s,now),now),now),now),now),now)
-    if(s.prologue?.scene01?.scriptRevision&&s.prologue.scene01.privateScene03?.complete&&!publicStoryHas(s,'lead-scheduled')){
+    if(s.prologue?.scene01?.scriptRevision&&!s.prologue.scene01.masterScene01&&s.prologue.scene01.privateScene03?.complete&&!publicStoryHas(s,'lead-scheduled')){
       s=publicStoryPut(s,{flags:['lead-scheduled']})
       s={...s,pendingEvents:[...s.pendingEvents,{id:'CH1-S04-LEAD',dueAt:(s.prologue?.scene01?.privateScene03?.completedAt??now)+10000}]}
     }

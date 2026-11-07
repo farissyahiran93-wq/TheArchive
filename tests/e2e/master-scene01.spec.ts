@@ -29,6 +29,17 @@ test('master opening persists choices and invitation without starting scene two'
     await page.locator('.scene01-options .opening-choice').nth(i === 9 ? 2 : 0).click()
     await page.getByRole('button', { name: 'Send', exact: true }).click()
     await page.clock.runFor(120000)
+    if (i === 1) {
+      await page.getByRole('button', { name: /Open Sophie.s photo: Birthday photograph/ }).click()
+      await expect(page.getByRole('dialog', { name: 'Photo viewer' })).toBeVisible()
+      await page.getByRole('button', { name: 'Close photo' }).click()
+      await page.getByRole('button', { name: 'REPLY ABOUT PHOTO' }).click()
+      const replies = page.getByLabel('Reply about family photo')
+      await expect(replies.locator('.opening-choice')).toHaveCount(3)
+      await replies.locator('.opening-choice').first().click()
+      await page.getByRole('button', { name: 'Send photo reply' }).click()
+      await expect(page.locator('.opening-bubble.sophie').getByText("Thank you for checking. I didn't want you to feel pressured to remember.")).toBeVisible()
+    }
   }
   await expect(page.getByRole('button', { name: 'Reconsider invitation' })).toBeVisible()
   await page.getByRole('button', { name: 'Reconsider invitation' }).click()
