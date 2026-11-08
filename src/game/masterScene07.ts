@@ -8,7 +8,9 @@ const choice=(n:number)=>Number.isInteger(n)&&n>=0&&n<3
 export function masterScene07Action(s:GameSave,a:MasterScene07Action,now=Date.now()):GameSave{
  let p=s.masterScene07
  if(a.type==='start'){
-  if(p||!s.masterScene06?.complete||!s.masterScene06.recovered||!s.masterScene06.saved||!s.masterScene06.reportSent||!s.masterScene05?.recovered||s.masterScene05.packageStatus!=='installed'||!['TA-S06-SOPHIE-EXPORT','TA-S06-REPORT-SENT','TA-S06-COMPLETE'].every(id=>s.deliveredEvents.includes(id)))return s
+  const six=s.masterScene06
+  if(p||!six?.complete||!six.recovered||!six.saved||!s.masterScene05?.recovered||s.masterScene05.packageStatus!=='installed'||!['TA-S06-SOPHIE-EXPORT','TA-S06-COMPLETE'].every(id=>s.deliveredEvents.includes(id)))return s
+  if(six.revision!=='investigation'&&(!six.reportSent||!s.deliveredEvents.includes('TA-S06-REPORT-SENT')))return s
   return {...s,masterScene07:{version:1,conversationRevision:'starred-v2',phase:'ringing',clip:0,lines:[],questioned:false,opened:false,metadata:false,entry:false,star:false,imported:false,analysis:false,saved:false,shareReviewed:false,shareSent:false,shareDeclined:false}}
  }
  if(!p)return s

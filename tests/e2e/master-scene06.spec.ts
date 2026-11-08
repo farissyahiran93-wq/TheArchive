@@ -12,28 +12,31 @@ function ready():GameSave{
  s=settle(openScene03(s,100000))
  for(let i=0;i<10;i++)s=settle(sendScene01Choice(s,'a','',true,140000+i*1000))
  s=masterScene04Action(masterScene04Action(s,{type:'start'},200000),{type:'open'})
- for(let i=0;i<10;i++){s=masterScene04Action(s,{type:'draft',index:0});s=masterScene04Action(s,{type:'send'},210000+i*1000);s=masterScene04Action(s,{type:'tick'},210999+i*1000)}
+ for(let i=0;i<10;i++){s=masterScene04Action(s,{type:'draft',index:0});s=masterScene04Action(s,{type:'send'},210000+i*1000);s=masterScene04Action(s,{type:'tick'},s.masterScene04!.pending!.dueAt)}
  return masterScene04Action(masterScene04Action(s,{type:'inspect'}),{type:'accept'})
 }
 import { masterScene05Action as step5 } from '../../src/game/masterScene05'
 import { masterFragments } from '../../src/content/masterScene05'
 function afterFive():GameSave {
- let s=step5(ready(),{type:'start'})
- for(let i=0;i<8;i++){s=step5(s,{type:'draft',index:0});s=step5(s,{type:'send'})}
+ let s=step5(ready(),{type:'start'});s=step5(s,{type:'archive-inspect'});s=step5(s,{type:'archive-risks'});s=step5(s,{type:'archive-accept'})
+ for(let i=0;i<8;i++){s=step5(s,{type:'draft',index:0});s=step5(s,{type:'send'});s=step5(s,{type:'tick'},s.masterScene05!.pending!.dueAt)}
  s=step5(s,{type:'inspect'});s=step5(s,{type:'risks'});s=step5(s,{type:'install'});s=step5(s,{type:'open-trace'});s=step5(s,{type:'select'});s=step5(s,{type:'recover'})
  for(const f of masterFragments)s=step5(s,{type:'read',id:f.id})
  s=step5(s,{type:'save',id:masterFragments[0].id})
- for(let i=0;i<2;i++){s=step5(s,{type:'draft',index:0});s=step5(s,{type:'send'})}
+ for(let i=0;i<2;i++){s=step5(s,{type:'draft',index:0});s=step5(s,{type:'send'});s=step5(s,{type:'tick'},s.masterScene05!.pending!.dueAt)}
+ if(s.masterScene05?.pending)s=step5(s,{type:'tick'},s.masterScene05.pending.dueAt)
  return s
 }
-test('Scene 6 reconstructs an uncertain timeline and requires an explicit report',async({page})=>{
- await seedScene(page,afterFive())
+test('Legacy Scene 6 preserves the earlier timeline and report flow',async({page})=>{
+ const save=afterFive()
+ await seedScene(page,{...save,masterScene05:{...save.masterScene05!,revision:undefined}})
  await page.getByRole('button',{name:'Open Messages',exact:true}).first().click()
  await page.getByRole('button',{name:'Open Unknown conversation'}).click()
  await page.getByRole('button',{name:'START SCENE 6'}).click()
  for(let i=0;i<8;i++){await expect(page.locator('.scene01-options .opening-choice')).toHaveCount(3);await page.locator('.scene01-options .opening-choice').nth(i%3).click();await page.getByRole('button',{name:'Send',exact:true}).click()}
  await page.getByRole('button',{name:'Go home'}).click();await page.getByRole('button',{name:'Open TRACE'}).click()
  await expect(page.getByText('Recovery: 12%')).toBeVisible()
+ await page.getByRole('button',{name:'Open Activity Logs module'}).click()
  await page.getByRole('button',{name:'START ACTIVITY LOG RECOVERY'}).click()
  await expect(page.getByText('Recovery: 20%')).toBeVisible()
  await page.getByRole('button',{name:'OPEN ACTIVITY LOGS & TIMELINE'}).click()

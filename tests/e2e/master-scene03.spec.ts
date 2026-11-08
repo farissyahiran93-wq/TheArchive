@@ -53,7 +53,7 @@ test('private handoff opens manually, preserves draft after reload and ends offl
   await page.getByRole('button',{name:'Close photo'}).click()
   await expect(page.getByText('Goodbye.',{exact:true})).toHaveCount(1)
   await expect(page.getByText('Sophie is offline.',{exact:true})).toBeVisible()
-  await expect(page.getByText('Scene 4 — The Unknown Sender is unlocked. Its conversation is not available yet.')).toBeVisible()
+  await expect(page.getByText('Scene 4 — The Unknown Sender is unlocked. Open Messages to continue.')).toBeVisible()
   await expect(page.getByText("I know you're looking for Daniel.",{exact:true})).toHaveCount(0)
   await expect(page.getByText('I found that article. The one I mentioned.',{exact:true})).toHaveCount(0)
 })

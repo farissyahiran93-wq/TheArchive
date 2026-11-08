@@ -1,13 +1,20 @@
 import { useState } from 'react'
 import { activityEvents } from '../content/masterScene06'
 import { masterFragments } from '../content/masterScene05'
-import { timelineReady } from '../game/masterScene06'
+import { canDocumentMissingHour, timelineReady } from '../game/masterScene06'
 import { useGameStore } from '../game/store'
 export function MasterTimeline({onSource}:{onSource:(id:string)=>void}){
  const p=useGameStore(s=>s.save.masterScene06),act=useGameStore(s=>s.masterScene06Action)
  const [selected,setSelected]=useState<string>()
  if(!p)return null
  const event=activityEvents.find(e=>e.id===selected)
+ if(p.revision==='investigation')return <article className="trace-module trace-activity" aria-label="Timeline Reconstruction">
+  <small>PARTIAL RECOVERY · DEVICE TIMES</small><h1>Recovered Activity Logs</h1><p>Choose any event to see what TRACE recovered. The source and device clock remain unverified.</p>
+  <ol className="trace-activity-list">{activityEvents.map(e=><li key={e.id}><button className="trace-item" aria-expanded={selected===e.id} onClick={()=>{act({type:'inspect',id:e.id});setSelected(selected===e.id?undefined:e.id)}}><time>{e.time}</time><strong>{e.kind}</strong></button>{selected===e.id&&<section className="trace-summary" aria-label="Activity event details"><strong>{e.kind}</strong><p>{e.text}</p><p>{e.uncertainty}</p>{e.id===activityEvents[3].id&&<p>A separate partial receipt displays 20:02 UTC. The offset and clock accuracy are unknown, so it cannot establish a two-minute delay.</p>}<details><summary>Source metadata</summary><p>{e.id} · {e.raw} · device local, offset unknown</p></details></section>}</li>)}</ol>
+  {event&&<p>Compare this record with a recovered fragment. The fragment timestamps are unavailable.</p>}
+  {event&&<details><summary>Compare Messages and Notes</summary>{masterFragments.map((f,i)=><button className="trace-action" key={f.id} onClick={()=>onSource(f.id)}>{['Family Thread','June Thread','Dinner Reminder','Greyhaven Records'][i]}</button>)}</details>}
+  {canDocumentMissingHour(p)&&<section className="trace-summary"><h2>19:00–20:00 · Unresolved interval</h2><p>No readable entry falls between the recorded file access and the automatic sync. This copy cannot establish why, who was present, or where Daniel was.</p><button className="trace-action" disabled={p.saved} onClick={()=>act({type:'save'})}>{p.saved?'FINDING SAVED':'SAVE FINDING'}</button></section>}
+ </article>
  return <article aria-label="Timeline Reconstruction"><h3>Recovered Activity Logs</h3><p>Source: TA-PH-ACTIVITY-01 · partial · origin and clock unverified. Device-local times; UTC offset and clock accuracy unavailable.</p>
  {activityEvents.map(e=><button className="opening-choice" key={e.id} onClick={()=>{act({type:'inspect',id:e.id});setSelected(e.id)}}>{e.time} · {e.kind} · {p.inspected.includes(e.id)?'inspected':'inspect'}</button>)}
  {event&&<section aria-label="Activity event details"><h4>{event.kind}</h4><p>Evidence ID: {event.id} · Source file: TA-PH-ACTIVITY-01</p><p>Original: {event.raw} · Display: 26 Oct 2026 {event.time} · Timezone: device local, offset unknown</p><p>Partial recovery · verification unverified</p><p>{event.text}</p><p>{event.uncertainty}</p>{event.id==='TA-PH-ACTIVITY-01-SYNC'&&<p>The partial sync receipt separately displays 20:02 UTC. The device offset and clock accuracy are unknown, so the two readings cannot establish a two-minute delay.</p>}<button className="opening-choice" disabled={p.order.includes(event.id)} onClick={()=>act({type:'add',id:event.id})}>ADD TO TIMELINE</button></section>}

@@ -23,4 +23,30 @@ it('gates recovery, orders inspected events, saves privately and explicitly send
  s=act(s,{type:'report-draft',index:2});s=act(s,{type:'review-report'});expect(s.deliveredEvents).not.toContain('TA-S06-REPORT-SENT');s=act(s,{type:'send-report'});s=reload(s)
  for(let i=0;i<2;i++){s=act(s,{type:'draft',index:1});s=act(s,{type:'send'})}
  expect(s.masterScene06?.complete).toBe(true);expect(s.deliveredEvents).toContain('TA-S06-SCENE07-UNLOCKED');expect(reload(s).masterScene06?.order).toEqual(activityEvents.map(e=>e.id))
+})
+it('reopens an interrupted reply and lets the player document the gap without a checklist or mandatory report',()=>{
+ const base=ready()
+ let s=act({...base,masterScene05:{...base.masterScene05!,revision:'trace-first',archiveStatus:'accepted',archiveInspected:true,archiveRisks:true}},{type:'start'},1000)
+ expect(act(s,{type:'recover'})).toBe(s)
+ s=reload(s)
+ const tick=()=>{s=act(s,{type:'tick'},s.masterScene06!.pending!.dueAt)}
+ tick()
+ s=act(s,{type:'recover'})
+ expect(scene06Units(s.masterScene06)).toBe(80)
+ s=act(s,{type:'inspect',id:activityEvents[3].id})
+ expect(act(s,{type:'save'})).toBe(s)
+ s=act(s,{type:'inspect',id:activityEvents[2].id})
+ s=act(s,{type:'save'})
+ expect(s.masterScene06?.order).toEqual([])
+ expect(s.evidence['TA-FN-MISSING-HOUR'].verified).toBe(false)
+ for(let i=0;i<2;i++){
+  s=act(s,{type:'draft',index:2});s=act(s,{type:'send'})
+  expect(act(s,{type:'send'})).toBe(s)
+  s=reload(s);tick()
+ }
+ expect(s.deliveredEvents).not.toContain('TA-S06-SCENE07-UNLOCKED')
+ tick()
+ expect(s.deliveredEvents).toContain('TA-S06-SCENE07-UNLOCKED')
+ expect(s.deliveredEvents).not.toContain('TA-S06-REPORT-SENT')
+ expect(s.masterScene06?.messages.filter(m=>m.id==='TA-S06-CLOSE')).toHaveLength(1)
 })})
