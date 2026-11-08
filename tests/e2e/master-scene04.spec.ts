@@ -36,14 +36,14 @@ test('fresh game reaches Unknown after the actual first three scenes without lea
  await expect(page.locator('[aria-label="Unknown conversation"]')).toHaveCount(0)
  await page.getByRole('button',{name:'Back to inbox'}).click()
  await page.getByRole('button',{name:'Open Unknown conversation',exact:true}).click()
- await expect(page.getByText("I know you're looking for Daniel.",{exact:true})).toHaveCount(1)
+ await expect(page.getByRole('region',{name:'Unknown conversation'}).getByText("I know you're looking for Daniel.",{exact:true})).toHaveCount(1)
 })
-test('Unknown arrives on Home; archive inspection, refusal and acceptance are explicit and persisted',async({page})=>{
+test('Unknown arrives on Home and the TRACE preview and decision survive reload',async({page})=>{
  await seedScene(page,before())
  await expect(page.locator('[aria-label="Unknown conversation"]')).toHaveCount(0)
  await page.getByRole('button',{name:'Open Messages',exact:true}).first().click()
  await page.getByRole('button',{name:'Open Unknown conversation',exact:true}).click()
- await expect(page.getByText("I know you're looking for Daniel.",{exact:true})).toHaveCount(1)
+ await expect(page.getByRole('region',{name:'Unknown conversation'}).getByText("I know you're looking for Daniel.",{exact:true})).toHaveCount(1)
  for(let i=0;i<10;i++){
   await expect(page.locator('.scene01-options .opening-choice')).toHaveCount(3)
   await page.locator('.scene01-options .opening-choice').nth(i%3).click()
@@ -63,7 +63,7 @@ test('Unknown arrives on Home; archive inspection, refusal and acceptance are ex
  await page.getByRole('button',{name:'Unlock phone',exact:true}).click()
  await page.getByRole('button',{name:'Open Messages',exact:true}).first().click()
  await page.getByRole('button',{name:'Open Unknown conversation',exact:true}).click()
- await expect(page.getByText("I know you're looking for Daniel.",{exact:true})).toHaveCount(1)
+ await expect(page.getByRole('region',{name:'Unknown conversation'}).getByText("I know you're looking for Daniel.",{exact:true})).toHaveCount(1)
  await expect(page.getByText('Declined for now',{exact:true})).toBeVisible()
  await page.getByRole('button',{name:'RECONSIDER OFFER'}).click()
  await page.getByRole('button',{name:'NOT NOW'}).click()
