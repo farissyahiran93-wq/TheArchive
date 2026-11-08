@@ -121,6 +121,9 @@ export const masterScene05Beats = [
   }
 ] as const
 
+/** Follow-up for players who already discussed TRACE before receiving the archive. */
+export const traceFirstScene05Beats=masterScene05Beats.map((beat,i)=>i===0?{choices:['Can TRACE examine this copy?','What should I do with the archive?','I still need to decide whether to use TRACE.'],replies:["If you choose to install it, TRACE can work on a copy and show which fragments become readable.","Review the archive and TRACE's stated limits first. You control whether either is used.","That is your decision. Inspect the package details before installing anything."]}:beat)
+
 export const masterFragments = [
   { id:'TA-PH-MESSAGE-FAMILY-01', category:'Messages', units:30, body:"Daniel: I found the biscuits you like. Don't tell Sophie I bought two packets.", summary:'Daniel mentioned buying biscuits; the surrounding exchange is missing.' },
   { id:'TA-PH-MESSAGE-JUNE-01', category:'Messages', units:30, body:'Daniel: June Ellis said the old records might be worth another look.', summary:'A partial message mentions June Ellis and old records; its recipient and context are unavailable.' },
