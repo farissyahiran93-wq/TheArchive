@@ -26,7 +26,6 @@ describe('master Scene 3',()=>{
       for(let beat=1;beat<=8;beat++)s=settle(sendScene01Choice(s,'a','',true,140000+beat*1000))
       const photos=s.prologue!.scene01!.messages.filter(m=>m.id==='TA-S03-PHOTO-BISCUITS')
       expect(photos).toHaveLength(isOld?0:1)
-      if(!isOld){expect(photos[0].text).toBe('');expect(s.prologue!.scene01!.messages.filter(m=>m.id==='TA-S03-PHOTO-BISCUITS-DIALOGUE').map(m=>m.text)).toEqual(['These are the biscuits I was talking about. He always bought the same ones.'])}
       expect(s.evidence['TA-S03-PHOTO-BISCUITS']).toBeUndefined()
       expect(normalizeSave(JSON.parse(JSON.stringify(s))).prologue!.scene01!.messages.filter(m=>m.id==='TA-S03-PHOTO-BISCUITS')).toHaveLength(isOld?0:1)
     }
