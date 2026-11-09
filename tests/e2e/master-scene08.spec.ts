@@ -19,9 +19,9 @@ function ready():GameSave{
 import { masterScene05Action as step5 } from '../../src/game/masterScene05'
 import { masterFragments } from '../../src/content/masterScene05'
 function afterFive():GameSave {
- let s=step5(ready(),{type:'start'});s=step5(s,{type:'archive-inspect'});s=step5(s,{type:'archive-risks'});s=step5(s,{type:'archive-accept'})
+ let s=step5(step5(ready(),{type:'start'}),{type:'archive-accept'})
  for(let i=0;i<8;i++){s=step5(s,{type:'draft',index:0});s=step5(s,{type:'send'});s=step5(s,{type:'tick'},s.masterScene05!.pending!.dueAt)}
- s=step5(s,{type:'inspect'});s=step5(s,{type:'risks'});s=step5(s,{type:'install'});s=step5(s,{type:'open-trace'});s=step5(s,{type:'select'});s=step5(s,{type:'recover'})
+ s=step5(s,{type:'install'});s=step5(s,{type:'open-trace'});s=step5(s,{type:'recover'})
  for(const f of masterFragments)s=step5(s,{type:'read',id:f.id})
  s=step5(s,{type:'observe',id:masterFragments[0].id})
  s=step5(s,{type:'save',id:masterFragments[0].id})
@@ -38,7 +38,7 @@ function afterSeven(shared=false):GameSave {
  for(let i=0;i<10;i++){s=step7(s,{type:'clip-ended'});s=step7(s,{type:'draft',index:0});s=step7(s,{type:'send'})}
  s=step7(s,{type:'clip-ended'});s=step7(s,{type:'open'});s=step7(s,{type:'record-assessment',id:'copy-provenance'})
  if(shared){s=step7(s,{type:'share-draft',index:0});s=step7(s,{type:'review-share'});s=step7(s,{type:'send-share'})}else s=step7(s,{type:'decline-share'})
- return step7(s,{type:'finish'})
+ return s
 }
 for(const shared of [false,true])test(`Maya crop investigation preserves uncertainty and 20% recovery (shared: ${shared})`,async({page})=>{
  await seedScene(page,afterSeven(shared));await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Maya Scene 8 conversation'}).click();await page.getByRole('button',{name:'OPEN MAYA CONVERSATION'}).click()

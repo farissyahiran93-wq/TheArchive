@@ -22,16 +22,18 @@ function TraceFragment({fragment, progress, act}:{fragment:Fragment;progress:Mas
  const selected=progress.comparison?.includes(id)?progress.comparison.find(source=>source!==id):undefined
  const [target,setTarget]=useState(selected??'')
  const compared=masterFragments.find(item=>item.id===selected)
- const offset=body.indexOf(detail)
- const highlighted=offset>=0&&progress.observations?.includes(id)
+ const recoveredMessage=category==='Messages'&&body.startsWith('Daniel: ')
+ const excerpt=recoveredMessage?body.slice('Daniel: '.length):body
+ const offset=excerpt.indexOf(detail)
+ const highlighted=offset>=0&&!!progress.observations?.includes(id)
  const saved=progress.saved.includes(id)
  return <article className="trace-reader">
   <small>PARTIAL FRAGMENT · {category.toUpperCase()}</small><h1>{title}</h1>
   <p className="trace-source">Archive source unverified · context incomplete</p>
-  <blockquote>{highlighted?<>{body.slice(0,offset)}<mark>{detail}</mark>{body.slice(offset+detail.length)}</>:body}</blockquote>
+  {recoveredMessage&&<p className="trace-message-author">Daniel · recovered excerpt</p>}
+  <blockquote className={recoveredMessage?'trace-message-excerpt':undefined}>{offset>=0?<>{excerpt.slice(0,offset)}{highlighted?<mark>{detail}</mark>:<button type="button" className="trace-citation" aria-label={`Highlight detail: ${detail}`} onClick={()=>act({type:'observe',id})}>{detail}</button>}{excerpt.slice(offset+detail.length)}</>:excerpt}</blockquote>
   <p className="trace-corruption">[Unrecovered segment]</p>
   <details><summary>View metadata</summary><p>Source ID: {id}</p><p>Timestamp unavailable · authenticity unverified</p></details>
-  <button className="trace-action" disabled={highlighted} onClick={()=>act({type:'observe',id})}>Highlight detail</button>
   {highlighted&&<p>{observation}</p>}
   <div className="trace-fragment-compare">
    <label>Compare fragment with <select value={target} onChange={event=>setTarget(event.target.value)}><option value="">Choose another recovered fragment</option>{masterFragments.filter(item=>item.id!==id).map(item=><option key={item.id} value={item.id}>{fragmentExamination[item.id].title}</option>)}</select></label>
@@ -42,6 +44,23 @@ function TraceFragment({fragment, progress, act}:{fragment:Fragment;progress:Mas
   </EvidenceComparison>}
   <button className="trace-action" disabled={!canSaveFragmentFinding(progress,id)} onClick={()=>act({type:'save',id})}>{saved?'FINDING SAVED':'SAVE FINDING'}</button>
  </article>
+}
+
+function RecoveredLibrary({view,recovered,onOpen}:{view:'messages'|'notes';recovered:boolean;onOpen:(id:string)=>void}) {
+ const title=view==='messages'?'Messages':'Notes'
+ const [query,setQuery]=useState('')
+ const search=query.trim().toLocaleLowerCase()
+ const fragments=masterFragments.filter(fragment=>fragment.category===title&&`${fragmentExamination[fragment.id].title} ${fragment.body}`.toLocaleLowerCase().includes(search))
+ return <section className="trace-module"><small>PARTIAL RECOVERY · {view.toUpperCase()}</small><h1>{title}</h1>
+  {recovered?<>
+   <p>Fragments are incomplete and their source is unverified.</p>
+   <label className="trace-record-search">Search recovered {view}<input type="search" value={query} onChange={event=>setQuery(event.target.value)} /></label>
+   {fragments.map(fragment=><button className="trace-item" key={fragment.id} onClick={()=>onOpen(fragment.id)}>
+    <span>{view==='messages'?<Mail size={20}/>:<BookOpen size={20}/>}</span><div><strong>{fragmentExamination[fragment.id].title}</strong><small>Partial {view==='messages'?'conversation':'document'}</small></div><ChevronLeft className="trace-item-arrow" size={18}/>
+   </button>)}
+   {!fragments.length&&<p role="status">No recovered {view} match that search.</p>}
+  </>:<div className="trace-empty"><LockKeyhole/><strong>Locked</strong><p>Run the first recovery pass to make fragments available.</p></div>}
+ </section>
 }
 export function MasterTrace({onHome}:{onHome:()=>void}) {
  const p=useGameStore(s=>s.save.masterScene05),act=useGameStore(s=>s.masterScene05Action)
@@ -63,14 +82,14 @@ export function MasterTrace({onHome}:{onHome:()=>void}) {
   <header className="trace-top"><button onClick={view==='home'?onHome:back} aria-label={view==='home'?'Home':fragment&&p.traceReturn==='timeline'?'RETURN TO TIMELINE':'BACK TO TRACE'}><ChevronLeft size={19}/><span>{view==='home'?'Phone':'Back'}</span></button><div><small>GREYHAVEN · LOCAL WORKSPACE</small><strong>TRACE<span> / </span>FORENSIC VIEWER</strong><small>Recovery: {recovery}%</small></div>{view!=='home'&&<button onClick={onHome} aria-label="Home">Phone</button>}<ScanLine size={20}/></header>
   <div className="trace-body">
    {view==='home'&&<><div className="trace-hero"><div><small>RECOVERY OPERATION</small><h1>Investigation workspace</h1><p>Source unverified · results remain on this device</p></div><div className="trace-meter"><strong>{recovery}%</strong><small>RECOVERED</small></div><div className="trace-meter-bar"><span style={{width:`${recovery}%`}}/></div></div>
-    <section className="trace-recovery"><div><small>RECOVERY MODULE · {p.recovered?'FIRST PASS COMPLETE':'READY'}</small><h2>Protected archive</h2><p>Source and contents are unverified. Recovery uses a local copy.</p></div><button aria-pressed={p.selected} onClick={()=>act({type:'select'})}>{p.selected?'✓ SOURCE SELECTED':'SELECT ARCHIVE'}</button><button disabled={!p.selected||p.recovered} onClick={()=>act({type:'recover'})}>{p.recovered?'FIRST PASS COMPLETE':'START RECOVERY'}</button><details><summary>Source metadata</summary><p>{masterArchiveIdentifier} · first-pass fragments only</p></details></section>
+    <section className="trace-recovery"><div><small>RECOVERY MODULE · {p.recovered?'FIRST PASS COMPLETE':'READY'}</small><h2>Protected archive</h2><p>{masterArchiveIdentifier} · local copy · source and contents unverified</p></div><button disabled={p.recovered} onClick={()=>act({type:'recover'})}>{p.recovered?'FIRST PASS COMPLETE':'START RECOVERY'}</button><details><summary>Source metadata</summary><p>The first pass recovers partial Messages and Notes.</p></details></section>
     <div className="trace-section-title"><h2>Modules</h2><span>FIRST PASS / {recovery}%</span></div><div className="trace-grid">{modules.map(({id,label,icon:Icon,status})=><button className="trace-tile" key={id} onClick={()=>navigate(['calls','gallery','audio','contacts'].includes(id)?'activity':id)} disabled={['calls','gallery','audio','contacts'].includes(id)} aria-label={`Open ${label} module`}><span className="trace-tile-icon"><Icon size={23}/></span><strong>{label}</strong><small className={status==='LOCKED'?'locked':''}>{status}</small></button>)}</div>
     <MasterScene07Evidence inTrace/><MasterScene08Evidence/><MasterScene09Evidence/>
    </>}
    {view==='case-files'&&caseFile&&<MasterCaseFile caseFile={caseFile} onAction={caseAction} onOpenBoard={()=>navigate('board')}/>}
    {view==='board'&&caseFile&&<MasterInvestigationBoard caseFile={caseFile} onAction={caseAction} onOpenCase={()=>navigate('case-files')}/>}
    {view==='media'&&<section className="trace-module"><small>CASE FILE 001 · LOCAL MEDIA</small><h1>Case Media</h1><p>Images already received during the investigation. The protected phone gallery remains locked.</p>{photos.map(node=><details className="trace-summary" key={node.id}><summary>{node.title}</summary><img src={node.image} alt={node.description} style={{display:'block',width:'100%',height:'auto'}}/><p>{node.source}</p><button onClick={()=>node.image&&setMedia({src:node.image,alt:node.description})}>Enlarge photo</button></details>)}{!photos.length&&<p>No case images have been received.</p>}</section>}
-   {(view==='messages'||view==='notes')&&<section className="trace-module"><small>PARTIAL RECOVERY · {view.toUpperCase()}</small><h1>{view==='messages'?'Messages':'Notes'}</h1><p>Fragments are incomplete and their source is unverified.</p>{p.recovered?masterFragments.filter(f=>f.category.toLowerCase()===view).map(f=><button className="trace-item" key={f.id} onClick={()=>open(f.id)}><span>{view==='messages'?<Mail size={20}/>:<BookOpen size={20}/>}</span><div><strong>{fragmentExamination[f.id].title}</strong><small>{p.read.includes(f.id)?'OPENED · PARTIAL':'UNOPENED · PARTIAL'}</small></div><ChevronLeft className="trace-item-arrow" size={18}/></button>):<div className="trace-empty"><LockKeyhole/> <strong>Locked</strong><p>Run the first recovery pass to make fragments available.</p></div>}</section>}
+   {(view==='messages'||view==='notes')&&<RecoveredLibrary key={view} view={view} recovered={p.recovered} onOpen={open}/>}
    {view==='activity'&&<section className="trace-module"><small>ACTIVITY LOGS</small><h1>Activity Logs</h1>{!p.complete?<div className="trace-empty"><LockKeyhole/><strong>Locked</strong><p>Requires deeper recovery pass. Available in a later operation.</p></div>:!six?<><p>The first pass is complete. Continue the investigation when ready.</p><button className="trace-action" onClick={()=>act6({type:'start'})}>START SCENE 6</button></>:!six.recovered?<><p>{canRecoverActivity(six)?'Deeper recovery is ready when you choose.':'Continue the conversation with Unknown before recovery.'}</p><button className="trace-action" disabled={!canRecoverActivity(six)} onClick={()=>act6({type:'recover'})}>START ACTIVITY LOG RECOVERY</button></>:<button className="trace-action" onClick={()=>navigate('timeline')}>OPEN ACTIVITY LOGS &amp; TIMELINE</button>}</section>}
    {view==='timeline'&&<MasterTimeline onSource={open} onOpenBoard={()=>navigate('board')}/>}
    {fragment&&<TraceFragment key={fragment.id} fragment={fragment} progress={p} act={act}/>}

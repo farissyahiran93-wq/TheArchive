@@ -19,9 +19,9 @@ function ready():GameSave{
 import { masterScene05Action as step5 } from '../../src/game/masterScene05'
 import { masterFragments } from '../../src/content/masterScene05'
 function afterFive():GameSave {
- let s=step5(ready(),{type:'start'});s=step5(s,{type:'archive-inspect'});s=step5(s,{type:'archive-risks'});s=step5(s,{type:'archive-accept'})
+ let s=step5(step5(ready(),{type:'start'}),{type:'archive-accept'})
  for(let i=0;i<8;i++){s=step5(s,{type:'draft',index:0});s=step5(s,{type:'send'});s=step5(s,{type:'tick'},s.masterScene05!.pending!.dueAt)}
- s=step5(s,{type:'inspect'});s=step5(s,{type:'risks'});s=step5(s,{type:'install'});s=step5(s,{type:'open-trace'});s=step5(s,{type:'select'});s=step5(s,{type:'recover'})
+ s=step5(s,{type:'install'});s=step5(s,{type:'open-trace'});s=step5(s,{type:'recover'})
  for(const f of masterFragments)s=step5(s,{type:'read',id:f.id})
  s=step5(s,{type:'observe',id:masterFragments[0].id})
  s=step5(s,{type:'save',id:masterFragments[0].id})
@@ -38,7 +38,7 @@ function afterSeven(shared=false):GameSave {
  for(let i=0;i<10;i++){s=step7(s,{type:'clip-ended'});s=step7(s,{type:'draft',index:0});s=step7(s,{type:'send'})}
  s=step7(s,{type:'clip-ended'});s=step7(s,{type:'open'});s=step7(s,{type:'record-assessment',id:'copy-provenance'})
  if(shared){s=step7(s,{type:'share-draft',index:0});s=step7(s,{type:'review-share'});s=step7(s,{type:'send-share'})}else s=step7(s,{type:'decline-share'})
- return step7(s,{type:'finish'})
+ return s
 }
 import { masterScene08Action as step8 } from '../../src/game/masterScene08'
 function afterEight():GameSave{
@@ -52,9 +52,8 @@ function afterEight():GameSave{
 test('Maya card photograph inspection, source comparison and deliberate Scene 10 unlock',async({page})=>{
  await seedScene(page,afterEight());await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Maya Scene 8 conversation'}).click();await expect(page.getByRole('article',{name:'Message capture attachment'})).toBeVisible();await page.getByRole('button',{name:'START SCENE 9'}).click()
  for(let i=0;i<4;i++){await expect(page.locator('[aria-label="Scene 9 Maya conversation"] .scene01-options .opening-choice')).toHaveCount(3);await page.locator('[aria-label="Scene 9 Maya conversation"] .scene01-options .opening-choice').nth(i%3).click();await page.getByRole('button',{name:'Send',exact:true}).click()}
- await page.route('**/media/evidence/secondary-reference-card.png',route=>route.abort());await page.getByRole('button',{name:'OPEN CARD PHOTO'}).click();await expect(page.getByRole('alert')).toContainText('could not be loaded');await expect(page.getByRole('button',{name:'Highlight reference code'})).toBeDisabled();await page.unroute('**/media/evidence/secondary-reference-card.png');await page.getByRole('button',{name:'RETRY IMAGE'}).click();const img=page.getByRole('img',{name:'Photograph of a Greyhaven secondary reference card'});await expect.poll(()=>img.evaluate((e:HTMLImageElement)=>e.complete&&e.naturalWidth>0)).toBe(true)
+ await page.route('**/media/evidence/secondary-reference-card.png',route=>route.abort());await page.getByRole('button',{name:'OPEN CARD PHOTO'}).click();await expect(page.getByRole('alert')).toContainText('could not be loaded');await expect(page.getByRole('button',{name:'Highlight reference code'})).toHaveCount(0);await page.unroute('**/media/evidence/secondary-reference-card.png');await page.getByRole('button',{name:'RETRY IMAGE'}).click();const img=page.getByRole('img',{name:'Photograph of a Greyhaven secondary reference card'});await expect.poll(()=>img.evaluate((e:HTMLImageElement)=>e.complete&&e.naturalWidth>0)).toBe(true)
  await page.getByRole('button',{name:'ENLARGE PHOTO'}).click();await page.getByRole('button',{name:'Zoom in'}).click();await page.getByRole('button',{name:'Close photo'}).click()
- await page.getByRole('button',{name:'Highlight reference code'}).click()
  await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'));await page.reload();await page.getByRole('button',{name:'Unlock phone'}).click();await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Maya Scene 8 conversation'}).click();await expect(page.getByText(/Highlighted: GH-DSC-03-A/)).toBeVisible()
  for(let i=0;i<4;i++){await page.locator('[aria-label="Scene 9 Maya conversation"] .scene01-options .opening-choice').nth(i%3).click();await page.getByRole('button',{name:'Send',exact:true}).click()}
  await page.getByRole('button',{name:'Go home'}).click();await page.getByRole('button',{name:'Open TRACE'}).click();await expect(page.getByText('Recovery: 20%')).toBeVisible()

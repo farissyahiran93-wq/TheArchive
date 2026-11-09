@@ -38,8 +38,9 @@ function EvidenceImage({ node }: { node: CaseNode }) {
   return <img src={node.image} alt={node.title} loading="lazy" onError={() => setUnavailable(true)} />
 }
 
-function QuestionWorkspace({ question, note, nodes, onAction }: {
+function QuestionWorkspace({ question, status, note, nodes, onAction }: {
   question: CaseQuestion
+  status?: string
   note?: MasterCaseFileView['notes'][string]
   nodes: CaseNode[]
   onAction: CaseModuleProps['onAction']
@@ -50,7 +51,7 @@ function QuestionWorkspace({ question, note, nodes, onAction }: {
   const [alternative, setAlternative] = useState(note?.alternative ?? '')
   const [saved, setSaved] = useState(false)
   return <details className="trace-case-question">
-    <summary>{question.prompt}{note?.text && <small>Hypothesis saved</small>}</summary>
+    <summary>{question.prompt}{status&&<small>{status}</small>}{note?.text && <small>Hypothesis saved</small>}</summary>
     <form onSubmit={event => {
       event.preventDefault()
       onAction({ type: 'save-note', questionId: question.id, text, evidenceIds: references, alternative, counterEvidenceIds: counterEvidence })
@@ -114,7 +115,7 @@ export function MasterCaseFile({ caseFile, onAction, onOpenBoard }: CaseModulePr
     <section className="trace-case-panel">
       <h2>Open questions</h2>
       <p>Keep private hypotheses and cite evidence as the case develops. Revisit a question whenever you have something to add.</p>
-      {caseFile.questions.map(question => <QuestionWorkspace key={question.id} question={question} note={caseFile.notes[question.id]} nodes={caseFile.nodes} onAction={onAction} />)}
+      {caseFile.questions.map(question => <QuestionWorkspace key={question.id} question={question} status={caseFile.questionStatus?.[question.id]} note={caseFile.notes[question.id]} nodes={caseFile.nodes} onAction={onAction} />)}
     </section>
     {summary&&<section className="trace-case-panel" aria-label="Saved investigation summary">
       <h2>Saved investigation summary</h2><p>{caseFile.questions.find(question=>question.id===summary.questionId)?.prompt}</p><p>{summary.hypothesis}</p>
@@ -126,7 +127,15 @@ export function MasterCaseFile({ caseFile, onAction, onOpenBoard }: CaseModulePr
     <aside className="trace-case-panel trace-case-guidance" aria-label="Optional investigation guidance">
       <details>
         <summary><FileQuestion size={18} aria-hidden="true" /> Investigation guidance <small>Optional</small></summary>
-        <ul>{caseFile.questions.map(question => <li key={question.id}>{question.hint}</li>)}</ul>
+        {caseFile.guidance&&<div className="trace-hints">
+          <h3>{caseFile.guidance.title}</h3>
+          <p><strong>Direction</strong> {caseFile.guidance.direction}</p>
+          <details><summary>Show a more focused hint</summary>
+            <p>{caseFile.guidance.focus}</p>
+            <details><summary>Show the next action</summary><p>{caseFile.guidance.assistance}</p></details>
+          </details>
+        </div>}
+        <details><summary>Hints for other open questions</summary><ul>{caseFile.questions.map(question => <li key={question.id}>{question.hint}</li>)}</ul></details>
       </details>
     </aside>
   </section>

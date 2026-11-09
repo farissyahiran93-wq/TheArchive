@@ -18,8 +18,7 @@ function sceneFiveSave(): GameSave {
     save = masterScene05Action(save, { type: 'draft', index: 0 })
     save = masterScene05Action(save, { type: 'send' }, beat + 2)
   }
-  save = masterScene05Action(save, { type: 'inspect' })
-  return masterScene05Action(save, { type: 'risks' })
+  return save
 }
 
 describe('TRACE Case File 001', () => {
@@ -55,6 +54,8 @@ describe('TRACE Case File 001', () => {
     save = act(save, { type: 'move-node', id: family.id, x: 44, y: 57 })
     const before = selectCase(save)!
     expect(before.questions).toHaveLength(4)
+    expect(before.guidance?.title).toBe('Find something worth following')
+    expect(before.guidance?.assistance).not.toContain('19:00')
     expect(before.links).toEqual([{ from: family.id, to: june.id }])
     expect(before.notes[questionId].evidenceIds).toEqual([june.id])
 

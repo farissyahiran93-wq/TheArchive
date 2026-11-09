@@ -5,6 +5,7 @@ import { referenceCardId, referenceCardImage } from '../content/masterScene09'
 import { storyPhotos } from '../content/storyPhotos'
 import { assessmentLabel, captureAssessments, cardAssessments, contactAssessments, type StatementAssessment } from '../content/masterSceneAssessments'
 import type { GameSave } from './types'
+import { selectInvestigationGuidance } from './masterInvestigationGuidance'
 
 const caseId = 'TA-CASE-001'
 const initialQuestions = [
@@ -64,6 +65,8 @@ export interface MasterCaseFileView {
   notes: Record<string, CaseNote>
   links: CaseLink[]
   summary?: NonNullable<GameSave['masterScene10']>['theory']
+  guidance?: ReturnType<typeof selectInvestigationGuidance>
+  questionStatus?: Record<string, string>
 }
 
 export type MasterCaseFileAction =
@@ -132,7 +135,7 @@ function discoveredEvidence(save: GameSave): CaseEvidence[] {
     const receipt = save.evidence[evidenceId]
     if (assessment && receipt) evidence.push({ id, title, description: assessment.finding, source: `Private assessment · ${assessmentLabel(assessment.outcome)}`, kind: 'finding', recordedAt: receipt.collectedAt })
   }
-  if (exportEntry?.opened && (exportEntry.conversationRevision === 'starred-v2' || exportEntry.star)) {
+  if (exportEntry?.opened) {
     evidence.push({ id: 'TA-EX-STARRED-ENTRY', title: 'Starred contact export', description: 'The copy contains an unnamed starred entry. The author and meaning of the star are unknown.', source: 'Sophie · shared-family-folder copy, original unverified', kind: 'document', recordedAt: save.evidence['TA-EX-STARRED-ENTRY']?.collectedAt })
     addStatement(exportEntry.lines.find(line => line.id === 'TA-S07-CALL-S1'), 'Sophie’s account of the export', 'Sophie · voice call testimony')
     if(exportEntry.saved)addAssessment(contactAssessments.find(item=>item.id===exportEntry.assessment), 'TA-FN-SOPHIE-EXPORT', 'TA-EX-STARRED-ENTRY', 'Contact-export assessment')
@@ -181,6 +184,13 @@ export function selectMasterCaseFile(save: GameSave): MasterCaseFileView | undef
   if (save.masterScene08?.opened) questions.push(laterQuestions[1])
   if (save.masterScene09?.opened) questions.push(laterQuestions[2])
   if (save.masterScene10?.compared) questions.push(laterQuestions[3])
+  const questionStatus: Record<string, string> = {}
+  if (save.masterScene05.saved.length) questionStatus['phone-recovery'] = 'Observation recorded · archive source unverified'
+  if (save.masterScene06?.saved) questionStatus['missing-hour'] = 'Gap documented · cause unresolved'
+  if (save.masterScene07?.saved) questionStatus['starred-number'] = 'Entry documented · significance unresolved'
+  if (save.masterScene08?.saved) questionStatus['another-copy'] = 'Crop assessed · subject of the copy unresolved'
+  if (save.masterScene09?.saved) questionStatus['card-reference'] = 'Search reference recorded · original unverified'
+  if (save.masterScene10?.saved) questionStatus['inventory-theory'] = 'Summary recorded · investigation open'
   const notes: Record<string, CaseNote> = {}
   for (const question of questions) {
     const note = state.notes[question.id]
@@ -199,6 +209,8 @@ export function selectMasterCaseFile(save: GameSave): MasterCaseFileView | undef
     notes,
     links: state.links.filter(link => visibleIds.has(link.from) && visibleIds.has(link.to)),
     summary: save.masterScene10?.saved ? save.masterScene10.theory : undefined,
+    guidance: selectInvestigationGuidance(save),
+    questionStatus,
   }
 }
 

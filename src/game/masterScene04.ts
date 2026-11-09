@@ -57,20 +57,17 @@ export function masterScene04Action(s:GameSave,a:MasterScene04Action,now=Date.no
     const delay=usesScene04ToolPreview(p)?Math.min(7000,npcDeliveryDelay('eli',text,p.beat)):900
     return put(s,{...p,beat:p.beat+1,draft:undefined,messages,pending:{id:incoming,text,dueAt:now+delay}})
   }
-  if(a.type==='inspect'&&p.opened&&p.status!=='conversation'){s=event(s,'TA-S04-METADATA-INSPECTED');p={...p,inspected:true,preview:true}}
+  if(a.type==='inspect'&&p.opened&&p.status!=='conversation')return put(event(s,'TA-S04-METADATA-INSPECTED'),{...p,inspected:true,preview:true})
   if(a.type==='close-preview')return put(s,{...p,preview:false})
   if((a.type==='defer'||a.type==='decline')&&p.opened&&['offered','deferred','declined'].includes(p.status))return put(s,{...p,status:a.type==='defer'?'deferred':'declined',preview:false})
   if(a.type==='reconsider'&&p.opened&&['deferred','declined'].includes(p.status))return put(s,{...p,status:'offered'})
-  if(a.type==='accept'&&p.opened&&p.status==='offered'){
+  if(a.type==='accept'&&p.opened&&!p.complete&&(p.status==='offered'||p.status==='accepted')){
     s=event(s,usesScene04ToolPreview(p)?'TA-S04-TRACE-PROCEED':'TA-S04-ARCHIVE-ACCEPTED')
-    p={...p,status:'accepted',preview:false}
-  }
-  if((a.type==='accept'||a.type==='inspect')&&p.status==='accepted'&&p.inspected&&!p.complete){
     s=event(event(s,'TA-S04-COMPLETE'),'TA-S04-SCENE05-UNLOCKED')
     if(!usesScene04ToolPreview(p))s={...s,evidence:{...s.evidence,'TA-S04-ARCHIVE':{id:'TA-S04-ARCHIVE',source:`${masterArchiveIdentifier} · encrypted; source claimed by Unknown; authenticity unverified`,collectedAt:now,verified:false}}}
-    p={...p,complete:true}
+    return put(s,{...p,status:'accepted',preview:false,complete:true})
   }
-  return p===s.masterScene04?s:put(s,p)
+  return s
 }
 
 export function validateMasterScene04(value:unknown):void {
@@ -78,5 +75,5 @@ export function validateMasterScene04(value:unknown):void {
   if(!value||typeof value!=='object')throw Error('Invalid Scene 4 progress')
   const p=value as MasterScene04
   const lastBeat=masterScene04Dialogue(p.revision).length
-  if(p.version!==1||p.revision!==undefined&&!usesScene04ToolPreview(p)||typeof p.opened!=='boolean'||!Number.isInteger(p.beat)||p.beat<0||p.beat>lastBeat||p.draft!==undefined&&(!Number.isInteger(p.draft)||p.draft<0||p.draft>2)||p.pending!==undefined&&(!p.pending||typeof p.pending.id!=='string'||typeof p.pending.text!=='string'||!Number.isFinite(p.pending.dueAt))||!['conversation','offered','deferred','declined','accepted'].includes(p.status)||typeof p.inspected!=='boolean'||typeof p.complete!=='boolean'||typeof p.preview!=='boolean'||!Array.isArray(p.messages)||p.messages.some(m=>!m||typeof m.id!=='string'||!['unknown','player'].includes(m.sender)||typeof m.text!=='string'||!Number.isFinite(m.at))||p.complete&&(!p.inspected||p.status!=='accepted')||p.status==='conversation'&&p.beat===lastBeat&&!p.pending||p.status!=='conversation'&&(p.pending!==undefined||p.beat!==lastBeat))throw Error('Invalid Scene 4 progress')
+  if(p.version!==1||p.revision!==undefined&&!usesScene04ToolPreview(p)||typeof p.opened!=='boolean'||!Number.isInteger(p.beat)||p.beat<0||p.beat>lastBeat||p.draft!==undefined&&(!Number.isInteger(p.draft)||p.draft<0||p.draft>2)||p.pending!==undefined&&(!p.pending||typeof p.pending.id!=='string'||typeof p.pending.text!=='string'||!Number.isFinite(p.pending.dueAt))||!['conversation','offered','deferred','declined','accepted'].includes(p.status)||typeof p.inspected!=='boolean'||typeof p.complete!=='boolean'||typeof p.preview!=='boolean'||!Array.isArray(p.messages)||p.messages.some(m=>!m||typeof m.id!=='string'||!['unknown','player'].includes(m.sender)||typeof m.text!=='string'||!Number.isFinite(m.at))||p.complete&&p.status!=='accepted'||p.status==='conversation'&&p.beat===lastBeat&&!p.pending||p.status!=='conversation'&&(p.pending!==undefined||p.beat!==lastBeat))throw Error('Invalid Scene 4 progress')
 }

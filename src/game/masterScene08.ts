@@ -1,4 +1,4 @@
-import { captureHypotheses, captureId, scene08Beats } from '../content/masterScene08'
+import { captureId, scene08Beats } from '../content/masterScene08'
 import type { GameSave } from './types'
 import { storyPhotos } from '../content/storyPhotos'
 import { captureAssessments } from '../content/masterSceneAssessments'
@@ -7,7 +7,7 @@ export interface MasterScene08 {
  version:1; photoRevision?:1; beat:number; draft?:number; messages:{id:string;sender:'maya'|'player';text:string;at:number;photo?:string}[]
  received:boolean; opened:boolean; inspected:string[]; imported:boolean; analysis:boolean; compared:boolean; hypothesis?:number; assessment?:typeof captureAssessments[number]['id']; reviewed:boolean; saved:boolean; complete:boolean
 }
-export type MasterScene08Action={type:'start'|'send'|'open'|'import'|'analyse'|'compare'|'review'|'save'}|{type:'draft'|'hypothesis';index:number}|{type:'inspect';field:string}|{type:'record-assessment';id:string}
+export type MasterScene08Action={type:'start'|'send'|'open'}|{type:'draft';index:number}|{type:'record-assessment';id:string}
 export const captureFields=['header','text','time','crop','source'] as const
 const validChoice=(n:number)=>Number.isInteger(n)&&n>=0&&n<3
 export const canReplyInScene08=(p:MasterScene08)=>!p.complete&&(p.beat<4||p.beat<8&&p.opened||p.beat<10&&p.saved)
@@ -38,13 +38,6 @@ export function masterScene08Action(s:GameSave,a:MasterScene08Action,now=Date.no
   if(!assessment)return s
   return {...s,evidence:{...s.evidence,[captureId]:{id:captureId,source:`Maya’s cropped capture of her own conversation; original unverified. ${assessment.finding}`,collectedAt:now,verified:false}},masterScene08:{...p,assessment:assessment.id,saved:true}}
  }
- if(a.type==='inspect'&&p.opened&&captureFields.includes(a.field as typeof captureFields[number])&&!p.inspected.includes(a.field))return put({...p,inspected:[...p.inspected,a.field]})
- if(a.type==='import'&&p.beat>=8&&captureFields.every(x=>p!.inspected.includes(x)))return put({...p,imported:true})
- if(a.type==='analyse'&&p.imported)return put({...p,analysis:true})
- if(a.type==='compare'&&p.analysis&&s.masterScene07?.saved)return put({...p,compared:true})
- if(a.type==='hypothesis'&&p.analysis&&p.compared&&!p.saved&&validChoice(a.index))return put({...p,hypothesis:a.index,reviewed:false})
- if(a.type==='review'&&p.analysis&&p.hypothesis!==undefined&&!p.saved)return put({...p,reviewed:true})
- if(a.type==='save'&&p.reviewed&&p.hypothesis!==undefined&&!p.saved)return {...s,evidence:{...s.evidence,[captureId]:{id:captureId,source:`Maya's cropped capture of her own conversation, original not verified; ${captureHypotheses[p.hypothesis]}`,collectedAt:now,verified:false}},masterScene08:{...p,saved:true}}
  return s
 }
 export function validateMasterScene08(value:unknown):void{

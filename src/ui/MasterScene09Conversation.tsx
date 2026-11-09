@@ -13,9 +13,7 @@ export function MasterScene09Conversation(){
   {p.messages.map(m=><div key={m.id} className={`conversation-line ${m.sender==='player'?'outgoing':'incoming'}`}><div className="conversation-body"><div className={`opening-bubble ${m.sender==='player'?'player':'sophie'}`}>{m.text}</div></div></div>)}
   {p.received&&<article className="scene01-invitation" aria-label="Secondary card photograph"><strong>{referenceCardId}</strong><p>Photo from Maya · source unverified</p><button className="opening-choice" onClick={()=>act({type:'open'})}>OPEN CARD PHOTO</button>
    {p.opened&&<>{failed?<p role="alert">The photograph could not be loaded. Retry the image or return later.</p>:<img src={referenceCardImage} alt="Photograph of a Greyhaven secondary reference card" onLoad={()=>setLoaded(true)} onError={()=>{setLoaded(false);setFailed(true)}} style={{display:'block',width:'100%',maxWidth:560,borderRadius:8}}/>}{failed?<button className="opening-choice" onClick={()=>setFailed(false)}>RETRY IMAGE</button>:<button className="opening-choice" disabled={!loaded} onClick={()=>setZoom(true)}>ENLARGE PHOTO</button>}
-    {loaded&&<p>Greyhaven Records · Secondary Reference Card · “Reference Only” · “Contents Unverified”.</p>}
-    {!p.inspected.includes('code')&&<button className="opening-choice" disabled={!loaded} onClick={()=>act({type:'inspect',field:'code'})}>Highlight reference code</button>}
-    {p.inspected.includes('code')&&<p>Highlighted: <mark>{referenceCode}</mark>. The photo gives us a search term. The underlying document is still unknown.</p>}
+    <details><summary>Card transcription</summary><p>Greyhaven Records · Secondary Reference Card · <mark>{referenceCode}</mark> · “Reference Only” · “Contents Unverified”.</p></details>
     <details><summary>Photo provenance</summary><p>Maya found this copy in a shared folder. Photographer, capture date, original image and physical custody are unverified.</p></details></>}
   </article>}
   {p.beat===8&&!p.saved&&<p>Open TRACE to review the external photo, compare sources and save a private finding.</p>}

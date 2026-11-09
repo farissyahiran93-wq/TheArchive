@@ -19,12 +19,21 @@ export function MasterUnknownConversation({onBack}:{onBack:()=>void}) {
   if(!p)return null
   const beat=masterScene04Dialogue(p.revision)[p.beat]
   const toolPreview=usesScene04ToolPreview(p)
+  const canProceed=!p.complete&&(p.status==='offered'||p.status==='accepted')
   return <section className="opening-screen opening-v4 scene01-chat" aria-label="Unknown conversation" data-scene-node={`TA-S04-C${String(p.beat+1).padStart(2,'0')}`}>
     <header className="opening-chat-header"><button className="icon-button bare" aria-label="Back to inbox" onClick={onBack}><ArrowLeft size={21}/></button><CharacterAvatar character="unknown" fallback="?" className="opening-avatar"/><div><strong>Unknown</strong><small>Identity unverified</small></div></header>
     <div className="opening-thread" ref={scroll} onScroll={e=>{const el=e.currentTarget;nearEnd.current=el.scrollHeight-el.scrollTop-el.clientHeight<90}}>
       {p.messages.map(m=><div key={m.id} className={`conversation-line ${m.sender==='player'?'outgoing':'incoming'}`}><div className="conversation-body"><div className={`opening-bubble ${m.sender==='player'?'player':'sophie'}`}>{m.text}</div></div></div>)}
       {p.pending&&<UnknownTypingBubble/>}
-      {p.status!=='conversation'&&<article className="scene01-invitation" aria-label={toolPreview?'TRACE information':'Encrypted archive offer'}><strong>{toolPreview?'TRACE · tool information':masterArchiveIdentifier}</strong><p>{toolPreview?'Recovery tool · developer and safety claims unverified':'Encrypted archive · Source claimed by Unknown · Authenticity unverified'}</p><p>{p.status==='accepted'?'Ready to continue':p.status==='deferred'?'Deferred':p.status==='declined'?'Declined for now':'Review before deciding'}</p><button className="opening-choice" onClick={()=>act({type:'inspect'})}>{toolPreview?'INSPECT TRACE INFORMATION':'INSPECT METADATA'}</button>{p.status==='offered'&&<><button className="opening-primary" onClick={()=>act({type:'accept'})}>{toolPreview?'PROCEED':'ACCEPT ARCHIVE'}</button><button className="opening-choice" onClick={()=>act({type:'defer'})}>NOT NOW</button><button className="opening-choice" onClick={()=>act({type:'decline'})}>DECLINE FOR NOW</button></>}{['deferred','declined'].includes(p.status)&&<button className="opening-choice" onClick={()=>act({type:'reconsider'})}>RECONSIDER OFFER</button>}</article>}
+      {p.status!=='conversation'&&<article className="scene01-invitation" aria-label={toolPreview?'TRACE information':'Encrypted archive offer'}>
+        <strong>{toolPreview?'TRACE · tool information':masterArchiveIdentifier}</strong>
+        <p>{toolPreview?'A viewer for incomplete recovered data. Its developer and safety claims are unverified. Proceeding does not install it.':'Encrypted archive · Source claimed by Unknown · Authenticity unverified'}</p>
+        <p>{p.status==='accepted'?'Ready to continue':p.status==='deferred'?'Deferred':p.status==='declined'?'Declined for now':'Continue when you’re ready.'}</p>
+        <button className="opening-choice" onClick={()=>act({type:'inspect'})}>{toolPreview?'INSPECT TRACE INFORMATION':'INSPECT METADATA'}</button>
+        {canProceed&&<button className="opening-primary" onClick={()=>act({type:'accept'})}>{toolPreview?'PROCEED':'ACCEPT ARCHIVE'}</button>}
+        {p.status==='offered'&&<><button className="opening-choice" onClick={()=>act({type:'defer'})}>NOT NOW</button><button className="opening-choice" onClick={()=>act({type:'decline'})}>DECLINE FOR NOW</button></>}
+        {['deferred','declined'].includes(p.status)&&<button className="opening-choice" onClick={()=>act({type:'reconsider'})}>RECONSIDER OFFER</button>}
+      </article>}
       {p.complete&&<MasterScene05Conversation/>}
     </div>
     {p.status==='conversation'&&!p.pending&&beat&&<div className="opening-actions opening-v4-composer"><div className="opening-action-heading">Choose a reply</div><div className="scene01-options">{beat.choices.map((choice,i)=><button className={`opening-choice ${p.draft===i?'selected':''}`} key={choice} aria-pressed={p.draft===i} onClick={()=>act({type:'draft',index:i})}>{choice}</button>)}</div><button className="opening-primary" disabled={p.draft===undefined} onClick={()=>act({type:'send'})}><Send size={17}/> Send</button></div>}
