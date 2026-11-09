@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
+import { unknownSenderRevisedBeats } from '../../src/content/masterTraceFirst'
 import { beginScene01, beginScene02, openScene03, scene01Invitation, sendScene01Choice } from '../../src/game/scene01'
 import { newGame, type GameSave } from '../../src/game/types'
 import { seedScene, settleScene } from './scene01-helper'
@@ -52,7 +53,7 @@ test('Case File 001 opens at install and carries findings from Scene 5 into Scen
   await seedScene(page, beforeUnknown())
   await expect(page.getByRole('button', { name: 'Open TRACE', exact: true })).toHaveCount(0)
   await openUnknown(page)
-  await replyToUnknown(page, 10)
+  await replyToUnknown(page, unknownSenderRevisedBeats.length)
   await expect(page.getByRole('article', { name: 'TRACE information' })).toBeVisible()
   await expect(page.getByText('DNL_PHONE_ARCHIVE.arc', { exact: true })).toHaveCount(0)
   await page.getByRole('button', { name: 'INSPECT TRACE INFORMATION' }).click()
@@ -78,7 +79,7 @@ test('Case File 001 opens at install and carries findings from Scene 5 into Scen
   await page.getByRole('button', { name: 'Open Investigation Board', exact: true }).click()
   await expect(page.getByRole('heading', { name: 'Investigation Board' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Select evidence: Encrypted phone archive' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Select evidence: June Thread' })).toHaveCount(0)
+  await expect(page.getByRole('button', { name: 'Select evidence: June Thread', exact: true })).toHaveCount(0)
   await expect(page.getByRole('button', { name: 'Select evidence: File access' })).toHaveCount(0)
 
   await page.getByRole('button', { name: 'Home', exact: true }).click()
@@ -103,15 +104,18 @@ test('Case File 001 opens at install and carries findings from Scene 5 into Scen
   await page.getByRole('button', { name: 'Open Messages module' }).click()
   for (const name of ['Family Thread', 'June Thread']) {
     await page.getByRole('button', { name: new RegExp(name) }).click()
-    if (name === 'Family Thread') await page.getByRole('button', { name: 'SAVE FINDING' }).click()
+    if (name === 'Family Thread') {
+      await page.getByRole('button', { name: /Highlight detail/i }).click()
+      await page.getByRole('button', { name: 'SAVE FINDING', exact: true }).click()
+    }
     await page.getByRole('button', { name: 'BACK TO TRACE' }).click()
   }
   await page.getByRole('button', { name: 'BACK TO TRACE' }).click()
   await page.getByRole('button', { name: 'Open Investigation Board module' }).click()
-  await expect(page.getByRole('button', { name: 'Select evidence: June Thread' })).toHaveCount(1)
+  await expect(page.getByRole('button', { name: 'Select evidence: June Thread', exact: true })).toHaveCount(1)
   await expect(page.getByRole('button', { name: 'Select evidence: Dinner Reminder' })).toHaveCount(0)
   await expect(page.getByRole('button', { name: 'Select evidence: File access' })).toHaveCount(0)
-  const familyNode = page.getByRole('button', { name: 'Select evidence: Family Thread' })
+  const familyNode = page.getByRole('button', { name: 'Select evidence: Family Thread', exact: true })
   const initialPosition = await familyNode.getAttribute('style')
   await page.getByRole('combobox', { name: 'Evidence index' }).selectOption({ label: 'Family Thread' })
   await page.getByRole('button', { name: 'Move evidence up' }).click()
@@ -121,6 +125,12 @@ test('Case File 001 opens at install and carries findings from Scene 5 into Scen
   await page.getByRole('combobox', { name: 'Evidence index' }).selectOption({ label: 'June Thread' })
   await page.getByRole('button', { name: 'Connect to June Thread' }).click()
   const connection = page.getByRole('button', { name: /Remove connection between (Family Thread and June Thread|June Thread and Family Thread)/ })
+  const connectionLabel = 'Different contexts in the same recovery'
+  await page.getByText('Edit tentative connection', { exact: true }).click()
+  await page.getByLabel('Relationship label').fill(connectionLabel)
+  await page.getByLabel('Player assessment').selectOption('contradicted')
+  await page.getByRole('button', { name: 'Save connection' }).click()
+  await expect(page.getByText(`${connectionLabel} · contradicted`)).toBeVisible()
   await expect(connection).toBeVisible()
 
   await page.getByRole('button', { name: 'Home', exact: true }).click()
@@ -140,7 +150,25 @@ test('Case File 001 opens at install and carries findings from Scene 5 into Scen
   await expect(page.getByText('Recovery: 20%', { exact: true })).toBeVisible()
   await page.getByRole('button', { name: 'OPEN ACTIVITY LOGS & TIMELINE' }).click()
   await page.getByRole('button', { name: /File access/ }).click()
+  await page.getByRole('button', { name: 'Add to working timeline' }).click()
   await page.getByRole('button', { name: /Automatic backup sync/ }).click()
+  await page.getByRole('button', { name: 'Add to working timeline' }).click()
+  await page.getByRole('button', { name: 'Flag for timing review' }).click()
+  await page.getByRole('button', { name: 'Move Automatic backup sync up' }).click()
+  await expect(page.getByText('The working order differs from the reported device times.')).toBeVisible()
+  await page.getByRole('button', { name: 'Move Automatic backup sync down' }).click()
+  await expect(page.getByText('The working order differs from the reported device times.')).toHaveCount(0)
+  await expect(page.getByRole('button', { name: 'SAVE FINDING', exact: true })).toHaveCount(0)
+  await page.getByLabel('First event').selectOption({ label: '19:00 · File access' })
+  await page.getByLabel('Comparison source').selectOption({ label: 'Partial sync receipt' })
+  await page.getByRole('button', { name: 'Compare records' }).click()
+  await expect(page.getByText(/cannot establish a delay or a contradiction/)).toBeVisible()
+  await expect(page.getByRole('button', { name: 'SAVE FINDING', exact: true })).toHaveCount(0)
+  await page.getByLabel('Comparison source').selectOption({ label: 'Automatic backup sync' })
+  await page.getByRole('button', { name: 'Compare records' }).click()
+  await page.getByLabel('Provisional timeline hypothesis').fill('A missing record could explain the gap. Check an independent source.')
+  await page.getByRole('button', { name: 'Save working hypothesis' }).click()
+  await expect(page.getByText('Saved private hypothesis')).toBeVisible()
   await page.getByRole('button', { name: 'SAVE FINDING' }).click()
   await page.keyboard.press('Escape')
   await openCaseFile(page)
@@ -154,6 +182,7 @@ test('Case File 001 opens at install and carries findings from Scene 5 into Scen
   await page.getByRole('button', { name: 'Open TRACE', exact: true }).click()
   await expect(page.getByRole('button', { name: 'Select evidence: File access' })).toHaveCount(1)
   await expect(connection).toBeVisible()
+  await expect(page.getByText(`${connectionLabel} · contradicted`)).toBeVisible()
   await expect(familyNode).toHaveAttribute('style', movedPosition!)
   await page.getByRole('button', { name: 'Home', exact: true }).click()
   await page.getByRole('button', { name: 'Open Messages', exact: true }).first().click()

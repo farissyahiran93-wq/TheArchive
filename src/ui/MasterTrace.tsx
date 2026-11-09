@@ -1,30 +1,54 @@
 import { Activity, Archive, AudioLines, BookOpen, ChevronLeft, CircleHelp, FileText, FolderOpen, FolderSearch, GalleryHorizontal, LockKeyhole, Mail, Network, Phone, ScanLine, Users } from 'lucide-react'
-import { useEffect, useMemo } from 'react'
-import { masterFragments } from '../content/masterScene05'
+import { useEffect, useMemo, useState } from 'react'
+import { compareRecoveredFragments, fragmentExamination, masterFragments } from '../content/masterScene05'
 import { masterArchiveIdentifier } from '../content/masterScene04'
 import { canRecoverActivity, scene06Units } from '../game/masterScene06'
-import { masterRecoveryUnits } from '../game/masterScene05'
+import { canSaveFragmentFinding, masterRecoveryUnits, type MasterScene05Action, type MasterScene05 } from '../game/masterScene05'
 import { selectMasterCaseFile } from '../game/masterCaseFile'
 import { useGameStore } from '../game/store'
 import { MasterTimeline } from './MasterTimeline'
-import { MasterCaseFile, MasterInvestigationBoard } from './MasterCaseFile'
+import { EvidenceComparison, MasterCaseFile, MasterInvestigationBoard } from './MasterCaseFile'
+import { ChatPhotoViewer } from './ChatPhotoViewer'
 import { MasterScene07Evidence } from './MasterScene07Evidence'
 import { MasterScene08Evidence } from './MasterScene08Evidence'
 import { MasterScene09Evidence } from './MasterScene09Evidence'
 import { usePhoneBack } from './usePhoneBack'
 import './master-trace-workspace.css'
 
-const labels:Record<string,string>={
- 'TA-PH-MESSAGE-FAMILY-01':'Family Thread',
- 'TA-PH-MESSAGE-JUNE-01':'June Thread',
- 'TA-PH-NOTE-ORDINARY-01':'Dinner Reminder',
- 'TA-PH-NOTE-RECORDS-01':'Greyhaven Records',
+type Fragment=typeof masterFragments[number]
+function TraceFragment({fragment, progress, act}:{fragment:Fragment;progress:MasterScene05;act:(action:MasterScene05Action)=>void}) {
+ const {id,body,category}=fragment
+ const {title,detail,observation}=fragmentExamination[id]
+ const selected=progress.comparison?.includes(id)?progress.comparison.find(source=>source!==id):undefined
+ const [target,setTarget]=useState(selected??'')
+ const compared=masterFragments.find(item=>item.id===selected)
+ const offset=body.indexOf(detail)
+ const highlighted=offset>=0&&progress.observations?.includes(id)
+ const saved=progress.saved.includes(id)
+ return <article className="trace-reader">
+  <small>PARTIAL FRAGMENT · {category.toUpperCase()}</small><h1>{title}</h1>
+  <p className="trace-source">Archive source unverified · context incomplete</p>
+  <blockquote>{highlighted?<>{body.slice(0,offset)}<mark>{detail}</mark>{body.slice(offset+detail.length)}</>:body}</blockquote>
+  <p className="trace-corruption">[Unrecovered segment]</p>
+  <details><summary>View metadata</summary><p>Source ID: {id}</p><p>Timestamp unavailable · authenticity unverified</p></details>
+  <button className="trace-action" disabled={highlighted} onClick={()=>act({type:'observe',id})}>Highlight detail</button>
+  {highlighted&&<p>{observation}</p>}
+  <div className="trace-fragment-compare">
+   <label>Compare fragment with <select value={target} onChange={event=>setTarget(event.target.value)}><option value="">Choose another recovered fragment</option>{masterFragments.filter(item=>item.id!==id).map(item=><option key={item.id} value={item.id}>{fragmentExamination[item.id].title}</option>)}</select></label>
+   <button className="trace-action" disabled={!target} onClick={()=>act({type:'compare-fragments',left:id,right:target})}>Compare fragments</button>
+  </div>
+  {compared&&<EvidenceComparison entries={[fragment,compared].map(item=>({title:fragmentExamination[item.id].title,description:item.body,source:`Recovered ${item.category.toLowerCase()} · incomplete · timestamp unavailable`}))}>
+   <p>{compareRecoveredFragments(id,compared.id)}</p>
+  </EvidenceComparison>}
+  <button className="trace-action" disabled={!canSaveFragmentFinding(progress,id)} onClick={()=>act({type:'save',id})}>{saved?'FINDING SAVED':'SAVE FINDING'}</button>
+ </article>
 }
 export function MasterTrace({onHome}:{onHome:()=>void}) {
  const p=useGameStore(s=>s.save.masterScene05),act=useGameStore(s=>s.masterScene05Action)
  const six=useGameStore(s=>s.save.masterScene06),act6=useGameStore(s=>s.masterScene06Action)
  const save=useGameStore(s=>s.save), caseAction=useGameStore(s=>s.masterCaseFileAction)
  const caseFile=useMemo(()=>selectMasterCaseFile(save),[save])
+ const [media,setMedia]=useState<{src:string;alt:string}>()
  const view=p?.traceView??'home',fragment=masterFragments.find(f=>f.id===view)
  usePhoneBack(()=>act({type:'view',id:fragment?p?.traceReturn??(fragment.category==='Messages'?'messages':'notes'):'home'}),!!p&&view!=='home')
  useEffect(()=>{act({type:'open-trace'})},[act])
@@ -45,12 +69,13 @@ export function MasterTrace({onHome}:{onHome:()=>void}) {
    </>}
    {view==='case-files'&&caseFile&&<MasterCaseFile caseFile={caseFile} onAction={caseAction} onOpenBoard={()=>navigate('board')}/>}
    {view==='board'&&caseFile&&<MasterInvestigationBoard caseFile={caseFile} onAction={caseAction} onOpenCase={()=>navigate('case-files')}/>}
-   {view==='media'&&<section className="trace-module"><small>CASE FILE 001 · LOCAL MEDIA</small><h1>Case Media</h1><p>Images already received during the investigation. The protected phone gallery remains locked.</p>{photos.map(node=><details className="trace-summary" key={node.id}><summary>{node.title}</summary><img src={node.image} alt={node.description} style={{display:'block',width:'100%',height:'auto'}}/><p>{node.source}</p></details>)}{!photos.length&&<p>No case images have been received.</p>}</section>}
-   {(view==='messages'||view==='notes')&&<section className="trace-module"><small>PARTIAL RECOVERY · {view.toUpperCase()}</small><h1>{view==='messages'?'Messages':'Notes'}</h1><p>Fragments are incomplete and their source is unverified.</p>{p.recovered?masterFragments.filter(f=>f.category.toLowerCase()===view).map(f=><button className="trace-item" key={f.id} onClick={()=>open(f.id)}><span>{view==='messages'?<Mail size={20}/>:<BookOpen size={20}/>}</span><div><strong>{labels[f.id]}</strong><small>{p.read.includes(f.id)?'OPENED · PARTIAL':'UNOPENED · PARTIAL'}</small></div><ChevronLeft className="trace-item-arrow" size={18}/></button>):<div className="trace-empty"><LockKeyhole/> <strong>Locked</strong><p>Run the first recovery pass to make fragments available.</p></div>}</section>}
+   {view==='media'&&<section className="trace-module"><small>CASE FILE 001 · LOCAL MEDIA</small><h1>Case Media</h1><p>Images already received during the investigation. The protected phone gallery remains locked.</p>{photos.map(node=><details className="trace-summary" key={node.id}><summary>{node.title}</summary><img src={node.image} alt={node.description} style={{display:'block',width:'100%',height:'auto'}}/><p>{node.source}</p><button onClick={()=>node.image&&setMedia({src:node.image,alt:node.description})}>Enlarge photo</button></details>)}{!photos.length&&<p>No case images have been received.</p>}</section>}
+   {(view==='messages'||view==='notes')&&<section className="trace-module"><small>PARTIAL RECOVERY · {view.toUpperCase()}</small><h1>{view==='messages'?'Messages':'Notes'}</h1><p>Fragments are incomplete and their source is unverified.</p>{p.recovered?masterFragments.filter(f=>f.category.toLowerCase()===view).map(f=><button className="trace-item" key={f.id} onClick={()=>open(f.id)}><span>{view==='messages'?<Mail size={20}/>:<BookOpen size={20}/>}</span><div><strong>{fragmentExamination[f.id].title}</strong><small>{p.read.includes(f.id)?'OPENED · PARTIAL':'UNOPENED · PARTIAL'}</small></div><ChevronLeft className="trace-item-arrow" size={18}/></button>):<div className="trace-empty"><LockKeyhole/> <strong>Locked</strong><p>Run the first recovery pass to make fragments available.</p></div>}</section>}
    {view==='activity'&&<section className="trace-module"><small>ACTIVITY LOGS</small><h1>Activity Logs</h1>{!p.complete?<div className="trace-empty"><LockKeyhole/><strong>Locked</strong><p>Requires deeper recovery pass. Available in a later operation.</p></div>:!six?<><p>The first pass is complete. Continue the investigation when ready.</p><button className="trace-action" onClick={()=>act6({type:'start'})}>START SCENE 6</button></>:!six.recovered?<><p>{canRecoverActivity(six)?'Deeper recovery is ready when you choose.':'Continue the conversation with Unknown before recovery.'}</p><button className="trace-action" disabled={!canRecoverActivity(six)} onClick={()=>act6({type:'recover'})}>START ACTIVITY LOG RECOVERY</button></>:<button className="trace-action" onClick={()=>navigate('timeline')}>OPEN ACTIVITY LOGS &amp; TIMELINE</button>}</section>}
-   {view==='timeline'&&<MasterTimeline onSource={open}/>}
-   {fragment&&<article className="trace-reader"><small>PARTIAL FRAGMENT · {fragment.category.toUpperCase()}</small><h1>{labels[fragment.id]}</h1><p className="trace-source">Archive source unverified · context incomplete</p><blockquote>{fragment.body}</blockquote><p className="trace-corruption">[Unrecovered segment]</p><p>Missing context does not establish why Daniel disappeared.</p><details><summary>View metadata</summary><p>Source ID: {fragment.id}</p><p>Timestamp unavailable · authenticity unverified</p></details><button className="trace-action" disabled={p.saved.includes(fragment.id)} onClick={()=>act({type:'save',id:fragment.id})}>{p.saved.includes(fragment.id)?'FINDING SAVED':'SAVE FINDING'}</button></article>}
-   {view==='summary'&&<section className="trace-module"><small>LOCAL · PRIVATE</small><h1>Evidence Summary</h1><p>Observations from opened fragments are not authentication.</p>{masterFragments.filter(f=>p.read.includes(f.id)).map(f=><article className="trace-summary" key={f.id}><strong>{labels[f.id]}</strong><p>{f.summary}</p><button onClick={()=>open(f.id)}>INSPECT SOURCE · {labels[f.id]}</button></article>)}{!p.read.length&&<div className="trace-empty"><CircleHelp/><p>No fragments opened yet.</p></div>}</section>}
+   {view==='timeline'&&<MasterTimeline onSource={open} onOpenBoard={()=>navigate('board')}/>}
+   {fragment&&<TraceFragment key={fragment.id} fragment={fragment} progress={p} act={act}/>}
+   {view==='summary'&&<section className="trace-module"><small>LOCAL · PRIVATE</small><h1>Evidence Summary</h1><p>Observations from opened fragments are not authentication.</p>{masterFragments.filter(f=>p.read.includes(f.id)).map(f=><article className="trace-summary" key={f.id}><strong>{fragmentExamination[f.id].title}</strong><p>{p.observations?.includes(f.id)?fragmentExamination[f.id].observation:f.summary}</p><button onClick={()=>open(f.id)}>OPEN SOURCE · {fragmentExamination[f.id].title}</button></article>)}{!p.read.length&&<div className="trace-empty"><CircleHelp/><p>No fragments opened yet.</p></div>}</section>}
   </div><footer className="trace-footer"><span><Archive size={13}/> LOCAL ANALYSIS</span><span>SOURCE UNVERIFIED</span></footer>
+  {media&&<ChatPhotoViewer {...media} onClose={()=>setMedia(undefined)}/>}
  </section>
 }

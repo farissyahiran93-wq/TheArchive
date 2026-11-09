@@ -2,7 +2,7 @@ import { expect, type Page } from '@playwright/test'
 import { newGame, type GameSave } from '../../src/game/types'
 import { scene01Nodes } from '../../src/content/scene01'
 import { beginLegacyScene01 as beginScene01, deliverScene01, scene01Invitation, sendScene01Choice } from '../../src/game/scene01'
-import { activityEvents } from '../../src/content/masterScene06'
+import { activityEvents, missingHourSources } from '../../src/content/masterScene06'
 import { masterScene06Action } from '../../src/game/masterScene06'
 
 export const sceneTime = Date.parse('2026-10-21T12:00:00Z')
@@ -23,6 +23,7 @@ export function completeMasterScene06(save: GameSave): GameSave {
   let next = settleActivityReplies(masterScene06Action(save, { type: 'start' }))
   next = masterScene06Action(next, { type: 'recover' })
   for (const event of activityEvents.slice(2)) next = masterScene06Action(next, { type: 'inspect', id: event.id })
+  next = masterScene06Action(next, { type: 'compare-times', left: missingHourSources[0], right: missingHourSources[1] })
   next = masterScene06Action(next, { type: 'save' })
   for (let i = 0; i < 2; i++) {
     next = masterScene06Action(next, { type: 'draft', index: 0 })

@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { masterScene04Action } from '../../src/game/masterScene04'
+import { unknownSenderRevisedBeats } from '../../src/content/masterTraceFirst'
 import { beginScene01, beginScene02, deliverScene01, openScene03, scene01Invitation, sendScene01Choice } from '../../src/game/scene01'
 import { newGame, type GameSave } from '../../src/game/types'
 import { seedScene } from './scene01-helper'
@@ -12,7 +13,7 @@ function ready():GameSave{
  s=settle(openScene03(s,100000))
  for(let i=0;i<10;i++)s=settle(sendScene01Choice(s,'a','',true,140000+i*1000))
  s=masterScene04Action(masterScene04Action(s,{type:'start'},200000),{type:'open'})
- for(let i=0;i<10;i++){s=masterScene04Action(s,{type:'draft',index:0});s=masterScene04Action(s,{type:'send'},210000+i*1000);s=masterScene04Action(s,{type:'tick'},s.masterScene04!.pending!.dueAt)}
+ for(let i=0;i<unknownSenderRevisedBeats.length;i++){s=masterScene04Action(s,{type:'draft',index:0});s=masterScene04Action(s,{type:'send'},210000+i*10000);s=masterScene04Action(s,{type:'tick'},s.masterScene04!.pending!.dueAt)}
  return masterScene04Action(masterScene04Action(s,{type:'inspect'}),{type:'accept'})
 }
 test('Scene 5 preserves consent, manual recovery, opened fragments and explicit report',async({page})=>{
@@ -48,12 +49,15 @@ test('Scene 5 preserves consent, manual recovery, opened fragments and explicit 
  await page.getByRole('button',{name:'Open Activity Logs module'}).click();await expect(page.getByText('Requires deeper recovery pass. Available in a later operation.')).toBeVisible();await page.getByRole('button',{name:'BACK TO TRACE'}).click()
  for(const [module,names] of [['Messages',['Family Thread','June Thread']],['Notes',['Dinner Reminder','Greyhaven Records']]] as const){
   await page.getByRole('button',{name:`Open ${module} module`}).click()
-  for(const name of names){await page.getByRole('button',{name:new RegExp(name)}).click();if(name==='Family Thread'){await page.getByRole('button',{name:'SAVE FINDING'}).click();await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'));await page.reload();await page.getByRole('button',{name:'Unlock phone'}).click();await page.getByRole('button',{name:'Open TRACE'}).click();await expect(page.getByRole('heading',{name:'Family Thread'})).toBeVisible();await expect(page.getByRole('button',{name:'FINDING SAVED'})).toBeDisabled();await page.keyboard.press('Escape');await expect(page.getByRole('heading',{name:'Messages'})).toBeVisible()}else await page.getByRole('button',{name:'BACK TO TRACE'}).click()}
+  for(const name of names){await page.getByRole('button',{name:new RegExp(name)}).click();if(name==='Family Thread'){await expect(page.getByRole('button',{name:'SAVE FINDING',exact:true})).toBeDisabled();await page.getByRole('button',{name:/Highlight detail/i}).click();await page.getByRole('button',{name:'SAVE FINDING',exact:true}).click();await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'));await page.reload();await page.getByRole('button',{name:'Unlock phone'}).click();await page.getByRole('button',{name:'Open TRACE'}).click();await expect(page.getByRole('heading',{name:'Family Thread'})).toBeVisible();await expect(page.getByRole('button',{name:'FINDING SAVED'})).toBeDisabled();await page.keyboard.press('Escape');await expect(page.getByRole('heading',{name:'Messages'})).toBeVisible()}else await page.getByRole('button',{name:'BACK TO TRACE'}).click()}
   await page.getByRole('button',{name:'BACK TO TRACE'}).click()
  }
  await page.getByRole('button',{name:'Open Evidence Summary module'}).click()
- await expect(page.getByRole('button',{name:/INSPECT SOURCE/})).toHaveCount(4)
- await page.getByRole('button',{name:/INSPECT SOURCE.*Family Thread/}).click()
+ await expect(page.getByRole('button',{name:/OPEN SOURCE/})).toHaveCount(4)
+ await page.getByRole('button',{name:/OPEN SOURCE.*Family Thread/}).click()
+ await page.getByLabel('Compare fragment with').selectOption({label:'Dinner Reminder'})
+ await page.getByRole('button',{name:'Compare fragments'}).click()
+ await expect(page.getByText(/Both fragments mention biscuits in different contexts/)).toBeVisible()
  await page.getByText('View metadata').click();await expect(page.getByText('Source ID: TA-PH-MESSAGE-FAMILY-01')).toBeVisible()
  await page.getByRole('button',{name:'Home',exact:true}).click()
  await page.getByRole('button',{name:'Open Messages',exact:true}).first().click()

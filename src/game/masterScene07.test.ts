@@ -1,10 +1,23 @@
 import { describe, expect, it } from 'vitest'
 import { callTurns, legacyCallTurns } from '../content/masterScene07'
 import { ver1CallTurns } from '../content/masterScene07Ver1'
-import { masterScene07Action as act } from './masterScene07'
+import { masterScene07Action as act, validateMasterScene07 } from './masterScene07'
 import { newGame, type GameSave } from './types'
 function ready():GameSave {return {...newGame(),masterScene06:{version:1,beat:10,messages:[],recovered:true,inspected:[],order:[],uncertainty:true,syncAcknowledged:true,gapAcknowledged:true,saved:true,reportReviewed:true,reportSent:true,complete:true},masterScene05:{version:1,beat:10,messages:[],packageStatus:'installed',inspected:true,risksRead:true,opened:true,selected:true,recovered:true,read:[],saved:[],complete:true},deliveredEvents:['TA-S06-SOPHIE-EXPORT','TA-S06-REPORT-SENT','TA-S06-COMPLETE']}}
 describe('Scene 7 voice call',()=>{
+ it('records a limited statement comparison without turning it into authenticated evidence',()=>{
+  let s=act(act(ready(),{type:'start'}),{type:'answer'})
+  for(let i=0;i<10;i++){s=act(s,{type:'clip-ended'});s=act(s,{type:'draft',index:0});s=act(s,{type:'send'})}
+  s=act(s,{type:'clip-ended'})
+  const record={type:'record-assessment',id:'remark-unreadable'} as const
+  expect(act(s,record)).toBe(s)
+  s=act(s,{type:'open'});expect(act(s,{type:'finish'})).toBe(s)
+  s=act(s,record,42000)
+  expect(s.evidence['TA-EX-STARRED-ENTRY']).toMatchObject({verified:false,collectedAt:42000})
+  expect(act(s,record,43000)).toBe(s)
+  s=act(s,{type:'finish'});expect(s.masterScene07?.phase).toBe('complete')
+  expect(()=>validateMasterScene07(JSON.parse(JSON.stringify(s.masterScene07)))).not.toThrow()
+ })
  it('honours the deferred export and lets the player request it later',()=>{
   let s=act(act(ready(),{type:'start'}),{type:'answer'})
   for(let i=0;i<10;i++){s=act(s,{type:'clip-ended'});s=act(s,{type:'draft',index:i===9?2:0});s=act(s,{type:'send'})}

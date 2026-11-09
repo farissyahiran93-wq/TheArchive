@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { masterFragments, masterScene05Beats } from '../content/masterScene05'
+import { unknownSenderRevisedBeats } from '../content/masterTraceFirst'
 import { masterRecoveryUnits, masterScene05Action as act } from './masterScene05'
 import { normalizeSave } from './engine'
 import { newGame, type GameSave } from './types'
@@ -47,5 +48,26 @@ describe('Scene 5 TRACE',()=>{
   expect(s.deliveredEvents).toContain('TA-S05-SCENE06-UNLOCKED')
   expect(s.masterScene05?.messages.slice(-4).map(m=>m.text).join(' ')).not.toContain('June Ellis')
   expect(reload(s).masterScene05?.complete).toBe(true)
+ })
+ it('requires a source observation or comparison on the examination route',()=>{
+  const base=ready()
+  let s=act({...base,masterScene04:{...base.masterScene04!,beat:unknownSenderRevisedBeats.length,revision:'guarded-chat'}},{type:'start'})
+  s=act(act(act(s,{type:'archive-inspect'}),{type:'archive-risks'}),{type:'archive-accept'})
+  for(let i=0;i<8;i++){
+   s=act(act(s,{type:'draft',index:0}),{type:'send'})
+   s=act(s,{type:'tick'},s.masterScene05!.pending!.dueAt)
+  }
+  for(const type of ['inspect','risks','install','open-trace','select','recover'] as const)s=act(s,{type})
+  const june=masterFragments[1].id, records=masterFragments[3].id
+  expect(act(s,{type:'observe',id:june})).toBe(s)
+  s=act(s,{type:'read',id:june})
+  expect(act(s,{type:'save',id:june})).toBe(s)
+  expect(act(s,{type:'compare-fragments',left:june,right:'unrecovered'})).toBe(s)
+  s=act(s,{type:'compare-fragments',left:june,right:records})
+  s=reload(act(s,{type:'save',id:june}))
+  expect(s.masterScene05).toMatchObject({read:[june,records],saved:[june],comparison:[june,records]})
+  expect(s.evidence[june].verified).toBe(false)
+  expect(masterRecoveryUnits(s.masterScene05!)).toBe(120)
+  expect(act(s,{type:'draft',index:0}).masterScene05?.draft).toBe(0)
  })
 })

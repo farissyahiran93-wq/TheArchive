@@ -8,7 +8,7 @@ import { secondaryCardAction, type SecondaryCardAction } from './secondaryCardV2
 import { inventoryFinaleAction, type InventoryFinaleAction } from './inventoryFinaleV2'
 import { versionHistoryAction, type VersionHistoryAction } from './scene05'
 import { chapter1Action, type Chapter1Action } from './chapter1'
-import { masterScene04Action, type MasterScene04Action } from './masterScene04'
+import { masterScene04Action, usesScene04ToolPreview, type MasterScene04Action } from './masterScene04'
 import { masterScene05Action, type MasterScene05Action } from './masterScene05'
 import { masterCaseFileAction, type MasterCaseFileAction } from './masterCaseFile'
 import { masterScene06Action, type MasterScene06Action } from './masterScene06'
@@ -211,7 +211,7 @@ export async function startSceneReplay(number: number): Promise<void> {
     if(!entry||!Number.isFinite(entry.capturedAt)||entry.save.replayEntries)throw new Error('No reliable scene-entry checkpoint is available for this save.')
     const snapshot=normalizeSave(entry.save)
     if(!sceneVisited(snapshot,number)||sceneComplete(snapshot,number))throw new Error('The scene checkpoint cannot be used safely.')
-    if(number===5&&snapshot.prologue?.scene01?.masterScene01&&snapshot.masterScene04?.revision!=='trace-first')throw new Error('This Scene 5 checkpoint uses the earlier archive-first story. Restart Scene 4 to create a compatible TRACE-first checkpoint.')
+    if(number===5&&snapshot.prologue?.scene01?.masterScene01&&!usesScene04ToolPreview(snapshot.masterScene04))throw new Error('This Scene 5 checkpoint uses the earlier archive-first story. Restart Scene 4 to create a compatible TRACE-first checkpoint.')
     const checkpoints:NonNullable<GameSave['replayEntries']>={}
     for(const item of libraryScenesForSave(save).filter(item=>item.number<=number)){const key=snapshotKey(save,item),checkpoint=save.replayEntries?.[key];if(checkpoint)checkpoints[key]=checkpoint}
     const revision=save.saveRevision??0

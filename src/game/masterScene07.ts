@@ -1,9 +1,10 @@
 import { callEnding, callTurns, legacyCallTurns, exportHypotheses, exportShares, sophieFollowup } from '../content/masterScene07'
 import { ver1CallTurns, ver1CallEnding } from '../content/masterScene07Ver1'
+import { contactAssessments } from '../content/masterSceneAssessments'
 import type { GameSave } from './types'
 type Line={id:string;sender:'sophie'|'player';text:string;at:number}
-export interface MasterScene07 {version:1;conversationRevision?:'audio-v2'|'starred-v2';exportStatus?:'accepted'|'deferred';phase:'ringing'|'missed'|'playing'|'waiting'|'attachment'|'complete';clip:number;draft?:number;lines:Line[];questioned:boolean;questionDraft?:number;opened:boolean;metadata:boolean;entry:boolean;star:boolean;imported:boolean;analysis:boolean;hypothesis?:number;saved:boolean;shareDraft?:number;shareReviewed:boolean;shareSent:boolean;shareDeclined:boolean}
-export type MasterScene07Action={type:'start'|'answer'|'decline'|'clip-ended'|'send'|'send-question'|'request-export'|'open'|'metadata'|'entry'|'star'|'import'|'analyse'|'save'|'review-share'|'send-share'|'decline-share'|'finish'}|{type:'draft'|'question-draft'|'hypothesis'|'share-draft';index:number}
+export interface MasterScene07 {version:1;conversationRevision?:'audio-v2'|'starred-v2';exportStatus?:'accepted'|'deferred';phase:'ringing'|'missed'|'playing'|'waiting'|'attachment'|'complete';clip:number;draft?:number;lines:Line[];questioned:boolean;questionDraft?:number;opened:boolean;metadata:boolean;entry:boolean;star:boolean;imported:boolean;analysis:boolean;hypothesis?:number;assessment?:typeof contactAssessments[number]['id'];saved:boolean;shareDraft?:number;shareReviewed:boolean;shareSent:boolean;shareDeclined:boolean}
+export type MasterScene07Action={type:'start'|'answer'|'decline'|'clip-ended'|'send'|'send-question'|'request-export'|'open'|'metadata'|'entry'|'star'|'import'|'analyse'|'save'|'review-share'|'send-share'|'decline-share'|'finish'}|{type:'draft'|'question-draft'|'hypothesis'|'share-draft';index:number}|{type:'record-assessment';id:string}
 const choice=(n:number)=>Number.isInteger(n)&&n>=0&&n<3
 export function masterScene07Action(s:GameSave,a:MasterScene07Action,now=Date.now()):GameSave{
  let p=s.masterScene07
@@ -37,6 +38,11 @@ export function masterScene07Action(s:GameSave,a:MasterScene07Action,now=Date.no
  }
  if(a.type==='request-export'&&p.phase==='attachment'&&p.exportStatus==='deferred')return {...s,deliveredEvents:[...new Set([...s.deliveredEvents,'TA-S07-EXPORT-RECEIVED'])],masterScene07:{...p,exportStatus:'accepted'}}
  if(a.type==='open'&&p.phase==='attachment'&&(p.conversationRevision!=='starred-v2'||p.exportStatus==='accepted'))return put({...p,opened:true})
+ if(a.type==='record-assessment'&&p.phase==='attachment'&&p.conversationRevision==='starred-v2'&&p.exportStatus==='accepted'&&p.questioned&&p.opened&&!p.saved){
+  const assessment=contactAssessments.find(item=>item.id===a.id)
+  if(!assessment)return s
+  return {...s,evidence:{...s.evidence,'TA-EX-STARRED-ENTRY':{id:'TA-EX-STARRED-ENTRY',source:`Sophie’s shared-family-folder copy; original unverified. ${assessment.finding}`,collectedAt:now,verified:false}},masterScene07:{...p,assessment:assessment.id,saved:true}}
+ }
  if(a.type==='metadata'&&p.opened)return put({...p,metadata:true})
  if(a.type==='entry'&&p.opened)return put({...p,entry:true})
  if(a.type==='star'&&p.entry)return put({...p,star:true})
@@ -52,7 +58,7 @@ export function masterScene07Action(s:GameSave,a:MasterScene07Action,now=Date.no
   const characters={...s.knowledge.characters};for(const who of recipients)characters[who]=[...new Set([...characters[who],id])]
   return {...s,knowledge:{...s.knowledge,characters},messages:[...s.messages,...recipients.map(recipient=>({id:`${id}-${recipient}`,sender:'player' as const,recipient,channel:'messages' as const,text,at:now,delivery:'delivered' as const,disclosedFactIds:[id]}))],deliveredEvents:[...new Set([...s.deliveredEvents,id])],prologue:{...s.prologue,scene01:{...scene,groupMessages:[...scene.groupMessages,{id,sender:'player',text,at:now}]}},masterScene07:{...p,shareSent:true}}
  }
- if(a.type==='finish'&&p.phase==='attachment'&&p.questioned&&p.saved&&p.metadata&&p.entry&&p.star&&p.analysis){
+ if(a.type==='finish'&&p.phase==='attachment'&&p.questioned&&p.saved&&(p.assessment||p.metadata&&p.entry&&p.star&&p.analysis)){
   const scene=s.prologue?.scene01
   if(scene){const maya='I found an earlier check-in from Daniel. Could you ask them to look at it when they are ready?',sophie='Maya found an earlier check-in from Daniel. She can show you when you are ready.';s={...s,messages:[...s.messages,{id:'TA-S07-MAYA-SOPHIE',sender:'maya',recipient:'sophie',channel:'messages',text:maya,at:now,delivery:'delivered'},{id:'TA-S07-SCENE08-LEAD',sender:'sophie',channel:'messages',text:sophie,at:now,delivery:'delivered'}],knowledge:{...s.knowledge,characters:{...s.knowledge.characters,sophie:[...new Set([...s.knowledge.characters.sophie,'TA-S07-MAYA-SOPHIE'])]}},prologue:{...s.prologue!,scene01:{...scene,messages:[...scene.messages,{id:'TA-S07-SCENE08-LEAD',sender:'sophie',text:sophie,at:now}]}},deliveredEvents:[...new Set([...s.deliveredEvents,'TA-S07-MAYA-SOPHIE','TA-S07-SCENE08-LEAD'])]}}
   return {...s,deliveredEvents:[...new Set([...s.deliveredEvents,'TA-S07-COMPLETE','TA-S07-SCENE08-UNLOCKED'])],masterScene07:{...p,phase:'complete'}}
@@ -62,5 +68,5 @@ export function masterScene07Action(s:GameSave,a:MasterScene07Action,now=Date.no
 export function validateMasterScene07(value:unknown):void{
  if(value===undefined)return
  const p=value as MasterScene07
- if(!p||p.version!==1||!['ringing','missed','playing','waiting','attachment','complete'].includes(p.phase)||!Number.isInteger(p.clip)||p.clip<0||p.clip>10||!Array.isArray(p.lines)||['questioned','opened','metadata','entry','star','imported','analysis','saved','shareReviewed','shareSent','shareDeclined'].some(k=>typeof p[k as keyof MasterScene07]!=='boolean')||p.draft!==undefined&&!choice(p.draft)||p.questionDraft!==undefined&&!choice(p.questionDraft)||p.hypothesis!==undefined&&!choice(p.hypothesis)||p.shareDraft!==undefined&&!choice(p.shareDraft)||p.saved&&(!p.analysis||p.hypothesis===undefined)||p.phase==='complete'&&(!p.saved||!p.questioned)||p.shareSent&&!p.shareReviewed)throw Error('Invalid Scene 7 progress')
+ if(!p||p.version!==1||!['ringing','missed','playing','waiting','attachment','complete'].includes(p.phase)||!Number.isInteger(p.clip)||p.clip<0||p.clip>10||!Array.isArray(p.lines)||['questioned','opened','metadata','entry','star','imported','analysis','saved','shareReviewed','shareSent','shareDeclined'].some(k=>typeof p[k as keyof MasterScene07]!=='boolean')||p.draft!==undefined&&!choice(p.draft)||p.questionDraft!==undefined&&!choice(p.questionDraft)||p.hypothesis!==undefined&&!choice(p.hypothesis)||p.shareDraft!==undefined&&!choice(p.shareDraft)||p.assessment!==undefined&&(!contactAssessments.some(item=>item.id===p.assessment)||!p.saved||!p.opened||!p.questioned||p.conversationRevision!=='starred-v2'||p.exportStatus!=='accepted')||p.saved&&!p.assessment&&(!p.analysis||p.hypothesis===undefined)||p.phase==='complete'&&(!p.saved||!p.questioned)||p.shareSent&&!p.shareReviewed)throw Error('Invalid Scene 7 progress')
 }

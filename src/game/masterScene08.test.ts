@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { scene08Beats, captureId } from '../content/masterScene08'
-import { masterScene08Action as act, captureFields } from './masterScene08'
+import { masterScene08Action as act, captureFields, validateMasterScene08 } from './masterScene08'
 import { newGame, type GameSave } from './types'
 function ready(shared=false):GameSave{return {...newGame(),masterScene07:{phase:'complete',saved:true,shareSent:shared} as GameSave['masterScene07'],deliveredEvents:['TA-S07-SCENE08-UNLOCKED']}}
 describe('Scene 8 Maya capture',()=>{
@@ -28,11 +28,16 @@ describe('Scene 8 Maya capture',()=>{
    if(target===9){expect(s.masterScene08?.complete).toBe(true);expect(s.deliveredEvents).toContain('TA-S08-SCENE09-UNLOCKED');expect(s.evidence[captureId].verified).toBe(false)}
   }
  })
- it('requires actual inspection and explicit review before saving',()=>{
+ it('requires comparing a discovered source and records an unresolved conclusion without authenticating the crop',()=>{
   let s=act(ready(),{type:'start'});for(let n=0;n<4;n++){s=act(s,{type:'draft',index:0});s=act(s,{type:'send'})}
-  expect(act(s,{type:'import'})).toBe(s);expect(act(s,{type:'draft',index:0})).toBe(s)
-  s=act(s,{type:'open'});for(const field of captureFields)s=act(s,{type:'inspect',field})
+  expect(act(s,{type:'record-assessment',id:'crop-wording'})).toBe(s);expect(act(s,{type:'draft',index:0})).toBe(s)
+  s=act(s,{type:'open'})
   for(let n=0;n<4;n++){s=act(s,{type:'draft',index:1});s=act(s,{type:'send'})}
-  s=act(s,{type:'import'});s=act(s,{type:'analyse'});s=act(s,{type:'compare'});s=act(s,{type:'hypothesis',index:2});expect(act(s,{type:'save'})).toBe(s);s=act(s,{type:'review'});s=act(s,{type:'save'});expect(s.evidence[captureId].verified).toBe(false)
+  expect(act(s,{type:'draft',index:0})).toBe(s)
+  expect(act(s,{type:'record-assessment',id:'crop-lucas'})).toBe(s)
+  s=act(s,{type:'record-assessment',id:'crop-original'})
+  expect(s.evidence[captureId].verified).toBe(false)
+  expect(s.masterScene08?.inspected).toHaveLength(0)
+  expect(()=>validateMasterScene08(JSON.parse(JSON.stringify(s.masterScene08)))).not.toThrow()
  })
 })
