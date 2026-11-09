@@ -24,7 +24,6 @@ export function completeMasterScene06(save: GameSave): GameSave {
   next = masterScene06Action(next, { type: 'recover' })
   for (const event of activityEvents.slice(2)) next = masterScene06Action(next, { type: 'inspect', id: event.id })
   next = masterScene06Action(next, { type: 'compare-times', left: missingHourSources[0], right: missingHourSources[1] })
-  next = masterScene06Action(next, { type: 'save' })
   for (let i = 0; i < 2; i++) {
     next = masterScene06Action(next, { type: 'draft', index: 0 })
     next = settleActivityReplies(masterScene06Action(next, { type: 'send' }))

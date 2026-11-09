@@ -12,7 +12,7 @@ export interface MasterInventoryTheory {
  contradictingIds:string[]
 }
 export interface MasterScene10 {version:1;investigationRevision?:'theory-v1';theoryDraft?:MasterInventoryTheory;theory?:MasterInventoryTheory;query:string;searched:boolean;matched:boolean;metadata:boolean;limitations:boolean;compared:boolean;conclusion?:number;saved:boolean;phase:'inventory'|'return'|'ringing'|'missed'|'call'|'warning'|'ending'|'complete';beat:number;draft?:number;lines:Line[];warning:boolean;media?:{revision:1;stage:'ready'|'playing'|'waiting'|'connecting'|'hold'|'fade';clip:number;draft?:number;connectedAt?:number;completionSeen?:boolean;videoConsent:boolean;responses:{decision:number;choice:number;text:string}[]}}
-export type MasterScene10Action={type:'start'|'search'|'metadata'|'limitations'|'compare'|'save'|'save-theory'|'discard-theory-draft'|'home'|'answer'|'decline'|'send'|'reveal-final'|'finish'|'media-play'|'media-ended'|'media-send'|'media-connect'|'media-fade'|'media-finish'|'media-dismiss'}|{type:'query';value:string}|{type:'conclusion'|'draft'|'media-draft';index:number}
+export type MasterScene10Action={type:'start'|'search'|'compare'|'save'|'save-theory'|'discard-theory-draft'|'home'|'answer'|'decline'|'send'|'reveal-final'|'finish'|'media-play'|'media-ended'|'media-send'|'media-connect'|'media-fade'|'media-finish'|'media-dismiss'}|{type:'query';value:string}|{type:'conclusion'|'draft'|'media-draft';index:number}
  | {type:'theory-text';field:'hypothesis'|'alternative'|'outstanding';value:string}
  | {type:'theory-question';questionId:string}
  | {type:'theory-evidence';id:string;use:'support'|'challenge'|'none'}
@@ -30,9 +30,7 @@ export function masterScene10Action(s:GameSave,a:MasterScene10Action,now=Date.no
  if(a.type==='media-dismiss'&&p.phase==='complete'&&p.media)return put({...p,media:{...p.media,completionSeen:true}})
  if(a.type==='query'&&p.phase==='inventory')return put({...p,query:a.value,searched:false,matched:false,metadata:false,limitations:false,compared:false,conclusion:undefined})
  if(a.type==='search'&&p.phase==='inventory')return put({...p,searched:true,matched:p.query.trim().toUpperCase()===inventoryCode})
- if(a.type==='metadata'&&p.matched)return put({...p,metadata:true})
- if(a.type==='limitations'&&p.matched)return put({...p,limitations:true})
- if(a.type==='compare'&&p.matched&&p.phase==='inventory'&&(p.investigationRevision==='theory-v1'?s.masterScene09?.saved:p.metadata&&p.limitations))return put({...p,compared:true})
+ if(a.type==='compare'&&p.matched&&p.phase==='inventory'&&s.masterScene09?.saved)return put({...p,compared:true})
  if(a.type==='conclusion'&&!p.investigationRevision&&p.compared&&valid(a.index)&&!p.saved)return put({...p,conclusion:a.index})
  if(a.type==='save'&&!p.investigationRevision&&p.phase==='inventory'&&p.compared&&p.conclusion!==undefined)return {...s,evidence:{...s.evidence,'TA-S10-PUBLIC-INDEX':{id:'TA-S10-PUBLIC-INDEX',source:`Public inventory reference match; underlying record unavailable; private conclusion: ${inventoryConclusions[p.conclusion]}`,collectedAt:now,verified:false}},masterScene10:{...p,saved:true,phase:'return'}}
  if(p.investigationRevision==='theory-v1'&&p.compared&&(p.phase==='inventory'||p.phase==='return')){

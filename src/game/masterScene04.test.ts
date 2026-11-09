@@ -78,11 +78,18 @@ describe('Scene 4 archive and dialogue',()=>{
    expect(normalizeSave(JSON.parse(JSON.stringify(s))).masterScene04?.status).toBe('accepted')
   }
  })
- it('supports accepting before inspecting without completing early',()=>{
+ it('opens the manual Scene 5 handoff on Proceed without a preview receipt',()=>{
   let s=masterScene04Action(masterScene04Action(before(),{type:'start'}),{type:'open'})
   for(let i=0;i<unknownSenderRevisedBeats.length;i++){s=masterScene04Action(s,{type:'draft',index:1});s=masterScene04Action(s,{type:'send'},100000+i*1000);s=masterScene04Action(s,{type:'tick'},s.masterScene04!.pending!.dueAt)}
-  s=masterScene04Action(s,{type:'accept'});expect(s.masterScene04?.complete).toBe(false)
-  s=masterScene04Action(s,{type:'inspect'});expect(s.masterScene04?.complete).toBe(true)
+  const previouslyAccepted=normalizeSave(JSON.parse(JSON.stringify({...s,masterScene04:{...s.masterScene04!,status:'accepted'}})))
+  for(const offered of [s,previouslyAccepted]){
+   const continued=masterScene04Action(offered,{type:'accept'})
+   expect(continued.masterScene04).toMatchObject({complete:true,inspected:false,preview:false})
+   expect(continued.deliveredEvents).toContain('TA-S04-SCENE05-UNLOCKED')
+   expect(continued.deliveredEvents).not.toContain('TA-S04-METADATA-INSPECTED')
+   expect(continued.masterScene05).toBeUndefined()
+   expect(normalizeSave(JSON.parse(JSON.stringify(continued))).masterScene04?.complete).toBe(true)
+  }
  })
  it('upgrades an untouched opener and preserves a drafted choice and in-flight reply from an older save',()=>{
   const fresh=masterScene04Action(before(),{type:'start'},200000)

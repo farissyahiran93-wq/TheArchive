@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { activityEvents, partialSyncReceipt } from '../content/masterScene06'
 import { fragmentExamination, masterFragments } from '../content/masterScene05'
-import { canDocumentMissingHour, compareTimelineRecords, timelineReady, type MasterScene06, type MasterScene06Action } from '../game/masterScene06'
+import { canDocumentMissingHour, compareTimelineRecords, type MasterScene06, type MasterScene06Action } from '../game/masterScene06'
 import { useGameStore } from '../game/store'
 import './master-timeline.css'
 
@@ -55,11 +55,10 @@ function Reconstruction({ p, act, onSource, onOpenBoard }: TimelineProps & {p:Ma
    {p.timelineHypothesis&&<p><strong>Saved private hypothesis</strong><br />{p.timelineHypothesis.text}<br /><small>{p.timelineHypothesis.sources.map(timelineSourceTitle).join(' + ')}</small></p>}
    <details><summary>Open earlier Messages and Notes</summary>{masterFragments.map(f=><button className="trace-action" key={f.id} onClick={()=>onSource(f.id)}>{fragmentExamination[f.id].title}</button>)}</details>
   </section>
-  {canDocumentMissingHour(p)&&<section className="trace-summary" aria-label="Missing-hour finding">
+  {p.saved&&<section className="trace-summary" aria-label="Missing-hour finding">
    <h2>19:00–20:00 · Unresolved interval</h2>
-   <p>No readable entry falls between the recorded file access and the automatic sync. This copy leaves the cause, the people present and Daniel's whereabouts unresolved.</p>
-   <button className="trace-action" disabled={p.saved} onClick={()=>act({type:'save'})}>{p.saved?'FINDING SAVED':'SAVE FINDING'}</button>
-   {p.saved&&onOpenBoard&&<><p>You can link this finding to its supporting records in the Investigation Board.</p><button className="trace-action" onClick={onOpenBoard}>Open Investigation Board</button></>}
+   <p role="status">Finding recorded in Case File. No readable entry falls between the file access and the automatic sync. The cause and Daniel's whereabouts remain unresolved.</p>
+   {onOpenBoard&&<><p>You can link this finding to its supporting records in the Investigation Board.</p><button className="trace-action" onClick={onOpenBoard}>Open Investigation Board</button></>}
   </section>}
   <section className="trace-summary" aria-label="Working timeline">
    <h2>Working timeline</h2>
@@ -71,6 +70,7 @@ function Reconstruction({ p, act, onSource, onOpenBoard }: TimelineProps & {p:Ma
      <button aria-label={`Move ${event.kind} down`} disabled={index===order.length-1} onClick={()=>act({type:'move',id:event.id,direction:1})}>↓</button>
     </div>
    </li>)}</ol>
+   {canDocumentMissingHour(p)&&<button className="trace-action" onClick={()=>act({type:'document-gap'})}>Document unresolved interval</button>}
    {order.some((event,index)=>index>0&&order[index-1].time>event.time)&&<p role="status">The working order differs from the reported device times.</p>}
   </section>
  </article>
@@ -78,21 +78,6 @@ function Reconstruction({ p, act, onSource, onOpenBoard }: TimelineProps & {p:Ma
 
 export function MasterTimeline({onSource,onOpenBoard}:TimelineProps){
  const p=useGameStore(s=>s.save.masterScene06),act=useGameStore(s=>s.masterScene06Action)
- const [selected,setSelected]=useState<string>()
  if(!p)return null
- const event=activityEvents.find(e=>e.id===selected)
- if(p.revision==='investigation')return <Reconstruction p={p} act={act} onSource={onSource} onOpenBoard={onOpenBoard}/>
- return <article aria-label="Timeline Reconstruction"><h3>Recovered Activity Logs</h3><p>Source: TA-PH-ACTIVITY-01 · partial · origin and clock unverified. Device-local times; UTC offset and clock accuracy unavailable.</p>
- {activityEvents.map(e=><button className="opening-choice" key={e.id} onClick={()=>{act({type:'inspect',id:e.id});setSelected(e.id)}}>{e.time} · {e.kind} · {p.inspected.includes(e.id)?'inspected':'inspect'}</button>)}
- {event&&<section aria-label="Activity event details"><h4>{event.kind}</h4><p>Evidence ID: {event.id} · Source file: TA-PH-ACTIVITY-01</p><p>Original: {event.raw} · Display: 26 Oct 2026 {event.time} · Timezone: device local, offset unknown</p><p>Partial recovery · verification unverified</p><p>{event.text}</p><p>{event.uncertainty}</p>{event.id==='TA-PH-ACTIVITY-01-SYNC'&&<p>The partial sync receipt separately displays 20:02 UTC. The device offset and clock accuracy are unknown, so the two readings cannot establish a two-minute delay.</p>}<button className="opening-choice" disabled={p.order.includes(event.id)} onClick={()=>act({type:'add',id:event.id})}>ADD TO TIMELINE</button></section>}
- <h3>Timeline workspace</h3><p>Add inspected events, then order them using Move Up and Move Down. These controls work with keyboard and touch.</p>
- <ol>{p.order.map((id,i)=>{const e=activityEvents.find(item=>item.id===id)!;return <li key={id}>{e.time} · {e.kind} <button disabled={i===0||p.saved} onClick={()=>act({type:'move',id,direction:-1})} aria-label={`Move ${e.kind} up`}>Move Up</button> <button disabled={i===p.order.length-1||p.saved} onClick={()=>act({type:'move',id,direction:1})} aria-label={`Move ${e.kind} down`}>Move Down</button> <button onClick={()=>{act({type:'inspect',id});setSelected(id)}}>Inspect Source</button></li>})}</ol>
- {p.order.length===4&&!p.order.every((id,i)=>id===activityEvents[i].id)&&<p role="status">Recorded device times are not in order. Recheck the entries.</p>}
- <h3>Conflicts &amp; uncertainty</h3><p>The readable activity log contains no entries between 19:00 and 20:00 on 26 October. This is a gap in the recovered copy, not proof of deletion, a person's location, or when Daniel disappeared. The device clock has not been independently checked.</p>
- <button className="opening-choice" disabled={p.uncertainty||!p.inspected.includes(activityEvents[3].id)} onClick={()=>act({type:'uncertainty'})}>{p.uncertainty?'TIMESTAMP LIMITS REVIEWED':'REVIEW TIMESTAMP LIMITS'}</button>
- <button className="opening-choice" disabled={p.syncAcknowledged||!p.inspected.includes(activityEvents[3].id)} onClick={()=>act({type:'sync'})}>{p.syncAcknowledged?'AUTOMATIC SYNC ACKNOWLEDGED':'MARK SYNC AS AUTOMATIC'}</button>
- <button className="opening-choice" disabled={p.gapAcknowledged||!p.inspected.includes(activityEvents[2].id)||!p.inspected.includes(activityEvents[3].id)} onClick={()=>act({type:'gap'})}>{p.gapAcknowledged?'GAP MARKED UNRESOLVED':'MARK 19:00–20:00 UNRESOLVED'}</button>
- <h3>Earlier Messages &amp; Notes</h3><p>Earlier fragment timestamps remain unavailable. They are context, not evidence identifying the activity-log entries.</p>{masterFragments.map(f=><button className="opening-choice" key={f.id} onClick={()=>onSource(f.id)}>INSPECT SOURCE · {f.id}</button>)}
- {timelineReady(p)&&<section><h3>Evidence summary</h3><p>The four recorded device events can be ordered by their reported times. The 20:00 sync is automatic; no actor or location is established. The 19:00–20:00 interval remains unresolved. Sources: {activityEvents.map(e=>e.id).join(', ')}.</p><button className="opening-primary" disabled={p.saved} onClick={()=>act({type:'save'})}>{p.saved?'FINDING SAVED':'SAVE FINDING'}</button></section>}
- </article>
+ return <Reconstruction p={p} act={act} onSource={onSource} onOpenBoard={onOpenBoard}/>
 }

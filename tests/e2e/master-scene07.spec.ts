@@ -19,9 +19,9 @@ function ready():GameSave{
 import { masterScene05Action as step5 } from '../../src/game/masterScene05'
 import { masterFragments } from '../../src/content/masterScene05'
 function afterFive():GameSave {
- let s=step5(ready(),{type:'start'});s=step5(s,{type:'archive-inspect'});s=step5(s,{type:'archive-risks'});s=step5(s,{type:'archive-accept'})
+ let s=step5(step5(ready(),{type:'start'}),{type:'archive-accept'})
  for(let i=0;i<8;i++){s=step5(s,{type:'draft',index:0});s=step5(s,{type:'send'});s=step5(s,{type:'tick'},s.masterScene05!.pending!.dueAt)}
- s=step5(s,{type:'inspect'});s=step5(s,{type:'risks'});s=step5(s,{type:'install'});s=step5(s,{type:'open-trace'});s=step5(s,{type:'select'});s=step5(s,{type:'recover'})
+ s=step5(s,{type:'install'});s=step5(s,{type:'open-trace'});s=step5(s,{type:'recover'})
  for(const f of masterFragments)s=step5(s,{type:'read',id:f.id})
  s=step5(s,{type:'observe',id:masterFragments[0].id})
  s=step5(s,{type:'save',id:masterFragments[0].id})
@@ -57,7 +57,7 @@ test('Sophie call pauses for a three-tone answer and the external export keeps r
  await page.getByRole('button',{name:"The copy has a starred entry; we don't know who marked it or why."}).click()
  await page.getByRole('button',{name:'REVIEW GROUP MESSAGE'}).click()
  await page.getByRole('button',{name:'CONFIRM SEND TO GROUP'}).click()
- await page.getByRole('button',{name:'FINISH SCENE 7'}).click();await expect(page.getByText(/Scene 7 complete/)).toBeVisible()
+ await expect(page.getByRole('button',{name:'FINISH SCENE 7'})).toHaveCount(0);await expect(page.getByText(/Scene 7 complete/)).toBeVisible()
  await page.getByRole('button',{name:'Back to inbox'}).click();await page.getByRole('button',{name:'Open FIND DANIEL group conversation'}).click()
  await expect(page.getByText("The copy has a starred entry; we don't know who marked it or why.")).toBeVisible()
  for(let i=1;i<=11;i++){const res=await page.request.get(`/media/audio/scene07-ver1/call-${String(i).padStart(2,'0')}.wav`);expect(res.status()).toBe(200)}

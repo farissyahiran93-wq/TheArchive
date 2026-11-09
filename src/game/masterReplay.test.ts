@@ -30,9 +30,9 @@ function entries():GameSave{
  s=settle(openScene03(s,100000));for(let i=0;i<10;i++)s=settle(sendScene01Choice(s,'a','',true,140000+i*1000))
  next=four(s,{type:'start'},200000);s=finishUnknown(captureSceneEntries(s,next,200000))
  next=five(s,{type:'start'},400000);s=captureSceneEntries(s,next,400000)
- s=five(five(five(s,{type:'archive-inspect'}),{type:'archive-risks'}),{type:'archive-accept'})
+ s=five(s,{type:'archive-accept'})
  for(let i=0;i<8;i++){s=five(s,{type:'draft',index:0});s=five(s,{type:'send'},410000+i*10000);s=five(s,{type:'tick'},s.masterScene05!.pending!.dueAt)}
- s=five(five(five(five(five(five(s,{type:'inspect'}),{type:'risks'}),{type:'install'}),{type:'open-trace'}),{type:'select'}),{type:'recover'})
+ s=five(five(five(s,{type:'install'}),{type:'open-trace'}),{type:'recover'})
  for(const f of masterFragments)s=five(s,{type:'read',id:f.id})
  s=five(s,{type:'observe',id:masterFragments[0].id});s=five(s,{type:'save',id:masterFragments[0].id})
  for(let i=0;i<2;i++){s=five(s,{type:'draft',index:0});s=five(s,{type:'send'},510000+i*10000);s=five(s,{type:'tick'},s.masterScene05!.pending!.dueAt)}
