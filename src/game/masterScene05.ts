@@ -21,8 +21,14 @@ export function masterScene05Beat(p:MasterScene05) {
   const beat=(p.revision==='trace-first'?traceFirstScene05Beats:masterScene05Beats)[p.beat]
   if(!beat)return beat
   if(p.beat===7&&p.revision==='trace-first')return {...beat,replies:beat.replies.map(reply=>`${reply} Case Files is there if you want to keep track of what Sophie told you and what still needs checking.`)}
-  if(p.beat===8&&!p.read.some(id=>id==='TA-PH-MESSAGE-JUNE-01'||id==='TA-PH-NOTE-RECORDS-01'))return {choices:['What can one incomplete fragment tell us?',beat.choices[1],beat.choices[2]],replies:['It gives us a starting point. Keep what you could read separate from the context that is still missing.',beat.replies[1],beat.replies[2]]}
-  if(p.beat===9&&!p.observations?.includes('TA-PH-MESSAGE-JUNE-01')&&!p.observations?.includes('TA-PH-NOTE-RECORDS-01'))return {...beat,choices:['I saved a fragment with its context still missing.',beat.choices[1],beat.choices[2]]}
+  const sawJuneThread=p.read.includes('TA-PH-MESSAGE-JUNE-01')
+  if(p.beat===8&&!sawJuneThread){
+    const sawRecordsNote=p.read.includes('TA-PH-NOTE-RECORDS-01')
+    const question=sawRecordsNote?'The note mentions June and a copy. Can you tell what it refers to?':'What can one incomplete fragment tell us?'
+    const reply=sawRecordsNote?'I can’t identify the copy from that note alone. Keep it as a question until we have another source.':'It gives us a starting point. Keep what you could read separate from the context that is still missing.'
+    return {choices:[question,beat.choices[1],beat.choices[2]],replies:[reply,beat.replies[1],beat.replies[2]]}
+  }
+  if(p.beat===9&&(!sawJuneThread||!masterFragments.some(f=>f.category==='Notes'&&p.read.includes(f.id))))return {...beat,choices:['I saved a fragment with its context still missing.',beat.choices[1],beat.choices[2]]}
   return beat
 }
 export const masterRecoveryUnits=(p:MasterScene05)=>p.recovered?masterFragments.reduce((n,f)=>n+f.units,0):0
