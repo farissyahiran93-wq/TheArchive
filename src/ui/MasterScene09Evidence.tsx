@@ -1,15 +1,19 @@
 import { useState } from 'react'
-import { cardFields } from '../game/masterScene09'
-import { cardHypotheses, referenceCardId, referenceCardImage, referenceCode } from '../content/masterScene09'
+import { availableCardAssessments } from '../game/masterScene09'
+import { cardHypotheses, referenceCardImage, referenceCode } from '../content/masterScene09'
 import { useGameStore } from '../game/store'
 import { ChatPhotoViewer } from './ChatPhotoViewer'
+import { MasterStatementAssessment } from './MasterStatementAssessment'
+import { MasterCapturePreview } from './MasterScene08Evidence'
+
 export function MasterScene09Evidence(){
- const p=useGameStore(s=>s.save.masterScene09),act=useGameStore(s=>s.masterScene09Action),[zoom,setZoom]=useState(false)
- if(!p?.received)return null
- return <article className="scene01-invitation" aria-label="Secondary card analysis"><h3>External evidence · {referenceCardId}</h3><p>Photograph supplied by Maya · no phone recovery units</p><button className="opening-choice" disabled={p.beat<8||!cardFields.every(f=>p.inspected.includes(f))||p.imported} onClick={()=>act({type:'import'})}>IMPORT CARD PHOTO</button>
- {p.imported&&<><p>Source: Maya's shared-folder copy. Photographer, capture time, original image, physical custody and authenticity: unverified.</p><button className="opening-choice" onClick={()=>setZoom(true)}>INSPECT CARD SOURCE</button><button className="opening-choice" onClick={()=>act({type:'analyse'})}>ANALYSE VISIBLE TEXT</button></>}
- {p.analysis&&<><p>Observed: Greyhaven Records, Secondary Reference Card, {referenceCode}, “Reference Only”, “Contents Unverified”. The photograph is not the original record and cannot authenticate the physical card or reveal record contents.</p><button className="opening-choice" onClick={()=>act({type:'compare',field:'capture'})}>COMPARE MESSAGE CAPTURE</button>{p.comparisons.includes('capture')&&<p>CAP_LAST_CHECKIN_01 mentions “another copy”; it does not identify this card or show the same provenance.</p>}<button className="opening-choice" onClick={()=>act({type:'compare',field:'contact'})}>COMPARE CONTACT EXPORT</button>{p.comparisons.includes('contact')&&<p>TA-EX-STARRED-ENTRY is a separate external source. No record links it to this reference card.</p>}<button className="opening-choice" onClick={()=>act({type:'compare',field:'timeline'})}>COMPARE TIMELINE LIMITS</button>{p.comparisons.includes('timeline')&&<p>The partial phone timeline does not establish who handled the card or where Daniel was.</p>}
- {p.comparisons.includes('capture')&&p.comparisons.includes('contact')&&<><h3>Private interpretation</h3>{cardHypotheses.map((h,i)=><button className="opening-choice" key={h} disabled={p.saved} aria-pressed={p.hypothesis===i} onClick={()=>act({type:'hypothesis',index:i})}>{h}</button>)}<button className="opening-choice" disabled={p.hypothesis===undefined||p.saved} onClick={()=>act({type:'review'})}>REVIEW CARD FINDING</button>{p.reviewed&&p.hypothesis!==undefined&&<><blockquote>{cardHypotheses[p.hypothesis]}</blockquote><button className="opening-primary" disabled={p.saved} onClick={()=>act({type:'save'})}>{p.saved?'CARD FINDING SAVED':'SAVE CARD FINDING'}</button></>}</>}</>}
- {zoom&&<ChatPhotoViewer src={referenceCardImage} alt="Photograph of a Greyhaven secondary reference card" onClose={()=>setZoom(false)}/>}
+ const save=useGameStore(s=>s.save),act=useGameStore(s=>s.masterScene09Action),[zoom,setZoom]=useState(false),p=save.masterScene09
+ if(!p?.opened||!p.inspected.includes('code')||p.beat<8)return null
+ return <article className="trace-summary" aria-label="Secondary card comparison"><h3>Compare the secondary card</h3><p>Use the visible reference to plan a search. Earlier sources can help frame the question, but neither connects the card to Daniel’s disappearance.</p>
+  <MasterStatementAssessment options={availableCardAssessments(save)} saved={p.saved} savedId={p.assessment} legacyFinding={p.hypothesis===undefined?undefined:cardHypotheses[p.hypothesis]} saveLabel="Save card finding" onSave={id=>act({type:'record-assessment',id})} compare={({id})=><>
+   <article className="trace-summary"><strong>Maya’s reference-card photo</strong><p><mark>{referenceCode}</mark> · Reference Only · Contents Unverified</p><p>Photographer, capture date and physical custody are unknown.</p><button className="trace-action" onClick={()=>setZoom(true)}>View card photograph</button></article>
+   <article className="trace-summary">{id==='card-capture'?<><strong>Maya’s earlier crop</strong><MasterCapturePreview/></>:<><strong>Sophie’s starred contact export</strong><p>Unnamed starred entry. The copy does not identify this reference code.</p></>}</article>
+  </>}/>
+  {zoom&&<ChatPhotoViewer src={referenceCardImage} alt="Photograph of a Greyhaven secondary reference card" onClose={()=>setZoom(false)}/>}
  </article>
 }

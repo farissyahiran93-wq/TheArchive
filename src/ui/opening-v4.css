@@ -4,6 +4,8 @@
 .opening-v4-attachment span{display:block;padding:8px 10px;font-size:12px}
 .opening-v4-full-photo{display:block;max-width:100%;max-height:75vh;object-fit:contain;margin:auto}
 .opening-v4-typing{display:flex;align-items:center;gap:8px;margin:10px 15px;font-size:12px;color:#7e8792}
+.device .unknown-typing .message-avatar{flex-basis:24px;width:24px;height:24px;font-size:10px}
+.device .unknown-typing .typing-dots{padding:9px 11px;border-bottom-left-radius:5px}
 .opening-v4-name-row{display:flex;gap:8px;align-items:center}
 .opening-v4-name-row input{min-width:0;flex:1;border:1px solid #aeb8c4;border-radius:10px;padding:10px 12px;font:inherit}
 .opening-v4-name-row .opening-primary{width:auto;white-space:nowrap}

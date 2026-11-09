@@ -130,3 +130,22 @@ export const masterFragments = [
   { id:'TA-PH-NOTE-ORDINARY-01', category:'Notes', units:30, body:'Dinner with Maya: remember dessert. Actual dessert, not biscuits.', summary:'A personal note mentions dinner with Maya.' },
   { id:'TA-PH-NOTE-RECORDS-01', category:'Notes', units:30, body:'Greyhaven records — ask June which copy she meant.', summary:'A note mentions Greyhaven records and a copy; the surrounding text is missing.' },
 ] as const
+
+export const fragmentExamination = {
+  'TA-PH-MESSAGE-FAMILY-01': { title: 'Family Thread', detail: 'I bought two packets', observation: 'This fragment records Daniel talking about buying biscuits. Without the timestamp and recipient, it cannot establish who he was with or when.' },
+  'TA-PH-MESSAGE-JUNE-01': { title: 'June Thread', detail: 'June Ellis said the old records might be worth another look', observation: 'Daniel mentions June Ellis and old records. The fragment leaves the records, recipient and timing unresolved.' },
+  'TA-PH-NOTE-ORDINARY-01': { title: 'Dinner Reminder', detail: 'Dinner with Maya', observation: 'Daniel wrote a dinner reminder involving Maya. The partial note does not establish that they met or when the note was written.' },
+  'TA-PH-NOTE-RECORDS-01': { title: 'Greyhaven Records', detail: 'ask June which copy she meant', observation: 'Daniel noted a question about a copy connected to Greyhaven records. The note does not identify the copy or who held it.' },
+} satisfies Record<(typeof masterFragments)[number]['id'], {title: string; detail: string; observation: string}>
+
+export function compareRecoveredFragments(left: string, right: string): string | undefined {
+  if (left === right || !masterFragments.some(fragment => fragment.id === left) || !masterFragments.some(fragment => fragment.id === right)) return
+  const pair = new Set([left, right])
+  if (pair.has('TA-PH-MESSAGE-JUNE-01') && pair.has('TA-PH-NOTE-RECORDS-01')) {
+    return 'Both fragments mention June and records. The note also mentions a copy, but neither fragment can establish that both refer to the same record or copy.'
+  }
+  if (pair.has('TA-PH-MESSAGE-FAMILY-01') && pair.has('TA-PH-NOTE-ORDINARY-01')) {
+    return 'Both fragments mention biscuits in different contexts. Neither has a usable timestamp, so the overlap cannot connect the purchase to the dinner.'
+  }
+  return 'The fragments describe different subjects. Their missing timestamps and surrounding text leave their sequence and any connection unresolved.'
+}

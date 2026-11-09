@@ -3,10 +3,52 @@ import { finaleLast, finaleTurns, finaleWarning } from '../content/masterScene10
 import { masterScene10Action as act } from './masterScene10'
 import { newGame, type GameSave } from './types'
 import { normalizeSave } from './engine'
+import { referenceCardId } from '../content/masterScene09'
 
 function ready():GameSave{return {...newGame(),masterScene09:{complete:true,saved:true} as GameSave['masterScene09'],deliveredEvents:['TA-S09-SCENE10-UNLOCKED']}}
 function legacyStart():GameSave{const s=act(ready(),{type:'start'});return {...s,masterScene10:{...s.masterScene10!,media:undefined}}}
 describe('Scene 10 finale',()=>{
+ it('compares the actual reference and saves or revises a private evidence-backed theory before the call',()=>{
+  let s=act({
+   ...ready(),
+   masterScene05:{version:1,beat:8,messages:[],packageStatus:'installed',inspected:true,risksRead:true,opened:true,selected:true,recovered:true,read:[],saved:[],complete:false},
+   masterScene09:{version:1,beat:10,messages:[],received:true,opened:true,inspected:[],imported:false,analysis:true,comparisons:['contact','capture'],hypothesis:0,reviewed:true,saved:true,complete:true},
+  },{type:'start'})
+  expect(s.masterScene10?.investigationRevision).toBe('theory-v1')
+  s=act(s,{type:'query',value:'GH-DSC-O3-A'})
+  s=act(s,{type:'search'})
+  expect(act(s,{type:'compare'})).toBe(s)
+  s=act(s,{type:'query',value:' gh-dsc-03-a '})
+  s=act(s,{type:'search'})
+  s=act(s,{type:'compare'})
+  expect(s.masterScene10).toMatchObject({ matched:true, compared:true, metadata:false, limitations:false })
+  expect(act(s,{type:'home'})).toBe(s)
+  expect(act(s,{type:'save'})).toBe(s)
+  expect(act(s,{type:'theory-evidence',id:'TA-S10-WARNING-CARD',use:'support'})).toBe(s)
+  s=act(s,{type:'theory-question',questionId:'disappearance'})
+  s=act(s,{type:'theory-text',field:'hypothesis',value:'The reference may help find another record.'})
+  s=act(s,{type:'theory-text',field:'alternative',value:'The record could concern a separate investigation.'})
+  s=act(s,{type:'theory-text',field:'outstanding',value:'Who can verify the contents of the record?'})
+  expect(act(s,{type:'save-theory'})).toBe(s)
+  s=act(s,{type:'theory-evidence',id:referenceCardId,use:'support'})
+  s=act(s,{type:'theory-evidence',id:'TA-S10-PUBLIC-INDEX',use:'challenge'})
+  s=act(s,{type:'save-theory'},123)
+  expect(s.masterScene10).toMatchObject({phase:'return',theory:{questionId:'disappearance',supportingIds:[referenceCardId],contradictingIds:['TA-S10-PUBLIC-INDEX']}})
+  expect(s.evidence['TA-S10-PUBLIC-INDEX']).toMatchObject({verified:false,collectedAt:123})
+  expect(s.evidence['TA-S10-WARNING-CARD']).toBeUndefined()
+  expect(s.messages).toEqual([])
+  s=normalizeSave(JSON.parse(JSON.stringify(s)))
+  s=act(s,{type:'theory-text',field:'hypothesis',value:''})
+  expect(act(s,{type:'home'})).toBe(s)
+  s=act(s,{type:'discard-theory-draft'})
+  expect(s.masterScene10?.theory?.hypothesis).toBe('The reference may help find another record.')
+  s=act(s,{type:'theory-text',field:'hypothesis',value:'The reference has a match, but its relevance is unknown.'})
+  s=act(s,{type:'save-theory'},456)
+  expect(s.masterScene10?.theory?.hypothesis).toBe('The reference has a match, but its relevance is unknown.')
+  expect(s.evidence['TA-S10-PUBLIC-INDEX'].collectedAt).toBe(123)
+  s=act(s,{type:'home'})
+  expect(s.masterScene10?.phase).toBe('ringing')
+ })
  it('requires explicit source review, private conclusion, return home and a manual answer',()=>{
   const empty=newGame();expect(act(empty,{type:'start'})).toBe(empty)
   let s=legacyStart();expect(s.masterScene10!.searched).toBe(false)

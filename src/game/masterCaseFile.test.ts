@@ -77,4 +77,23 @@ describe('TRACE Case File 001', () => {
     expect(act(save, { type: 'toggle-link', from: june.id, to: family.id }).masterCaseFile?.links).toEqual([])
     expect(() => validateMasterCaseFile({ ...save.masterCaseFile, links: [{ from: family.id, to: june.id }, { from: june.id, to: family.id }] })).toThrow(/Duplicate/)
   })
+
+  it('stores revisable interpretations without changing the underlying evidence', () => {
+    let save = masterScene05Action(sceneFiveSave(), { type: 'install' })
+    for (const type of ['open-trace', 'select', 'recover'] as const) save = masterScene05Action(save, { type })
+    for (const fragment of [family, june]) save = masterScene05Action(save, { type: 'read', id: fragment.id })
+    const link = { from: family.id, to: june.id }
+    const update = { type: 'update-link', ...link, label: 'Different topics', assessment: 'contradicted' } as const
+    expect(act(save, update)).toBe(save)
+    save = act(save, { type: 'toggle-link', ...link })
+    save = act(save, update)
+    const note = { type: 'save-note', questionId: 'phone-recovery', text: 'The fragments could refer to different days.', evidenceIds: [family.id], alternative: 'They could also be from the same day.' } as const
+    expect(act(save, { ...note, evidenceIds: [family.id], counterEvidenceIds: [noteEvent.id] })).toBe(save)
+    save = act(save, { ...note, evidenceIds: [family.id], counterEvidenceIds: [june.id] })
+    const restored = normalizeSave(JSON.parse(JSON.stringify(save)))
+    expect(selectCase(restored)?.links).toEqual([{ ...link, label: 'Different topics', assessment: 'contradicted' }])
+    expect(selectCase(restored)?.notes['phone-recovery']).toMatchObject({ alternative: note.alternative, counterEvidenceIds: [june.id] })
+    expect(restored.evidence).toEqual({})
+    expect(selectCase(restored)?.nodes.find(node => node.id === family.id)?.source).toContain('source unverified')
+  })
 })

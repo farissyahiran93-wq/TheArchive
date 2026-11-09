@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { traceFirstBeats } from '../content/masterTraceFirst'
+import { traceFirstBeats, unknownSenderRevisedBeats } from '../content/masterTraceFirst'
 import { masterScene04Action } from './masterScene04'
 import { beginScene01, beginScene02, deliverScene01, openScene03, scene01Invitation, sendScene01Choice } from './scene01'
 import { normalizeSave } from './engine'
@@ -31,24 +31,31 @@ describe('Scene 4 archive and dialogue',()=>{
   old.masterScene04={...old.masterScene04!,revision:undefined}
   const saved=structuredClone(old)
   const replay=prepareReplay({save:old,capturedAt:200000},300000,4)
-  expect(replay.masterScene04?.revision).toBe('trace-first')
+  expect(replay.masterScene04?.revision).toBe('guarded-chat')
   expect(replay.masterScene04?.messages.map(m=>m.text)).toEqual(["I know you're looking for Daniel."])
   expect(replay.evidence['TA-S04-ARCHIVE']).toBeUndefined()
   expect(old).toEqual(saved)
  })
- it('executes all 30 alternatives and persists inspection and acceptance separately',()=>{
-  for(let selected=0;selected<10;selected++)for(let option=0;option<3;option++){
+ it('executes all 36 alternatives one bubble at a time and persists inspection and acceptance separately',()=>{
+  for(let selected=0;selected<unknownSenderRevisedBeats.length;selected++)for(let option=0;option<3;option++){
    let s=masterScene04Action(masterScene04Action(before(),{type:'start'},200000),{type:'open'})
-   for(let beat=0;beat<10;beat++){
-    const index=beat===selected?option:0, item=traceFirstBeats[beat]
+   for(const [beat,item] of unknownSenderRevisedBeats.entries()){
+    const index=beat===selected?option:0, count=s.masterScene04!.messages.length
     s=masterScene04Action(s,{type:'draft',index})
     s=normalizeSave(JSON.parse(JSON.stringify(s)))
     s=masterScene04Action(s,{type:'send'},210000+beat)
+    expect(s.masterScene04?.messages).toHaveLength(count+1)
     expect(s.masterScene04?.messages.at(-1)?.text).toBe(item.choices[index])
+    expect(s.masterScene04?.draft).toBeUndefined()
+    expect(masterScene04Action(s,{type:'send'},210000+beat)).toBe(s)
     s=normalizeSave(JSON.parse(JSON.stringify(s)))
-    s=masterScene04Action(s,{type:'tick'},s.masterScene04!.pending!.dueAt)
+    const dueAt=s.masterScene04!.pending!.dueAt
+    expect(masterScene04Action(s,{type:'tick'},dueAt-1)).toBe(s)
+    s=masterScene04Action(s,{type:'tick'},dueAt)
+    expect(s.masterScene04?.messages).toHaveLength(count+2)
     expect(s.masterScene04?.messages.at(-2)?.text).toBe(item.choices[index])
     expect(s.masterScene04?.messages.at(-1)?.text).toBe(item.replies[index])
+    expect(masterScene04Action(s,{type:'tick'},dueAt+20000)).toBe(s)
    }
    expect(s.masterScene04?.status).toBe('offered')
    expect(s.evidence['TA-S04-ARCHIVE']).toBeUndefined()
@@ -73,8 +80,25 @@ describe('Scene 4 archive and dialogue',()=>{
  })
  it('supports accepting before inspecting without completing early',()=>{
   let s=masterScene04Action(masterScene04Action(before(),{type:'start'}),{type:'open'})
-  for(let i=0;i<10;i++){s=masterScene04Action(s,{type:'draft',index:1});s=masterScene04Action(s,{type:'send'},100000+i*1000);s=masterScene04Action(s,{type:'tick'},s.masterScene04!.pending!.dueAt)}
+  for(let i=0;i<unknownSenderRevisedBeats.length;i++){s=masterScene04Action(s,{type:'draft',index:1});s=masterScene04Action(s,{type:'send'},100000+i*1000);s=masterScene04Action(s,{type:'tick'},s.masterScene04!.pending!.dueAt)}
   s=masterScene04Action(s,{type:'accept'});expect(s.masterScene04?.complete).toBe(false)
   s=masterScene04Action(s,{type:'inspect'});expect(s.masterScene04?.complete).toBe(true)
+ })
+ it('upgrades an untouched opener and preserves a drafted choice and in-flight reply from an older save',()=>{
+  const fresh=masterScene04Action(before(),{type:'start'},200000)
+  const previous={...fresh,masterScene04:{...fresh.masterScene04!,revision:'trace-first' as const}}
+  const upgrade=masterScene04Action(previous,{type:'open'})
+  expect(upgrade.masterScene04?.revision).toBe('guarded-chat')
+  expect(upgrade.masterScene04?.messages).toEqual(previous.masterScene04.messages)
+
+  let s:GameSave={...previous,masterScene04:{...previous.masterScene04,draft:1}}
+  s=masterScene04Action(s,{type:'open'})
+  expect(s.masterScene04?.revision).toBe('trace-first')
+  s=masterScene04Action(s,{type:'send'},210000)
+  expect(s.masterScene04?.messages.at(-1)?.text).toBe(traceFirstBeats[0].choices[1])
+  s=normalizeSave(JSON.parse(JSON.stringify(s)))
+  s=masterScene04Action(s,{type:'tick'},s.masterScene04!.pending!.dueAt)
+  expect(s.masterScene04?.messages.at(-1)?.text).toBe(traceFirstBeats[0].replies[1])
+  expect(s.masterScene04?.messages).toHaveLength(3)
  })
 })

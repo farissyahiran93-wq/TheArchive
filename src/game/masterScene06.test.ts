@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { activityEvents, scene06Beats } from '../content/masterScene06'
+import { activityEvents, missingHourSources, partialSyncReceipt, reconstructionReportBeat, scene06Beats } from '../content/masterScene06'
 import { masterScene06Action as act, scene06Units, timelineReady } from './masterScene06'
 import { newGame, type GameSave } from './types'
 import { normalizeSave } from './engine'
@@ -49,4 +49,26 @@ it('reopens an interrupted reply and lets the player document the gap without a 
  expect(s.deliveredEvents).toContain('TA-S06-SCENE07-UNLOCKED')
  expect(s.deliveredEvents).not.toContain('TA-S06-REPORT-SENT')
  expect(s.masterScene06?.messages.filter(m=>m.id==='TA-S06-CLOSE')).toHaveLength(1)
-})})
+})
+it('persists a provisional comparison and unlocks only the evidence-backed missing interval',()=>{
+ const base=ready(), [access,sync]=missingHourSources
+ let s=act({...base,masterScene05:{...base.masterScene05!,revision:'trace-first',examination:'evidence',archiveStatus:'accepted',archiveInspected:true,archiveRisks:true,observations:[base.masterScene05!.saved[0]]}},{type:'start'},1000)
+ s=act(s,{type:'tick'},s.masterScene06!.pending!.dueAt)
+ s=act(s,{type:'recover'})
+ expect(act(s,{type:'compare-times',left:access,right:sync})).toBe(s)
+ for(const id of [sync,access]){
+  s=act(s,{type:'inspect',id});s=act(s,{type:'add',id})
+ }
+ s=act(s,{type:'reorder',id:access,target:sync})
+ s=act(s,{type:'flag-time',id:sync})
+ s=act(s,{type:'compare-times',left:sync,right:partialSyncReceipt.id})
+ s=act(s,{type:'timeline-hypothesis',text:'The two clocks need independent verification.'})
+ expect(act(s,{type:'save'})).toBe(s)
+ s=act(s,{type:'compare-times',left:access,right:sync})
+ s=reload(act(s,{type:'save'}))
+ expect(s.masterScene06).toMatchObject({order:[access,sync],timelineFlags:[sync],gapCompared:true,saved:true,timelineHypothesis:{text:'The two clocks need independent verification.',sources:[sync,partialSyncReceipt.id]}})
+ expect(s.evidence['TA-FN-MISSING-HOUR'].verified).toBe(false)
+ s=act(act(s,{type:'draft',index:1}),{type:'send'})
+ expect(s.masterScene06?.pending?.text).toBe(reconstructionReportBeat.replies[1])
+})
+})

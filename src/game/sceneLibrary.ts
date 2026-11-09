@@ -90,7 +90,7 @@ export function prepareReplay(entry: NonNullable<GameSave['replayEntries']>[stri
   }
   const replay = rebase(entry.save) as GameSave
   const scene = replay.prologue?.scene01
-  if(sceneNumber===4&&scene?.masterScene01&&replay.masterScene04&&replay.masterScene04.revision!=='trace-first'){
+  if(sceneNumber===4&&scene?.masterScene01&&replay.masterScene04&&replay.masterScene04.revision!=='guarded-chat'){
     const id='TA-S04-SOPHIE-ELI-ENQUIRY',first='TA-S04-FIRST'
     const base:GameSave={...replay,masterScene04:undefined,deliveredEvents:replay.deliveredEvents.filter(x=>x!==id&&x!==first),notifications:replay.notifications.filter(x=>x.id!==first),messages:replay.messages.filter(x=>x.id!==id),knowledge:{...replay.knowledge,characters:{...replay.knowledge.characters,eli:replay.knowledge.characters.eli.filter(x=>x!==id)}}}
     return masterScene04Action(base,{type:'start'},now)
