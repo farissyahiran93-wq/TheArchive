@@ -5,6 +5,9 @@ export const activityEvents = [
  {id:'TA-PH-ACTIVITY-01-FILE',time:'19:00',raw:'2026-10-26T19:00:00',kind:'File access',text:'An archive-related file was accessed.',uncertainty:'The actor and location are unavailable.',units:20},
  {id:'TA-PH-ACTIVITY-01-SYNC',time:'20:00',raw:'2026-10-26T20:00:00',kind:'Automatic backup sync',text:'A scheduled backup synchronisation was recorded.',uncertainty:'Automatic sync is not proof that a person used the phone.',units:20},
 ] as const
+
+export const missingHourSources = [activityEvents[2].id, activityEvents[3].id] as const
+export const partialSyncReceipt = { id: 'TA-PH-ACTIVITY-01-SYNC-RECEIPT', title: 'Partial sync receipt', time: '20:02 UTC' } as const
 export const scene06Beats = [
  {choices:['What can activity records tell us?', 'You mentioned another protected segment. What is in it?', 'What do you want me to look for?'],replies:['They may show device events and their recorded times. They cannot tell you everything that happened around the phone.', 'Possibly a partial activity log. I cannot promise the segment is complete.', 'The order of whatever events are actually recoverable, and the places where the record stops.']},
  {choices:['Would an event prove Daniel used the phone?', 'Could someone else have used it?', 'I do not want a device event treated as a witness.'],replies:['No. A record can show what the device logged, not who held it.', 'It is possible. The log alone cannot identify the person.', 'Agreed. Keep the event separate from any claim about its user.']},
@@ -22,3 +25,16 @@ export const reportChoices = [
  'I found a one-hour gap in this partial log. The recorded sync does not prove Daniel was using the phone.',
  'The recovered records leave a one-hour interval unresolved. I am keeping my interpretation private.',
 ] as const
+
+export const reconstructionReportBeat = {
+  choices: [
+    'The file access and the automatic sync leave a one-hour gap in this copy.',
+    'The last readable events are an access and an automatic sync. The clock still needs checking.',
+    'I documented the gap. I’m keeping my interpretation private.',
+  ],
+  replies: [
+    'That gives us a specific interval to check against an independent record. The gap alone cannot tell us what happened.',
+    'Keep both limits attached to those times. An automatic sync does not identify who used the phone, and the clock has no independent check.',
+    'All right. Keep your notes on your device. We can look for a separate source without sharing your theory.',
+  ],
+} as const

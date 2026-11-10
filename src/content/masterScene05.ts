@@ -121,9 +121,31 @@ export const masterScene05Beats = [
   }
 ] as const
 
+/** Follow-up for players who already discussed TRACE before receiving the archive. */
+export const traceFirstScene05Beats=masterScene05Beats.map((beat,i)=>i===0?{choices:['Can TRACE examine this copy?','What should I do with the archive?','I still need to decide whether to use TRACE.'],replies:["If you choose to install it, TRACE can work on a copy and show which fragments become readable.","Review the archive and TRACE's stated limits first. You control whether either is used.","That is your decision. Inspect the package details before installing anything."]}:beat)
+
 export const masterFragments = [
   { id:'TA-PH-MESSAGE-FAMILY-01', category:'Messages', units:30, body:"Daniel: I found the biscuits you like. Don't tell Sophie I bought two packets.", summary:'Daniel mentioned buying biscuits; the surrounding exchange is missing.' },
   { id:'TA-PH-MESSAGE-JUNE-01', category:'Messages', units:30, body:'Daniel: June Ellis said the old records might be worth another look.', summary:'A partial message mentions June Ellis and old records; its recipient and context are unavailable.' },
   { id:'TA-PH-NOTE-ORDINARY-01', category:'Notes', units:30, body:'Dinner with Maya: remember dessert. Actual dessert, not biscuits.', summary:'A personal note mentions dinner with Maya.' },
   { id:'TA-PH-NOTE-RECORDS-01', category:'Notes', units:30, body:'Greyhaven records — ask June which copy she meant.', summary:'A note mentions Greyhaven records and a copy; the surrounding text is missing.' },
 ] as const
+
+export const fragmentExamination = {
+  'TA-PH-MESSAGE-FAMILY-01': { title: 'Family Thread', detail: 'I bought two packets', observation: 'This fragment records Daniel talking about buying biscuits. Without the timestamp and recipient, it cannot establish who he was with or when.' },
+  'TA-PH-MESSAGE-JUNE-01': { title: 'June Thread', detail: 'June Ellis said the old records might be worth another look', observation: 'Daniel mentions June Ellis and old records. The fragment leaves the records, recipient and timing unresolved.' },
+  'TA-PH-NOTE-ORDINARY-01': { title: 'Dinner Reminder', detail: 'Dinner with Maya', observation: 'Daniel wrote a dinner reminder involving Maya. The partial note does not establish that they met or when the note was written.' },
+  'TA-PH-NOTE-RECORDS-01': { title: 'Greyhaven Records', detail: 'ask June which copy she meant', observation: 'Daniel noted a question about a copy connected to Greyhaven records. The note does not identify the copy or who held it.' },
+} satisfies Record<(typeof masterFragments)[number]['id'], {title: string; detail: string; observation: string}>
+
+export function compareRecoveredFragments(left: string, right: string): string | undefined {
+  if (left === right || !masterFragments.some(fragment => fragment.id === left) || !masterFragments.some(fragment => fragment.id === right)) return
+  const pair = new Set([left, right])
+  if (pair.has('TA-PH-MESSAGE-JUNE-01') && pair.has('TA-PH-NOTE-RECORDS-01')) {
+    return 'Both fragments mention June and records. The note also mentions a copy, but neither fragment can establish that both refer to the same record or copy.'
+  }
+  if (pair.has('TA-PH-MESSAGE-FAMILY-01') && pair.has('TA-PH-NOTE-ORDINARY-01')) {
+    return 'Both fragments mention biscuits in different contexts. Neither has a usable timestamp, so the overlap cannot connect the purchase to the dinner.'
+  }
+  return 'The fragments describe different subjects. Their missing timestamps and surrounding text leave their sequence and any connection unresolved.'
+}

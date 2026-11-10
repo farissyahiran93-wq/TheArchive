@@ -1,0 +1,7 @@
+.trace-assessment { display: grid; gap: .75rem; }
+.trace-assessment fieldset { display: grid; gap: .35rem; min-width: 0; border: 0; padding: 0; }
+.trace-assessment legend { margin: 0 0 .5rem; font-weight: 600; }
+.trace-assessment [aria-pressed='true'] { outline: 1px solid currentColor; }
+.trace-assessment-sources { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr)); gap: .55rem; }
+.trace-assessment-sources article { min-width: 0; overflow-wrap: anywhere; }
+.trace-assessment-sources blockquote { margin: .45rem 0; }

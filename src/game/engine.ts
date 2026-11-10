@@ -5,6 +5,7 @@ import { validateAccessState } from './chapter2Access'
 import { actINodes } from '../content/actIRegistry'
 import { validateMasterScene04 } from './masterScene04'
 import { validateMasterScene05 } from './masterScene05'
+import { validateMasterCaseFile } from './masterCaseFile'
 import { validateMasterScene06 } from './masterScene06'
 import { validateMasterScene07 } from './masterScene07'
 import { validateMasterScene08 } from './masterScene08'
@@ -233,6 +234,7 @@ export function normalizeSave(input: unknown): GameSave {
   }
   validateMasterScene04(input.masterScene04)
   validateMasterScene05(input.masterScene05)
+  validateMasterCaseFile(input.masterCaseFile)
   validateMasterScene06(input.masterScene06)
   validateMasterScene07(input.masterScene07)
   validateMasterScene08(input.masterScene08)

@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { masterScene04Action } from '../../src/game/masterScene04'
+import { unknownSenderRevisedBeats } from '../../src/content/masterTraceFirst'
 import { beginScene01, beginScene02, deliverScene01, openScene03, scene01Invitation, sendScene01Choice } from '../../src/game/scene01'
 import { newGame, type GameSave } from '../../src/game/types'
 import { seedScene } from './scene01-helper'
@@ -12,18 +13,18 @@ function ready():GameSave{
  s=settle(openScene03(s,100000))
  for(let i=0;i<10;i++)s=settle(sendScene01Choice(s,'a','',true,140000+i*1000))
  s=masterScene04Action(masterScene04Action(s,{type:'start'},200000),{type:'open'})
- for(let i=0;i<10;i++){s=masterScene04Action(s,{type:'draft',index:0});s=masterScene04Action(s,{type:'send'},210000+i*1000);s=masterScene04Action(s,{type:'tick'},210999+i*1000)}
+ for(let i=0;i<unknownSenderRevisedBeats.length;i++){s=masterScene04Action(s,{type:'draft',index:0});s=masterScene04Action(s,{type:'send'},210000+i*10000);s=masterScene04Action(s,{type:'tick'},s.masterScene04!.pending!.dueAt)}
  return masterScene04Action(masterScene04Action(s,{type:'inspect'}),{type:'accept'})
 }
-test('Scene 5 requires consent, manual recovery, source inspection and explicit report',async({page})=>{
+test('Scene 5 preserves consent, manual recovery, opened fragments and explicit report',async({page})=>{
  await seedScene(page,ready())
  await page.getByRole('button',{name:'Open Messages',exact:true}).first().click()
  await page.getByRole('button',{name:'Open Unknown conversation'}).click()
  await page.getByRole('button',{name:'START SCENE 5'}).click()
- for(let i=0;i<8;i++){await expect(page.locator('.scene01-options .opening-choice')).toHaveCount(3);await page.locator('.scene01-options .opening-choice').nth(i%3).click();await page.getByRole('button',{name:'Send',exact:true}).click()}
- await expect(page.getByRole('button',{name:'INSTALL TRACE'})).toBeDisabled()
- await page.getByRole('button',{name:'INSPECT PACKAGE'}).click()
- await page.getByRole('button',{name:'REVIEW CAPABILITIES AND RISKS'}).click()
+ await expect(page.getByText('The archive may be incomplete or altered.',{exact:false})).toBeVisible()
+ await page.getByRole('button',{name:'DECLINE ARCHIVE'}).click();await page.getByRole('button',{name:'RECONSIDER ARCHIVE'}).click();await page.getByRole('button',{name:'ACCEPT ARCHIVE'}).click()
+ for(let i=0;i<8;i++){await expect(page.locator('.scene01-options .opening-choice')).toHaveCount(3);await page.locator('.scene01-options .opening-choice').nth(i%3).click();await page.getByRole('button',{name:'Send',exact:true}).click();await expect(page.getByRole('status',{name:'Unknown is typing'})).toBeVisible();if(i===0){await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'));await page.reload();await page.getByRole('button',{name:'Unlock phone'}).click();await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Unknown conversation'}).click();await expect(page.getByRole('status',{name:'Unknown is typing'})).toBeVisible();await page.evaluate(()=>{Object.defineProperty(document,'visibilityState',{configurable:true,value:'hidden'});document.dispatchEvent(new Event('visibilitychange'));Object.defineProperty(document,'visibilityState',{configurable:true,value:'visible'});document.dispatchEvent(new Event('visibilitychange'))});await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'));await page.goto('about:blank');await page.goBack();await page.getByRole('button',{name:'Unlock phone'}).click();await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Unknown conversation'}).click()}await page.clock.runFor(10000)}
+ await expect(page.getByRole('button',{name:'INSTALL TRACE'})).toBeEnabled()
  await page.getByRole('button',{name:'DECLINE TRACE'}).click()
   await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'))
   await page.reload()
@@ -33,30 +34,50 @@ test('Scene 5 requires consent, manual recovery, source inspection and explicit 
   await expect(page.getByText(/developer claim unverified · declined/)).toBeVisible()
  await page.getByRole('button',{name:'RECONSIDER TRACE'}).click()
  await page.getByRole('button',{name:'INSTALL TRACE'}).click()
- await page.getByRole('button',{name:'Go home'}).click()
- await page.getByRole('button',{name:'Open TRACE'}).click()
  await expect(page.getByText('Recovery: 0%')).toBeVisible()
- await page.getByRole('button',{name:/SELECT DNL_PHONE_ARCHIVE/}).click()
  await page.getByRole('button',{name:'START RECOVERY'}).click()
  await expect(page.getByText('Recovery: 12%')).toBeVisible()
+ await page.screenshot({path:'artifacts/trace-workspace-home.png'})
   await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'))
   await page.reload()
   await page.getByRole('button',{name:'Unlock phone'}).click()
   await page.getByRole('button',{name:'Open TRACE'}).click()
   await expect(page.getByText('Recovery: 12%')).toBeVisible()
-  await expect(page.getByRole('button',{name:'START RECOVERY'})).toBeDisabled()
- for(const id of ['TA-PH-MESSAGE-FAMILY-01','TA-PH-MESSAGE-JUNE-01','TA-PH-NOTE-ORDINARY-01','TA-PH-NOTE-RECORDS-01']){
-  await page.getByRole('button',{name:new RegExp(id)}).click()
-  if(id==='TA-PH-MESSAGE-FAMILY-01')await page.getByRole('button',{name:'SAVE FINDING'}).click()
+  await expect(page.getByRole('button',{name:'FIRST PASS COMPLETE'})).toBeDisabled()
+ await page.getByRole('button',{name:'Open Activity Logs module'}).click();await expect(page.getByText('Requires deeper recovery pass. Available in a later operation.')).toBeVisible();await page.getByRole('button',{name:'BACK TO TRACE'}).click()
+ for(const [module,names] of [['Messages',['Family Thread','June Thread']],['Notes',['Dinner Reminder','Greyhaven Records']]] as const){
+  await page.getByRole('button',{name:`Open ${module} module`}).click()
+  for(const name of names){
+   await page.getByRole('button',{name:new RegExp(name)}).click()
+   await expect(page.getByRole('button',{name:'SAVE FINDING',exact:true})).toBeDisabled()
+   await page.getByRole('button',{name:'BACK TO TRACE'}).click()
+  }
   await page.getByRole('button',{name:'BACK TO TRACE'}).click()
  }
- await page.getByRole('button',{name:'EVIDENCE SUMMARY'}).click()
- await expect(page.getByRole('button',{name:/INSPECT SOURCE/})).toHaveCount(4)
- await page.getByRole('button',{name:/INSPECT SOURCE.*FAMILY/}).click()
- await expect(page.getByText('Source file: TA-PH-MESSAGE-FAMILY-01')).toBeVisible()
  await page.getByRole('button',{name:'Home',exact:true}).click()
  await page.getByRole('button',{name:'Open Messages',exact:true}).first().click()
  await page.getByRole('button',{name:'Open Unknown conversation'}).click()
- for(let i=0;i<2;i++){await page.locator('.scene01-options .opening-choice').last().click();await page.getByRole('button',{name:'Send',exact:true}).click()}
- await expect(page.getByText(/Scene 5 complete/)).toBeVisible()
+ await expect(page.getByRole('button',{name:'Send',exact:true})).toHaveCount(0)
+ await expect(page.getByRole('button',{name:'START SCENE 6'})).toHaveCount(0)
+ await page.getByRole('button',{name:'Go home'}).click()
+ await page.getByRole('button',{name:'Open TRACE'}).click()
+ await page.getByRole('button',{name:'Open Evidence Summary module'}).click()
+ await expect(page.getByRole('button',{name:/OPEN SOURCE/})).toHaveCount(4)
+ await page.getByRole('button',{name:/OPEN SOURCE.*Family Thread/}).click()
+ await page.getByLabel('Compare fragment with').selectOption({label:'Dinner Reminder'})
+ await page.getByRole('button',{name:'Compare fragments'}).click()
+ await expect(page.getByText(/Both fragments mention biscuits in different contexts/)).toBeVisible()
+ await page.getByRole('button',{name:'SAVE FINDING',exact:true}).click()
+ await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'))
+ await page.reload()
+ await page.getByRole('button',{name:'Unlock phone'}).click()
+ await page.getByRole('button',{name:'Open TRACE'}).click()
+ await expect(page.getByRole('heading',{name:'Family Thread',level:1})).toBeVisible()
+ await expect(page.getByRole('button',{name:'FINDING SAVED'})).toBeDisabled()
+ await page.getByText('View metadata').click();await expect(page.getByText('Source ID: TA-PH-MESSAGE-FAMILY-01')).toBeVisible()
+ await page.getByRole('button',{name:'Home',exact:true}).click()
+ await page.getByRole('button',{name:'Open Messages',exact:true}).first().click()
+ await page.getByRole('button',{name:'Open Unknown conversation'}).click()
+ for(let i=0;i<2;i++){await page.locator('.scene01-options .opening-choice').last().click();await page.getByRole('button',{name:'Send',exact:true}).click();await page.clock.runFor(10000)}
+ await page.clock.runFor(10000);await expect(page.getByRole('button',{name:'START SCENE 6'})).toBeVisible()
 })

@@ -184,6 +184,7 @@ export interface OpeningState {
 export interface GameSave {
   masterScene04?: import('./masterScene04').MasterScene04
   masterScene05?: import('./masterScene05').MasterScene05
+  masterCaseFile?: import('./masterCaseFile').MasterCaseFileState
   masterScene06?: import('./masterScene06').MasterScene06
   masterScene07?: import('./masterScene07').MasterScene07
   masterScene08?: import('./masterScene08').MasterScene08

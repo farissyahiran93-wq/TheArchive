@@ -1,0 +1,72 @@
+.trace-timeline-controls {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.trace-reconstruction h2 {
+  font-size: 1rem;
+}
+.trace-reconstruction h3 {
+  font-size: .85rem;
+  margin: 0 0 .25rem;
+}
+.trace-reconstruction small, .trace-reconstruction summary {
+  color: #8fe2d0;
+}
+.trace-reconstruction .trace-time-flag {
+  color: #ffd297;
+  display: block;
+  padding: 0 0 .4rem .3rem;
+}
+.trace-time-sources {
+  display: grid;
+  gap: .6rem;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  margin-bottom: .65rem;
+}
+.trace-time-sources label, .trace-time-result label {
+  display: grid;
+  gap: .3rem;
+  font-size: .78rem;
+}
+.trace-time-sources select, .trace-time-result textarea {
+  width: 100%;
+  min-width: 0;
+  font: inherit;
+  color: #d8e9ee;
+  background: #0b1820;
+  border: 1px solid #406770;
+  border-radius: .4rem;
+  padding: .5rem;
+}
+.trace-time-result {
+  margin-top: .75rem;
+}
+.trace-time-result article {
+  background: #0c1b22;
+  border: 1px solid #28424a;
+  border-radius: .4rem;
+  padding: .6rem;
+}
+.trace-work-order {
+  padding-left: 1.35rem;
+}
+.trace-work-order li {
+  background: #0b1820;
+  border: 1px solid #396e69;
+  border-radius: .4rem;
+  cursor: grab;
+  padding: .55rem;
+  margin: .35rem 0;
+}
+.trace-work-order .trace-timeline-controls {
+  margin-top: .4rem;
+}
+.trace-reconstruction button:disabled {
+  opacity: .5;
+}
+@media (max-width: 340px) {
+  .trace-time-sources {
+    grid-template-columns: minmax(0,1fr);
+  }
+}

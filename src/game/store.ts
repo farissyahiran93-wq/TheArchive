@@ -8,8 +8,9 @@ import { secondaryCardAction, type SecondaryCardAction } from './secondaryCardV2
 import { inventoryFinaleAction, type InventoryFinaleAction } from './inventoryFinaleV2'
 import { versionHistoryAction, type VersionHistoryAction } from './scene05'
 import { chapter1Action, type Chapter1Action } from './chapter1'
-import { masterScene04Action, type MasterScene04Action } from './masterScene04'
+import { masterScene04Action, usesScene04ToolPreview, type MasterScene04Action } from './masterScene04'
 import { masterScene05Action, type MasterScene05Action } from './masterScene05'
+import { masterCaseFileAction, type MasterCaseFileAction } from './masterCaseFile'
 import { masterScene06Action, type MasterScene06Action } from './masterScene06'
 import { masterScene07Action, type MasterScene07Action } from './masterScene07'
 import { masterScene08Action, type MasterScene08Action } from './masterScene08'
@@ -60,6 +61,7 @@ interface GameStore {
   scene01Invitation: (action: 'accept' | 'join' | 'dismiss' | 'show' | 'decline') => void
   masterScene04Action: (action: MasterScene04Action) => void
   masterScene05Action: (action: MasterScene05Action) => void
+  masterCaseFileAction: (action: MasterCaseFileAction) => void
   masterScene06Action: (action: MasterScene06Action) => void
   masterScene07Action: (action: MasterScene07Action) => void
   masterScene08Action: (action: MasterScene08Action) => void
@@ -209,10 +211,11 @@ export async function startSceneReplay(number: number): Promise<void> {
     if(!entry||!Number.isFinite(entry.capturedAt)||entry.save.replayEntries)throw new Error('No reliable scene-entry checkpoint is available for this save.')
     const snapshot=normalizeSave(entry.save)
     if(!sceneVisited(snapshot,number)||sceneComplete(snapshot,number))throw new Error('The scene checkpoint cannot be used safely.')
+    if(number===5&&snapshot.prologue?.scene01?.masterScene01&&!usesScene04ToolPreview(snapshot.masterScene04))throw new Error('This Scene 5 checkpoint uses the earlier archive-first story. Restart Scene 4 to create a compatible TRACE-first checkpoint.')
     const checkpoints:NonNullable<GameSave['replayEntries']>={}
     for(const item of libraryScenesForSave(save).filter(item=>item.number<=number)){const key=snapshotKey(save,item),checkpoint=save.replayEntries?.[key];if(checkpoint)checkpoints[key]=checkpoint}
     const revision=save.saveRevision??0
-    const selected={...prepareReplay({...entry,save:snapshot},Date.now(),number),settings:save.settings,replayEntries:checkpoints,saveRevision:revision+1}
+    const selected=normalizeSave({...prepareReplay({...entry,save:snapshot},Date.now(),number),settings:save.settings,replayEntries:checkpoints,saveRevision:revision+1})
     await writeGame(selected,revision)
     discardPendingSave()
     useGameStore.setState({save:selected,saveError:null})
@@ -236,6 +239,7 @@ function commit(next: GameSave) {
 export const useGameStore = create<GameStore>((set, get) => ({
   masterScene04Action: action => commit(masterScene04Action(get().save,action)),
   masterScene05Action: action => commit(masterScene05Action(get().save,action)),
+  masterCaseFileAction: action => commit(masterCaseFileAction(get().save,action)),
   masterScene06Action: action => commit(masterScene06Action(get().save,action)),
   masterScene07Action: action => commit(masterScene07Action(get().save,action)),
   masterScene08Action: action => commit(masterScene08Action(get().save,action)),
@@ -325,7 +329,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
   tick: () => {
     const current = get().save
     const now = Date.now()
-    if (current.prologue?.scene01) { commit(masterScene04Action(chapter2Access(chapter1Action(deliverScene01(current, now), { type: 'tick' }, now), { type: 'tick' }, now, playtestEnabled), {type:'tick'}, now)); return }
+    if (current.prologue?.scene01) {
+      const opening = deliverScene01(current, now)
+      const chapter = chapter2Access(chapter1Action(opening, { type: 'tick' }, now), { type: 'tick' }, now, playtestEnabled)
+      const four = masterScene04Action(chapter, { type: 'tick' }, now)
+      const five = masterScene05Action(four, { type: 'tick' }, now)
+      commit(masterScene06Action(five, { type: 'tick' }, now))
+      return
+    }
     if (current.prologue?.flow === 'mirror-first') {
       const next = deliverOpening(current, now)
       commit(next === current ? deliverPhoneOpeningEvent(current, now) : next)

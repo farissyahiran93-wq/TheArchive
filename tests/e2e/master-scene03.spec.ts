@@ -13,7 +13,7 @@ function beforePrivate(pending=false): GameSave {
   for(let i=0;i<9;i++)s=settle(sendScene01Choice(s,'a','',true,1800000300000+i*1000),pending && i===8)
   return s
 }
-test.use({reducedMotion:'reduce'})
+test.use({reducedMotion:'reduce',viewport:{width:390,height:844}})
 test('opening Sophie before the handoff does not start Scene 3 until reopening',async({page})=>{
   await seedScene(page,beforePrivate(true),{pauseClock:true})
   await openSophie(page)
@@ -51,9 +51,16 @@ test('private handoff opens manually, preserves draft after reload and ends offl
   await expect(page.getByRole('dialog',{name:'Photo viewer'})).toBeVisible()
   await page.getByRole('button',{name:'Zoom in'}).click()
   await page.getByRole('button',{name:'Close photo'}).click()
+  const photo=page.getByRole('button',{name:/Open Sophie.s photo: Two packets/})
+  await expect(photo.locator('..')).not.toContainText('These are the biscuits')
+  await expect(page.locator('.opening-bubble.sophie').getByText('These are the biscuits I was talking about. He always bought the same ones.')).toHaveCount(1)
+  await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'))
+  await page.reload();await page.getByRole('button',{name:'Unlock phone',exact:true}).click();await openSophie(page)
+  await expect(page.getByRole('button',{name:/Open Sophie.s photo: Two packets/})).toHaveCount(1)
+  await expect(page.locator('.opening-bubble.sophie').getByText('These are the biscuits I was talking about. He always bought the same ones.')).toHaveCount(1)
   await expect(page.getByText('Goodbye.',{exact:true})).toHaveCount(1)
   await expect(page.getByText('Sophie is offline.',{exact:true})).toBeVisible()
-  await expect(page.getByText('Scene 4 — The Unknown Sender is unlocked. Its conversation is not available yet.')).toBeVisible()
-  await expect(page.getByText("I know you're looking for Daniel.",{exact:true})).toHaveCount(0)
+  await expect(page.getByText('Scene 4 — The Unknown Sender is unlocked. Open Messages to continue.')).toBeVisible()
+  await expect(page.locator('[aria-label="Unknown conversation"]')).toHaveCount(0)
   await expect(page.getByText('I found that article. The one I mentioned.',{exact:true})).toHaveCount(0)
 })

@@ -1,0 +1,140 @@
+.inventory-screen {
+  padding: 1rem;
+  gap: 0.8rem;
+  overflow-y: auto;
+  color: #dfebe9;
+  background: linear-gradient(155deg, #14252c 0%, #10171c 55%);
+}
+
+.inventory-screen h2,
+.inventory-screen h3,
+.inventory-screen p {
+  margin-block: 0;
+}
+
+.inventory-eyebrow {
+  color: #9be1cb;
+  font-family: ui-monospace, monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.inventory-search,
+.inventory-record,
+.inventory-theory-form,
+.inventory-investigation {
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.inventory-search label,
+.inventory-theory-form label {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+  font-weight: 600;
+}
+
+.inventory-screen :is(input, select, textarea) {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 2.75rem;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid #4a6568;
+  border-radius: 0.55rem;
+  background: #121e23;
+  color: #eff9f6;
+  font: inherit;
+}
+
+.inventory-screen textarea {
+  resize: vertical;
+}
+
+.inventory-record,
+.inventory-investigation {
+  border: 1px solid #355258;
+  border-radius: 0.75rem;
+  padding: 0.8rem;
+  background: #17262c;
+}
+
+.inventory-record p,
+.inventory-theory-form p,
+.inventory-theory-form small {
+  color: #c2d4d5;
+  line-height: 1.45;
+  font-size: 0.86rem;
+}
+
+.inventory-comparison {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.inventory-comparison figure,
+.inventory-comparison > div {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.4rem;
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 0.78rem;
+}
+
+.inventory-comparison > div {
+  justify-content: center;
+  padding: 0.6rem;
+  border: 1px solid #45676b;
+  background: #122126;
+}
+
+.inventory-comparison img {
+  width: 100%;
+  height: auto;
+  border-radius: 0.35rem;
+}
+
+.inventory-workspace-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.inventory-workspace-tabs button {
+  flex: 1 1 auto;
+}
+
+.inventory-theory-sources {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  border: 1px solid #4a6568;
+  border-radius: 0.65rem;
+  min-width: 0;
+  padding: 0.6rem;
+}
+
+.inventory-theory-sources legend {
+  padding-inline: 0.3rem;
+  font-weight: 600;
+}
+
+.inventory-source-list {
+  display: grid;
+  gap: 0.55rem;
+  max-height: 18rem;
+  padding: 0.2rem;
+  overflow: auto;
+}
+
+.inventory-source-list label {
+  background: #20343a;
+  border-radius: 0.5rem;
+  padding: 0.55rem;
+}

@@ -169,12 +169,14 @@ export function deliverScene01(state: GameSave, now: number): GameSave {
     next = { ...event(next, node.id), notifications: [...next.notifications, { id: node.id, text: node.channel === 'group' ? `FIND DANIEL · ${sender[0].toUpperCase() + sender.slice(1)}: ${node.photo?'Photo':text}` : `${scene.introduced || node.introducesSophie ? 'Sophie' : 'Unknown number'}: ${text}`, read: false }] }
     if(node.id==='TA-S01-AFTER-01-2'&&scene.familyPhotoRevision===1&&!next.deliveredEvents.includes(storyPhotos.sophieFamily.id)){
       const current=next.prologue!.scene01!,photo=storyPhotos.sophieFamily
-      next=event(replace(next,{...current,messages:[...current.messages,{id:photo.id,sender:'sophie',text:photo.caption,photo:photo.src,at:now}],familyPhotoReply:{}}),photo.id)
-      next={...next,messages:[...next.messages,{id:photo.id,sender:'sophie',channel:'messages',text:photo.caption,attachmentIds:[photo.id],at:now,delivery:'delivered'}],notifications:[...next.notifications,{id:photo.id,text:'Sophie: Photo',read:false}]}
+      const dialogueId=`${photo.id}-DIALOGUE`
+      next=event(event(replace(next,{...current,messages:[...current.messages,{id:photo.id,sender:'sophie',text:'',photo:photo.src,at:now},{id:dialogueId,sender:'sophie',text:photo.caption,at:now}],familyPhotoReply:{}}),photo.id),dialogueId)
+      next={...next,messages:[...next.messages,{id:photo.id,sender:'sophie',channel:'messages',text:'Photo',attachmentIds:[photo.id],at:now,delivery:'delivered'},{id:dialogueId,sender:'sophie',channel:'messages',text:photo.caption,at:now,delivery:'delivered'}],notifications:[...next.notifications,{id:photo.id,text:'Sophie: Photo',read:false}]}
     }
     if(node.id==='TA-S03-AFTER-08-3'&&scene.privateScene03?.photoRevision===1&&!next.deliveredEvents.includes(storyPhotos.sophieBiscuits.id)){
       const current=next.prologue!.scene01!,photo=storyPhotos.sophieBiscuits
-      next=event(replace(next,{...current,messages:[...current.messages,{id:photo.id,sender:'sophie',text:photo.caption,photo:photo.src,at:now}],privateScene03:{...current.privateScene03!,receipts:[...current.privateScene03!.receipts,{eventId:photo.id,recipient:'player',factIds:[]}]}}),photo.id)
+      const dialogueId=`${photo.id}-DIALOGUE`
+      next=event(event(replace(next,{...current,messages:[...current.messages,{id:photo.id,sender:'sophie',text:'',photo:photo.src,at:now},{id:dialogueId,sender:'sophie',text:photo.caption,at:now}],privateScene03:{...current.privateScene03!,receipts:[...current.privateScene03!.receipts,{eventId:photo.id,recipient:'player',factIds:[]},{eventId:dialogueId,recipient:'player',factIds:[]}]}}),photo.id),dialogueId)
       next={...next,notifications:[...next.notifications,{id:photo.id,text:'Sophie: Photo',read:false}]}
     }
     if (node.id === 'TA-S03-FIRST-MESSAGE') next = event(next, 'TA-S02-SCENE03-UNLOCKED')
