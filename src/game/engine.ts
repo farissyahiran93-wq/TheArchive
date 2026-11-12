@@ -193,6 +193,7 @@ export function normalizeSave(input: unknown): GameSave {
         const node = scene01Nodes[draft.nodeId]
         if (node?.kind !== 'choice' || !node.choices.some(c => c.id === draft.choiceId)) throw new Error('Invalid Act I draft')
       }
+      if(scene.masterScene01Revision!==undefined && (scene.masterScene01Revision!==2 || scene.masterScene01!==true))throw new Error('Invalid master Scene 1 revision')
       if(scene.familyPhotoRevision!==undefined&&scene.familyPhotoRevision!==1)throw new Error('Invalid family photo revision')
       if(scene.familyPhotoReply!==undefined){const r=scene.familyPhotoReply;if(!record(r)||r.draft!==undefined&&(!Number.isInteger(r.draft)||Number(r.draft)<0||Number(r.draft)>2)||r.replied!==undefined&&(!Number.isInteger(r.replied)||Number(r.replied)<0||Number(r.replied)>2))throw new Error('Invalid family photo reply')}
       if (scene.privateScene03 !== undefined) {

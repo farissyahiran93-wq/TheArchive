@@ -5,6 +5,7 @@ import { sourceInvestigations } from '../content/sourceInvestigations'
 import { versionHistorySceneId } from '../content/versionHistoryConversation'
 import type { GameSave } from './types'
 import { masterScene04Action } from './masterScene04'
+import { beginScene01 } from './scene01'
 
 // Only integrated production screenplays belong here. Structural previews and
 // the separate historical Chapter 2 arc are deliberately not new-game entries.
@@ -90,6 +91,17 @@ export function prepareReplay(entry: NonNullable<GameSave['replayEntries']>[stri
   }
   const replay = rebase(entry.save) as GameSave
   const scene = replay.prologue?.scene01
+  // A deliberate Scene 1 restart starts the current script, while Continue
+  // still resumes the exact historical graph and already-delivered text.
+  if (sceneNumber === 1 && scene?.masterScene01 && scene.masterScene01Revision !== 2) {
+    const oldIds = new Set(scene.messages.map(line => line.id))
+    const base: GameSave = { ...replay,
+      deliveredEvents: replay.deliveredEvents.filter(id => !oldIds.has(id)),
+      notifications: replay.notifications.filter(item => !oldIds.has(item.id)),
+      prologue: { ...replay.prologue!, scene01: undefined },
+    }
+    return beginScene01(base, now)
+  }
   if(sceneNumber===4&&scene?.masterScene01&&replay.masterScene04&&replay.masterScene04.revision!=='guarded-chat'){
     const id='TA-S04-SOPHIE-ELI-ENQUIRY',first='TA-S04-FIRST'
     const base:GameSave={...replay,masterScene04:undefined,deliveredEvents:replay.deliveredEvents.filter(x=>x!==id&&x!==first),notifications:replay.notifications.filter(x=>x.id!==first),messages:replay.messages.filter(x=>x.id!==id),knowledge:{...replay.knowledge,characters:{...replay.knowledge.characters,eli:replay.knowledge.characters.eli.filter(x=>x!==id)}}}

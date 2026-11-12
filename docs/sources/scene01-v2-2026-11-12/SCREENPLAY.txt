@@ -1,0 +1,108 @@
+GREYHAVEN — Chapter 1, Scene 1: A Message from Sophie
+Final in-game screenplay — Sophie Mercer
+Version 2 · Nine decision points × three player replies · English · photo embedded in the ordinary chat · no separate photo-reply UI.
+Opening (NPC messages, one bubble at a time)
+Sophie: Hi. Sorry to message you out of nowhere.
+Sophie: I'm Sophie.
+Sophie: I know this is strange.
+Sophie: Could I ask you something?  
+Decision 01 — An unfamiliar message
+- Player A: Sure. What's this about?
+  - Sophie, if A: Thank you. I wasn't sure you'd answer.
+- Player B: Who are you trying to reach?
+  - Sophie, if B: You, I think. I may have the wrong number.
+- Player C: Before I answer, how did you get this number?
+  - Sophie, if C: That's a fair question. I found it in some paperwork. I'll explain.
+Sophie: It's about my older brother.
+Sophie: His name is Daniel Mercer.
+Sophie: Does that name mean anything to you?  
+Decision 02 — The name
+- Player A: No, I don't think I know him.
+  - Sophie, if A: Okay. Thank you for being honest.
+- Player B: Daniel Mercer? That doesn't ring a bell.
+  - Sophie, if B: I thought it might not. I'm sorry to put you on the spot.
+- Player C: Who is Daniel, and why would I know him?
+  - Sophie, if C: He's my brother. I found your number among some records connected to him. I don't know why it's there.
+Sophie: A name might not mean much on its own.
+Sophie: Would you mind looking at a photo?  
+
+Sophie shares existing birthday photograph: /media/chat/sophie-birthday-owner.png
+Sophie caption (next normal chat bubble): That's Daniel on the left. It was my birthday. Does his face look familiar?
+Next: Decision 03 (the only reply choices visible in the bottom composer).
+Decision 03 — The birthday photograph
+- Player A: I'm sorry, Sophie. I don't recognise him.
+  - Sophie, if A: Thank you for looking. I know it was a lot to ask.
+- Player B: Is Daniel the one on the left? He doesn't look familiar.
+  - Sophie, if B: Yes. That's Daniel. Thank you for checking.
+- Player C: I don't know him, but that looks like a happy memory.
+  - Sophie, if C: It was. I nearly forgot how happy he looked that night.
+Sophie: He made some ridiculous joke right before that picture.
+Sophie: I wish I could remember exactly what he said.
+Sophie: No one close to him has heard from him in three days.  
+Decision 04 — Three days of silence
+- Player A: Three days? Has anyone heard from him at all?
+  - Sophie, if A: Not anyone I've spoken to. I've asked the people closest to him.
+- Player B: What do you mean, no one's heard from him?
+  - Sophie, if B: He stopped answering calls and messages. Then nobody knew where he'd gone.
+- Player C: Is that why you're contacting strangers?
+  - Sophie, if C: Yes. I know how desperate it must look.
+Sophie: At first I told myself he'd just lost his phone.
+Sophie: Then I kept telling myself that.
+Sophie: Now I don't know what to think.  
+Decision 05 — Why this number?
+- Player A: How did you get my number, Sophie?
+  - Sophie, if A: I found it in a saved contact export among the family files we could access.
+- Player B: Did Daniel give you my contact details?
+  - Sophie, if B: I can't say that he did. The number was in a saved contact export, but I don't know who added it.
+- Player C: Why would his disappearance lead you to me?
+  - Sophie, if C: Your number was in a contact export among Daniel's family files. I thought I should at least ask.
+Sophie: Most of the entries had names.
+Sophie: Yours didn't.
+Sophie: Just a number, with a little star beside it.  
+Decision 06 — The starred entry
+- Player A: A star? Do you know what it means?
+  - Sophie, if A: No. There's no explanation beside it.
+- Player B: That doesn't prove Daniel knew me.
+  - Sophie, if B: You're right. I shouldn't treat it as proof.
+- Player C: Could someone else have put my number there?
+  - Sophie, if C: Maybe. I have no way to tell who added it.
+Sophie: I almost didn't send you this message.
+Sophie: I kept typing it, then deleting it.
+Sophie: I was afraid of bothering the wrong person. But I was more afraid of missing something.  
+Decision 07 — A boundary, not an obligation
+- Player A: I can listen. I can't promise anything more.
+  - Sophie, if A: That's more than fair. Thank you for hearing me out.
+- Player B: Please don't share my number or this conversation.
+  - Sophie, if B: I won't share either without asking you first.
+- Player C: I'd prefer to keep my distance from all of this.
+  - Sophie, if C: I understand. I won't pressure you.
+Sophie: I know you don't owe me anything.
+Sophie: I just wish I had one thing I could be certain of.  
+Decision 08 — The people looking for Daniel
+- Player A: Who else is looking for him?
+  - Sophie, if A: Maya and Lucas. Maya's his fiancée, and Lucas is his best friend.
+- Player B: Have you told his friends or family about this?
+  - Sophie, if B: Yes. Maya is his fiancée. Lucas is his closest friend. We're trying to work out what we actually know.
+- Player C: Are you trying to find him on your own?
+  - Sophie, if C: No. Maya and Lucas are helping. We're just people who care about him.
+Sophie: We made a private group called FIND DANIEL.
+Sophie: It's mostly questions, and the small things we can confirm.
+Sophie: If you'd like, I could send you an invitation. No pressure.  
+Decision 09 — An invitation, not a demand
+- Player A: Send the invitation. I'll take a look.
+  - Sophie, if A: Okay. You'll still get to choose whether to join.
+- Player B: I need some time before I decide.
+  - Sophie, if B: Of course. You can decide later.
+- Player C: I'd rather not join right now.
+  - Sophie, if C: I understand. I won't add you.
+Sophie: Whatever you decide, thank you for answering.
+Sophie: I didn't know whether anyone would.  
+
+Scene transition: Existing TA-S01-INVITATION event. Player must voluntarily join before Scene 2 can begin.
+Canon and performance notes
+- Sophie never states that Daniel created the contact export, that the star is genuine, or who planted the number.
+- Sophie does not discover the physical warning card in Scene 1; this remains for Scene 10.
+- The photo is a personal memory, not forensic evidence or proof of acquaintance.
+- Every outgoing player line requires explicit Send and appears as a player bubble; Sophie replies only to the selected branch.
+- Sophie replies and common follow-up lines are one bubble at a time, with natural typing and response pacing.
+- Group refusal is respected; no auto-join, no implicit consent, no forced app installation.

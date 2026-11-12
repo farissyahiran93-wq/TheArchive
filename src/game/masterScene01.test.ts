@@ -2,9 +2,15 @@ import { describe, expect, it } from 'vitest'
 import { masterScene01Nodes, masterScene01Start } from '../content/masterScene01'
 import { newGame, type GameSave } from './types'
 import { normalizeSave } from './engine'
-import { beginScene01, beginScene02, deliverScene01, scene01Choices, scene01Invitation, sendScene01Choice } from './scene01'
+import { beginScene01, enterScene01, beginScene02, deliverScene01, scene01Choices, scene01Invitation, sendScene01Choice } from './scene01'
 import { familyPhotoAction } from './familyPhoto'
 import { storyPhotos, familyPhotoReplies } from '../content/storyPhotos'
+
+function oldOpening(): GameSave {
+  const state = beginScene01({ ...newGame(), masterOpening: true }, 1000)
+  const scene = { ...state.prologue!.scene01!, masterScene01Revision: undefined, familyPhotoRevision: 1 as const, messages: [] }
+  return enterScene01({ ...state, deliveredEvents: [], notifications: [], prologue: { ...state.prologue!, scene01: scene } }, masterScene01Start, 1000)
+}
 
 function drain(state: GameSave): GameSave {
   for (let n = 0; n < 100; n++) {
@@ -17,7 +23,7 @@ function drain(state: GameSave): GameSave {
 
 describe('new Scene 1 authored graph', () => {
   it('delivers the family photo only on new runs and sends one selected reply explicitly', () => {
-    let initial = drain(beginScene01({ ...newGame(), masterOpening: true }, 1000))
+    let initial = drain(oldOpening())
     expect(initial.deliveredEvents).not.toContain(storyPhotos.sophieFamily.id)
     const old = structuredClone(initial)
     delete old.prologue!.scene01!.familyPhotoRevision
@@ -51,7 +57,7 @@ describe('new Scene 1 authored graph', () => {
 
   it('plays every alternative, persists its matching reply and requires joining', () => {
     for (let beat = 1; beat <= 9; beat++) for (const choice of ['a', 'b', 'c']) {
-      let state = drain(beginScene01({ ...newGame(), masterOpening: true }, 1000))
+      let state = drain(oldOpening())
       for (let i = 1; i <= 9; i++) {
         const id = i === beat ? choice : 'a'
         expect(scene01Choices(state)).toHaveLength(3)

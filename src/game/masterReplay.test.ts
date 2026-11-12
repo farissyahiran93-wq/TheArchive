@@ -60,6 +60,15 @@ describe('master route scene-entry checkpoints',()=>{
    if(n===10){expect(restored.masterScene10?.phase).toBe('inventory');expect(masterRecoveryUnits(restored.masterScene05!)+scene06Units(restored.masterScene06)).toBe(200);expect(restored.deliveredEvents).not.toContain('TA-CH02-UNLOCKED')}
   }
  })
+ it('uses the current Scene 1 script when deliberately restarting an old master checkpoint',()=>{
+  const current=entries(), item=libraryScenesForSave(current).find(x=>x.number===1)!, entry=current.replayEntries![snapshotKey(current,item)]
+  const scene=entry.save.prologue!.scene01!
+  const old={...entry,save:{...entry.save,deliveredEvents:entry.save.deliveredEvents.filter(id=>!id.startsWith('TA-S01-V2-')),prologue:{...entry.save.prologue!,scene01:{...scene,masterScene01Revision:undefined,nodeId:'TA-S01-OPEN-1',messages:[{id:'TA-S01-OPEN-1',sender:'sophie' as const,text:'Old opening',at:1000}],queue:[]}}}}
+  const replay=prepareReplay(old,1000000,1)
+  expect(replay.prologue!.scene01!.masterScene01Revision).toBe(2)
+  expect(replay.prologue!.scene01!.messages.map(line=>line.text)).toEqual(['Hi. Sorry to message you out of nowhere.'])
+  expect(old.save.prologue!.scene01!.messages[0].text).toBe('Old opening')
+ })
  it('atomically replaces the active timeline from each recorded entry and survives reload',async()=>{
   resumeRuntime();await flushGameWrites();discardPendingSave()
   for(const n of [1,4,5,10]){

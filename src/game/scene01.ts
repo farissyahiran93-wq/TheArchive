@@ -16,7 +16,7 @@ import { ensureChapter1, chapter1Action } from './chapter1'
 import { publicStoryEvent, publicStoryFlag, publicStoryHas, publicStoryPut, publicStorySave } from './scene04'
 import { versionHistoryAction, versionHistoryPut, versionHistoryEvent, pauseVersionHistory, openVersionHistoryThread } from './scene05'
 import { scene04Entrances } from '../content/scene04Final'
-import { masterScene01Start } from '../content/masterScene01'
+import { masterScene01V2Start } from '../content/masterScene01V2'
 import { masterScene02Start } from '../content/masterScene02'
 import { masterScene03Start } from '../content/masterScene03'
 import { storyPhotos } from '../content/storyPhotos'
@@ -111,7 +111,7 @@ export function enterScene01(state: GameSave, id: string, now: number): GameSave
     return enter(next, node.next!, now)
   }
   if (node.event === 'complete') return replace(next, { ...scene, complete: true })
-  const invitation = node.event === 'declined' || scene.masterScene01 && state.choices['TA-S01-C09'] === 'c' ? 'declined' : 'ready'
+  const invitation = node.event === 'declined' || scene.masterScene01 && (state.choices['TA-S01-C09'] === 'c' || state.choices['TA-S01-V2-C09'] === 'c') ? 'declined' : 'ready'
   return { ...replace(next, { ...scene, invitation, invitationDismissed: false, invitationApproved: invitation === 'ready' }), notifications: [...next.notifications, { id, text: 'Sophie sent a group invitation', read: false }] }
 }
 
@@ -120,8 +120,8 @@ export function beginScene01(state: GameSave, now = Date.now(), revision: 'legac
   if (state.prologue?.scene01) return state
   const prologue: OpeningState = state.prologue ?? { dialogueVersion: 4, stage: 'chat', step: 0, messages: [], noteSeen: false, offerInspected: false, restored: false, viewed: [], indexCompared: false }
   const master = state.masterOpening === true
-  const opening = master ? masterScene01Start : revision === 'legacy' ? scene01Opening : actIFinalEntrances.scene01
-  const scene: Scene = { version: 1, ...(master ? { masterScene01: true as const, familyPhotoRevision:1 as const, scriptRevision: 'final-2026-10-23' as const } : revision === 'legacy' ? {} : { scriptRevision: revision, articleAlignment:'2026-10-28' as const, traceIntroRevision:'2026-10-31' as const, naturalFlowRevision:'2026-11-03' as const, traceBridgeRevision:'2026-11-04' as const }), nodeId: opening, startedAt: now, introduced: master, nameDisclosed: false, invitation: 'none', invitationDismissed: false, complete: false, queue: [], messages: [], groupMessages: [] }
+  const opening = master ? masterScene01V2Start : revision === 'legacy' ? scene01Opening : actIFinalEntrances.scene01
+  const scene: Scene = { version: 1, ...(master ? { masterScene01: true as const, masterScene01Revision:2 as const, scriptRevision: 'final-2026-10-23' as const } : revision === 'legacy' ? {} : { scriptRevision: revision, articleAlignment:'2026-10-28' as const, traceIntroRevision:'2026-10-31' as const, naturalFlowRevision:'2026-11-03' as const, traceBridgeRevision:'2026-11-04' as const }), nodeId: opening, startedAt: now, introduced: master, nameDisclosed: false, invitation: 'none', invitationDismissed: false, complete: false, queue: [], messages: [], groupMessages: [] }
   const next = enter({ ...state, prologue: { ...prologue, scene01: scene } }, opening, now)
   return deliverScene01(replace(next, { ...next.prologue!.scene01!, queue: [{ id: opening, dueAt: now, typing: false }] }), now)
 }

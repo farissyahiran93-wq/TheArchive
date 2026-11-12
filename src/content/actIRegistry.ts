@@ -1,3 +1,4 @@
+import { masterScene01V2Nodes } from './masterScene01V2'
 import { masterScene01Nodes } from './masterScene01'
 import { masterScene02Nodes } from './masterScene02'
 import { masterScene03Nodes } from './masterScene03'
@@ -117,9 +118,9 @@ if(sophieRead.kind==='choice')naturalGraph[sophieRead.id]={...sophieRead,choices
 /** Historical saves keep their pinned graph. Stable main choice IDs are shared, internal IDs aren't. */
 const bridgeGraph = { ...naturalGraph, ...traceBridgeNodes }
 type GraphRevision = Pick<NonNullable<OpeningState['scene01']>,
-  'scriptRevision' | 'masterScene01' | 'articleAlignment' | 'traceIntroRevision' | 'traceUiRevision' | 'naturalFlowRevision' | 'traceBridgeRevision'>
+  'scriptRevision' | 'masterScene01' | 'masterScene01Revision' | 'articleAlignment' | 'traceIntroRevision' | 'traceUiRevision' | 'naturalFlowRevision' | 'traceBridgeRevision'>
 export function actINodes(scene?: GraphRevision) {
-  if (scene?.masterScene01) return { ...masterScene01Nodes, ...masterScene02Nodes, ...masterScene03Nodes }
+  if (scene?.masterScene01) return { ...(scene.masterScene01Revision === 2 ? masterScene01V2Nodes : masterScene01Nodes), ...masterScene02Nodes, ...masterScene03Nodes }
   if (scene?.scriptRevision !== 'final-2026-10-23') return scene01Nodes
   if (!scene.articleAlignment) return finalNodes
   if (scene.naturalFlowRevision) return scene.traceBridgeRevision ? bridgeGraph : naturalGraph
