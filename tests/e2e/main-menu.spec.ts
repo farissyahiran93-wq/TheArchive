@@ -20,6 +20,7 @@ async function persisted(page:Page){return page.evaluate(async()=>{
   db.close();return JSON.stringify(save)
 })}
 const click=async(page:Page,name:string)=>page.getByRole('button',{name,exact:true}).click()
+const returnToMenu=async(page:Page)=>{await click(page,'Go home');await click(page,'Show home page 2');await click(page,'Open Settings');await click(page,'Main Menu')}
 const entry=()=>captureSceneEntries(newGame(),beginScene01(newGame(),1800000000000),1800000000000)
 
 for(const [width,height] of [[360,780],[390,844],[412,915],[320,568],[844,390],[1440,1000]])test(`cinematic menu and scrollable controls at ${width} x ${height}`,async({page})=>{
@@ -66,7 +67,7 @@ test('new game confirmation and Continue preserve actual progress; new game star
   await page.getByRole('button',{name:/CONTINUE GAME/}).click();await click(page,'Unlock phone')
   await click(page,'Open Messages');await click(page,'Open Sophie conversation')
   await expect(page.locator('[data-scene-node="OPEN-S01-C02"]')).toBeVisible()
-  await click(page,'Main Menu');await click(page,'NEW GAME');await click(page,'Start New Game')
+  await returnToMenu(page);await click(page,'NEW GAME');await click(page,'Start New Game')
   await expect(page.getByRole('main',{name:'Phone lock screen'})).toBeVisible()
   expect(JSON.parse((await persisted(page))!).prologue).toBeUndefined()
 })
@@ -77,7 +78,7 @@ test('starting v2 archives a historical save and Settings restores its exact sto
   await click(page,'NEW GAME')
   await click(page,'Start New Game')
   await click(page,'Unlock phone')
-  await click(page,'Main Menu')
+  await returnToMenu(page)
   await click(page,'SETTINGS')
   await expect(page.getByRole('button',{name:/Restore historical investigation/})).toBeVisible()
   await page.getByRole('button',{name:/Restore historical investigation/}).click()
@@ -106,7 +107,7 @@ test('starting a scene again replaces the primary save and continues with new ch
   await expect(page.locator('.opening-bubble.player')).toHaveCount(count+1)
   await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'))
   const current=await persisted(page);expect(current).toContain('OPEN-S01-C01-PLAYER-b')
-  await click(page,'Main Menu');await page.reload()
+  await returnToMenu(page);await page.reload()
   await page.getByRole('button',{name:/CONTINUE GAME/}).click();await click(page,'Unlock phone');await click(page,'Open Messages')
   await page.getByRole('button',{name:/Open (Sophie|Unknown number) conversation/}).click();await page.clock.runFor(120000)
   await expect(page.locator('.opening-bubble.player')).toHaveCount(count+1)

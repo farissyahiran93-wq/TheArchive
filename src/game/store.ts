@@ -22,7 +22,7 @@ import { playtestEnabled } from './playtest'
 import { reunionAction } from './chapter2Reunion'
 import { saveMirrorEvidence, linkMirrorEvidence, unlinkMirrorEvidence, navigateMirror } from './mirror'
 import { continueFromChapter1, chapter2Access, type AccessAction } from './chapter2Access'
-import { publicStoryAction, type PublicStoryAction, actIAction, draftActIChoice, type ActIAction, beginScene01, beginScene02, deliverScene01, draftScene03Choice, markScene01Read, openScene03, pauseScene03, resumeScene02, scene01Invitation, sendScene01Choice } from './scene01'
+import { publicStoryAction, type PublicStoryAction, actIAction, draftActIChoice, draftGroupName, type ActIAction, beginScene01, beginScene02, deliverScene01, draftScene03Choice, markScene01Read, openScene03, pauseScene03, resumeScene02, scene01Invitation, sendScene01Choice } from './scene01'
 import { continueMessageFlow, sendRecoveryReply, swapRecoveryCards, hintRecovery, assistRecovery, resetRecovery, verifyRecovery, retainRecovery } from './recoverySequence'
 import { deliverPhoneOpeningEvent, deliverOpening, compareMirrorIndex, finishOpening, inspectMirrorDetail, revealMirrorHint, unlockMirrorRecord, inspectMirrorRecord, inspectRecoveryOffer, readDanielNote, replyToSophie, restoreDanielMirror, sendGroupChoice, markOpeningRead, startPhoneOpening, sendOpeningName, decidePendingRecovery } from './opening'
 import type { MirrorArea, MirrorLockId } from '../content/opening'
@@ -54,6 +54,7 @@ interface GameStore {
   publicStoryAction: (action: PublicStoryAction) => void
   actIAction: (action: ActIAction) => void
   draftActI: (choiceId: string) => void
+  draftGroupName: (name: string) => void
   chapter1Action: (action: Chapter1Action) => void
   continueChapter2: () => void
   accessAction: (action: AccessAction) => void
@@ -262,6 +263,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   publicStoryAction: action => commit(publicStoryAction(get().save,action)),
   actIAction: action => commit(actIAction(get().save, action)),
   draftActI: choiceId => commit(draftActIChoice(get().save, choiceId)),
+  draftGroupName: name => commit(draftGroupName(get().save, name)),
   sendScene01: (id, name) => commit(sendScene01Choice(get().save, id, name)),
   scene01Invitation: action => commit(scene01Invitation(get().save, action)),
   openSophiePrivate: () => commit(openScene03(get().save)),

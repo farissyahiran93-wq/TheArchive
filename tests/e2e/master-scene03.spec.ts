@@ -10,6 +10,7 @@ function beforePrivate(pending=false): GameSave {
   let s=settle(beginScene01({...newGame(),masterOpening:true,chapter1Edition:'ch01-v2-10'},1800000000000))
   for(let i=0;i<9;i++)s=settle(sendScene01Choice(s,'a','',true,1800000100000+i*1000))
   s=settle(beginScene02(scene01Invitation(s,'join'),1800000200000))
+  s = settle(sendScene01Choice(s, 'c', 'Alex', true, 1800000201000))
   for(let i=0;i<9;i++)s=settle(sendScene01Choice(s,'a','',true,1800000300000+i*1000),pending && i===8)
   return s
 }

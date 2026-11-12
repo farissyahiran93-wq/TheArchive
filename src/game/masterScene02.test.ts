@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { masterScene02Nodes } from '../content/masterScene02'
-import { beginScene01, beginScene02, deliverScene01, openScene03, scene01Invitation, sendScene01Choice } from './scene01'
+import { beginScene01, beginScene02, deliverScene01, draftGroupName, openScene03, scene01Invitation, sendScene01Choice } from './scene01'
 import { normalizeSave } from './engine'
 import { newGame, type GameSave } from './types'
 
@@ -18,10 +18,25 @@ function joined(): GameSave {
   return scene01Invitation(save, 'join')
 }
 describe('master Scene 2', () => {
+  it.each(['a', 'b', 'c'])('requires typing and sending the chosen introduction %s to group members', (option) => {
+    let save = settle(beginScene02(joined(), 40000))
+    expect(save.prologue!.scene01!.nodeId).toBe('TA-S02-NAME-CHOICE')
+    expect(sendScene01Choice(save, option, '', true, 41000)).toEqual(save)
+    save = normalizeSave(JSON.parse(JSON.stringify(draftGroupName(save, 'Alex'))))
+    expect(save.prologue!.scene01!.groupNameDraft).toBe('Alex')
+    expect(save.player?.name).not.toBe('Alex')
+    save = settle(sendScene01Choice(save, option, 'Alex', true, 41000))
+    expect(save.player?.name).toBe('Alex')
+    expect(save.prologue!.scene01!.groupNameDraft).toBeUndefined()
+    expect(save.prologue!.scene01!.groupMessages.some(m => m.sender === 'player' && m.text.includes('Alex'))).toBe(true)
+    expect(save.messages.filter(m => m.sender === 'player' && m.text.includes('Alex')).map(m => m.recipient).sort()).toEqual(['lucas','maya','sophie'])
+    expect(save.prologue!.scene01!.groupMessages.some(m => m.text === 'Thank you, Alex. I should have asked before.')).toBe(true)
+  })
   it('requires joining and traverses every option with source-scoped departure and DM handoff', () => {
     expect(beginScene02(newGame()).prologue).toBeUndefined()
     for (let selectedBeat = 1; selectedBeat <= 9; selectedBeat++) for (const selected of ['a', 'b', 'c']) {
       let save = settle(beginScene02(joined(), 40000))
+      save = settle(sendScene01Choice(save, 'c', 'Alex', true, 41000))
       for (let beat = 1; beat <= 9; beat++) {
         const id = `TA-S02-C${String(beat).padStart(2, '0')}`, node = masterScene02Nodes[id]
         expect(save.prologue!.scene01!.nodeId).toBe(id)

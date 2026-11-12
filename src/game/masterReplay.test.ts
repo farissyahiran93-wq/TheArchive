@@ -26,7 +26,7 @@ function finishUnknown(s: GameSave): GameSave {
 function entries():GameSave{
  let s=newGame();let next=beginScene01({...s,masterOpening:true,chapter1Edition:'ch01-v2-10'},1000);s=captureSceneEntries(s,next,1000);s=settle(s)
  for(let i=0;i<9;i++)s=settle(sendScene01Choice(s,'a','',true,20000+i*1000))
- s=settle(beginScene02(scene01Invitation(s,'join'),40000));for(let i=0;i<9;i++)s=settle(sendScene01Choice(s,'a','',true,50000+i*1000))
+ s=settle(beginScene02(scene01Invitation(s,'join'),40000));s=settle(sendScene01Choice(s,'c','Alex',true,41000));for(let i=0;i<9;i++)s=settle(sendScene01Choice(s,'a','',true,50000+i*1000))
  s=settle(openScene03(s,100000));for(let i=0;i<10;i++)s=settle(sendScene01Choice(s,'a','',true,140000+i*1000))
  next=four(s,{type:'start'},200000);s=finishUnknown(captureSceneEntries(s,next,200000))
  next=five(s,{type:'start'},400000);s=captureSceneEntries(s,next,400000)
@@ -63,9 +63,9 @@ describe('master route scene-entry checkpoints',()=>{
  it('uses the current Scene 1 script when deliberately restarting an old master checkpoint',()=>{
   const current=entries(), item=libraryScenesForSave(current).find(x=>x.number===1)!, entry=current.replayEntries![snapshotKey(current,item)]
   const scene=entry.save.prologue!.scene01!
-  const old={...entry,save:{...entry.save,deliveredEvents:entry.save.deliveredEvents.filter(id=>!id.startsWith('TA-S01-V2-')),prologue:{...entry.save.prologue!,scene01:{...scene,masterScene01Revision:undefined,nodeId:'TA-S01-OPEN-1',messages:[{id:'TA-S01-OPEN-1',sender:'sophie' as const,text:'Old opening',at:1000}],queue:[]}}}}
+  const old={...entry,save:{...entry.save,deliveredEvents:entry.save.deliveredEvents.filter(id=>!id.startsWith('TA-S01-V3-')),prologue:{...entry.save.prologue!,scene01:{...scene,masterScene01Revision:undefined,nodeId:'TA-S01-OPEN-1',messages:[{id:'TA-S01-OPEN-1',sender:'sophie' as const,text:'Old opening',at:1000}],queue:[]}}}}
   const replay=prepareReplay(old,1000000,1)
-  expect(replay.prologue!.scene01!.masterScene01Revision).toBe(2)
+  expect(replay.prologue!.scene01!.masterScene01Revision).toBe(3)
   expect(replay.prologue!.scene01!.messages.map(line=>line.text)).toEqual(['Hi. Sorry to message you out of nowhere.'])
   expect(old.save.prologue!.scene01!.messages[0].text).toBe('Old opening')
  })

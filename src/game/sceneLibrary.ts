@@ -93,7 +93,7 @@ export function prepareReplay(entry: NonNullable<GameSave['replayEntries']>[stri
   const scene = replay.prologue?.scene01
   // A deliberate Scene 1 restart starts the current script, while Continue
   // still resumes the exact historical graph and already-delivered text.
-  if (sceneNumber === 1 && scene?.masterScene01 && scene.masterScene01Revision !== 2) {
+  if (sceneNumber === 1 && scene?.masterScene01 && scene.masterScene01Revision !== 3) {
     const oldIds = new Set(scene.messages.map(line => line.id))
     const base: GameSave = { ...replay,
       deliveredEvents: replay.deliveredEvents.filter(id => !oldIds.has(id)),

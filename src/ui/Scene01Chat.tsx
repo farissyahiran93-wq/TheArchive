@@ -30,6 +30,7 @@ export function Scene01Chat({ thread, onBack }: { thread: 'sophie' | 'group'; on
   const scene = save.prologue?.scene01
   const actI = useGameStore(state => state.actIAction)
   const draftActI = useGameStore(state => state.draftActI)
+  const draftGroupName = useGameStore(state => state.draftGroupName)
   useEffect(() => { if (thread === 'group') actI('open-group') }, [thread, actI])
   const send = useGameStore(state => state.sendScene01)
   const invitation = useGameStore(state => state.scene01Invitation)
@@ -49,7 +50,7 @@ export function Scene01Chat({ thread, onBack }: { thread: 'sophie' | 'group'; on
   },[thread,historyEnabled,actI,pausePrivate])
   const navigation = useCaseNavigation()
   const [selected, setSelected] = useState<string | null>(null)
-  const [name, setName] = useState(save.player?.name ?? '')
+  const [name, setName] = useState(scene?.groupNameDraft ?? save.player?.name ?? '')
   const [error, setError] = useState('')
   const [photo,setPhoto]=useState<string|null>(null)
   const scroller = useRef<HTMLDivElement>(null)
@@ -114,7 +115,7 @@ export function Scene01Chat({ thread, onBack }: { thread: 'sophie' | 'group'; on
   const sendSelected = () => {
     if (!canSend) return
     const clean = name.trim().replace(/\s+/gu, ' ')
-    if (choice.discloseName && (!clean || clean.length > 40 || /[\p{Cc}\p{Cf}<>]/u.test(clean))) { setError('Enter a codename of up to 40 characters.'); return }
+    if (choice.discloseName && (!clean || clean.length > 40 || /[\p{Cc}\p{Cf}<>]/u.test(clean))) { setError(group ? 'Enter your name (up to 40 characters).' : 'Enter a codename of up to 40 characters.'); return }
     nearEnd.current = true
     send(choice.id, clean)
     setSelected(null)
@@ -143,7 +144,7 @@ export function Scene01Chat({ thread, onBack }: { thread: 'sophie' | 'group'; on
     {s04&&gate?.kind==='gate'&&<div className="opening-actions opening-v4-composer">
       {!group&&['s04-archive','s04-index-ack','s04-device'].includes(gate.action)&&<button className="opening-primary" onClick={navigation.openArchive}>Open TRACE</button>}
     </div>}
-    {!!options.length && <div className="opening-actions opening-v4-composer"><div className="opening-action-heading">Choose a reply {!selection&&<GuidanceDot save={save} action="choose-reply"/>}</div><div className="scene01-options">{options.map(option => <button key={`${scene.nodeId}-${option.id}`} className={`opening-choice ${selection === option.id ? 'selected' : ''}`} aria-pressed={selection === option.id} onClick={() => { if (s04) draftActI(option.id); else if (scene.privateScene03) draftPrivate(option.id); else if (scene.scriptRevision) draftActI(option.id); else setSelected(option.id); setError('') }}>{option.premiumChoice && <Star size={14} aria-label="Starred reply"/>}{scene01Text(option.text, option.discloseName ? name.trim() || '…' : scene.disclosedName)}</button>)}{choice?.discloseName && <label className="scene01-codename">Your codename<input aria-label="Your codename" maxLength={40} value={name} onChange={event => setName(event.target.value)} autoComplete="nickname"/></label>}{error && <p role="alert">{error}</p>}</div><button className="opening-primary" disabled={!canSend} onClick={sendSelected}><Send size={17}/> Send{canSend&&<GuidanceDot save={save} action="send-reply"/>}</button></div>}
+    {!!options.length && <div className="opening-actions opening-v4-composer"><div className="opening-action-heading">Choose a reply {!selection&&<GuidanceDot save={save} action="choose-reply"/>}</div><div className="scene01-options">{options.map(option => <button key={`${scene.nodeId}-${option.id}`} className={`opening-choice ${selection === option.id ? 'selected' : ''}`} aria-pressed={selection === option.id} onClick={() => { if (s04) draftActI(option.id); else if (scene.privateScene03) draftPrivate(option.id); else if (scene.scriptRevision) draftActI(option.id); else setSelected(option.id); setError('') }}>{option.premiumChoice && <Star size={14} aria-label="Starred reply"/>}{scene01Text(option.text, option.discloseName ? name.trim() || '…' : scene.disclosedName)}</button>)}{choice?.discloseName && <label className="scene01-codename">{group ? 'Your name' : 'Your codename'}<input aria-label={group ? 'Your name' : 'Your codename'} maxLength={40} value={name} onChange={event => { setName(event.target.value); if (group && scene.nodeId === 'TA-S02-NAME-CHOICE') draftGroupName(event.target.value) }} autoComplete="nickname"/></label>}{error && <p role="alert">{error}</p>}</div><button className="opening-primary" disabled={!canSend} onClick={sendSelected}><Send size={17}/> Send{canSend&&<GuidanceDot save={save} action="send-reply"/>}</button></div>}
     {photo&&<ChatPhotoViewer src={photo} alt={photo.includes('sticky')?"WANTING IT TO BE CLEARER. DOESN'T MAKE IT CLEARER.":"Sophie's chicken mushroom pasta dinner"} onClose={()=>setPhoto(null)}/>}
   </section>
 }

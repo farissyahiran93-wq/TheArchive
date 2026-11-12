@@ -14,6 +14,7 @@ function beforeUnknown(): GameSave {
   let save = settleScene(beginScene01({ ...newGame(), masterOpening: true, chapter1Edition: 'ch01-v2-10' }, 1000))
   for (let i = 0; i < 9; i++) save = settleScene(sendScene01Choice(save, 'a', '', true, 20000 + i * 1000))
   save = settleScene(beginScene02(scene01Invitation(save, 'join'), 40000))
+  save = settleScene(sendScene01Choice(save, 'c', 'Alex', true, 41000))
   for (let i = 0; i < 9; i++) save = settleScene(sendScene01Choice(save, 'a', '', true, 50000 + i * 1000))
   save = settleScene(openScene03(save, 100000))
   for (let i = 0; i < 10; i++) save = settleScene(sendScene01Choice(save, 'a', '', true, 140000 + i * 1000))

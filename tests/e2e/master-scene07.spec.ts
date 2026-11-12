@@ -9,6 +9,7 @@ function ready():GameSave{
  let s=settle(beginScene01({...newGame(),masterOpening:true,chapter1Edition:'ch01-v2-10'},1000))
  for(let i=0;i<9;i++)s=settle(sendScene01Choice(s,'a','',true,20000+i*1000))
  s=settle(beginScene02(scene01Invitation(s,'join'),40000))
+ s = settle(sendScene01Choice(s, 'c', 'Alex', true, 41000))
  for(let i=0;i<9;i++)s=settle(sendScene01Choice(s,'a','',true,50000+i*1000))
  s=settle(openScene03(s,100000))
  for(let i=0;i<10;i++)s=settle(sendScene01Choice(s,'a','',true,140000+i*1000))

@@ -15,7 +15,7 @@ test('new game delivers the first message on Home without opening the chat', asy
   await expect(page.getByRole('button', { name: 'Open Messages', exact: true }).first()).toBeVisible()
   await openSophie(page)
   await page.clock.runFor(120000)
-  await expect(page.locator('.scene01-chat')).toHaveAttribute('data-scene-node', 'TA-S01-V2-C01')
+  await expect(page.locator('.scene01-chat')).toHaveAttribute('data-scene-node', 'TA-S01-V3-C01')
 })
 
 test('master opening persists choices and invitation without starting scene two', async ({ page }) => {
@@ -24,7 +24,7 @@ test('master opening persists choices and invitation without starting scene two'
   await openSophie(page)
   await page.clock.runFor(120000)
   for (let i = 1; i <= 9; i++) {
-    await expect(page.locator('.scene01-chat')).toHaveAttribute('data-scene-node', `TA-S01-V2-C${String(i).padStart(2, '0')}`)
+    await expect(page.locator('.scene01-chat')).toHaveAttribute('data-scene-node', `TA-S01-V3-C${String(i).padStart(2, '0')}`)
     await expect(page.locator('.scene01-options .opening-choice')).toHaveCount(3)
     await page.locator('.scene01-options .opening-choice').nth(i === 9 ? 2 : 0).click()
     await page.getByRole('button', { name: 'Send', exact: true }).click()

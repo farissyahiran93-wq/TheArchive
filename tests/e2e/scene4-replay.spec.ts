@@ -14,6 +14,9 @@ test('Play from this scene promotes an old Scene 4 checkpoint before Unknown arr
   main.replayEntries = { [key]: { capturedAt: f.now, save: snapshot } }
   await seedScene(page, main)
   const button = (name: string) => page.getByRole('button', { name, exact: true }).first()
+  await button('Go home').click()
+  await button('Show home page 2').click()
+  await button('Open Settings').click()
   await button('Main Menu').click()
   await button('CHAPTERS & SCENES').click()
   await page.locator('.chapter-card').first().click()

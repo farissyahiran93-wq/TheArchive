@@ -84,7 +84,9 @@ export interface OpeningState {
     version: 1
     scriptRevision?: 'final-2026-10-23'
     masterScene01?: true
-    masterScene01Revision?: 2
+    masterScene01Revision?: 2 | 3
+    masterScene02Revision?: 1
+    groupNameDraft?: string
     familyPhotoRevision?: 1
     familyPhotoReply?: { draft?:number; replied?:number }
     articleAlignment?: '2026-10-28'
