@@ -112,7 +112,7 @@ export function enterScene01(state: GameSave, id: string, now: number): GameSave
     return enter(next, node.next!, now)
   }
   if (node.event === 'complete') return replace(next, { ...scene, complete: true })
-  const invitation = node.event === 'declined' || scene.masterScene01 && (state.choices['TA-S01-C09'] === 'c' || state.choices['TA-S01-V2-C09'] === 'c' || state.choices['TA-S01-V3-C09'] === 'c' || state.choices['TA-S01-V4-C09'] === 'c') ? 'declined' : 'ready'
+  const invitation = node.event === 'declined' || scene.masterScene01 && (state.choices['TA-S01-C09'] === 'c' || state.choices['TA-S01-V2-C09'] === 'c' || state.choices['TA-S01-V3-C09'] === 'c' || scene.messages.some(message => message.text === "I'd rather not join right now.")) ? 'declined' : 'ready'
   return { ...replace(next, { ...scene, invitation, invitationDismissed: false, invitationApproved: invitation === 'ready' }), notifications: [...next.notifications, { id, text: 'Sophie sent a group invitation', read: false }] }
 }
 

@@ -166,19 +166,19 @@ const beats: readonly Beat[] = [
   },
   {
     "choices": [
-      "I can listen. I can't promise anything more.",
-      "Please don't share my number or this conversation.",
-      "I'd prefer to keep my distance from all of this."
+      "Are Maya and Lucas looking for him too?",
+      "Have they found anything I should know about?",
+      "That must be difficult for all of you."
     ],
     "replies": [
       [
-        "That's more than fair. Thank you for hearing me out."
+        "Yes. We've all been trying to make sense of what happened."
       ],
       [
-        "I won't share either without asking you first."
+        "We've been comparing what we know, but there are still so many questions."
       ],
       [
-        "I understand. I won't pressure you."
+        "It has been. We've been trying to support each other through it."
       ]
     ],
     "after": [
@@ -190,23 +190,23 @@ const beats: readonly Beat[] = [
   },
   {
     "choices": [
-      "Send the invitation. I'll take a look.",
-      "I need some time before I decide.",
-      "I'd rather not join right now."
+      "You can send me an invitation.",
+      "I can take a look, if everyone is comfortable with it.",
+      "I'd like to hear what Maya and Lucas have to say."
     ],
     "replies": [
       [
         "Okay. You'll still get to choose whether to join."
       ],
       [
-        "Of course. You can decide later."
+        "Okay. I'll send you the invitation so you can decide."
       ],
       [
-        "I understand. I won't add you."
+        "Okay. I'll send you the invitation. It's up to you whether to join."
       ]
     ],
     "after": [
-      "Whatever you decide, thank you for answering.",
+      "Thank you for hearing me out.",
       "I didn't know whether anyone would.  "
     ]
   }

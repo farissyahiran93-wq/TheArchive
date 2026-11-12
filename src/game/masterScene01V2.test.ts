@@ -26,7 +26,7 @@ describe('Scene 1 V4', () => {
         s = normalizeSave(JSON.parse(JSON.stringify(s)))
       }
       expect(s.prologue!.scene01!.complete).toBe(false)
-      if (branch === 2) { expect(s.prologue!.scene01!.invitation).toBe('declined'); s = scene01Invitation(s, 'accept') }
+      expect(s.prologue!.scene01!.invitation).toBe('ready')
       s = scene01Invitation(s, 'join')
       expect(s.prologue!.scene01!.complete).toBe(true)
     }
