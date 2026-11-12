@@ -84,8 +84,8 @@ export interface OpeningState {
     version: 1
     scriptRevision?: 'final-2026-10-23'
     masterScene01?: true
-    masterScene01Revision?: 2 | 3
-    masterScene02Revision?: 1
+    masterScene01Revision?: 2 | 3 | 4
+    masterScene02Revision?: 1 | 2
     groupNameDraft?: string
     familyPhotoRevision?: 1
     familyPhotoReply?: { draft?:number; replied?:number }
@@ -112,7 +112,7 @@ export interface OpeningState {
     groupScript?: 'ch01_sc02_uninvited_guest'
     groupPresence?: { sophie: boolean; maya: boolean; lucas: boolean }
     groupSourceBoundary?: boolean
-    groupMembers?: { sophie: boolean; maya: boolean; lucas: boolean }
+    groupMembers?: { sophie: boolean; maya: boolean; lucas: boolean; daniel?: boolean }
     lucasLeftGroup?: boolean
     groupComplete?: boolean
     groupCompletedAt?: number
