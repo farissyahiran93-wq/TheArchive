@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { masterScene04Action } from '../../src/game/masterScene04'
-import { unknownSenderRevisedBeats } from '../../src/content/masterTraceFirst'
+import { cinematicBeats } from '../../src/content/masterScene04Cinematic'
 import { beginScene01, beginScene02, deliverScene01, openScene03, scene01Invitation, sendScene01Choice } from '../../src/game/scene01'
 import { newGame, type GameSave } from '../../src/game/types'
 import { seedScene } from './scene01-helper'
@@ -14,8 +14,9 @@ function ready():GameSave{
  s=settle(openScene03(s,100000))
  for(let i=0;i<10;i++)s=settle(sendScene01Choice(s,'a','',true,140000+i*1000))
  s=masterScene04Action(masterScene04Action(s,{type:'start'},200000),{type:'open'})
- for(let i=0;i<unknownSenderRevisedBeats.length;i++){s=masterScene04Action(s,{type:'draft',index:0});s=masterScene04Action(s,{type:'send'},210000+i*10000);s=masterScene04Action(s,{type:'tick'},s.masterScene04!.pending!.dueAt)}
- return masterScene04Action(masterScene04Action(s,{type:'inspect'}),{type:'accept'})
+ while(s.masterScene04?.pending)s=masterScene04Action(s,{type:'tick'},s.masterScene04.pending.dueAt)
+ for(let i=0;i<cinematicBeats.length;i++){s=masterScene04Action(s,{type:'draft',index:0});s=masterScene04Action(s,{type:'send'},210000+i*50000);while(s.masterScene04?.pending)s=masterScene04Action(s,{type:'tick'},s.masterScene04.pending.dueAt)}
+ return masterScene04Action(s,{type:'setup-trace'})
 }
 test('Scene 5 preserves consent, manual recovery, opened fragments and explicit report',async({page})=>{
  await seedScene(page,ready())
@@ -25,16 +26,8 @@ test('Scene 5 preserves consent, manual recovery, opened fragments and explicit 
  await expect(page.getByText('The archive may be incomplete or altered.',{exact:false})).toBeVisible()
  await page.getByRole('button',{name:'DECLINE ARCHIVE'}).click();await page.getByRole('button',{name:'RECONSIDER ARCHIVE'}).click();await page.getByRole('button',{name:'ACCEPT ARCHIVE'}).click()
  for(let i=0;i<8;i++){await expect(page.locator('.scene01-options .opening-choice')).toHaveCount(3);await page.locator('.scene01-options .opening-choice').nth(i%3).click();await page.getByRole('button',{name:'Send',exact:true}).click();await expect(page.getByRole('status',{name:'Unknown is typing'})).toBeVisible();if(i===0){await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'));await page.reload();await page.getByRole('button',{name:'Unlock phone'}).click();await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Unknown conversation'}).click();await expect(page.getByRole('status',{name:'Unknown is typing'})).toBeVisible();await page.evaluate(()=>{Object.defineProperty(document,'visibilityState',{configurable:true,value:'hidden'});document.dispatchEvent(new Event('visibilitychange'));Object.defineProperty(document,'visibilityState',{configurable:true,value:'visible'});document.dispatchEvent(new Event('visibilitychange'))});await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'));await page.goto('about:blank');await page.goBack();await page.getByRole('button',{name:'Unlock phone'}).click();await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Unknown conversation'}).click()}await page.clock.runFor(10000)}
- await expect(page.getByRole('button',{name:'INSTALL TRACE'})).toBeEnabled()
- await page.getByRole('button',{name:'DECLINE TRACE'}).click()
-  await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'))
-  await page.reload()
-  await page.getByRole('button',{name:'Unlock phone'}).click()
-  await page.getByRole('button',{name:'Open Messages',exact:true}).first().click()
-  await page.getByRole('button',{name:'Open Unknown conversation'}).click()
-  await expect(page.getByText(/developer claim unverified · declined/)).toBeVisible()
- await page.getByRole('button',{name:'RECONSIDER TRACE'}).click()
- await page.getByRole('button',{name:'INSTALL TRACE'}).click()
+ await page.getByRole('button',{name:'Go home'}).click()
+ await page.getByRole('button',{name:'Open TRACE'}).click()
  await expect(page.getByText('Recovery: 0%')).toBeVisible()
  await page.getByRole('button',{name:'START RECOVERY'}).click()
  await expect(page.getByText('Recovery: 12%')).toBeVisible()

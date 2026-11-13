@@ -13,7 +13,7 @@ function ready():GameSave{
  s=settle(openScene03(s,100000))
  for(let i=0;i<10;i++)s=settle(sendScene01Choice(s,'a','',true,140000+i*1000))
  s=masterScene04Action(s,{type:'start'},200000)
- s=masterScene04Action({...s,masterScene04:{...s.masterScene04!,revision:undefined}},{type:'open'})
+ s=masterScene04Action({...s,masterScene04:{...s.masterScene04!,revision:undefined,pending:undefined}},{type:'open'})
  for(let i=0;i<masterScene04Dialogue(undefined).length;i++){s=masterScene04Action(s,{type:'draft',index:0});s=masterScene04Action(s,{type:'send'},210000+i*10000);s=masterScene04Action(s,{type:'tick'},s.masterScene04!.pending!.dueAt)}
  return masterScene04Action(masterScene04Action(s,{type:'inspect'}),{type:'accept'})
 }

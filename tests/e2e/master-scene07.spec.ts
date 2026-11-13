@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { masterScene04Action } from '../../src/game/masterScene04'
-import { unknownSenderRevisedBeats } from '../../src/content/masterTraceFirst'
+import { cinematicBeats } from '../../src/content/masterScene04Cinematic'
 import { beginScene01, beginScene02, deliverScene01, openScene03, scene01Invitation, sendScene01Choice } from '../../src/game/scene01'
 import { newGame, type GameSave } from '../../src/game/types'
 import { completeMasterScene06, seedScene } from './scene01-helper'
@@ -14,8 +14,9 @@ function ready():GameSave{
  s=settle(openScene03(s,100000))
  for(let i=0;i<10;i++)s=settle(sendScene01Choice(s,'a','',true,140000+i*1000))
  s=masterScene04Action(masterScene04Action(s,{type:'start'},200000),{type:'open'})
- for(let i=0;i<unknownSenderRevisedBeats.length;i++){s=masterScene04Action(s,{type:'draft',index:0});s=masterScene04Action(s,{type:'send'},210000+i*10000);s=masterScene04Action(s,{type:'tick'},s.masterScene04!.pending!.dueAt)}
- return masterScene04Action(masterScene04Action(s,{type:'inspect'}),{type:'accept'})
+ while(s.masterScene04?.pending)s=masterScene04Action(s,{type:'tick'},s.masterScene04.pending.dueAt)
+ for(let i=0;i<cinematicBeats.length;i++){s=masterScene04Action(s,{type:'draft',index:0});s=masterScene04Action(s,{type:'send'},210000+i*50000);while(s.masterScene04?.pending)s=masterScene04Action(s,{type:'tick'},s.masterScene04.pending.dueAt)}
+ return masterScene04Action(s,{type:'setup-trace'})
 }
 import { masterScene05Action as step5 } from '../../src/game/masterScene05'
 import { masterFragments } from '../../src/content/masterScene05'
@@ -59,7 +60,7 @@ test('Sophie call pauses for a three-tone answer and the external export keeps r
  await page.getByRole('button',{name:'REVIEW GROUP MESSAGE'}).click()
  await page.getByRole('button',{name:'CONFIRM SEND TO GROUP'}).click()
  await expect(page.getByRole('button',{name:'FINISH SCENE 7'})).toHaveCount(0);await expect(page.getByText(/Scene 7 complete/)).toBeVisible()
- await page.getByRole('button',{name:'Back to inbox'}).click();await page.getByRole('button',{name:'Open FIND DANIEL group conversation'}).click()
+ await page.getByRole('button',{name:'Back to inbox'}).click();await page.getByRole('button',{name:'Open Same Old Chaos group conversation'}).click()
  await expect(page.getByText("The copy has a starred entry; we don't know who marked it or why.")).toBeVisible()
  for(let i=1;i<=11;i++){const res=await page.request.get(`/media/audio/scene07-ver1/call-${String(i).padStart(2,'0')}.wav`);expect(res.status()).toBe(200)}
 })

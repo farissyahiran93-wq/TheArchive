@@ -8,6 +8,18 @@ import { newGame, type GameSave } from './types'
 const ready=():GameSave=>({...newGame(),masterScene04:{version:1,opened:true,beat:10,messages:[],status:'accepted',inspected:true,complete:true,preview:false}})
 const reload=(s:GameSave)=>normalizeSave(JSON.parse(JSON.stringify(s)))
 describe('Scene 5 TRACE',()=>{
+ it('requires manual TRACE setup before the archive and keeps recovery locked until the conversation is ready',()=>{
+  const base=ready();base.masterScene04={...base.masterScene04!,revision:'cinematic'}
+  expect(act(base,{type:'start'})).toBe(base)
+  let s=act({...base,masterScene04:{...base.masterScene04!,traceInstalled:true}},{type:'start'})
+  expect(s.masterScene05).toMatchObject({earlySetup:true,packageStatus:'installed',archiveStatus:'offered'})
+  s=act(s,{type:'open-trace'});expect(act(s,{type:'recover'})).toBe(s)
+  s=act(s,{type:'archive-accept'});expect(act(s,{type:'recover'})).toBe(s)
+  for(let i=0;i<8;i++){s=act(act(s,{type:'draft',index:0}),{type:'send'});s=reload(s);s=act(s,{type:'tick'},s.masterScene05!.pending!.dueAt)}
+  expect(s.masterScene05?.packageStatus).toBe('installed')
+  s=reload(act(s,{type:'recover'}));expect(masterRecoveryUnits(s.masterScene05!)).toBe(120)
+ })
+
  it('requires explicit archive and installation consent with persisted paced replies',()=>{
   const base=ready();base.masterScene04={...base.masterScene04!,revision:'trace-first'}
   let s=act(base,{type:'start'},1000)

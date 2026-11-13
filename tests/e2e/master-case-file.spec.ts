@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
-import { unknownSenderRevisedBeats } from '../../src/content/masterTraceFirst'
+import { cinematicBeats } from '../../src/content/masterScene04Cinematic'
 import { beginScene01, beginScene02, openScene03, scene01Invitation, sendScene01Choice } from '../../src/game/scene01'
 import { newGame, type GameSave } from '../../src/game/types'
 import { seedScene, settleScene } from './scene01-helper'
@@ -26,15 +26,16 @@ async function openUnknown(page: Page) {
   await page.getByRole('button', { name: 'Open Unknown conversation', exact: true }).click()
 }
 
-async function replyToUnknown(page: Page, count: number) {
+async function replyToUnknown(page: Page, count: number, cinematic = false) {
+  if(cinematic) await page.clock.runFor(3000)
   for (let i = 0; i < count; i++) {
     const options = page.locator('.scene01-options .opening-choice')
     await expect(options).toHaveCount(3)
     await expect(page.getByRole('button', { name: 'Send', exact: true })).toBeDisabled()
-    await options.nth(i % 3).click()
+    await options.nth(cinematic ? 0 : i % 3).click()
     await page.getByRole('button', { name: 'Send', exact: true }).click()
     await expect(page.getByRole('status', { name: 'Unknown is typing' })).toBeVisible()
-    await page.clock.runFor(10_000)
+    if(cinematic){for(let n=0;n<12;n++)await page.clock.runFor(4000)}else await page.clock.runFor(10_000)
   }
 }
 
@@ -54,17 +55,18 @@ test('Case File 001 opens at install and carries findings from Scene 5 into Scen
   await seedScene(page, beforeUnknown())
   await expect(page.getByRole('button', { name: 'Open TRACE', exact: true })).toHaveCount(0)
   await openUnknown(page)
-  await replyToUnknown(page, unknownSenderRevisedBeats.length)
+  await replyToUnknown(page, cinematicBeats.length, true)
   await expect(page.getByRole('article', { name: 'TRACE information' })).toBeVisible()
   await expect(page.getByText('DNL_PHONE_ARCHIVE.arc', { exact: true })).toHaveCount(0)
-  await page.getByRole('button', { name: 'INSPECT TRACE INFORMATION' }).click()
+  await page.getByRole('button', { name: 'VIEW TRACE' }).click()
   await expect(page.getByRole('dialog', { name: 'TRACE information' })).toBeVisible()
   await page.getByRole('button', { name: 'DONE', exact: true }).click()
-  await page.getByRole('button', { name: 'PROCEED', exact: true }).click()
+  await page.getByRole('button', { name: 'SET UP TRACE' }).click()
   await page.getByRole('button', { name: 'START SCENE 5' }).click()
   await page.getByRole('button', { name: 'ACCEPT ARCHIVE' }).click()
   await replyToUnknown(page, 8)
-  await page.getByRole('button', { name: 'INSTALL TRACE' }).click()
+  await page.getByRole('button', { name: 'Go home' }).click()
+  await page.getByRole('button', { name: 'Open TRACE' }).click()
   await expect(page.getByText('Recovery: 0%', { exact: true })).toBeVisible()
   await openCaseFile(page)
   await expect(page.getByText('Sophie Mercer', { exact: true }).first()).toBeVisible()

@@ -16,12 +16,13 @@ function settle(s:GameSave):GameSave{for(let i=0;i<100;i++){const q=s.prologue?.
 function finishUnknown(s: GameSave): GameSave {
  const turns = masterScene04Dialogue(s.masterScene04?.revision)
  s = four(s, { type: 'open' })
+ while(s.masterScene04?.pending)s=four(s,{type:'tick'},s.masterScene04.pending.dueAt)
  for (let i = 0; i < turns.length; i++) {
   s = four(s, { type: 'draft', index: 0 })
   s = four(s, { type: 'send' }, 210000 + i * 10000)
-  s = four(s, { type: 'tick' }, s.masterScene04!.pending!.dueAt)
+  while(s.masterScene04?.pending)s=four(s,{type:'tick'},s.masterScene04.pending.dueAt)
  }
- return four(four(s, { type: 'inspect' }), { type: 'accept' })
+ return s.masterScene04?.revision==='cinematic'?four(s,{type:'setup-trace'}):four(four(s, { type: 'inspect' }), { type: 'accept' })
 }
 function entries():GameSave{
  let s=newGame();let next=beginScene01({...s,masterOpening:true,chapter1Edition:'ch01-v2-10'},1000);s=captureSceneEntries(s,next,1000);s=settle(s)
@@ -52,10 +53,10 @@ describe('master route scene-entry checkpoints',()=>{
   for(const n of [1,4,5,10]){
    const scene=libraryScenesForSave(s).find(x=>x.number===n)!,entry=s.replayEntries![snapshotKey(s,scene)]
    expect(entry).toBeDefined();const restored=prepareReplay(entry,1000000,n)
-   expect(restored.masterCaseFile?.id).toBe(n===10?'TA-CASE-001':undefined)
+   expect(restored.masterCaseFile?.id).toBe(n===5||n===10?'TA-CASE-001':undefined)
    expect(restored.evidence.FUTURE).toBeUndefined()
    if(n===1)expect(restored.prologue?.scene01?.masterScene01).toBe(true)
-   if(n===4){expect(restored.masterScene04?.revision).toBe('guarded-chat');expect(restored.masterScene04?.beat).toBe(0);expect(restored.masterScene05).toBeUndefined()}
+   if(n===4){expect(restored.masterScene04?.revision).toBe('cinematic');expect(restored.masterScene04?.beat).toBe(0);expect(restored.masterScene05).toBeUndefined()}
    if(n===5){expect(restored.masterScene05?.archiveStatus).toBe('offered');expect(masterRecoveryUnits(restored.masterScene05!)).toBe(0);expect(restored.masterScene10).toBeUndefined()}
    if(n===10){expect(restored.masterScene10?.phase).toBe('inventory');expect(masterRecoveryUnits(restored.masterScene05!)+scene06Units(restored.masterScene06)).toBe(200);expect(restored.deliveredEvents).not.toContain('TA-CH02-UNLOCKED')}
   }
@@ -76,7 +77,7 @@ describe('master route scene-entry checkpoints',()=>{
    await startSceneReplay(n)
    const active=useGameStore.getState().save,loaded=(await loadGame()).save
    expect(loaded).toEqual(active);expect(active.evidence.FUTURE).toBeUndefined()
-   if(n===4)expect(active.masterScene04?.revision).toBe('guarded-chat')
+   if(n===4)expect(active.masterScene04?.revision).toBe('cinematic')
    if(n===5)expect(active.masterScene05?.archiveStatus).toBe('offered')
    if(n===10)expect(active.masterScene10?.phase).toBe('inventory')
   }
@@ -92,3 +93,4 @@ describe('master route scene-entry checkpoints',()=>{
   expect((await loadGame()).save).toEqual(main)
  })
 })
+
