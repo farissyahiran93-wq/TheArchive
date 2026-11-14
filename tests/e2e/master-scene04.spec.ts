@@ -40,7 +40,7 @@ test('fresh game reaches Unknown after the actual first three scenes without lea
  await page.getByRole('button',{name:'Open Unknown conversation',exact:true}).click()
  await expect(page.getByRole('region',{name:'Unknown conversation'}).getByText("You're looking for Daniel Mercer.",{exact:true})).toHaveCount(1)
 })
-test('cinematic conversation preserves typing and requires Send before manual Scene 5',async({page})=>{
+test('cinematic conversation preserves typing and continues to Scene 5 after TRACE installation',async({page})=>{
  await page.setViewportSize({width:320,height:720})
  await seedScene(page,before(),{pauseClock:true})
  await page.getByRole('button',{name:'Open Messages',exact:true}).first().click()
@@ -60,11 +60,14 @@ test('cinematic conversation preserves typing and requires Send before manual Sc
   for(let n=0;n<12;n++)await page.clock.runFor(4000)
  }
  await expect(chat.getByRole('button',{name:'START SCENE 5'})).toHaveCount(0)
- await chat.getByRole('button',{name:'SET UP TRACE'}).click()
- await expect(chat.getByRole('button',{name:'START SCENE 5'})).toBeVisible()
+ await chat.getByRole('button',{name:'INSTALL TRACE'}).click()
+ await page.clock.runFor(7000)
+ await page.getByRole('button',{name:'CONTINUE',exact:true}).click()
+ await expect(chat.getByRole('button',{name:'START SCENE 5'})).toHaveCount(0)
+ await expect(chat.getByText('Did TRACE open?',{exact:true})).toBeVisible()
  await page.getByRole('button',{name:'Go home'}).click()
  await page.getByRole('button',{name:'Open TRACE'}).click()
- await expect(page.getByRole('region',{name:'TRACE'})).toContainText('Recovered: 0%')
+ await expect(page.getByText('Recovery: 0%',{exact:true})).toBeVisible()
  await expect(page.getByText('DNL_PHONE_ARCHIVE.arc')).toHaveCount(0)
  await expect(page.getByText('DNL_PHONE_ARCHIVE.arc')).toHaveCount(0)
  await expect(page.getByText('Eli Ward',{exact:true})).toHaveCount(0)

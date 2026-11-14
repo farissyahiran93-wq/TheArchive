@@ -4,12 +4,27 @@ import { scene01Nodes } from '../../src/content/scene01'
 import { beginLegacyScene01 as beginScene01, deliverScene01, scene01Invitation, sendScene01Choice } from '../../src/game/scene01'
 import { activityEvents, missingHourSources } from '../../src/content/masterScene06'
 import { masterScene06Action } from '../../src/game/masterScene06'
+import { masterScene05Action } from '../../src/game/masterScene05'
 
 export const sceneTime = Date.parse('2026-10-21T12:00:00Z')
 export function sceneNow(save: GameSave): number { return Math.max(sceneTime, ...(save.prologue?.scene01?.messages.map(line => line.at) ?? []), ...(save.prologue?.scene01?.groupMessages.map(line => line.at) ?? [])) + 100 }
 export function settleScene(save: GameSave): GameSave {
   for (let i = 0; i < 100; i++) { const due = save.prologue?.scene01?.queue[0]?.dueAt; if (due === undefined) return save; save = deliverScene01(save, due) }
   throw new Error('Scene queue did not settle')
+}
+/** Drive the cinematic archive conversation through explicit choices and consent. */
+export function prepareMasterScene05Recovery(save:GameSave):GameSave {
+ let next=masterScene05Action(save,{type:'start'})
+ const settle=()=>{while(next.masterScene05?.pending)next=masterScene05Action(next,{type:'tick'},next.masterScene05.pending.dueAt)}
+ settle()
+ for(let i=0;i<8;i++){
+  if(i===3)next=masterScene05Action(next,{type:'archive-accept'})
+  next=masterScene05Action(next,{type:'draft',index:0})
+  next=masterScene05Action(next,{type:'send'})
+  settle()
+ }
+ if(next.masterScene05?.beat!==8||next.masterScene05.archiveStatus!=='accepted')throw new Error('Scene 5 archive conversation did not complete')
+ return next
 }
 export function completeMasterScene06(save: GameSave): GameSave {
   function settleActivityReplies(next: GameSave) {
@@ -22,6 +37,12 @@ export function completeMasterScene06(save: GameSave): GameSave {
   }
   let next = settleActivityReplies(masterScene06Action(save, { type: 'start' }))
   next = masterScene06Action(next, { type: 'recover' })
+  if(next.masterScene06?.firstPass20){
+    for(let i=0;i<8;i++){
+      next=masterScene06Action(next,{type:'draft',index:0})
+      next=settleActivityReplies(masterScene06Action(next,{type:'send'}))
+    }
+  }
   for (const event of activityEvents.slice(2)) next = masterScene06Action(next, { type: 'inspect', id: event.id })
   next = masterScene06Action(next, { type: 'compare-times', left: missingHourSources[0], right: missingHourSources[1] })
   for (let i = 0; i < 2; i++) {

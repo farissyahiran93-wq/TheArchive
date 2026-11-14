@@ -7,6 +7,7 @@ export interface MasterScene06 {
  version:1; revision?:'investigation'; beat:number; draft?:number; messages:{id:string;sender:'unknown'|'player';text:string;at:number}[];
  pending?:{id:string;text:string;dueAt:number};
  timelineRevision?:'reconstruction'; comparison?:[string,string]; gapCompared?:boolean;
+ firstPass20?:boolean;
  timelineFlags?:string[]; timelineHypothesis?:{text:string;sources:[string,string]};
  recovered:boolean; inspected:string[]; order:string[]; uncertainty:boolean; syncAcknowledged:boolean; gapAcknowledged:boolean; saved:boolean; reportDraft?:number; reportReviewed:boolean; reportSent:boolean; complete:boolean
 }
@@ -22,7 +23,7 @@ export function compareTimelineRecords(left:string,right:string): string {
  if(fragmentIds.includes(right))return 'The recovered fragment has no usable timestamp. It cannot corroborate or contradict when this device event was recorded.'
  return 'Both entries use reported device time. That supports ordering the entries within this copy, but the clock and the person using the device remain unverified.'
 }
-export const scene06Units=(p:MasterScene06|undefined)=>p?.recovered?activityEvents.reduce((n,e)=>n+e.units,0):0
+export const scene06Units=(p:MasterScene06|undefined)=>p?.recovered&&!p.firstPass20?activityEvents.reduce((n,e)=>n+e.units,0):0
 const hasGapBounds=(p:MasterScene06)=>p.recovered&&missingHourSources.every(id=>p.inspected.includes(id))
 export function canDocumentMissingHour(p:MasterScene06):boolean {
  const first=p.order.indexOf(missingHourSources[0])
@@ -30,7 +31,7 @@ export function canDocumentMissingHour(p:MasterScene06):boolean {
 }
 export const canReplyInMasterScene06=(p:MasterScene06)=>!p.pending&&!p.complete&&(p.beat<8||p.beat<10&&p.saved)
 export const canRecoverActivity=(p:MasterScene06)=>!p.pending&&!p.recovered&&p.beat<=8
-export const masterScene06Beat=(p:MasterScene06)=>p.beat===8&&!p.reportSent?reconstructionReportBeat:scene06Beats[p.beat]
+export const masterScene06Beat=(p:MasterScene06)=>p.firstPass20&&p.beat===3?{choices:['What can we learn from these records?','Can we trust the timestamps?','Do the logs show who used the phone?'],replies:['The recovered records show device events, not the person who caused them.','The device clock still needs independent checking.','No. An event alone cannot identify the person using the phone.']}:p.firstPass20&&p.beat===7?{choices:['I will inspect the activity records.','I want to examine the timeline myself.','I am willing to look without assuming a conclusion.'],replies:['Open the recovered activity records in TRACE when you are ready.','Your work stays private unless you choose to share it.','That is enough. We can leave uncertainty in the timeline.']}:p.beat===8&&!p.reportSent?reconstructionReportBeat:scene06Beats[p.beat]
 const closing='The export is its own source. Ask her about it when you are ready; I will not send your timeline to her.'
 const queueReply=(id:string,text:string,now:number,beat:number)=>({id,text,dueAt:now+Math.min(7000,npcDeliveryDelay('eli',text,beat))})
 
@@ -52,10 +53,11 @@ export function masterScene06Action(s:GameSave,a:MasterScene06Action,now=Date.no
   const five=s.masterScene05
   if(p||!five?.complete||five.packageStatus!=='installed'||!five.recovered||!s.masterScene04?.complete||!s.deliveredEvents.includes('TA-S05-FINDINGS-SENT'))return s
   const revised=five.revision==='trace-first'
-  const intro=five.examination==='evidence'
+  const firstPass20=!!five.discussion
+  const intro=firstPass20?'The activity records are already in the part you recovered. Look at the device times and what may be missing. The log cannot identify who used the phone.':five.examination==='evidence'
    ?'There may be activity records in another segment. Compare the device times with what you could recover. What can you point to in the records, and what is still missing?'
    :'There may be activity records in another segment. If you recover them, compare their device times with the Messages and Notes fragments. Some records may be too incomplete to match.'
-  return {...s,masterScene06:{version:1,...(revised?{revision:'investigation' as const,pending:queueReply('TA-S06-INTRO',intro,now,0)}:{}),...(revised&&five.examination==='evidence'?{timelineRevision:'reconstruction' as const}:{}),beat:0,messages:revised?[]:[{id:'TA-S06-INTRO',sender:'unknown',text:'The messages are only part of it. There may be activity records in another segment. If we can recover them, we can try to put the device events in order.',at:now}],recovered:false,inspected:[],order:[],uncertainty:false,syncAcknowledged:false,gapAcknowledged:false,saved:false,reportReviewed:false,reportSent:false,complete:false}}
+  return {...s,masterScene06:{version:1,...(firstPass20?{firstPass20:true}:{}),...(revised?{revision:'investigation' as const,pending:queueReply('TA-S06-INTRO',intro,now,0)}:{}),...(revised&&five.examination==='evidence'?{timelineRevision:'reconstruction' as const}:{}),beat:0,messages:revised?[]:[{id:'TA-S06-INTRO',sender:'unknown',text:'The messages are only part of it. There may be activity records in another segment. If we can recover them, we can try to put the device events in order.',at:now}],recovered:firstPass20,inspected:[],order:[],uncertainty:false,syncAcknowledged:false,gapAcknowledged:false,saved:false,reportReviewed:false,reportSent:false,complete:false}}
  }
  if(!p)return s
  const put=(v:MasterScene06):GameSave=>({...s,masterScene06:v})
@@ -107,6 +109,7 @@ export function validateMasterScene06(value:unknown):void {
  const p=value as MasterScene06
  if(!p||p.version!==1||!Number.isInteger(p.beat)||p.beat<0||p.beat>10||!Array.isArray(p.messages)||!Array.isArray(p.inspected)||!Array.isArray(p.order)||p.inspected.some(id=>!ids.includes(id))||p.order.some(id=>!p.inspected.includes(id))||new Set(p.order).size!==p.order.length||['recovered','uncertainty','syncAcknowledged','gapAcknowledged','saved','reportReviewed','reportSent','complete'].some(k=>typeof p[k as keyof MasterScene06]!=='boolean')||p.revision!==undefined&&p.revision!=='investigation'||p.pending!==undefined&&(p.revision!=='investigation'||!p.pending||typeof p.pending.id!=='string'||typeof p.pending.text!=='string'||!Number.isFinite(p.pending.dueAt))||p.saved&&(!hasGapBounds(p)||p.timelineRevision==='reconstruction'&&!p.gapCompared)||p.reportSent&&!p.saved||p.complete&&(!p.saved||p.beat!==10||!!p.pending))throw Error('Invalid Scene 6 progress')
  if(p.timelineRevision!==undefined&&(p.revision!=='investigation'||p.timelineRevision!=='reconstruction'))throw Error('Invalid timeline reconstruction route')
+ if(p.firstPass20!==undefined&&(typeof p.firstPass20!=='boolean'||p.firstPass20&&!p.recovered))throw Error('Invalid first-pass recovery')
  const validComparison=(pair:[string,string])=>p.recovered&&Array.isArray(pair)&&pair.length===2&&isValidTimePair(p,pair)
  if(p.comparison!==undefined&&!validComparison(p.comparison))throw Error('Invalid timeline comparison')
  if(p.gapCompared!==undefined&&(typeof p.gapCompared!=='boolean'||p.gapCompared&&!missingHourSources.every(id=>p.inspected.includes(id))))throw Error('Invalid missing hour comparison')

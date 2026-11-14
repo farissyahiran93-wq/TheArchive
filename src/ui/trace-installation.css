@@ -1,0 +1,15 @@
+.trace-install-overlay{position:absolute;inset:0;z-index:60;display:grid;place-items:center;padding:24px;color:#d9ece8;background:radial-gradient(circle at 50% 30%,#163832,#071410 68%,#040b09)}
+.trace-install-card{width:min(100%,340px);text-align:center}
+.trace-install-brand{display:block;font-weight:700;font-size:33px;letter-spacing:.24em;color:#e0faf2}
+.trace-install-card small{display:block;margin-top:5px;color:#82a69c;font-size:10px;letter-spacing:.17em}
+.trace-install-symbol{display:grid;place-items:center;margin:54px auto 30px;width:76px;height:76px;border:1px solid #67d8ab66;border-radius:50%;font-size:45px;color:#8be5be;box-shadow:0 0 40px #26a77628;animation:trace-install-breathe 2s ease-in-out infinite}
+.trace-install-card h2{font-size:20px;font-weight:600;margin:0 0 22px}
+.trace-install-number{font-size:44px;font-variant-numeric:tabular-nums;font-weight:300;color:#a5eacb}
+.trace-install-number span{font-size:17px;margin-left:2px}
+.trace-install-track{height:5px;overflow:hidden;background:#315349;border-radius:8px;margin:14px 0}
+.trace-install-track>div{height:100%;background:#7ce4b5;transition:width .15s linear;box-shadow:0 0 12px #7ce4b5}
+.trace-install-card p{min-height:42px;color:#9dbbb0;font-size:13px}
+.trace-install-card button{width:100%;margin-top:12px}
+@keyframes trace-install-breathe{50%{box-shadow:0 0 55px #26a77655;transform:scale(1.04)}}
+@media(prefers-reduced-motion:reduce){.trace-install-symbol{animation:none}.trace-install-track>div{transition:none}}
+.trace-install-overlay[data-reduce-motion=true] .trace-install-symbol{animation:none}.trace-install-overlay[data-reduce-motion=true] .trace-install-track>div{transition:none}

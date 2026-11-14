@@ -3,7 +3,7 @@ import { masterScene04Action } from '../../src/game/masterScene04'
 import { cinematicBeats } from '../../src/content/masterScene04Cinematic'
 import { beginScene01, beginScene02, deliverScene01, openScene03, scene01Invitation, sendScene01Choice } from '../../src/game/scene01'
 import { newGame, type GameSave } from '../../src/game/types'
-import { completeMasterScene06, seedScene } from './scene01-helper'
+import { completeMasterScene06, prepareMasterScene05Recovery, seedScene } from './scene01-helper'
 function settle(s:GameSave):GameSave{for(let i=0;i<100;i++){const q=s.prologue?.scene01?.queue[0];if(!q)return s;s=deliverScene01(s,q.dueAt)}throw Error('Queue did not settle')}
 function ready():GameSave{
  let s=settle(beginScene01({...newGame(),masterOpening:true,chapter1Edition:'ch01-v2-10'},1000))
@@ -21,14 +21,14 @@ function ready():GameSave{
 import { masterScene05Action as step5 } from '../../src/game/masterScene05'
 import { masterFragments } from '../../src/content/masterScene05'
 function afterFive():GameSave {
- let s=step5(step5(ready(),{type:'start'}),{type:'archive-accept'})
- for(let i=0;i<8;i++){s=step5(s,{type:'draft',index:0});s=step5(s,{type:'send'});s=step5(s,{type:'tick'},s.masterScene05!.pending!.dueAt)}
- s=step5(s,{type:'install'});s=step5(s,{type:'open-trace'});s=step5(s,{type:'recover'})
+ let s=prepareMasterScene05Recovery(ready())
+ s=step5(s,{type:'install'});s=step5(s,{type:'open-trace'});s=step5(s,{type:'recover'});s=step5(s,{type:'recovery-tick'},s.masterScene05!.recoveryAnimation!.startedAt+8000);s=step5(s,{type:'recovery-acknowledge'})
  for(const f of masterFragments)s=step5(s,{type:'read',id:f.id})
  s=step5(s,{type:'observe',id:masterFragments[0].id})
  s=step5(s,{type:'save',id:masterFragments[0].id})
- for(let i=0;i<2;i++){s=step5(s,{type:'draft',index:0});s=step5(s,{type:'send'});s=step5(s,{type:'tick'},s.masterScene05!.pending!.dueAt)}
- if(s.masterScene05?.pending)s=step5(s,{type:'tick'},s.masterScene05.pending.dueAt)
+ s=step5(s,{type:'discussion',action:{type:'select',topic:'dinner'}})
+ for(let i=0;i<2;i++){s=step5(s,{type:'discussion',action:{type:'draft',index:0}});s=step5(s,{type:'discussion',action:{type:'send'}});while(s.masterScene05?.discussion?.pending.length)s=step5(s,{type:'discussion',action:{type:'deliver'}})}
+ s=step5(s,{type:'discussion',action:{type:'select',topic:'finish'}});s=step5(s,{type:'discussion',action:{type:'send'}})
  return s
 }
 function afterSix():GameSave {

@@ -2,13 +2,14 @@ import { cinematicBeats } from '../content/masterScene04Cinematic'
 import { masterArchiveIdentifier, masterScene04Beats } from '../content/masterScene04'
 import { traceFirstBeats, unknownSenderRevisedBeats, unknownSenderRevisedOpening } from '../content/masterTraceFirst'
 import { npcDeliveryDelay } from './npcDelivery'
+import { traceInstallDuration } from './traceInstallation'
 import type { GameSave } from './types'
 
 export interface MasterScene04 {
   version: 1; revision?:'trace-first'|'guarded-chat'|'cinematic'; opened: boolean; beat: number; draft?: number; messages: { id:string; sender:'unknown'|'player'; text:string; at:number }[];
-  status:'conversation'|'offered'|'deferred'|'declined'|'accepted'; inspected:boolean; complete:boolean; preview:boolean; traceInstalled?:boolean; pending?:{id:string;text:string;dueAt:number; remaining?:string[]; finalStatus?:'offered'|'deferred'|'declined'|'accepted'}
+  status:'conversation'|'offered'|'deferred'|'declined'|'accepted'; inspected:boolean; complete:boolean; preview:boolean; traceInstalled?:boolean; traceInstallStartedAt?:number; pending?:{id:string;text:string;dueAt:number; remaining?:string[]; finalStatus?:'offered'|'deferred'|'declined'|'accepted'}
 }
-export type MasterScene04Action = {type:'start'|'open'|'close'|'send'|'tick'|'inspect'|'close-preview'|'setup-trace'|'accept'|'defer'|'decline'|'reconsider'} | {type:'draft';index:number}
+export type MasterScene04Action = {type:'start'|'open'|'close'|'send'|'tick'|'inspect'|'close-preview'|'begin-trace-install'|'setup-trace'|'accept'|'defer'|'decline'|'reconsider'} | {type:'draft';index:number}
 const put=(s:GameSave,p:MasterScene04):GameSave=>({...s,masterScene04:p})
 const event=(s:GameSave,id:string):GameSave=>s.deliveredEvents.includes(id)?s:{...s,deliveredEvents:[...s.deliveredEvents,id]}
 
@@ -78,7 +79,8 @@ export function masterScene04Action(s:GameSave,a:MasterScene04Action,now=Date.no
   }
   if(a.type==='inspect'&&p.opened&&(p.status!=='conversation'||p.revision==='cinematic'&&p.beat===9&&!p.pending))return put(event(s,'TA-S04-METADATA-INSPECTED'),{...p,inspected:true,preview:true})
   if(a.type==='close-preview')return put(s,{...p,preview:false})
-  if(a.type==='setup-trace'&&p.opened&&p.revision==='cinematic'&&p.complete&&!p.traceInstalled)return put(event(s,'TA-S04-TRACE-INSTALLED'),{...p,traceInstalled:true,preview:false})
+  if(a.type==='begin-trace-install'&&p.opened&&p.revision==='cinematic'&&p.complete&&!p.traceInstalled&&p.traceInstallStartedAt===undefined)return put(s,{...p,traceInstallStartedAt:now})
+  if(a.type==='setup-trace'&&p.opened&&p.revision==='cinematic'&&p.complete&&!p.traceInstalled&&(p.traceInstallStartedAt===undefined||now-p.traceInstallStartedAt>=traceInstallDuration))return put(event(s,'TA-S04-TRACE-INSTALLED'),{...p,traceInstalled:true,preview:false,traceInstallStartedAt:undefined})
   if((a.type==='defer'||a.type==='decline')&&p.opened&&['offered','deferred','declined'].includes(p.status))return put(s,{...p,status:a.type==='defer'?'deferred':'declined',preview:false})
   if(a.type==='reconsider'&&p.opened&&['deferred','declined'].includes(p.status)){
     if(p.revision==='cinematic')return put(event(s,'TA-S04-RECONSIDER-PLAYER'),{...p,status:'conversation',messages:[...p.messages,{id:'TA-S04-RECONSIDER-PLAYER',sender:'player',text:"I've thought about it. Send me TRACE.",at:now}],pending:{id:'TA-S04-RECONSIDER-UNKNOWN',text:'Okay.',dueAt:now+800,remaining:["I'll make it available.",'One more thing.','If you find something that looks out of place...','Don’t ignore it just because the rest seems normal.','That’s what I did at first.'],finalStatus:'accepted'}})
@@ -98,6 +100,7 @@ export function validateMasterScene04(value:unknown):void {
   if(!value||typeof value!=='object')throw Error('Invalid Scene 4 progress')
   const p=value as MasterScene04
   const lastBeat=masterScene04Dialogue(p.revision).length
+  if(p.traceInstallStartedAt!==undefined&&(!Number.isFinite(p.traceInstallStartedAt)||p.traceInstallStartedAt<0||p.revision!=='cinematic'||!p.complete||p.traceInstalled))throw Error('Invalid TRACE installation')
   if(p.version!==1||p.revision!==undefined&&!usesScene04ToolPreview(p)||typeof p.opened!=='boolean'||!Number.isInteger(p.beat)||p.beat<0||p.beat>lastBeat||p.draft!==undefined&&(!Number.isInteger(p.draft)||p.draft<0||p.draft>2)||p.pending!==undefined&&(!p.pending||typeof p.pending.id!=='string'||typeof p.pending.text!=='string'||!Number.isFinite(p.pending.dueAt))||!['conversation','offered','deferred','declined','accepted'].includes(p.status)||typeof p.inspected!=='boolean'||typeof p.complete!=='boolean'||typeof p.preview!=='boolean'||p.traceInstalled!==undefined&&(typeof p.traceInstalled!=='boolean'||p.traceInstalled&&!p.complete)||!Array.isArray(p.messages)||p.messages.some(m=>!m||typeof m.id!=='string'||!['unknown','player'].includes(m.sender)||typeof m.text!=='string'||!Number.isFinite(m.at))||p.complete&&p.status!=='accepted'||p.status==='conversation'&&p.beat===lastBeat&&!p.pending||p.status!=='conversation'&&(p.pending!==undefined||p.beat!==lastBeat))throw Error('Invalid Scene 4 progress')
 }
 

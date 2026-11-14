@@ -31,13 +31,14 @@ function entries():GameSave{
  s=settle(openScene03(s,100000));for(let i=0;i<10;i++)s=settle(sendScene01Choice(s,'a','',true,140000+i*1000))
  next=four(s,{type:'start'},200000);s=finishUnknown(captureSceneEntries(s,next,200000))
  next=five(s,{type:'start'},400000);s=captureSceneEntries(s,next,400000)
- s=five(s,{type:'archive-accept'})
- for(let i=0;i<8;i++){s=five(s,{type:'draft',index:0});s=five(s,{type:'send'},410000+i*10000);s=five(s,{type:'tick'},s.masterScene05!.pending!.dueAt)}
+ while(s.masterScene05?.pending)s=five(s,{type:'tick'},s.masterScene05.pending.dueAt)
+ for(let i=0;i<8;i++){if(i===3)s=five(s,{type:'archive-accept'});s=five(s,{type:'draft',index:0});s=five(s,{type:'send'},410000+i*10000);while(s.masterScene05?.pending)s=five(s,{type:'tick'},s.masterScene05.pending.dueAt)}
  s=five(five(five(s,{type:'install'}),{type:'open-trace'}),{type:'recover'})
+ s=five(s,{type:'recovery-tick'},s.masterScene05!.recoveryAnimation!.startedAt+8000)
  for(const f of masterFragments)s=five(s,{type:'read',id:f.id})
- s=five(s,{type:'observe',id:masterFragments[0].id});s=five(s,{type:'save',id:masterFragments[0].id})
- for(let i=0;i<2;i++){s=five(s,{type:'draft',index:0});s=five(s,{type:'send'},510000+i*10000);s=five(s,{type:'tick'},s.masterScene05!.pending!.dueAt)}
- if(s.masterScene05?.pending)s=five(s,{type:'tick'},s.masterScene05.pending.dueAt)
+ s=five(s,{type:'discussion',action:{type:'select',topic:'dinner'}})
+ for(let i=0;i<2;i++){s=five(s,{type:'discussion',action:{type:'draft',index:0}});s=five(s,{type:'discussion',action:{type:'send'}});while(s.masterScene05?.discussion?.pending.length)s=five(s,{type:'discussion',action:{type:'deliver'}})}
+ s=five(s,{type:'discussion',action:{type:'select',topic:'finish'}});s=five(s,{type:'discussion',action:{type:'send'}})
  s=six(s,{type:'start'},550000);s=six(s,{type:'tick'},s.masterScene06!.pending!.dueAt);s=six(s,{type:'recover'})
  s={...s,masterScene09:{version:1,beat:10,messages:[],received:true,opened:true,inspected:['heading','title','code','reference','unverified','appearance','metadata'],imported:true,analysis:true,comparisons:['contact','capture'],hypothesis:0,reviewed:true,saved:true,complete:true},deliveredEvents:[...s.deliveredEvents,'TA-S09-SCENE10-UNLOCKED']}
  next=ten(s,{type:'start'},600000);s=captureSceneEntries(s,next,600000)
@@ -57,7 +58,7 @@ describe('master route scene-entry checkpoints',()=>{
    expect(restored.evidence.FUTURE).toBeUndefined()
    if(n===1)expect(restored.prologue?.scene01?.masterScene01).toBe(true)
    if(n===4){expect(restored.masterScene04?.revision).toBe('cinematic');expect(restored.masterScene04?.beat).toBe(0);expect(restored.masterScene05).toBeUndefined()}
-   if(n===5){expect(restored.masterScene05?.archiveStatus).toBe('offered');expect(masterRecoveryUnits(restored.masterScene05!)).toBe(0);expect(restored.masterScene10).toBeUndefined()}
+   if(n===5){expect(restored.masterScene05?.archiveStatus).toBe('unavailable');expect(masterRecoveryUnits(restored.masterScene05!)).toBe(0);expect(restored.masterScene10).toBeUndefined()}
    if(n===10){expect(restored.masterScene10?.phase).toBe('inventory');expect(masterRecoveryUnits(restored.masterScene05!)+scene06Units(restored.masterScene06)).toBe(200);expect(restored.deliveredEvents).not.toContain('TA-CH02-UNLOCKED')}
   }
  })
@@ -78,7 +79,7 @@ describe('master route scene-entry checkpoints',()=>{
    const active=useGameStore.getState().save,loaded=(await loadGame()).save
    expect(loaded).toEqual(active);expect(active.evidence.FUTURE).toBeUndefined()
    if(n===4)expect(active.masterScene04?.revision).toBe('cinematic')
-   if(n===5)expect(active.masterScene05?.archiveStatus).toBe('offered')
+   if(n===5)expect(active.masterScene05?.archiveStatus).toBe('unavailable')
    if(n===10)expect(active.masterScene10?.phase).toBe('inventory')
   }
  })

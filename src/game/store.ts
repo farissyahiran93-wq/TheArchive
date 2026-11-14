@@ -16,6 +16,7 @@ import { masterScene07Action, type MasterScene07Action } from './masterScene07'
 import { masterScene08Action, type MasterScene08Action } from './masterScene08'
 import { masterScene09Action, type MasterScene09Action } from './masterScene09'
 import { masterScene10Action, type MasterScene10Action } from './masterScene10'
+import { advanceMasterContinuations } from './masterContinuations'
 import { familyPhotoAction, type FamilyPhotoAction } from './familyPhoto'
 import { lucasPhotoAction, type LucasPhotoAction } from './lucasPhoto'
 import { playtestEnabled } from './playtest'
@@ -226,6 +227,7 @@ function commit(next: GameSave) {
   if (restarting || runtimeSuspended) return
   if (useGameStore.getState().recoveryRequired) return
   const current = useGameStore.getState().save
+  next = advanceMasterContinuations(next)
   if (next === current) return
   next = captureSceneEntries(current, next)
   const expectedRevision = current.saveRevision ?? 0
@@ -284,6 +286,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     hydration = (async () => {
       const result = await loadGame()
       set({ save: result.save, ready: true, saveError: result.error ?? null, recoveryRequired: result.recoveryRequired ?? false, recoveryRaw: result.raw })
+      if(!result.recoveryRequired){const continued=advanceMasterContinuations(result.save);if(continued!==result.save){commit(continued);result.save=get().save}}
       if(!result.recoveryRequired){const migrated=resumeScene0607(result.save,Date.now());if(migrated!==result.save){commit(migrated);result.save=get().save}}
       if (!result.recoveryRequired && result.save.prologue?.scene01?.invitation === 'joined' && !result.save.prologue.scene01.groupScript && !result.save.prologue.scene01.masterScene01) { commit(beginScene02(result.save)); return }
       if (!result.recoveryRequired && result.save.prologue?.scene01?.nodeId === 'OPEN-S02-SOURCE-BOUNDARY') { commit(resumeScene02(result.save)); return }
@@ -299,6 +302,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     discardPendingSave()
     const result = await loadGame()
     set({ save: result.save, ready: true, saveError: result.error ?? null, recoveryRequired: result.recoveryRequired ?? false, recoveryRaw: result.raw })
+    if(!result.recoveryRequired){const continued=advanceMasterContinuations(result.save);if(continued!==result.save){commit(continued);result.save=get().save}}
       if(!result.recoveryRequired){const migrated=resumeScene0607(result.save,Date.now());if(migrated!==result.save){commit(migrated);result.save=get().save}}
     if (!result.recoveryRequired && result.save.prologue?.scene01?.invitation === 'joined' && !result.save.prologue.scene01.groupScript && !result.save.prologue.scene01.masterScene01) { commit(beginScene02(result.save)); return }
     if (!result.recoveryRequired && result.save.prologue?.scene01?.nodeId === 'OPEN-S02-SOURCE-BOUNDARY') { commit(resumeScene02(result.save)); return }
@@ -382,9 +386,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
       const restored=await restoreHistoricalSave(key,get().save)
       discardPendingSave()
       set({save:restored,saveError:null})
-      return true
     }catch(error){set({saveError:error instanceof Error?error.message:'Restore failed'});return false}
     finally{restarting=false}
+    const continued=advanceMasterContinuations(get().save)
+    if(continued!==get().save)commit(continued)
+    return true
   },
   beginEpisodeSlice: () => commit(beginSlice(get().save)),
   nextSliceScene: () => commit(advanceSlice(get().save, Date.now())),

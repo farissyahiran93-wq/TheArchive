@@ -20,11 +20,14 @@ const guidance = {
 export function selectInvestigationGuidance(save: GameSave): Guidance | undefined {
   const five = save.masterScene05
   if (five?.packageStatus !== 'installed') return
+  if(five.discussion&&!five.recovered)return {title:'Recover the first fragments',direction:'The accepted archive is ready.',focus:'Start recovery in TRACE when you are ready.',assistance:'Recovery will preserve the available data if the source connection is interrupted.'}
+  if(five.discussion&&!five.complete)return five.discussion.discovered.length?{title:'Discuss a discovery',direction:'You have opened recovered content.',focus:'Choose what to discuss with Unknown.',assistance:'Select a topic and a reply, then press Send. Finish when you are ready.'}:{title:'Explore recovered data',direction:'The first part of the archive is available.',focus:'Open Messages, Notes or Activity Logs.',assistance:'Read a recovered item, then return to Unknown.'}
   if (!five.recovered) return guidance.recovery
-  if (!five.saved.length) return guidance.fragments
+  if (!five.discussion&&!five.saved.length) return guidance.fragments
   if (!five.complete) return guidance.discuss
 
   const six = save.masterScene06
+  if(five.discussion&&!six)return {title:'Continue the investigation',direction:'The recovered data remains available.',focus:'Unknown may have more to say.',assistance:'Return to the conversation with Unknown.'}
   if (!six?.recovered) return guidance.deeper
   if (!six.saved) return guidance.gap
   if (!six.complete) return guidance.timelineFollowup

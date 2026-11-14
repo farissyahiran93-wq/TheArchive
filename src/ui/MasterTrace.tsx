@@ -1,6 +1,8 @@
 import { Activity, Archive, AudioLines, BookOpen, ChevronLeft, CircleHelp, FileText, FolderOpen, FolderSearch, GalleryHorizontal, LockKeyhole, Mail, Network, Phone, ScanLine, Users } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { compareRecoveredFragments, fragmentExamination, masterFragments } from '../content/masterScene05'
+import { recoveredConversations, recoveredNotes } from '../content/digitalArchive'
+import { activityEvents } from '../content/masterScene06'
 import { masterArchiveIdentifier } from '../content/masterScene04'
 import { canRecoverActivity, scene06Units } from '../game/masterScene06'
 import { canSaveFragmentFinding, masterRecoveryUnits, type MasterScene05Action, type MasterScene05 } from '../game/masterScene05'
@@ -16,6 +18,20 @@ import { usePhoneBack } from './usePhoneBack'
 import './master-trace-workspace.css'
 
 type Fragment=typeof masterFragments[number]
+const chatId=(id:string)=>`TA-PH-CHAT-${id.toUpperCase()}`
+const noteId=(id:string)=>id==='dinner'?'TA-PH-NOTE-ORDINARY-01':'TA-PH-NOTE-RECORDS-01'
+function PersonalLibrary({view,onOpen}:{view:'messages'|'notes';onOpen:(id:string)=>void}) {
+ const [query,setQuery]=useState('')
+ const search=query.trim().toLocaleLowerCase()
+ const items=view==='messages'?recoveredConversations.map(c=>({id:chatId(c.id),title:c.name,body:c.lines.map(line=>line.text).join(' '),preview:c.preview})):recoveredNotes.map(n=>({id:noteId(n.id),title:n.title,body:n.body,preview:n.body}))
+ return <section className="trace-module"><small>RECOVERED CONTENT · SOME CONTENT INCOMPLETE</small><h1>{view==='messages'?'Messages':'Notes'}</h1><label className="trace-record-search">Search recovered {view}<input type="search" value={query} onChange={e=>setQuery(e.target.value)}/></label>{items.filter(item=>`${item.title} ${item.body}`.toLocaleLowerCase().includes(search)).map(item=><button className="trace-item" key={item.id} onClick={()=>onOpen(item.id)}><span>{view==='messages'?<Mail size={20}/>:<BookOpen size={20}/>}</span><div><strong>{item.title}</strong><small>{item.preview}</small></div><ChevronLeft className="trace-item-arrow" size={18}/></button>)}</section>
+}
+function PersonalReader({id}:{id:string}) {
+ const chat=recoveredConversations.find(c=>chatId(c.id)===id),note=recoveredNotes.find(n=>noteId(n.id)===id)
+ if(chat)return <article className="trace-reader"><small>RECOVERED CONVERSATION · INCOMPLETE</small><h1>{chat.name}</h1><p>Dates unavailable</p>{chat.lines.map((line,index)=><div key={index} className={`conversation-line ${line.speaker==='daniel'?'outgoing':'incoming'}`}><div className="conversation-body"><div className={`opening-bubble ${line.speaker==='daniel'?'player':'sophie'}`}>{line.text}</div></div></div>)}</article>
+ if(note)return <article className="trace-reader"><small>RECOVERED NOTE · DATE UNAVAILABLE</small><h1>{note.title}</h1><p style={{whiteSpace:'pre-wrap'}}>{note.body}</p></article>
+ return null
+}
 function TraceFragment({fragment, progress, act}:{fragment:Fragment;progress:MasterScene05;act:(action:MasterScene05Action)=>void}) {
  const {id,body,category}=fragment
  const {title,detail,observation}=fragmentExamination[id]
@@ -69,33 +85,41 @@ export function MasterTrace({onHome}:{onHome:()=>void}) {
  const caseFile=useMemo(()=>selectMasterCaseFile(save),[save])
  const [media,setMedia]=useState<{src:string;alt:string}>()
  const view=p?.traceView??'home',fragment=masterFragments.find(f=>f.id===view)
- usePhoneBack(()=>act({type:'view',id:fragment?p?.traceReturn??(fragment.category==='Messages'?'messages':'notes'):'home'}),!!p&&view!=='home')
+ const personal=!!p?.discussion&&(view.startsWith('TA-PH-CHAT-')||view==='TA-PH-NOTE-ORDINARY-01'||view==='TA-PH-NOTE-RECORDS-01')
+ usePhoneBack(()=>act({type:'view',id:personal?(view.startsWith('TA-PH-CHAT-')?'messages':'notes'):fragment?p?.traceReturn??(fragment.category==='Messages'?'messages':'notes'):'home'}),!!p&&view!=='home')
  useEffect(()=>{act({type:'open-trace'})},[act])
+ useEffect(()=>{
+  if(p?.recoveryAnimation?.startedAt===undefined||p.recovered)return
+  act({type:'recovery-tick'})
+  const timer=window.setInterval(()=>act({type:'recovery-tick'}),400)
+  return()=>window.clearInterval(timer)
+ },[act,p?.recoveryAnimation?.startedAt,p?.recovered])
  if(!p||p.packageStatus!=='installed')return null
  const open=(id:string)=>{act({type:'read',id});act({type:'view',id})}
  const navigate=(id:string)=>act({type:'view',id})
- const back=()=>{if(fragment)navigate(p.traceReturn??(fragment.category==='Messages'?'messages':'notes'));else navigate('home')}
- const recovery=(masterRecoveryUnits(p)+scene06Units(six))/10
+ const back=()=>{if(personal)navigate(view.startsWith('TA-PH-CHAT-')?'messages':'notes');else if(fragment)navigate(p.traceReturn??(fragment.category==='Messages'?'messages':'notes'));else navigate('home')}
+ const recovery=p.recoveryAnimation&&!p.recovered?p.recoveryAnimation.percent:(masterRecoveryUnits(p)+scene06Units(six))/10
  const sourceReady=!p.earlySetup||p.archiveStatus==='accepted'&&p.beat>=8
  const photos=caseFile?.nodes.filter(node=>node.image)??[]
- const modules=[{id:'case-files',label:'Case Files',icon:FolderOpen,status:'AVAILABLE'}, {id:'board',label:'Investigation Board',icon:Network,status:'AVAILABLE'}, {id:'messages',label:'Messages',icon:Mail,status:p.recovered?'PARTIAL':'LOCKED'}, {id:'notes',label:'Notes',icon:FileText,status:p.recovered?'PARTIAL':'LOCKED'}, {id:'activity',label:'Activity Logs',icon:Activity,status:six?.recovered?'AVAILABLE':'LOCKED'}, {id:'media',label:'Case Media',icon:GalleryHorizontal,status:photos.length?'AVAILABLE':'EMPTY'}, {id:'calls',label:'Call History',icon:Phone,status:'LOCKED'}, {id:'gallery',label:'Gallery',icon:GalleryHorizontal,status:'LOCKED'}, {id:'audio',label:'Audio',icon:AudioLines,status:'LOCKED'}, {id:'contacts',label:'Contacts',icon:Users,status:'LOCKED'}, {id:'summary',label:'Evidence Summary',icon:FolderSearch,status:'AVAILABLE'}] as const
+ const modules=[{id:'case-files',label:'Case Files',icon:FolderOpen,status:'AVAILABLE'}, {id:'board',label:'Investigation Board',icon:Network,status:'AVAILABLE'}, {id:'messages',label:'Messages',icon:Mail,status:p.recovered?'PARTIAL':'LOCKED'}, {id:'notes',label:'Notes',icon:FileText,status:p.recovered?'PARTIAL':'LOCKED'}, {id:'activity',label:'Activity Logs',icon:Activity,status:p.discussion&&p.recovered?'PARTIAL':six?.recovered?'AVAILABLE':'LOCKED'}, {id:'media',label:'Case Media',icon:GalleryHorizontal,status:photos.length?'AVAILABLE':'EMPTY'}, {id:'calls',label:'Call History',icon:Phone,status:'LOCKED'}, {id:'gallery',label:'Gallery',icon:GalleryHorizontal,status:'LOCKED'}, {id:'audio',label:'Audio',icon:AudioLines,status:'LOCKED'}, {id:'contacts',label:'Contacts',icon:Users,status:'LOCKED'}, {id:'summary',label:'Evidence Summary',icon:FolderSearch,status:'AVAILABLE'}] as const
  return <section className="master-trace" aria-label="TRACE Digital Evidence Analyzer">
   <header className="trace-top"><button onClick={view==='home'?onHome:back} aria-label={view==='home'?'Home':fragment&&p.traceReturn==='timeline'?'RETURN TO TIMELINE':'BACK TO TRACE'}><ChevronLeft size={19}/><span>{view==='home'?'Phone':'Back'}</span></button><div><small>GREYHAVEN · LOCAL WORKSPACE</small><strong>TRACE<span> / </span>FORENSIC VIEWER</strong><small>Recovery: {recovery}%</small></div>{view!=='home'&&<button onClick={onHome} aria-label="Home">Phone</button>}<ScanLine size={20}/></header>
   <div className="trace-body">
    {view==='home'&&<><div className="trace-hero"><div><small>RECOVERY OPERATION</small><h1>Investigation workspace</h1><p>Source unverified · results remain on this device</p></div><div className="trace-meter"><strong>{recovery}%</strong><small>RECOVERED</small></div><div className="trace-meter-bar"><span style={{width:`${recovery}%`}}/></div></div>
-    <section className="trace-recovery"><div><small>RECOVERY MODULE · {p.recovered?'FIRST PASS COMPLETE':'READY'}</small><h2>Protected archive</h2><p>{sourceReady?`${masterArchiveIdentifier} · local copy · source and contents unverified`:'No source ready. Continue the conversation with Unknown.'}</p></div><button disabled={p.recovered||!sourceReady} onClick={()=>act({type:'recover'})}>{p.recovered?'FIRST PASS COMPLETE':'START RECOVERY'}</button><details><summary>Source metadata</summary><p>The first pass recovers partial Messages and Notes.</p></details></section>
-    <div className="trace-section-title"><h2>Modules</h2><span>FIRST PASS / {recovery}%</span></div><div className="trace-grid">{modules.map(({id,label,icon:Icon,status})=><button className="trace-tile" key={id} onClick={()=>navigate(['calls','gallery','audio','contacts'].includes(id)?'activity':id)} disabled={['calls','gallery','audio','contacts'].includes(id)} aria-label={`Open ${label} module`}><span className="trace-tile-icon"><Icon size={23}/></span><strong>{label}</strong><small className={status==='LOCKED'?'locked':''}>{status}</small></button>)}</div>
+    <section className="trace-recovery"><div><small>RECOVERY MODULE · {p.recovered?'FIRST PASS INTERRUPTED':p.recoveryAnimation?'RECOVERING':'READY'}</small><h2>Protected archive</h2><p>{sourceReady?`${masterArchiveIdentifier} · local copy · source and contents unverified`:'No source ready. Continue the conversation with Unknown.'}</p></div><button disabled={p.recovered||!!p.recoveryAnimation||!sourceReady} onClick={()=>act({type:'recover'})}>{p.recovered?'FIRST PASS INTERRUPTED':p.recoveryAnimation?'RECOVERING':'START RECOVERY'}</button><details><summary>Source metadata</summary><p>The first pass recovers partial Messages and Notes.</p></details></section>
+    <div className="trace-section-title"><h2>Modules</h2><span>FIRST PASS / {recovery}%</span></div><div className="trace-grid">{modules.map(({id,label,icon:Icon,status})=><button className="trace-tile" key={id} onClick={()=>{if(id==='activity'&&p.discussion&&p.recovered)act({type:'read',id:'TA-PH-ACTIVITY-FIRST'});navigate(id)}} disabled={['calls','gallery','audio','contacts'].includes(id)} aria-label={`Open ${label} module`}><span className="trace-tile-icon"><Icon size={23}/></span><strong>{label}</strong><small className={status==='LOCKED'?'locked':''}>{status}</small></button>)}</div>
     <MasterScene07Evidence inTrace/><MasterScene08Evidence/><MasterScene09Evidence/>
    </>}
    {view==='case-files'&&caseFile&&<MasterCaseFile caseFile={caseFile} onAction={caseAction} onOpenBoard={()=>navigate('board')}/>}
    {view==='board'&&caseFile&&<MasterInvestigationBoard caseFile={caseFile} onAction={caseAction} onOpenCase={()=>navigate('case-files')}/>}
    {view==='media'&&<section className="trace-module"><small>CASE FILE 001 · LOCAL MEDIA</small><h1>Case Media</h1><p>Images already received during the investigation. The protected phone gallery remains locked.</p>{photos.map(node=><details className="trace-summary" key={node.id}><summary>{node.title}</summary><img src={node.image} alt={node.description} style={{display:'block',width:'100%',height:'auto'}}/><p>{node.source}</p><button onClick={()=>node.image&&setMedia({src:node.image,alt:node.description})}>Enlarge photo</button></details>)}{!photos.length&&<p>No case images have been received.</p>}</section>}
-   {(view==='messages'||view==='notes')&&<RecoveredLibrary key={view} view={view} recovered={p.recovered} onOpen={open}/>}
-   {view==='activity'&&<section className="trace-module"><small>ACTIVITY LOGS</small><h1>Activity Logs</h1>{!p.complete?<div className="trace-empty"><LockKeyhole/><strong>Locked</strong><p>Requires deeper recovery pass. Available in a later operation.</p></div>:!six?<><p>The first pass is complete. Continue the investigation when ready.</p><button className="trace-action" onClick={()=>act6({type:'start'})}>START SCENE 6</button></>:!six.recovered?<><p>{canRecoverActivity(six)?'Deeper recovery is ready when you choose.':'Continue the conversation with Unknown before recovery.'}</p><button className="trace-action" disabled={!canRecoverActivity(six)} onClick={()=>act6({type:'recover'})}>START ACTIVITY LOG RECOVERY</button></>:<button className="trace-action" onClick={()=>navigate('timeline')}>OPEN ACTIVITY LOGS &amp; TIMELINE</button>}</section>}
+   {(view==='messages'||view==='notes')&&(p.discussion&&p.recovered?<PersonalLibrary key={view} view={view} onOpen={open}/>:<RecoveredLibrary key={view} view={view} recovered={p.recovered} onOpen={open}/>)}
+   {view==='activity'&&<section className="trace-module"><small>ACTIVITY LOGS</small><h1>Activity Logs</h1>{p.discussion&&p.recovered?<><p>Partial records · device clock unverified.</p>{activityEvents.map(event=><article className="trace-summary" key={event.id}><strong>{event.time} · {event.kind}</strong><p>{event.text}</p><p>{event.uncertainty}</p></article>)}{six?.recovered&&<button className="trace-action" onClick={()=>navigate('timeline')}>OPEN TIMELINE</button>}</>:!p.complete?<div className="trace-empty"><LockKeyhole/><strong>Locked</strong><p>Requires deeper recovery pass. Available in a later operation.</p></div>:!six?<p>The first pass is complete.</p>:!six.recovered?<><p>{canRecoverActivity(six)?'Deeper recovery is ready when you choose.':'Continue the conversation with Unknown before recovery.'}</p><button className="trace-action" disabled={!canRecoverActivity(six)} onClick={()=>act6({type:'recover'})}>START ACTIVITY LOG RECOVERY</button></>:<button className="trace-action" onClick={()=>navigate('timeline')}>OPEN ACTIVITY LOGS &amp; TIMELINE</button>}</section>}
    {view==='timeline'&&<MasterTimeline onSource={open} onOpenBoard={()=>navigate('board')}/>}
-   {fragment&&<TraceFragment key={fragment.id} fragment={fragment} progress={p} act={act}/>}
+   {personal?<PersonalReader id={view}/>:fragment&&<TraceFragment key={fragment.id} fragment={fragment} progress={p} act={act}/>}
    {view==='summary'&&<section className="trace-module"><small>LOCAL · PRIVATE</small><h1>Evidence Summary</h1><p>Observations from opened fragments are not authentication.</p>{masterFragments.filter(f=>p.read.includes(f.id)).map(f=><article className="trace-summary" key={f.id}><strong>{fragmentExamination[f.id].title}</strong><p>{p.observations?.includes(f.id)?fragmentExamination[f.id].observation:f.summary}</p><button onClick={()=>open(f.id)}>OPEN SOURCE · {fragmentExamination[f.id].title}</button></article>)}{!p.read.length&&<div className="trace-empty"><CircleHelp/><p>No fragments opened yet.</p></div>}</section>}
   </div><footer className="trace-footer"><span><Archive size={13}/> LOCAL ANALYSIS</span><span>SOURCE UNVERIFIED</span></footer>
+  {p.recoveryAnimation&&!p.recoveryAnimation.acknowledged&&<div className="trace-recovery-overlay" role="dialog" aria-modal="true" aria-label={p.recovered?'Recovery interrupted':'Recovering encrypted data'}><div className="trace-recovery-panel"><small>TRACE · DANIEL MERCER DEVICE ARCHIVE</small><h1>{p.recovered?'RECOVERY INTERRUPTED':'RECOVERING ENCRYPTED DATA'}</h1><p>{p.recovered?'Source synchronization lost.':recovery<4?'Preparing recovery session…':recovery<8?'Reading archive blocks…':recovery<12?'First data fragments detected…':recovery<16?'Partial message records recovered…':'Notes and activity records detected…'}</p><div className="trace-recovery-progress" role="progressbar" aria-label="Archive recovery" aria-valuemin={0} aria-valuemax={20} aria-valuenow={recovery}><span style={{width:`${recovery/20*100}%`}}/></div><strong className="trace-recovery-percent">{recovery}%</strong>{p.recovered&&<><p>20% RECOVERED · 80% UNAVAILABLE</p><p>Recovered fragments preserved.</p><button className="trace-action" onClick={()=>act({type:'recovery-acknowledge'})}>OPEN RECOVERED DATA</button></>}</div></div>}
   {media&&<ChatPhotoViewer {...media} onClose={()=>setMedia(undefined)}/>}
  </section>
 }
