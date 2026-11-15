@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { cinematicBeats } from '../../src/content/masterScene04Cinematic'
+import { masterScene05Action as scene5 } from '../../src/game/masterScene05'
 import { masterScene04Action as scene4 } from '../../src/game/masterScene04'
 import { beginScene01, beginScene02, deliverScene01, openScene03, scene01Invitation, sendScene01Choice } from '../../src/game/scene01'
 import { newGame, type GameSave } from '../../src/game/types'
@@ -85,4 +86,28 @@ for (const viewport of [{ name: 'mobile', width: 393, height: 851 }, { name: 'de
   await expect(page.getByRole('button', { name: /^(START|CONTINUE TO) SCENE 6$/i })).toHaveCount(0)
   await page.clock.runFor(30000)
   await expect(page.getByText('There are activity records in what you recovered.', { exact: false })).toBeVisible()
+})
+
+
+test('recovered Sophie and Maya conversations show their photos', async ({ page }) => {
+  let save = readyForRecovery()
+  save = scene5(save, { type: 'open-trace' }, 10000)
+  save = scene5(save, { type: 'recover' }, 10000)
+  save = scene5(save, { type: 'recovery-tick' }, 18000)
+  save = scene5(save, { type: 'recovery-acknowledge' }, 18000)
+  await seedScene(page, save)
+  await page.getByRole('button', { name: 'Open TRACE', exact: true }).click()
+  await page.getByRole('button', { name: 'Open Messages module' }).click()
+  await page.getByRole('button', { name: /Sophie Mercer/ }).click()
+  const sophie = page.getByRole('button', { name: /Open Sophie Mercer's photo/ })
+  await expect(sophie.locator('img')).toBeVisible()
+  expect(await sophie.locator('img').evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0)
+  await sophie.click()
+  await expect(page.getByRole('dialog', { name: 'Photo viewer' })).toBeVisible()
+  await page.getByRole('button', { name: 'Close photo' }).click()
+  await page.getByRole('button', { name: 'BACK TO TRACE' }).click()
+  await page.getByRole('button', { name: /Maya Chen/ }).click()
+  const maya = page.getByRole('button', { name: /Open Maya Chen's photo/ })
+  await expect(maya.locator('img')).toBeVisible()
+  expect(await maya.locator('img').evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0)
 })

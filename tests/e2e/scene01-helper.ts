@@ -15,6 +15,7 @@ export function settleScene(save: GameSave): GameSave {
 /** Drive the cinematic archive conversation through explicit choices and consent. */
 export function prepareMasterScene05Recovery(save:GameSave):GameSave {
  let next=masterScene05Action(save,{type:'start'})
+ if(next.masterScene05?.directImport){next=masterScene05Action(next,{type:'archive-accept'},1000);return masterScene05Action(next,{type:'import-tick'},5000)}
  const settle=()=>{while(next.masterScene05?.pending)next=masterScene05Action(next,{type:'tick'},next.masterScene05.pending.dueAt)}
  settle()
  for(let i=0;i<8;i++){

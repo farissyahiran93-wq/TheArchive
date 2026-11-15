@@ -1,9 +1,10 @@
 /** Recovered conversations and notes for the new Scene 5 route.
  * Dates are intentionally absent: no usable source date is established. */
-export type RecoveredLine = { speaker: 'contact' | 'daniel'; text: string; incomplete?: boolean }
+export type RecoveredLine = { speaker: 'contact' | 'daniel'; text: string; incomplete?: boolean; photo?: { src: string; alt: string } }
 export interface RecoveredConversation { id: 'maya' | 'sophie' | 'lucas'; name: string; preview: string; lines: RecoveredLine[] }
 export const recoveredConversations: RecoveredConversation[] = [
   { id: 'maya', name: 'Maya Chen', preview: 'Just come home, Dan.', lines: [
+    { speaker: 'contact', text: 'Dinner is ready. I saved you a seat ❤️', photo: { src: '/media/chat/recovered-maya-dinner.png', alt: 'Maya at the dinner table with a meal' } },
     { speaker: 'contact', text: 'Are we still on for tonight?' }, { speaker: 'daniel', text: 'Yeah. Sorry. Got caught up with something.' },
     { speaker: 'contact', text: "You've said that three times this week." }, { speaker: 'daniel', text: "I know. I'll make it up to you." },
     { speaker: 'contact', text: "I don't need you to make it up to me. I just want to have dinner with you without you checking your phone every five minutes." },
@@ -11,6 +12,7 @@ export const recoveredConversations: RecoveredConversation[] = [
     { speaker: 'daniel', text: 'Message unavailable', incomplete: true }, { speaker: 'contact', text: 'Just come home, Dan.' },
   ] },
   { id: 'sophie', name: 'Sophie Mercer', preview: "That's not an answer.", lines: [
+    { speaker: 'contact', text: 'Found this one and had to send it 😂', photo: { src: '/media/chat/recovered-sophie-selfie.png', alt: 'Sophie making a silly face with a pen' } },
     { speaker: 'contact', text: 'Did you see the photo I sent?' }, { speaker: 'daniel', text: 'Yeah. You look ridiculous in the second one 😂' },
     { speaker: 'contact', text: 'YOU took that photo.' }, { speaker: 'daniel', text: 'Exactly. Excellent photography.' },
     { speaker: 'contact', text: 'Idiot 😂 Anyway, Maya said you’ve been busy. Everything okay?' },

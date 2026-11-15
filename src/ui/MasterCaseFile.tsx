@@ -150,21 +150,19 @@ const boardDirections = [
 const zoomLevels = [0.8, 1, 1.25]
 const withinBoard = (coordinate: number) => Math.max(0, Math.min(100, coordinate))
 
-export function MasterInvestigationBoard({ caseFile, onAction, onOpenCase }: CaseModuleProps & { onOpenCase: () => void }) {
+export function MasterInvestigationBoard({ caseFile, onAction }: CaseModuleProps & { onOpenCase: () => void }) {
   const [selection, setSelection] = useState('')
   const [connectionStart, setConnectionStart] = useState('')
   const [zoom, setZoom] = useState(1)
-  const [comparison, setComparison] = useState('')
   const [photo, setPhoto] = useState<CaseNode>()
   const [dragPosition, setDragPosition] = useState<{ id: string; x: number; y: number }>()
   const plane = useRef<HTMLDivElement>(null)
+  const dragged = useRef(false)
   const drag = useRef<{ id: string; pointer: number; x: number; y: number; start: CaseNode['position'] } | null>(null)
   const scale = zoomLevels[zoom]
-  const rows = Math.ceil(caseFile.nodes.length / 3)
-  const wallStyle = { '--board-scale': scale, minWidth: `${500 * scale}px`, height: `${(160 + 140 * Math.max(1, rows - 1)) * scale}px` } as CSSProperties
+  const wallStyle = { '--board-scale': scale, minWidth: `${500 * scale}px`, height: `${1800 * scale}px` } as CSSProperties
   const nodesById = new Map(caseFile.nodes.map(node => [node.id, node]))
   const selected = nodesById.get(selection)
-  const compared = nodesById.get(comparison)
   const origin = nodesById.get(connectionStart)
   const linked = selected && origin && caseFile.links.some(({ from, to }) =>
     (from === selected.id && to === origin.id) || (from === origin.id && to === selected.id),
@@ -176,6 +174,7 @@ export function MasterInvestigationBoard({ caseFile, onAction, onOpenCase }: Cas
   const positionFor = (node: CaseNode) => dragPosition?.id === node.id ? dragPosition : node.position
   const startDrag = (event: PointerEvent<HTMLButtonElement>, node: CaseNode) => {
     if (event.button !== 0 || !event.isPrimary) return
+    dragged.current = false
     drag.current = { id: node.id, pointer: event.pointerId, x: event.clientX, y: event.clientY, start: node.position }
     event.currentTarget.setPointerCapture(event.pointerId)
   }
@@ -193,6 +192,7 @@ export function MasterInvestigationBoard({ caseFile, onAction, onOpenCase }: Cas
     drag.current = null
     setDragPosition(undefined)
     if (position) {
+      dragged.current = true
       setSelection(position.id)
       onAction({ type: 'move-node', ...position })
     }
@@ -216,7 +216,7 @@ export function MasterInvestigationBoard({ caseFile, onAction, onOpenCase }: Cas
           <button className="trace-case-button" aria-label="Zoom in" disabled={zoom === zoomLevels.length - 1} onClick={() => setZoom(zoom + 1)}><ZoomIn size={17} aria-hidden="true" /></button>
         </div>
       </div>
-      <div className="trace-board-viewport" tabIndex={0} aria-label="Scrollable evidence wall">
+      <div className="trace-board-viewport" tabIndex={0} aria-label="Scrollable evidence wall" onWheel={event=>{if(event.ctrlKey){event.preventDefault();setZoom(value=>Math.max(0,Math.min(zoomLevels.length-1,value+(event.deltaY>0?-1:1))))}}}>
         <div className="trace-board-wall" style={wallStyle}>
           <div className="trace-board-plane" ref={plane}>
             <svg className="trace-board-strings" aria-hidden="true">
@@ -235,7 +235,7 @@ export function MasterInvestigationBoard({ caseFile, onAction, onOpenCase }: Cas
               onPointerMove={event=>{if(drag.current?.pointer===event.pointerId)setDragPosition(dragAt(event))}}
               onPointerUp={event=>endDrag(event,true)}
               onPointerCancel={event=>endDrag(event,false)}
-              onClick={() => setSelection(node.id)}>
+              onClick={() => {if(dragged.current){dragged.current=false;return} setSelection(node.id)}}>
               <span className="trace-board-pin" aria-hidden="true" />
               <EvidenceImage node={node} />
               <small>{nodeTypes[node.kind]}</small><strong>{node.title}</strong>
@@ -249,10 +249,6 @@ export function MasterInvestigationBoard({ caseFile, onAction, onOpenCase }: Cas
         {selected.image&&<button className="trace-case-button" onClick={()=>setPhoto(selected)}>Enlarge source image</button>}
         <p>{selected.description}</p>
         <dl><div><dt>Source</dt><dd>{selected.source}</dd></div>{selected.timestamp && <div><dt>Source timestamp</dt><dd>{selected.timestamp}</dd></div>}</dl>
-        {caseFile.nodes.length>1&&<label>Compare with <select value={comparison===selected.id?'':comparison} onChange={event=>setComparison(event.target.value)}>
-          <option value="">Choose another clue</option>{caseFile.nodes.filter(node=>node.id!==selected.id).map(node=><option key={node.id} value={node.id}>{node.title}</option>)}
-        </select></label>}
-        {compared&&compared.id!==selected.id&&<EvidenceComparison entries={[selected,compared]}/>}
         <div className="trace-board-controls" aria-label="Evidence position">
           {boardDirections.map(({ label, icon: Icon, x, y }) => {
             const nextX = withinBoard(selected.position.x + x)
@@ -297,7 +293,7 @@ export function MasterInvestigationBoard({ caseFile, onAction, onOpenCase }: Cas
         </ul>}
       </section>
     </>}
-    <button className="trace-case-button" onClick={onOpenCase}><ArrowLeft size={17} aria-hidden="true" /> Open Case File 001</button>
+
     {photo?.image&&<ChatPhotoViewer src={photo.image} alt={photo.title} onClose={()=>setPhoto(undefined)}/>}
   </section>
 }

@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { archiveDiscussions } from '../content/digitalArchiveDiscussion'
 import type { ArchiveTopic } from '../game/digitalArchiveFlow'
 import { MasterScene06Conversation } from './MasterScene06Conversation'
@@ -10,7 +10,13 @@ import { UnknownTypingBubble } from './UnknownTypingBubble'
 export function MasterScene05Conversation() {
   const p=useGameStore(s=>s.save.masterScene05), act=useGameStore(s=>s.masterScene05Action)
   const {openArchive}=useCaseNavigation()
+  const [clock,setClock]=useState(0)
   const discussion=p?.discussion
+  useEffect(()=>{
+    if(!p?.directImport||p.importStartedAt===undefined||p.importComplete)return
+    const timer=window.setInterval(()=>{setClock(Date.now());act({type:'import-tick'})},100)
+    return()=>window.clearInterval(timer)
+  },[act,p?.directImport,p?.importStartedAt,p?.importComplete])
   useEffect(()=>{
     if(!discussion?.pending.length)return
     const timer=window.setTimeout(()=>act({type:'discussion',action:{type:'deliver'}}),Math.min(3200,700+discussion.pending[0].length*30))
@@ -20,7 +26,7 @@ export function MasterScene05Conversation() {
   const beat=masterScene05Beat(p)
   const canReply=canReplyInMasterScene05(p)
   const newConversation=p.conversationRevision==='archive-v1'
-  const archive=p.revision==='trace-first'&&(!newConversation||p.archiveStatus!=='unavailable')&&<article className="scene01-invitation" aria-label="Encrypted archive attachment">
+  const archive=!p.directImport&&p.revision==='trace-first'&&(!newConversation||p.archiveStatus!=='unavailable')&&<article className="scene01-invitation" aria-label="Encrypted archive attachment">
     <strong>{newConversation?'MERCER_DEVICE_ARCHIVE.enc':'DNL_PHONE_ARCHIVE.arc'}</strong>
     <p>Encrypted attachment · sender's claimed source · authenticity unverified</p>
     <p>The archive may be incomplete or altered. Accepting keeps a local copy of the encrypted file.</p>
@@ -44,6 +50,9 @@ export function MasterScene05Conversation() {
       {discussion.topic&&discussion.topic!=='finish'&&<button className="opening-primary" disabled={discussion.draft===undefined} onClick={()=>act({type:'discussion',action:{type:'send'}})}>Send</button>}
       {!discussion.topic&&discussion.discussed.length>0&&<button className="opening-primary" onClick={()=>act({type:'discussion',action:{type:'finish'}})}>Continue investigation</button>}
     </div>}
+    {p.directImport&&!p.pending&&(p.archiveStatus==='offered'||p.archiveStatus==='accepted'&&!p.importComplete)&&<div className="trace-recovery-overlay archive-import-overlay" role="dialog" aria-modal="true" aria-label="Import Daniel's archive"><div className="trace-recovery-panel"><small>TRACE · DANIEL MERCER DEVICE ARCHIVE</small>{p.archiveStatus==='offered'?<><h1>IMPORT DANIEL'S DATA?</h1><p>Import the encrypted copy into TRACE. Its source and contents remain unverified.</p><button className="trace-action" onClick={()=>act({type:'archive-accept'})}>ACCEPT &amp; IMPORT</button><button className="trace-action" onClick={()=>act({type:'archive-decline'})}>NOT NOW</button></>:<><h1>IMPORTING ARCHIVE</h1><p>Copying Daniel's encrypted data to TRACE.</p><div className="trace-recovery-progress" role="progressbar" aria-label="Archive import" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.min(100,Math.max(0,Math.floor((clock-(p.importStartedAt??clock))/40)))}><span style={{width:`${Math.min(100,Math.max(0,(clock-(p.importStartedAt??clock))/40))}%`}}/></div></>}</div></div>}
+    {p.directImport&&['deferred','declined'].includes(p.archiveStatus??'')&&!p.pending&&<button className="opening-choice" onClick={()=>act({type:'archive-reconsider'})}>REVIEW ARCHIVE IMPORT</button>}
+    {p.directImport&&p.importComplete&&!p.recovered&&<button className="opening-primary" onClick={openArchive}>OPEN TRACE</button>}
     {p.pending&&<UnknownTypingBubble/>}
     {p.beat>=8&&!p.pending&&p.packageStatus!=='conversation'&&p.packageStatus!=='installed'&&<article className="scene01-invitation" aria-label="TRACE package offer">
       <strong>TRACE.pkg</strong><p>Fictional in-game package · developer claim unverified · {p.packageStatus}</p>

@@ -4,6 +4,7 @@ import { unknownSenderRevisedBeats } from '../content/masterTraceFirst'
 import { masterRecoveryUnits, masterScene05Action as act } from './masterScene05'
 import { normalizeSave } from './engine'
 import { newGame, type GameSave } from './types'
+import { selectMasterCaseFile } from './masterCaseFile'
 import { masterScene06Action, scene06Units } from './masterScene06'
 
 const ready=():GameSave=>({...newGame(),masterScene04:{version:1,opened:true,beat:10,messages:[],status:'accepted',inspected:true,complete:true,preview:false}})
@@ -20,6 +21,8 @@ describe('Scene 5 TRACE',()=>{
   s={...s,masterScene05:{...s.masterScene05!,opened:true,selected:true,recovered:true}}
   s=act(s,{type:'read',id:'TA-PH-CHAT-MAYA'})
   expect(s.masterScene05?.discussion?.discovered).toEqual(['maya'])
+  expect(selectMasterCaseFile(s)?.nodes.filter(node=>node.id==='TA-PH-CHAT-MAYA')).toHaveLength(1)
+  expect(selectMasterCaseFile(s)?.nodes.some(node=>node.id==='TA-PH-CHAT-SOPHIE')).toBe(false)
   s=reload(s)
   s=act(s,{type:'discussion',action:{type:'select',topic:'maya'}})
   expect(s.masterScene05?.discussion?.messages).toHaveLength(0)
@@ -43,15 +46,13 @@ describe('Scene 5 TRACE',()=>{
   const base=ready();base.masterScene04={...base.masterScene04!,revision:'cinematic'}
   expect(act(base,{type:'start'})).toBe(base)
   let s=act({...base,masterScene04:{...base.masterScene04!,traceInstalled:true}},{type:'start'})
-  expect(s.masterScene05).toMatchObject({earlySetup:true,packageStatus:'installed',archiveStatus:'unavailable'})
+  expect(s.masterScene05).toMatchObject({earlySetup:true,packageStatus:'installed',archiveStatus:'offered',directImport:true})
   s=act(s,{type:'open-trace'});expect(act(s,{type:'recover'})).toBe(s)
+  s=act(s,{type:'archive-decline'});s=drain(s);s=reload(s)
   expect(act(s,{type:'archive-accept'})).toBe(s)
-  s=drain(s);for(let i=0;i<3;i++)s=answer(s)
-  expect(s.masterScene05?.archiveStatus).toBe('offered')
-  s=drain(act(s,{type:'archive-decline'}));s=reload(s);expect(act(s,{type:'archive-accept'})).toBe(s)
-  s=act(s,{type:'archive-reconsider'});s=act(s,{type:'archive-accept'});expect(act(s,{type:'recover'})).toBe(s)
-  for(let i=0;i<5;i++)s=answer(s)
-  expect(s.masterScene05?.packageStatus).toBe('installed')
+  s=act(s,{type:'archive-reconsider'});s=act(s,{type:'archive-accept'},90000)
+  expect(act(s,{type:'recover'})).toBe(s)
+  s=reload(act(s,{type:'import-tick'},94000));expect(s.masterScene05?.importComplete).toBe(true)
   s=reload(act(s,{type:'recover'},100000));expect(masterRecoveryUnits(s.masterScene05!)).toBe(0)
   expect(act(s,{type:'read',id:'TA-PH-CHAT-MAYA'})).toBe(s)
   s=reload(act(s,{type:'recovery-tick'},104000));expect(s.masterScene05?.recoveryAnimation?.percent).toBe(10)

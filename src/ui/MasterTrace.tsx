@@ -10,6 +10,7 @@ import { useGameStore } from '../game/store'
 import { MasterTimeline } from './MasterTimeline'
 import { EvidenceComparison, MasterCaseFile, MasterInvestigationBoard } from './MasterCaseFile'
 import { ChatPhotoViewer } from './ChatPhotoViewer'
+import { NpcPhotoMessage } from './NpcPhotoMessage'
 import { MasterScene07Evidence } from './MasterScene07Evidence'
 import { MasterScene08Evidence } from './MasterScene08Evidence'
 import { MasterScene09Evidence } from './MasterScene09Evidence'
@@ -27,7 +28,7 @@ function PersonalLibrary({view,onOpen}:{view:'messages'|'notes';onOpen:(id:strin
 }
 function PersonalReader({id}:{id:string}) {
  const chat=recoveredConversations.find(c=>chatId(c.id)===id),note=recoveredNotes.find(n=>noteId(n.id)===id)
- if(chat)return <article className="trace-reader"><small>RECOVERED CONVERSATION · INCOMPLETE</small><h1>{chat.name}</h1><p>Dates unavailable</p>{chat.lines.map((line,index)=><div key={index} className={`conversation-line ${line.speaker==='daniel'?'outgoing':'incoming'}`}><div className="conversation-body"><div className={`opening-bubble ${line.speaker==='daniel'?'player':'sophie'}`}>{line.text}</div></div></div>)}</article>
+ if(chat)return <article className="trace-reader"><small>RECOVERED CONVERSATION · INCOMPLETE</small><h1>{chat.name}</h1><p>Dates unavailable</p><div className="trace-recovered-chat">{chat.lines.map((line,index)=><div key={index} className={`conversation-line ${line.speaker==='daniel'?'outgoing':'incoming'} ${index>0&&chat.lines[index-1].speaker!==line.speaker?'speaker-change':''}`}><div className="conversation-body"><div className={`opening-bubble ${line.speaker==='daniel'?'player':'sophie'}`}>{line.photo&&<NpcPhotoMessage src={line.photo.src} alt={line.photo.alt} sender={chat.name}/>}<span>{line.text}</span></div></div></div>)}</div></article>
  if(note)return <article className="trace-reader"><small>RECOVERED NOTE · DATE UNAVAILABLE</small><h1>{note.title}</h1><p style={{whiteSpace:'pre-wrap'}}>{note.body}</p></article>
  return null
 }
@@ -98,7 +99,7 @@ export function MasterTrace({onHome}:{onHome:()=>void}) {
  const navigate=(id:string)=>act({type:'view',id})
  const back=()=>{if(personal)navigate(view.startsWith('TA-PH-CHAT-')?'messages':'notes');else if(fragment)navigate(p.traceReturn??(fragment.category==='Messages'?'messages':'notes'));else navigate('home')}
  const recovery=p.discussion ? (p.recovered ? 20 : p.recoveryAnimation?.percent ?? 0) : (masterRecoveryUnits(p)+scene06Units(six))/10
- const sourceReady=!p.earlySetup||p.archiveStatus==='accepted'&&p.beat>=8
+ const sourceReady=(!p.earlySetup||p.archiveStatus==='accepted'&&p.beat>=8)&&(!p.directImport||!!p.importComplete)
  const photos=caseFile?.nodes.filter(node=>node.image)??[]
  const allModules=[{id:'case-files',label:'Case Files',icon:FolderOpen,status:'AVAILABLE'}, {id:'board',label:'Investigation Board',icon:Network,status:'AVAILABLE'}, {id:'messages',label:'Messages',icon:Mail,status:p.recovered?'PARTIAL':'LOCKED'}, {id:'notes',label:'Notes',icon:FileText,status:p.recovered?'PARTIAL':'LOCKED'}, {id:'activity',label:'Activity Logs',icon:Activity,status:p.discussion&&p.recovered?'PARTIAL':six?.recovered?'AVAILABLE':'LOCKED'}, {id:'media',label:'Case Media',icon:GalleryHorizontal,status:photos.length?'AVAILABLE':'EMPTY'}, {id:'calls',label:'Call History',icon:Phone,status:'LOCKED'}, {id:'gallery',label:'Gallery',icon:GalleryHorizontal,status:'LOCKED'}, {id:'audio',label:'Audio',icon:AudioLines,status:'LOCKED'}, {id:'contacts',label:'Contacts',icon:Users,status:'LOCKED'}, {id:'summary',label:'Evidence Summary',icon:FolderSearch,status:'AVAILABLE'}] as const
  const modules=p.discussion ? [...allModules.filter(module=>!['case-files','media','summary','board'].includes(module.id)), allModules[1]] : allModules

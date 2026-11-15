@@ -1,4 +1,5 @@
 import { fragmentExamination, masterFragments } from '../content/masterScene05'
+import { recoveredConversations, recoveredNotes } from '../content/digitalArchive'
 import { activityEvents } from '../content/masterScene06'
 import { captureId } from '../content/masterScene08'
 import { referenceCardId, referenceCardImage } from '../content/masterScene09'
@@ -117,6 +118,16 @@ function discoveredEvidence(save: GameSave): CaseEvidence[] {
       }
     }
   }
+  if (five?.recovered && five.discussion) {
+    for (const chat of recoveredConversations) {
+      const id = `TA-PH-CHAT-${chat.id.toUpperCase()}`
+      if (five.read.includes(id)) evidence.push({ id, title: `${chat.name}'s messages`, description: chat.lines.map(line => `${line.speaker === 'daniel' ? 'Daniel' : chat.name}: ${line.text}`).join('\n'), source: 'TRACE · recovered conversation', kind: 'message' })
+    }
+    for (const note of recoveredNotes) {
+      const id = note.id === 'dinner' ? 'TA-PH-NOTE-ORDINARY-01' : 'TA-PH-NOTE-RECORDS-01'
+      if (five.read.includes(id)) evidence.push({ id, title: note.title, description: note.body, source: 'TRACE · recovered note', kind: 'note' })
+    }
+  }
   if (six?.recovered) {
     for (const event of activityEvents) {
       if (!six.inspected.includes(event.id)) continue
@@ -165,10 +176,15 @@ export function selectMasterCaseFile(save: GameSave): MasterCaseFileView | undef
   const state = save.masterCaseFile ?? createMasterCaseFile()
   const evidence = discoveredEvidence(save)
   const visibleIds = new Set(evidence.map(node => node.id))
-  const rows = Math.ceil(evidence.length / 3)
-  const nodes = evidence.map((node, index) => ({
+  const stablePosition = (id: string) => {
+    let hash = 2166136261
+    for (const char of id) hash = Math.imul(hash ^ char.charCodeAt(0), 16777619)
+    const slot = (hash >>> 0) % 36
+    return { x: 15 + (slot % 3) * 35, y: 5 + Math.floor(slot / 3) * 8 }
+  }
+  const nodes = evidence.map(node => ({
     ...node,
-    position: state.positions[node.id] ?? { x: 15 + (index % 3) * 35, y: rows === 1 ? 50 : 8 + Math.floor(index / 3) * (84 / (rows - 1)) },
+    position: state.positions[node.id] ?? stablePosition(node.id),
   }))
   const facts = [
     'Sophie Mercer says her brother Daniel stopped answering her messages and calls. His whereabouts are unknown.',
