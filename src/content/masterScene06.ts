@@ -38,3 +38,17 @@ export const reconstructionReportBeat = {
     'All right. Keep your notes on your device. We can look for a separate source without sharing your theory.',
   ],
 } as const
+
+// Natural-language dialogue for the first-pass route. Existing delivered messages remain saved.
+export const missingHourConversation = [
+ {choices:['What should I look for?', 'Are there more records?', 'Where do I start?'],replies:['Open the activity records. See if anything looks out of place.', 'A few activity records survived. Take a look at the times.', 'Start with the activity records in TRACE.']},
+ {choices:['Was Daniel using his phone?', 'What if someone else had it?', 'Can we tell who was using it?'],replies:['Maybe, but the records cannot tell us that.', 'It is possible. We do not know who had it.', 'No. We only know the phone recorded some activity.']},
+ {choices:['Can we trust the times?', 'What if the clock was wrong?', 'Do we know when this happened?'],replies:['They are the times on the phone. We cannot check them yet.', 'That is possible. Let us keep it in mind.', 'The phone recorded these times, but we cannot confirm them yet.']},
+ {choices:['What can these records tell us?', 'Is anything missing?', 'Will they say who had the phone?'],replies:['They show a few things that happened on the phone.', 'Maybe. Look at the times and see what you think.', 'No. They cannot tell us who was using it.']},
+ {choices:['Can TRACE recover what is missing?', 'Will it fill in the gaps?', 'What if the records are incomplete?'],replies:['Not from what we have now.', 'No. We will have to look for another clue.', 'Then we leave the missing parts as questions.']},
+ {choices:['Can we trust what is there?', 'Could someone have changed it?', 'How sure are you about this?'],replies:['I cannot promise it is complete. Just tell me what you find.', 'Maybe. We do not have enough to know.', 'Not sure enough to guess. Let us look first.']},
+ {choices:['What should I look at first?', 'Could the messages help?', 'What am I looking for?'],replies:['Look at the activity times. Anything that feels strange.', 'They might. You can always go back to them.', 'See what happened before the backup.']},
+ {choices:['I will look at the timeline.', 'I want to check it myself.', 'All right. What happens next?'],replies:['Open the activity records in TRACE when you are ready.', 'Good. Tell me what you notice.', 'Take a look at the times, then come back.']},
+ {choices:['Nothing explains what happened between seven and eight.', 'Could Daniel have used his phone then?', 'Someone else could have had his phone.'],replies:['That part of the evening is still a mystery.', 'Maybe. The records do not tell us who had it.', 'Maybe. We cannot tell who was holding it.']},
+ {choices:['What else can we check?', 'Could Sophie look at the contact list again?', 'Maybe something else will help.'],replies:['Sophie still has the contact list. You could ask her about it.', 'Yes. She might notice something we missed.', 'Sophie has the contact list. It may be worth another look.']},
+] as const

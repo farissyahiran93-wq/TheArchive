@@ -1,4 +1,4 @@
-import { activityEvents, missingHourSources, partialSyncReceipt, reconstructionReportBeat, scene06Beats } from '../content/masterScene06'
+import { activityEvents, missingHourSources, partialSyncReceipt, reconstructionReportBeat, scene06Beats, missingHourConversation } from '../content/masterScene06'
 import { masterFragments } from '../content/masterScene05'
 import type { GameSave } from './types'
 import { npcDeliveryDelay } from './npcDelivery'
@@ -31,8 +31,9 @@ export function canDocumentMissingHour(p:MasterScene06):boolean {
 }
 export const canReplyInMasterScene06=(p:MasterScene06)=>!p.pending&&!p.complete&&(p.beat<8||p.beat<10&&p.saved)
 export const canRecoverActivity=(p:MasterScene06)=>!p.pending&&!p.recovered&&p.beat<=8
-export const masterScene06Beat=(p:MasterScene06)=>p.firstPass20&&p.beat===3?{choices:['What can we learn from these records?','Can we trust the timestamps?','Do the logs show who used the phone?'],replies:['The recovered records show device events, not the person who caused them.','The device clock still needs independent checking.','No. An event alone cannot identify the person using the phone.']}:p.firstPass20&&p.beat===7?{choices:['I will inspect the activity records.','I want to examine the timeline myself.','I am willing to look without assuming a conclusion.'],replies:['Open the recovered activity records in TRACE when you are ready.','Your work stays private unless you choose to share it.','That is enough. We can leave uncertainty in the timeline.']}:p.beat===8&&!p.reportSent?reconstructionReportBeat:scene06Beats[p.beat]
+export const masterScene06Beat=(p:MasterScene06)=>p.firstPass20?missingHourConversation[p.beat]:p.beat===8&&!p.reportSent?reconstructionReportBeat:scene06Beats[p.beat]
 const closing='The export is its own source. Ask her about it when you are ready; I will not send your timeline to her.'
+const naturalClosing='Ask Sophie when you are ready. I will keep your timeline private.'
 const queueReply=(id:string,text:string,now:number,beat:number)=>({id,text,dueAt:now+Math.min(7000,npcDeliveryDelay('eli',text,beat))})
 
 function recordMissingHour(s:GameSave,p:MasterScene06,now:number):GameSave {
@@ -54,7 +55,7 @@ export function masterScene06Action(s:GameSave,a:MasterScene06Action,now=Date.no
   if(p||!five?.complete||five.packageStatus!=='installed'||!five.recovered||!s.masterScene04?.complete||!s.deliveredEvents.includes('TA-S05-FINDINGS-SENT'))return s
   const revised=five.revision==='trace-first'
   const firstPass20=!!five.discussion
-  const intro=firstPass20?'The activity records are already in the part you recovered. Look at the device times and what may be missing. The log cannot identify who used the phone.':five.examination==='evidence'
+  const intro=firstPass20?'There are activity records in what you recovered. Take a look at the times. See if anything stands out.':five.examination==='evidence'
    ?'There may be activity records in another segment. Compare the device times with what you could recover. What can you point to in the records, and what is still missing?'
    :'There may be activity records in another segment. If you recover them, compare their device times with the Messages and Notes fragments. Some records may be too incomplete to match.'
   return {...s,masterScene06:{version:1,...(firstPass20?{firstPass20:true}:{}),...(revised?{revision:'investigation' as const,pending:queueReply('TA-S06-INTRO',intro,now,0)}:{}),...(revised&&five.examination==='evidence'?{timelineRevision:'reconstruction' as const}:{}),beat:0,messages:revised?[]:[{id:'TA-S06-INTRO',sender:'unknown',text:'The messages are only part of it. There may be activity records in another segment. If we can recover them, we can try to put the device events in order.',at:now}],recovered:firstPass20,inspected:[],order:[],uncertainty:false,syncAcknowledged:false,gapAcknowledged:false,saved:false,reportReviewed:false,reportSent:false,complete:false}}
@@ -64,7 +65,7 @@ export function masterScene06Action(s:GameSave,a:MasterScene06Action,now=Date.no
  if(a.type==='tick'&&p.pending&&p.pending.dueAt<=now){
   const pending=p.pending
   const messages=[...p.messages,{id:pending.id,sender:'unknown' as const,text:pending.text,at:now}]
-  const next={...p,messages,pending:p.beat===10&&pending.id!=='TA-S06-CLOSE'?queueReply('TA-S06-CLOSE',closing,now,10):undefined}
+  const next={...p,messages,pending:p.beat===10&&pending.id!=='TA-S06-CLOSE'?queueReply('TA-S06-CLOSE',p.firstPass20?naturalClosing:closing,now,10):undefined}
   return pending.id==='TA-S06-CLOSE'?completeScene(s,next,now):put(next)
  }
  if(a.type==='draft'&&canReplyInMasterScene06(p)&&Number.isInteger(a.index)&&a.index>=0&&a.index<3)return put({...p,draft:a.index})

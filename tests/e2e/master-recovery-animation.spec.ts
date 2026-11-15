@@ -84,5 +84,5 @@ for (const viewport of [{ name: 'mobile', width: 393, height: 851 }, { name: 'de
   await page.getByRole('button', { name: 'Continue investigation' }).click()
   await expect(page.getByRole('button', { name: /^(START|CONTINUE TO) SCENE 6$/i })).toHaveCount(0)
   await page.clock.runFor(30000)
-  await expect(page.getByText('The activity records are already in the part you recovered.', { exact: false })).toBeVisible()
+  await expect(page.getByText('There are activity records in what you recovered.', { exact: false })).toBeVisible()
 })
