@@ -58,7 +58,10 @@ describe('Scene 5 TRACE',()=>{
   expect(s.masterScene05?.recovered).toBe(false)
   s=reload(act(s,{type:'recovery-tick'},108000));expect(masterRecoveryUnits(s.masterScene05!)).toBe(200)
   expect(s.masterScene05?.recoveryAnimation).toMatchObject({percent:20,acknowledged:false})
+  expect(act(s,{type:'recovery-tick'},120000)).toBe(s)
   s=reload(act(s,{type:'recovery-acknowledge'}));expect(s.masterScene05?.recoveryAnimation?.acknowledged).toBe(true)
+  expect(s.masterScene05?.traceView).toBe('home')
+  expect(act(s,{type:'recover'},130000)).toBe(s)
  })
 
  it('requires explicit archive and installation consent with persisted paced replies',()=>{

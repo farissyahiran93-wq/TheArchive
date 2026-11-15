@@ -11,7 +11,7 @@ export interface MasterScene06 {
  timelineFlags?:string[]; timelineHypothesis?:{text:string;sources:[string,string]};
  recovered:boolean; inspected:string[]; order:string[]; uncertainty:boolean; syncAcknowledged:boolean; gapAcknowledged:boolean; saved:boolean; reportDraft?:number; reportReviewed:boolean; reportSent:boolean; complete:boolean
 }
-export type MasterScene06Action = {type:'start'|'tick'|'send'|'recover'|'document-gap'} | {type:'draft';index:number} | {type:'inspect'|'add'|'flag-time';id:string} | {type:'move';id:string;direction:-1|1} | {type:'reorder';id:string;target:string} | {type:'compare-times';left:string;right:string} | {type:'timeline-hypothesis';text:string}
+export type MasterScene06Action = {type:'start'|'tick'|'send'|'recover'|'document-gap'|'inspect-gap'} | {type:'draft';index:number} | {type:'inspect'|'add'|'flag-time';id:string} | {type:'move';id:string;direction:-1|1} | {type:'reorder';id:string;target:string} | {type:'compare-times';left:string;right:string} | {type:'timeline-hypothesis';text:string}
 const ids=activityEvents.map(e=>e.id as string)
 const fragmentIds=masterFragments.map(f=>f.id as string)
 const isGapPair=(pair:readonly string[])=>missingHourSources.every(id=>pair.includes(id))
@@ -92,6 +92,10 @@ export function masterScene06Action(s:GameSave,a:MasterScene06Action,now=Date.no
   if(!isValidTimePair(p,pair)||fragmentIds.includes(a.right)&&!s.masterScene05?.read.includes(a.right))return s
   const next={...p,comparison:pair}
   return isGapPair(pair)?recordMissingHour(s,next,now):put(next)
+ }
+ if(a.type==='inspect-gap'&&p.recovered){
+  const inspected=[...new Set([...p.inspected,...missingHourSources])]
+  return recordMissingHour(s,{...p,inspected,comparison:[...missingHourSources]},now)
  }
  if(a.type==='document-gap'&&canDocumentMissingHour(p))return recordMissingHour(s,{...p,comparison:[...missingHourSources]},now)
  if(a.type==='flag-time'&&p.inspected.includes(a.id)){

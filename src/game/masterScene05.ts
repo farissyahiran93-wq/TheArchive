@@ -58,7 +58,7 @@ export function masterScene05Action(s:GameSave,a:MasterScene05Action,now=Date.no
   if(!p)return s
   const put=(next:MasterScene05):GameSave=>({...s,masterScene05:next})
   if(a.type==='discussion'){
-    if(!p.discussion||a.action.type==='discover')return s
+    if(!p.discussion||a.action.type==='discover'||p.pending)return s
     const discussion=discussionAction(p.discussion,a.action)
     if(discussion===p.discussion)return s
     if(discussion.finished&&!p.discussion.finished)return {...s,deliveredEvents:[...new Set([...s.deliveredEvents,'TA-S05-FINDINGS-SENT','TA-S05-COMPLETE','TA-S05-SCENE06-UNLOCKED'])],masterScene05:{...p,discussion,beat:10,complete:true}}
@@ -105,7 +105,7 @@ export function masterScene05Action(s:GameSave,a:MasterScene05Action,now=Date.no
     if(percent===p.recoveryAnimation.percent)return s
     return put({...p,recovered:percent===20,recoveryAnimation:{...p.recoveryAnimation,percent}})
   }
-  if(a.type==='recovery-acknowledge'&&p.recoveryAnimation&&p.recovered&&!p.recoveryAnimation.acknowledged)return put({...p,recoveryAnimation:{...p.recoveryAnimation,acknowledged:true}})
+  if(a.type==='recovery-acknowledge'&&p.recoveryAnimation&&p.recovered&&!p.recoveryAnimation.acknowledged)return put({...p,traceView:'home',recoveryAnimation:{...p.recoveryAnimation,acknowledged:true}})
   if(a.type==='read'&&p.recovered&&ids.includes(a.id)&&(!a.id.startsWith('TA-PH-CHAT-')||!!p.discussion)&&!p.read.includes(a.id)){
     const topic=a.id==='TA-PH-NOTE-ORDINARY-01'?'dinner':a.id==='TA-PH-NOTE-RECORDS-01'?'records':a.id==='TA-PH-CHAT-MAYA'?'maya':a.id==='TA-PH-CHAT-SOPHIE'?'sophie':a.id==='TA-PH-CHAT-LUCAS'?'lucas':a.id==='TA-PH-ACTIVITY-FIRST'?'activity':undefined
     const discussion=topic&&p.discussion?discussionAction(p.discussion,{type:'discover',topic}):p.discussion

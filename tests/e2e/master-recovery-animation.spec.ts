@@ -33,13 +33,14 @@ function readyForRecovery(): GameSave {
   return save
 }
 
-test('recovery preserves progress on reload and stops at the 20% interruption', async ({ page }) => {
+for (const viewport of [{ name: 'mobile', width: 393, height: 851 }, { name: 'desktop', width: 1280, height: 900 }]) test(`recovery preserves progress on reload and stops at 20% (${viewport.name})`, async ({ page }) => {
+  await page.setViewportSize({ width: viewport.width, height: viewport.height })
   await seedScene(page, readyForRecovery())
   await page.clock.pauseAt(await page.evaluate(() => Date.now()))
   await page.getByRole('button', { name: 'Open TRACE', exact: true }).click()
   await expect(page.getByText('Recovery: 0%', { exact: true })).toBeVisible()
   await page.getByRole('button', { name: 'START RECOVERY' }).click()
-  const progress = page.getByRole('progressbar', { name: 'Archive recovery' })
+  const progress = page.getByRole('progressbar', { name: 'Archive recovery', exact: true })
   await expect(progress).toHaveAttribute('aria-valuenow', '0')
   await page.clock.runFor(2000)
   await expect(progress).toHaveAttribute('aria-valuenow', '5')
@@ -51,6 +52,10 @@ test('recovery preserves progress on reload and stops at the 20% interruption', 
   await page.clock.runFor(6000)
   await expect(page.getByRole('dialog', { name: 'Recovery interrupted' })).toBeVisible()
   await expect(progress).toHaveAttribute('aria-valuenow', '20')
+  await expect(progress).toHaveAttribute('aria-valuemax', '100')
+  await expect(progress.locator('span')).toHaveCSS('width', /px/)
+  expect(await progress.locator('span').evaluate(el => (el as HTMLElement).style.width)).toBe('20%')
+  await expect(page.getByText('20% / 100%')).toBeVisible()
   await expect(page.getByText('20% RECOVERED · 80% UNAVAILABLE')).toBeVisible()
   await page.getByRole('button', { name: 'OPEN RECOVERED DATA' }).click()
   await expect(page.getByText('Recovery: 20%', { exact: true })).toBeVisible()
@@ -75,8 +80,8 @@ test('recovery preserves progress on reload and stops at the 20% interruption', 
   await page.getByRole('button', { name: "The date isn't available." }).click()
   await page.getByRole('button', { name: 'Send', exact: true }).click()
   await page.clock.runFor(30000)
-  await topic.selectOption('finish')
-  await page.getByRole('button', { name: 'Send', exact: true }).click()
+  await expect(page.getByText('Nothing to discuss right now.', { exact: false })).toBeVisible()
+  await page.getByRole('button', { name: 'Continue investigation' }).click()
   await expect(page.getByRole('button', { name: /^(START|CONTINUE TO) SCENE 6$/i })).toHaveCount(0)
   await page.clock.runFor(30000)
   await expect(page.getByText('The activity records are already in the part you recovered.', { exact: false })).toBeVisible()

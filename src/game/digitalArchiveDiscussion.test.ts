@@ -19,10 +19,9 @@ describe('archive discussions', () => {
     expect(s.messages).toHaveLength(2)
     expect(s.pending).toHaveLength(1)
   })
-  it('supports every topic, repeat discussions, and an explicit finish', () => {
+  it('completes each topic after its last bubble and prevents repeating it', () => {
     let s = newDiscussion()
-    s = act(s, { type: 'select', topic: 'finish' })
-    expect(act(s, { type: 'send' }).finished).toBe(false)
+    expect(act(s, { type: 'finish' }).finished).toBe(false)
     for (const topic of Object.keys(archiveDiscussions) as ArchiveTopic[]) {
       s = act(s, { type: 'discover', topic })
       s = act(s, { type: 'select', topic })
@@ -32,9 +31,9 @@ describe('archive discussions', () => {
         while (s.pending.length) s = act(s, { type: 'deliver' })
       }
       expect(s.discussed).toContain(topic)
+      expect(act(s, { type: 'select', topic })).toBe(s)
     }
-    s = act(s, { type: 'select', topic: 'finish' })
     expect(s.finished).toBe(false)
-    expect(act(s, { type: 'send' }).finished).toBe(true)
+    expect(act(s, { type: 'finish' }).finished).toBe(true)
   })
 })

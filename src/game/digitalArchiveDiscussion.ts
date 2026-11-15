@@ -15,7 +15,7 @@ export type DiscussionAction =
   | { type: 'discover'; topic: ArchiveTopic }
   | { type: 'select'; topic: ArchiveTopic | 'finish' }
   | { type: 'draft'; index: number }
-  | { type: 'send' | 'deliver' }
+  | { type: 'send' | 'deliver' | 'finish' }
 
 export const newDiscussion = (): DiscussionState => ({ discovered: [], discussed: [], turn: 0, messages: [], pending: [], finished: false })
 
@@ -26,11 +26,13 @@ export function discussionAction(state: DiscussionState, action: DiscussionActio
   if (action.type === 'deliver') {
     if (!state.pending.length) return state
     const [text, ...pending] = state.pending
-    return { ...state, pending, messages: [...state.messages, { id: `discussion-${state.messages.length}`, sender: 'unknown', text }] }
+    const complete = !pending.length && state.topic && state.topic !== 'finish' && state.turn >= archiveDiscussions[state.topic].turns.length
+    return { ...state, pending, ...(complete ? { discussed: [...new Set([...state.discussed, state.topic as ArchiveTopic])], topic: undefined, turn: 0 } : {}), messages: [...state.messages, { id: `discussion-${state.messages.length}`, sender: 'unknown', text }] }
   }
   if (state.pending.length) return state
+  if (action.type === 'finish') return state.discussed.length && !state.topic ? { ...state, finished: true } : state
   if (action.type === 'select') {
-    if (action.topic !== 'finish' && !state.discovered.includes(action.topic)) return state
+    if (state.topic || (action.topic !== 'finish' && (!state.discovered.includes(action.topic) || state.discussed.includes(action.topic)))) return state
     return { ...state, topic: action.topic, turn: 0, draft: undefined }
   }
   if (action.type === 'draft') {
@@ -46,9 +48,7 @@ export function discussionAction(state: DiscussionState, action: DiscussionActio
     const topic = archiveDiscussions[state.topic], turn = topic.turns[state.turn]
     if (!turn) return state
     const nextTurn = state.turn + 1
-    const complete = nextTurn === topic.turns.length
-    return { ...state, draft: undefined, turn: complete ? 0 : nextTurn, topic: complete ? undefined : state.topic,
-      discussed: complete ? [...new Set([...state.discussed, state.topic])] : state.discussed,
+    return { ...state, draft: undefined, turn: nextTurn, topic: state.topic,
       messages: [...state.messages, { id: `discussion-${state.messages.length}`, sender: 'player', text: turn.choices[state.draft] }],
       pending: [...turn.replies[state.draft]] }
   }
