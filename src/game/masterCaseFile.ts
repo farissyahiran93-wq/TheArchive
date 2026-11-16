@@ -1,4 +1,5 @@
 import { fragmentExamination, masterFragments } from '../content/masterScene05'
+import { characterArtwork } from '../content/characters'
 import { recoveredConversations, recoveredNotes } from '../content/digitalArchive'
 import { activityEvents } from '../content/masterScene06'
 import { captureId } from '../content/masterScene08'
@@ -33,7 +34,7 @@ type Position = { x: number; y: number }
 type CaseNote = { text: string; evidenceIds: string[]; alternative?: string; counterEvidenceIds?: string[] }
 export const caseLinkAssessments = ['tentative', 'supported', 'contradicted'] as const
 export type CaseLinkAssessment = typeof caseLinkAssessments[number]
-type CaseLink = { from: string; to: string; label?: string; assessment?: CaseLinkAssessment }
+type CaseLink = { from: string; to: string; label?: string; assessment?: CaseLinkAssessment; canonical?: boolean }
 type CaseEvidence = {
   id: string
   title: string
@@ -90,6 +91,15 @@ function discoveredEvidence(save: GameSave): CaseEvidence[] {
   const five = save.masterScene05
   const six = save.masterScene06
   const opening = save.prologue?.scene01
+  if (five?.discussion && five.packageStatus === 'installed') {
+    const people = [
+      { id: 'TA-BOARD-DANIEL', person: characterArtwork.daniel, description: 'Daniel Mercer is missing.' },
+      { id: 'TA-BOARD-SOPHIE', person: characterArtwork.sophie, description: "Daniel's sister." },
+      { id: 'TA-BOARD-MAYA', person: characterArtwork.maya, description: "Daniel's fiancée." },
+      { id: 'TA-BOARD-LUCAS', person: characterArtwork.lucas, description: "Daniel's childhood friend." },
+    ]
+    for (const item of people) evidence.push({ id: item.id, title: item.person.name, description: item.description, source: 'Character illustration · identity artwork', kind: 'photo', image: item.person.portrait })
+  }
   const photos = [
     { photo: storyPhotos.sophieFamily, title: 'Mercer family photo', source: 'Sophie · private message', lines: opening?.messages },
     { photo: storyPhotos.sophieBiscuits, title: 'Sophie’s kitchen photo', source: 'Sophie · private message', lines: opening?.messages },
@@ -121,7 +131,7 @@ function discoveredEvidence(save: GameSave): CaseEvidence[] {
   if (five?.recovered && five.discussion) {
     for (const chat of recoveredConversations) {
       const id = `TA-PH-CHAT-${chat.id.toUpperCase()}`
-      if (five.read.includes(id)) evidence.push({ id, title: `${chat.name}'s messages`, description: chat.lines.map(line => `${line.speaker === 'daniel' ? 'Daniel' : chat.name}: ${line.text}`).join('\n'), source: 'TRACE · recovered conversation', kind: 'message' })
+      if (five.read.includes(id)) evidence.push({ id, title: `${chat.name}'s messages`, description: chat.lines.map(line => `${line.speaker === 'daniel' ? 'Daniel' : chat.name}: ${line.text}`).join('\n'), source: 'TRACE · recovered conversation', kind: 'message', ...(chat.lines.find(line=>line.photo)?.photo ? {image:chat.lines.find(line=>line.photo)!.photo!.src} : {}) })
     }
     for (const note of recoveredNotes) {
       const id = note.id === 'dinner' ? 'TA-PH-NOTE-ORDINARY-01' : 'TA-PH-NOTE-RECORDS-01'
@@ -182,9 +192,10 @@ export function selectMasterCaseFile(save: GameSave): MasterCaseFileView | undef
     const slot = (hash >>> 0) % 36
     return { x: 15 + (slot % 3) * 35, y: 5 + Math.floor(slot / 3) * 8 }
   }
+  const peoplePositions: Record<string, Position> = { 'TA-BOARD-DANIEL': {x:50,y:34}, 'TA-BOARD-SOPHIE': {x:15,y:15}, 'TA-BOARD-MAYA': {x:85,y:15}, 'TA-BOARD-LUCAS': {x:50,y:60} }
   const nodes = evidence.map(node => ({
     ...node,
-    position: state.positions[node.id] ?? stablePosition(node.id),
+    position: state.positions[node.id] ?? peoplePositions[node.id] ?? stablePosition(node.id),
   }))
   const facts = [
     'Sophie Mercer says her brother Daniel stopped answering her messages and calls. His whereabouts are unknown.',
@@ -223,7 +234,7 @@ export function selectMasterCaseFile(save: GameSave): MasterCaseFileView | undef
     questions,
     nodes,
     notes,
-    links: state.links.filter(link => visibleIds.has(link.from) && visibleIds.has(link.to)),
+    links: [...(['TA-BOARD-SOPHIE','TA-BOARD-MAYA','TA-BOARD-LUCAS'].filter(id=>visibleIds.has(id)&&visibleIds.has('TA-BOARD-DANIEL')).map((to,index)=>({from:'TA-BOARD-DANIEL',to,label:['Sister','Fiancée','Best friend'][index],canonical:true}))), ...state.links.filter(link => visibleIds.has(link.from) && visibleIds.has(link.to))],
     summary: save.masterScene10?.saved ? save.masterScene10.theory : undefined,
     guidance: selectInvestigationGuidance(save),
     questionStatus,
@@ -257,6 +268,7 @@ export function masterCaseFileAction(save: GameSave, action: MasterCaseFileActio
     if (!visibleIds.has(action.id) || !validCoordinate(action.x) || !validCoordinate(action.y)) return save
     return { ...save, masterCaseFile: { ...state, positions: { ...state.positions, [action.id]: { x: action.x, y: action.y } } } }
   }
+  if ([action.from,action.to].includes('TA-BOARD-DANIEL') && [action.from,action.to].some(id=>['TA-BOARD-SOPHIE','TA-BOARD-MAYA','TA-BOARD-LUCAS'].includes(id))) return save
   if (action.from === action.to || !visibleIds.has(action.from) || !visibleIds.has(action.to)) return save
   const link = { from: action.from, to: action.to }
   const key = linkKey(link)

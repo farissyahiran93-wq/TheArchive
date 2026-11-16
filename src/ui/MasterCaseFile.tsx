@@ -157,10 +157,11 @@ export function MasterInvestigationBoard({ caseFile, onAction }: CaseModuleProps
   const [photo, setPhoto] = useState<CaseNode>()
   const [dragPosition, setDragPosition] = useState<{ id: string; x: number; y: number }>()
   const plane = useRef<HTMLDivElement>(null)
+  const viewport = useRef<HTMLDivElement>(null)
   const dragged = useRef(false)
   const drag = useRef<{ id: string; pointer: number; x: number; y: number; start: CaseNode['position'] } | null>(null)
   const scale = zoomLevels[zoom]
-  const wallStyle = { '--board-scale': scale, minWidth: `${500 * scale}px`, height: `${1800 * scale}px` } as CSSProperties
+  const wallStyle = { '--board-scale': scale, minWidth: `${500 * scale}px`, height: `${700 * scale}px` } as CSSProperties
   const nodesById = new Map(caseFile.nodes.map(node => [node.id, node]))
   const selected = nodesById.get(selection)
   const origin = nodesById.get(connectionStart)
@@ -203,7 +204,7 @@ export function MasterInvestigationBoard({ caseFile, onAction }: CaseModuleProps
       <Network size={26} aria-hidden="true" />
       <div><small>CASE FILE 001 / PRIVATE BOARD</small><h1>Investigation Board</h1></div>
     </header>
-    <p>Select evidence to see its source. Drag a pin or use the position controls. Connections record your own assessment.</p>
+    <p>Move clues and connect your own ideas.</p>
     {caseFile.nodes.length === 0 ? <div className="trace-empty"><ScanSearch aria-hidden="true" /><p>No evidence discovered yet.</p></div> : <>
       <div className="trace-board-toolbar">
         <label>Evidence index <select value={selection} onChange={event => setSelection(event.target.value)}>
@@ -212,11 +213,11 @@ export function MasterInvestigationBoard({ caseFile, onAction }: CaseModuleProps
         </select></label>
         <div className="trace-board-controls" aria-label="Board zoom">
           <button className="trace-case-button" aria-label="Zoom out" disabled={zoom === 0} onClick={() => setZoom(zoom - 1)}><ZoomOut size={17} aria-hidden="true" /></button>
-          <output aria-label="Zoom level">{scale * 100}%</output>
+          <output aria-label="Zoom level">{scale * 100}%</output><button className="trace-case-button" onClick={()=>{setZoom(0);viewport.current?.scrollTo({left:0,top:0})}}>Fit Board</button>
           <button className="trace-case-button" aria-label="Zoom in" disabled={zoom === zoomLevels.length - 1} onClick={() => setZoom(zoom + 1)}><ZoomIn size={17} aria-hidden="true" /></button>
         </div>
       </div>
-      <div className="trace-board-viewport" tabIndex={0} aria-label="Scrollable evidence wall" onWheel={event=>{if(event.ctrlKey){event.preventDefault();setZoom(value=>Math.max(0,Math.min(zoomLevels.length-1,value+(event.deltaY>0?-1:1))))}}}>
+      <div ref={viewport} className="trace-board-viewport" tabIndex={0} aria-label="Scrollable evidence wall" onWheel={event=>{if(event.ctrlKey){event.preventDefault();setZoom(value=>Math.max(0,Math.min(zoomLevels.length-1,value+(event.deltaY>0?-1:1))))}}}>
         <div className="trace-board-wall" style={wallStyle}>
           <div className="trace-board-plane" ref={plane}>
             <svg className="trace-board-strings" aria-hidden="true">
@@ -268,13 +269,13 @@ export function MasterInvestigationBoard({ caseFile, onAction }: CaseModuleProps
       <section className="trace-case-panel">
         <h2>Evidence connections</h2><p>These labels are your interpretation. Source provenance stays separate.</p>
         {caseFile.links.length === 0 ? <p>No connections proposed.</p> : <ul className="trace-case-connections">
-          {caseFile.links.map(({ from, to, label, assessment }) => {
+          {caseFile.links.map(({ from, to, label, assessment, canonical }) => {
             const a = nodesById.get(from)
             const b = nodesById.get(to)
             return a && b && <li key={`${from}-${to}`}>
               <span>{a.title} <span aria-hidden="true">↔</span><span className="trace-case-sr-only"> and </span> {b.title}</span>
-              <button className="trace-case-button" aria-label={`Remove connection between ${a.title} and ${b.title}`} onClick={() => toggleConnection(from, to)}><Unlink2 size={17} aria-hidden="true" /></button>
-              <details className="trace-link-editor">
+              {canonical ? <small>{label} · established relationship</small> : <button className="trace-case-button" aria-label={`Remove connection between ${a.title} and ${b.title}`} onClick={() => toggleConnection(from, to)}><Unlink2 size={17} aria-hidden="true" /></button>}
+              {!canonical&&<details className="trace-link-editor">
                 <summary>{label ? `${label} · ${assessment ?? 'tentative'}` : `Edit ${assessment ?? 'tentative'} connection`}</summary>
                 <form onSubmit={event=>{
                   event.preventDefault()
@@ -287,7 +288,7 @@ export function MasterInvestigationBoard({ caseFile, onAction }: CaseModuleProps
                   </select></label>
                   <button type="submit" className="trace-case-button">Save connection</button>
                 </form>
-              </details>
+              </details>}
             </li>
           })}
         </ul>}

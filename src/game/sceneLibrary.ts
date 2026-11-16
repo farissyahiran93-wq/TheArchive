@@ -5,6 +5,8 @@ import { sourceInvestigations } from '../content/sourceInvestigations'
 import { versionHistorySceneId } from '../content/versionHistoryConversation'
 import type { GameSave } from './types'
 import { masterScene04Action } from './masterScene04'
+import { masterScene05Action } from './masterScene05'
+import { masterScene06Action } from './masterScene06'
 import { beginScene01 } from './scene01'
 
 // Only integrated production screenplays belong here. Structural previews and
@@ -106,6 +108,24 @@ export function prepareReplay(entry: NonNullable<GameSave['replayEntries']>[stri
     const id='TA-S04-SOPHIE-ELI-ENQUIRY',first='TA-S04-FIRST'
     const base:GameSave={...replay,masterScene04:undefined,deliveredEvents:replay.deliveredEvents.filter(x=>x!==id&&x!==first),notifications:replay.notifications.filter(x=>x.id!==first),messages:replay.messages.filter(x=>x.id!==id),knowledge:{...replay.knowledge,characters:{...replay.knowledge.characters,eli:replay.knowledge.characters.eli.filter(x=>x!==id)}}}
     return masterScene04Action(base,{type:'start'},now)
+  }
+  // A deliberate Scene 5 restart starts today's archive flow. Historical
+  // continuing saves remain pinned to their existing conversation state.
+  if (sceneNumber === 5 && scene?.masterScene01 && replay.masterScene04?.complete && replay.masterScene04.traceInstalled) {
+    const base: GameSave = { ...replay, masterScene05: undefined,
+      deliveredEvents: replay.deliveredEvents.filter(id => !id.startsWith('TA-S05-')),
+      notifications: replay.notifications.filter(item => !item.id.startsWith('TA-S05-')),
+    }
+    return masterScene05Action(base, {type:'start'}, now)
+  }
+  if (sceneNumber === 6 && scene?.masterScene01 && replay.masterScene05?.complete && replay.masterScene05.recovered && replay.masterScene05.discussion) {
+    const { ['TA-FN-MISSING-HOUR']: _oldGap, ...earlierEvidence } = replay.evidence
+    const base: GameSave = { ...replay, evidence: earlierEvidence, masterScene05: {...replay.masterScene05, conversationRevision:'archive-v3'}, masterScene06: undefined,
+      deliveredEvents: replay.deliveredEvents.filter(id => !id.startsWith('TA-S06-')),
+      notifications: replay.notifications.filter(item => !item.id.startsWith('TA-S06-')),
+      messages: replay.messages.filter(item => !item.id.startsWith('TA-S06-')),
+    }
+    return masterScene06Action(base, {type:'start'}, now)
   }
   // A requested Scene 4 replay uses today's authored bridge, even when its
   // recorded entry predates the natural-flow revisions. Keep the entry immutable.

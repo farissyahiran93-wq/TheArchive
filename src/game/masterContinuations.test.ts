@@ -11,12 +11,12 @@ function ready():GameSave {
 describe('natural master scene continuations',()=>{
  it('starts Scene 5 once after actual installation, without sending for the player',()=>{
   const input=ready(), first=advanceMasterContinuations(input,10000)
-  expect(first.masterScene05?.conversationRevision).toBe('archive-v1')
+  expect(first.masterScene05?.conversationRevision).toBe('archive-v3')
   expect(first.masterScene05?.messages.every(m=>m.sender==='unknown')).toBe(true)
-  expect(first.masterScene05?.archiveStatus).toBe('offered')
+  expect(first.masterScene05?.archiveStatus).toBe('unavailable')
   const captured=captureSceneEntries(input,first,10000)
   const scene=libraryScenesForSave(captured).find(item=>item.number===5)!
-  expect(captured.replayEntries?.[snapshotKey(captured,scene)]?.save.masterScene05?.beat).toBe(8)
+  expect(captured.replayEntries?.[snapshotKey(captured,scene)]?.save.masterScene05?.beat).toBe(0)
   expect(advanceMasterContinuations(first,20000)).toBe(first)
   const notInstalled={...input,masterScene04:{...input.masterScene04!,traceInstalled:false}}
   expect(advanceMasterContinuations(notInstalled)).toBe(notInstalled)

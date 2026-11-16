@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { scene05V3 } from '../../src/content/masterScene05V3'
 import { cinematicBeats } from '../../src/content/masterScene04Cinematic'
 import { masterScene05Action as scene5 } from '../../src/game/masterScene05'
 import { masterScene04Action as scene4 } from '../../src/game/masterScene04'
@@ -67,25 +68,17 @@ for (const viewport of [{ name: 'mobile', width: 393, height: 851 }, { name: 'de
   await expect(page.getByText('Recovery: 20%', { exact: true })).toBeVisible()
   await expect(page.getByRole('dialog', { name: 'Recovery interrupted' })).toHaveCount(0)
 
-  // A completed discussion proceeds to the next conversation without a scene button.
-  await page.getByRole('button', { name: 'Open Notes module' }).click()
-  await page.getByRole('button', { name: /Dinner Reminder/ }).click()
   await page.getByRole('button', { name: 'Go home' }).click()
   await page.getByRole('button', { name: 'Open Messages', exact: true }).first().click()
   await page.getByRole('button', { name: 'Open Unknown conversation', exact: true }).click()
-  const topic=page.getByLabel('Discuss with Unknown')
-  await topic.selectOption('dinner')
-  await page.getByRole('button', { name: "There's a reminder about dinner with Maya." }).click()
-  await page.getByRole('button', { name: 'Send', exact: true }).click()
-  await page.clock.runFor(30000)
-  await page.getByRole('button', { name: "The date isn't available." }).click()
-  await page.getByRole('button', { name: 'Send', exact: true }).click()
-  await page.clock.runFor(30000)
-  await expect(page.getByText('Nothing to discuss right now.', { exact: false })).toBeVisible()
-  await page.getByRole('button', { name: 'Continue investigation' }).click()
-  await expect(page.getByRole('button', { name: /^(START|CONTINUE TO) SCENE 6$/i })).toHaveCount(0)
-  await page.clock.runFor(30000)
-  await expect(page.getByText('There are activity records in what you recovered.', { exact: false })).toBeVisible()
+  await page.clock.runFor(60000)
+  for(let n=6;n<10;n++){
+    await page.getByRole('button', {name:scene05V3[n].choices[0],exact:true}).click()
+    await page.getByRole('button', {name:'Send',exact:true}).click()
+    await page.clock.runFor(60000)
+  }
+  await expect(page.getByText('So. You found something.', {exact:true})).toBeVisible()
+
 })
 
 

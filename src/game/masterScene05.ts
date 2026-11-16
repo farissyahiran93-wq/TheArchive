@@ -4,10 +4,11 @@ import { npcDeliveryDelay } from './npcDelivery'
 import { createMasterCaseFile } from './masterCaseFile'
 import { usesScene04ToolPreview } from './masterScene04'
 import { discussionAction, newDiscussion, type DiscussionAction, type DiscussionState } from './digitalArchiveDiscussion'
+import { scene05V3 } from '../content/masterScene05V3'
 import { archiveConversation } from '../content/masterScene05ArchiveConversation'
 
 export interface MasterScene05 {
-  version: 1; revision?:'trace-first'; conversationRevision?:'archive-v1'; beat: number; draft?: number; messages: {id:string; sender:'unknown'|'player'; text:string; at:number}[]; pending?:{id:string;text:string;dueAt:number;remaining?:string[]}; archiveStatus?:'unavailable'|'offered'|'deferred'|'declined'|'accepted'; archiveInspected?:boolean; archiveRisks?:boolean
+  version: 1; revision?:'trace-first'; conversationRevision?:'archive-v1'|'archive-v3'; beat: number; draft?: number; messages: {id:string; sender:'unknown'|'player'; text:string; at:number}[]; pending?:{id:string;text:string;dueAt:number;remaining?:string[]}; archiveStatus?:'unavailable'|'offered'|'deferred'|'declined'|'accepted'; archiveInspected?:boolean; archiveRisks?:boolean
   packageStatus:'conversation'|'offered'|'deferred'|'declined'|'installed'; inspected:boolean; risksRead:boolean
   opened:boolean; selected:boolean; recovered:boolean; read:string[]; saved:string[]; complete:boolean; traceView?:string; traceReturn?:'messages'|'notes'|'timeline'|'summary'|'board'
   earlySetup?:boolean; examination?:'evidence'; observations?:string[]; comparison?:[string,string]
@@ -21,8 +22,9 @@ const sourceViews=['messages','notes','timeline','summary','board'] as const
 const traceViews=['home','activity','case-files','media',...sourceViews,...ids]
 export const canSaveFragmentFinding=(p:MasterScene05,id:string)=>p.recovered&&p.read.includes(id)&&!p.saved.includes(id)&&!!p.observations?.includes(id)
 const readyToDiscuss=(p:MasterScene05)=>p.recovered&&(p.discussion? p.discussion.finished:p.saved.length>0)
-export const canReplyInMasterScene05=(p:MasterScene05)=>p.conversationRevision==='archive-v1'?!p.complete&&!p.pending&&p.beat<8&&(p.beat<3||p.archiveStatus==='accepted'):!p.complete&&!p.pending&&(p.revision!=='trace-first'||p.archiveStatus==='accepted')&&(p.beat<8&&(p.packageStatus==='conversation'||p.earlySetup&&p.packageStatus==='installed')||p.beat>=8&&p.beat<10&&readyToDiscuss(p))
+export const canReplyInMasterScene05=(p:MasterScene05)=>p.conversationRevision==='archive-v3'?!p.complete&&!p.pending&&p.beat<10&&(p.beat<4||p.archiveStatus==='accepted'&&!!p.importComplete)&&(p.beat<6||p.recovered&&!!p.recoveryAnimation?.acknowledged):p.conversationRevision==='archive-v1'?!p.complete&&!p.pending&&p.beat<8&&(p.beat<3||p.archiveStatus==='accepted'):!p.complete&&!p.pending&&(p.revision!=='trace-first'||p.archiveStatus==='accepted')&&(p.beat<8&&(p.packageStatus==='conversation'||p.earlySetup&&p.packageStatus==='installed')||p.beat>=8&&p.beat<10&&readyToDiscuss(p))
 export function masterScene05Beat(p:MasterScene05) {
+  if(p.conversationRevision==='archive-v3'){const beat=scene05V3[p.beat];return beat?{choices:beat.choices,replies:beat.branches}:undefined}
   if(p.conversationRevision==='archive-v1'){
     const beat=archiveConversation[p.beat]
     return beat?{choices:beat.choices,replies:beat.replies.map(lines=>lines.join(' '))}:undefined
@@ -53,17 +55,26 @@ export function masterScene05Action(s:GameSave,a:MasterScene05Action,now=Date.no
     const introduction=s.masterScene04.revision==='guarded-chat'
       ? "The viewer is called TRACE. Here's the encrypted copy I mentioned. I believe it contains Daniel's phone data. Its source hasn't been verified."
       : "You asked to continue. Here is an encrypted archive I believe contains Daniel's phone data. Its origin and contents have not been verified."
-    if(s.masterScene04.revision==='cinematic')return {...s,masterCaseFile:s.masterCaseFile??createMasterCaseFile(),masterScene05:{version:1,revision:'trace-first',conversationRevision:'archive-v1',discussion:newDiscussion(),earlySetup:true,examination:'evidence',archiveStatus:'offered',archiveInspected:false,archiveRisks:false,directImport:true,beat:8,messages:[{id:'TA-S05-ARCHIVE-INTRO-1',sender:'unknown',text:"Here's the encrypted copy I told you about. I believe it contains Daniel's phone data.",at:now}],packageStatus:'installed',inspected:false,risksRead:false,opened:false,selected:false,recovered:false,read:[],saved:[],complete:false}}
+    if(s.masterScene04.revision==='cinematic')return {...s,masterCaseFile:s.masterCaseFile??createMasterCaseFile(),masterScene05:{version:1,revision:'trace-first',conversationRevision:'archive-v3',discussion:newDiscussion(),earlySetup:true,examination:'evidence',archiveStatus:'unavailable',archiveInspected:false,archiveRisks:false,directImport:true,beat:0,messages:[],pending:{id:'TA-S05-V3-INTRO',text:scene05V3[0].intro[0],dueAt:now+1200,remaining:[...scene05V3[0].intro.slice(1)]},packageStatus:'installed',inspected:false,risksRead:false,opened:false,selected:false,recovered:false,read:[],saved:[],complete:false}}
     return {...s,...(s.masterScene04.traceInstalled?{masterCaseFile:s.masterCaseFile??createMasterCaseFile()}:{}),masterScene05:{version:1,...(s.masterScene04.traceInstalled?{earlySetup:true}:{}),...(revised?{revision:'trace-first' as const,archiveStatus:'offered' as const,archiveInspected:false,archiveRisks:false}:{}),...(s.masterScene04.revision==='guarded-chat'?{examination:'evidence' as const}:{}),beat:0,messages:revised?[{id:'TA-S05-INTRO-1',sender:'unknown',text:introduction,at:now}]:[{id:'TA-S05-INTRO-1',sender:'unknown',text:'You have the archive now.',at:now},{id:'TA-S05-INTRO-2',sender:'unknown',text:"It's still encrypted. Having the file doesn't make its contents readable.",at:now}],packageStatus:s.masterScene04.traceInstalled?'installed':'conversation',inspected:false,risksRead:false,opened:false,selected:false,recovered:false,read:[],saved:[],complete:false}}
   }
   if(!p)return s
   const put=(next:MasterScene05):GameSave=>({...s,masterScene05:next})
   if(a.type==='discussion'){
+    if(p.conversationRevision==='archive-v3')return s
     if(!p.discussion||a.action.type==='discover'||p.pending)return s
     const discussion=discussionAction(p.discussion,a.action)
     if(discussion===p.discussion)return s
     if(discussion.finished&&!p.discussion.finished)return {...s,deliveredEvents:[...new Set([...s.deliveredEvents,'TA-S05-FINDINGS-SENT','TA-S05-COMPLETE','TA-S05-SCENE06-UNLOCKED'])],masterScene05:{...p,discussion,beat:10,complete:true}}
     return put({...p,discussion})
+  }
+  if(a.type==='tick'&&p.pending&&p.pending.dueAt<=now&&p.conversationRevision==='archive-v3'){
+    const pending=p.pending,[text,...remaining]=pending.remaining??[]
+    const next=text?{id:`${pending.id}-next`,text,dueAt:now+Math.min(5000,npcDeliveryDelay('eli',text,p.beat)),remaining}:undefined
+    const complete=!next&&p.beat===10
+    const updated={...p,messages:[...p.messages,{id:pending.id,sender:'unknown' as const,text:pending.text,at:now}],pending:next,archiveStatus:(!next&&p.beat===4&&p.archiveStatus==='unavailable'?'offered':p.archiveStatus) as MasterScene05['archiveStatus'],complete}
+    if(complete)return {...s,deliveredEvents:[...new Set([...s.deliveredEvents,'TA-S05-FINDINGS-SENT','TA-S05-COMPLETE','TA-S05-SCENE06-UNLOCKED'])],masterScene05:updated}
+    return put(updated)
   }
   if(a.type==='tick'&&p.pending&&p.pending.dueAt<=now&&p.conversationRevision==='archive-v1'){
     const pending=p.pending,[text,...remaining]=pending.remaining??[]
@@ -80,11 +91,16 @@ export function masterScene05Action(s:GameSave,a:MasterScene05Action,now=Date.no
    if((a.type==='archive-defer'||a.type==='archive-decline')&&p.archiveStatus==='offered')return put({...p,archiveStatus:a.type==='archive-defer'?'deferred':'declined'})
    if(a.type==='archive-reconsider'&&!p.pending&&['deferred','declined'].includes(p.archiveStatus??''))return put({...p,archiveStatus:'offered'})
   }
-  if(a.type==='import-tick'&&p.directImport&&p.importStartedAt!==undefined&&!p.importComplete&&now>=p.importStartedAt+4000)return put({...p,importComplete:true})
+  if(a.type==='import-tick'&&p.directImport&&p.importStartedAt!==undefined&&!p.importComplete&&now>=p.importStartedAt+4000){const lines=p.conversationRevision==='archive-v3'?scene05V3[4].intro:[];return put({...p,importComplete:true,...(lines.length?{pending:{id:'TA-S05-V3-IMPORT',text:lines[0],dueAt:now+1200,remaining:[...lines.slice(1)]}}:{})})}
   if(a.type==='draft'&&canReplyInMasterScene05(p)&&Number.isInteger(a.index)&&a.index>=0&&a.index<3)return put({...p,draft:a.index})
   if(a.type==='send'&&p.draft!==undefined&&canReplyInMasterScene05(p)){
     const n=p.beat,choice=p.draft,beat=masterScene05Beat(p)
     if(!beat)return s
+    if(p.conversationRevision==='archive-v3'){
+      const script=scene05V3[n], lines=[script.branches[choice],...script.follow,...(n!==3&&n!==5&&n!==9?scene05V3[n+1].intro:[])]
+      const [text,...remaining]=lines
+      return put({...p,beat:n+1,draft:undefined,messages:[...p.messages,{id:`TA-S05-V3-D${n+1}-P-${choice}`,sender:'player',text:script.choices[choice],at:now}],pending:{id:`TA-S05-V3-D${n+1}-U-${choice}`,text,dueAt:now+Math.min(5000,npcDeliveryDelay('eli',text,n)),remaining}})
+    }
     if(p.conversationRevision==='archive-v1'){
       const [text,...remaining]=archiveConversation[n].replies[choice]
       return put({...p,beat:n+1,draft:undefined,messages:[...p.messages,{id:`TA-S05-ARCHIVE-C${n+1}-P-${choice}`,sender:'player',text:beat.choices[choice],at:now}],pending:{id:`TA-S05-ARCHIVE-C${n+1}-U-${choice}`,text,dueAt:now+Math.min(7000,npcDeliveryDelay('eli',text,n)),remaining:[...remaining,...(n===2?["This is the copy I told you about.","It's encrypted. TRACE might get further than I did."]:[])]}})
@@ -101,13 +117,13 @@ export function masterScene05Action(s:GameSave,a:MasterScene05Action,now=Date.no
   if(a.type==='open-trace'&&p.packageStatus==='installed'&&(!p.opened||!s.masterCaseFile))return {...put({...p,opened:true}),masterCaseFile:s.masterCaseFile??createMasterCaseFile()}
   if(a.type==='view'&&p.packageStatus==='installed'&&traceViews.includes(a.id)&&(!ids.includes(a.id)||p.recovered)&&(a.id!=='timeline'||!!s.masterScene06?.recovered)){const from=sourceViews.find(view=>view===p.traceView);return put({...p,traceView:a.id,...(ids.includes(a.id)&&from?{traceReturn:from}:{})})}
   if(a.type==='select'&&p.opened&&(!p.earlySetup||p.archiveStatus==='accepted'&&p.beat>=8))return put({...p,selected:true})
-  if(a.type==='recover'&&p.packageStatus==='installed'&&p.opened&&!p.recovered&&!p.recoveryAnimation&&(!p.earlySetup||p.archiveStatus==='accepted'&&p.beat>=8)&&(!p.directImport||p.importComplete))return p.discussion?put({...p,selected:true,recoveryAnimation:{startedAt:now,percent:0,acknowledged:false}}):put({...p,selected:true,recovered:true})
+  if(a.type==='recover'&&(p.conversationRevision!=='archive-v3'||!p.pending)&&p.packageStatus==='installed'&&p.opened&&!p.recovered&&!p.recoveryAnimation&&(!p.earlySetup||p.archiveStatus==='accepted'&&p.beat>=(p.conversationRevision==='archive-v3'?6:8))&&(!p.directImport||p.importComplete))return p.discussion?put({...p,selected:true,recoveryAnimation:{startedAt:now,percent:0,acknowledged:false}}):put({...p,selected:true,recovered:true})
   if(a.type==='recovery-tick'&&p.recoveryAnimation&&!p.recovered){
     const percent=Math.min(20,Math.max(p.recoveryAnimation.percent,Math.floor(Math.max(0,now-p.recoveryAnimation.startedAt)/400)))
     if(percent===p.recoveryAnimation.percent)return s
     return put({...p,recovered:percent===20,recoveryAnimation:{...p.recoveryAnimation,percent}})
   }
-  if(a.type==='recovery-acknowledge'&&p.recoveryAnimation&&p.recovered&&!p.recoveryAnimation.acknowledged)return put({...p,traceView:'home',recoveryAnimation:{...p.recoveryAnimation,acknowledged:true}})
+  if(a.type==='recovery-acknowledge'&&p.recoveryAnimation&&p.recovered&&!p.recoveryAnimation.acknowledged)return put({...p,traceView:'home',recoveryAnimation:{...p.recoveryAnimation,acknowledged:true},...(p.conversationRevision==='archive-v3'&&p.beat===6?{pending:{id:'TA-S05-V3-RECOVERY',text:scene05V3[6].intro[0],dueAt:now+1200,remaining:[...scene05V3[6].intro.slice(1)]}}:{})})
   if(a.type==='read'&&p.recovered&&ids.includes(a.id)&&(!a.id.startsWith('TA-PH-CHAT-')||!!p.discussion)&&!p.read.includes(a.id)){
     const topic=a.id==='TA-PH-NOTE-ORDINARY-01'?'dinner':a.id==='TA-PH-NOTE-RECORDS-01'?'records':a.id==='TA-PH-CHAT-MAYA'?'maya':a.id==='TA-PH-CHAT-SOPHIE'?'sophie':a.id==='TA-PH-CHAT-LUCAS'?'lucas':a.id==='TA-PH-ACTIVITY-FIRST'?'activity':undefined
     const discussion=topic&&p.discussion?discussionAction(p.discussion,{type:'discover',topic}):p.discussion
@@ -126,8 +142,8 @@ export function masterScene05Action(s:GameSave,a:MasterScene05Action,now=Date.no
 export function validateMasterScene05(value:unknown):void {
   if(value===undefined)return
   const p=value as MasterScene05
-  if(!p||p.version!==1||p.traceReturn!==undefined&&!sourceViews.includes(p.traceReturn)||p.traceView!==undefined&&(!traceViews.includes(p.traceView)||ids.includes(p.traceView)&&!p.recovered)||p.revision!==undefined&&p.revision!=='trace-first'||p.pending!==undefined&&(!p.pending||typeof p.pending.id!=='string'||typeof p.pending.text!=='string'||!Number.isFinite(p.pending.dueAt))||p.revision==='trace-first'&&(!['offered','deferred','declined','accepted',...(p.conversationRevision==='archive-v1'?['unavailable']:[])].includes(p.archiveStatus??'')||typeof p.archiveInspected!=='boolean'||typeof p.archiveRisks!=='boolean')||!Number.isInteger(p.beat)||p.beat<0||p.beat>10||!Array.isArray(p.messages)||!Array.isArray(p.read)||!Array.isArray(p.saved)||p.read.some(id=>!ids.includes(id))||p.saved.some(id=>!p.read.includes(id))||!['conversation','offered','deferred','declined','installed'].includes(p.packageStatus)||['inspected','risksRead','opened','selected','recovered','complete'].some(k=>typeof p[k as keyof MasterScene05]!=='boolean')||p.recovered&&(!p.selected||!p.opened||p.packageStatus!=='installed')||p.complete&&(p.beat!==10||!readyToDiscuss(p)))throw Error('Invalid Scene 5 progress')
-  if(p.conversationRevision!==undefined&&(p.conversationRevision!=='archive-v1'||p.revision!=='trace-first'||!p.earlySetup||!p.discussion||p.archiveStatus==='unavailable'&&p.beat>3))throw Error('Invalid archive conversation')
+  if(!p||p.version!==1||p.traceReturn!==undefined&&!sourceViews.includes(p.traceReturn)||p.traceView!==undefined&&(!traceViews.includes(p.traceView)||ids.includes(p.traceView)&&!p.recovered)||p.revision!==undefined&&p.revision!=='trace-first'||p.pending!==undefined&&(!p.pending||typeof p.pending.id!=='string'||typeof p.pending.text!=='string'||!Number.isFinite(p.pending.dueAt))||p.revision==='trace-first'&&(!['offered','deferred','declined','accepted',...(p.conversationRevision?['unavailable']:[])].includes(p.archiveStatus??'')||typeof p.archiveInspected!=='boolean'||typeof p.archiveRisks!=='boolean')||!Number.isInteger(p.beat)||p.beat<0||p.beat>10||!Array.isArray(p.messages)||!Array.isArray(p.read)||!Array.isArray(p.saved)||p.read.some(id=>!ids.includes(id))||p.saved.some(id=>!p.read.includes(id))||!['conversation','offered','deferred','declined','installed'].includes(p.packageStatus)||['inspected','risksRead','opened','selected','recovered','complete'].some(k=>typeof p[k as keyof MasterScene05]!=='boolean')||p.recovered&&(!p.selected||!p.opened||p.packageStatus!=='installed')||p.complete&&(p.beat!==10||(p.conversationRevision!=='archive-v3'&&!readyToDiscuss(p))))throw Error('Invalid Scene 5 progress')
+  if(p.conversationRevision!==undefined&&(!['archive-v1','archive-v3'].includes(p.conversationRevision)||p.revision!=='trace-first'||!p.earlySetup||!p.discussion||p.archiveStatus==='unavailable'&&p.beat>(p.conversationRevision==='archive-v3'?4:3)))throw Error('Invalid archive conversation')
   if(p.pending?.remaining!==undefined&&(!Array.isArray(p.pending.remaining)||p.pending.remaining.some(text=>typeof text!=='string')))throw Error('Invalid queued reply')
   if(p.directImport!==undefined&&typeof p.directImport!=='boolean'||p.importStartedAt!==undefined&&!Number.isFinite(p.importStartedAt)||p.importComplete!==undefined&&typeof p.importComplete!=='boolean')throw Error('Invalid archive import')
   if(p.earlySetup!==undefined&&typeof p.earlySetup!=='boolean')throw Error('Invalid TRACE setup')

@@ -70,3 +70,7 @@
     grid-template-columns: minmax(0,1fr);
   }
 }
+
+.trace-activity .trace-activity-list { display:block; width:100%; box-sizing:border-box; }
+.trace-activity .trace-activity-list > li { display:block; width:100%; box-sizing:border-box; }
+.trace-activity .trace-gap { width:100%; box-sizing:border-box; }
