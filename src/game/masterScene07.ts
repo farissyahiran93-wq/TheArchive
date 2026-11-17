@@ -3,8 +3,8 @@ import { ver1CallTurns, ver1CallEnding } from '../content/masterScene07Ver1'
 import { contactAssessments } from '../content/masterSceneAssessments'
 import type { GameSave } from './types'
 type Line={id:string;sender:'sophie'|'player';text:string;at:number}
-export interface MasterScene07 {version:1;conversationRevision?:'audio-v2'|'starred-v2';exportStatus?:'accepted'|'deferred';phase:'ringing'|'missed'|'playing'|'waiting'|'attachment'|'complete';clip:number;draft?:number;lines:Line[];questioned:boolean;questionDraft?:number;opened:boolean;metadata:boolean;entry:boolean;star:boolean;imported:boolean;analysis:boolean;hypothesis?:number;assessment?:typeof contactAssessments[number]['id'];saved:boolean;shareDraft?:number;shareReviewed:boolean;shareSent:boolean;shareDeclined:boolean}
-export type MasterScene07Action={type:'start'|'answer'|'decline'|'clip-ended'|'send'|'send-question'|'request-export'|'open'|'review-share'|'send-share'|'decline-share'|'finish'}|{type:'draft'|'question-draft'|'share-draft'|'record-legacy-conclusion';index:number}|{type:'record-assessment';id:string}
+export interface MasterScene07 {version:1;conversationRevision?:'audio-v2'|'starred-v2';exportStatus?:'accepted'|'deferred';phase:'ringing'|'missed'|'playing'|'waiting'|'attachment'|'complete';clip:number;playbackSeconds?:number;draft?:number;lines:Line[];questioned:boolean;questionDraft?:number;opened:boolean;metadata:boolean;entry:boolean;star:boolean;imported:boolean;analysis:boolean;hypothesis?:number;assessment?:typeof contactAssessments[number]['id'];saved:boolean;shareDraft?:number;shareReviewed:boolean;shareSent:boolean;shareDeclined:boolean}
+export type MasterScene07Action={type:'start'|'answer'|'decline'|'clip-ended'|'send'|'send-question'|'request-export'|'open'|'review-share'|'send-share'|'decline-share'|'finish'}|{type:'draft'|'question-draft'|'share-draft'|'record-legacy-conclusion';index:number}|{type:'record-assessment';id:string}|{type:'playback-checkpoint';clip:number;seconds:number}
 const choice=(n:number)=>Number.isInteger(n)&&n>=0&&n<3
 function completeScene07(save:GameSave,p:MasterScene07,now:number):GameSave{
  const scene=save.prologue?.scene01
@@ -29,20 +29,24 @@ export function masterScene07Action(s:GameSave,a:MasterScene07Action,now=Date.no
  }
  if(!p)return s
  const put=(x:MasterScene07):GameSave=>({...s,masterScene07:x})
+ if(a.type==='playback-checkpoint'&&p.phase==='playing'&&a.clip===p.clip&&Number.isFinite(a.seconds)&&a.seconds>=0&&a.seconds<=3600){const seconds=Math.round(a.seconds*10)/10;return seconds===(p.playbackSeconds??0)?s:put({...p,playbackSeconds:seconds})}
  if(a.type==='decline'&&p.phase==='ringing')return put({...p,phase:'missed'})
  if(a.type==='answer'&&(p.phase==='ringing'||p.phase==='missed'))return put({...p,phase:'playing'})
  if(a.type==='clip-ended'&&p.phase==='playing'){
   const clip=p.clip,id=`TA-S07-CALL-S${clip+1}`,text=p.conversationRevision==='starred-v2'?(clip<10?ver1CallTurns[clip].sophie:ver1CallEnding):(clip<10?callTurns[clip].sophie:callEnding)
   const lines=p.lines.some(l=>l.id===id)?p.lines:[...p.lines,{id,sender:'sophie' as const,text,at:now}]
-  if(clip===10){if(p.conversationRevision==='starred-v2')return {...s,deliveredEvents:[...new Set([...s.deliveredEvents,...(p.exportStatus==='accepted'?['TA-S07-EXPORT-RECEIVED']:[])])],masterScene07:{...p,lines,questioned:true,phase:'attachment'}};return {...s,messages:[...s.messages,{id:'TA-S07-PERSONAL-QUESTION',sender:'sophie',channel:'messages',text:sophieFollowup.question,at:now,delivery:'delivered'}],deliveredEvents:[...new Set([...s.deliveredEvents,'TA-S07-EXPORT-RECEIVED','TA-S07-PERSONAL-QUESTION'])],masterScene07:{...p,lines,phase:'attachment'}}}
-  return put({...p,lines,phase:'waiting'})
+  if(clip===10){
+   const historyId='TA-S07-CALL-HISTORY',scene=s.prologue?.scene01
+   if(!s.deliveredEvents.includes(historyId))s={...s,deliveredEvents:[...s.deliveredEvents,historyId],...(scene?{prologue:{...s.prologue!,scene01:{...scene,messages:[...scene.messages,{id:historyId,sender:'sophie' as const,text:'Voice call with Sophie',at:now}]}}}:{} )}
+   if(p.conversationRevision==='starred-v2')return {...s,deliveredEvents:[...new Set([...s.deliveredEvents,...(p.exportStatus==='accepted'?['TA-S07-EXPORT-RECEIVED']:[])])],masterScene07:{...p,playbackSeconds:undefined,lines,questioned:true,phase:'attachment'}};return {...s,messages:[...s.messages,{id:'TA-S07-PERSONAL-QUESTION',sender:'sophie',channel:'messages',text:sophieFollowup.question,at:now,delivery:'delivered'}],deliveredEvents:[...new Set([...s.deliveredEvents,'TA-S07-EXPORT-RECEIVED','TA-S07-PERSONAL-QUESTION'])],masterScene07:{...p,playbackSeconds:undefined,lines,phase:'attachment'}}}
+  return put({...p,playbackSeconds:undefined,lines,phase:'waiting'})
  }
  if(a.type==='draft'&&p.phase==='waiting'&&choice(a.index))return put({...p,draft:a.index})
  if(a.type==='send'&&p.phase==='waiting'&&p.draft!==undefined&&p.clip<10){
   const clip=p.clip,i=p.draft,id=`TA-S07-C${clip+1}-P-${i}`,text=(p.conversationRevision==='starred-v2'?ver1CallTurns:p.conversationRevision==='audio-v2'?callTurns:legacyCallTurns)[clip].choices[i]
   const disclosed=p.conversationRevision==='starred-v2'?[]:clip===5&&i===0?['TA-S07-OTHER-CONTACT-DISCLOSED']:clip===5&&i===1?['TA-S07-UNKNOWN-CONTACT-DISCLOSED']:[]
   if(disclosed.length)s={...s,knowledge:{...s.knowledge,characters:{...s.knowledge.characters,sophie:[...new Set([...s.knowledge.characters.sophie,...disclosed])]}}}
-  return {...s,messages:[...s.messages,{id,sender:'player',recipient:'sophie',text,at:now,delivery:'delivered',disclosedFactIds:disclosed}],deliveredEvents:[...new Set([...s.deliveredEvents,id])],masterScene07:{...p,...(p.conversationRevision==='starred-v2'&&clip===9?{exportStatus:i===2?'deferred' as const:'accepted' as const}:{}),clip:clip+1,phase:'playing',draft:undefined,lines:[...p.lines,{id,sender:'player',text,at:now}]}}
+  return {...s,messages:[...s.messages,{id,sender:'player',recipient:'sophie',text,at:now,delivery:'delivered',disclosedFactIds:disclosed}],deliveredEvents:[...new Set([...s.deliveredEvents,id])],masterScene07:{...p,...(p.conversationRevision==='starred-v2'&&clip===9?{exportStatus:i===2?'deferred' as const:'accepted' as const}:{}),clip:clip+1,playbackSeconds:undefined,phase:'playing',draft:undefined,lines:[...p.lines,{id,sender:'player',text,at:now}]}}
  }
  if(a.type==='question-draft'&&p.phase==='attachment'&&!p.questioned&&choice(a.index))return put({...p,questionDraft:a.index})
  if(a.type==='send-question'&&p.phase==='attachment'&&!p.questioned&&p.questionDraft!==undefined){
@@ -73,5 +77,5 @@ export function masterScene07Action(s:GameSave,a:MasterScene07Action,now=Date.no
 export function validateMasterScene07(value:unknown):void{
  if(value===undefined)return
  const p=value as MasterScene07
- if(!p||p.version!==1||!['ringing','missed','playing','waiting','attachment','complete'].includes(p.phase)||!Number.isInteger(p.clip)||p.clip<0||p.clip>10||!Array.isArray(p.lines)||['questioned','opened','metadata','entry','star','imported','analysis','saved','shareReviewed','shareSent','shareDeclined'].some(k=>typeof p[k as keyof MasterScene07]!=='boolean')||p.draft!==undefined&&!choice(p.draft)||p.questionDraft!==undefined&&!choice(p.questionDraft)||p.hypothesis!==undefined&&!choice(p.hypothesis)||p.shareDraft!==undefined&&!choice(p.shareDraft)||p.assessment!==undefined&&(!contactAssessments.some(item=>item.id===p.assessment)||!p.saved||!p.opened||!p.questioned||p.conversationRevision!=='starred-v2'||p.exportStatus!=='accepted')||p.saved&&!p.assessment&&(p.hypothesis===undefined||!p.analysis&&(!p.opened||!p.questioned||p.conversationRevision==='starred-v2'))||p.phase==='complete'&&(!p.saved||!p.questioned)||p.shareSent&&!p.shareReviewed)throw Error('Invalid Scene 7 progress')
+ if(!p||p.version!==1||!['ringing','missed','playing','waiting','attachment','complete'].includes(p.phase)||!Number.isInteger(p.clip)||p.clip<0||p.clip>10||!Array.isArray(p.lines)||p.playbackSeconds!==undefined&&(!Number.isFinite(p.playbackSeconds)||p.playbackSeconds<0||p.playbackSeconds>3600||p.phase!=='playing')||['questioned','opened','metadata','entry','star','imported','analysis','saved','shareReviewed','shareSent','shareDeclined'].some(k=>typeof p[k as keyof MasterScene07]!=='boolean')||p.draft!==undefined&&!choice(p.draft)||p.questionDraft!==undefined&&!choice(p.questionDraft)||p.hypothesis!==undefined&&!choice(p.hypothesis)||p.shareDraft!==undefined&&!choice(p.shareDraft)||p.assessment!==undefined&&(!contactAssessments.some(item=>item.id===p.assessment)||!p.saved||!p.opened||!p.questioned||p.conversationRevision!=='starred-v2'||p.exportStatus!=='accepted')||p.saved&&!p.assessment&&(p.hypothesis===undefined||!p.analysis&&(!p.opened||!p.questioned||p.conversationRevision==='starred-v2'))||p.phase==='complete'&&(!p.saved||!p.questioned)||p.shareSent&&!p.shareReviewed)throw Error('Invalid Scene 7 progress')
 }

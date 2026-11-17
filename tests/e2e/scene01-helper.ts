@@ -37,16 +37,29 @@ export function prepareMasterScene05Recovery(save:GameSave):GameSave {
 }
 export function completeMasterScene06(save: GameSave): GameSave {
   function settleActivityReplies(next: GameSave) {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 100; i++) {
       const due = next.masterScene06?.pending?.dueAt
       if (due === undefined) return next
       next = masterScene06Action(next, { type: 'tick' }, due)
     }
     throw new Error('Scene 6 reply queue did not settle')
   }
+  if(save.masterScene05?.conversationRevision==='archive-v3'&&!save.masterScene05.complete){
+    while(save.masterScene05?.pending)save=masterScene05Action(save,{type:'tick'},save.masterScene05.pending.dueAt)
+    for(let i=0;i<4&&!save.masterScene05?.complete;i++){
+      save=masterScene05Action(save,{type:'draft',index:0});save=masterScene05Action(save,{type:'send'})
+      while(save.masterScene05?.pending)save=masterScene05Action(save,{type:'tick'},save.masterScene05.pending.dueAt)
+    }
+  }
   let next = settleActivityReplies(masterScene06Action(save, { type: 'start' }))
   next = masterScene06Action(next, { type: 'recover' })
-  if(next.masterScene06?.firstPass20){
+  if(next.masterScene06?.scriptVersion==='ch1-s5-s6-v3'){
+    for(const topic of ['maya','sophie','lucas','june'] as const){
+      next=masterScene06Action(next,{type:'topic',topic})
+      for(let i=0;i<2;i++){next=masterScene06Action(next,{type:'draft',index:0});next=settleActivityReplies(masterScene06Action(next,{type:'send'}))}
+    }
+    next=masterScene06Action(next,{type:'inspect-gap'})
+  }else if(next.masterScene06?.firstPass20){
     for(let i=0;i<8;i++){
       next=masterScene06Action(next,{type:'draft',index:0})
       next=settleActivityReplies(masterScene06Action(next,{type:'send'}))

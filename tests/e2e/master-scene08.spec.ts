@@ -43,7 +43,7 @@ function afterSeven(shared=false):GameSave {
  return s
 }
 for(const shared of [false,true])test(`Maya crop investigation preserves uncertainty and 20% recovery (shared: ${shared})`,async({page})=>{
- await seedScene(page,afterSeven(shared));await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Maya Scene 8 conversation'}).click();await page.getByRole('button',{name:'OPEN MAYA CONVERSATION'}).click()
+ await seedScene(page,afterSeven(shared));await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Maya Scene 8 conversation'}).click()
  for(let i=0;i<4;i++){await expect(page.locator('.scene01-options .opening-choice')).toHaveCount(3);await page.locator('.scene01-options .opening-choice').nth(i%3).click();await page.getByRole('button',{name:'Send',exact:true}).click()}
  if(!shared){
   await page.getByRole('button',{name:'Back to inbox'}).click();await page.getByRole('button',{name:'Open Lucas private photo conversation'}).click();await page.getByRole('button',{name:'OPEN LUCAS CONVERSATION'}).click()
@@ -69,5 +69,5 @@ for(const shared of [false,true])test(`Maya crop investigation preserves uncerta
  await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'));await page.reload();await page.getByRole('button',{name:'Unlock phone'}).click();await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Maya Scene 8 conversation'}).click()
  await expect(page.getByRole('button',{name:/Open Maya.s photo: Two mugs/})).toHaveCount(1)
  for(let i=0;i<2;i++){await page.locator('.scene01-options .opening-choice').last().click();await page.getByRole('button',{name:'Send',exact:true}).click()}
- await expect(page.getByText(/Scene 8 complete/)).toBeVisible()
+ await expect(page.getByLabel('Scene 9 Maya conversation')).toBeVisible()
 })

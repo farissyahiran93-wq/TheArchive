@@ -1,212 +1,44 @@
-import { expect, test, type Page } from '@playwright/test'
-import { cinematicBeats } from '../../src/content/masterScene04Cinematic'
-import { beginScene01, beginScene02, openScene03, scene01Invitation, sendScene01Choice } from '../../src/game/scene01'
+import { expect, test } from '@playwright/test'
 import { newGame, type GameSave } from '../../src/game/types'
-import { seedScene, settleScene } from './scene01-helper'
+import { beginScene01 } from '../../src/game/scene01'
+import { masterScene05Action as five } from '../../src/game/masterScene05'
+import { masterScene06Action as six } from '../../src/game/masterScene06'
+import { seedScene } from './scene01-helper'
 
-test.use({ actionTimeout: 10_000, reducedMotion: 'reduce' })
-
-const caseTitle = 'Case File 001 — The Disappearance of Daniel Mercer'
-const initialQuestion = /What do we know about Daniel.s disappearance\?/
-const privateTheory = 'Sophie’s account gives me a starting point. It does not establish when Daniel went missing.'
-
-function beforeUnknown(): GameSave {
-  let save = settleScene(beginScene01({ ...newGame(), masterOpening: true, chapter1Edition: 'ch01-v2-10' }, 1000))
-  for (let i = 0; i < 9; i++) save = settleScene(sendScene01Choice(save, 'a', '', true, 20000 + i * 1000))
-  save = settleScene(beginScene02(scene01Invitation(save, 'join'), 40000))
-  save = settleScene(sendScene01Choice(save, 'c', 'Alex', true, 41000))
-  for (let i = 0; i < 9; i++) save = settleScene(sendScene01Choice(save, 'a', '', true, 50000 + i * 1000))
-  save = settleScene(openScene03(save, 100000))
-  for (let i = 0; i < 10; i++) save = settleScene(sendScene01Choice(save, 'a', '', true, 140000 + i * 1000))
-  return save
+function ready():GameSave {
+ let s:GameSave={...beginScene01({...newGame(),masterOpening:true,chapter1Edition:'ch01-v2-10'},0),masterScene04:{version:1,revision:'cinematic',opened:true,beat:10,messages:[],status:'accepted',inspected:false,complete:true,preview:false,traceInstalled:true}}
+ const drain=()=>{while(s.masterScene05?.pending)s=five(s,{type:'tick'},s.masterScene05.pending.dueAt)}
+ s=five(s,{type:'start'},1000);drain()
+ for(let i=0;i<10;i++){
+  if(i===4){s=five(s,{type:'archive-accept'},100000);s=five(s,{type:'import-tick'},104000);drain()}
+  if(i===6){s=five(s,{type:'open-trace'});s=five(s,{type:'recover'},200000);s=five(s,{type:'recovery-tick'},208000);s=five(s,{type:'recovery-acknowledge'},208001);drain()}
+  s=five(five(s,{type:'draft',index:0}),{type:'send'},300000+i*10000);drain()
+ }
+ return six(s,{type:'start'},500000)
 }
 
-async function openUnknown(page: Page) {
-  await page.getByRole('button', { name: 'Open Messages', exact: true }).first().click()
-  await page.getByRole('button', { name: 'Open Unknown conversation', exact: true }).click()
-}
-
-async function replyToUnknown(page: Page, count: number, cinematic = false) {
-  if(cinematic) await page.clock.runFor(3000)
-  for (let i = 0; i < count; i++) {
-    const options = page.locator('.scene01-options .opening-choice')
-    await expect(options).toHaveCount(3)
-    await expect(page.getByRole('button', { name: 'Send', exact: true })).toBeDisabled()
-    await options.nth(cinematic ? 0 : i % 3).click()
-    await page.getByRole('button', { name: 'Send', exact: true }).click()
-    await expect(page.getByRole('status', { name: 'Unknown is typing' })).toBeVisible()
-    if(cinematic){for(let n=0;n<12;n++)await page.clock.runFor(4000)}else await page.clock.runFor(10_000)
-  }
-}
-
-async function openCaseFile(page: Page) {
-  await page.getByRole('button', { name: 'Open Case Files module' }).click()
-  await expect(page.getByRole('heading', { name: caseTitle, exact: true })).toBeVisible()
-}
-
-async function reloadGame(page: Page) {
-  await page.waitForFunction(() => !sessionStorage.getItem('the-archive-reboot:pending-save:v1'))
-  await page.reload()
-  await page.getByRole('button', { name: 'Unlock phone' }).click()
-}
-
-test('Case File 001 opens at install and carries findings from Scene 5 into Scene 6', async ({ page }) => {
-  test.setTimeout(150_000)
-  await seedScene(page, beforeUnknown())
-  await expect(page.getByRole('button', { name: 'Open TRACE', exact: true })).toHaveCount(0)
-  await openUnknown(page)
-  await replyToUnknown(page, cinematicBeats.length, true)
-  await expect(page.getByRole('article', { name: 'TRACE information' })).toBeVisible()
-  await expect(page.getByText('DNL_PHONE_ARCHIVE.arc', { exact: true })).toHaveCount(0)
-  await page.getByRole('button', { name: 'VIEW TRACE' }).click()
-  await expect(page.getByRole('dialog', { name: 'TRACE information' })).toBeVisible()
-  await page.getByRole('button', { name: 'DONE', exact: true }).click()
-  await page.getByRole('button', { name: 'SET UP TRACE' }).click()
-  await page.getByRole('button', { name: 'START SCENE 5' }).click()
-  await page.getByRole('button', { name: 'ACCEPT ARCHIVE' }).click()
-  await replyToUnknown(page, 8)
-  await page.getByRole('button', { name: 'Go home' }).click()
-  await page.getByRole('button', { name: 'Open TRACE' }).click()
-  await expect(page.getByText('Recovery: 0%', { exact: true })).toBeVisible()
-  await openCaseFile(page)
-  await expect(page.getByText('Sophie Mercer', { exact: true }).first()).toBeVisible()
-  await expect(page.getByText(/What happened during Daniel.s missing hour/)).toHaveCount(0)
-  const guidance=page.getByLabel('Optional investigation guidance')
-  await expect(guidance.getByText('Recover the first fragments')).toBeHidden()
-  await guidance.getByText('Investigation guidance', { exact: false }).first().click()
-  await expect(guidance.getByText('Recover the first fragments')).toBeVisible()
-  await guidance.getByText('Show a more focused hint').click()
-  await expect(guidance.getByText('Look for the recovery operation on the TRACE home screen.')).toBeVisible()
-  await guidance.getByText('Show the next action').click()
-  await expect(guidance.getByText('Start recovery on the archive.', { exact: false })).toBeVisible()
-  await page.locator('summary').filter({ hasText: initialQuestion }).click()
-  await page.getByRole('textbox', { name: 'Private hypothesis' }).fill(privateTheory)
-  await page.getByRole('checkbox', { name: 'Encrypted phone archive' }).check()
-  await page.getByRole('button', { name: 'Save hypothesis' }).click()
-  await page.getByRole('button', { name: 'Open Investigation Board', exact: true }).click()
-  await expect(page.getByRole('heading', { name: 'Investigation Board' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Select evidence: Encrypted phone archive' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Select evidence: June Thread', exact: true })).toHaveCount(0)
-  await expect(page.getByRole('button', { name: 'Select evidence: File access' })).toHaveCount(0)
-
-  await page.getByRole('button', { name: 'Home', exact: true }).click()
-  await page.getByRole('button', { name: 'Open TRACE', exact: true }).click()
-  await expect(page.getByRole('heading', { name: 'Investigation Board' })).toBeVisible()
-  await reloadGame(page)
-  await page.getByRole('button', { name: 'Open TRACE', exact: true }).click()
-  await expect(page.getByRole('heading', { name: 'Investigation Board' })).toBeVisible()
-  await page.getByRole('button', { name: 'BACK TO TRACE' }).click()
-  if (await page.getByRole('heading', { name: caseTitle, exact: true }).isVisible()) {
-    await page.getByRole('button', { name: 'BACK TO TRACE' }).click()
-  }
-  await openCaseFile(page)
-  await page.locator('summary').filter({ hasText: initialQuestion }).click()
-  await expect(page.getByRole('textbox', { name: 'Private hypothesis' })).toHaveValue(privateTheory)
-  await expect(page.getByRole('checkbox', { name: 'Encrypted phone archive' })).toBeChecked()
-
-  await page.getByRole('button', { name: 'BACK TO TRACE' }).click()
-  await page.getByRole('button', { name: 'START RECOVERY' }).click()
-  await expect(page.getByText('Recovery: 12%', { exact: true })).toBeVisible()
-  await page.getByRole('button', { name: 'Open Messages module' }).click()
-  const search=page.getByRole('searchbox', { name: 'Search recovered messages' })
-  await search.fill('biscuits')
-  await expect(page.getByRole('button', { name: /Family Thread/ })).toBeVisible()
-  await expect(page.getByRole('button', { name: /June Thread/ })).toHaveCount(0)
-  await search.clear()
-  for (const name of ['Family Thread', 'June Thread']) {
-    await page.getByRole('button', { name: new RegExp(name) }).click()
-    if (name === 'Family Thread') {
-      await page.getByRole('button', { name: /Highlight detail/i }).click()
-      await page.getByRole('button', { name: 'SAVE FINDING', exact: true }).click()
-    }
-    await page.getByRole('button', { name: 'BACK TO TRACE' }).click()
-  }
-  await page.getByRole('button', { name: 'BACK TO TRACE' }).click()
-  await page.getByRole('button', { name: 'Open Investigation Board module' }).click()
-  await expect(page.getByRole('button', { name: 'Select evidence: June Thread', exact: true })).toHaveCount(1)
-  await expect(page.getByRole('button', { name: 'Select evidence: Dinner Reminder' })).toHaveCount(0)
-  await expect(page.getByRole('button', { name: 'Select evidence: File access' })).toHaveCount(0)
-  const familyNode = page.getByRole('button', { name: 'Select evidence: Family Thread', exact: true })
-  const initialPosition = await familyNode.getAttribute('style')
-  await page.getByRole('combobox', { name: 'Evidence index' }).selectOption({ label: 'Family Thread' })
-  await page.getByRole('button', { name: 'Move evidence up' }).click()
-  const movedPosition = await familyNode.getAttribute('style')
-  expect(movedPosition).not.toBe(initialPosition)
-  await page.getByRole('button', { name: 'Start a connection' }).click()
-  await page.getByRole('combobox', { name: 'Evidence index' }).selectOption({ label: 'June Thread' })
-  await page.getByRole('button', { name: 'Connect to June Thread' }).click()
-  const connection = page.getByRole('button', { name: /Remove connection between (Family Thread and June Thread|June Thread and Family Thread)/ })
-  const connectionLabel = 'Different contexts in the same recovery'
-  await page.getByText('Edit tentative connection', { exact: true }).click()
-  await page.getByLabel('Relationship label').fill(connectionLabel)
-  await page.getByLabel('Player assessment').selectOption('contradicted')
-  await page.getByRole('button', { name: 'Save connection' }).click()
-  await expect(page.getByText(`${connectionLabel} · contradicted`)).toBeVisible()
-  await expect(connection).toBeVisible()
-
-  await page.getByRole('button', { name: 'Home', exact: true }).click()
-  await openUnknown(page)
-  await replyToUnknown(page, 2)
-  await page.clock.runFor(10_000)
-  await page.getByRole('button', { name: 'START SCENE 6' }).click()
-  await expect(page.getByRole('status', { name: 'Unknown is typing' })).toBeVisible()
-  await page.clock.runFor(10_000)
-  await replyToUnknown(page, 1)
-  await page.getByRole('button', { name: 'Go home' }).click()
-  await page.getByRole('button', { name: 'Open TRACE', exact: true }).click()
-  await expect(connection).toBeVisible()
-  await page.getByRole('button', { name: 'BACK TO TRACE' }).click()
-  await page.getByRole('button', { name: 'Open Activity Logs module' }).click()
-  await page.getByRole('button', { name: 'START ACTIVITY LOG RECOVERY' }).click()
-  await expect(page.getByText('Recovery: 20%', { exact: true })).toBeVisible()
-  await page.getByRole('button', { name: 'OPEN ACTIVITY LOGS & TIMELINE' }).click()
-  await page.getByRole('button', { name: /File access/ }).click()
-  await page.getByRole('button', { name: 'Add to working timeline' }).click()
-  await page.getByRole('button', { name: /Automatic backup sync/ }).click()
-  await page.getByRole('button', { name: 'Add to working timeline' }).click()
-  await page.getByRole('button', { name: 'Flag for timing review' }).click()
-  await page.getByRole('button', { name: 'Move Automatic backup sync up' }).click()
-  await expect(page.getByText('The working order differs from the reported device times.')).toBeVisible()
-  await page.getByRole('button', { name: 'Move Automatic backup sync down' }).click()
-  await expect(page.getByText('The working order differs from the reported device times.')).toHaveCount(0)
-  await expect(page.getByRole('region', { name: 'Missing-hour finding' })).toHaveCount(0)
-  await page.getByLabel('First event').selectOption({ label: '19:00 · File access' })
-  await page.getByLabel('Comparison source').selectOption({ label: 'Partial sync receipt' })
-  await page.getByRole('button', { name: 'Compare records' }).click()
-  await expect(page.getByText(/cannot establish a delay or a contradiction/)).toBeVisible()
-  await expect(page.getByRole('region', { name: 'Missing-hour finding' })).toHaveCount(0)
-  await page.getByLabel('Comparison source').selectOption({ label: 'Automatic backup sync' })
-  await page.getByRole('button', { name: 'Compare records' }).click()
-  await page.getByLabel('Provisional timeline hypothesis').fill('A missing record could explain the gap. Check an independent source.')
-  await page.getByRole('button', { name: 'Save working hypothesis' }).click()
-  await expect(page.getByText('Saved private hypothesis')).toBeVisible()
-  await expect(page.getByRole('region', { name: 'Missing-hour finding' })).toContainText('Finding recorded in Case File.')
-  await expect(page.getByRole('button', { name: /MARK|REVIEW TIMESTAMP|SAVE FINDING/ })).toHaveCount(0)
-  await page.keyboard.press('Escape')
-  await openCaseFile(page)
-  await expect(page.getByText(/What happened during Daniel.s missing hour/)).toBeVisible()
-  await page.locator('summary').filter({ hasText: initialQuestion }).click()
-  await expect(page.getByRole('textbox', { name: 'Private hypothesis' }).first()).toHaveValue(privateTheory)
-  await page.getByRole('button', { name: 'Open Investigation Board', exact: true }).click()
-  await expect(page.getByRole('button', { name: 'Select evidence: File access' })).toHaveCount(1)
-  await expect(connection).toBeVisible()
-  await reloadGame(page)
-  await page.getByRole('button', { name: 'Open TRACE', exact: true }).click()
-  await expect(page.getByRole('button', { name: 'Select evidence: File access' })).toHaveCount(1)
-  await expect(connection).toBeVisible()
-  await expect(page.getByText(`${connectionLabel} · contradicted`)).toBeVisible()
-  await expect(familyNode).toHaveAttribute('style', movedPosition!)
-  await page.getByRole('button', { name: 'Home', exact: true }).click()
-  await page.getByRole('button', { name: 'Open Messages', exact: true }).first().click()
-  await page.getByRole('button', { name: 'Open Sophie conversation' }).click()
-  await expect(page.getByRole('button', { name: 'OPEN INCOMING CALL' })).toHaveCount(0)
-  await page.getByRole('button', { name: 'Back to inbox' }).click()
-  await page.getByRole('button', { name: 'Open Unknown conversation' }).click()
-  await replyToUnknown(page, 2)
-  await page.clock.runFor(10_000)
-  await expect(page.getByText(/Scene 6 complete/)).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Answer', exact: true })).toHaveCount(0)
-  await page.getByRole('button', { name: 'Back to inbox' }).click()
-  await page.getByRole('button', { name: 'Open Sophie conversation' }).click()
-  await expect(page.getByRole('button', { name: 'OPEN INCOMING CALL' })).toBeVisible()
+test('Investigation Board preserves recovered sources, private connections and positions into Scene 6',async({page})=>{
+ await seedScene(page,ready());await page.getByRole('button',{name:'Open TRACE'}).click()
+ await expect(page.getByText('Recovery: 20%',{exact:true})).toBeVisible()
+ await page.getByRole('button',{name:'Open Messages module'}).click()
+ for(const name of ['Maya Chen','Sophie Mercer']){
+  await page.getByRole('button',{name:new RegExp(name)}).click();await expect(page.getByRole('heading',{name,exact:true})).toBeVisible();await page.getByRole('button',{name:'BACK TO TRACE'}).click()
+ }
+ await page.getByRole('button',{name:'BACK TO TRACE'}).click();await page.getByRole('button',{name:'Open Investigation Board module'}).click()
+ const maya=page.getByRole('button',{name:"Select evidence: Maya Chen's messages"}),sophie=page.getByRole('button',{name:"Select evidence: Sophie Mercer's messages"})
+ await expect(maya).toHaveCount(1);await expect(sophie).toHaveCount(1)
+ await page.getByRole('combobox',{name:'Evidence index'}).selectOption({label:"Maya Chen's messages"});const before=await maya.getAttribute('style')
+ await page.getByRole('button',{name:'Move evidence right'}).click();const moved=await maya.getAttribute('style');expect(moved).not.toBe(before)
+ await page.getByRole('button',{name:'Start a connection'}).click();await page.getByRole('combobox',{name:'Evidence index'}).selectOption({label:"Sophie Mercer's messages"});await page.getByRole('button',{name:"Connect to Sophie Mercer's messages"}).click()
+ const connection=page.getByRole('button',{name:/Remove connection between/});await expect(connection).toBeVisible()
+ await page.getByText('Edit tentative connection',{exact:true}).click();await page.getByLabel('Relationship label').fill('Two separate recovered conversations');await page.getByLabel('Player assessment').selectOption('tentative');await page.getByRole('button',{name:'Save connection'}).click()
+ await expect(page.getByText('Two separate recovered conversations · tentative')).toBeVisible()
+ await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'));await page.reload();await page.getByRole('button',{name:'Unlock phone'}).click();await page.getByRole('button',{name:'Open TRACE'}).click()
+ await expect(maya).toHaveAttribute('style',moved!);await expect(connection).toBeVisible();await expect(page.getByText('Two separate recovered conversations · tentative')).toBeVisible()
+ await page.getByRole('button',{name:'Home',exact:true}).click();await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Unknown conversation'}).click();await page.clock.runFor(120000)
+ for(const topic of ['maya','sophie','lucas','june']){await page.getByLabel('Choose a discussion').selectOption(topic);for(let i=0;i<2;i++){await page.locator('.scene01-options .opening-choice').first().click({force:true});await page.getByRole('button',{name:'Send',exact:true}).click({force:true});await page.clock.runFor(120000)}}
+ await page.getByRole('button',{name:'Go home'}).click();await page.getByRole('button',{name:'Open TRACE'}).click();await page.getByRole('button',{name:'BACK TO TRACE'}).click();await page.getByRole('button',{name:'Open Activity Logs module'}).click();await page.getByRole('button',{name:'DISCUSS WITH UNKNOWN'}).click()
+ for(let i=0;i<2;i++){await page.locator('.scene01-options .opening-choice').first().click({force:true});await page.getByRole('button',{name:'Send',exact:true}).click({force:true});await page.clock.runFor(120000)}
+ await page.getByRole('button',{name:'Go home'}).click();await page.getByRole('button',{name:'Open TRACE'}).click();await page.getByRole('button',{name:'BACK TO TRACE'}).click();await page.getByRole('button',{name:'Open Investigation Board module'}).click()
+ await expect(page.getByRole('button',{name:'Select evidence: The Missing Hour'})).toHaveCount(1);await expect(maya).toHaveAttribute('style',moved!);await expect(connection).toBeVisible();await expect(page.getByText('Two separate recovered conversations · tentative')).toBeVisible()
 })

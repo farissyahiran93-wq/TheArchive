@@ -219,65 +219,32 @@ export const scene06V3 = [
     ]
   },
   {
-    "intro": [
-      "You noticed it.",
-      "There's a gap in the recovered activity.",
-      "I was hoping we'd find something between those entries."
-    ],
+    "intro": [],
     "choices": [
-      "There's nothing between seven and eight.",
-      "Something happened during that missing hour.",
-      "Could someone have removed those records?"
+      "There's a gap in Daniel's activity logs. Between the last file access and the backup.",
+      "Something's wrong with the activity logs. There's a period TRACE can't account for.",
+      "These timestamps don't line up. We don't know what happened between them."
     ],
-    "branches": [
-      [
-        "Nothing usable in this copy.",
-        "That doesn't mean the phone wasn't being used."
-      ],
-      [
-        "Maybe.",
-        "But we can't claim that from missing data alone."
-      ],
-      [
-        "Possibly.",
-        "But damage or an incomplete archive could explain it too."
-      ]
-    ],
+    "branches": [[], [], []],
     "follow": [
-      "At seven, there was a file access.",
-      "At eight, the phone recorded an automatic backup.",
-      "Everything between those two points is missing from what we recovered.",
-      "And that leaves us with a question."
+      "A gap?", "Between which entries?", "The last recorded file access and the backup?",
+      "That's strange.", "It doesn't mean nothing happened during that time.",
+      "It means we don't have a record of what happened."
     ]
   },
   {
     "intro": [],
     "choices": [
-      "What if Daniel wasn't the one holding his phone?",
-      "Can TRACE recover the missing activity later?",
-      "Can we trust the timestamps at all?"
+      "Could something have been deleted?",
+      "Could TRACE have missed that data?",
+      "Or was the phone being used without leaving a record?"
     ],
-    "branches": [
-      [
-        "We can't identify the person using the phone from these records.",
-        "That's another thing we'll need to establish."
-      ],
-      [
-        "Maybe, if we recover more of the archive.",
-        "Right now the process has stopped. I can't promise those records still exist."
-      ],
-      [
-        "They're the times recorded by the device.",
-        "But until we verify its clock, we can't treat them as independently confirmed."
-      ]
-    ],
+    "branches": [[], [], []],
     "follow": [
-      "I don't want to make up an explanation just because the gap is unsettling.",
-      "But I don't want us to forget it, either.",
-      "Keep that hour on the board.",
-      "If we find another piece of Daniel's data, this is one of the first things we'll compare.",
-      "For now, it's an unanswered question.",
-      "And I think it matters."
+      "Any of those could be possible.", "But we don't have enough to say which.",
+      "What matters is that we have an entire stretch of time we can't account for.",
+      "And it happens right where Daniel's trail starts falling apart.",
+      "Keep that hour on the board.", "Ask Sophie when you are ready. I will keep your timeline private."
     ]
   }
 ] as const

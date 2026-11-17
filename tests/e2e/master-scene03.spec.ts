@@ -61,7 +61,12 @@ test('private handoff opens manually, preserves draft after reload and ends offl
   await expect(page.locator('.opening-bubble.sophie').getByText('These are the biscuits I was talking about. He always bought the same ones.')).toHaveCount(1)
   await expect(page.getByText('Goodbye.',{exact:true})).toHaveCount(1)
   await expect(page.getByText('Sophie is offline.',{exact:true})).toBeVisible()
-  await expect(page.getByText('Scene 4 — The Unknown Sender is unlocked. Open Messages to continue.')).toBeVisible()
+  const unlocked=await page.evaluate(async()=>{
+    const db=await new Promise<IDBDatabase>((resolve,reject)=>{const r=indexedDB.open('the-archive-reboot',1);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})
+    const save=await new Promise<GameSave>((resolve,reject)=>{const r=db.transaction('saves').objectStore('saves').get('primary');r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})
+    db.close();return save.deliveredEvents.includes('TA-S03-SCENE04-UNLOCKED')
+  })
+  expect(unlocked).toBe(true)
   await expect(page.locator('[aria-label="Unknown conversation"]')).toHaveCount(0)
   await expect(page.getByText('I found that article. The one I mentioned.',{exact:true})).toHaveCount(0)
 })

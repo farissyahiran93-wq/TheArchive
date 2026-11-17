@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test'
 import { masterScene04Action } from '../../src/game/masterScene04'
+import { readFileSync } from 'node:fs'
+const cues: {start:number;end:number;text:string}[][]=JSON.parse(readFileSync('src/content/scene07SubtitleCues.json','utf8'))
 import { cinematicBeats } from '../../src/content/masterScene04Cinematic'
 import { beginScene01, beginScene02, deliverScene01, openScene03, scene01Invitation, sendScene01Choice } from '../../src/game/scene01'
 import { newGame, type GameSave } from '../../src/game/types'
@@ -36,15 +38,35 @@ function afterSix():GameSave {
 }
 test('Sophie call pauses for a three-tone answer and the external export keeps recovery at 20%',async({page})=>{
  await seedScene(page,afterSix());await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Sophie conversation'}).click()
- await page.getByRole('button',{name:'OPEN INCOMING CALL'}).click();await page.getByRole('button',{name:'Answer'}).click()
+ await page.getByRole('button',{name:'Answer'}).click()
  for(let i=0;i<10;i++){
   const audio=page.locator('audio');await expect(audio).toHaveAttribute('src',new RegExp(`call-${String(i+1).padStart(2,'0')}.wav`));await expect.poll(()=>audio.evaluate((node:HTMLAudioElement)=>Number.isFinite(node.duration)&&node.duration>0)).toBe(true);await expect(page.getByRole('button',{name:'Send',exact:true})).toHaveCount(0)
-  await audio.evaluate(e=>e.dispatchEvent(new Event('ended')));await expect(page.locator('.phone-call-controls .opening-choice')).toHaveCount(3)
+  if(i===0){
+   await expect.poll(()=>audio.evaluate((node:HTMLAudioElement)=>!node.paused)).toBe(true)
+   await expect(audio).not.toHaveAttribute('controls','')
+   const cue=cues[0][1]
+   await audio.evaluate((node:HTMLAudioElement,t)=>{node.currentTime=t;node.dispatchEvent(new Event('timeupdate'))},(cue.start+cue.end)/2)
+   await expect(page.locator('.cinematic-subtitle')).toHaveText(cue.text)
+   // A reload during this clip restores its playback position and matching cue.
+   const resumeCue=cues[0].find(c=>c.start>5&&c.end-c.start>.5)!
+   const resumeTime=(resumeCue.start+resumeCue.end)/2
+   await audio.evaluate((node:HTMLAudioElement,t)=>{node.currentTime=t;node.dispatchEvent(new Event('timeupdate'))},resumeTime)
+   await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'))
+   await page.reload();await page.getByRole('button',{name:'Unlock phone'}).click();await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Sophie conversation'}).click()
+   const resumed=page.locator('audio')
+   await expect.poll(()=>resumed.evaluate((node:HTMLAudioElement)=>node.currentTime)).toBeGreaterThan(resumeCue.start-.2)
+   const reconnect=page.getByRole('button',{name:'RESUME CALL'})
+   if(await reconnect.isVisible())await reconnect.click()
+   await expect(page.locator('.cinematic-subtitle')).toHaveText(resumeCue.text)
+  }
+  await audio.evaluate(e=>e.dispatchEvent(new Event('ended')));await expect(page.locator('.cinematic-subtitle')).toHaveCount(0);await expect(page.locator('.phone-call-controls .opening-choice')).toHaveCount(3)
   await page.locator('.phone-call-controls .opening-choice').nth(i%3).click()
-  if(i===2){await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'));await page.reload();await page.getByRole('button',{name:'Unlock phone'}).click();await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Sophie conversation'}).click();await expect(page.locator('audio')).toHaveCount(0);await expect(page.locator('.phone-call-controls .opening-choice').nth(i%3)).toHaveAttribute('aria-pressed','true')}
+  if(i===2){await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'));await page.reload();await page.getByRole('button',{name:'Unlock phone'}).click();await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Sophie conversation'}).click();await expect(page.locator('audio')).toHaveCount(1);await expect(page.locator('audio')).not.toHaveAttribute('controls', '');await expect(page.locator('.phone-call-controls .opening-choice').nth(i%3)).toHaveAttribute('aria-pressed','true')}
   await page.getByRole('button',{name:'Send',exact:true}).click()
  }
  await page.locator('audio').evaluate(e=>e.dispatchEvent(new Event('ended')))
+ await expect(page.getByText('Voice call with Sophie',{exact:true})).toHaveCount(1)
+ await expect(page.getByText('Call ended',{exact:true})).toHaveCount(1)
  await page.getByRole('button',{name:'OPEN ATTACHMENT'}).click()
  await expect(page.getByText(/Remarks field is damaged and unreadable/)).toBeVisible()
  await page.getByRole('button',{name:'Go home'}).click();await page.getByRole('button',{name:'Open TRACE'}).click();await expect(page.getByText('Recovery: 20%')).toBeVisible()
@@ -59,7 +81,7 @@ test('Sophie call pauses for a three-tone answer and the external export keeps r
  await page.getByRole('button',{name:"The copy has a starred entry; we don't know who marked it or why."}).click()
  await page.getByRole('button',{name:'REVIEW GROUP MESSAGE'}).click()
  await page.getByRole('button',{name:'CONFIRM SEND TO GROUP'}).click()
- await expect(page.getByRole('button',{name:'FINISH SCENE 7'})).toHaveCount(0);await expect(page.getByText(/Scene 7 complete/)).toBeVisible()
+ await expect(page.getByRole('button',{name:'FINISH SCENE 7'})).toHaveCount(0);await expect(page.getByText('Selected observation sent to FIND DANIEL.')).toBeVisible();await expect(page.getByText('Voice call with Sophie',{exact:true})).toHaveCount(1)
  await page.getByRole('button',{name:'Back to inbox'}).click();await page.getByRole('button',{name:'Open Same Old Chaos group conversation'}).click()
  await expect(page.getByText("The copy has a starred entry; we don't know who marked it or why.")).toBeVisible()
  for(let i=1;i<=11;i++){const res=await page.request.get(`/media/audio/scene07-ver1/call-${String(i).padStart(2,'0')}.wav`);expect(res.status()).toBe(200)}

@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { masterScene04Action } from '../../src/game/masterScene04'
+import { scene09Beats } from '../../src/content/masterScene09'
 import { cinematicBeats } from '../../src/content/masterScene04Cinematic'
 import { beginScene01, beginScene02, deliverScene01, openScene03, scene01Invitation, sendScene01Choice } from '../../src/game/scene01'
 import { newGame, type GameSave } from '../../src/game/types'
@@ -65,7 +66,7 @@ test('Maya card photograph inspection, source comparison and deliberate Scene 10
  await comparison.getByRole('button',{name:'Save card finding'}).click()
  await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'));await page.reload();await page.getByRole('button',{name:'Unlock phone'}).click();await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Maya Scene 8 conversation'}).click()
  for(let i=0;i<2;i++){await page.locator('[aria-label="Scene 9 Maya conversation"] .scene01-options .opening-choice').last().click();await page.getByRole('button',{name:'Send',exact:true}).click()}
- await expect(page.getByText(/Scene 9 complete/)).toBeVisible();await expect(page.getByRole('dialog',{name:'Incoming call from Sophie'})).toHaveCount(0)
+ await expect(page.getByText(scene09Beats[9].replies[2],{exact:true})).toBeVisible();await expect(page.getByRole('dialog',{name:'Incoming call from Sophie'})).toHaveCount(0)
  await page.getByRole('button',{name:'Go home'}).click();await page.getByRole('button',{name:/OPEN GREYHAVEN PUBLIC INVENTORY/}).click()
  await page.getByLabel('Inventory reference').fill('GH-DSC-03-A');await expect(page.getByText('Matching reference · GH-DSC-03-A')).toHaveCount(0);await page.getByRole('button',{name:'SEARCH',exact:true}).click()
  await page.getByRole('button',{name:'COMPARE WITH MAYA’S CARD'}).click()

@@ -121,7 +121,7 @@ function discoveredEvidence(save: GameSave): CaseEvidence[] {
     for (const fragment of masterFragments) {
       if (!five.read.includes(fragment.id)) continue
       const examination = fragmentExamination[fragment.id]
-      evidence.push({ id: fragment.id, title: examination.title, description: fragment.body, source: 'TRACE first pass · incomplete archive fragment, source unverified', kind: fragment.category === 'Messages' ? 'message' : 'note', recordedAt: save.evidence[fragment.id]?.collectedAt })
+      if (!(five.discussion && fragment.category === 'Notes')) evidence.push({ id: fragment.id, title: examination.title, description: fragment.body, source: 'TRACE first pass · incomplete archive fragment, source unverified', kind: fragment.category === 'Messages' ? 'message' : 'note', recordedAt: save.evidence[fragment.id]?.collectedAt })
       const savedFinding=save.evidence[fragment.id]
       if (five.saved.includes(fragment.id)&&savedFinding&&five.observations?.includes(fragment.id)) {
         evidence.push({ id: `${fragment.id}-FINDING`, title: `${examination.title} observation`, description: examination.observation, source: `Private observation · ${examination.title} · source unverified`, kind: 'finding', recordedAt: savedFinding.collectedAt })
@@ -146,7 +146,7 @@ function discoveredEvidence(save: GameSave): CaseEvidence[] {
   }
   const finding = save.evidence['TA-FN-MISSING-HOUR']
   if (six?.saved && finding) {
-    evidence.push({ id: finding.id, title: 'Missing-hour observation', description: 'The recovered sequence has a gap between file access and an automatic sync. The records do not establish what happened during that interval.', source: 'Local timeline finding · archive source and device clock unverified', kind: 'finding', recordedAt: finding.collectedAt })
+    evidence.push({ id: finding.id, title: 'The Missing Hour', description: 'An unaccounted interval exists between Daniel’s last recovered file activity and a recorded backup. The available data cannot establish what happened during that period.', source: 'TRACE / Activity Logs · device clock unverified', kind: 'finding', recordedAt: finding.collectedAt })
   }
   const exportEntry = save.masterScene07
   const addStatement = (line: { id: string; text: string; at: number } | undefined, title: string, source: string) => {

@@ -17,7 +17,7 @@ test('Home keeps Maps and Contacts in place, hides early Archive, and a first re
   await page.getByRole('button',{name:'Open notification from Sophie',exact:true}).click()
   await page.clock.runFor(120_000)
   await expect(page.getByRole('button',{name:/BLOCK NUMBER|UNBLOCK/})).toHaveCount(0)
-  await page.getByRole('button',{name:"I don't think so. Is everything okay?",exact:true}).click()
+  await page.getByRole('button',{name:"Sure. What's this about?",exact:true}).click()
   await page.getByRole('button',{name:'Send',exact:true}).click()
   await page.clock.runFor(120_000)
   await page.getByRole('button',{name:'Back to inbox'}).click()

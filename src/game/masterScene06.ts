@@ -70,12 +70,12 @@ export function masterScene06Action(s:GameSave,a:MasterScene06Action,now=Date.no
    const pending=p.pending,[text,...remaining]=pending.remaining??[]
    const messages=[...p.messages,{id:pending.id,sender:'unknown' as const,text:pending.text,at:now}]
    if(text)return put({...p,messages,pending:{id:`${pending.id}-next`,text,dueAt:now+Math.min(5000,npcDeliveryDelay('eli',text,p.beat)),remaining,after:pending.after}})
-   if(pending.after==='complete')return completeScene(s,{...p,messages,pending:undefined},now)
+   if(pending.after==='complete'){const next=recordMissingHour(s,{...p,messages,pending:undefined},now);return completeScene(next,next.masterScene06!,now)}
    if(pending.after==='topic'&&p.activeTopic&&p.activeTopic!=='gap'){
     const completedTopics=[...new Set([...(p.completedTopics??[]),p.activeTopic])]
     const evidenceId={maya:'TA-PH-CHAT-MAYA',sophie:'TA-PH-CHAT-SOPHIE',lucas:'TA-PH-CHAT-LUCAS',june:'TA-PH-NOTE-RECORDS-01'}[p.activeTopic]
     if(s.masterScene05&&!s.masterScene05.read.includes(evidenceId))s={...s,masterScene05:{...s.masterScene05,read:[...s.masterScene05.read,evidenceId]}}
-    if(completedTopics.length===4){const lines=["There's one more thing I want you to check.","We've spent all this time looking at what Daniel said to people.",'But TRACE also recovered some records of what his phone was doing.','Open Activity Logs.','Pay attention to the time between the last file access and the backup.'];return {...s,masterScene06:{...p,messages,activeTopic:undefined,completedTopics,pending:{id:'TA-S06-V3-BRIDGE',text:lines[0],dueAt:now+1200,remaining:lines.slice(1),after:'bridge'}}}}
+    if(completedTopics.length===4){const lines=["We've gone through quite a lot.","Something still doesn't feel right.","Is there anything else that doesn't add up?",'All right.','Let me know what you find.'];return {...s,masterScene06:{...p,messages,activeTopic:undefined,completedTopics,pending:{id:'TA-S06-V3-BRIDGE',text:lines[0],dueAt:now+1200,remaining:lines.slice(1),after:'bridge'}}}}
     return {...s,masterScene06:{...p,messages,activeTopic:undefined,completedTopics,pending:undefined}}
    }
    return put({...p,messages,pending:undefined,...(pending.after==='bridge'?{missingHourAvailable:true}:{})})
@@ -91,8 +91,8 @@ export function masterScene06Action(s:GameSave,a:MasterScene06Action,now=Date.no
    return put({...p,beat:n+1,draft:undefined,messages:[...p.messages,{id:`TA-S06-V3-D${n+1}-P-${choice}`,sender:'player',text:beat.choices[choice],at:now}],pending:{id:`TA-S06-V3-D${n+1}-U-${choice}`,text,dueAt:now+Math.min(5000,npcDeliveryDelay('eli',text,n)),remaining,after}})
   }
   if(a.type==='inspect-gap'&&p.missingHourAvailable&&!p.pending&&!p.activeTopic&&p.draft===undefined&&!p.complete){
-   const inspected=[...new Set([...p.inspected,...missingHourSources])], lines=scene06V3[8].intro
-   return recordMissingHour(s,{...p,inspected,comparison:[...missingHourSources],activeTopic:'gap',beat:8,pending:{id:'TA-S06-V3-GAP',text:lines[0],dueAt:now+1200,remaining:[...lines.slice(1)]}},now)
+   const inspected=[...new Set([...p.inspected,...missingHourSources])]
+   return put({...p,inspected,comparison:[...missingHourSources],activeTopic:'gap',beat:8})
   }
   if(a.type==='inspect'&&p.recovered&&ids.includes(a.id)&&!p.inspected.includes(a.id))return put({...p,inspected:[...p.inspected,a.id]})
   return s

@@ -37,14 +37,13 @@ test('master opening persists choices and invitation without starting scene two'
       await expect(page.locator('.opening-bubble.sophie').getByText("That's Daniel on the left. It was my birthday. Does his face look familiar?")).toBeVisible()
     }
   }
-  await expect(page.getByRole('button', { name: 'Reconsider invitation' })).toBeVisible()
-  await page.getByRole('button', { name: 'Reconsider invitation' }).click()
-  await page.getByRole('button', { name: 'NOT NOW', exact: true }).click()
+  await page.getByRole('button', { name: 'VIEW MEMBERS' }).click()
+  await expect(page.getByText('Sophie · Daniel · Maya · Lucas')).toBeVisible()
   await page.waitForFunction(() => !sessionStorage.getItem('the-archive-reboot:pending-save:v1'))
   await page.reload()
   await page.getByRole('button', { name: 'Unlock phone', exact: true }).click()
   await openSophie(page)
-  await page.getByRole('button', { name: 'View invitation', exact: true }).click()
+  await expect(page.getByRole('button', { name: 'JOIN GROUP', exact: true })).toBeVisible()
   await page.getByRole('button', { name: 'JOIN GROUP', exact: true }).click()
   await expect(page.locator('[data-scene-node^="OPEN-S02-"]')).toHaveCount(0)
   await expect(page.getByRole('button', { name: 'JOIN GROUP', exact: true })).toHaveCount(0)

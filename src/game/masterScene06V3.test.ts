@@ -7,6 +7,7 @@ import { normalizeSave } from './engine'
 import { beginScene01 } from './scene01'
 import { prepareReplay } from './sceneLibrary'
 import { masterScene07Action } from './masterScene07'
+import { masterCaseFileAction, selectMasterCaseFile } from './masterCaseFile'
 const drain5=(s:GameSave):GameSave=>{while(s.masterScene05?.pending)s=five(s,{type:'tick'},s.masterScene05.pending.dueAt);return s}
 const drain6=(s:GameSave):GameSave=>{while(s.masterScene06?.pending)s=six(s,{type:'tick'},s.masterScene06.pending.dueAt);return s}
 function ready():GameSave{
@@ -39,8 +40,23 @@ describe('Scene 6 v3',()=>{
   expect(s.masterScene06?.missingHourAvailable).toBe(true)
   expect(s.masterScene06?.messages.some(m=>m.text==='June Ellis?')).toBe(true)
   expect(s.masterScene06?.messages.some(m=>m.text==='You know June Ellis?')).toBe(true)
+  expect(s.masterScene06?.messages.some(m=>m.text==='Open Activity Logs.')).toBe(false)
   s=drain6(six(s,{type:'inspect-gap'},700000))
-  for(let i=0;i<2;i++){s=six(s,{type:'draft',index:1});s=drain6(six(s,{type:'send'},710000+i*10000))}
+  expect(s.evidence['TA-FN-MISSING-HOUR']).toBeUndefined()
+  expect(s.masterScene06?.pending).toBeUndefined()
+  s=six(s,{type:'draft',index:1});expect(s.masterScene06?.pending).toBeUndefined()
+  s=drain6(six(s,{type:'send'},710000))
+  expect(s.masterScene06?.messages.some(m=>m.text==='A gap?')).toBe(true)
+  expect(s.evidence['TA-FN-MISSING-HOUR']).toBeUndefined()
+  s=six(s,{type:'draft',index:1});s=drain6(six(s,{type:'send'},720000))
+  const nodes=selectMasterCaseFile(s)?.nodes??[]
+  expect(new Set(nodes.map(n=>n.id)).size).toBe(nodes.length)
+  const gap=nodes.filter(n=>n.id==='TA-FN-MISSING-HOUR')
+  expect(gap).toHaveLength(1);expect(gap?.[0].title).toBe('The Missing Hour')
+  s=masterCaseFileAction(s,{type:'move-node',id:'TA-FN-MISSING-HOUR',x:23,y:34})
+  s=normalizeSave(JSON.parse(JSON.stringify(s)))
+  expect(selectMasterCaseFile(s)?.nodes.find(n=>n.id==='TA-FN-MISSING-HOUR')?.position).toEqual({x:23,y:34})
+  expect(six(s,{type:'inspect-gap'})).toBe(s)
   expect(s.masterScene06?.complete).toBe(true)
   expect(s.deliveredEvents).toContain('TA-S06-SCENE07-UNLOCKED')
   expect(masterScene07Action(s,{type:'start'},800000).masterScene07?.phase).toBe('ringing')
@@ -59,7 +75,7 @@ describe('Scene 6 v3',()=>{
    let s:GameSave={...initial,masterScene06:{...initial.masterScene06!,activeTopic,beat:n,missingHourAvailable:n>=8,completedTopics:n>=8?(['maya','sophie','lucas','june'] as ('maya'|'sophie'|'lucas'|'june')[]):[]}}
    s=six(s,{type:'draft',index:choice});s=six(s,{type:'send'},600000)
    expect(s.masterScene06?.messages.at(-1)?.text).toBe(scene06V3[n].choices[choice])
-   expect(s.masterScene06?.pending?.text).toBe(scene06V3[n].branches[choice][0])
+   expect(s.masterScene06?.pending?.text).toBe((scene06V3[n].branches[choice][0] ?? scene06V3[n].follow[0]))
   }
  })
 

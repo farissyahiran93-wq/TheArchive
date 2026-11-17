@@ -3,6 +3,7 @@ import { callTurns, legacyCallTurns } from '../content/masterScene07'
 import { ver1CallTurns } from '../content/masterScene07Ver1'
 import { masterScene07Action as act, validateMasterScene07 } from './masterScene07'
 import { newGame, type GameSave } from './types'
+import { beginScene01 } from './scene01'
 function ready():GameSave {return {...newGame(),masterScene06:{version:1,beat:10,messages:[],recovered:true,inspected:[],order:[],uncertainty:true,syncAcknowledged:true,gapAcknowledged:true,saved:true,reportReviewed:true,reportSent:true,complete:true},masterScene05:{version:1,beat:10,messages:[],packageStatus:'installed',inspected:true,risksRead:true,opened:true,selected:true,recovered:true,read:[],saved:[],complete:true},deliveredEvents:['TA-S06-SOPHIE-EXPORT','TA-S06-REPORT-SENT','TA-S06-COMPLETE']}}
 describe('Scene 7 voice call',()=>{
  it('records a limited statement comparison without turning it into authenticated evidence',()=>{
@@ -19,6 +20,34 @@ describe('Scene 7 voice call',()=>{
   expect(s.deliveredEvents).toContain('TA-S07-SCENE08-UNLOCKED')
   expect(act(s,{type:'finish'})).toBe(s)
   expect(()=>validateMasterScene07(JSON.parse(JSON.stringify(s.masterScene07)))).not.toThrow()
+ })
+ it('persists a single completed call record and leaves player choices in call state',()=>{
+  const base=ready(), scene=beginScene01({...base,masterOpening:true,chapter1Edition:'ch01-v2-10'},0).prologue
+  let s=act(act({...base,prologue:scene},{type:'start'}),{type:'answer'})
+  for(let i=0;i<10;i++){s=act(s,{type:'clip-ended'});s=act(s,{type:'draft',index:i%3});s=act(s,{type:'send'})}
+  expect(s.deliveredEvents).not.toContain('TA-S07-CALL-HISTORY')
+  s=act(s,{type:'clip-ended'},12345)
+  expect(s.prologue?.scene01?.messages.filter(m=>m.id==='TA-S07-CALL-HISTORY')).toHaveLength(1)
+  s=JSON.parse(JSON.stringify(s)) as GameSave
+  expect(()=>validateMasterScene07(s.masterScene07)).not.toThrow()
+  expect(act(s,{type:'clip-ended'})).toBe(s)
+  expect(s.prologue?.scene01?.messages.filter(m=>m.id==='TA-S07-CALL-HISTORY')).toHaveLength(1)
+  expect(s.masterScene07?.lines.filter(l=>l.sender==='player')).toHaveLength(10)
+ })
+ it('checkpoints only the active clip and clears its offset at the next decision',()=>{
+  let s=act(act(ready(),{type:'start'}),{type:'answer'})
+  s=act(s,{type:'playback-checkpoint',clip:0,seconds:7.23})
+  expect(s.masterScene07?.playbackSeconds).toBe(7.2)
+  expect(act(s,{type:'playback-checkpoint',clip:1,seconds:9})).toBe(s)
+  expect(act(s,{type:'playback-checkpoint',clip:0,seconds:Infinity})).toBe(s)
+  s=JSON.parse(JSON.stringify(s)) as GameSave
+  expect(()=>validateMasterScene07(s.masterScene07)).not.toThrow()
+  s=act(s,{type:'clip-ended'});expect(s.masterScene07).toMatchObject({phase:'waiting',clip:0})
+  expect(s.masterScene07?.playbackSeconds).toBeUndefined()
+  expect(act(s,{type:'playback-checkpoint',clip:0,seconds:8})).toBe(s)
+  s=act(act(s,{type:'draft',index:2}),{type:'send'})
+  expect(s.masterScene07).toMatchObject({phase:'playing',clip:1})
+  expect(s.masterScene07?.playbackSeconds).toBeUndefined()
  })
  it('honours the deferred export and lets the player request it later',()=>{
   let s=act(act(ready(),{type:'start'}),{type:'answer'})

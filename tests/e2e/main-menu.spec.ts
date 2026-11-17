@@ -20,7 +20,7 @@ async function persisted(page:Page){return page.evaluate(async()=>{
   db.close();return JSON.stringify(save)
 })}
 const click=async(page:Page,name:string)=>page.getByRole('button',{name,exact:true}).click()
-const returnToMenu=async(page:Page)=>{await click(page,'Go home');await click(page,'Show home page 2');await click(page,'Open Settings');await click(page,'Main Menu')}
+const returnToMenu=async(page:Page)=>{if(await page.getByRole('button',{name:'Go home',exact:true}).isVisible())await click(page,'Go home');await click(page,'Show home page 2');await click(page,'Open Settings');await click(page,'Main Menu')}
 const entry=()=>captureSceneEntries(newGame(),beginScene01(newGame(),1800000000000),1800000000000)
 
 for(const [width,height] of [[360,780],[390,844],[412,915],[320,568],[844,390],[1440,1000]])test(`cinematic menu and scrollable controls at ${width} x ${height}`,async({page})=>{

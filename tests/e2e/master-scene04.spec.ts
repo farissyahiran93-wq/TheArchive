@@ -28,9 +28,17 @@ test('fresh game reaches Unknown after the actual first three scenes without lea
  for(let i=0;i<9;i++){await page.locator('.scene01-options .opening-choice').first().click();await page.getByRole('button',{name:'Send',exact:true}).click();await page.clock.runFor(120000)}
  await page.getByRole('button',{name:'JOIN GROUP',exact:true}).click()
  await page.getByRole('button',{name:'Back to inbox'}).click()
- await page.getByRole('button',{name:'Open FIND DANIEL group conversation'}).click()
+ await page.getByRole('button',{name:'Open Same Old Chaos group conversation'}).click()
  await page.clock.runFor(120000)
- for(let i=0;i<9;i++){await page.locator('.scene01-options .opening-choice').first().click();await page.getByRole('button',{name:'Send',exact:true}).click();await page.clock.runFor(120000)}
+ // The current group opening includes a separate name decision before nine choices.
+ for(let i=0;i<10;i++){
+  await page.locator('.scene01-options .opening-choice').first().click()
+  const name=page.getByLabel('Your name',{exact:true})
+  if(await name.isVisible())await name.fill('Alex')
+  await page.getByRole('button',{name:'Send',exact:true}).click()
+  await page.clock.runFor(120000)
+ }
+ await expect(page.locator('.scene01-chat')).toHaveAttribute('data-group-complete','true')
  await page.getByRole('button',{name:'Back to inbox'}).click()
  await page.getByRole('button',{name:'Open Sophie conversation',exact:true}).click()
  await page.clock.runFor(120000)
@@ -64,7 +72,8 @@ test('cinematic conversation preserves typing and continues to Scene 5 after TRA
  await page.clock.runFor(7000)
  await page.getByRole('button',{name:'CONTINUE',exact:true}).click()
  await expect(chat.getByRole('button',{name:'START SCENE 5'})).toHaveCount(0)
- await expect(chat.getByText('Did TRACE open?',{exact:true})).toBeVisible()
+ await page.clock.runFor(5000)
+ await expect(chat.getByText('Did you get TRACE open?',{exact:true})).toBeVisible()
  await page.getByRole('button',{name:'Go home'}).click()
  await page.getByRole('button',{name:'Open TRACE'}).click()
  await expect(page.getByText('Recovery: 0%',{exact:true})).toBeVisible()
