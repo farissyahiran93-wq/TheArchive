@@ -4,6 +4,8 @@ import { ver1CallTurns } from '../content/masterScene07Ver1'
 import { masterScene07Action as act, validateMasterScene07 } from './masterScene07'
 import { newGame, type GameSave } from './types'
 import { beginScene01 } from './scene01'
+import { selectMasterCaseFile } from './masterCaseFile'
+import { masterRecoveryUnits } from './masterScene05'
 function ready():GameSave {return {...newGame(),masterScene06:{version:1,beat:10,messages:[],recovered:true,inspected:[],order:[],uncertainty:true,syncAcknowledged:true,gapAcknowledged:true,saved:true,reportReviewed:true,reportSent:true,complete:true},masterScene05:{version:1,beat:10,messages:[],packageStatus:'installed',inspected:true,risksRead:true,opened:true,selected:true,recovered:true,read:[],saved:[],complete:true},deliveredEvents:['TA-S06-SOPHIE-EXPORT','TA-S06-REPORT-SENT','TA-S06-COMPLETE']}}
 describe('Scene 7 voice call',()=>{
  it('records a limited statement comparison without turning it into authenticated evidence',()=>{
@@ -15,11 +17,45 @@ describe('Scene 7 voice call',()=>{
   s=act(s,{type:'open'});expect(act(s,{type:'finish'})).toBe(s)
   s=act(s,record,42000)
   expect(s.evidence['TA-EX-STARRED-ENTRY']).toMatchObject({verified:false,collectedAt:42000})
+  expect(s.masterScene07?.transferred).toBeUndefined()
+  expect(selectMasterCaseFile(s)!.nodes.some(n=>n.id==='TA-EX-STARRED-ENTRY')).toBe(false)
   expect(act(s,record,43000)).toBe(s)
   expect(s.masterScene07?.phase).toBe('complete')
   expect(s.deliveredEvents).toContain('TA-S07-SCENE08-UNLOCKED')
   expect(act(s,{type:'finish'})).toBe(s)
   expect(()=>validateMasterScene07(JSON.parse(JSON.stringify(s.masterScene07)))).not.toThrow()
+ })
+ it('keeps the external export out of TRACE until a single explicit transfer',()=>{
+  let s=act(act(ready(),{type:'start'}),{type:'answer'})
+  for(let i=0;i<10;i++){s=act(s,{type:'clip-ended'});s=act(s,{type:'draft',index:0});s=act(s,{type:'send'})}
+  s=act(s,{type:'clip-ended'})
+  expect(act(s,{type:'transfer'})).toBe(s)
+  s=act(s,{type:'open'})
+  const sources=(save:GameSave)=>selectMasterCaseFile(save)!.nodes.filter(node=>node.id==='TA-EX-STARRED-ENTRY')
+  expect(sources(s)).toHaveLength(0)
+  const recovery=masterRecoveryUnits(s.masterScene05!)
+  const beforeEvents=s.deliveredEvents
+  const next=act(s,{type:'transfer'},12345)
+  expect(next.masterScene07).toMatchObject({transferred:true,transferredAt:12345})
+  expect(sources(next)).toHaveLength(1)
+  expect(sources(next)[0].source).toContain('unverified')
+  expect(masterRecoveryUnits(next.masterScene05!)).toBe(recovery)
+  expect(next.deliveredEvents).toEqual(beforeEvents)
+  expect(act(next,{type:'transfer'},23456)).toBe(next)
+  const reloaded=JSON.parse(JSON.stringify(next)) as GameSave
+  expect(()=>validateMasterScene07(reloaded.masterScene07)).not.toThrow()
+  expect(sources(reloaded)).toHaveLength(1)
+ })
+ it('preserves previously opened legacy exports without implicitly transferring unopened ones',()=>{
+  let s=act(act(ready(),{type:'start'}),{type:'answer'})
+  for(let i=0;i<10;i++){s=act(s,{type:'clip-ended'});s=act(s,{type:'draft',index:0});s=act(s,{type:'send'})}
+  s=act(s,{type:'clip-ended'})
+  const old={...s,masterScene07:{...s.masterScene07!,transferRevision:undefined}}
+  const oldOpened={...old,masterScene07:{...old.masterScene07,opened:true}}
+  expect(selectMasterCaseFile(oldOpened)!.nodes.some(n=>n.id==='TA-EX-STARRED-ENTRY')).toBe(true)
+  const opened=act(old,{type:'open'})
+  expect(opened.masterScene07?.transferRevision).toBe('manual-v1')
+  expect(selectMasterCaseFile(opened)!.nodes.some(n=>n.id==='TA-EX-STARRED-ENTRY')).toBe(false)
  })
  it('persists a single completed call record and leaves player choices in call state',()=>{
   const base=ready(), scene=beginScene01({...base,masterOpening:true,chapter1Edition:'ch01-v2-10'},0).prologue

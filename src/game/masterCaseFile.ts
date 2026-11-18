@@ -1,3 +1,4 @@
+import { hasTransferredScene07Export } from './masterScene07'
 import { fragmentExamination, masterFragments } from '../content/masterScene05'
 import { characterArtwork } from '../content/characters'
 import { recoveredConversations, recoveredNotes } from '../content/digitalArchive'
@@ -156,8 +157,8 @@ function discoveredEvidence(save: GameSave): CaseEvidence[] {
     const receipt = save.evidence[evidenceId]
     if (assessment && receipt) evidence.push({ id, title, description: assessment.finding, source: `Private assessment · ${assessmentLabel(assessment.outcome)}`, kind: 'finding', recordedAt: receipt.collectedAt })
   }
-  if (exportEntry?.opened) {
-    evidence.push({ id: 'TA-EX-STARRED-ENTRY', title: 'Starred contact export', description: 'The copy contains an unnamed starred entry. The author and meaning of the star are unknown.', source: 'Sophie · shared-family-folder copy, original unverified', kind: 'document', recordedAt: save.evidence['TA-EX-STARRED-ENTRY']?.collectedAt })
+  if (exportEntry && hasTransferredScene07Export(exportEntry)) {
+    evidence.push({ id: 'TA-EX-STARRED-ENTRY', title: 'Starred contact export', description: 'The copy contains an unnamed starred entry. The author and meaning of the star are unknown.', source: 'Sophie · shared-family-folder copy, original unverified', kind: 'document', recordedAt: exportEntry.transferredAt ?? save.evidence['TA-EX-STARRED-ENTRY']?.collectedAt })
     addStatement(exportEntry.lines.find(line => line.id === 'TA-S07-CALL-S1'), 'Sophie’s account of the export', 'Sophie · voice call testimony')
     if(exportEntry.saved)addAssessment(contactAssessments.find(item=>item.id===exportEntry.assessment), 'TA-FN-SOPHIE-EXPORT', 'TA-EX-STARRED-ENTRY', 'Contact-export assessment')
   }
@@ -207,7 +208,7 @@ export function selectMasterCaseFile(save: GameSave): MasterCaseFileView | undef
   if (save.masterScene06?.recovered) facts.push('The deeper recovery pass recovered partial activity records. The device clock, who used the phone and what happened between records remain unverified.')
   const questions = [...initialQuestions]
   if (save.masterScene06?.recovered) questions.push(...missingHourQuestions)
-  if (save.masterScene07?.opened) questions.push(laterQuestions[0])
+  if (hasTransferredScene07Export(save.masterScene07)) questions.push(laterQuestions[0])
   if (save.masterScene08?.opened) questions.push(laterQuestions[1])
   if (save.masterScene09?.opened) questions.push(laterQuestions[2])
   if (save.masterScene10?.compared) questions.push(laterQuestions[3])
