@@ -15,7 +15,9 @@ describe('Lucas private photo conversation',()=>{
    s={...s,deliveredEvents:[...s.deliveredEvents,'TA-S07-SCENE08-UNLOCKED'],prologue:{...s.prologue!,scene01:{...s.prologue!.scene01!,lucasLeftGroup:true,groupMembers:{sophie:true,maya:true,lucas:false}}},masterScene07:{phase:'complete',saved:true} as GameSave['masterScene07']}
    s=masterScene08Action(s,{type:'start'})
    expect(act(s,{type:'start'})).toBe(s)
-   for(let n=0;n<2;n++){s=masterScene08Action(s,{type:'draft',index:0});s=masterScene08Action(s,{type:'send'})}
+   const drain=()=>{while(s.masterScene08?.pending?.length)s=masterScene08Action(s,{type:'tick'},s.masterScene08.pending[0].dueAt)}
+   drain()
+   for(let n=0;n<2;n++){s=masterScene08Action(s,{type:'draft',index:0});s=masterScene08Action(s,{type:'send'});drain()}
    s=act(s,{type:'start'})
    for(let n=0;n<3;n++){
     const selected=n===target?option:0,count=s.lucasPhoto!.messages.length

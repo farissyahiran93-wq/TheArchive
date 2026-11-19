@@ -36,21 +36,25 @@ function afterSix():GameSave {
  return completeMasterScene06(afterFive())
 }
 import { masterScene07Action as step7 } from '../../src/game/masterScene07'
-function afterSeven(shared=false):GameSave {
+function afterSeven():GameSave {
  let s=step7(afterSix(),{type:'start'});s=step7(s,{type:'answer'})
  for(let i=0;i<10;i++){s=step7(s,{type:'clip-ended'});s=step7(s,{type:'draft',index:0});s=step7(s,{type:'send'})}
  s=step7(s,{type:'clip-ended'});s=step7(s,{type:'open'});s=step7(s,{type:'record-assessment',id:'copy-provenance'})
- if(shared){s=step7(s,{type:'share-draft',index:0});s=step7(s,{type:'review-share'});s=step7(s,{type:'send-share'})}else s=step7(s,{type:'decline-share'})
+ while(s.masterScene07?.privacy?.pending)s=step7(s,{type:'tick'},s.masterScene07.privacy.pending.dueAt)
+ s=step7(s,{type:'privacy-draft',index:0});s=step7(s,{type:'privacy-send'})
+ while(s.masterScene07?.privacy?.pending)s=step7(s,{type:'tick'},s.masterScene07.privacy.pending.dueAt)
  return s
 }
 import { masterScene08Action as step8 } from '../../src/game/masterScene08'
 function afterEight():GameSave{
  let s=step8(afterSeven(),{type:'start'})
- for(let n=0;n<4;n++){s=step8(s,{type:'draft',index:0});s=step8(s,{type:'send'})}
- s=step8(s,{type:'open'})
- for(let n=0;n<4;n++){s=step8(s,{type:'draft',index:0});s=step8(s,{type:'send'})}
+ const drain=()=>{while(s.masterScene08?.pending?.length)s=step8(s,{type:'tick'},s.masterScene08.pending[0].dueAt)}
+ drain()
+ for(let n=0;n<4;n++){s=step8(s,{type:'draft',index:0});s=step8(s,{type:'send'});drain()}
+ s=step8(s,{type:'open'});drain()
+ for(let n=0;n<4;n++){s=step8(s,{type:'draft',index:0});s=step8(s,{type:'send'});drain()}
  s=step8(s,{type:'record-assessment',id:'crop-wording'})
- for(let n=0;n<2;n++){s=step8(s,{type:'draft',index:0});s=step8(s,{type:'send'})}return s
+ for(let n=0;n<2;n++){s=step8(s,{type:'draft',index:0});s=step8(s,{type:'send'});drain()}return s
 }
 test('Maya card photograph inspection, source comparison and deliberate Scene 10 unlock',async({page})=>{
  await seedScene(page,afterEight());await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Maya Scene 8 conversation'}).click();await expect(page.getByRole('article',{name:'Message capture attachment'})).toBeVisible();await expect(page.getByRole('button',{name:'START SCENE 9'})).toHaveCount(0);await expect(page.getByLabel('Scene 9 Maya conversation')).toBeVisible()

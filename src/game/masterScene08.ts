@@ -1,16 +1,26 @@
-import { captureId, scene08Beats } from '../content/masterScene08'
+import { captureId, scene08Beats, scene08Cinematic, scene08CinematicEnding } from '../content/masterScene08'
 import type { GameSave } from './types'
 import { storyPhotos } from '../content/storyPhotos'
 import { captureAssessments } from '../content/masterSceneAssessments'
 
 export interface MasterScene08 {
- version:1; photoRevision?:1; beat:number; draft?:number; messages:{id:string;sender:'maya'|'player';text:string;at:number;photo?:string}[]
+ version:1; photoRevision?:1; conversationRevision?:'cinematic-v1'; pending?:{id:string;text:string;dueAt:number;kind?:'capture'|'photo'}[]; beat:number; draft?:number; messages:{id:string;sender:'maya'|'player';text:string;at:number;photo?:string;attachment?:'capture'}[]
  received:boolean; opened:boolean; inspected:string[]; imported:boolean; analysis:boolean; compared:boolean; hypothesis?:number; assessment?:typeof captureAssessments[number]['id']; reviewed:boolean; saved:boolean; complete:boolean
 }
-export type MasterScene08Action={type:'start'|'send'|'open'}|{type:'draft';index:number}|{type:'record-assessment';id:string}
+export type MasterScene08Action={type:'start'|'send'|'open'|'tick'}|{type:'draft';index:number}|{type:'record-assessment';id:string}
 export const captureFields=['header','text','time','crop','source'] as const
 const validChoice=(n:number)=>Number.isInteger(n)&&n>=0&&n<3
-export const canReplyInScene08=(p:MasterScene08)=>!p.complete&&(p.beat<4||p.beat<8&&p.opened||p.beat<10&&p.saved)
+export const canReplyInScene08=(p:MasterScene08)=>p.conversationRevision==='cinematic-v1'? !p.complete&&!p.pending?.length&&p.beat<10&&(p.beat<4||p.opened):!p.complete&&(p.beat<4||p.beat<8&&p.opened||p.beat<10&&p.saved)
+export const scene08CurrentBeat=(p:MasterScene08)=>p.conversationRevision==='cinematic-v1'?scene08Cinematic[p.beat]:scene08Beats[p.beat]
+type ScheduledBubble=NonNullable<MasterScene08['pending']>[number]
+/** Small deterministic variation and length-dependent typing; deadlines survive reload. */
+export function mayaTypingDelay(text:string,sequence:number):number {
+ const n=text.length, base=n<=20?850:n<=50?1400:n<=100?2200:n<=160?3200:4200
+ return Math.min(5000,base+((n*13+sequence*137)%300)+(/[?…]|\.\.\./u.test(text)?120:0))
+}
+function queueBubbles(items:Omit<ScheduledBubble,'dueAt'>[],now:number):ScheduledBubble[]{let due=now;return items.map((item,index)=>({...item,dueAt:due+=mayaTypingDelay(item.text,index)+(index?250:0)}))}
+function bubbleItems(id:string,lines:readonly string[]):Omit<ScheduledBubble,'dueAt'>[]{return lines.map((text,i)=>({id:i?`${id}-${i+1}`:id,text}))}
+
 export function availableCaptureAssessments(save:GameSave){
  return captureAssessments.filter(item=>item.id==='crop-export'?!!save.masterScene07?.saved:item.id==='crop-lucas'?save.lucasPhoto?.messages.some(line=>line.id==='TA-S08-LUCAS-PHOTO-INTRO')===true:true)
 }
@@ -18,12 +28,33 @@ export function masterScene08Action(s:GameSave,a:MasterScene08Action,now=Date.no
  let p=s.masterScene08
  if(a.type==='start'){
   if(p||s.masterScene07?.phase!=='complete'||!s.masterScene07.saved||!s.deliveredEvents.includes('TA-S07-SCENE08-UNLOCKED'))return s
-  const line=s.relationships.maya.trust>0?'Sophie said you might be willing to look at something I found. Thank you for staying with us.':'Sophie said you might be willing to look at something I found. I hope it is all right that I messaged you.'
-  return {...s,masterScene08:{version:1,photoRevision:1,beat:0,messages:[{id:'TA-S08-FIRST',sender:'maya',text:line,at:now}],received:false,opened:false,inspected:[],imported:false,analysis:false,compared:false,reviewed:false,saved:false,complete:false}}
+  return {...s,masterScene08:{version:1,photoRevision:1,conversationRevision:'cinematic-v1',beat:0,messages:[],pending:queueBubbles(bubbleItems('TA-S08-FIRST',scene08Cinematic[0].intro),now),received:false,opened:false,inspected:[],imported:false,analysis:false,compared:false,reviewed:false,saved:false,complete:false}}
  }
  if(!p)return s
  const put=(next:MasterScene08):GameSave=>({...s,masterScene08:next})
  const canReply=canReplyInScene08(p)
+ if(p.conversationRevision==='cinematic-v1'){
+  if(a.type==='tick'&&p.pending?.length&&p.pending[0].dueAt<=now){
+   const [item,...tail]=p.pending, already=s.deliveredEvents.includes(item.id)
+   const message={id:item.id,sender:'maya' as const,text:item.text,at:now,...(item.kind==='photo'?{photo:storyPhotos.mayaMugs.src}:{}),...(item.kind==='capture'?{attachment:'capture' as const}:{})}
+   const messages=already?p.messages:[...p.messages,message]
+   const pending=tail.length?queueBubbles(tail.map(({id,text,kind})=>({id,text,...(kind?{kind}:{})})),now):undefined
+   const received=p.received||item.kind==='capture'
+   const complete=p.beat===10&&!pending
+   return {...s,messages:already?s.messages:[...s.messages,{id:item.id,sender:'maya',channel:'messages',text:item.kind==='photo'?'Photo':item.kind==='capture'?'Capture':item.text,...(item.kind?{attachmentIds:[item.kind==='photo'?storyPhotos.mayaMugs.id:captureId]}:{}),at:now,delivery:'delivered'}],deliveredEvents:[...new Set([...s.deliveredEvents,item.id,...(complete?['TA-S08-COMPLETE','TA-S08-SCENE09-UNLOCKED']:[])])],masterScene08:{...p,messages,pending,received,complete}}
+  }
+  if(a.type==='open'&&p.received&&!p.opened){return put({...p,opened:true,...(p.beat===4?{pending:queueBubbles(bubbleItems('TA-S08-CAPTURE-FOLLOW',scene08Cinematic[4].intro),now)}:{})})}
+  if(a.type==='draft'&&canReply&&validChoice(a.index))return put({...p,draft:a.index})
+  if(a.type==='send'&&canReply&&p.draft!==undefined){
+   const n=p.beat,i=p.draft,b=scene08Cinematic[n],player=`TA-S08-C${n+1}-P-${i}`,reply=`TA-S08-C${n+1}-M-${i}`
+   const items=bubbleItems(reply,b.replies[i])
+   if(n===3)items.push({id:'TA-S08-CAPTURE-RECEIVED',text:'',kind:'capture'})
+   else if(n===6){items.push(...bubbleItems('TA-S08-PHOTO-LEAD',['Sorry.',"I know that's a lot."]),{id:storyPhotos.mayaMugs.id,text:'',kind:'photo'},...bubbleItems(`${storyPhotos.mayaMugs.id}-DIALOGUE`,['I took this at home.','I still catch myself making tea for two.']),...bubbleItems('TA-S08-INTRO-8',scene08Cinematic[7].intro))}
+   else if(n===9)items.push(...bubbleItems('TA-S08-ENDING',scene08CinematicEnding))
+   else items.push(...bubbleItems(`TA-S08-INTRO-${n+2}`,scene08Cinematic[n+1].intro))
+   return {...s,messages:[...s.messages,{id:player,sender:'player',recipient:'maya',channel:'messages',text:b.choices[i],at:now,delivery:'delivered'}],deliveredEvents:[...new Set([...s.deliveredEvents,player])],masterScene08:{...p,beat:n+1,draft:undefined,messages:[...p.messages,{id:player,sender:'player',text:b.choices[i],at:now}],pending:queueBubbles(items,now)}}
+  }
+ }
  if(a.type==='draft'&&canReply&&!p.complete&&validChoice(a.index))return put({...p,draft:a.index})
  if(a.type==='send'&&canReply&&!p.complete&&p.draft!==undefined){
   const n=p.beat,i=p.draft,b=scene08Beats[n],player=`TA-S08-C${n+1}-P-${i}`,maya=`TA-S08-C${n+1}-M-${i}`,complete=n===9
@@ -43,5 +74,5 @@ export function masterScene08Action(s:GameSave,a:MasterScene08Action,now=Date.no
 export function validateMasterScene08(value:unknown):void{
  if(value===undefined)return
  const p=value as MasterScene08
- if(!p||p.version!==1||p.photoRevision!==undefined&&p.photoRevision!==1||!Number.isInteger(p.beat)||p.beat<0||p.beat>10||!Array.isArray(p.messages)||!Array.isArray(p.inspected)||p.inspected.some(x=>!captureFields.includes(x as typeof captureFields[number]))||['received','opened','imported','analysis','compared','reviewed','saved','complete'].some(k=>typeof p[k as keyof MasterScene08]!=='boolean')||p.draft!==undefined&&!validChoice(p.draft)||p.hypothesis!==undefined&&!validChoice(p.hypothesis)||p.opened&&!p.received||p.imported&&captureFields.some(x=>!p.inspected.includes(x))||p.assessment!==undefined&&(!captureAssessments.some(item=>item.id===p.assessment)||!p.saved||!p.opened||p.beat<8)||p.saved&&!p.assessment&&(!p.analysis||!p.compared||!p.reviewed||p.hypothesis===undefined)||p.complete&&(!p.saved||p.beat!==10))throw Error('Invalid Scene 8 progress')
+ if(!p||p.version!==1||p.conversationRevision!==undefined&&p.conversationRevision!=='cinematic-v1'||p.pending!==undefined&&(p.conversationRevision!=='cinematic-v1'||!Array.isArray(p.pending)||p.pending.some(q=>!q||typeof q.id!=='string'||typeof q.text!=='string'||!Number.isFinite(q.dueAt)||q.kind!==undefined&&!['photo','capture'].includes(q.kind))||p.complete&&p.pending.length>0)||p.photoRevision!==undefined&&p.photoRevision!==1||!Number.isInteger(p.beat)||p.beat<0||p.beat>10||!Array.isArray(p.messages)||!Array.isArray(p.inspected)||p.inspected.some(x=>!captureFields.includes(x as typeof captureFields[number]))||['received','opened','imported','analysis','compared','reviewed','saved','complete'].some(k=>typeof p[k as keyof MasterScene08]!=='boolean')||p.draft!==undefined&&!validChoice(p.draft)||p.hypothesis!==undefined&&!validChoice(p.hypothesis)||p.opened&&!p.received||p.imported&&captureFields.some(x=>!p.inspected.includes(x))||p.assessment!==undefined&&(!captureAssessments.some(item=>item.id===p.assessment)||!p.saved||!p.opened||p.beat<8)||p.saved&&!p.assessment&&(!p.analysis||!p.compared||!p.reviewed||p.hypothesis===undefined)||p.complete&&(p.beat!==10||p.conversationRevision!=='cinematic-v1'&&!p.saved))throw Error('Invalid Scene 8 progress')
 }

@@ -1,7 +1,14 @@
-.trace-assessment { display: grid; gap: .75rem; }
-.trace-assessment fieldset { display: grid; gap: .35rem; min-width: 0; border: 0; padding: 0; }
-.trace-assessment legend { margin: 0 0 .5rem; font-weight: 600; }
-.trace-assessment [aria-pressed='true'] { outline: 1px solid currentColor; }
-.trace-assessment-sources { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr)); gap: .55rem; }
-.trace-assessment-sources article { min-width: 0; overflow-wrap: anywhere; }
-.trace-assessment-sources blockquote { margin: .45rem 0; }
+.trace-assessment {display:grid;gap:.85rem;width:100%;max-width:100%;min-width:0;box-sizing:border-box}
+.trace-assessment > *,.trace-assessment fieldset,.trace-assessment-sources,.trace-assessment-sources > *, .trace-assessment-sources article{width:100%;max-width:100%;min-width:0;box-sizing:border-box}
+.trace-assessment fieldset{display:grid;gap:.45rem;border:0;margin:0;padding:0}
+.trace-assessment legend{margin:0 0 .5rem;font-weight:600}
+.trace-assessment button{min-height:44px;white-space:normal;overflow-wrap:break-word}
+.trace-assessment [aria-pressed='true']{outline:1px solid currentColor}
+.trace-assessment-sources{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+.trace-assessment-sources article{margin:0;word-break:normal;overflow-wrap:break-word;line-height:1.55}
+.trace-assessment-sources blockquote{margin:.65rem 0 0;white-space:normal;overflow-wrap:break-word;line-height:1.6}
+.master-trace .trace-body{min-width:0;box-sizing:border-box;overflow-x:hidden}
+.master-trace [aria-label="Sophie statement verification"]{width:100%;max-width:100%;min-width:0;box-sizing:border-box;overflow-wrap:break-word}
+/* TRACE's separate legacy workspace defines .trace-summary as a two-column grid.
+   Scope this forensic viewer to normal block flow, including nested source cards. */
+.master-trace [aria-label="Sophie statement verification"],.scene01-invitation [aria-label="Sophie statement verification"],.master-trace [aria-label="External evidence analysis"],.scene01-invitation [aria-label="External evidence analysis"],.trace-assessment-sources > .trace-summary,.trace-assessment > .trace-summary{display:block;min-width:0;max-width:100%;box-sizing:border-box}

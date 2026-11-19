@@ -10,7 +10,7 @@ export function MasterCapturePreview(){
 export function MasterScene08Evidence(){
  const save=useGameStore(s=>s.save),act=useGameStore(s=>s.masterScene08Action),p=save.masterScene08
  if(!p?.opened||p.beat<8)return null
- const maya=(beat:number)=>p.messages.find(line=>line.id.startsWith(`TA-S08-C${beat}-M-`))?.text
+ const maya=(beat:number)=>p.messages.filter(line=>line.id.startsWith(`TA-S08-C${beat}-M-`)&&line.sender==='maya').map(line=>line.text).join(' ')
  const lucas=save.lucasPhoto?.messages.find(line=>line.id==='TA-S08-LUCAS-PHOTO-INTRO')?.text
  return <article className="trace-summary" aria-label="Check-in statement verification"><h3>Verify the last check-in</h3><p>The visible words can corroborate Maya’s description of the excerpt. They cannot authenticate the thread or establish what Lucas did.</p>
   <MasterStatementAssessment options={availableCaptureAssessments(save)} saved={p.saved} savedId={p.assessment} legacyFinding={p.hypothesis===undefined?undefined:captureHypotheses[p.hypothesis]} saveLabel="Save check-in finding" onSave={id=>act({type:'record-assessment',id})} compare={({id})=><>

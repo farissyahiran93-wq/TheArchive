@@ -34,17 +34,33 @@ function afterFive():GameSave {
 function afterSix():GameSave {
  return completeMasterScene06(afterFive())
 }
+import { masterScene08Action as step8 } from '../../src/game/masterScene08'
+import { scene08Beats } from '../../src/content/masterScene08'
 import { masterScene07Action as step7 } from '../../src/game/masterScene07'
-function afterSeven(shared=false):GameSave {
+function afterSeven():GameSave {
  let s=step7(afterSix(),{type:'start'});s=step7(s,{type:'answer'})
  for(let i=0;i<10;i++){s=step7(s,{type:'clip-ended'});s=step7(s,{type:'draft',index:0});s=step7(s,{type:'send'})}
  s=step7(s,{type:'clip-ended'});s=step7(s,{type:'open'});s=step7(s,{type:'record-assessment',id:'copy-provenance'})
- if(shared){s=step7(s,{type:'share-draft',index:0});s=step7(s,{type:'review-share'});s=step7(s,{type:'send-share'})}else s=step7(s,{type:'decline-share'})
+ while(s.masterScene07?.privacy?.pending)s=step7(s,{type:'tick'},s.masterScene07.privacy.pending.dueAt)
+ s=step7(s,{type:'privacy-draft',index:0});s=step7(s,{type:'privacy-send'})
+ while(s.masterScene07?.privacy?.pending)s=step7(s,{type:'tick'},s.masterScene07.privacy.pending.dueAt)
  return s
 }
-for(const shared of [false,true])test(`Maya crop investigation preserves uncertainty and 20% recovery (shared: ${shared})`,async({page})=>{
- await seedScene(page,afterSeven(shared));await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Maya Scene 8 conversation'}).click()
- for(let i=0;i<4;i++){await expect(page.locator('.scene01-options .opening-choice')).toHaveCount(3);await page.locator('.scene01-options .opening-choice').nth(i%3).click();await page.getByRole('button',{name:'Send',exact:true}).click()}
+for(const shared of [false,true])test(`Maya crop investigation preserves uncertainty and 20% recovery (Lucas not contacted: ${shared})`,async({page})=>{
+ await seedScene(page,afterSeven());await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Maya Scene 8 conversation'}).click();await page.clock.runFor(120000)
+ for(let i=0;i<4;i++){
+  await expect(page.locator('.scene01-options .opening-choice')).toHaveCount(3)
+  await page.locator('.scene01-options .opening-choice').nth(i%3).click();await page.getByRole('button',{name:'Send',exact:true}).click()
+  await expect(page.getByRole('status',{name:'Maya is typing'})).toBeVisible();await expect(page.locator('.scene01-options .opening-choice')).toHaveCount(0)
+  if(i===0&&!shared){
+   await page.screenshot({path:'artifacts/rework-2026-11-19/maya-typing.png'});await page.clock.runFor(2000)
+   const first=page.getByText('I went back through some old messages with Daniel.',{exact:true});await expect(first).toHaveCount(1)
+   await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'));await page.reload();await page.getByRole('button',{name:'Unlock phone'}).click();await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Maya Scene 8 conversation'}).click()
+   await expect(first).toHaveCount(1);await expect(page.getByRole('status',{name:'Maya is typing'})).toBeVisible();await page.clock.runFor(5000)
+   await expect(page.getByText("There's one conversation I haven't been able to stop thinking about.",{exact:true})).toHaveCount(1);await page.screenshot({path:'artifacts/rework-2026-11-19/maya-two-bubbles.png'})
+  }
+  await page.clock.runFor(120000)
+ }
  if(!shared){
   await page.getByRole('button',{name:'Back to inbox'}).click();await page.getByRole('button',{name:'Open Lucas private photo conversation'}).click();await page.getByRole('button',{name:'OPEN LUCAS CONVERSATION'}).click()
   for(let i=0;i<3;i++){await expect(page.locator('.scene01-options .opening-choice')).toHaveCount(3);await page.locator('.scene01-options .opening-choice').nth(i).click();await page.getByRole('button',{name:'Send',exact:true}).click()}
@@ -53,8 +69,12 @@ for(const shared of [false,true])test(`Maya crop investigation preserves uncerta
  }
  await expect(page.getByRole('article',{name:'Message capture attachment'})).toBeVisible();await page.getByRole('button',{name:'OPEN CAPTURE'}).click()
  await expect(page.getByText(/Lucas checked in. He said there was another copy/)).toBeVisible()
- for(let i=0;i<4;i++){await page.locator('.scene01-options .opening-choice').nth(i%3).click();await page.getByRole('button',{name:'Send',exact:true}).click()}
- await page.getByRole('button',{name:/Open Maya.s photo: Two mugs/}).click();await expect(page.getByRole('dialog',{name:'Photo viewer'})).toBeVisible();await page.getByRole('button',{name:'Close photo'}).click()
+ if(!shared)await page.screenshot({path:'artifacts/rework-2026-11-19/maya-capture.png'})
+ await page.getByRole('button',{name:'Close capture'}).click();await page.clock.runFor(120000)
+ for(let i=0;i<4;i++){await expect(page.locator('.scene01-options .opening-choice')).toHaveCount(3);await page.locator('.scene01-options .opening-choice').nth(i%3).click();await page.getByRole('button',{name:'Send',exact:true}).click();await page.clock.runFor(120000)}
+ const mugs=page.getByRole('button',{name:/Open Maya.s photo: Two mugs/});await mugs.scrollIntoViewIfNeeded()
+ if(!shared)await page.screenshot({path:'artifacts/rework-2026-11-19/maya-photo.png'})
+ await mugs.click();await expect(page.getByRole('dialog',{name:'Photo viewer'})).toBeVisible();await page.getByRole('button',{name:'Close photo'}).click()
  await page.getByRole('button',{name:'Go home'}).click();await page.getByRole('button',{name:'Open TRACE'}).click();await expect(page.getByText('Recovery: 20%')).toBeVisible()
  const verification=page.getByRole('article',{name:'Check-in statement verification'})
  if(shared){
@@ -68,6 +88,29 @@ for(const shared of [false,true])test(`Maya crop investigation preserves uncerta
  await verification.getByRole('button',{name:'Save check-in finding'}).click()
  await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'));await page.reload();await page.getByRole('button',{name:'Unlock phone'}).click();await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Maya Scene 8 conversation'}).click()
  await expect(page.getByRole('button',{name:/Open Maya.s photo: Two mugs/})).toHaveCount(1)
- for(let i=0;i<2;i++){await page.locator('.scene01-options .opening-choice').last().click();await page.getByRole('button',{name:'Send',exact:true}).click()}
+ for(let i=0;i<2;i++){await page.locator('.scene01-options .opening-choice').last().click();await page.getByRole('button',{name:'Send',exact:true}).click();await page.clock.runFor(120000)}
+ await expect(page.getByText('For listening to me.',{exact:true})).toBeVisible()
+ await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'));await page.reload();await page.getByRole('button',{name:'Unlock phone'}).click();await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Maya Scene 8 conversation'}).click()
+ await expect(page.getByText('For listening to me.',{exact:true})).toHaveCount(1);await expect(page.getByRole('button',{name:/Open Maya.s photo: Two mugs/})).toHaveCount(1)
+ if(!shared)await page.screenshot({path:'artifacts/rework-2026-11-19/maya-final-reload.png'})
  await expect(page.getByLabel('Scene 9 Maya conversation')).toBeVisible()
+})
+
+
+test('historical Maya conversation resumes its original mid-scene dialogue after reload',async({page})=>{
+ const base=afterSeven()
+ // Recreate a valid pre-cinematic v1 save using the exact historical initial message,
+ // then use the original-graph controller for two persisted decisions.
+ let save:GameSave={...base,masterScene08:{version:1,photoRevision:1,beat:0,messages:[{id:'TA-S08-FIRST',sender:'maya',text:'Sophie said you might be willing to look at something I found. I hope it is all right that I messaged you.',at:1000}],received:false,opened:false,inspected:[],imported:false,analysis:false,compared:false,reviewed:false,saved:false,complete:false}}
+ for(let i=0;i<2;i++){save=step8(save,{type:'draft',index:i});save=step8(save,{type:'send'},2000+i)}
+ expect(save.masterScene08?.beat).toBe(2)
+ await seedScene(page,save);await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Maya Scene 8 conversation'}).click()
+ const chat=page.getByRole('region',{name:'Maya conversation'})
+ for(let i=0;i<2;i++)await expect(chat.getByText(scene08Beats[i].replies[i],{exact:true})).toHaveCount(1)
+ await expect(chat.getByText('Hey.',{exact:true})).toHaveCount(0)
+ const choice=scene08Beats[2].choices[1];await chat.getByRole('button',{name:choice,exact:true}).click();await expect(chat.locator('.opening-bubble.player').getByText(choice,{exact:true})).toHaveCount(0)
+ await chat.getByRole('button',{name:'Send',exact:true}).click();await expect(chat.getByText(scene08Beats[2].replies[1],{exact:true})).toHaveCount(1)
+ await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'));await page.reload();await page.getByRole('button',{name:'Unlock phone'}).click();await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Maya Scene 8 conversation'}).click()
+ for(let i=0;i<3;i++)await expect(chat.getByText(scene08Beats[i].replies[i===2?1:i],{exact:true})).toHaveCount(1)
+ await expect(chat.getByRole('button',{name:scene08Beats[3].choices[0],exact:true})).toBeVisible()
 })

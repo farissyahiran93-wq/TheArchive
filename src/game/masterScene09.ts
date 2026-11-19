@@ -17,7 +17,7 @@ export function availableCardAssessments(save:GameSave){
 export function masterScene09Action(s:GameSave,a:MasterScene09Action,now=Date.now()):GameSave{
  let p=s.masterScene09
  if(a.type==='start'){
-  if(p||!s.masterScene08?.complete||!s.masterScene08.saved||!s.deliveredEvents.includes('TA-S08-SCENE09-UNLOCKED'))return s
+  if(p||!s.masterScene08?.complete||(!s.masterScene08.saved&&s.masterScene08.conversationRevision!=='cinematic-v1')||!s.deliveredEvents.includes('TA-S08-SCENE09-UNLOCKED'))return s
   const text=s.relationships.maya.trust>0?'I went back to the photograph I mentioned. Thank you for taking the time to look with me.':'I went back to the photograph I mentioned. Could we take a careful look at it?'
   return {...s,masterScene09:{version:1,beat:0,messages:[{id:'TA-S09-FIRST',sender:'maya',text,at:now}],received:false,opened:false,inspected:[],imported:false,analysis:false,comparisons:[],reviewed:false,saved:false,complete:false}}
  }

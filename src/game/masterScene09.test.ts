@@ -4,6 +4,12 @@ import { masterScene09Action as act, validateMasterScene09 } from './masterScene
 import { newGame, type GameSave } from './types'
 function ready():GameSave{return {...newGame(),masterScene06:{saved:true} as GameSave['masterScene06'],masterScene07:{saved:true} as GameSave['masterScene07'],masterScene08:{complete:true,saved:true} as GameSave['masterScene08'],deliveredEvents:['TA-S08-SCENE09-UNLOCKED']}}
 describe('Scene 9 reference photograph',()=>{
+ it('allows a completed cinematic Scene 8 without forcing an optional finding, while old routes keep their gate',()=>{
+  const base=ready(),old={...base,masterScene08:{...base.masterScene08!,saved:false}}
+  expect(act(old,{type:'start'})).toBe(old)
+  const revised={...old,masterScene08:{...old.masterScene08!,conversationRevision:'cinematic-v1' as const}}
+  expect(act(revised,{type:'start'}).masterScene09?.beat).toBe(0)
+ })
  it('gates entry, supports every reply and keeps the record unverified',()=>{
   const empty=newGame();expect(act(empty,{type:'start'})).toBe(empty)
   for(let target=0;target<10;target++)for(let option=0;option<3;option++){

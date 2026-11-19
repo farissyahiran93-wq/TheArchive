@@ -6,6 +6,8 @@ import { newGame, type GameSave } from './types'
 import { beginScene01 } from './scene01'
 import { selectMasterCaseFile } from './masterCaseFile'
 import { masterRecoveryUnits } from './masterScene05'
+const drainPrivacy=(save:GameSave):GameSave=>{while(save.masterScene07?.privacy?.pending)save=act(save,{type:'tick'},save.masterScene07.privacy.pending.dueAt);return save}
+const finishPrivacy=(save:GameSave,index=0):GameSave=>{save=drainPrivacy(save);save=act(save,{type:'privacy-draft',index});return drainPrivacy(act(save,{type:'privacy-send'}))}
 function ready():GameSave {return {...newGame(),masterScene06:{version:1,beat:10,messages:[],recovered:true,inspected:[],order:[],uncertainty:true,syncAcknowledged:true,gapAcknowledged:true,saved:true,reportReviewed:true,reportSent:true,complete:true},masterScene05:{version:1,beat:10,messages:[],packageStatus:'installed',inspected:true,risksRead:true,opened:true,selected:true,recovered:true,read:[],saved:[],complete:true},deliveredEvents:['TA-S06-SOPHIE-EXPORT','TA-S06-REPORT-SENT','TA-S06-COMPLETE']}}
 describe('Scene 7 voice call',()=>{
  it('records a limited statement comparison without turning it into authenticated evidence',()=>{
@@ -20,10 +22,36 @@ describe('Scene 7 voice call',()=>{
   expect(s.masterScene07?.transferred).toBeUndefined()
   expect(selectMasterCaseFile(s)!.nodes.some(n=>n.id==='TA-EX-STARRED-ENTRY')).toBe(false)
   expect(act(s,record,43000)).toBe(s)
+  expect(s.deliveredEvents).not.toContain('TA-S07-SCENE08-UNLOCKED')
+  s=finishPrivacy(s)
   expect(s.masterScene07?.phase).toBe('complete')
   expect(s.deliveredEvents).toContain('TA-S07-SCENE08-UNLOCKED')
   expect(act(s,{type:'finish'})).toBe(s)
   expect(()=>validateMasterScene07(JSON.parse(JSON.stringify(s.masterScene07)))).not.toThrow()
+ })
+ it('Sophie privately decides for all three responses, with queued idempotent delivery and no group disclosure',()=>{
+  for(let option=0;option<3;option++){
+   let s=act(act(ready(),{type:'start'}),{type:'answer'})
+   for(let i=0;i<10;i++){s=act(s,{type:'clip-ended'});s=act(s,{type:'draft',index:0});s=act(s,{type:'send'})}
+   s=act(s,{type:'clip-ended'});s=act(s,{type:'open'});s=act(s,{type:'record-assessment',id:'star-visible'},20000)
+   const pending=s.masterScene07!.privacy!.pending!;expect(act(s,{type:'tick'},pending.dueAt-1)).toBe(s)
+   s=act(s,{type:'tick'},pending.dueAt);s=JSON.parse(JSON.stringify(s)) as GameSave
+   expect(()=>validateMasterScene07(s.masterScene07)).not.toThrow()
+   expect(s.masterScene07!.privacy!.messages).toHaveLength(1)
+   s=drainPrivacy(s);expect(s.masterScene07!.privacy!.stage).toBe('choice')
+   const before=s.messages.length;s=act(s,{type:'privacy-draft',index:option});expect(s.messages).toHaveLength(before)
+   s=act(s,{type:'privacy-send'},40000);expect(s.masterScene07!.phase).toBe('attachment')
+   expect(act(s,{type:'privacy-send'})).toBe(s)
+   s=drainPrivacy(s);expect(s.masterScene07!.phase).toBe('complete')
+   expect(s.masterScene07!.privacy!.messages.at(-1)?.text).toBe("If I decide Maya needs to know something, I'll tell her myself.")
+   expect(s.messages.some(m=>m.id.startsWith('TA-S07-GROUP-SHARE'))).toBe(false)
+   expect(s.deliveredEvents.filter(id=>id==='TA-S07-SCENE08-UNLOCKED')).toHaveLength(1)
+  }
+ })
+ it('never repeats or sends historical player-sharing drafts',()=>{
+  const old={...ready(),masterScene07:{version:1 as const,phase:'complete' as const,clip:10,lines:[],questioned:true,opened:true,metadata:false,entry:false,star:false,imported:false,analysis:true,hypothesis:0,saved:true,shareDraft:1,shareReviewed:true,shareSent:false,shareDeclined:false}}
+  for(const action of [{type:'share-draft',index:0},{type:'review-share'},{type:'send-share'},{type:'decline-share'}] as const)expect(act(old,action)).toBe(old)
+  expect(()=>validateMasterScene07(old.masterScene07)).not.toThrow()
  })
  it('keeps the external export out of TRACE until a single explicit transfer',()=>{
   let s=act(act(ready(),{type:'start'}),{type:'answer'})
@@ -117,7 +145,7 @@ describe('Scene 7 voice call',()=>{
   s=act(s,{type:'clip-ended'});expect(s.masterScene07?.phase).toBe('attachment');expect(s.masterScene07?.opened).toBe(false)
   s=act(s,{type:'question-draft',index:1});s=act(s,{type:'send-question'});expect(s.masterScene07?.questioned).toBe(true)
   s=act(s,{type:'open'});expect(s.evidence['TA-EX-STARRED-ENTRY']).toBeUndefined();s=act(s,{type:'record-assessment',id:'star-visible'});expect(s.evidence['TA-EX-STARRED-ENTRY'].verified).toBe(false)
-  s=act(s,{type:'decline-share'});s=act(s,{type:'finish'});expect(s.deliveredEvents).toContain('TA-S07-SCENE08-UNLOCKED');expect(s.masterScene07?.phase).toBe('complete');expect(act(s,{type:'finish'})).toBe(s)
+  s=finishPrivacy(s);expect(s.deliveredEvents).toContain('TA-S07-SCENE08-UNLOCKED');expect(s.masterScene07?.phase).toBe('complete');expect(act(s,{type:'finish'})).toBe(s)
  })
  it('lets a historical call resume without retaking inspection steps',()=>{
   let s=act(act(ready(),{type:'start'}),{type:'answer'})
