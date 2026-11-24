@@ -1,7 +1,7 @@
 import type { CharacterId } from './types'
 import { typingFactor } from './menuPreferences'
 
-const rhythm: Record<CharacterId, number> = { sophie: 1.22, maya: 1, lucas: .8, eli: 1.08, nora: 1.3, daniel: 1.35 }
+const rhythm: Record<CharacterId, number> = { sophie: 1.22, maya: 1, lucas: .8, eli: 1.08, nora: 1.3, daniel: 1.35, noah: .87, ana: 1.04 }
 
 /** Stable pacing avoids a changed deadline after refresh and keeps each actor recognisable. */
 export function npcDeliveryDelay(actor: CharacterId, text: string, sequence = 0, context: 'normal' | 'urgent' | 'reflective' = 'normal'): number {

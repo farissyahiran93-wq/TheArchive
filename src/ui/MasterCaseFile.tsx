@@ -1,3 +1,7 @@
+import { MasterCapturePreview } from './MasterScene08Evidence'
+import { captureId } from '../content/masterScene08'
+import { useGameStore } from '../game/store'
+import { selectMasterCaseFile } from '../game/masterCaseFile'
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, FileQuestion, Fingerprint, Link2, MapPinned, Network, ScanSearch, Unlink2, ZoomIn, ZoomOut } from 'lucide-react'
 import { useRef, useState, type CSSProperties, type PointerEvent, type ReactNode } from 'react'
 import { caseLinkAssessments, type CaseLinkAssessment, type MasterCaseFileAction, type MasterCaseFileView } from '../game/masterCaseFile'
@@ -150,7 +154,8 @@ const boardDirections = [
 const zoomLevels = [0.8, 1, 1.25]
 const withinBoard = (coordinate: number) => Math.max(0, Math.min(100, coordinate))
 
-export function MasterInvestigationBoard({ caseFile, onAction }: CaseModuleProps & { onOpenCase: () => void }) {
+export function MasterInvestigationBoard({ caseFile, onAction, onOpenCase }: CaseModuleProps & { onOpenCase: () => void }) {
+  const expandedCapture=useGameStore(store=>store.save.masterScene08?.conversationRevision==='conversation-v3')
   const [selection, setSelection] = useState('')
   const [connectionStart, setConnectionStart] = useState('')
   const [zoom, setZoom] = useState(1)
@@ -204,7 +209,7 @@ export function MasterInvestigationBoard({ caseFile, onAction }: CaseModuleProps
       <Network size={26} aria-hidden="true" />
       <div><small>CASE FILE 001 / PRIVATE BOARD</small><h1>Investigation Board</h1></div>
     </header>
-    <p>Move clues and connect your own ideas.</p>
+    <button className="trace-case-button" onClick={onOpenCase}><FileQuestion size={17}/> Open case questions</button>
     {caseFile.nodes.length === 0 ? <div className="trace-empty"><ScanSearch aria-hidden="true" /><p>No evidence discovered yet.</p></div> : <>
       <div className="trace-board-toolbar">
         <label>Evidence index <select value={selection} onChange={event => setSelection(event.target.value)}>
@@ -248,6 +253,7 @@ export function MasterInvestigationBoard({ caseFile, onAction }: CaseModuleProps
         <div className="trace-board-inspector-top"><MapPinned size={20} aria-hidden="true" /><div><small>{nodeTypes[selected.kind]}</small><h2>{selected.title}</h2></div></div>
         <EvidenceImage key={selected.id} node={selected} />
         {selected.image&&<button className="trace-case-button" onClick={()=>setPhoto(selected)}>Enlarge source image</button>}
+        {selected.id===captureId&&<button className="trace-case-button" onClick={()=>setPhoto(selected)}>Open message screenshot</button>}
         <p>{selected.description}</p>
         <dl><div><dt>Source</dt><dd>{selected.source}</dd></div>{selected.timestamp && <div><dt>Source timestamp</dt><dd>{selected.timestamp}</dd></div>}</dl>
         <div className="trace-board-controls" aria-label="Evidence position">
@@ -295,6 +301,19 @@ export function MasterInvestigationBoard({ caseFile, onAction }: CaseModuleProps
       </section>
     </>}
 
+    {photo?.id===captureId&&<ChatPhotoViewer alt="Maya’s saved message screenshot" onClose={()=>setPhoto(undefined)}><MasterCapturePreview expanded={expandedCapture}/></ChatPhotoViewer>}
     {photo?.image&&<ChatPhotoViewer src={photo.image} alt={photo.title} onClose={()=>setPhoto(undefined)}/>}
+  </section>
+}
+
+export function InvestigationBoardApp({onHome}:{onHome:()=>void}) {
+  const save=useGameStore(store=>store.save), act=useGameStore(store=>store.masterCaseFileAction)
+  const [questions,setQuestions]=useState(false)
+  const caseFile=selectMasterCaseFile(save)
+  return <section className="master-trace" aria-label="Investigation Board app">
+    <header className="trace-top"><button onClick={questions?()=>setQuestions(false):onHome} aria-label={questions?'Back to board':'Home'}><ArrowLeft size={18}/>{questions?'Board':'Phone'}</button></header>
+    <div className="trace-body">{caseFile && (questions
+      ? <MasterCaseFile caseFile={caseFile} onAction={act} onOpenBoard={()=>setQuestions(false)}/>
+      : <MasterInvestigationBoard caseFile={caseFile} onAction={act} onOpenCase={()=>setQuestions(true)}/>)}</div>
   </section>
 }

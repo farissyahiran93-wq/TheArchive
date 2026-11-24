@@ -22,8 +22,8 @@ describe('Phase 05 asset integrity and identity boundaries', () => {
     expect(galleryMedia.map(media => mirrorEntry(media.recordId)?.lockId)).toEqual([undefined, undefined, 'album-index', 'album-index', 'album-quay', 'album-quay'])
     expect(galleryMedia.map(media => media.caption).join(' ')).not.toMatch(/June Ellis|2021|student dies/i)
   })
-  it('has portraits for six existing IDs and keeps unknown, blocked and new names anonymous', () => {
-    expect(Object.keys(characterArtwork)).toHaveLength(6)
+  it('has portraits for the eight registered identities and keeps unknown callers anonymous', () => {
+    expect(Object.keys(characterArtwork)).toHaveLength(8)
     Object.entries(characterArtwork).forEach(([id, art]) => {
       expect(artworkForCharacter(id)).toEqual(art)
       expect(artworkForCharacter(art.name)).toEqual(art)

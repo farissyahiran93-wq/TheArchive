@@ -1,28 +1,52 @@
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { FileText, X, ZoomIn, ZoomOut } from 'lucide-react'
 import { usePhoneBack } from './usePhoneBack'
 import './contact-export-viewer.css'
 
-/** Readable external copy; opening it does not import it or authenticate its source. */
-export function ContactExportViewer({damaged,transferred,onTransfer,onOpenTrace,onClose}:{damaged:boolean;transferred:boolean;onTransfer:()=>void;onOpenTrace?:()=>void;onClose:()=>void}){
- const [zoom,setZoom]=useState(1),[confirm,setConfirm]=useState(false),[success,setSuccess]=useState(false)
- const close=useRef<HTMLButtonElement>(null),cancel=useRef<HTMLButtonElement>(null),filename=useRef<HTMLButtonElement>(null)
- const dismiss=()=>{if(confirm)setConfirm(false);else onClose()}
+// Only damaged character spans are available in this external fragment.
+const remarksFragment = [null, '�', null, '�', null] as const
+function analyseFragment(fragment: readonly (string|null)[]) {
+  const missingSpans = fragment.filter(span => span === null).length
+  const readable = fragment.filter(span => span !== null && span !== '�').join('')
+  return {missingSpans, readable}
+}
+
+export function ContactExportViewer({damaged,onAnalyse,onClose}:{damaged:boolean;onAnalyse:()=>void;onClose:()=>void}){
+ const [zoom,setZoom]=useState(1),[mode,setMode]=useState<'document'|'confirm'|'result'>('document')
+ const [analysis,setAnalysis]=useState<ReturnType<typeof analyseFragment>>()
+ const close=useRef<HTMLButtonElement>(null), cancel=useRef<HTMLButtonElement>(null), remarks=useRef<HTMLButtonElement>(null), done=useRef<HTMLButtonElement>(null)
+ const dismiss=()=>{if(mode==='confirm'){setMode('document');remarks.current?.focus()}else onClose()}
  usePhoneBack(dismiss)
  useEffect(()=>{const previous=document.activeElement as HTMLElement|null;close.current?.focus();return()=>previous?.focus()},[])
- useEffect(()=>{if(confirm)cancel.current?.focus()},[confirm])
- return <section className="contact-document-viewer" role="dialog" aria-modal="true" aria-label="Daniel contacts export document" onKeyDown={e=>{if(e.key==='Escape'){e.stopPropagation();dismiss()}else if(e.key==='Tab'){const scope=confirm?e.currentTarget.querySelector<HTMLElement>('[role="alertdialog"]'):e.currentTarget;const buttons=scope?.querySelectorAll<HTMLButtonElement>('button:not(:disabled)');if(!buttons?.length)return;const first=buttons[0],last=buttons[buttons.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}}}>
+ useEffect(()=>{if(mode==='confirm')cancel.current?.focus();if(mode==='result')done.current?.focus()},[mode])
+ return createPortal(<section className="contact-document-viewer" role="dialog" aria-modal="true" aria-label={mode==='result'?'TRACE fragment analysis':'Daniel contacts export document'} onKeyDown={event=>{
+   if(event.key==='Escape'){event.stopPropagation();dismiss()}
+   if(event.key!=='Tab')return
+   const scope=mode==='confirm'?event.currentTarget.querySelector('[role="alertdialog"]'):event.currentTarget
+   const buttons=scope?.querySelectorAll<HTMLButtonElement>('button:not(:disabled)')
+   if(!buttons?.length)return
+   const first=buttons[0],last=buttons[buttons.length-1]
+   if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus()}
+   else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}
+ }}>
+  {mode==='result'&&analysis?<div className="contact-fragment-analysis">
+   <header>TRACE · CORRUPTION ANALYSIS</header>
+   <h2>Contact entry remarks</h2><p>Temporary session · external fragment</p>
+   <dl><dt>Missing spans</dt><dd>{analysis.missingSpans}</dd><dt>Reconstructed text</dt><dd>{analysis.readable||'Unreadable'}</dd></dl>
+   <p>The available bytes cannot reconstruct the remark.</p>
+   <button ref={done} className="opening-primary" onClick={onClose}>RETURN TO SOPHIE</button>
+  </div>:<>
   <header className="contact-document-toolbar"><button ref={close} type="button" onClick={onClose} aria-label="Close document"><X size={21}/></button><span>DOCUMENT</span><div><button type="button" aria-label="Zoom out" disabled={zoom<=1} onClick={()=>setZoom(v=>Math.max(1,v-.25))}><ZoomOut size={20}/></button><button type="button" aria-label="Zoom in" disabled={zoom>=2} onClick={()=>setZoom(v=>Math.min(2,v+.25))}><ZoomIn size={20}/></button></div></header>
   <div className="contact-document-scroll"><article className="contact-document-sheet" style={{fontSize:`${zoom}rem`}}>
    <small className="contact-document-kicker"><FileText size={15}/> EXTERNAL DOCUMENT · UNVERIFIED</small>
-   <button ref={filename} className="contact-document-filename" type="button" onClick={()=>{setSuccess(false);setConfirm(true)}}>Daniel_Contacts_Export</button>
+   <h1 className="contact-document-filename">Daniel_Contacts_Export</h1>
    <p className="contact-document-origin">Copy shared by Sophie from Daniel’s family folder</p>
    <div className="contact-document-rule"/>
-   <h2>Contact entry</h2><dl><div><dt>Contact name</dt><dd>No saved name</dd></div><div><dt>Number</dt><dd>••• ••• ••41</dd></div><div><dt>Starred</dt><dd>★ Yes</dd></div><div><dt>Remarks</dt><dd>{damaged?'The Remarks field is damaged and unreadable.':'A separate remark reads “Don’t call this number”. Its associated entry is unknown.'}</dd></div></dl>
+   <h2>Contact entry</h2><dl><div><dt>Contact name</dt><dd>No saved name</dd></div><div><dt>Number</dt><dd>••• ••• ••41</dd></div><div><dt>Starred</dt><dd>★ Yes</dd></div><div><dt>Remarks</dt><dd>{damaged?<button ref={remarks} className="contact-damaged-remarks" aria-label="Inspect damaged remarks" onClick={()=>setMode('confirm')}><span aria-hidden="true">{remarksFragment.map(span=>span??'▰▰').join(' ')}</span><small>Damaged entry</small></button>:'A separate remark reads “Don’t call this number”. Its associated entry is unknown.'}</dd></div></dl>
    <div className="contact-document-rule"/><h2>Source details</h2><dl><div><dt>Source</dt><dd>Copy shared by Sophie from the family folder</dd></div><div><dt>Exporter</dt><dd>Unknown</dd></div><div><dt>Original date</dt><dd>Unknown</dd></div><div><dt>Possible modifications</dt><dd>Unknown</dd></div><div><dt>Authenticity</dt><dd>Unverified</dd></div></dl>
-   {transferred&&<p className="contact-document-status" role="status">{success?'Transferred to TRACE.':'Already transferred to TRACE.'}</p>}
-   {transferred&&onOpenTrace&&<button className="contact-document-open-trace" type="button" onClick={onOpenTrace}>OPEN IN TRACE</button>}
   </article></div>
-  {confirm&&<div className="contact-document-backdrop"><section className="contact-document-confirm" role="alertdialog" aria-modal="true" aria-labelledby="contact-transfer-title" aria-describedby="contact-transfer-description"><h2 id="contact-transfer-title">Transfer to TRACE?</h2><div id="contact-transfer-description"><p>This file was shared by Sophie and hasn't been verified.</p><p>Transfer it to TRACE for further analysis?</p></div>{transferred&&<p>Already transferred.</p>}<div><button ref={cancel} type="button" onClick={()=>{setConfirm(false);filename.current?.focus()}}>CANCEL</button><button type="button" disabled={transferred} onClick={()=>{onTransfer();setConfirm(false);setSuccess(true)}}>TRANSFER</button></div></section></div>}
- </section>
+  {mode==='confirm'&&<div className="contact-document-backdrop"><section className="contact-document-confirm" role="alertdialog" aria-modal="true" aria-labelledby="contact-transfer-title"><h2 id="contact-transfer-title">This section is damaged. Transfer the corrupted fragment to TRACE for analysis?</h2><div><button ref={cancel} type="button" onClick={dismiss}>CANCEL</button><button type="button" onClick={()=>{onAnalyse();setAnalysis(analyseFragment(remarksFragment));setMode('result')}}>ANALYSE WITH TRACE</button></div></section></div>}
+  </>}
+ </section>,document.querySelector('.device')??document.body)
 }

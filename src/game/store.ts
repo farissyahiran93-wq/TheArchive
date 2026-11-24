@@ -336,13 +336,15 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const current = get().save
     const now = Date.now()
     if (current.prologue?.scene01) {
-      const opening = deliverScene01(current, now)
+      const opening = deliverScene01(lucasPhotoAction(current, {type:'tick'}, now), now)
       const chapter = chapter2Access(chapter1Action(opening, { type: 'tick' }, now), { type: 'tick' }, now, playtestEnabled)
       const four = masterScene04Action(chapter, { type: 'tick' }, now)
       const five = masterScene05Action(four, { type: 'tick' }, now)
       const six = masterScene06Action(five, { type: 'tick' }, now)
       const seven = masterScene07Action(six, { type: 'tick' }, now)
-      commit(masterScene08Action(seven, { type: 'tick' }, now))
+      const eight = masterScene08Action(seven, { type: 'tick' }, now)
+      const nine = masterScene09Action(eight, { type: 'tick' }, now)
+      commit(masterScene09Action(nine, { type: 'tick-disclosure' }, now))
       return
     }
     if (current.prologue?.flow === 'mirror-first') {

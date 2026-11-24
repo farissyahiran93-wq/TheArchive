@@ -35,7 +35,7 @@ describe('Scene 8 Maya capture',()=>{
   expect(act(s,{type:'record-assessment',id:'crop-wording'})).toBe(s);expect(act(s,{type:'draft',index:0})).toBe(s)
   s=act(s,{type:'open'})
   for(let n=0;n<4;n++){s=act(s,{type:'draft',index:1});s=act(s,{type:'send'})}
-  expect(act(s,{type:'draft',index:0})).toBe(s)
+  expect(act(s,{type:'draft',index:0}).masterScene08?.draft).toBe(0)
   expect(act(s,{type:'record-assessment',id:'crop-lucas'})).toBe(s)
   s=act(s,{type:'record-assessment',id:'crop-original'})
   expect(s.evidence[captureId].verified).toBe(false)
@@ -44,7 +44,8 @@ describe('Scene 8 Maya capture',()=>{
  })
  it('paces and persists every branch, attachment and photo without inventing a finding',()=>{
   for(let target=0;target<10;target++)for(let option=0;option<3;option++){
-   let s=act(ready(),{type:'start'},1000)
+   let s=legacyStart(ready())
+   s={...s,masterScene08:{...s.masterScene08!,conversationRevision:'cinematic-v1',messages:[],pending:scene08Cinematic[0].intro.map((text,i)=>({id:'TA-S08-FIRST-'+i,text,dueAt:1000+i*2000}))}}
    expect(s.masterScene08?.messages).toHaveLength(0)
    expect(act(s,{type:'draft',index:0})).toBe(s)
    s=drain(s)

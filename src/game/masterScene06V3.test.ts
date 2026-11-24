@@ -59,7 +59,7 @@ describe('Scene 6 v3',()=>{
   expect(six(s,{type:'inspect-gap'})).toBe(s)
   expect(s.masterScene06?.complete).toBe(true)
   expect(s.deliveredEvents).toContain('TA-S06-SCENE07-UNLOCKED')
-  expect(masterScene07Action(s,{type:'start'},800000).masterScene07?.phase).toBe('ringing')
+  expect(masterScene07Action(s,{type:'start'},800000).masterScene07?.phase).toBe('chat')
   expect(s.masterScene05?.recoveryAnimation?.percent).toBe(20)
   const restarted=prepareReplay({capturedAt:800000,save:s},900000,6)
   expect(restarted.masterScene06?.scriptVersion).toBe('ch1-s5-s6-v3')

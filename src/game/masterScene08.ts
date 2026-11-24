@@ -1,17 +1,26 @@
 import { captureId, scene08Beats, scene08Cinematic, scene08CinematicEnding } from '../content/masterScene08'
+import { mayaCheckIn, mayaOpening } from '../content/mayaConversationV3'
+import { mayaConversationAction, queueMayaLines, validQueue, type PendingMayaLine, type MayaLine } from './mayaConversationV3'
 import type { GameSave } from './types'
 import { storyPhotos } from '../content/storyPhotos'
 import { captureAssessments } from '../content/masterSceneAssessments'
 
 export interface MasterScene08 {
- version:1; photoRevision?:1; conversationRevision?:'cinematic-v1'; pending?:{id:string;text:string;dueAt:number;kind?:'capture'|'photo'}[]; beat:number; draft?:number; messages:{id:string;sender:'maya'|'player';text:string;at:number;photo?:string;attachment?:'capture'}[]
+ version:1; photoRevision?:1; conversationRevision?:'cinematic-v1'|'conversation-v3'; pending?:PendingMayaLine[]; beat:number; draft?:number; messages:MayaLine[]
  received:boolean; opened:boolean; inspected:string[]; imported:boolean; analysis:boolean; compared:boolean; hypothesis?:number; assessment?:typeof captureAssessments[number]['id']; reviewed:boolean; saved:boolean; complete:boolean
 }
-export type MasterScene08Action={type:'start'|'send'|'open'|'tick'}|{type:'draft';index:number}|{type:'record-assessment';id:string}
+export type MasterScene08Action={type:'start'}|{type:'send'|'open'|'tick'}|{type:'draft';index:number}|{type:'record-assessment';id:string}
 export const captureFields=['header','text','time','crop','source'] as const
 const validChoice=(n:number)=>Number.isInteger(n)&&n>=0&&n<3
-export const canReplyInScene08=(p:MasterScene08)=>p.conversationRevision==='cinematic-v1'? !p.complete&&!p.pending?.length&&p.beat<10&&(p.beat<4||p.opened):!p.complete&&(p.beat<4||p.beat<8&&p.opened||p.beat<10&&p.saved)
-export const scene08CurrentBeat=(p:MasterScene08)=>p.conversationRevision==='cinematic-v1'?scene08Cinematic[p.beat]:scene08Beats[p.beat]
+export const canReplyInScene08=(p:MasterScene08)=>!p.complete&&!p.pending?.length&&(p.conversationRevision==='conversation-v3'
+ ? p.beat<mayaCheckIn.length&&(p.beat!==3||p.opened)
+ : p.beat<10&&(p.beat<4||p.opened))
+function historicalCheckInBeat(p:MasterScene08) {
+ const beat=scene08Beats[p.beat]
+ if(p.beat!==8||p.saved)return beat
+ return {...beat,choices:['Thank you for trusting me.',beat.choices[1],beat.choices[2]]}
+}
+export const scene08CurrentBeat=(p:MasterScene08)=>p.conversationRevision==='conversation-v3'?mayaCheckIn[p.beat]:p.conversationRevision==='cinematic-v1'?scene08Cinematic[p.beat]:historicalCheckInBeat(p)
 type ScheduledBubble=NonNullable<MasterScene08['pending']>[number]
 /** Small deterministic variation and length-dependent typing; deadlines survive reload. */
 export function mayaTypingDelay(text:string,sequence:number):number {
@@ -27,10 +36,13 @@ export function availableCaptureAssessments(save:GameSave){
 export function masterScene08Action(s:GameSave,a:MasterScene08Action,now=Date.now()):GameSave {
  let p=s.masterScene08
  if(a.type==='start'){
-  if(p||s.masterScene07?.phase!=='complete'||!s.masterScene07.saved||!s.deliveredEvents.includes('TA-S07-SCENE08-UNLOCKED'))return s
-  return {...s,masterScene08:{version:1,photoRevision:1,conversationRevision:'cinematic-v1',beat:0,messages:[],pending:queueBubbles(bubbleItems('TA-S08-FIRST',scene08Cinematic[0].intro),now),received:false,opened:false,inspected:[],imported:false,analysis:false,compared:false,reviewed:false,saved:false,complete:false}}
+  if(p||s.masterScene07?.phase!=='complete'||(!s.masterScene07.saved&&s.masterScene07.chat?.stage!=='done')||!s.deliveredEvents.includes('TA-S07-SCENE08-UNLOCKED'))return s
+  const contextShared=s.messages.some(line=>line.id==='TA-S07-RELAY-SOPHIE-MAYA'&&line.sender==='sophie'&&line.recipient==='maya')
+  const opening = contextShared ? mayaOpening : [mayaOpening[0], 'I found something in an old conversation with Daniel.', mayaOpening[2]]
+  return {...s,masterScene08:{version:1,photoRevision:1,conversationRevision:'conversation-v3',beat:0,messages:[],pending:queueMayaLines('TA-S08V3-FIRST',opening,now),received:false,opened:false,inspected:[],imported:false,analysis:false,compared:false,reviewed:false,saved:false,complete:false}}
  }
  if(!p)return s
+ if(p.conversationRevision==='conversation-v3')return a.type==='record-assessment'?s:mayaConversationAction(s,'masterScene08',a,now)
  const put=(next:MasterScene08):GameSave=>({...s,masterScene08:next})
  const canReply=canReplyInScene08(p)
  if(p.conversationRevision==='cinematic-v1'){
@@ -57,7 +69,7 @@ export function masterScene08Action(s:GameSave,a:MasterScene08Action,now=Date.no
  }
  if(a.type==='draft'&&canReply&&!p.complete&&validChoice(a.index))return put({...p,draft:a.index})
  if(a.type==='send'&&canReply&&!p.complete&&p.draft!==undefined){
-  const n=p.beat,i=p.draft,b=scene08Beats[n],player=`TA-S08-C${n+1}-P-${i}`,maya=`TA-S08-C${n+1}-M-${i}`,complete=n===9
+  const n=p.beat,i=p.draft,b=historicalCheckInBeat(p),player=`TA-S08-C${n+1}-P-${i}`,maya=`TA-S08-C${n+1}-M-${i}`,complete=n===9
   const photo=n===6&&p.photoRevision===1&&!s.deliveredEvents.includes(storyPhotos.mayaMugs.id)?storyPhotos.mayaMugs:undefined
   const messages=[...p.messages,{id:player,sender:'player' as const,text:b.choices[i],at:now},{id:maya,sender:'maya' as const,text:b.replies[i],at:now},...(photo?[{id:photo.id,sender:'maya' as const,text:'',photo:photo.src,at:now},{id:`${photo.id}-DIALOGUE`,sender:'maya' as const,text:photo.caption,at:now}]:[])]
   const events=[...new Set([...s.deliveredEvents,player,maya,...(photo?[photo.id,`${photo.id}-DIALOGUE`]:[]),...(n===3?['TA-S08-CAPTURE-RECEIVED']:[]),...(complete?['TA-S08-COMPLETE','TA-S08-SCENE09-UNLOCKED']:[])])]
@@ -74,5 +86,6 @@ export function masterScene08Action(s:GameSave,a:MasterScene08Action,now=Date.no
 export function validateMasterScene08(value:unknown):void{
  if(value===undefined)return
  const p=value as MasterScene08
- if(!p||p.version!==1||p.conversationRevision!==undefined&&p.conversationRevision!=='cinematic-v1'||p.pending!==undefined&&(p.conversationRevision!=='cinematic-v1'||!Array.isArray(p.pending)||p.pending.some(q=>!q||typeof q.id!=='string'||typeof q.text!=='string'||!Number.isFinite(q.dueAt)||q.kind!==undefined&&!['photo','capture'].includes(q.kind))||p.complete&&p.pending.length>0)||p.photoRevision!==undefined&&p.photoRevision!==1||!Number.isInteger(p.beat)||p.beat<0||p.beat>10||!Array.isArray(p.messages)||!Array.isArray(p.inspected)||p.inspected.some(x=>!captureFields.includes(x as typeof captureFields[number]))||['received','opened','imported','analysis','compared','reviewed','saved','complete'].some(k=>typeof p[k as keyof MasterScene08]!=='boolean')||p.draft!==undefined&&!validChoice(p.draft)||p.hypothesis!==undefined&&!validChoice(p.hypothesis)||p.opened&&!p.received||p.imported&&captureFields.some(x=>!p.inspected.includes(x))||p.assessment!==undefined&&(!captureAssessments.some(item=>item.id===p.assessment)||!p.saved||!p.opened||p.beat<8)||p.saved&&!p.assessment&&(!p.analysis||!p.compared||!p.reviewed||p.hypothesis===undefined)||p.complete&&(p.beat!==10||p.conversationRevision!=='cinematic-v1'&&!p.saved))throw Error('Invalid Scene 8 progress')
+ if(!p||p.version!==1||p.conversationRevision!==undefined&&!['cinematic-v1','conversation-v3'].includes(p.conversationRevision)||p.pending!==undefined&&(!p.conversationRevision||!Array.isArray(p.pending)||p.pending.some(q=>!q||typeof q.id!=='string'||typeof q.text!=='string'||!Number.isFinite(q.dueAt)||q.kind!==undefined&&!['photo','capture'].includes(q.kind))||p.complete&&p.pending.length>0)||p.photoRevision!==undefined&&p.photoRevision!==1||!Number.isInteger(p.beat)||p.beat<0||p.beat>10||!Array.isArray(p.messages)||!Array.isArray(p.inspected)||p.inspected.some(x=>!captureFields.includes(x as typeof captureFields[number]))||['received','opened','imported','analysis','compared','reviewed','saved','complete'].some(k=>typeof p[k as keyof MasterScene08]!=='boolean')||p.draft!==undefined&&!validChoice(p.draft)||p.hypothesis!==undefined&&!validChoice(p.hypothesis)||p.opened&&!p.received||p.imported&&captureFields.some(x=>!p.inspected.includes(x))||p.assessment!==undefined&&(!captureAssessments.some(item=>item.id===p.assessment)||!p.saved||!p.opened||p.beat<8)||p.saved&&!p.assessment&&(!p.analysis||!p.compared||!p.reviewed||p.hypothesis===undefined)||p.complete&&p.beat!==(p.conversationRevision==='conversation-v3'?mayaCheckIn.length:10))throw Error('Invalid Scene 8 progress')
+ if(p.conversationRevision==='conversation-v3'&&(!validQueue(p.pending)||p.beat>mayaCheckIn.length||p.draft!==undefined&&!mayaCheckIn[p.beat]?.choices[p.draft]||p.saved||p.imported||p.analysis||p.beat>3&&!p.opened||p.complete&&!p.opened))throw Error('Invalid Maya check-in conversation')
 }

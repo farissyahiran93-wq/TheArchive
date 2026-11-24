@@ -1,3 +1,4 @@
+import { sophieChatChoices } from '../game/sophieScene07Chat'
 import { Send } from 'lucide-react'
 import { sophiePrivacyChoices } from '../content/masterScene07'
 import { useGameStore } from '../game/store'
@@ -12,7 +13,10 @@ export function SophiePrivacyMessages(){
  </div>)}{privacy.pending&&<div className="opening-v4-typing" role="status" aria-label="Sophie is typing"><CharacterAvatar character="sophie" fallback="S" className="message-avatar"/><span className="typing-dots"><i/><i/><i/></span></div>}</section>
 }
 export function SophiePrivacyComposer(){
+ const chat=useGameStore(s=>s.save.masterScene07?.chat)
  const privacy=useGameStore(s=>s.save.masterScene07?.privacy),act=useGameStore(s=>s.masterScene07Action)
- if(!privacy||privacy.stage!=='choice'||privacy.pending)return null
- return <div className="opening-actions opening-v4-composer" aria-label="Reply to Sophie"><div className="opening-action-heading">Choose a reply</div><div className="scene01-options">{sophiePrivacyChoices.map((text,index)=><button key={text} className={`opening-choice ${privacy.draft===index?'selected':''}`} aria-pressed={privacy.draft===index} onClick={()=>act({type:'privacy-draft',index})}>{text}</button>)}</div><button className="opening-primary" disabled={privacy.draft===undefined} onClick={()=>act({type:'privacy-send'})}><Send size={17}/> Send</button></div>
+ const choices=chat?sophieChatChoices(chat):privacy?.stage==='choice'&&!privacy.pending?sophiePrivacyChoices:[]
+ if(!choices.length)return null
+ const draft=chat?.draft??privacy?.draft
+ return <div className="opening-actions opening-v4-composer" aria-label="Reply to Sophie"><div className="opening-action-heading">Choose a reply</div><div className="scene01-options">{choices.map((text,index)=><button key={text} className={`opening-choice ${draft===index?'selected':''}`} aria-pressed={draft===index} onClick={()=>act({type:chat?'chat-draft':'privacy-draft',index})}>{text}</button>)}</div><button className="opening-primary" disabled={draft===undefined} onClick={()=>act({type:chat?'chat-send':'privacy-send'})}><Send size={17}/> Send</button></div>
 }

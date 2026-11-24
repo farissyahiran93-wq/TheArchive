@@ -19,6 +19,8 @@ function settle(save: GameSave): GameSave {
 function readyForRecovery(): GameSave {
   let save = settle(beginScene01({ ...newGame(), masterOpening: true, chapter1Edition: 'ch01-v2-10' }, 1000))
   for (let i = 0; i < 9; i++) save = settle(sendScene01Choice(save, 'a', '', true, 20000 + i * 1000))
+  // This fixture exercises a save from the previous group screenplay.
+  save={...save,prologue:{...save.prologue!,scene01:{...save.prologue!.scene01!,masterScene02Revision:3}}}
   save = settle(beginScene02(scene01Invitation(save, 'join'), 40000))
   save = settle(sendScene01Choice(save, 'c', 'Alex', true, 41000))
   for (let i = 0; i < 9; i++) save = settle(sendScene01Choice(save, 'a', '', true, 50000 + i * 1000))

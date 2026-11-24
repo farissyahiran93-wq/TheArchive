@@ -14,8 +14,10 @@ function settle(s: GameSave): GameSave {
 function beforePrivate(): GameSave {
   let s=settle(beginScene01({...newGame(),masterOpening:true,chapter1Edition:'ch01-v2-10'},1000))
   for(let i=0;i<9;i++)s=settle(sendScene01Choice(s,'a','',true,20000+i*1000))
-  s=settle(beginScene02(scene01Invitation(s,'join'),40000));s=settle(sendScene01Choice(s,'c','Alex',true,41000))
-  for(let i=0;i<9;i++)s=settle(sendScene01Choice(s,'a','',true,50000+i*1000))
+  // This fixture exercises a save from the previous group screenplay.
+  s={...s,prologue:{...s.prologue!,scene01:{...s.prologue!.scene01!,masterScene02Revision:3}}}
+  s=settle(beginScene02(scene01Invitation(s,'join'),40000))
+  for(let i=0;i<10;i++)s=settle(sendScene01Choice(s,'a','',true,50000+i*1000))
   return s
 }
 describe('master Scene 3',()=>{
@@ -33,9 +35,9 @@ describe('master Scene 3',()=>{
   })
   it('requires the actual handoff, offers all 30 responses, saves facts and ends offline',()=>{
     expect(openScene03(newGame())).toEqual(newGame())
+    const handoff=beforePrivate()
+    expect(handoff.prologue!.scene01!.privateScene03).toBeUndefined()
     for(let selected=1;selected<=10;selected++)for(const option of ['a','b','c']){
-      const handoff=beforePrivate()
-      expect(handoff.prologue!.scene01!.privateScene03).toBeUndefined()
       let s=settle(openScene03(handoff,100000))
       for(let beat=1;beat<=10;beat++){
         const id=`TA-S03-C${String(beat).padStart(2,'0')}`,node=masterScene03Nodes[id]

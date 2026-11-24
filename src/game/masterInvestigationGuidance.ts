@@ -9,11 +9,11 @@ const guidance = {
   deeper: { title: 'Look beyond the first pass', direction: 'Unknown mentioned another segment of the archive.', focus: 'The next recovery operation concerns device activity.', assistance: 'Start The Missing Hour when ready, then use Activity Logs in TRACE.' },
   gap: { title: 'Continue investigating', direction: 'The recovered data remains available in TRACE.', focus: 'Consider what the records can and cannot establish.', assistance: 'You can discuss discoveries with Unknown.' },
   timelineFollowup: { title: 'Talk to Unknown', direction: 'You found a part of the evening the records cannot explain.', focus: 'What do you make of it?', assistance: 'Return to Unknown in Messages and choose a reply.' },
-  sophie: { title: 'Hear Sophie’s account', direction: 'There is a new lead in Sophie’s conversation.', focus: 'Her account may help put the original contact in context.', assistance: 'Open Sophie’s incoming call from Messages when you’re ready.' },
-  export: { title: 'Check the contact export', direction: 'Use the export alongside Sophie’s account.', focus: 'Separate the visible entry from the source history and the damaged text.', assistance: 'Record what the export corroborates or leave its origin or meaning unresolved. The damaged remark does not establish a warning.' },
-  maya: { title: 'Follow Maya’s lead', direction: 'Check Messages for Maya’s follow-up.', focus: 'Ask what she can establish about the evidence she found.', assistance: 'Open Maya’s conversation, then compare her account with the material she shares.' },
-  capture: { title: 'Compare the captured exchange', direction: 'Maya’s crop and the testimony are separate sources.', focus: 'Compare the wording and the visible boundaries with what Maya said about the original chat.', assistance: 'Record the wording the crop supports or leave the original or the subject of “another copy” unresolved.' },
-  card: { title: 'Establish a usable reference', direction: 'Look closely at the photo Maya sent.', focus: 'Distinguish the printed code from the markings and the claimed source.', assistance: 'Compare the photographed reference with an earlier clue. Record a search lead without authenticating the underlying record.' },
+  sophie: { title: 'Hear Sophie’s account', direction: 'There is a new lead in Sophie’s conversation.', focus: 'Her account may help put the original contact in context.', assistance: 'Open Sophie’s conversation in Messages when you’re ready.' },
+  export: { title: 'Check the contact export', direction: 'Open the copy Sophie sent in your chat.', focus: 'Separate the visible entry from the source history and the damaged text.', assistance: 'Return to Sophie and tell her what you can read.' },
+  maya: { title: 'Follow Maya’s lead', direction: 'Check Messages for Maya’s follow-up.', focus: 'Maya has been looking through her old messages.', assistance: 'Open your conversation with Maya.' },
+  capture: { title: 'Talk to Maya', direction: 'Read the messages Maya kept.', focus: 'Daniel mentioned another copy.', assistance: 'Ask Maya what she remembers about their conversation.' },
+  card: { title: 'Follow up about the card', direction: 'Look closely at the photo Maya sent.', focus: 'Distinguish the printed code from the markings and the claimed source.', assistance: 'Discuss the reference with Maya in Messages.' },
   inventory: { title: 'Follow the public reference', direction: 'Use Maya’s photographed reference to search the public inventory.', focus: 'Compare the two references and check what the listing does not supply.', assistance: 'Use a matching reference and at least one discovered clue to save a working theory. Leave an open question for later.' },
 } satisfies Record<string, Guidance>
 
@@ -41,5 +41,9 @@ export function selectInvestigationGuidance(save: GameSave): Guidance | undefine
   const nine = save.masterScene09
   if (!nine?.received) return guidance.maya
   if (!nine.complete) return guidance.card
+  if (nine.conversationRevision==='conversation-v3') {
+    if(!save.masterScene10?.matched)return { ...guidance.inventory, focus:'The photographed reference can be searched in the public index.', assistance:'Open Greyhaven Public Inventory on the Home screen and enter the reference on the card.' }
+    return
+  }
   if (!save.masterScene10?.saved) return guidance.inventory
 }

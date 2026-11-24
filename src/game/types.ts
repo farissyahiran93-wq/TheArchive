@@ -1,5 +1,6 @@
 export type Pronouns = 'she/her' | 'he/him' | 'they/them' | 'prefer not to say'
-export type CharacterId = 'maya' | 'daniel' | 'lucas' | 'sophie' | 'eli' | 'nora'
+export type GroupSpeaker = 'sophie' | 'maya' | 'lucas' | 'noah' | 'ana' | 'eli'
+export type CharacterId = GroupSpeaker | 'daniel' | 'nora'
 export type Relationship = { trust: number; affinity: number; suspicion: number; romance: number }
 export type Message = { id: string; sender: 'player' | 'fixture' | CharacterId; recipient?: CharacterId | 'fixture'; channel?: 'bulletin' | 'messages'; disclosedFactIds?: string[]; attachmentIds?: string[]; text: string; at: number; delivery: 'delivered' | 'read' }
 export type ScheduledEvent = { id: string; dueAt: number }
@@ -85,7 +86,7 @@ export interface OpeningState {
     scriptRevision?: 'final-2026-10-23'
     masterScene01?: true
     masterScene01Revision?: 2 | 3 | 4
-    masterScene02Revision?: 1 | 2
+    masterScene02Revision?: 1 | 2 | 3 | 4
     groupNameDraft?: string
     familyPhotoRevision?: 1
     familyPhotoReply?: { draft?:number; replied?:number }
@@ -108,11 +109,11 @@ export interface OpeningState {
     complete: boolean
     queue: { id: string; dueAt: number; typing: boolean }[]
     messages: { id: string; sender: 'sophie' | 'player'; text: string; at: number; photo?: string; attachment?: 'article'|'index'|'archive-package'|'register'|'inquiry' }[]
-    groupMessages: { id: string; sender: 'sophie' | 'maya' | 'lucas' | 'player' | 'system'; text: string; at: number; photo?: string; attachment?: 'article'|'index'|'archive-package'|'register'|'inquiry' }[]
+    groupMessages: { id: string; sender: GroupSpeaker | 'player' | 'system'; text: string; at: number; photo?: string; attachment?: 'article'|'index'|'archive-package'|'register'|'inquiry' }[]
     groupScript?: 'ch01_sc02_uninvited_guest'
-    groupPresence?: { sophie: boolean; maya: boolean; lucas: boolean }
+    groupPresence?: { sophie: boolean; maya: boolean; lucas: boolean; noah?: boolean; ana?: boolean; eli?: boolean }
     groupSourceBoundary?: boolean
-    groupMembers?: { sophie: boolean; maya: boolean; lucas: boolean; daniel?: boolean }
+    groupMembers?: { sophie: boolean; maya: boolean; lucas: boolean; daniel?: boolean; noah?: boolean; ana?: boolean; eli?: boolean }
     lucasLeftGroup?: boolean
     groupComplete?: boolean
     groupCompletedAt?: number
@@ -129,7 +130,7 @@ export interface OpeningState {
       draft?: { nodeId: string; choiceId: string }
       receipts: { eventId: string; recipient: 'player' | 'sophie'; factIds: string[] }[]
     }
-    groupReceipts?: { eventId: string; recipient: 'player' | 'sophie' | 'maya' | 'lucas'; factIds: string[] }[]
+    groupReceipts?: { eventId: string; recipient: 'player' | GroupSpeaker; factIds: string[] }[]
   }
   flow?: 'mirror-first'
   preGroupQuestions?: string[]
@@ -222,15 +223,15 @@ export interface GameSave {
   prologue?: OpeningState
 }
 
-export const characterIds: CharacterId[] = ['maya', 'daniel', 'lucas', 'sophie', 'eli', 'nora']
-const neutral = (): Relationship => ({ trust: 0, affinity: 0, suspicion: 0, romance: 0 })
+export const characterIds: CharacterId[] = ['maya', 'daniel', 'lucas', 'sophie', 'eli', 'nora', 'noah', 'ana']
+export const neutral = (): Relationship => ({ trust: 0, affinity: 0, suspicion: 0, romance: 0 })
 
 export function newGame(): GameSave {
   return {
     schemaVersion: 1, narrativePlan: 'ch01-master-18', player: null, episodeId: 'phase-00', sceneId: 'home', unlockedEpisodes: [],
     choices: {}, messages: [], pendingEvents: [], deliveredEvents: [],
-    knowledge: { player: [], characters: { maya: [], daniel: [], lucas: [], sophie: [], eli: [], nora: [] } },
-    relationships: { maya: neutral(), daniel: neutral(), lucas: neutral(), sophie: neutral(), eli: neutral(), nora: neutral() },
+    knowledge: { player: [], characters: { maya: [], daniel: [], lucas: [], sophie: [], eli: [], nora: [], noah: [], ana: [] } },
+    relationships: { maya: neutral(), daniel: neutral(), lucas: neutral(), sophie: neutral(), eli: neutral(), nora: neutral(), noah: neutral(), ana: neutral() },
     evidence: {}, notifications: [], settings: { reduceMotion: false },
   }
 }

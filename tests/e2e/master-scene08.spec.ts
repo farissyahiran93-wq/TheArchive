@@ -1,101 +1,76 @@
-import { expect, test } from '@playwright/test'
-import { masterScene04Action } from '../../src/game/masterScene04'
-import { cinematicBeats } from '../../src/content/masterScene04Cinematic'
-import { beginScene01, beginScene02, deliverScene01, openScene03, scene01Invitation, sendScene01Choice } from '../../src/game/scene01'
-import { newGame, type GameSave } from '../../src/game/types'
-import { completeMasterScene06, prepareMasterScene05Recovery, seedScene } from './scene01-helper'
-function settle(s:GameSave):GameSave{for(let i=0;i<100;i++){const q=s.prologue?.scene01?.queue[0];if(!q)return s;s=deliverScene01(s,q.dueAt)}throw Error('Queue did not settle')}
-function ready():GameSave{
- let s=settle(beginScene01({...newGame(),masterOpening:true,chapter1Edition:'ch01-v2-10'},1000))
- for(let i=0;i<9;i++)s=settle(sendScene01Choice(s,'a','',true,20000+i*1000))
- s=settle(beginScene02(scene01Invitation(s,'join'),40000))
- s = settle(sendScene01Choice(s, 'c', 'Alex', true, 41000))
- for(let i=0;i<9;i++)s=settle(sendScene01Choice(s,'a','',true,50000+i*1000))
- s=settle(openScene03(s,100000))
- for(let i=0;i<10;i++)s=settle(sendScene01Choice(s,'a','',true,140000+i*1000))
- s=masterScene04Action(masterScene04Action(s,{type:'start'},200000),{type:'open'})
- while(s.masterScene04?.pending)s=masterScene04Action(s,{type:'tick'},s.masterScene04.pending.dueAt)
- for(let i=0;i<cinematicBeats.length;i++){s=masterScene04Action(s,{type:'draft',index:0});s=masterScene04Action(s,{type:'send'},210000+i*50000);while(s.masterScene04?.pending)s=masterScene04Action(s,{type:'tick'},s.masterScene04.pending.dueAt)}
- return masterScene04Action(s,{type:'setup-trace'})
-}
-import { masterScene05Action as step5 } from '../../src/game/masterScene05'
-import { masterFragments } from '../../src/content/masterScene05'
-function afterFive():GameSave {
- let s=prepareMasterScene05Recovery(ready())
- s=step5(s,{type:'install'});s=step5(s,{type:'open-trace'});s=step5(s,{type:'recover'});s=step5(s,{type:'recovery-tick'},s.masterScene05!.recoveryAnimation!.startedAt+8000);s=step5(s,{type:'recovery-acknowledge'})
- for(const f of masterFragments)s=step5(s,{type:'read',id:f.id})
- s=step5(s,{type:'observe',id:masterFragments[0].id})
- s=step5(s,{type:'save',id:masterFragments[0].id})
- s=step5(s,{type:'discussion',action:{type:'select',topic:'dinner'}})
- for(let i=0;i<2;i++){s=step5(s,{type:'discussion',action:{type:'draft',index:0}});s=step5(s,{type:'discussion',action:{type:'send'}});while(s.masterScene05?.discussion?.pending.length)s=step5(s,{type:'discussion',action:{type:'deliver'}})}
- s=step5(s,{type:'discussion',action:{type:'select',topic:'finish'}});s=step5(s,{type:'discussion',action:{type:'send'}})
- return s
-}
-function afterSix():GameSave {
- return completeMasterScene06(afterFive())
-}
-import { masterScene08Action as step8 } from '../../src/game/masterScene08'
+import { expect, test, type Page } from '@playwright/test'
+import { afterSeven } from './maya-conversation-helper'
+import { seedScene } from './scene01-helper'
 import { scene08Beats } from '../../src/content/masterScene08'
-import { masterScene07Action as step7 } from '../../src/game/masterScene07'
-function afterSeven():GameSave {
- let s=step7(afterSix(),{type:'start'});s=step7(s,{type:'answer'})
- for(let i=0;i<10;i++){s=step7(s,{type:'clip-ended'});s=step7(s,{type:'draft',index:0});s=step7(s,{type:'send'})}
- s=step7(s,{type:'clip-ended'});s=step7(s,{type:'open'});s=step7(s,{type:'record-assessment',id:'copy-provenance'})
- while(s.masterScene07?.privacy?.pending)s=step7(s,{type:'tick'},s.masterScene07.privacy.pending.dueAt)
- s=step7(s,{type:'privacy-draft',index:0});s=step7(s,{type:'privacy-send'})
- while(s.masterScene07?.privacy?.pending)s=step7(s,{type:'tick'},s.masterScene07.privacy.pending.dueAt)
- return s
-}
-for(const shared of [false,true])test(`Maya crop investigation preserves uncertainty and 20% recovery (Lucas not contacted: ${shared})`,async({page})=>{
- await seedScene(page,afterSeven());await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Maya Scene 8 conversation'}).click();await page.clock.runFor(120000)
- for(let i=0;i<4;i++){
-  await expect(page.locator('.scene01-options .opening-choice')).toHaveCount(3)
-  await page.locator('.scene01-options .opening-choice').nth(i%3).click();await page.getByRole('button',{name:'Send',exact:true}).click()
-  await expect(page.getByRole('status',{name:'Maya is typing'})).toBeVisible();await expect(page.locator('.scene01-options .opening-choice')).toHaveCount(0)
-  if(i===0&&!shared){
-   await page.screenshot({path:'artifacts/rework-2026-11-19/maya-typing.png'});await page.clock.runFor(2000)
-   const first=page.getByText('I went back through some old messages with Daniel.',{exact:true});await expect(first).toHaveCount(1)
-   await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'));await page.reload();await page.getByRole('button',{name:'Unlock phone'}).click();await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Maya Scene 8 conversation'}).click()
-   await expect(first).toHaveCount(1);await expect(page.getByRole('status',{name:'Maya is typing'})).toBeVisible();await page.clock.runFor(5000)
-   await expect(page.getByText("There's one conversation I haven't been able to stop thinking about.",{exact:true})).toHaveCount(1);await page.screenshot({path:'artifacts/rework-2026-11-19/maya-two-bubbles.png'})
-  }
-  await page.clock.runFor(120000)
- }
- if(!shared){
-  await page.getByRole('button',{name:'Back to inbox'}).click();await page.getByRole('button',{name:'Open Lucas private photo conversation'}).click();await page.getByRole('button',{name:'OPEN LUCAS CONVERSATION'}).click()
-  for(let i=0;i<3;i++){await expect(page.locator('.scene01-options .opening-choice')).toHaveCount(3);await page.locator('.scene01-options .opening-choice').nth(i).click();await page.getByRole('button',{name:'Send',exact:true}).click()}
-  await page.getByRole('button',{name:/Open Lucas.s photo: Lucas and Daniel/}).click();await expect(page.getByRole('dialog',{name:'Photo viewer'})).toBeVisible();await page.getByRole('button',{name:'Close photo'}).click()
-  await page.getByRole('button',{name:'Back to inbox'}).click();await page.getByRole('button',{name:'Open Maya Scene 8 conversation'}).click()
- }
- await expect(page.getByRole('article',{name:'Message capture attachment'})).toBeVisible();await page.getByRole('button',{name:'OPEN CAPTURE'}).click()
- await expect(page.getByText(/Lucas checked in. He said there was another copy/)).toBeVisible()
- if(!shared)await page.screenshot({path:'artifacts/rework-2026-11-19/maya-capture.png'})
- await page.getByRole('button',{name:'Close capture'}).click();await page.clock.runFor(120000)
- for(let i=0;i<4;i++){await expect(page.locator('.scene01-options .opening-choice')).toHaveCount(3);await page.locator('.scene01-options .opening-choice').nth(i%3).click();await page.getByRole('button',{name:'Send',exact:true}).click();await page.clock.runFor(120000)}
- const mugs=page.getByRole('button',{name:/Open Maya.s photo: Two mugs/});await mugs.scrollIntoViewIfNeeded()
- if(!shared)await page.screenshot({path:'artifacts/rework-2026-11-19/maya-photo.png'})
- await mugs.click();await expect(page.getByRole('dialog',{name:'Photo viewer'})).toBeVisible();await page.getByRole('button',{name:'Close photo'}).click()
- await page.getByRole('button',{name:'Go home'}).click();await page.getByRole('button',{name:'Open TRACE'}).click();await expect(page.getByText('Recovery: 20%')).toBeVisible()
- const verification=page.getByRole('article',{name:'Check-in statement verification'})
- if(shared){
-  await expect(verification.getByRole('button',{name:'What Lucas can corroborate directly'})).toHaveCount(0)
-  await verification.getByRole('button',{name:'What Daniel’s message says'}).click()
-  await expect(verification.getByText('Corroborated within the available copy')).toBeVisible()
- }else{
-  await verification.getByRole('button',{name:'What Lucas can corroborate directly'}).click()
-  await expect(verification.getByText(/His privacy boundary is not a contradiction/)).toBeVisible()
- }
- await verification.getByRole('button',{name:'Save check-in finding'}).click()
- await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'));await page.reload();await page.getByRole('button',{name:'Unlock phone'}).click();await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Maya Scene 8 conversation'}).click()
- await expect(page.getByRole('button',{name:/Open Maya.s photo: Two mugs/})).toHaveCount(1)
- for(let i=0;i<2;i++){await page.locator('.scene01-options .opening-choice').last().click();await page.getByRole('button',{name:'Send',exact:true}).click();await page.clock.runFor(120000)}
- await expect(page.getByText('For listening to me.',{exact:true})).toBeVisible()
- await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'));await page.reload();await page.getByRole('button',{name:'Unlock phone'}).click();await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Maya Scene 8 conversation'}).click()
- await expect(page.getByText('For listening to me.',{exact:true})).toHaveCount(1);await expect(page.getByRole('button',{name:/Open Maya.s photo: Two mugs/})).toHaveCount(1)
- if(!shared)await page.screenshot({path:'artifacts/rework-2026-11-19/maya-final-reload.png'})
- await expect(page.getByLabel('Scene 9 Maya conversation')).toBeVisible()
-})
+import { masterScene08Action as step8 } from '../../src/game/masterScene08'
+import type { GameSave } from '../../src/game/types'
 
+async function openMaya(page:Page){
+ await page.getByRole('button',{name:'Open Messages',exact:true}).first().click()
+ await page.getByRole('button',{name:'Open Maya Scene 8 conversation'}).click()
+}
+async function reply(page:Page,text:string){
+ await page.getByRole('button',{name:text,exact:true}).click()
+ await page.getByRole('button',{name:'Send',exact:true}).click()
+ await page.clock.runFor(30000)
+}
+
+for(const width of [320,390])test('Maya screenshot, mugs photograph and Scene 9 continue in one thread at '+width+'px',async({page},testInfo)=>{
+ await page.setViewportSize({width,height:800})
+ await seedScene(page,afterSeven())
+ await openMaya(page)
+ await page.clock.runFor(15000)
+ await page.getByRole('button',{name:'Not at all. How are you doing?',exact:true}).click()
+ await expect(page.getByText('Not at all. How are you doing?',{exact:true})).toHaveCount(1)
+ await page.getByRole('button',{name:'Send',exact:true}).click()
+ await expect(page.getByRole('status',{name:'Maya is typing'})).toBeVisible()
+ await expect(page.locator('.scene01-options button')).toHaveCount(0)
+ await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'))
+ await page.reload()
+ await page.getByRole('button',{name:'Unlock phone'}).click()
+ await openMaya(page)
+ await page.clock.runFor(30000)
+ await expect(page.getByText("I've been going through some old messages.",{exact:true})).toHaveCount(1)
+ await reply(page,'Different how?')
+ await reply(page,'Would you be comfortable showing me?')
+ await expect(page.locator('.scene01-options button')).toHaveCount(0)
+ await page.getByRole('button',{name:'Open Maya’s message screenshot'}).click()
+ const viewer=page.getByRole('dialog',{name:'Maya’s saved message screenshot'})
+ await expect(viewer).toBeVisible()
+ await expect(viewer.getByText('21:14',{exact:true})).toBeVisible()
+ await expect(viewer.getByText(/Lucas checked in. He said there was another copy/)).toBeVisible()
+ await expect(viewer.getByText(/cropped above|cropped below/)).toHaveCount(0)
+ await page.screenshot({path:testInfo.outputPath('maya-screenshot-'+width+'.png')})
+ await viewer.getByRole('button',{name:'Zoom in'}).click()
+ await expect(viewer.locator('.chat-document-canvas')).toHaveCSS('transform','matrix(1.5, 0, 0, 1.5, 0, 0)')
+ const canvas=viewer.locator('.chat-photo-canvas')
+ const box=await canvas.boundingBox()
+ if(!box)throw new Error('Screenshot canvas is unavailable')
+ const x=box.x+box.width/2,y=box.y+box.height/2
+ const touch=await page.context().newCDPSession(page)
+ const fingers=(distance:number)=>[{id:1,x:x-distance,y},{id:2,x:x+distance,y}]
+ await touch.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:fingers(25)})
+ await touch.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:fingers(30)})
+ await touch.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:fingers(55)})
+ await touch.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]})
+ await expect.poll(()=>viewer.locator('.chat-document-canvas').evaluate(el=>new DOMMatrixReadOnly(getComputedStyle(el).transform).a)).toBeGreaterThan(1.5)
+ await touch.detach()
+ await viewer.getByRole('button',{name:'Close photo'}).click()
+ await page.clock.runFor(15000)
+ await reply(page,"We don't know what he meant by another copy.")
+ await page.getByRole('button',{name:/Open Maya.s photo: Two mugs/}).click()
+ await expect(page.getByRole('dialog',{name:'Photo viewer'}).getByRole('img')).toBeVisible()
+ await page.getByRole('button',{name:'Zoom in'}).click()
+ await page.getByRole('button',{name:'Close photo'}).click()
+ await reply(page,'Thank you for showing me.')
+ const chat=page.getByRole('region',{name:'Maya conversation'})
+ await expect(chat.getByText('I just want him back.',{exact:true})).toHaveCount(1)
+ await expect(chat.getByText("There's something else.",{exact:true})).toHaveCount(1)
+ await expect(chat.getByRole('button',{name:'What is it?'})).toBeVisible()
+ await expect(chat.locator('.opening-thread')).toHaveCount(1)
+ await expect(chat.getByRole('button',{name:'Open Maya’s message screenshot'})).toHaveCount(1)
+ await expect(chat.getByRole('button',{name:/Open Maya.s photo: Two mugs/})).toHaveCount(1)
+})
 
 test('historical Maya conversation resumes its original mid-scene dialogue after reload',async({page})=>{
  const base=afterSeven()

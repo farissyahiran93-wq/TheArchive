@@ -13,6 +13,9 @@ import { gcroPages } from '../content/gcroExport'
 import { downloadDevTelemetry, readDevTelemetry } from '../game/devTelemetry'
 import { CaseBoardApp } from './CaseBoardApp'
 import { DanielMirror } from './DanielMirror'
+import { ChatProfile } from './ChatProfile'
+import { groupTitle } from '../game/groupTitle'
+import { canStartLucasConversation } from '../game/lucasPhoto'
 import { CharacterAvatar } from './CharacterAvatar'
 import { followupAvailable } from '../game/characterFollowups'
 import type { FollowupContact } from '../content/characterFollowups'
@@ -82,9 +85,22 @@ function ContactsApp() {
   const save = useGameStore(state => state.save)
   const { openSophie, openMaya, openCharacter } = useCaseNavigation()
   const sophie = save.prologue?.scene01 ? save.prologue.scene01.introduced : !!save.prologue && (save.prologue.dialogueVersion !== 4 || save.deliveredEvents.some(id => id.startsWith('OPEN-V4-FIRST-ANSWER-')))
-  const maya = !save.prologue?.scene01 && save.deliveredEvents.includes('CONN-E01-01')
-  const followups = (save.prologue?.scene01 ? ['lucas'] as FollowupContact[] : ['lucas','eli','nora'] as FollowupContact[]).filter(contact => followupAvailable(save, contact))
-  return <div className="utility-content"><p className="section-caption">CONTACTS</p>{sophie && <button className="contact-entry" onClick={openSophie}><CharacterAvatar character="sophie" fallback="S" className="contact-avatar"/><span><strong>{save.prologue?.scene01 ? 'Sophie' : 'Sophie Mercer'}</strong><small>Messages</small></span><ChevronRight size={18}/></button>}{maya && <button className="contact-entry" onClick={openMaya}><CharacterAvatar character="maya" fallback="M" className="contact-avatar"/><span><strong>Maya Chen</strong><small>Messages</small></span><ChevronRight size={18}/></button>}{followups.map(contact => { const name = contact === 'lucas' ? 'Lucas Grey' : contact === 'eli' ? 'Eli Ward' : 'Nora Vance'; return <button key={contact} className="contact-entry" onClick={() => openCharacter(contact)}><CharacterAvatar character={contact} fallback={name[0]} className="contact-avatar"/><span><strong>{name}</strong><small>{contact === 'lucas' ? 'From FIND DANIEL' : 'Maya’s case-contact referral'}</small></span><ChevronRight size={18}/></button> })}{!sophie && !maya && !followups.length && <p className="utility-note">No contacts yet.</p>}</div>
+  const scene = save.prologue?.scene01
+  const revised = (scene?.masterScene02Revision ?? 0) >= 3
+  const maya = revised && save.masterScene07?.phase === 'complete' || !scene && save.deliveredEvents.includes('CONN-E01-01')
+  const followups = (scene ? ['lucas'] as FollowupContact[] : ['lucas','eli','nora'] as FollowupContact[]).filter(contact =>
+    followupAvailable(save, contact) || revised && contact === 'lucas' && canStartLucasConversation(save))
+  const friends = (['noah', 'ana', 'eli'] as const).filter(id => revised && scene?.groupMessages.some(line => line.sender === id))
+  return <div className="utility-content"><p className="section-caption">CONTACTS</p>
+    {sophie && <button className="contact-entry" onClick={openSophie}><CharacterAvatar character="sophie" fallback="S" className="contact-avatar"/><span><strong>{scene ? 'Sophie' : 'Sophie Mercer'}</strong><small>Messages</small></span><ChevronRight size={18}/></button>}
+    {maya && <button className="contact-entry" onClick={openMaya}><CharacterAvatar character="maya" fallback="M" className="contact-avatar"/><span><strong>Maya Chen</strong><small>Messages</small></span><ChevronRight size={18}/></button>}
+    {followups.map(contact => {
+      const name = contact === 'lucas' ? 'Lucas Grey' : contact === 'eli' ? 'Eli Ward' : 'Nora Vance'
+      return <button key={contact} className="contact-entry" onClick={() => openCharacter(contact)}><CharacterAvatar character={contact} fallback={name[0]} className="contact-avatar"/><span><strong>{name}</strong><small>{contact === 'lucas' ? `From ${groupTitle(save)}` : 'Maya’s case-contact referral'}</small></span><ChevronRight size={18}/></button>
+    })}
+    {friends.map(id => <ChatProfile key={id} contact={id} directoryEntry/>)}
+    {!sophie && !maya && !followups.length && !friends.length && <p className="utility-note">No contacts yet.</p>}
+  </div>
 }
 
 function PhotosApp() {

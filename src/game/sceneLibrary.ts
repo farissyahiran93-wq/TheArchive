@@ -1,3 +1,7 @@
+import { masterChapterMetadata } from '../content/masterChapterMetadata'
+import { masterScene07Action } from './masterScene07'
+import { masterScene08Action } from './masterScene08'
+import { masterScene09Action } from './masterScene09'
 import { canOpenScene6Register } from './investigationAccess'
 import { chapter1ScenePlan } from '../content/chapter1Plan'
 import { chapter1V2 } from '../content/chapter1V2'
@@ -7,7 +11,7 @@ import type { GameSave } from './types'
 import { masterScene04Action } from './masterScene04'
 import { masterScene05Action } from './masterScene05'
 import { masterScene06Action } from './masterScene06'
-import { beginScene01 } from './scene01'
+import { beginScene01, beginScene02 } from './scene01'
 
 // Only integrated production screenplays belong here. Structural previews and
 // the separate historical Chapter 2 arc are deliberately not new-game entries.
@@ -16,7 +20,7 @@ export const chapterLibrary = [{ id: 'chapter-1', number: 1, title: 'The Missing
   .map(scene => ({ number: scene.number, id: scene.id, title: ({7:'The Byline',8:'The Missing Issuer',9:'The Transfer Register',10:'The Inventory Sheet'} as Record<number,string>)[scene.number] ?? scene.title })) }]
 export const libraryScenes = chapterLibrary.flatMap(chapter => chapter.scenes)
 export type LibraryScene = typeof libraryScenes[number]
-export const chapterLibraryForSave=(save:GameSave)=>save.chapter1Edition==='ch01-v2-10'?[{id:'chapter-1-v2',number:1,title:save.masterOpening?'The First Trace':'The Missing Entry',scenes:chapter1V2.scenes.map(({number,id,title})=>({number,id,title:save.masterOpening?({4:'The Unknown Sender',5:'The Digital Archive',6:'The Missing Hour',7:'The Starred Number',8:'The Last Check-In',9:'The Secondary Card',10:'The Inventory Sheet'} as Record<number,string>)[number]??title:title}))}]:chapterLibrary
+export const chapterLibraryForSave=(save:GameSave)=>save.chapter1Edition==='ch01-v2-10'?[{id:'chapter-1-v2',number:1,title:save.masterOpening?'The First Trace':'The Missing Entry',scenes:chapter1V2.scenes.map(({number,id,title})=>({number,id,title:save.masterOpening?masterChapterMetadata[0].scenes.find(scene=>scene.number===number)?.title??title:title}))}]:chapterLibrary
 export const libraryScenesForSave=(save:GameSave)=>chapterLibraryForSave(save).flatMap(chapter=>chapter.scenes)
 
 export function sceneVisited(save: GameSave, n: number): boolean {
@@ -95,7 +99,7 @@ export function prepareReplay(entry: NonNullable<GameSave['replayEntries']>[stri
   const scene = replay.prologue?.scene01
   // A deliberate Scene 1 restart starts the current script, while Continue
   // still resumes the exact historical graph and already-delivered text.
-  if (sceneNumber === 1 && scene?.masterScene01 && scene.masterScene01Revision !== 4) {
+  if (sceneNumber === 1 && scene?.masterScene01 && (scene.masterScene01Revision !== 4 || scene.masterScene02Revision !== 4)) {
     const oldIds = new Set(scene.messages.map(line => line.id))
     const base: GameSave = { ...replay,
       deliveredEvents: replay.deliveredEvents.filter(id => !oldIds.has(id)),
@@ -103,6 +107,21 @@ export function prepareReplay(entry: NonNullable<GameSave['replayEntries']>[stri
       prologue: { ...replay.prologue!, scene01: undefined },
     }
     return beginScene01(base, now)
+  }
+  if (sceneNumber === 2 && scene?.masterScene01 && scene.invitation === 'joined') {
+    const isGroupEvent = (id: string) => id.startsWith('TA-S02-') || id === 'TA-S03-FIRST-MESSAGE'
+    const base: GameSave = { ...replay,
+      choices: Object.fromEntries(Object.entries(replay.choices).filter(([id]) => !isGroupEvent(id))),
+      deliveredEvents: replay.deliveredEvents.filter(id => !isGroupEvent(id)),
+      notifications: replay.notifications.filter(item => !isGroupEvent(item.id)),
+      messages: replay.messages.filter(item => !isGroupEvent(item.id)),
+      prologue: { ...replay.prologue!, scene01: { ...scene,
+        masterScene02Revision: 4, groupScript: undefined, draft: undefined, groupNameDraft: undefined,
+        groupComplete: undefined, groupCompletedAt: undefined, lucasLeftGroup: undefined, privateHandoff: undefined,
+        queue: [], groupMessages: [], groupReceipts: [],
+      } },
+    }
+    return beginScene02(base, now)
   }
   if(sceneNumber===4&&scene?.masterScene01&&replay.masterScene04&&replay.masterScene04.revision!=='cinematic'){
     const id='TA-S04-SOPHIE-ELI-ENQUIRY',first='TA-S04-FIRST'
@@ -126,6 +145,30 @@ export function prepareReplay(entry: NonNullable<GameSave['replayEntries']>[stri
       messages: replay.messages.filter(item => !item.id.startsWith('TA-S06-')),
     }
     return masterScene06Action(base, {type:'start'}, now)
+  }
+  // Re-enter from the recorded boundary. Keep contemporaneous receipts from
+  // earlier conversations, including independently started Lucas exchanges.
+  if (scene?.masterScene01 && sceneNumber && [7,8,9].includes(sceneNumber)) {
+    const number=String(sceneNumber).padStart(2,'0')
+    const sourceId = sceneNumber===7 ? 'TA-EX-STARRED-ENTRY' : sceneNumber===8 ? 'CAP_LAST_CHECKIN_01' : 'TA-EX-REFERENCE-CARD'
+    const sceneEvent=(id:string)=>id===sourceId || (id.startsWith(`TA-S${number}-`)||id.startsWith(`TA-S${number}V3-`))&&!id.startsWith('TA-S08-LUCAS-')
+    const characters={...replay.knowledge.characters}
+    for(const actor of Object.keys(characters) as (keyof typeof characters)[])characters[actor]=characters[actor].filter(id=>!sceneEvent(id))
+    const base:GameSave={...replay,
+      evidence:Object.fromEntries(Object.entries(replay.evidence).filter(([id])=>!sceneEvent(id))),
+      knowledge:{player:replay.knowledge.player.filter(id=>!sceneEvent(id)),characters},
+      deliveredEvents:replay.deliveredEvents.filter(id=>!sceneEvent(id)),
+      notifications:replay.notifications.filter(item=>!sceneEvent(item.id)),
+      messages:replay.messages.filter(item=>!sceneEvent(item.id)),
+      choices:Object.fromEntries(Object.entries(replay.choices).filter(([id])=>!sceneEvent(id))),
+      prologue:{...replay.prologue!,scene01:{...scene,messages:scene.messages.filter(item=>!sceneEvent(item.id))}},
+    }
+    const restarted=sceneNumber===7?masterScene07Action({...base,masterScene07:undefined},{type:'start'},now)
+      :sceneNumber===8?masterScene08Action({...base,masterScene08:undefined},{type:'start'},now)
+      :masterScene09Action({...base,masterScene09:undefined},{type:'start'},now)
+    const state=sceneNumber===7?restarted.masterScene07:sceneNumber===8?restarted.masterScene08:restarted.masterScene09
+    if(!state)throw Error('The preceding scene must be completed before restarting this conversation.')
+    return restarted
   }
   // A requested Scene 4 replay uses today's authored bridge, even when its
   // recorded entry predates the natural-flow revisions. Keep the entry immutable.

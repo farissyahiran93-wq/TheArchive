@@ -46,7 +46,7 @@ function recordMissingHour(s:GameSave,p:MasterScene06,now:number):GameSave {
 }
 
 function completeScene(s:GameSave,p:MasterScene06,now:number):GameSave {
- const scene=s.prologue?.scene01, sophieText="I went back to the contact export. I keep wondering why that number was starred. I still don't know who marked it."
+ const scene=s.prologue?.scene01, sophieText='Hey.'
  if(scene&&!s.deliveredEvents.includes('TA-S06-SOPHIE-EXPORT'))s={...s,prologue:{...s.prologue!,scene01:{...scene,messages:[...scene.messages,{id:'TA-S06-SOPHIE-EXPORT',sender:'sophie',text:sophieText,at:now}]}},messages:[...s.messages,{id:'TA-S06-SOPHIE-EXPORT',sender:'sophie',channel:'messages',text:sophieText,at:now,delivery:'delivered'}],notifications:[...s.notifications,{id:'TA-S06-SOPHIE-EXPORT',text:sophieText,read:false}],deliveredEvents:[...s.deliveredEvents,'TA-S06-SOPHIE-EXPORT']}
  return {...s,deliveredEvents:[...new Set([...s.deliveredEvents,'TA-S06-COMPLETE','TA-S06-SCENE07-UNLOCKED'])],masterScene06:{...p,complete:true}}
 }

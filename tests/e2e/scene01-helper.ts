@@ -1,3 +1,4 @@
+import { masterScene07Action as stepSophie } from '../../src/game/masterScene07'
 import { expect, type Page } from '@playwright/test'
 import { newGame, type GameSave } from '../../src/game/types'
 import { scene01Nodes } from '../../src/content/scene01'
@@ -106,4 +107,27 @@ export async function sceneReply(page: Page, text: string | RegExp) {
   await page.getByRole('button', { name: text, exact: typeof text === 'string' }).click()
   await page.getByRole('button', { name: 'Send', exact: true }).click()
   await page.clock.runFor(120_000)
+}
+
+export function settleSophieConversation(save:GameSave):GameSave {
+  while(save.masterScene07?.chat?.pending)save=stepSophie(save,{type:'tick'},save.masterScene07.chat.pending.dueAt)
+  return save
+}
+export function sophieChatReply(save:GameSave,index=0):GameSave {
+  const selected=stepSophie(settleSophieConversation(save),{type:'chat-draft',index})
+  return settleSophieConversation(stepSophie(selected,{type:'chat-send'}))
+}
+export function sophieAttachmentReady(save:GameSave):GameSave {
+  let s=sophieChatReply(stepSophie(save,{type:'start'}))
+  s=stepSophie(s,{type:'answer'})
+  for(let clip=0;clip<10;clip++){
+    s=stepSophie(s,{type:'clip-ended'})
+    s=stepSophie(s,{type:'draft',index:0})
+    s=stepSophie(s,{type:'send'})
+  }
+  return settleSophieConversation(stepSophie(s,{type:'clip-ended'}))
+}
+export function completeSophieConversation(save:GameSave):GameSave {
+  const opened=stepSophie(sophieAttachmentReady(save),{type:'open'})
+  return sophieChatReply(sophieChatReply(opened))
 }

@@ -24,7 +24,7 @@ test('Investigation Board preserves recovered sources, private connections and p
  for(const name of ['Maya Chen','Sophie Mercer']){
   await page.getByRole('button',{name:new RegExp(name)}).click();await expect(page.getByRole('heading',{name,exact:true})).toBeVisible();await page.getByRole('button',{name:'BACK TO TRACE'}).click()
  }
- await page.getByRole('button',{name:'BACK TO TRACE'}).click();await page.getByRole('button',{name:'Open Investigation Board module'}).click()
+ await page.getByRole('button',{name:'Go home'}).click();await page.getByRole('button',{name:'Open Investigation Board'}).click()
  const maya=page.getByRole('button',{name:"Select evidence: Maya Chen's messages"}),sophie=page.getByRole('button',{name:"Select evidence: Sophie Mercer's messages"})
  await expect(maya).toHaveCount(1);await expect(sophie).toHaveCount(1)
  await page.getByRole('combobox',{name:'Evidence index'}).selectOption({label:"Maya Chen's messages"});const before=await maya.getAttribute('style')
@@ -33,12 +33,12 @@ test('Investigation Board preserves recovered sources, private connections and p
  const connection=page.getByRole('button',{name:/Remove connection between/});await expect(connection).toBeVisible()
  await page.getByText('Edit tentative connection',{exact:true}).click();await page.getByLabel('Relationship label').fill('Two separate recovered conversations');await page.getByLabel('Player assessment').selectOption('tentative');await page.getByRole('button',{name:'Save connection'}).click()
  await expect(page.getByText('Two separate recovered conversations · tentative')).toBeVisible()
- await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'));await page.reload();await page.getByRole('button',{name:'Unlock phone'}).click();await page.getByRole('button',{name:'Open TRACE'}).click()
+ await page.waitForFunction(()=>!sessionStorage.getItem('the-archive-reboot:pending-save:v1'));await page.reload();await page.getByRole('button',{name:'Unlock phone'}).click();await page.getByRole('button',{name:'Open Investigation Board'}).click()
  await expect(maya).toHaveAttribute('style',moved!);await expect(connection).toBeVisible();await expect(page.getByText('Two separate recovered conversations · tentative')).toBeVisible()
  await page.getByRole('button',{name:'Home',exact:true}).click();await page.getByRole('button',{name:'Open Messages',exact:true}).first().click();await page.getByRole('button',{name:'Open Unknown conversation'}).click();await page.clock.runFor(120000)
  for(const topic of ['maya','sophie','lucas','june']){await page.getByLabel('Choose a discussion').selectOption(topic);for(let i=0;i<2;i++){await page.locator('.scene01-options .opening-choice').first().click({force:true});await page.getByRole('button',{name:'Send',exact:true}).click({force:true});await page.clock.runFor(120000)}}
  await page.getByRole('button',{name:'Go home'}).click();await page.getByRole('button',{name:'Open TRACE'}).click();await page.getByRole('button',{name:'BACK TO TRACE'}).click();await page.getByRole('button',{name:'Open Activity Logs module'}).click();await page.getByRole('button',{name:'DISCUSS WITH UNKNOWN'}).click()
  for(let i=0;i<2;i++){await page.locator('.scene01-options .opening-choice').first().click({force:true});await page.getByRole('button',{name:'Send',exact:true}).click({force:true});await page.clock.runFor(120000)}
- await page.getByRole('button',{name:'Go home'}).click();await page.getByRole('button',{name:'Open TRACE'}).click();await page.getByRole('button',{name:'BACK TO TRACE'}).click();await page.getByRole('button',{name:'Open Investigation Board module'}).click()
+ await page.getByRole('button',{name:'Go home'}).click();await page.getByRole('button',{name:'Open Investigation Board'}).click()
  await expect(page.getByRole('button',{name:'Select evidence: The Missing Hour'})).toHaveCount(1);await expect(maya).toHaveAttribute('style',moved!);await expect(connection).toBeVisible();await expect(page.getByText('Two separate recovered conversations · tentative')).toBeVisible()
 })

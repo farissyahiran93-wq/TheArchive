@@ -5,3 +5,13 @@
 .contact-document-backdrop{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;background:#0009}.contact-document-confirm{width:min(100%,380px);box-sizing:border-box;padding:22px;border-radius:16px;background:#f9faf5;color:#172426;box-shadow:0 12px 36px #0008}.contact-document-confirm h2{margin:0 0 12px;color:#172426;font-size:1.25rem}.contact-document-confirm p{color:#253834;line-height:1.5}.contact-document-confirm>div:last-child{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}.contact-document-confirm button{min-height:44px;padding:0 17px;border:1px solid #35665a;border-radius:8px;color:#173f35;background:#fff;font-weight:700}.contact-document-confirm button:last-child{background:#246753;color:#fff}.contact-document-confirm button:disabled{opacity:.6}
 .scene01-invitation .trace-summary{color:#e9f3ed}.scene01-invitation .trace-summary p,.scene01-invitation .trace-summary h3,.scene01-invitation .trace-summary strong,.scene01-invitation .trace-summary blockquote{color:inherit}
 .contact-document-viewer .contact-document-sheet p{color:#172426;font-size:1em}.contact-document-viewer .contact-document-confirm p{color:#253834;font-size:1rem}
+.contact-document-sheet .contact-document-filename{cursor:text;text-decoration:none}
+.contact-damaged-remarks{width:100%;padding:.5em;border:1px dashed #65766b;background:#e3e8db;color:#28443a;line-height:1.3;text-align:left;border-radius:4px}
+.contact-damaged-remarks span{font-family:monospace;letter-spacing:.06em}
+.contact-damaged-remarks small{display:block;font-weight:600;margin-top:.45em}
+.contact-fragment-analysis{max-width:540px;width:100%;padding:32px 22px;box-sizing:border-box;margin:auto;overflow:auto}
+.contact-fragment-analysis header{font-size:.74rem;letter-spacing:.12em;color:#9edcbc}
+.contact-fragment-analysis dl{padding:18px;background:#202f30;border-radius:8px}
+.contact-fragment-analysis dt{font-size:.8rem;color:#a7c2b9}
+.contact-fragment-analysis dd{margin:.3em 0 1em}
+.contact-document-confirm>div:last-child{flex-wrap:wrap}

@@ -15,7 +15,7 @@ import { validateLucasPhoto } from './lucasPhoto'
 import { beginOpening, deliverPhoneOpeningEvent } from './opening'
 import { fixtureChoices, fixtureLine, type FixtureEventId } from './fixture'
 import { episodeRequirements } from '../content/episodes'
-import { characterIds, type CharacterId, type GameSave, type Pronouns } from './types'
+import { characterIds, neutral, type CharacterId, type GameSave, type Pronouns } from './types'
 import { beginSlice, deliverSliceEvent } from './slice'
 import { deliverPhase03bEvent } from './phase03b'
 import { deliverFollowup } from './characterFollowups'
@@ -122,9 +122,13 @@ export function normalizeSave(input: unknown): GameSave {
   if (input.episodeId !== 'phase-00' || !['home', 'fixture'].includes(String(input.sceneId))) throw new Error('Invalid story position')
   if (!Array.isArray(input.unlockedEpisodes) || !record(input.choices) || !Array.isArray(input.messages) || !Array.isArray(input.pendingEvents) || !Array.isArray(input.deliveredEvents)) throw new Error('Incomplete progress data')
   if (!record(input.knowledge) || !Array.isArray(input.knowledge.player) || !record(input.knowledge.characters)) throw new Error('Incomplete knowledge ledger')
-  for (const id of characterIds) if (!Array.isArray(input.knowledge.characters[id])) throw new Error('Incomplete knowledge ledger')
-  const relationships = input.relationships
-  if (!record(relationships) || characterIds.some(id => !record(relationships[id]))) throw new Error('Incomplete relationship data')
+  // Previous schema-v1 saves predate Ana and Noah. Create empty ledgers only;
+  // the pinned screenplay determines whether they actually join or hear a line.
+  const characters = { noah: [], ana: [], ...input.knowledge.characters } as Record<string, unknown>
+  for (const id of characterIds) if (!Array.isArray(characters[id])) throw new Error('Incomplete knowledge ledger')
+  if (!record(input.relationships)) throw new Error('Incomplete relationship data')
+  const relationships = { noah: neutral(), ana: neutral(), ...input.relationships } as Record<string, unknown>
+  if (characterIds.some(id => !record(relationships[id]))) throw new Error('Incomplete relationship data')
   if (!record(input.evidence) || !Array.isArray(input.notifications) || !record(input.settings) || typeof input.settings.reduceMotion !== 'boolean') throw new Error('Incomplete device data')
   if (input.e01 !== undefined) {
     const slice = input.e01
@@ -177,16 +181,16 @@ export function normalizeSave(input: unknown): GameSave {
         scene.disclosedName !== undefined && (typeof scene.disclosedName !== 'string' || scene.disclosedName.length < 1 || scene.disclosedName.length > 40) || scene.nameDisclosed && !scene.disclosedName ||
         !Array.isArray(scene.queue) || scene.queue.length > 1 || scene.queue.some(line => !record(line) || typeof line.id !== 'string' || !scene01Nodes[line.id] || !Number.isFinite(line.dueAt) || typeof line.typing !== 'boolean') ||
         !Array.isArray(scene.messages) || scene.messages.some(line => !record(line) || typeof line.id !== 'string' || !['sophie','player'].includes(String(line.sender)) || typeof line.text !== 'string' || !Number.isFinite(line.at)) ||
-        !Array.isArray(scene.groupMessages) || scene.groupMessages.some(line => !record(line) || typeof line.id !== 'string' || !['sophie','maya','lucas','player','system'].includes(String(line.sender)) || typeof line.text !== 'string' || !Number.isFinite(line.at)) ||
+        !Array.isArray(scene.groupMessages) || scene.groupMessages.some(line => !record(line) || typeof line.id !== 'string' || !['sophie','maya','lucas','noah','ana','eli','player','system'].includes(String(line.sender)) || typeof line.text !== 'string' || !Number.isFinite(line.at)) ||
         scene.groupScript !== undefined && scene.groupScript !== 'ch01_sc02_uninvited_guest' ||
         scene.groupSourceBoundary !== undefined && typeof scene.groupSourceBoundary !== 'boolean' ||
         scene.lucasLeftGroup !== undefined && typeof scene.lucasLeftGroup !== 'boolean' ||
         scene.groupComplete !== undefined && typeof scene.groupComplete !== 'boolean' ||
         scene.groupCompletedAt !== undefined && !Number.isFinite(scene.groupCompletedAt) ||
-        scene.groupMembers !== undefined && (!record(scene.groupMembers) || ['sophie','maya','lucas'].some(actor => typeof (scene.groupMembers as Record<string, unknown>)[actor] !== 'boolean')) ||
+        scene.groupMembers !== undefined && (!record(scene.groupMembers) || ['sophie','maya','lucas'].some(actor => typeof (scene.groupMembers as Record<string, unknown>)[actor] !== 'boolean') || ['daniel','noah','ana','eli'].some(actor => actor in (scene.groupMembers as object) && typeof (scene.groupMembers as Record<string, unknown>)[actor] !== 'boolean')) ||
         scene.privateHandoff !== undefined && (!record(scene.privateHandoff) || scene.privateHandoff.sceneId !== 'ch01_sc03_just_between_us' || !Number.isFinite(scene.privateHandoff.dueAt) || scene.privateHandoff.deliveredAt !== undefined && !Number.isFinite(scene.privateHandoff.deliveredAt) || scene.privateHandoff.openedAt !== undefined && (!Number.isFinite(scene.privateHandoff.openedAt) || scene.privateHandoff.deliveredAt === undefined) || scene.groupComplete !== true) ||
-        scene.groupPresence !== undefined && (!record(scene.groupPresence) || ['sophie','maya','lucas'].some(actor => typeof (scene.groupPresence as Record<string, unknown>)[actor] !== 'boolean')) ||
-        scene.groupReceipts !== undefined && (!Array.isArray(scene.groupReceipts) || scene.groupReceipts.some(receipt => !record(receipt) || typeof receipt.eventId !== 'string' || !['player','sophie','maya','lucas'].includes(String(receipt.recipient)) || !Array.isArray(receipt.factIds) || receipt.factIds.some(fact => typeof fact !== 'string')))) throw new Error('Invalid Scene 01 progress')
+        scene.groupPresence !== undefined && (!record(scene.groupPresence) || ['sophie','maya','lucas'].some(actor => typeof (scene.groupPresence as Record<string, unknown>)[actor] !== 'boolean') || ['noah','ana','eli'].some(actor => actor in (scene.groupPresence as object) && typeof (scene.groupPresence as Record<string, unknown>)[actor] !== 'boolean')) ||
+        scene.groupReceipts !== undefined && (!Array.isArray(scene.groupReceipts) || scene.groupReceipts.some(receipt => !record(receipt) || typeof receipt.eventId !== 'string' || !['player','sophie','maya','lucas','noah','ana','eli'].includes(String(receipt.recipient)) || !Array.isArray(receipt.factIds) || receipt.factIds.some(fact => typeof fact !== 'string')))) throw new Error('Invalid Scene 01 progress')
       if (scene.draft !== undefined) {
         const draft = scene.draft
         if (!record(draft) || typeof draft.nodeId !== 'string' || typeof draft.choiceId !== 'string') throw new Error('Invalid Act I draft')
@@ -194,7 +198,7 @@ export function normalizeSave(input: unknown): GameSave {
         if (node?.kind !== 'choice' || !node.choices.some(c => c.id === draft.choiceId)) throw new Error('Invalid Act I draft')
       }
       if(scene.groupNameDraft!==undefined && (typeof scene.groupNameDraft!=='string' || scene.groupNameDraft.length>40))throw new Error('Invalid group name draft')
-      if(scene.masterScene02Revision!==undefined && (![1,2].includes(Number(scene.masterScene02Revision)) || scene.masterScene01!==true))throw new Error('Invalid master Scene 2 revision')
+      if(scene.masterScene02Revision!==undefined && (![1,2,3,4].includes(Number(scene.masterScene02Revision)) || scene.masterScene01!==true))throw new Error('Invalid master Scene 2 revision')
       if(scene.masterScene01Revision!==undefined && (![2,3,4].includes(Number(scene.masterScene01Revision)) || scene.masterScene01!==true))throw new Error('Invalid master Scene 1 revision')
       if(scene.familyPhotoRevision!==undefined&&scene.familyPhotoRevision!==1)throw new Error('Invalid family photo revision')
       if(scene.familyPhotoReply!==undefined){const r=scene.familyPhotoReply;if(!record(r)||r.draft!==undefined&&(!Number.isInteger(r.draft)||Number(r.draft)<0||Number(r.draft)>2)||r.replied!==undefined&&(!Number.isInteger(r.replied)||Number(r.replied)<0||Number(r.replied)>2))throw new Error('Invalid family photo reply')}
@@ -244,7 +248,7 @@ export function normalizeSave(input: unknown): GameSave {
   validateMasterScene09(input.masterScene09)
   validateMasterScene10(input.masterScene10)
   validateLucasPhoto(input.lucasPhoto)
-  const candidate=input as unknown as GameSave
+  const candidate = { ...input, relationships, knowledge: { ...input.knowledge, characters } } as unknown as GameSave
   // A saved chronology makes equivalent stored/journal copies normalize identically.
   const scene=candidate.prologue?.scene01
   const checkpointAt=Math.max(scene?.startedAt??0,...scene?.messages.map(m=>m.at)??[],...scene?.groupMessages.map(m=>m.at)??[])

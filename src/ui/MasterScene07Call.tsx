@@ -42,12 +42,13 @@ export function MasterScene07Call(){
  },[phase,clip,revision,act])
  useEffect(()=>()=>{const element=audio.current;if(element){element.pause();element.removeAttribute('src');element.load()}},[])
  if(!p)return null
- const src=p.conversationRevision==='starred-v2'?`/media/audio/scene07-ver1/call-${String(p.clip+1).padStart(2,'0')}.wav`:`/media/audio/scene07-sophie-call/call-${String(p.clip+1).padStart(2,'0')}.mp3`
- const turn=(p.conversationRevision==='starred-v2'?ver1CallTurns:p.conversationRevision==='audio-v2'?callTurns:legacyCallTurns)[p.clip]
- const spoken=p.clip===10?(p.conversationRevision==='starred-v2'?ver1CallEnding:callEnding):turn?.sophie??''
+ const acceptedAudio = p.conversationRevision==='starred-v2' || p.conversationRevision==='conversation-v3'
+ const src=acceptedAudio?`/media/audio/scene07-ver1/call-${String(p.clip+1).padStart(2,'0')}.wav`:`/media/audio/scene07-sophie-call/call-${String(p.clip+1).padStart(2,'0')}.mp3`
+ const turn=(acceptedAudio?ver1CallTurns:p.conversationRevision==='audio-v2'?callTurns:legacyCallTurns)[p.clip]
+ const spoken=p.clip===10?(acceptedAudio?ver1CallEnding:callEnding):turn?.sophie??''
  // Historic audio revisions have no aligned cue file; their separate sentence timings use media duration.
  const fallback=spoken.match(/[^.!?]+[.!?]+|[^.!?]+$/g)?.map(x=>x.trim()).filter(Boolean)??[]
- const caption=p.phase==='playing'&&!blocked&&!failed?(p.conversationRevision==='starred-v2'?cues[p.clip]?.find(c=>time>=c.start&&time<c.end)?.text:duration>0?fallback[Math.min(fallback.length-1,Math.floor(time/duration*fallback.length))]:'')??'':''
+ const caption=p.phase==='playing'&&!blocked&&!failed?(acceptedAudio?cues[p.clip]?.find(c=>time>=c.start&&time<c.end)?.text:duration>0?fallback[Math.min(fallback.length-1,Math.floor(time/duration*fallback.length))]:'')??'':''
  const answer=()=>{const element=audio.current;if(element)void element.play().catch(()=>{});act({type:'answer'})}
  return <>
   <audio ref={audio} src={src} preload="auto" muted={preferences.master===false||!preferences.effects} aria-label={`Sophie voice clip ${p.clip+1}`} onLoadedMetadata={e=>{e.currentTarget.volume=preferences.effectsVolume??1;setDuration(e.currentTarget.duration)}} onEnded={()=>act({type:'clip-ended'})} onError={()=>{if(p.phase==='playing')setFailed(true)}}/>

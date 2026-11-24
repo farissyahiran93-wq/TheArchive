@@ -1,3 +1,6 @@
+import { eliGroupStart } from "../content/masterScene02Eli"
+import { friendsGroupStart } from '../content/masterScene02Friends'
+import { groupSpeakers, groupTitle } from './groupTitle'
 import { masterScene02V3Start } from '../content/masterScene02V3'
 import { naturalCanSend, naturalChoices, naturalEvent, naturalGateNext } from './naturalConversation'
 import { bridgeReportChoice } from '../content/traceBridgeV3'
@@ -43,6 +46,10 @@ export function enterScene01(state: GameSave, id: string, now: number): GameSave
   const scene = { ...state.prologue.scene01, nodeId: id, queue: [], ...(id.startsWith('OPEN-S03-') && state.prologue.scene01.privateScene03 ? { privateScene03: { ...state.prologue.scene01.privateScene03, draft: undefined } } : {}) } satisfies Scene
   let next = replace(state, scene)
   if (node.kind === 'wait' && node.duration === 0) return enter(event(next, id), node.next, now)
+  if (node.kind === 'npc' && id.startsWith('TA-S02-FRIENDS-')) {
+    const delay = Math.round(Math.max(950, Math.min(5200, 750 + 30 * node.text.length)) * typingFactor())
+    return replace(next, { ...scene, queue: [{ id, dueAt: now + delay, typing: true }] })
+  }
   if (node.kind === 'npc' || node.kind === 'wait') return replace(next, { ...scene, queue: [{ id, dueAt: now + (node.kind === 'wait' ? node.duration : id.startsWith('OPEN-S05-') ? Math.round(Math.max(1000,Math.min(3000,node.text.length*20))*typingFactor()) : id.startsWith('OPEN-S03-') ? Math.round(scene03DeliveryDelay(node.text)*typingFactor()) : npcDeliveryDelay(node.sender==='unknown'?'sophie':node.sender??'sophie', node.text)), typing: node.kind === 'npc' || node.typing }] })
   if (node.kind === 'gate' && node.action === 's04-article') {
     next=publicStoryFlag(next,'link-delivered')
@@ -82,7 +89,7 @@ export function enterScene01(state: GameSave, id: string, now: number): GameSave
   if (node.event === 'source-boundary') return node.next ? enter(replace(next, { ...scene, groupSourceBoundary: false }), node.next, now) : next
   if (node.event === 'deleted' || node.event === 'leave') {
     const leaving = node.event === 'leave'
-    const text = leaving ? scene.masterScene01 ? 'Lucas Grey left the group.' : 'Lucas left the group.' : 'Maya deleted a message.'
+    const text = leaving ? node.text ?? (scene.masterScene01 ? 'Lucas Grey left the group.' : 'Lucas left the group.') : 'Maya deleted a message.'
     const changed = replace(next, { ...scene, groupMessages: [...scene.groupMessages, { id, sender: 'system', text, at: now }],
       groupReceipts: [...scene.groupReceipts ?? [], { eventId: id, recipient: 'player', factIds: [leaving ? 'OPEN-S02-LUCAS-LEFT' : 'OPEN-S02-MAYA-DELETED-MESSAGE'] }],
       ...(leaving ? { lucasLeftGroup: true, groupMembers: { sophie: true, maya: true, ...scene.groupMembers, lucas: false }, groupPresence: { sophie: true, maya: true, ...scene.groupPresence, lucas: false } } : {}),
@@ -101,7 +108,7 @@ export function enterScene01(state: GameSave, id: string, now: number): GameSave
   }
   if (node.event === 'effects') {
     const relationships = { ...next.relationships }
-    for (const actor of ['sophie','maya','lucas'] as const) {
+    for (const actor of groupSpeakers(scene)) {
       const delta = node.effects?.[actor]
       if (delta) relationships[actor] = { ...relationships[actor], ...Object.fromEntries(Object.entries(delta).map(([key, value]) => [key, Math.max(scene.scriptRevision ? 0 : -100, Math.min(100, relationships[actor][key as 'trust'] + value))])) }
     }
@@ -122,7 +129,7 @@ export function beginScene01(state: GameSave, now = Date.now(), revision: 'legac
   const prologue: OpeningState = state.prologue ?? { dialogueVersion: 4, stage: 'chat', step: 0, messages: [], noteSeen: false, offerInspected: false, restored: false, viewed: [], indexCompared: false }
   const master = state.masterOpening === true
   const opening = master ? masterScene01V4Start : revision === 'legacy' ? scene01Opening : actIFinalEntrances.scene01
-  const scene: Scene = { version: 1, ...(master ? { masterScene01: true as const, masterScene01Revision:4 as const, scriptRevision: 'final-2026-10-23' as const } : revision === 'legacy' ? {} : { scriptRevision: revision, articleAlignment:'2026-10-28' as const, traceIntroRevision:'2026-10-31' as const, naturalFlowRevision:'2026-11-03' as const, traceBridgeRevision:'2026-11-04' as const }), nodeId: opening, startedAt: now, introduced: master, nameDisclosed: false, invitation: 'none', invitationDismissed: false, complete: false, queue: [], messages: [], groupMessages: [] }
+  const scene: Scene = { version: 1, ...(master ? { masterScene01: true as const, masterScene01Revision:4 as const, masterScene02Revision:4 as const, scriptRevision: 'final-2026-10-23' as const } : revision === 'legacy' ? {} : { scriptRevision: revision, articleAlignment:'2026-10-28' as const, traceIntroRevision:'2026-10-31' as const, naturalFlowRevision:'2026-11-03' as const, traceBridgeRevision:'2026-11-04' as const }), nodeId: opening, startedAt: now, introduced: master, nameDisclosed: false, invitation: 'none', invitationDismissed: false, complete: false, queue: [], messages: [], groupMessages: [] }
   const next = enter({ ...state, prologue: { ...prologue, scene01: scene } }, opening, now)
   return deliverScene01(replace(next, { ...next.prologue!.scene01!, queue: [{ id: opening, dueAt: now, typing: false }] }), now)
 }
@@ -163,11 +170,11 @@ export function deliverScene01(state: GameSave, now: number): GameSave {
     const sender = node.sender&&node.sender!=='unknown'?node.sender:'sophie'
     const line = { id: node.id, sender, text, at: now, ...(node.photo?{photo:node.photo}:{}),...(node.attachment?{attachment:node.attachment}:{}) }
     // Even the branch without a self-introduction learns her visible group sender name on delivery.
-    next = replace(next, { ...scene, queue: [], introduced: scene.introduced || !!node.introducesSophie || !!scene.scriptRevision && node.channel === 'group' && sender === 'sophie', messages: node.channel === 'sophie' ? [...scene.messages, { ...line, sender: 'sophie' }] : scene.messages, groupMessages: node.channel === 'group' ? [...scene.groupMessages, line] : scene.groupMessages, groupReceipts: node.channel === 'group' ? [...scene.groupReceipts ?? [], { eventId: node.id, recipient: 'player', factIds: node.heardFacts ?? [] }] : scene.groupReceipts,
+    next = replace(next, { ...scene, queue: [], introduced: scene.introduced || !!node.introducesSophie || !!scene.scriptRevision && node.channel === 'group' && sender === 'sophie', messages: node.channel === 'sophie' ? [...scene.messages, { ...line, sender: 'sophie' }] : scene.messages, groupMessages: node.channel === 'group' ? [...scene.groupMessages, line] : scene.groupMessages, groupReceipts: node.channel === 'group' ? [...scene.groupReceipts ?? [], { eventId: node.id, recipient: 'player', factIds: node.heardFacts ?? [] }, ...(scene.groupMembers?.eli ? [{eventId:node.id,recipient:'eli' as const,factIds:node.heardFacts??[]}] : [])] : scene.groupReceipts,
       ...((node.id === 'OPEN-S03-FIRST-MESSAGE' || node.id === 'TA-S03-FIRST-MESSAGE') && scene.privateHandoff ? { privateHandoff: { ...scene.privateHandoff, deliveredAt: now } } : {}),
       ...((node.id.startsWith('OPEN-S03-') || node.id.startsWith('TA-S03-')) && scene.privateScene03 ? { privateScene03: { ...scene.privateScene03, receipts: [...scene.privateScene03.receipts, { eventId: node.id, recipient: 'player', factIds: node.heardFacts ?? [] }] } } : {}),
     })
-    next = { ...event(next, node.id), notifications: [...next.notifications, { id: node.id, text: node.channel === 'group' ? `${scene.masterScene01Revision === 4 ? 'Same Old Chaos' : 'FIND DANIEL'} · ${sender[0].toUpperCase() + sender.slice(1)}: ${node.photo?'Photo':text}` : `${scene.introduced || node.introducesSophie ? 'Sophie' : 'Unknown number'}: ${text}`, read: false }] }
+    next = { ...event(next, node.id), notifications: [...next.notifications, { id: node.id, text: node.channel === 'group' ? `${groupTitle(next)} · ${sender[0].toUpperCase() + sender.slice(1)}: ${node.photo?'Photo':text}` : `${scene.introduced || node.introducesSophie ? 'Sophie' : 'Unknown number'}: ${text}`, read: false }] }
     if(node.id==='TA-S01-AFTER-01-2'&&scene.familyPhotoRevision===1&&!next.deliveredEvents.includes(storyPhotos.sophieFamily.id)){
       const current=next.prologue!.scene01!,photo=storyPhotos.sophieFamily
       const dialogueId=`${photo.id}-DIALOGUE`
@@ -245,11 +252,11 @@ export function sendScene01Choice(state: GameSave, choiceId: string, name = '', 
     return enter({ ...state, deliveredEvents: [...state.deliveredEvents, id], choices: { ...state.choices, [scene.nodeId]: choice.id }, messages: [...state.messages, { id, sender: 'player', recipient: 'sophie', channel: 'messages', text, at: now, delivery: 'delivered', disclosedFactIds: factIds }], knowledge: { ...state.knowledge, characters: { ...state.knowledge.characters, sophie: [...new Set([...state.knowledge.characters.sophie, ...factIds])] } }, prologue: { ...state.prologue!, scene01: { ...scene, messages: [...scene.messages, { id, sender: 'player', text, at: now }], privateScene03: { ...scene.privateScene03, draft: undefined, receipts: [...scene.privateScene03.receipts, { eventId: id, recipient: 'sophie', factIds }] } } } }, choice.next, now)
   }
   if (scene.nodeId.startsWith('OPEN-S02-') || scene.nodeId.startsWith('TA-S02-')) {
-    const recipients = (['sophie','maya','lucas'] as const).filter(actor => scene.groupPresence?.[actor] && scene.groupMembers?.[actor] !== false)
+    const recipients = groupSpeakers(scene).filter(actor => scene.groupPresence?.[actor] && scene.groupMembers?.[actor] !== false)
     const factIds = [id + '-CLAIM', ...(choice.discloseName ? ['TA-S02-PLAYER-NAME'] : [])]
     const characters = { ...state.knowledge.characters }
     for (const recipient of recipients) characters[recipient] = [...new Set([...characters[recipient], ...factIds])]
-    return enter({ ...state, ...(choice.discloseName ? { player: { ...state.player, name: clean } } : {}), deliveredEvents: [...state.deliveredEvents, id], choices: { ...state.choices, [scene.nodeId]: choice.id }, knowledge: { ...state.knowledge, characters }, messages: [...state.messages, ...recipients.map(recipient => ({ id: `${id}-TO-${recipient}`, sender: 'player' as const, recipient, channel: 'messages' as const, text, at: now, delivery: 'delivered' as const, disclosedFactIds: factIds }))], prologue: { ...state.prologue!, scene01: { ...scene, ...(choice.discloseName ? { nameDisclosed: true, disclosedName: clean, groupNameDraft: undefined, draft: undefined } : {}), groupMessages: [...scene.groupMessages, { id, sender: 'player', text, at: now }], groupReceipts: [...scene.groupReceipts ?? [], ...recipients.map(recipient => ({ eventId: id, recipient, factIds }))] } } }, choice.next, now)
+    return enter({ ...state, ...(choice.discloseName ? { player: { ...state.player, name: clean } } : {}), deliveredEvents: [...state.deliveredEvents, id], choices: { ...state.choices, [scene.nodeId]: choice.id }, knowledge: { ...state.knowledge, characters }, messages: [...state.messages, ...recipients.map(recipient => ({ id: `${id}-TO-${recipient}`, sender: 'player' as const, recipient, channel: 'messages' as const, text, at: now, delivery: 'delivered' as const, disclosedFactIds: factIds }))], prologue: { ...state.prologue!, scene01: { ...scene, draft: undefined, ...(choice.discloseName ? { nameDisclosed: true, disclosedName: clean, groupNameDraft: undefined } : {}), groupMessages: [...scene.groupMessages, { id, sender: 'player', text, at: now }], groupReceipts: [...scene.groupReceipts ?? [], ...recipients.map(recipient => ({ eventId: id, recipient, factIds }))] } } }, choice.next, now)
   }
   const next: GameSave = { ...state, player: choice.discloseName ? { ...state.player, name: clean } : state.player, deliveredEvents: [...state.deliveredEvents, id], choices: { ...state.choices, [scene.nodeId]: choice.id }, messages: [...state.messages, { id, sender: 'player', recipient: 'sophie', channel: 'messages', text, at: now, delivery: 'delivered', disclosedFactIds: choice.discloseName ? ['OPEN-S01-PLAYER-CODENAME'] : [] }], knowledge: choice.discloseName ? { ...state.knowledge, characters: { ...state.knowledge.characters, sophie: [...new Set([...state.knowledge.characters.sophie, 'OPEN-S01-PLAYER-CODENAME'])] } } : state.knowledge, prologue: { ...state.prologue!, scene01: { ...scene, invitationApproved: scene.nodeId === 'OPEN-S01-C13' ? choice.id !== 'd' : scene.invitationApproved, nameDisclosed: scene.nameDisclosed || !!choice.discloseName, disclosedName: choice.discloseName ? clean : scene.disclosedName, messages: [...scene.messages, { id, sender: 'player', text, at: now }] } } }
   if (scene.masterScene01 && choice.id === 'a' && ['TA-S01-C02', 'TA-S01-C05', 'TA-S01-C06', 'TA-S01-C07'].includes(scene.nodeId)) {
@@ -268,7 +275,7 @@ export function scene01Invitation(state: GameSave, action: 'accept' | 'join' | '
   if (action === 'accept' && scene.invitation === 'declined') return enter(replace(state, { ...scene, invitation: 'none', invitationApproved: true, invitationDismissed: false }), scene.scriptRevision ? actIFinalEntrances.deferred : scene01DelayedWarning, now)
   if (action !== 'join' || scene.invitation !== 'ready') return state
   const id = 'OPEN-S01-GROUP-JOINED'
-  const joined = event(replace(state, { ...scene, invitation: 'joined', complete: true, ...(scene.masterScene01 ? { groupMembers: { sophie: true, maya: true, lucas: true, ...(scene.masterScene01Revision === 4 ? { daniel: true } : {}) } } : {}) }), id)
+  const joined = event(replace(state, { ...scene, invitation: 'joined', complete: true, ...(scene.masterScene01 ? { groupMembers: { sophie: true, maya: true, lucas: true, ...(scene.masterScene01Revision === 4 ? { daniel: true } : {}), ...((scene.masterScene02Revision ?? 0) >= 3 ? { noah: true, ana: true, ...(scene.masterScene02Revision===4?{eli:true}:{}) } : {}) } } : {}) }), id)
   if (scene.masterScene01) return event(joined, 'TA-S01-SCENE02-UNLOCKED')
   return scene.scriptRevision ? joined : beginScene02(joined, now)
 }
@@ -277,6 +284,10 @@ export function scene01Invitation(state: GameSave, action: 'accept' | 'join' | '
 export function beginScene02(state: GameSave, now = Date.now()): GameSave {
   const scene = state.prologue?.scene01
   if (!scene || scene.invitation !== 'joined' || scene.groupScript === scene02Id) return state
+  if (scene.masterScene01 && (scene.masterScene02Revision ?? 0) >= 3) {
+    const speakers = { sophie: true, maya: true, lucas: true, noah: true, ana: true, ...(scene.masterScene02Revision===4?{eli:true}:{}) }
+    return enter(replace(state, { ...scene, groupScript: scene02Id, groupPresence: speakers, groupMembers: { ...speakers, daniel: true }, groupReceipts: [], groupMessages: [{ id: 'TA-S02-PLAYER-JOINED', sender: 'system', text: 'You joined Same Old Chaos.', at: now }], queue: [] }), scene.masterScene02Revision===4?eliGroupStart:friendsGroupStart, now)
+  }
   if (scene.masterScene01) { const usual = scene.masterScene01Revision === 4; return enter(replace(state, { ...scene, masterScene02Revision: usual ? 2 : 1, groupScript: scene02Id, groupPresence: { sophie: true, maya: true, lucas: true }, groupMembers: { sophie: true, maya: true, lucas: true, ...(usual ? { daniel: true } : {}) }, groupReceipts: [], groupMessages: [{ id: 'TA-S02-PLAYER-JOINED', sender: 'system', text: usual ? 'You joined Same Old Chaos.' : 'You joined FIND DANIEL.', at: now }], queue: [] }), usual ? masterScene02V3Start : masterScene02V2Start, now) }
   return enter(replace(state, { ...scene, complete: true, groupScript: scene02Id, groupPresence: { sophie: true, maya: true, lucas: true }, groupMembers: { sophie: true, maya: true, lucas: true }, groupReceipts: [], groupMessages: [{ id: 'OPEN-S01-GROUP-JOINED', sender: 'system', text: 'You joined FIND DANIEL.', at: now }], queue: [] }), scene.scriptRevision ? actIFinalEntrances.scene02 : scene02Opening, now)
 }

@@ -1,0 +1,9 @@
+.opening-thread:has(> .chat-run-line) { row-gap: 0; }
+.opening-thread > .chat-run-line { margin-block: 0; }
+.opening-thread > .chat-run-line.same-run { margin-top: 4px; }
+.opening-thread > .chat-run-line.new-run:not(:first-child) { margin-top: 12px; }
+.chat-run-line .chat-avatar-space, .chat-run-line .message-avatar { width: 30px; flex: 0 0 30px; }
+.chat-run-line .message-avatar { height: 30px; }
+.chat-run-line .conversation-body { min-width: 0; }
+.chat-typing-gap { animation: chat-typing-gap 260ms step-end; }
+@keyframes chat-typing-gap { from { visibility: hidden; } to { visibility: visible; } }

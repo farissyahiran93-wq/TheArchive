@@ -21,3 +21,17 @@ export const sophiePrivacyIntro = ["I've been thinking about the group.","Lucas 
 export const sophiePrivacyChoices = ["That's your decision, Sophie. I understand.","We should understand the file before anyone else sees it.","There are other people's numbers in there. We need to be careful."] as const
 export const sophiePrivacyReplies = [["Thanks.","I'm going to keep it between us for now."],["Exactly.","I don't want to frighten anyone over something we haven't figured out."],["I know.","And some of those people might have nothing to do with Daniel."]] as const
 export const sophiePrivacyFinal = "If I decide Maya needs to know something, I'll tell her myself."
+/** New private text exchanges surrounding the unchanged recorded call. */
+export const sophieScene07Chat = {
+  intro: ['Hey.', 'Sorry to bother you again.', 'I went back to that file I mentioned.', "There's something I think you should hear from me."],
+  invite: ["It's about the starred number.", 'Can I call you?'],
+  export: ['I found the copy again.', "It's the same file I was talking about.", 'The number matches yours.', "But there's something wrong with the remarks beside it.", "I can't read that part properly.", "I'm sending you the copy.", 'Daniel_Contacts_Export'],
+  opened: ['Did you manage to open it?'],
+  privacy: ['I wish I knew.', 'The folder was already there before he disappeared.', "I never thought I'd have a reason to question anything in it.", 'Not until now.', "I've been thinking about the group.", 'Lucas is already upset, and Maya has enough to deal with.', "I'm not going to send the whole export there.", "Not when I don't even understand it myself."],
+  relay: ["If there's something Maya needs to know, I'll speak to her myself.", 'Oh, and Maya messaged me.', 'She found an old conversation with Daniel.', 'She said there was something in it she wanted to show you.', 'Maybe talk to her when you get a chance?'],
+} as const
+export const sophieScene07Choices = {
+  intro: ["Of course. What's wrong?", 'Did you find something?', "I'm listening."],
+  opened: ['I can see the starred number, but some of the text is damaged.', "Do you know who had access to Daniel's shared folder?", "I don't think this copy tells us who added the star."],
+  privacy: ["I understand. You've got a lot to carry already.", "It's okay to take your time with this.", "We still don't know who marked the number."],
+} as const

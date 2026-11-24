@@ -11,7 +11,7 @@ export interface MasterInventoryTheory {
  supportingIds:string[]
  contradictingIds:string[]
 }
-export interface MasterScene10 {version:1;investigationRevision?:'theory-v1';theoryDraft?:MasterInventoryTheory;theory?:MasterInventoryTheory;query:string;searched:boolean;matched:boolean;metadata:boolean;limitations:boolean;compared:boolean;conclusion?:number;saved:boolean;phase:'inventory'|'return'|'ringing'|'missed'|'call'|'warning'|'ending'|'complete';beat:number;draft?:number;lines:Line[];warning:boolean;media?:{revision:1;stage:'ready'|'playing'|'waiting'|'connecting'|'hold'|'fade';clip:number;draft?:number;connectedAt?:number;completionSeen?:boolean;videoConsent:boolean;responses:{decision:number;choice:number;text:string}[]}}
+export interface MasterScene10 {version:1;investigationRevision?:'theory-v1'|'public-index';theoryDraft?:MasterInventoryTheory;theory?:MasterInventoryTheory;query:string;searched:boolean;matched:boolean;metadata:boolean;limitations:boolean;compared:boolean;conclusion?:number;saved:boolean;phase:'inventory'|'return'|'ringing'|'missed'|'call'|'warning'|'ending'|'complete';beat:number;draft?:number;lines:Line[];warning:boolean;media?:{revision:1;stage:'ready'|'playing'|'waiting'|'connecting'|'hold'|'fade';clip:number;draft?:number;connectedAt?:number;completionSeen?:boolean;videoConsent:boolean;responses:{decision:number;choice:number;text:string}[]}}
 export type MasterScene10Action={type:'start'|'search'|'compare'|'save'|'save-theory'|'discard-theory-draft'|'home'|'answer'|'decline'|'send'|'reveal-final'|'finish'|'media-play'|'media-ended'|'media-send'|'media-connect'|'media-fade'|'media-finish'|'media-dismiss'}|{type:'query';value:string}|{type:'conclusion'|'draft'|'media-draft';index:number}
  | {type:'theory-text';field:'hypothesis'|'alternative'|'outstanding';value:string}
  | {type:'theory-question';questionId:string}
@@ -24,13 +24,17 @@ export function inventoryTheoryReady(theory:MasterInventoryTheory):boolean {
 const valid=(n:number)=>Number.isInteger(n)&&n>=0&&n<3
 export function masterScene10Action(s:GameSave,a:MasterScene10Action,now=Date.now()):GameSave{
  const p=s.masterScene10
- if(a.type==='start')return p||!s.masterScene09?.complete||!s.masterScene09.saved||!s.deliveredEvents.includes('TA-S09-SCENE10-UNLOCKED')?s:{...s,masterScene10:{version:1,...(s.masterScene05?.packageStatus==='installed'?{investigationRevision:'theory-v1' as const}:{}),query:'',searched:false,matched:false,metadata:false,limitations:false,compared:false,saved:false,phase:'inventory',beat:0,lines:[],warning:false,media:{revision:1,stage:'ready',clip:0,videoConsent:false,responses:[]}}}
+ if(a.type==='start')return p||!s.masterScene09?.complete||!s.masterScene09.received&&!s.masterScene09.saved||!s.deliveredEvents.includes('TA-S09-SCENE10-UNLOCKED')?s:{...s,masterScene10:{version:1,...(s.masterScene09.conversationRevision==='conversation-v3'?{investigationRevision:'public-index' as const}:s.masterScene05?.packageStatus==='installed'?{investigationRevision:'theory-v1' as const}:{}),query:'',searched:false,matched:false,metadata:false,limitations:false,compared:false,saved:false,phase:'inventory',beat:0,lines:[],warning:false,media:{revision:1,stage:'ready',clip:0,videoConsent:false,responses:[]}}}
  if(!p)return s
  const put=(v:MasterScene10):GameSave=>({...s,masterScene10:v})
  if(a.type==='media-dismiss'&&p.phase==='complete'&&p.media)return put({...p,media:{...p.media,completionSeen:true}})
  if(a.type==='query'&&p.phase==='inventory')return put({...p,query:a.value,searched:false,matched:false,metadata:false,limitations:false,compared:false,conclusion:undefined})
+ if(a.type==='search'&&p.phase==='inventory'&&p.investigationRevision==='public-index'&&p.query.trim().toUpperCase()===inventoryCode){
+  const id='TA-S10-PUBLIC-INDEX'
+  return {...s,evidence:{...s.evidence,[id]:{id,source:'Greyhaven public inventory · matching catalogue reference only',collectedAt:now,verified:false}},masterScene10:{...p,searched:true,matched:true,phase:'return'}}
+ }
  if(a.type==='search'&&p.phase==='inventory')return put({...p,searched:true,matched:p.query.trim().toUpperCase()===inventoryCode})
- if(a.type==='compare'&&p.matched&&p.phase==='inventory'&&s.masterScene09?.saved)return put({...p,compared:true})
+ if(a.type==='compare'&&p.matched&&p.phase==='inventory'&&(s.masterScene09?.received||s.masterScene09?.saved))return put({...p,compared:true})
  if(a.type==='conclusion'&&!p.investigationRevision&&p.compared&&valid(a.index)&&!p.saved)return put({...p,conclusion:a.index})
  if(a.type==='save'&&!p.investigationRevision&&p.phase==='inventory'&&p.compared&&p.conclusion!==undefined)return {...s,evidence:{...s.evidence,'TA-S10-PUBLIC-INDEX':{id:'TA-S10-PUBLIC-INDEX',source:`Public inventory reference match; underlying record unavailable; private conclusion: ${inventoryConclusions[p.conclusion]}`,collectedAt:now,verified:false}},masterScene10:{...p,saved:true,phase:'return'}}
  if(p.investigationRevision==='theory-v1'&&p.compared&&(p.phase==='inventory'||p.phase==='return')){
@@ -104,5 +108,7 @@ export function validateMasterScene10(v:unknown):void{
  if(!p||p.version!==1||!['inventory','return','ringing','missed','call','warning','ending','complete'].includes(p.phase)||!Number.isInteger(p.beat)||p.beat<0||p.beat>8||!Array.isArray(p.lines)||p.draft!==undefined&&!valid(p.draft)||p.conclusion!==undefined&&!valid(p.conclusion)||p.saved&&!p.compared||['warning','ending','complete'].includes(p.phase)&&!p.warning||m!==undefined&&(m.revision!==1||!['ready','playing','waiting','connecting','hold','fade'].includes(m.stage)||!Number.isInteger(m.clip)||m.clip<0||m.clip>11||!Array.isArray(m.responses)||typeof m.videoConsent!=='boolean'||m.clip>=6&&!m.videoConsent||m.draft!==undefined&&!valid(m.draft)))throw Error('Invalid Scene 10 progress')
  if(p.investigationRevision==='theory-v1'){
   if(p.compared&&!p.matched||p.phase!=='inventory'&&!p.saved||p.saved&&(!p.theory||!validInventoryTheory(p.theory)||!inventoryTheoryReady(p.theory))||!p.saved&&p.theory!==undefined||p.theoryDraft!==undefined&&!validInventoryTheory(p.theoryDraft))throw Error('Invalid Scene 10 theory')
+ }else if(p.investigationRevision==='public-index'){
+  if(p.phase!=='inventory'&&!p.matched||p.matched&&!p.searched||p.saved||p.theory||p.theoryDraft)throw Error('Invalid public inventory search')
  }else if(p.investigationRevision!==undefined||p.theory!==undefined||p.theoryDraft!==undefined||p.saved&&p.conclusion===undefined)throw Error('Invalid legacy Scene 10 progress')
 }

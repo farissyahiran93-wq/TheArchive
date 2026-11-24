@@ -3,17 +3,21 @@ import { scene09Beats, referenceCardId } from '../content/masterScene09'
 import { masterScene09Action as act, validateMasterScene09 } from './masterScene09'
 import { newGame, type GameSave } from './types'
 function ready():GameSave{return {...newGame(),masterScene06:{saved:true} as GameSave['masterScene06'],masterScene07:{saved:true} as GameSave['masterScene07'],masterScene08:{complete:true,saved:true} as GameSave['masterScene08'],deliveredEvents:['TA-S08-SCENE09-UNLOCKED']}}
+function legacyStart():GameSave{
+ const s=act(ready(),{type:'start'})
+ return {...s,masterScene09:{...s.masterScene09!,conversationRevision:undefined,pending:undefined,messages:[{id:'TA-S09-FIRST',sender:'maya',text:'Historical opening',at:1000}]}}
+}
 describe('Scene 9 reference photograph',()=>{
- it('allows a completed cinematic Scene 8 without forcing an optional finding, while old routes keep their gate',()=>{
+ it('allows a completed cinematic Scene 8 without forcing an optional finding, and a genuine old completion remains eligible',()=>{
   const base=ready(),old={...base,masterScene08:{...base.masterScene08!,saved:false}}
-  expect(act(old,{type:'start'})).toBe(old)
+  expect(act(old,{type:'start'}).masterScene09?.conversationRevision).toBe('conversation-v3')
   const revised={...old,masterScene08:{...old.masterScene08!,conversationRevision:'cinematic-v1' as const}}
   expect(act(revised,{type:'start'}).masterScene09?.beat).toBe(0)
  })
  it('gates entry, supports every reply and keeps the record unverified',()=>{
   const empty=newGame();expect(act(empty,{type:'start'})).toBe(empty)
   for(let target=0;target<10;target++)for(let option=0;option<3;option++){
-   let s=act(ready(),{type:'start'})
+   let s=legacyStart()
    for(let n=0;n<=target;n++){
     if(n===4)s=act(s,{type:'open'})
     if(n===8)s=act(s,{type:'record-assessment',id:option===0?'card-export':'card-capture'})
@@ -23,11 +27,11 @@ describe('Scene 9 reference photograph',()=>{
   }
  })
  it('unlocks the searchable code through examination, comparison and the existing final conversation',()=>{
-  let s=act(ready(),{type:'start'});for(let i=0;i<4;i++){s=act(s,{type:'draft',index:0});s=act(s,{type:'send'})}
+  let s=legacyStart();for(let i=0;i<4;i++){s=act(s,{type:'draft',index:0});s=act(s,{type:'send'})}
   const record={type:'record-assessment',id:'card-capture'} as const
   expect(act(s,record)).toBe(s);s=act(s,{type:'open'});expect(act(s,record)).toBe(s)
   for(let i=0;i<4;i++){s=act(s,{type:'draft',index:0});s=act(s,{type:'send'})}
-  expect(act(s,{type:'draft',index:0})).toBe(s)
+  expect(act(s,{type:'draft',index:0}).masterScene09?.draft).toBe(0)
   s=act(s,record);expect(s.evidence[referenceCardId].verified).toBe(false)
   expect(s.deliveredEvents).not.toContain('TA-S09-SCENE10-UNLOCKED')
   for(let i=0;i<2;i++){s=act(s,{type:'draft',index:0});s=act(s,{type:'send'})}

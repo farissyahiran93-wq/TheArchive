@@ -9,6 +9,8 @@ function settle(s: GameSave, stopAtHandoff=false): GameSave {
 function beforePrivate(pending=false): GameSave {
   let s=settle(beginScene01({...newGame(),masterOpening:true,chapter1Edition:'ch01-v2-10'},1800000000000))
   for(let i=0;i<9;i++)s=settle(sendScene01Choice(s,'a','',true,1800000100000+i*1000))
+  // This fixture exercises a save from the previous group screenplay.
+  s={...s,prologue:{...s.prologue!,scene01:{...s.prologue!.scene01!,masterScene02Revision:3}}}
   s=settle(beginScene02(scene01Invitation(s,'join'),1800000200000))
   s = settle(sendScene01Choice(s, 'c', 'Alex', true, 1800000201000))
   for(let i=0;i<9;i++)s=settle(sendScene01Choice(s,'a','',true,1800000300000+i*1000),pending && i===8)
@@ -60,7 +62,7 @@ test('private handoff opens manually, preserves draft after reload and ends offl
   await expect(page.getByRole('button',{name:/Open Sophie.s photo: Two packets/})).toHaveCount(1)
   await expect(page.locator('.opening-bubble.sophie').getByText('These are the biscuits I was talking about. He always bought the same ones.')).toHaveCount(1)
   await expect(page.getByText('Goodbye.',{exact:true})).toHaveCount(1)
-  await expect(page.getByText('Sophie is offline.',{exact:true})).toBeVisible()
+  await expect(page.getByText('Sophie is offline.',{exact:true})).toHaveCount(0)
   const unlocked=await page.evaluate(async()=>{
     const db=await new Promise<IDBDatabase>((resolve,reject)=>{const r=indexedDB.open('the-archive-reboot',1);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})
     const save=await new Promise<GameSave>((resolve,reject)=>{const r=db.transaction('saves').objectStore('saves').get('primary');r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})

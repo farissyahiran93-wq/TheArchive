@@ -15,9 +15,9 @@ export type GuidanceTarget = { app: 'messages'|'archive'|'bulletin'; action: Gui
 
 /** One next action, derived from actual progress. Pure presentation; never a gate. */
 export function guidanceTarget(save: GameSave): GuidanceTarget | undefined {
-  if(save.masterScene09){if(save.masterScene09.complete)return undefined;return save.masterScene09.beat===8&&!save.masterScene09.saved?{app:'archive',action:'open-app'}:{app:'messages',action:'open-app'}}
+  if(save.masterScene09){if(save.masterScene09.complete)return undefined;return {app:'messages',action:'open-app'}}
   if(save.masterScene08?.complete)return {app:'messages',action:'open-app'}
-  if(save.masterScene08)return save.masterScene08.conversationRevision!=='cinematic-v1'&&save.masterScene08.beat===8&&!save.masterScene08.saved?{app:'archive',action:'open-app'}:{app:'messages',action:'open-app'}
+  if(save.masterScene08)return {app:'messages',action:'open-app'}
   if(save.masterScene07?.phase==='complete')return {app:'messages',action:'open-app'}
   if(save.masterScene04?.complete){const p=save.masterScene05,six=save.masterScene06;if(p?.complete){if(six?.complete)return undefined;if(six&&six.beat===8&&!six.saved)return {app:'archive',action:'open-app'};return {app:'messages',thread:'unknown',action:'open-thread'}}if(p?.packageStatus==='installed'&&(!p.earlySetup||p.archiveStatus==='accepted'&&p.beat>=8)&&(!p.recovered||p.read.length<4||!p.saved.length))return {app:'archive',action:'open-app'};return {app:'messages',thread:'unknown',action:'open-thread'}}
   if(save.masterScene04&&!save.masterScene04.complete){if(save.masterScene04.pending)return undefined;return {app:'messages',thread:'unknown',action:save.masterScene04.opened?(save.masterScene04.draft===undefined?'choose-reply':'send-reply'):'open-thread'}}
@@ -105,9 +105,9 @@ export function guidanceTarget(save: GameSave): GuidanceTarget | undefined {
 /** Conservative projections: only actions already available in the saved route are surfaced. */
 export function currentObjective(save: GameSave): GuidanceObjective | undefined {
   if(save.masterScene09?.complete)return {app:'messages',title:'Follow the public reference',detail:'The public inventory search is the next lead.'}
-  if(save.masterScene09)return save.masterScene09.beat===8&&!save.masterScene09.saved?{app:'archive',title:'Examine the reference card',detail:'Analyse the photo, compare sources and save a private finding.'}:{app:'messages',title:'Continue with Maya',detail:'Discuss the photograph and inspect its source.'}
+  if(save.masterScene09)return {app:'messages',title:'Continue with Maya',detail:'Talk with Maya about the photograph she found.'}
   if(save.masterScene08?.complete)return {app:'messages',title:'Continue with Maya',detail:'Open Maya’s conversation when ready to inspect the photograph.'}
-  if(save.masterScene08)return save.masterScene08.conversationRevision!=='cinematic-v1'&&save.masterScene08.beat===8&&!save.masterScene08.saved?{app:'archive',title:'Examine Maya’s capture',detail:'Compare sources and save a provisional finding.'}:{app:'messages',title:'Continue with Maya',detail:'Discuss and inspect the earlier check-in.'}
+  if(save.masterScene08)return {app:'messages',title:'Continue with Maya',detail:'Ask Maya about Daniel’s last check-in.'}
   if(save.masterScene07?.phase==='complete')return {app:'messages',title:'Open Maya’s message',detail:'Open Maya’s conversation when ready.'}
   if(save.masterScene04?.complete){const p=save.masterScene05,six=save.masterScene06;if(p?.complete){if(six?.complete)return {app:'messages',title:'Hear from Sophie',detail:'Sophie’s contact export is a separate source for the next investigation.'};if(six&&six.beat===8&&!six.saved)return {app:'archive',title:'Reconstruct the timeline',detail:'Inspect the activity log and save a source-grounded finding.'};return {app:'messages',title:'Continue with Unknown',detail:'Continue the conversation or review your report.'}}if(p?.packageStatus==='installed'&&(!p.earlySetup||p.archiveStatus==='accepted'&&p.beat>=8)&&(!p.recovered||p.read.length<4||!p.saved.length))return {app:'archive',title:'Examine Daniel’s archive',detail:'Open TRACE and inspect the available sources.'};return {app:'messages',title:'Continue with Unknown',detail:'Review the offer or send your selected response.'}}
   if(save.masterScene04)return {app:'messages',title:'Review Unknown’s message',detail:'Question the sender and decide whether to set up TRACE.'}

@@ -10,7 +10,7 @@ export const masterChapterMetadata = [
       },
       {
         "number": 2,
-        "title": "The Uninvited Guest"
+        "title": "Same Old Chaos"
       },
       {
         "number": 3,
@@ -30,11 +30,11 @@ export const masterChapterMetadata = [
       },
       {
         "number": 7,
-        "title": "The Starred Number"
+        "title": "Sophie’s Call"
       },
       {
         "number": 8,
-        "title": "The Last Check-In"
+        "title": "Maya’s Last Check-In"
       },
       {
         "number": 9,
@@ -42,7 +42,7 @@ export const masterChapterMetadata = [
       },
       {
         "number": 10,
-        "title": "The Inventory Sheet"
+        "title": "The Warning"
       }
     ]
   },

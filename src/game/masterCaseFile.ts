@@ -87,6 +87,11 @@ const historicalPhotoAssets: Record<string, string> = {
   [storyPhotos.lucasFriends.id]: '/media/chat/lucas-daniel-friends.png',
 }
 
+const openingStarId='TA-S01-V4-AFTER-05-3'
+export function investigationBoardAvailable(save:GameSave) {
+  return save.masterScene05?.packageStatus==='installed' || !!(save.prologue?.scene01?.masterScene01 && save.prologue.scene01.messages.some(line=>line.id===openingStarId))
+}
+
 function discoveredEvidence(save: GameSave): CaseEvidence[] {
   const evidence: CaseEvidence[] = []
   const five = save.masterScene05
@@ -157,7 +162,11 @@ function discoveredEvidence(save: GameSave): CaseEvidence[] {
     const receipt = save.evidence[evidenceId]
     if (assessment && receipt) evidence.push({ id, title, description: assessment.finding, source: `Private assessment · ${assessmentLabel(assessment.outcome)}`, kind: 'finding', recordedAt: receipt.collectedAt })
   }
-  if (exportEntry && hasTransferredScene07Export(exportEntry)) {
+  const firstStar=opening?.messages.find(line=>line.id===openingStarId)
+  if(firstStar)addStatement(firstStar,'Starred Contact','Sophie · private message about the shared-folder copy')
+  const lucasAccount=save.lucasPhoto?.messages.find(line=>line.id==='TA-LUCAS-V3-B3-M2'||line.id==='TA-S08-LUCAS-PHOTO-INTRO')
+  addStatement(lucasAccount,'Lucas’s account','Lucas · private message testimony')
+  if (exportEntry?.opened || exportEntry && hasTransferredScene07Export(exportEntry)) {
     evidence.push({ id: 'TA-EX-STARRED-ENTRY', title: 'Starred contact export', description: 'The copy contains an unnamed starred entry. The author and meaning of the star are unknown.', source: 'Sophie · shared-family-folder copy, original unverified', kind: 'document', recordedAt: exportEntry.transferredAt ?? save.evidence['TA-EX-STARRED-ENTRY']?.collectedAt })
     addStatement(exportEntry.lines.find(line => line.id === 'TA-S07-CALL-S1'), 'Sophie’s account of the export', 'Sophie · voice call testimony')
     if(exportEntry.saved)addAssessment(contactAssessments.find(item=>item.id===exportEntry.assessment), 'TA-FN-SOPHIE-EXPORT', 'TA-EX-STARRED-ENTRY', 'Contact-export assessment')
@@ -165,15 +174,14 @@ function discoveredEvidence(save: GameSave): CaseEvidence[] {
   if (save.masterScene08?.received && save.masterScene08.opened) {
     evidence.push({ id: captureId, title: 'Daniel’s last check-in', description: 'A cropped conversation includes the phrase “another copy”. The crop does not establish what the phrase refers to.', source: 'Maya · cropped message capture, original unverified', kind: 'message', timestamp: '21:14 · date and time zone unknown', recordedAt: save.evidence[captureId]?.collectedAt })
     addStatement(save.masterScene08.messages.find(line => /^TA-S08-C3-M-/.test(line.id)), 'Maya’s account of the crop', 'Maya · private message testimony')
-    addStatement(save.lucasPhoto?.messages.find(line => line.id === 'TA-S08-LUCAS-PHOTO-INTRO'), 'Lucas’s account', 'Lucas · private message testimony')
     if(save.masterScene08.saved)addAssessment(captureAssessments.find(item=>item.id===save.masterScene08?.assessment), 'TA-FN-CHECK-IN', captureId, 'Last check-in assessment')
   }
-  if (save.masterScene09?.received && save.masterScene09.opened) {
+  if (save.masterScene09?.received && (save.masterScene09.opened || save.masterScene09.conversationRevision==='conversation-v3')) {
     evidence.push({ id: referenceCardId, title: 'Secondary reference card', description: 'The photograph shows the reference GH-DSC-03-A. The card does not establish the contents of any record.', source: 'Maya · shared-folder photograph, original unverified', kind: 'photo', image: referenceCardImage, recordedAt: save.evidence[referenceCardId]?.collectedAt })
     if(save.masterScene09.saved)addAssessment(cardAssessments.find(item=>item.id===save.masterScene09?.assessment), 'TA-FN-CARD-REFERENCE', referenceCardId, 'Secondary card assessment')
   }
   const inventory = save.evidence['TA-S10-PUBLIC-INDEX']
-  if ((save.masterScene10?.investigationRevision === 'theory-v1' && save.masterScene10.compared) || (save.masterScene10?.saved && inventory)) {
+  if ((save.masterScene10?.investigationRevision === 'public-index' && save.masterScene10.matched) || (save.masterScene10?.investigationRevision === 'theory-v1' && save.masterScene10.compared) || (save.masterScene10?.saved && inventory)) {
     evidence.push({ id: 'TA-S10-PUBLIC-INDEX', title: 'Public inventory match', description: 'The inventory has a matching reference. The underlying record remains unavailable.', source: 'Greyhaven public inventory · index match only', kind: 'document', recordedAt: inventory?.collectedAt })
   }
   if (save.masterScene10?.warning && save.deliveredEvents.includes('TA-S10-WARNING')) {
@@ -183,7 +191,7 @@ function discoveredEvidence(save: GameSave): CaseEvidence[] {
 }
 
 export function selectMasterCaseFile(save: GameSave): MasterCaseFileView | undefined {
-  if (save.masterScene05?.packageStatus !== 'installed') return undefined
+  if (!investigationBoardAvailable(save)) return undefined
   const state = save.masterCaseFile ?? createMasterCaseFile()
   const evidence = discoveredEvidence(save)
   const visibleIds = new Set(evidence.map(node => node.id))
@@ -201,19 +209,19 @@ export function selectMasterCaseFile(save: GameSave): MasterCaseFileView | undef
   const facts = [
     'Sophie Mercer says her brother Daniel stopped answering her messages and calls. His whereabouts are unknown.',
   ]
-  if (save.prologue?.scene01?.messages.some(line => line.id === 'TA-S01-AFTER-03-1')) {
+  if (save.prologue?.scene01?.messages.some(line => line.id === 'TA-S01-AFTER-03-1'||line.id===openingStarId)) {
     facts.push('Sophie reported finding the player’s unnamed, starred number in a contact-export copy. Who marked the entry and why remain unknown.')
   }
   if (nodes.some(node => node.id === 'TA-S05-ARCHIVE-ACCEPTED')) facts.push('Unknown Sender provided an encrypted copy believed to contain Daniel’s phone data. Its source remains unverified.')
   if (save.masterScene06?.recovered) facts.push('The deeper recovery pass recovered partial activity records. The device clock, who used the phone and what happened between records remain unverified.')
-  const questions = [...initialQuestions]
+  const questions = initialQuestions.filter(question=>question.id!=='phone-recovery'||save.masterScene05?.packageStatus==='installed')
   if (save.masterScene06?.recovered) questions.push(...missingHourQuestions)
-  if (hasTransferredScene07Export(save.masterScene07)) questions.push(laterQuestions[0])
+  if (save.masterScene07?.opened || hasTransferredScene07Export(save.masterScene07)) questions.push(laterQuestions[0])
   if (save.masterScene08?.opened) questions.push(laterQuestions[1])
   if (save.masterScene09?.opened) questions.push(laterQuestions[2])
-  if (save.masterScene10?.compared) questions.push(laterQuestions[3])
+  if (save.masterScene10?.compared || save.masterScene10?.investigationRevision==='public-index' && save.masterScene10.matched) questions.push(laterQuestions[3])
   const questionStatus: Record<string, string> = {}
-  if (save.masterScene05.saved.length) questionStatus['phone-recovery'] = 'Observation recorded · archive source unverified'
+  if (save.masterScene05?.saved.length) questionStatus['phone-recovery'] = 'Observation recorded · archive source unverified'
   if (save.masterScene06?.saved) questionStatus['missing-hour'] = 'Gap documented · cause unresolved'
   if (save.masterScene07?.saved) questionStatus['starred-number'] = 'Entry documented · significance unresolved'
   if (save.masterScene08?.saved) questionStatus['another-copy'] = 'Crop assessed · subject of the copy unresolved'

@@ -31,11 +31,12 @@ describe('natural master scene continuations',()=>{
   expect(next.masterScene06?.messages).toEqual([])
   expect(advanceMasterContinuations(next,30000)).toBe(next)
  })
- it('starts the incoming call only after the actual Scene 6 receipts, without answering it',()=>{
+ it('starts Sophie’s private conversation after the Scene 6 receipts',()=>{
   const five=advanceMasterContinuations(ready(),10000)
   const s={...five,masterScene05:{...five.masterScene05!,complete:true,recovered:true,selected:true,opened:true},masterScene06:{complete:true,recovered:true,saved:true} as GameSave['masterScene06'],deliveredEvents:['TA-S06-SOPHIE-EXPORT','TA-S06-COMPLETE']}
   const next=advanceMasterContinuations(s,20000)
-  expect(next.masterScene07?.phase).toBe('ringing')
+  expect(next.masterScene07?.phase).toBe('chat')
+  expect(next.masterScene07?.chat?.stage).toBe('intro')
   expect(next.masterScene07?.lines).toEqual([])
   expect(advanceMasterContinuations(next,30000)).toBe(next)
  })

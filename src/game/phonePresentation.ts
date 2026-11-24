@@ -12,7 +12,10 @@ export function phoneNotices(save: GameSave): PhoneNotice[] {
   if (scene) {
     const incoming: PhoneNotice[] = scene.messages.filter(line => line.sender === 'sophie' && line.id !== 'TA-S07-CALL-HISTORY').map(line => ({ id: line.id, title: scene.introduced ? 'Sophie' : 'Unknown number', text: line.text, thread: 'sophie', avatar: scene.introduced ? 'sophie' : 'unknown' }))
     for(const line of save.masterScene07?.privacy?.messages??[])if(line.sender==='sophie')incoming.push({id:line.id,title:'Sophie',text:line.text,thread:'sophie',avatar:'sophie'})
-    for(const line of save.masterScene08?.conversationRevision==='cinematic-v1'?save.masterScene08.messages:[])if(line.sender==='maya')incoming.push({id:line.id,title:'Maya',text:line.photo?'Photo':line.attachment==='capture'?'Capture':line.text,thread:'maya',avatar:'maya'})
+    for(const line of save.masterScene08?.conversationRevision?save.masterScene08.messages:[])if(line.sender==='maya')incoming.push({id:line.id,title:'Maya',text:line.photo?'Photo':line.attachment==='capture'?'Capture':line.text,thread:'maya',avatar:'maya'})
+    for(const line of save.lucasPhoto?.revision==='conversation-v3'?save.lucasPhoto.messages:[])if(line.sender==='lucas')incoming.push({id:line.id,title:'Lucas',text:line.photo?'Photo':line.text,thread:'lucas',avatar:'lucas'})
+    for(const line of save.masterScene09?.messages??[])if(line.sender==='maya')incoming.push({id:line.id,title:'Maya',text:line.photo?'Photo':line.text,thread:'maya',avatar:'maya'})
+    for(const line of save.masterScene09?.disclosure?.messages??[])if(line.sender==='unknown')incoming.push({id:line.id,title:'Unknown',text:line.text,thread:'unknown',avatar:'unknown'})
     for(const line of save.masterScene04?.messages??[])if(line.sender==='unknown')incoming.push({id:line.id,title:'Unknown',text:line.text,thread:'unknown',avatar:'unknown'})
     for(const line of visibleUnknownMessages(save))if(line.sender==='unknown')incoming.push({id:line.id,title:scene.scriptRevision?'Unknown Number':'Unknown Sender',text:line.id==='CH1-ARCHIVE-FIRST'&&traceBridgeV3(save)?'New message':line.text,thread:'unknown',avatar:'unknown'})
     for(const line of save.messages)if(line.id.startsWith('CH1-')&&line.sender!=='player'&&['nora','eli','maya','lucas'].includes(line.sender))incoming.push({id:line.id,title:names[line.sender],text:line.text,thread:line.sender as PhoneNotice['thread'],avatar:line.sender})
@@ -50,10 +53,11 @@ export function openingPresence(save: GameSave, person: string): 'online' | 'off
     if((save.chapter1?.correctionsDesk?.reading==='sophie'||save.chapter1?.correctionsDesk?.reading==='group') && (person==='sophie'||person==='maya'&&save.chapter1.correctionsDesk.reading==='group')) return opening.scene01.groupMembers?.[person as 'sophie']!==false?'online':'offline'
     if(save.chapter1?.versionHistory?.reading && save.chapter1.versionHistory.reading!=='unknown' && (person==='sophie'||person==='maya'&&save.chapter1.versionHistory.reading==='group')) return opening.scene01.groupMembers?.[person as 'sophie']!==false?'online':'offline'
     if (person === 'sophie' && !!save.chapter1?.publicStory?.reading && !save.chapter1.publicStory.complete && !['OPEN-S04-ARCHIVE-GATE','OPEN-S04-FOLLOWUP-WAIT','OPEN-S04-C10','OPEN-S04-C11','OPEN-S04-INDEX-ACK','OPEN-S04-RETURN-DEVICE'].includes(opening.scene01.nodeId)) return 'online'
+    if (person === 'sophie' && save.masterScene07?.chat && save.masterScene07.phase !== 'complete') return 'online'
     if (person === 'sophie' && save.deliveredEvents.includes('TA-S06-SOPHIE-EXPORT') && (!save.masterScene07 || ['ringing','missed','playing','waiting'].includes(save.masterScene07.phase))) return 'online'
     if (person === 'sophie' && opening.scene01.privateScene03?.complete) return 'offline'
     if (person === 'sophie' && opening.scene01.privateHandoff?.deliveredAt !== undefined) return 'online'
-    if (opening.scene01.groupScript && ['sophie','maya','lucas'].includes(person)) return opening.scene01.groupPresence?.[person as 'sophie'] ? 'online' : 'offline'
+    if (opening.scene01.groupScript && ['sophie','maya','lucas','noah','ana','eli'].includes(person)) return opening.scene01.groupPresence?.[person as 'sophie'] ? 'online' : 'offline'
     return person === 'sophie' && (opening.scene01.queue.length || !['declined','ready','joined'].includes(opening.scene01.invitation) && !opening.scene01.complete) ? 'online' : 'offline'
   }
   if (opening.social?.queue?.some(line => line.sender === person)) return 'online'

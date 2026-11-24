@@ -1,23 +1,22 @@
-import { useState } from 'react'
-import { canReplyInScene09 } from '../game/masterScene09'
-import { referenceCardId, referenceCardImage, referenceCode, scene09Beats } from '../content/masterScene09'
+import { disclosureTopics, type DisclosureTopic } from '../content/mayaConversationV3'
 import { useGameStore } from '../game/store'
-import { ChatPhotoViewer } from './ChatPhotoViewer'
+import { PrivateChatTimeline } from './PrivateChatTimeline'
 
-export function MasterScene09Conversation(){
- const p=useGameStore(s=>s.save.masterScene09),act=useGameStore(s=>s.masterScene09Action)
- const [zoom,setZoom]=useState(false),[failed,setFailed]=useState(false),[loaded,setLoaded]=useState(false)
- if(!p)return null
- const beat=scene09Beats[p.beat],canReply=canReplyInScene09(p)
- return <article aria-label="Scene 9 Maya conversation">
-  {p.messages.map(m=><div key={m.id} className={`conversation-line ${m.sender==='player'?'outgoing':'incoming'}`}><div className="conversation-body"><div className={`opening-bubble ${m.sender==='player'?'player':'sophie'}`}>{m.text}</div></div></div>)}
-  {p.received&&<article className="scene01-invitation" aria-label="Secondary card photograph"><strong>{referenceCardId}</strong><p>Photo from Maya · source unverified</p><button className="opening-choice" onClick={()=>act({type:'open'})}>OPEN CARD PHOTO</button>
-   {p.opened&&<>{failed?<p role="alert">The photograph could not be loaded. Retry the image or return later.</p>:<img src={referenceCardImage} alt="Photograph of a Greyhaven secondary reference card" onLoad={()=>setLoaded(true)} onError={()=>{setLoaded(false);setFailed(true)}} style={{display:'block',width:'100%',maxWidth:560,borderRadius:8}}/>}{failed?<button className="opening-choice" onClick={()=>setFailed(false)}>RETRY IMAGE</button>:<button className="opening-choice" disabled={!loaded} onClick={()=>setZoom(true)}>ENLARGE PHOTO</button>}
-    <details><summary>Card transcription</summary><p>Greyhaven Records · Secondary Reference Card · <mark>{referenceCode}</mark> · “Reference Only” · “Contents Unverified”.</p></details>
-    <details><summary>Photo provenance</summary><p>Maya found this copy in a shared folder. Photographer, capture date, original image and physical custody are unverified.</p></details></>}
-  </article>}
-  {p.beat===8&&!p.saved&&<p>Open TRACE to review the external photo, compare sources and save a private finding.</p>}
-  {canReply&&beat&&!p.complete&&<div className="opening-actions"><div className="opening-action-heading">Choose a reply</div><div className="scene01-options">{beat.choices.map((choice,i)=><button key={choice} className={`opening-choice ${p.draft===i?'selected':''}`} aria-pressed={p.draft===i} onClick={()=>act({type:'draft',index:i})}>{choice}</button>)}</div><button className="opening-primary" disabled={p.draft===undefined} onClick={()=>act({type:'send'})}>Send</button></div>}
-  {zoom&&<ChatPhotoViewer src={referenceCardImage} alt="Photograph of a Greyhaven secondary reference card" onClose={()=>setZoom(false)}/>}
- </article>
+/** Optional and recipient-scoped. Only the exact text confirmed by Send enters this thread. */
+export function MasterCardDisclosure() {
+ const save=useGameStore(s=>s.save), act=useGameStore(s=>s.masterScene09Action)
+ const nine=save.masterScene09
+ if(!nine?.complete||nine.conversationRevision!=='conversation-v3')return null
+ const d=nine.disclosure
+ if(!d)return <div className="opening-actions"><span className="opening-action-heading">Share a clue · Choose recipient</span><button className="opening-choice" onClick={()=>act({type:'recipient'})}>Unknown Sender</button></div>
+ const topic=d.topic?disclosureTopics[d.topic]:undefined
+ const followup=topic?.followups[d.step-1]
+ return <>
+  <PrivateChatTimeline character="unknown" lines={d.messages} typing={!!d.pending?.length}/>
+  {!d.pending?.length&&(!d.step||followup)&&<div className="opening-actions">
+   <div className="opening-action-heading">{d.step?'Choose a reply':'Choose a clue for Unknown Sender'}</div>
+   <div className="scene01-options">{!d.step?(Object.keys(disclosureTopics) as DisclosureTopic[]).filter(id=>id==='copy'?save.masterScene08?.opened:nine.received).map(id=><button className={'opening-choice '+(d.topic===id?'selected':'')} key={id} aria-pressed={d.topic===id} onClick={()=>act({type:'select-clue',topic:id})}>{disclosureTopics[id].text}</button>):<button className={'opening-choice '+(d.selected?'selected':'')} aria-pressed={!!d.selected} onClick={()=>act({type:'select-followup'})}>{followup}</button>}</div>
+   <button className="opening-primary" disabled={!d.selected} onClick={()=>act({type:'send-disclosure'})}>Send</button>
+  </div>}
+ </>
 }

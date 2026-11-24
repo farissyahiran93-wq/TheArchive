@@ -27,6 +27,8 @@ function finishUnknown(s: GameSave): GameSave {
 function entries():GameSave{
  let s=newGame();let next=beginScene01({...s,masterOpening:true,chapter1Edition:'ch01-v2-10'},1000);s=captureSceneEntries(s,next,1000);s=settle(s)
  for(let i=0;i<9;i++)s=settle(sendScene01Choice(s,'a','',true,20000+i*1000))
+ // This fixture exercises a save from the previous group screenplay.
+ s={...s,prologue:{...s.prologue!,scene01:{...s.prologue!.scene01!,masterScene02Revision:3}}}
  s=settle(beginScene02(scene01Invitation(s,'join'),40000));s=settle(sendScene01Choice(s,'c','Alex',true,41000));for(let i=0;i<9;i++)s=settle(sendScene01Choice(s,'a','',true,50000+i*1000))
  s=settle(openScene03(s,100000));for(let i=0;i<10;i++)s=settle(sendScene01Choice(s,'a','',true,140000+i*1000))
  next=four(s,{type:'start'},200000);s=finishUnknown(captureSceneEntries(s,next,200000))

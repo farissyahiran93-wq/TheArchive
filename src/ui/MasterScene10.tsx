@@ -67,6 +67,17 @@ export function MasterScene10({onClose}:{onClose:()=>void}){
   {p.phase==='ending'&&<button className="opening-primary" disabled={!pauseOver} onClick={()=>act({type:'finish'})}>END CHAPTER</button>}
  </PhoneCallScreen>
  if(p.phase==='complete')return <section className="opening-screen opening-v4"><div className="opening-thread" style={{padding:'2rem'}}><p>CHAPTER 1 COMPLETE</p><h1>The First Trace</h1><p>Chapter 2 — The Other Copy unlocked</p><p>TRACE recovery: 20%</p><p>Continue when the next chapter is available.</p><button className="opening-primary" onClick={()=>{if(p.media)act({type:'media-dismiss'});onClose()}}>RETURN HOME</button></div></section>
+ if(p.investigationRevision==='public-index')return <section className="opening-screen opening-v4" aria-label="Greyhaven Public Inventory">
+  <header className="opening-chat-header"><button className="icon-button bare" onClick={onClose}>Back</button><strong>Greyhaven Public Inventory</strong></header>
+  <div className="opening-thread inventory-screen"><h2>Search public records</h2>
+   <form className="inventory-search" onSubmit={event=>{event.preventDefault();act({type:'search'})}}>
+    <label>Reference<input aria-label="Inventory reference" maxLength={60} disabled={p.matched} value={p.query} onChange={event=>act({type:'query',value:event.target.value})}/></label>
+    <button className="opening-primary" disabled={!p.query.trim()||p.matched}>SEARCH</button>
+   </form>
+   {p.searched&&!p.matched&&<p role="status">No matching public index entry.</p>}
+   {p.matched&&<article className="utility-card inventory-record"><small>GREYHAVEN PUBLIC INDEX</small><h3>{inventoryCode}</h3><p>Secondary index reference. The underlying record is unavailable.</p></article>}
+   {p.phase==='return'&&<button className="opening-primary" onClick={()=>{act({type:'home'});onClose()}}>RETURN HOME</button>}
+  </div></section>
  if(p.investigationRevision==='theory-v1')return <section className="opening-screen opening-v4" aria-label="Greyhaven Public Inventory">
   <header className="opening-chat-header"><button className="icon-button bare" onClick={onClose}>Back</button><strong>Greyhaven Public Inventory</strong></header>
   <div className="opening-thread inventory-screen">

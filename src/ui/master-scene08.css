@@ -1,2 +1,18 @@
-.scene08-capture{margin:14px 0;padding:16px;border:1px solid #8d999c;border-radius:12px;background:#eef1f0;color:#233133;max-width:30rem;box-shadow:0 8px 20px #0002}.scene08-capture h3{border-bottom:1px solid #b8c7c5;padding-bottom:10px;margin:10px 0}.scene08-capture p{font-size:.8rem;font-weight:600;margin:12px 0 4px}.scene08-capture time{float:right;font-weight:400}.scene08-capture blockquote{margin:4px 0;padding:9px 12px;border-radius:12px;background:#fff;line-height:1.4}.scene08-capture small{display:block;text-align:center;color:#566767}
-.scene08-capture-overlay{position:absolute;inset:0;z-index:100;overflow:auto;padding:calc(16px + env(safe-area-inset-top,0px)) 16px calc(20px + env(safe-area-inset-bottom,0px));background:#071015ed;color:#fff}.scene08-capture-overlay>button{color:#fff;min-width:44px;min-height:44px}.scene08-capture-overlay .scene08-capture{margin:20px auto}
+.maya-message-capture { overflow:hidden; width:100%; background:#e9edf5; color:#162030; border-radius:12px; font-family:system-ui,sans-serif; text-align:left; }
+.maya-message-capture header { display:flex; align-items:center; gap:10px; padding:10px 15px; background:#f8f9fc; border-bottom:1px solid #c9d1dd; }
+.maya-message-capture header>span { font-size:25px; color:#46759f; }
+.maya-message-capture header>b { font-size:14px; display:grid; place-items:center; background:#74879b; color:white; width:29px; height:29px; border-radius:50%; }
+.maya-message-capture header>strong { color:#263440; font-size:15px; letter-spacing:normal; }
+.maya-captured-exchange { display:flex; flex-direction:column; gap:6px; padding:10px; }
+.maya-captured-exchange>div { max-width:82%; }
+.maya-captured-exchange .capture-sent { align-self:flex-end; }
+.maya-captured-exchange .capture-received { align-self:flex-start; }
+.maya-captured-exchange p { font:500 13px/1.34 system-ui,sans-serif; color:#162030; background:white; margin:0; padding:6px 10px; border-radius:12px 12px 12px 4px; }
+.maya-captured-exchange .capture-sent p { background:#326b87; color:white; border-radius:12px 12px 4px 12px; }
+.maya-captured-exchange time { font:500 11px/1.3 system-ui,sans-serif; color:#47586c; display:block; padding:0 4px 3px; }
+.maya-attachment { background:none; color:inherit; border:0; text-align:left; padding:0; display:block; }
+.maya-attachment small { display:block; margin:4px 2px; }
+.maya-attachment .maya-message-capture { max-width:155px; max-height:140px; overflow:hidden; }
+.maya-attachment .maya-captured-exchange { zoom:0.7; }
+.chat-document-canvas { width:min(100% - 12px, 360px, 62vh); flex:none; }
+@media(max-height:620px){ .chat-document-canvas .maya-captured-exchange{gap:3px} .chat-document-canvas .maya-captured-exchange p{padding:4px 8px;font-size:11px} }

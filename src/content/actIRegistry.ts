@@ -1,4 +1,6 @@
 import { masterScene01V4Nodes } from './masterScene01V4'
+import { eliGroupNodes } from "./masterScene02Eli"
+import { friendsGroupNodes } from './masterScene02Friends'
 import { masterScene02V3Nodes } from './masterScene02V3'
 import { masterScene02V2Nodes } from './masterScene02V2'
 import { masterScene01V3Nodes } from './masterScene01V3'
@@ -123,8 +125,25 @@ if(sophieRead.kind==='choice')naturalGraph[sophieRead.id]={...sophieRead,choices
 const bridgeGraph = { ...naturalGraph, ...traceBridgeNodes }
 type GraphRevision = Pick<NonNullable<OpeningState['scene01']>,
   'scriptRevision' | 'masterScene01' | 'masterScene01Revision' | 'masterScene02Revision' | 'articleAlignment' | 'traceIntroRevision' | 'traceUiRevision' | 'naturalFlowRevision' | 'traceBridgeRevision'>
+const masterOpenings = { 1: masterScene01Nodes, 2: masterScene01V2Nodes, 3: masterScene01V3Nodes, 4: masterScene01V4Nodes }
+const friendsGraphs = Object.fromEntries(Object.entries(masterOpenings).map(([revision, opening]) => {
+  const graph = { ...opening, ...friendsGroupNodes, ...masterScene03Nodes }
+  const roster = graph['TA-S01-V4-AFTER-08-1']
+  if (roster?.kind === 'npc') graph[roster.id] = { ...roster, text: "There's a group chat. Me, Daniel, Maya, Lucas, Noah and Ana." }
+  return [revision, graph]
+}))
+const eliGraphs = Object.fromEntries(Object.entries(friendsGraphs).map(([revision, graph]) => {
+  const roster = graph["TA-S01-V4-AFTER-08-1"]
+  return [revision, { ...graph, ...eliGroupNodes, ...(roster?.kind==="npc" ? {[roster.id]:{...roster,text:"There's a group chat. Me, Daniel, Maya, Lucas, Noah, Ana and Eli."}} : {}) }]
+}))
 export function actINodes(scene?: GraphRevision) {
-  if (scene?.masterScene01) return { ...(scene.masterScene01Revision === 4 ? masterScene01V4Nodes : scene.masterScene01Revision === 3 ? masterScene01V3Nodes : scene.masterScene01Revision === 2 ? masterScene01V2Nodes : masterScene01Nodes), ...(scene.masterScene02Revision === 2 ? masterScene02V3Nodes : scene.masterScene02Revision === 1 ? masterScene02V2Nodes : masterScene02Nodes), ...masterScene03Nodes }
+  if (scene?.masterScene01) {
+    const revision = scene.masterScene01Revision ?? 1
+    if (scene.masterScene02Revision === 4) return eliGraphs[revision]
+    if (scene.masterScene02Revision === 3) return friendsGraphs[revision]
+    const group = scene.masterScene02Revision === 2 ? masterScene02V3Nodes : scene.masterScene02Revision === 1 ? masterScene02V2Nodes : masterScene02Nodes
+    return { ...masterOpenings[revision], ...group, ...masterScene03Nodes }
+  }
   if (scene?.scriptRevision !== 'final-2026-10-23') return scene01Nodes
   if (!scene.articleAlignment) return finalNodes
   if (scene.naturalFlowRevision) return scene.traceBridgeRevision ? bridgeGraph : naturalGraph

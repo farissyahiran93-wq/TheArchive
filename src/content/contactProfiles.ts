@@ -5,4 +5,6 @@ export const contactBios: Record<string, string> = {
   lucas: 'Better in person.',
   eli: 'Usually fixing something.',
   nora: 'Listening first.',
+  noah: 'I still think pineapple belongs on pizza.',
+  ana: 'Ask one more question.',
 }
