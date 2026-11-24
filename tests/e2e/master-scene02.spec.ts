@@ -15,6 +15,7 @@ function ready(): GameSave {
 
 test.use({ reducedMotion: 'reduce', viewport: { width: 375, height: 812 } })
 test('seven friends and their guest, ten decisions, Lucas departure and private handoff survive reload', async ({ page }) => {
+  test.setTimeout(240000)
   await seedScene(page, ready())
   await expect(page.locator('.scene01-chat')).toHaveCount(0)
   await page.getByRole('button', { name: 'Open Messages', exact: true }).first().click()

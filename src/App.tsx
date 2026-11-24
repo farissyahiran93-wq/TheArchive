@@ -1,3 +1,4 @@
+import { isLegacyOpeningFixture } from './game/campaign'
 import { investigationBoardAvailable } from './game/masterCaseFile'
 import { InvestigationBoardApp } from './ui/MasterCaseFile'
 import { MasterTrace } from './ui/MasterTrace'
@@ -69,7 +70,7 @@ export default function App({ onMenu, onChapterSelect, startScene }: { onMenu?: 
   const [publicArticleOpen,setPublicArticleOpen]=useState(false)
   const [publicationTrail,setPublicationTrail]=useState<PublicationPage[]>(['article'])
   const [exitPrompt,setExitPrompt]=useState(false)
-  const legacyTestMode = import.meta.env.DEV && new URLSearchParams(window.location.search).has('legacyopening')
+  const legacyTestMode = isLegacyOpeningFixture()
   const { appearance, setAppearance, theme } = useAppearance()
   const { preferences: audio, setPreferences: setAudio } = useAudioPreferences()
   const soundEvents = [

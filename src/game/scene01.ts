@@ -89,6 +89,7 @@ export function enterScene01(state: GameSave, id: string, now: number): GameSave
   if (node.event === 'source-boundary') return node.next ? enter(replace(next, { ...scene, groupSourceBoundary: false }), node.next, now) : next
   if (node.event === 'deleted' || node.event === 'leave') {
     const leaving = node.event === 'leave'
+    if (leaving && scene.lucasLeftGroup) return enter(next,node.next!,now)
     const text = leaving ? node.text ?? (scene.masterScene01 ? 'Lucas Grey left the group.' : 'Lucas left the group.') : 'Maya deleted a message.'
     const changed = replace(next, { ...scene, groupMessages: [...scene.groupMessages, { id, sender: 'system', text, at: now }],
       groupReceipts: [...scene.groupReceipts ?? [], { eventId: id, recipient: 'player', factIds: [leaving ? 'OPEN-S02-LUCAS-LEFT' : 'OPEN-S02-MAYA-DELETED-MESSAGE'] }],
@@ -148,7 +149,7 @@ export function deliverScene01(state: GameSave, now: number): GameSave {
   const node = actINodes(scene)[queued.id]
   if (!node || !['npc','wait'].includes(node.kind)) return state
   if (node.kind === 'npc' && (node.id.startsWith('OPEN-VH-') || node.id.startsWith('OPEN-S05-') || node.id.startsWith('OPEN-S06-') || /^OPEN-(?:S0[789]|S10)-/.test(node.id)) && node.channel === 'group' && scene.groupMembers?.[(node.sender ?? 'sophie') as 'sophie'|'maya'|'lucas'] !== true) return enter(nextForSkipped(state),node.next,now)
-  if (node.kind === 'npc' && node.channel === 'group' && node.sender === 'lucas' && scene.groupMembers?.lucas === false) return replace(state, { ...scene, queue: [] })
+  if (node.kind === 'npc' && node.channel === 'group' && node.sender === 'lucas' && scene.groupMembers?.lucas === false) return enter(nextForSkipped(state),node.next,now)
   let next = replace(state, { ...scene, queue: [] })
   if (node.kind === 'wait') return enter(event(next, node.id), node.next, now)
   if (node.kind !== 'npc') return state
@@ -252,7 +253,7 @@ export function sendScene01Choice(state: GameSave, choiceId: string, name = '', 
     return enter({ ...state, deliveredEvents: [...state.deliveredEvents, id], choices: { ...state.choices, [scene.nodeId]: choice.id }, messages: [...state.messages, { id, sender: 'player', recipient: 'sophie', channel: 'messages', text, at: now, delivery: 'delivered', disclosedFactIds: factIds }], knowledge: { ...state.knowledge, characters: { ...state.knowledge.characters, sophie: [...new Set([...state.knowledge.characters.sophie, ...factIds])] } }, prologue: { ...state.prologue!, scene01: { ...scene, messages: [...scene.messages, { id, sender: 'player', text, at: now }], privateScene03: { ...scene.privateScene03, draft: undefined, receipts: [...scene.privateScene03.receipts, { eventId: id, recipient: 'sophie', factIds }] } } } }, choice.next, now)
   }
   if (scene.nodeId.startsWith('OPEN-S02-') || scene.nodeId.startsWith('TA-S02-')) {
-    const recipients = groupSpeakers(scene).filter(actor => scene.groupPresence?.[actor] && scene.groupMembers?.[actor] !== false)
+    const recipients = groupSpeakers(scene).filter(actor => scene.masterScene02Revision===4 ? scene.groupMembers?.[actor]===true : scene.groupPresence?.[actor] && scene.groupMembers?.[actor] !== false)
     const factIds = [id + '-CLAIM', ...(choice.discloseName ? ['TA-S02-PLAYER-NAME'] : [])]
     const characters = { ...state.knowledge.characters }
     for (const recipient of recipients) characters[recipient] = [...new Set([...characters[recipient], ...factIds])]

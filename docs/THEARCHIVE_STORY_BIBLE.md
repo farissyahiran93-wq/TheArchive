@@ -1,5 +1,7 @@
 # TheArchive — Master Story Bible
 
+> For implemented Chapter 1 and the active campaign registry, see [Chapter 1 — The First Trace](CHAPTER_1_CANONICAL_FLOW.md). Earlier route names and workflow descriptions in this document are historical planning context.
+
 > **Canon lock update:** use [the owner decisions and dated provenance](THEARCHIVE_CANON_LOCK_2026-11-05.md) where this document's older proposed chain differs. The number comes from an internal restricted enquiry system; Sophie uses Daniel's shared family folder; Daniel writes the warning card; Sophie tells Eli before his anonymous contact. Lucas's custody of a second encrypted backup remains proposed. The older Eli-authored-card candidate is superseded.
 
 **Status: MASTER PLANNING ONLY · 5 November 2026 · SPOILER / DEVELOPER ONLY**

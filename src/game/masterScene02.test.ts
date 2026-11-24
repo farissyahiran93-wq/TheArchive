@@ -78,6 +78,8 @@ describe('seven original friends in the revised Scene 2', () => {
     const deadline = save.prologue!.scene01!.queue[0].dueAt
     expect(deliverScene01(reload(save), deadline - 1)).toEqual(save)
     save = settle(save)
+    const sceneAtOpening=save.prologue!.scene01!
+    save={...save,prologue:{...save.prologue!,scene01:{...sceneAtOpening,groupPresence:{...sceneAtOpening.groupPresence!,eli:false}}}}
     const notices = phoneNotices(save).filter(n => n.thread === 'group')
     for (const who of ['noah','ana','eli']) expect(notices.some(n => n.avatar === who && n.title === 'Same Old Chaos')).toBe(true)
     for (let i = 1; i <= 10; i++) {
@@ -116,5 +118,24 @@ describe('seven original friends in the revised Scene 2', () => {
     expect(replay.prologue!.scene01!.groupMessages).toHaveLength(1)
     expect(settle(replay).prologue!.scene01!.nodeId).toBe('TA-S02-ELI-C01')
     expect(original.prologue!.scene01!.queue[0].id).toBe('TA-S02-V3-NAME-OPEN-1')
+  })
+
+  it.each([1, 2, 3, 4] as const)('resumes the pending Scene 2 message on revision %i and repeatedly replays it as V4', revision => {
+    const base=joined(false)
+    const original=beginScene02({...base,prologue:{...base.prologue!,scene01:{
+      ...base.prologue!.scene01!,masterScene01Revision:revision===1?3:4,masterScene02Revision:revision,
+    }}},50000)
+    const scene=original.prologue!.scene01!
+    expect(scene.masterScene02Revision).toBe(revision)
+    const resumed=normalizeSave(JSON.parse(JSON.stringify(original)))
+    expect(resumed.prologue!.scene01).toEqual(scene)
+    expect(settle(resumed).prologue!.scene01!.groupMessages).toEqual(settle(original).prologue!.scene01!.groupMessages)
+    const checkpoint={save:original,capturedAt:50000}
+    const first=settle(prepareReplay(checkpoint,90000,2))
+    const second=settle(prepareReplay(checkpoint,90000,2))
+    expect(second).toEqual(first)
+    expect(first.prologue!.scene01!.groupMembers).toEqual({sophie:true,maya:true,lucas:true,noah:true,ana:true,eli:true,daniel:true})
+    expect(first.prologue!.scene01!.groupMessages.filter(line=>line.id==='TA-S02-PLAYER-JOINED')).toHaveLength(1)
+    expect(first.prologue!.scene01!.nodeId).toBe('TA-S02-ELI-C01')
   })
 })

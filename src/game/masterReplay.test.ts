@@ -60,7 +60,7 @@ describe('master route scene-entry checkpoints',()=>{
    expect(restored.masterCaseFile?.id).toBe(n===5||n===10?'TA-CASE-001':undefined)
    expect(restored.evidence.FUTURE).toBeUndefined()
    if(n===1)expect(restored.prologue?.scene01?.masterScene01).toBe(true)
-   if(n===4){expect(restored.masterScene04?.revision).toBe('cinematic');expect(restored.masterScene04?.beat).toBe(0);expect(restored.masterScene05).toBeUndefined()}
+   if(n===4){expect(restored.masterScene04?.revision).toBe('v5');expect(restored.masterScene04?.beat).toBe(0);expect(restored.masterScene05).toBeUndefined()}
    if(n===5){expect(restored.masterScene05?.archiveStatus).toBe('unavailable');expect(masterRecoveryUnits(restored.masterScene05!)).toBe(0);expect(restored.masterScene10).toBeUndefined()}
    if(n===10){expect(restored.masterScene10?.phase).toBe('inventory');expect(masterRecoveryUnits(restored.masterScene05!)+scene06Units(restored.masterScene06)).toBe(200);expect(restored.deliveredEvents).not.toContain('TA-CH02-UNLOCKED')}
   }
@@ -81,7 +81,7 @@ describe('master route scene-entry checkpoints',()=>{
    await startSceneReplay(n)
    const active=useGameStore.getState().save,loaded=(await loadGame()).save
    expect(loaded).toEqual(active);expect(active.evidence.FUTURE).toBeUndefined()
-   if(n===4)expect(active.masterScene04?.revision).toBe('cinematic')
+   if(n===4)expect(active.masterScene04?.revision).toBe('v5')
    if(n===5)expect(active.masterScene05?.archiveStatus).toBe('unavailable')
    if(n===10)expect(active.masterScene10?.phase).toBe('inventory')
   }

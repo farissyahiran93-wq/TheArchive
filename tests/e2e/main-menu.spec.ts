@@ -1,6 +1,6 @@
 import { test, expect, type Page } from '@playwright/test'
 import { newGame, type GameSave } from '../../src/game/types'
-import { beginScene01 } from '../../src/game/scene01'
+import { beginScene01, beginScene02, deliverScene01, scene01Invitation, sendScene01Choice } from '../../src/game/scene01'
 import { captureSceneEntries } from '../../src/game/sceneLibrary'
 import { ActIFinalFixture } from '../helpers/actIFinal'
 
@@ -22,6 +22,43 @@ async function persisted(page:Page){return page.evaluate(async()=>{
 const click=async(page:Page,name:string)=>page.getByRole('button',{name,exact:true}).click()
 const returnToMenu=async(page:Page)=>{if(await page.getByRole('button',{name:'Go home',exact:true}).isVisible())await click(page,'Go home');await click(page,'Show home page 2');await click(page,'Open Settings');await click(page,'Main Menu')}
 const entry=()=>captureSceneEntries(newGame(),beginScene01(newGame(),1800000000000),1800000000000)
+
+test('replaying a historical Scene 2 starts V4 with a fresh roster and no old reply',async({page})=>{
+  test.setTimeout(240000)
+  const settle=(save:GameSave)=>{
+    while(save.prologue?.scene01?.queue[0])save=deliverScene01(save,save.prologue.scene01.queue[0].dueAt)
+    return save
+  }
+  const now=1800000000000
+  let save=settle(beginScene01({...newGame(),masterOpening:true,chapter1Edition:'ch01-v2-10'},now))
+  for(let i=0;i<9;i++)save=settle(sendScene01Choice(save,'a','',true,now+100000*(i+1)))
+  save={...save,prologue:{...save.prologue!,scene01:{...save.prologue!.scene01!,masterScene02Revision:3}}}
+  save=scene01Invitation(save,'join',now+1000000)
+  save=settle(captureSceneEntries(save,beginScene02(save,now+1100000),now+1100000))
+  save=settle(sendScene01Choice(save,'a','',true,now+1300000))
+  expect(save.prologue!.scene01!.groupMessages.some(line=>line.sender==='player')).toBe(true)
+  await page.setViewportSize({width:375,height:812})
+  await page.clock.install({time:new Date(now+2000000)})
+  await seed(page,save)
+  await click(page,'CHAPTERS & SCENES')
+  await page.locator('.chapter-card').first().click()
+  await page.locator('.library-scene').filter({hasText:'Same Old Chaos'}).getByRole('button',{name:'Play from this scene'}).click()
+  await click(page,'Start scene')
+  await page.clock.runFor(150000)
+  await expect(page.locator('[data-scene-node="TA-S02-ELI-C01"]')).toBeVisible()
+  await expect(page.getByLabel('Group participants')).toContainText('8 members')
+  await expect(page.locator('.opening-bubble.player')).toHaveCount(0)
+  await expect(page.getByText('You joined Same Old Chaos.',{exact:true})).toHaveCount(1)
+  await expect(page.getByText("Hi. I'm Eli.",{exact:true})).toHaveCount(1)
+  for(let i=0;i<10;i++){
+    await page.locator('.scene01-options .opening-choice').nth(i===1?1:0).click()
+    await click(page,'Send')
+    await page.clock.runFor(170000)
+  }
+  await expect(page.getByLabel('Group participants')).toContainText('7 members')
+  await expect(page.getByText('Lucas left the group.',{exact:true})).toHaveCount(1)
+  await expect(page.locator('.scene01-chat')).toHaveAttribute('data-group-complete','true')
+})
 
 for(const [width,height] of [[360,780],[390,844],[412,915],[320,568],[844,390],[1440,1000]])test(`cinematic menu and scrollable controls at ${width} x ${height}`,async({page})=>{
   await page.setViewportSize({width,height});await page.goto('/')
