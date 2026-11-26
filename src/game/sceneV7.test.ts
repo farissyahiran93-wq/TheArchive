@@ -23,6 +23,13 @@ it.each(['a', 'b', 'c'].flatMap(branch => ['a', 'b'].map(title => [branch, title
     expect(scene01Choices(s)).toHaveLength(3)
     s = drain(sendScene01Choice(s, branch, '', true, 4000 + i * 1000))
   }
+  const sophieLines = s.prologue!.scene01!.messages.filter(message => message.sender === 'sophie').map(message => message.text)
+  expect(sophieLines.some(text => /my birthday|my birthday cake|\bMaya\b|\bLucas\b/i.test(text))).toBe(false)
+  expect(sophieLines).toContain('He almost dropped the cake that night, actually.')
+  expect(sophieLines).toContain('His fiancée and some close friends.')
+  expect(sophieLines).toContain('Your number had no name.')
+  expect(sophieLines).toContain('The entry was marked with a star.')
+  expect(sophieLines.some(text => /the remark was a star|a little star beside it/i.test(text))).toBe(false)
   expect(s.prologue?.scene01?.groupMembers?.daniel).toBe(true)
   s = normalizeSave(JSON.parse(JSON.stringify(s)))
   expect(s.prologue?.scene01?.nodeId).toBe('TA-S02-V7-C01')
@@ -37,6 +44,7 @@ it.each(['a', 'b', 'c'].flatMap(branch => ['a', 'b'].map(title => [branch, title
     if (!option) break
     s = drain(sendScene01Choice(s, option.id, '', true, 20000 + i * 1000))
   }
+  expect(s.prologue?.scene01?.groupMessages.some(m => m.text === 'The entry was marked with a star.')).toBe(true)
   expect(s.prologue?.scene01?.groupComplete).toBe(true)
   expect(s.prologue?.scene01?.groupMessages.some(m => /\[(?:subject|object|possessive|PlayerName)/i.test(m.text))).toBe(false)
   expect(s.prologue?.scene01?.lucasLeftGroup).toBe(true)

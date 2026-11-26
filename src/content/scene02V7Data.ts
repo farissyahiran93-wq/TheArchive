@@ -94,7 +94,7 @@ const data = {
     ],
     [
       "sophie",
-      "I already told [object] about you."
+      "I mentioned Daniel's fiancée."
     ],
     [
       "maya",

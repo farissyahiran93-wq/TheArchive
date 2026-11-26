@@ -12,6 +12,9 @@ const revisedReferences: Record<string, string> = {
   "I didn't say they were a threat.": "I didn't say [subject] was a threat.",
   'You could at least give them a chance.': 'You could at least give [object] a chance.',
   "Don't turn the player into the reason for it.": "Don't take it out on [PlayerName].",
+  'Was there anything else beside the number?': 'What did the entry say?',
+  'A star.': 'There was no name.',
+  'The number was marked with a star.': 'The entry was marked with a star.',
 }
 for (const [id, node] of Object.entries(v7Nodes)) {
   if (node.kind === 'npc' && revisedReferences[node.text]) v7Nodes[id] = { ...node, text: revisedReferences[node.text] }
@@ -21,7 +24,7 @@ function chain(prefix: string, lines: readonly string[], next: string): string {
     const id = `${prefix}-${i + 1}`
     v7Nodes[id] = { id, kind: 'npc', channel: 'sophie', sender: 'sophie', text: lines[i], next, introducesSophie: lines[i] === "I'm Sophie." }
     next = id
-    if (["Daniel's missing.", 'Daniel Mercer.', 'And a little star beside it.'].includes(lines[i])) {
+    if (["Daniel's missing.", 'Daniel Mercer.', 'The entry was marked with a star.'].includes(lines[i])) {
       const pause = `${id}-PAUSE`
       v7Nodes[pause] = { id: pause, kind: 'wait', duration: 1400, typing: true, actor: 'sophie', next }
       next = pause

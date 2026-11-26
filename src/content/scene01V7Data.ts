@@ -53,9 +53,9 @@ const data = [
       "Hang on.",
       "Let me find a photo.",
       "Found one.",
-      "This was taken on my birthday.",
-      "I'm the one with the cake.",
-      "My brother's in the photo too.",
+      "This was taken at a birthday.",
+      "It was a good night.",
+      "Daniel's in the photo.",
       "Do you recognise him?"
     ]
   },
@@ -81,7 +81,7 @@ const data = [
     ],
     "before": [],
     "after": [
-      "He almost dropped my birthday cake that night, actually.",
+      "He almost dropped the cake that night, actually.",
       "Then he tried to convince everyone it was part of the surprise 😂",
       "Sorry.",
       "I haven't looked at that picture in a while.",
@@ -160,7 +160,7 @@ const data = [
     "choices": [
       "Different? How?",
       "Are you sure it was my number?",
-      "What was written next to it?"
+      "What did the entry say?"
     ],
     "replies": [
       [
@@ -178,8 +178,8 @@ const data = [
     ],
     "before": [],
     "after": [
-      "Just your number.",
-      "And a little star beside it.",
+      "Your number had no name.",
+      "The entry was marked with a star.",
       "I don't know what it means.",
       "I've been trying to figure it out since I found it.",
       "That's why I asked your name before anything else.",
@@ -231,7 +231,7 @@ const data = [
       ],
       [
         "I've told a few people about the number.",
-        "But nobody knows who it belongs to."
+        "But nobody recognised the number."
       ],
       [
         "That's more than I expected when I messaged you.",
@@ -241,9 +241,9 @@ const data = [
     "before": [],
     "after": [
       "There are a few other people looking for Daniel.",
-      "His fiancée, Maya.",
-      "His best friend, Lucas.",
-      "And some of our friends.",
+      "His fiancée and some close friends.",
+      "We've all been trying to find him.",
+      "We thought talking together might help.",
       "We have this old group chat.",
       "It's called Same Old Chaos.",
       "Stupid name, I know 😂",
@@ -279,13 +279,13 @@ const data = [
       "But before I add you...",
       "I should probably warn you about something.",
       "Everyone's been a bit on edge lately.",
-      "Maya barely sleeps.",
-      "Lucas doesn't really trust anyone he doesn't know right now.",
+      "His fiancée has barely been sleeping.",
+      "One of his close friends doesn't really trust strangers right now.",
       "Especially someone whose number just turned up in Daniel's files.",
       "I told them I was going to contact you.",
       "I haven't told everyone I'm bringing you into the group, though.",
       "So... this might be a little awkward.",
-      "Just don't take it personally if Lucas starts asking questions, okay?"
+      "Just don't take it personally if someone starts asking questions, okay?"
     ],
     "after": [
       "Okay.",
