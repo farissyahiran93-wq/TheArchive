@@ -306,12 +306,12 @@ export function MasterInvestigationBoard({ caseFile, onAction, onOpenCase }: Cas
   </section>
 }
 
-export function InvestigationBoardApp({onHome}:{onHome:()=>void}) {
+export function InvestigationBoardApp({onHome,embedded=false}:{onHome:()=>void;embedded?:boolean}) {
   const save=useGameStore(store=>store.save), act=useGameStore(store=>store.masterCaseFileAction)
   const [questions,setQuestions]=useState(false)
   const caseFile=selectMasterCaseFile(save)
   return <section className="master-trace" aria-label="Investigation Board app">
-    <header className="trace-top"><button onClick={questions?()=>setQuestions(false):onHome} aria-label={questions?'Back to board':'Home'}><ArrowLeft size={18}/>{questions?'Board':'Phone'}</button></header>
+    <header className="trace-top"><button onClick={questions?()=>setQuestions(false):onHome} aria-label={questions?'Back to board':embedded?'Back to TRACE':'Home'}><ArrowLeft size={18}/>{questions?'Board':embedded?'TRACE':'Phone'}</button></header>
     <div className="trace-body">{caseFile && (questions
       ? <MasterCaseFile caseFile={caseFile} onAction={act} onOpenBoard={()=>setQuestions(false)}/>
       : <MasterInvestigationBoard caseFile={caseFile} onAction={act} onOpenCase={()=>setQuestions(true)}/>)}</div>

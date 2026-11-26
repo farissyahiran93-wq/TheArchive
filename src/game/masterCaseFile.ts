@@ -89,7 +89,7 @@ const historicalPhotoAssets: Record<string, string> = {
 
 const openingStarIds = ['TA-S01-V4-AFTER-05-3', 'TA-S01-V7-AFTER-06-2']
 export function investigationBoardAvailable(save:GameSave) {
-  return save.masterScene05?.packageStatus==='installed' || !!(save.prologue?.scene01?.masterScene01 && save.prologue.scene01.messages.some(line=>openingStarIds.includes(line.id)))
+  return save.masterScene04?.traceInstalled === true || save.masterScene05?.packageStatus==='installed' || !!(save.prologue?.scene01?.masterScene01 && save.prologue.scene01.messages.some(line=>openingStarIds.includes(line.id)))
 }
 
 function discoveredEvidence(save: GameSave): CaseEvidence[] {
