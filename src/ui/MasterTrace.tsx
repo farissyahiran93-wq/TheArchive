@@ -7,7 +7,7 @@ import { canRecoverActivity, scene06Units } from '../game/masterScene06'
 import { canSaveFragmentFinding, masterRecoveryUnits, type MasterScene05Action, type MasterScene05 } from '../game/masterScene05'
 import { useGameStore } from '../game/store'
 import { MasterTimeline } from './MasterTimeline'
-import { EvidenceComparison } from './MasterCaseFile'
+import { EvidenceComparison, InvestigationBoardApp } from './MasterCaseFile'
 import { NpcPhotoMessage } from './NpcPhotoMessage'
 import { usePhoneBack } from './usePhoneBack'
 import './master-trace-workspace.css'
@@ -74,13 +74,14 @@ function RecoveredLibrary({view,recovered,onOpen}:{view:'messages'|'notes';recov
  </section>
 }
 export function MasterTrace({onHome}:{onHome:()=>void}) {
+ const [boardOpen,setBoardOpen]=useState(false)
  const p=useGameStore(s=>s.save.masterScene05),act=useGameStore(s=>s.masterScene05Action)
  const six=useGameStore(s=>s.save.masterScene06),act6=useGameStore(s=>s.masterScene06Action)
  const previousView=p?.traceView??'home'
  const view=['board','media','case-files','summary'].includes(previousView)?'home':previousView
  const fragment=masterFragments.find(f=>f.id===view)
  const personal=!!p?.discussion&&(view.startsWith('TA-PH-CHAT-')||view==='TA-PH-NOTE-ORDINARY-01'||view==='TA-PH-NOTE-RECORDS-01')
- usePhoneBack(()=>act({type:'view',id:personal?(view.startsWith('TA-PH-CHAT-')?'messages':'notes'):fragment?p?.traceReturn??(fragment.category==='Messages'?'messages':'notes'):'home'}),!!p&&view!=='home')
+ usePhoneBack(()=>boardOpen?setBoardOpen(false):act({type:'view',id:personal?(view.startsWith('TA-PH-CHAT-')?'messages':'notes'):fragment?p?.traceReturn??(fragment.category==='Messages'?'messages':'notes'):'home'}),!!p&&(boardOpen||view!=='home'))
  useEffect(()=>{act({type:'open-trace'})},[act])
  useEffect(()=>{
   if(p?.recoveryAnimation?.startedAt===undefined||p.recovered)return
@@ -89,6 +90,7 @@ export function MasterTrace({onHome}:{onHome:()=>void}) {
   return()=>window.clearInterval(timer)
  },[act,p?.recoveryAnimation?.startedAt,p?.recovered])
  if(!p||p.packageStatus!=='installed')return null
+ if(boardOpen)return <InvestigationBoardApp embedded onHome={()=>setBoardOpen(false)}/>
  const open=(id:string)=>{act({type:'read',id});act({type:'view',id})}
  const navigate=(id:string)=>act({type:'view',id})
  const back=()=>{if(personal)navigate(view.startsWith('TA-PH-CHAT-')?'messages':'notes');else if(fragment)navigate(p.traceReturn??(fragment.category==='Messages'?'messages':'notes'));else navigate('home')}
@@ -108,7 +110,7 @@ export function MasterTrace({onHome}:{onHome:()=>void}) {
   <div className="trace-body">
    {view==='home'&&<><div className="trace-hero"><div><small>RECOVERY OPERATION</small><h1>Daniel’s phone archive</h1><p>Source unverified · results remain on this device</p></div><div className="trace-meter"><strong>{recovery}%</strong><small>RECOVERED</small></div><div className="trace-meter-bar" role="progressbar" aria-label="Dashboard archive recovery" aria-valuemin={0} aria-valuemax={100} aria-valuenow={recovery}><span style={{width:`${recovery}%`}}/></div></div>
     <section className="trace-recovery"><div><small>RECOVERY MODULE · {p.recovered?'FIRST PASS INTERRUPTED':p.recoveryAnimation?'RECOVERING':'READY'}</small><h2>Protected archive</h2><p>{sourceReady?`${masterArchiveIdentifier} · local copy · source and contents unverified`:'No source ready. Continue the conversation with Unknown.'}</p></div><button disabled={p.recovered||!!p.recoveryAnimation||!sourceReady} onClick={()=>act({type:'recover'})}>{p.recovered?'FIRST PASS INTERRUPTED':p.recoveryAnimation?'RECOVERING':'START RECOVERY'}</button><details><summary>Source metadata</summary><p>The first pass recovers partial Messages and Notes.</p></details></section>
-    <div className="trace-section-title"><h2>Modules</h2><span>FIRST PASS / {recovery}%</span></div><div className="trace-grid">{modules.map(({id,label,icon:Icon,status})=><button className="trace-tile" key={id} onClick={()=>{if(id==='activity'&&p.discussion&&p.recovered)act({type:'read',id:'TA-PH-ACTIVITY-FIRST'});navigate(id)}} disabled={['calls','gallery','audio','contacts'].includes(id)} aria-label={`Open ${label} module`}><span className="trace-tile-icon"><Icon size={23}/></span><strong>{label}</strong><small className={status==='LOCKED'?'locked':''}>{status}</small></button>)}</div>
+    <div className="trace-section-title"><h2>Modules</h2><span>FIRST PASS / {recovery}%</span></div><div className="trace-grid">{modules.map(({id,label,icon:Icon,status})=><button className="trace-tile" key={id} onClick={()=>{if(id==='activity'&&p.discussion&&p.recovered)act({type:'read',id:'TA-PH-ACTIVITY-FIRST'});navigate(id)}} disabled={['calls','gallery','audio','contacts'].includes(id)} aria-label={`Open ${label} module`}><span className="trace-tile-icon"><Icon size={23}/></span><strong>{label}</strong><small className={status==='LOCKED'?'locked':''}>{status}</small></button>)}<button className="trace-tile" onClick={()=>setBoardOpen(true)} aria-label="Open Investigation Board"><span className="trace-tile-icon"><ScanLine size={23}/></span><strong>Investigation Board</strong><small>LOCAL</small></button></div>
    </>}
    {(view==='messages'||view==='notes')&&(p.discussion&&p.recovered?<PersonalLibrary key={view} view={view} onOpen={open}/>:<RecoveredLibrary key={view} view={view} recovered={p.recovered} onOpen={open}/>)}
    {view==='activity'&&p.discussion&&p.recovered&&<MasterTimeline onSource={open}/>}

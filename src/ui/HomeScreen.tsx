@@ -1,4 +1,3 @@
-import { investigationBoardAvailable } from '../game/masterCaseFile'
 import { useGameStore } from '../game/store'
 import { GuidanceDot } from './GuidanceDot'
 import { currentObjective, guidanceTarget } from '../game/guidance'
@@ -28,9 +27,8 @@ export function HomeScreen({ name, open, unread, alertsUnread = 0, archiveBadge 
   const [inventoryOpen,setInventoryOpen]=useState(false)
   const [today] = useState(() => storyMode ? new Date(2026, 9, 8, 9, 0) : new Date())
   const touch = useRef<{ x: number; y: number } | null>(null)
-  const boardAvailable = investigationBoardAvailable(save)
-  const labelFor = (id:AppId) => id==='board'&&boardAvailable?'Investigation Board':apps.find(item=>item.id===id)!.label
-  const list = (page === 1 ? [...pages[1], ...(storyMode ? ['board' as AppId] : [])] : bulletinEnabled&&archiveUnlocked ? ['archive' as AppId,...pages[0].filter(id=>id!=='alerts')] : [...pages[0], ...(archiveUnlocked ? ['archive' as AppId] : []), ...(boardAvailable ? ['board' as AppId] : [])]).filter(id => (bulletinEnabled || !['bulletin','search'].includes(id)) && (!scene01Mode || id !== 'board' || boardAvailable))
+  const labelFor = (id:AppId) => apps.find(item=>item.id===id)!.label
+  const list = (page === 1 ? [...pages[1], ...(storyMode ? ['board' as AppId] : [])] : bulletinEnabled&&archiveUnlocked ? ['archive' as AppId,...pages[0].filter(id=>id!=='alerts')] : [...pages[0], ...(archiveUnlocked ? ['archive' as AppId] : [])]).filter(id => (bulletinEnabled || !['bulletin','search'].includes(id)) && (!scene01Mode || id !== 'board'))
   const monthStart = new Date(today.getFullYear(), today.getMonth(), 1).getDay()
   const monthDays = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate()
 

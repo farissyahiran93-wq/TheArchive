@@ -1,5 +1,7 @@
 # TheArchive — 50-scene master matrix
 
+> For implemented Chapter 1 and the active campaign registry, see [Chapter 1 — The First Trace](CHAPTER_1_CANONICAL_FLOW.md). Earlier route names and workflow descriptions in this document are historical planning context.
+
 > **Canon lock update:** apply [the resolved starred-number decisions and source chronology](THEARCHIVE_CANON_LOCK_2026-11-05.md). Daniel wrote the warning, the player's enquiry number was held internally, and Sophie's actual message precedes Unknown's contact. Lucas's second-backup custody and authorised relay are proposed, not yet approved. Existing scene contracts remain planning-only.
 
 Status: **MASTER PLANNING ONLY · 5 November 2026 · SPOILER / DEVELOPER ONLY**.
@@ -19,97 +21,22 @@ Every outgoing text requires selection and visible **Send**. Private Save is a d
 
 Proposed story calendar: Chapter 1 day 1; Chapter 2 days 2–3; Chapter 3 days 4–5; Chapter 4 days 6–7; Chapter 5 days 8–9. These are story days, not forced real-world waits. Exact prehistory and timestamps require author sign-off.
 
-## Chapter 1 — THE FIRST TRACE
+## Chapter 1 — The First Trace
 
-### TA-C01-S01 — A Message from Sophie
+Implemented. The canonical requirements and save rules are maintained in [Chapter 1 — The First Trace](CHAPTER_1_CANONICAL_FLOW.md). Chapter 1 recovery ends at 20%.
 
-- **Purpose / characters:** Introduce the stranger's involvement, Sophie's concern for her older brother, and the player's boundaries. Sophie and player only.
-- **Start / dependencies:** Explicit new campaign and player identity setup; Sophie is the first contacting character. Historical saves keep their original opening.
-- **Required play:** Manually open Sophie, ask how she obtained the number, choose and Send replies, review the FIND DANIEL invitation and explicitly join. Inspecting the invitation alone does not join.
-- **Information / evidence:** `TA-EX-CONTACT-EXPORT` is only Sophie's attributed explanation of a saved contact copy at this point; no full inspection receipt, Daniel relationship, warning card or phone backup is granted.
-- **Branches / knowledge:** Cooperative, cautious and boundary-setting responses change tone and trust. Decline or defer leaves a player-initiated invitation reoffer available; it does not penalize or silently enroll the player. Sophie knows only sent answers.
-- **Completion / handoff:** Commit the actual join event once, then offer manual FIND DANIEL opening for TA-C01-S02. **Recovery: 0%.**
-
-### TA-C01-S02 — The Uninvited Guest
-
-- **Purpose / characters:** Establish Maya as Daniel's fiancée and Lucas as his best friend; make Lucas's privacy concern credible. Player, Sophie, Maya, Lucas.
-- **Start / dependencies:** Real joined-group event from TA-C01-S01 and manual opening of FIND DANIEL.
-- **Required play:** Read delivered introductions; select and Send responses to the privacy conflict. Lucas leaves through a visible saved membership event on every main branch, before any later roster or delivery projection.
-- **Information / evidence:** Conversation history supplies attributed relationship statements and an unverified starred-contact claim; no recovered phone material or original warning card.
-- **Branches / knowledge:** Acknowledge, challenge or clarify boundaries without automatic private disclosure. Group receipts record only members present when each message was actually delivered. Lucas cannot receive later group messages after leaving.
-- **Completion / handoff:** Finish authored group exchange; schedule Sophie's private notification once. Manual DM opening starts TA-C01-S03. Retain the existing persisted handoff pattern, with final pacing to be approved. **Recovery: 0%.**
-
-### TA-C01-S03 — Just Between Us
-
-- **Purpose / characters:** Build Sophie's sibling relationship and Daniel's human context without making the player an old friend. Sophie and player.
-- **Start / dependencies:** Completed group exchange, delivered private message, manual Sophie opening.
-- **Required play:** Choose and Send private replies; read the actual branch-specific context. Resume a closed conversation at its stored draft or queue rather than replaying delivered lines.
-- **Information / evidence:** Sophie can describe what she personally knows about Daniel, Maya, Lucas and his coworker. A coworker's name does not identify Unknown. Unheard optional information is never awarded from a completion checklist.
-- **Branches / knowledge:** Empathy, factual questions and privacy boundaries lead to different personal context. No full archive, June-death revelation or public-article detour is required.
-- **Completion / handoff:** Deliver the approved private closing, mark Sophie offline and persist readiness for Unknown's first message. Notification delivery does not open TA-C01-S04. **Recovery: 0%.**
-
-### TA-C01-S04 — The Unknown Sender
-
-- **Purpose / characters:** Introduce a questionable archive custodian and test trust through questions. Unknown and player; Eli's identity is developer-only.
-- **Start / dependencies:** TA-C01-S03 complete, once-only first-contact delivery and manual Unknown opening. No Bulletin read or index inspection prerequisite in the new campaign.
-- **Required play:** Ask about identity, access, source, privacy and trust through selected Sends; inspect the encrypted-file offer; explicitly accept the archive file after review.
-- **Information / evidence:** `TA-EX-ARCHIVE-OFFER-A` records the offered package, claimed custody, advertised manifest and local receipt. Acceptance establishes possession of a copy, not Daniel's authorship or decrypted contents. Sophie supplies no backup.
-- **Branches / knowledge:** Refusal/defer pauses the offer and keeps a clear reoffer. Unknown cannot know Sophie's private conversation, group membership or findings unless actually told; the proposed independent contact mechanism remains a gap decision.
-- **Completion / handoff:** Store the player's actual acceptance, package identity and receipt. Offer manual continuation to the TRACE explanation in TA-C01-S05; no automatic installation. **Recovery: 0%.**
-
-### TA-C01-S05 — The Digital Archive
-
-- **Purpose / characters:** Introduce TRACE and Daniel's ordinary life through limited recovery. Unknown and player; Daniel and June appear only in recovered records.
-- **Start / dependencies:** Accepted archive package from TA-C01-S04; player opens the continuation.
-- **Required play:** Review TRACE and installation concerns, explicitly install the fictional app, open the archive, inspect the manifest, manually start initial recovery, read the released message/note fragments and save a source-linked summary.
-- **Information / evidence:** `TA-PH-MESSAGE-01` and `TA-PH-NOTE-01` begin as stable partial records. June Ellis appears only as a partial lead. No death circumstances, captor, warning-card origin or Unknown identity is revealed.
-- **Branches / knowledge:** Installation can be deferred/cancelled and resumed. Curiosity or suspicion changes replies without authenticity rewards. The recovery result cites only authored fragments, with missing text visibly unavailable.
-- **Completion / handoff:** Persist installation consent, first recovery result, actual reads and private finding. Offer activity-log processing in TA-C01-S06. **Recovery: approximately 12% (120/1000 proposed units).**
-
-### TA-C01-S06 — The Missing Hour
-
-- **Purpose / characters:** Turn a gap into an investigation question, not proof of a person's actions. Player; optional source-limited Unknown advice.
-- **Start / dependencies:** TA-C01-S05 complete and manual activity-log recovery start.
-- **Required play:** Recover `TA-PH-ACTIVITY-01`, inspect timestamp fields and timezone limitations, place observed events on a basic timeline, mark an unresolved interval and Save findings.
-- **Information / evidence:** A device-log interval exists in the available data. A log event does not establish that Daniel operated the device, his exact location or a kidnapping time.
-- **Branches / knowledge:** Compare alternative timeline interpretations. An unsupported assertion invites a correction/review path; the player can save an uncertainty-aware conclusion without a quiz-based dead end. Reporting to Unknown is separately reviewed and sent.
-- **Completion / handoff:** A persisted, source-referenced timeline and limitation acknowledgment complete the scene; offer Sophie's contact-export lead for TA-C01-S07. **Recovery: 20% (200/1000).**
-
-### TA-C01-S07 — The Starred Number
-
-- **Purpose / characters:** Revisit why this uninvolved player was contacted. Sophie and player; Maya only if a separately chosen group disclosure is sent.
-- **Start / dependencies:** TA-C01-S06 finding saved; manual Sophie continuation. Adapt existing v2 scene mechanics later without importing its Corrections Desk gate.
-- **Required play:** Request/receive the saved export, inspect `TA-EX-CONTACT-EXPORT` labels, masked numbers, unnamed starred entry and source limitations; question Sophie; Save a private conclusion.
-- **Information / evidence:** The displayed player number and star can be observed in this copy. It does not establish who inserted or marked the entry, that Daniel knew the player, or that the copy is authentic.
-- **Branches / knowledge:** Ask who handled the export or respect Sophie's pause. Group disclosure is optional, recipient-scoped and reviewed; Lucas remains absent unless a later authorized membership event occurs.
-- **Completion / handoff:** Actual inspection and sent questioning plus private conclusion make TA-C01-S08 available. Do not reveal the separate warning card yet. **Recovery: 20%.**
-
-### TA-C01-S08 — The Last Check-In
-
-- **Purpose / characters:** Introduce an ambiguous second-copy reference while preserving Lucas's boundaries. Lucas or authorized Maya relay, and player.
-- **Start / dependencies:** TA-C01-S07 complete and manual next-lead entry. Establish a credible contact route before any direct Lucas message.
-- **Required play:** Receive `TA-EX-LAST-CHECK-IN`, inspect the capture, displayed dates, cropping/context, custody and authenticity; Send a source question; Save its limitations.
-- **Information / evidence:** The capture references “another copy.” Neither the copy's contents nor its holder or location is conclusively identified. A captured line is not a live Daniel message.
-- **Branches / knowledge:** Direct Lucas route or a Maya relay with explicit Lucas permission supplies the same necessary source. If direct contact is declined, the relay keeps the main route open without restoring Lucas to FIND DANIEL.
-- **Completion / handoff:** Persist source route, actual inspections and private conclusion; offer Maya's reference card in TA-C01-S09. **Recovery: 20%.**
-
-### TA-C01-S09 — The Secondary Card
-
-- **Purpose / characters:** Establish a bounded records-search lead. Maya and player.
-- **Start / dependencies:** TA-C01-S08 complete; manual Maya/evidence opening.
-- **Required play:** Inspect Maya's card photograph `TA-EX-REFERENCE-CARD`, read **GH-DSC-03-A**, ask about her custody and the photograph's limits, compare only visible fields, Save the proposed search target.
-- **Information / evidence:** GH-DSC-03-A is a reference, with no established descriptor body, original record, item match, warning-card connection or June link. This card is distinct from Sophie's later warning card.
-- **Branches / knowledge:** Optional professional inquiry can be drafted but requires a known recipient and a separate Send. A title/code match does not authenticate either source; no new Nora phone contact is created by viewing.
-- **Completion / handoff:** A retained reference and source-limited conclusion allow manual inventory opening in TA-C01-S10. Existing unavailable original image pixels remain honestly labelled until supplied. **Recovery: 20%.**
-
-### TA-C01-S10 — The Inventory Sheet
-
-- **Purpose / characters:** Deliver a concrete records lead, then turn the player's involvement into the chapter cliffhanger. Player and Sophie on an answered call.
-- **Start / dependencies:** TA-C01-S09 complete; player manually opens the public inventory.
-- **Required play:** Read `TA-EX-PUBLIC-INVENTORY`, distinguish box/descriptor reference from item contents, Save a private conclusion, explicitly return Home, then **answer** Sophie's call. Spoken-choice controls retain explicit player submission; no automatic response.
-- **Information / evidence:** Inventory gives a search target only. Sophie reports a **separate** physical card with the player's number, a star and “DO NOT CONTACT THE STARRED NUMBER.” Record `TA-EX-WARNING-CARD-REPORT` as testimony, not a photograph already inspected.
-- **Branches / knowledge:** Decline/miss preserves a manual callback and cannot award the full warning or completion. Optional social Sends remain optional. For the new script the final dramatic line is exactly **“But… I already did.”** No new closing line follows it in this chapter.
-- **Completion / handoff:** After the real connected call reaches that line and the player finishes it, commit Chapter 1 completion and Chapter 2 unlock once. Manual Continue opens TA-C02-S01; old `CH1-V2-COMPLETE` does not substitute. **Recovery: 20%.**
+| Scene | Official title | Playable transition |
+| --- | --- | --- |
+| 01 | A Message from Sophie | Sophie describes an unnamed, starred number in a derived export. The invitation shows the seven original friends. Join opens the group directly. |
+| 02 | Same Old Chaos | V4 delivers ten decisions with explicit Send. Daniel is offline. The roster grows from seven to eight when the player joins, then drops to seven when Lucas leaves once. His optional private conversation is separate. |
+| 03 | Just Between Us | The player opens Sophie's private message manually and sends replies through Goodbye. |
+| 04 | The Unknown Sender | V5 introduces the discrepancy between two contact copies and previews TRACE. The player can accept, defer, decline or reconsider, then explicitly install. |
+| 05 | The Digital Archive | After installation, the player sends confirmation, accepts the archive and initiates recovery. TRACE interrupts at 20% and retains recovered Messages, Notes and Activity Logs. |
+| 06 | The Missing Hour | The player opens Activity Logs and chooses Discuss with Unknown. The 19:00–20:00 gap remains unexplained. |
+| 07 | Sophie’s Call | A sent reply precedes the call. Sophie sends Daniel_Contacts_Export and keeps the full document private. The player can submit only its damaged fragment for temporary analysis. |
+| 08 | Maya’s Last Check-In | The player opens Maya's screenshot and discusses Daniel's reference to Lucas and “another copy.” |
+| 09 | The Secondary Card | Maya shares GH-DSC-03-A in the same conversation. The player may explicitly send a limited clue to Unknown. |
+| 10 | The Warning | The public inventory matches the reference. A separate physical handwritten card appears in Sophie's final call. The warning ends Chapter 1 and marks Chapter 2 — The Other Copy as the next chapter. |
 
 ## Chapter 2 — THE OTHER COPY
 

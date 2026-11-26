@@ -1,3 +1,5 @@
+import { canContinueCampaign, compatibilityFixturesEnabled, isLegacyOpeningFixture } from './campaign'
+import { developmentToolsEnabled } from './development'
 import { originAction } from './archiveOrigin'
 import { traceAction, type TraceAction } from './trace'
 import { sourceAction, type SourceAction, type SourceScene, readingSource } from './sourceInvestigation'
@@ -200,6 +202,7 @@ export const runtimeGeneration = () => sessionGeneration
 export async function flushGameWrites() { await writeQueue }
 /** Rewind the primary save atomically to an actual recorded scene entry. */
 export async function startSceneReplay(number: number): Promise<void> {
+  if (!developmentToolsEnabled) throw new Error('Scene replay is unavailable in this build.')
   if (restarting) throw new Error('Another save operation is active.')
   restarting=true
   suspendRuntime()
@@ -207,6 +210,7 @@ export async function startSceneReplay(number: number): Promise<void> {
     await writeQueue
     const {save,recoveryRequired}=useGameStore.getState()
     if(recoveryRequired)throw new Error('Resolve the save warning before starting again.')
+    if(!compatibilityFixturesEnabled&&!canContinueCampaign(save))throw new Error('This save can be exported or archived by starting a new game.')
     const scene=libraryScenesForSave(save).find(item=>item.number===number)
     if(!scene||!sceneVisited(save,number))throw new Error('This scene has not been discovered.')
     const id=snapshotKey(save,scene),entry=save.replayEntries?.[id]
@@ -286,13 +290,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
     hydration = (async () => {
       const result = await loadGame()
       set({ save: result.save, ready: true, saveError: result.error ?? null, recoveryRequired: result.recoveryRequired ?? false, recoveryRaw: result.raw })
-      if(!result.recoveryRequired){const continued=advanceMasterContinuations(result.save);if(continued!==result.save){commit(continued);result.save=get().save}}
+      if(!compatibilityFixturesEnabled&&!canContinueCampaign(result.save))return
+    if(!result.recoveryRequired){const continued=advanceMasterContinuations(result.save);if(continued!==result.save){commit(continued);result.save=get().save}}
       if(!result.recoveryRequired){const migrated=resumeScene0607(result.save,Date.now());if(migrated!==result.save){commit(migrated);result.save=get().save}}
       if (!result.recoveryRequired && result.save.prologue?.scene01?.invitation === 'joined' && !result.save.prologue.scene01.groupScript && !result.save.prologue.scene01.masterScene01) { commit(beginScene02(result.save)); return }
       if (!result.recoveryRequired && result.save.prologue?.scene01?.nodeId === 'OPEN-S02-SOURCE-BOUNDARY') { commit(resumeScene02(result.save)); return }
       if (!result.recoveryRequired && (result.save.prologue?.scene01?.privateScene03?.reading || result.save.chapter1?.archiveOrigin?.reading || result.save.chapter1?.versionHistory?.reading || result.save.chapter1?.correctionsDesk?.reading || readingSource(result.save))) { commit(pauseScene03(result.save)); return }
     if (!result.recoveryRequired && result.save.chapter2Access?.story?.active) { commit(reunionAction(result.save,{type:'story-close',thread:result.save.chapter2Access.story.active},Date.now())); return }
-      if (!result.recoveryRequired && !(import.meta.env.DEV && new URLSearchParams(window.location.search).has('legacyopening')) && (result.save.prologue || result.save.player) && !result.save.prologue?.scene01) commit(beginScene01(result.save))
+      if (!result.recoveryRequired && !isLegacyOpeningFixture() && (result.save.prologue || result.save.player) && !result.save.prologue?.scene01) commit(beginScene01(result.save))
       else if (!result.recoveryRequired && !result.save.prologue?.scene01 && result.save.prologue?.dialogueVersion === 4 && result.save.prologue.stage === 'complete' && !result.save.e01) commit(beginSlice(result.save))
     })()
     try { await hydration } finally { hydration = undefined }
@@ -302,13 +307,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
     discardPendingSave()
     const result = await loadGame()
     set({ save: result.save, ready: true, saveError: result.error ?? null, recoveryRequired: result.recoveryRequired ?? false, recoveryRaw: result.raw })
+    if(!compatibilityFixturesEnabled&&!canContinueCampaign(result.save))return
     if(!result.recoveryRequired){const continued=advanceMasterContinuations(result.save);if(continued!==result.save){commit(continued);result.save=get().save}}
       if(!result.recoveryRequired){const migrated=resumeScene0607(result.save,Date.now());if(migrated!==result.save){commit(migrated);result.save=get().save}}
     if (!result.recoveryRequired && result.save.prologue?.scene01?.invitation === 'joined' && !result.save.prologue.scene01.groupScript && !result.save.prologue.scene01.masterScene01) { commit(beginScene02(result.save)); return }
     if (!result.recoveryRequired && result.save.prologue?.scene01?.nodeId === 'OPEN-S02-SOURCE-BOUNDARY') { commit(resumeScene02(result.save)); return }
     if (!result.recoveryRequired && (result.save.prologue?.scene01?.privateScene03?.reading || result.save.chapter1?.archiveOrigin?.reading || result.save.chapter1?.versionHistory?.reading || result.save.chapter1?.correctionsDesk?.reading || readingSource(result.save))) { commit(pauseScene03(result.save)); return }
     if (!result.recoveryRequired && result.save.chapter2Access?.story?.active) { commit(reunionAction(result.save,{type:'story-close',thread:result.save.chapter2Access.story.active},Date.now())); return }
-    if (!result.recoveryRequired && !(import.meta.env.DEV && new URLSearchParams(window.location.search).has('legacyopening')) && (result.save.prologue || result.save.player) && !result.save.prologue?.scene01) commit(beginScene01(result.save))
+    if (!result.recoveryRequired && !isLegacyOpeningFixture() && (result.save.prologue || result.save.player) && !result.save.prologue?.scene01) commit(beginScene01(result.save))
     else if (!result.recoveryRequired && !result.save.prologue?.scene01 && result.save.prologue?.dialogueVersion === 4 && result.save.prologue.stage === 'complete' && !result.save.e01) commit(beginSlice(result.save))
   },
   register: (name, pronouns) => commit(registerPlayer(get().save, name, pronouns)),
@@ -337,7 +343,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const now = Date.now()
     if (current.prologue?.scene01) {
       const opening = deliverScene01(lucasPhotoAction(current, {type:'tick'}, now), now)
-      const chapter = chapter2Access(chapter1Action(opening, { type: 'tick' }, now), { type: 'tick' }, now, playtestEnabled)
+      const chapter = compatibilityFixturesEnabled ? chapter2Access(chapter1Action(opening, { type: 'tick' }, now), { type: 'tick' }, now, playtestEnabled) : opening
       const four = masterScene04Action(chapter, { type: 'tick' }, now)
       const five = masterScene05Action(four, { type: 'tick' }, now)
       const six = masterScene06Action(five, { type: 'tick' }, now)

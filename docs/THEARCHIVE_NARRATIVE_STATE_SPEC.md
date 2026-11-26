@@ -1,5 +1,7 @@
 # TheArchive — narrative state and persistence specification
 
+> For implemented Chapter 1 and the active campaign registry, see [Chapter 1 — The First Trace](CHAPTER_1_CANONICAL_FLOW.md). Earlier route names and workflow descriptions in this document are historical planning context.
+
 > **Canon lock update:** [the dated source chain](THEARCHIVE_CANON_LOCK_2026-11-05.md) requires Sophie's actual message to Eli before Unknown contacts the player, preserves consent for the proposed Lucas backup relay, and distinguishes Rachel's report receipt from independent verification and rescue.
 
 Date: 5 November 2026. Status: MASTER PLANNING ONLY. SPOILER / DEVELOPER ONLY.

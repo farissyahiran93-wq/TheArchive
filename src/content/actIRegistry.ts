@@ -1,4 +1,5 @@
 import { masterScene01V4Nodes } from './masterScene01V4'
+import { v7Nodes } from './masterSceneV7'
 import { eliGroupNodes } from "./masterScene02Eli"
 import { friendsGroupNodes } from './masterScene02Friends'
 import { masterScene02V3Nodes } from './masterScene02V3'
@@ -139,6 +140,7 @@ const eliGraphs = Object.fromEntries(Object.entries(friendsGraphs).map(([revisio
 export function actINodes(scene?: GraphRevision) {
   if (scene?.masterScene01) {
     const revision = scene.masterScene01Revision ?? 1
+    if (revision === 5) return { ...masterScene03Nodes, ...v7Nodes }
     if (scene.masterScene02Revision === 4) return eliGraphs[revision]
     if (scene.masterScene02Revision === 3) return friendsGraphs[revision]
     const group = scene.masterScene02Revision === 2 ? masterScene02V3Nodes : scene.masterScene02Revision === 1 ? masterScene02V2Nodes : masterScene02Nodes

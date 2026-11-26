@@ -18,7 +18,7 @@ function before():GameSave{
 }
 test.use({reducedMotion:'reduce',viewport:{width:390,height:844}})
 test('fresh game reaches Unknown after the actual first three scenes without leaving Messages',async({page})=>{
- test.setTimeout(150000)
+ test.setTimeout(270000)
  await page.clock.install()
  await page.goto('/')
  await page.getByRole('button',{name:'NEW GAME',exact:true}).click()
@@ -26,29 +26,46 @@ test('fresh game reaches Unknown after the actual first three scenes without lea
  await page.clock.runFor(30000)
  await page.getByRole('button',{name:'Open Messages',exact:true}).first().click()
  await page.getByRole('button',{name:'Open Sophie conversation',exact:true}).click()
- await page.clock.runFor(120000)
- for(let i=0;i<9;i++){await page.locator('.scene01-options .opening-choice').first().click();await page.getByRole('button',{name:'Send',exact:true}).click();await page.clock.runFor(120000)}
+ await page.clock.runFor(210000)
+ for(let i=0;i<9;i++){await page.locator('.scene01-options .opening-choice').first().click();await page.getByRole('button',{name:'Send',exact:true}).click();await page.clock.runFor(210000)}
  await page.getByRole('button',{name:'JOIN GROUP',exact:true}).click()
  await page.getByRole('button',{name:'Back to inbox'}).click()
  await page.getByRole('button',{name:'Open Same Old Chaos group conversation'}).click()
- await page.clock.runFor(120000)
- // The current group opening includes a separate name decision before nine choices.
+ await page.clock.runFor(210000)
+ // Pick the middle answer on decision two to exercise a mixed route.
  for(let i=0;i<10;i++){
-  await page.locator('.scene01-options .opening-choice').first().click()
-  const name=page.getByLabel('Your name',{exact:true})
-  if(await name.isVisible())await name.fill('Alex')
+  await page.locator('.scene01-options .opening-choice').nth(i===1?1:0).click()
   await page.getByRole('button',{name:'Send',exact:true}).click()
-  await page.clock.runFor(120000)
+  await page.clock.runFor(210000)
  }
  await expect(page.locator('.scene01-chat')).toHaveAttribute('data-group-complete','true')
  await page.getByRole('button',{name:'Back to inbox'}).click()
  await page.getByRole('button',{name:'Open Sophie conversation',exact:true}).click()
- await page.clock.runFor(120000)
- for(let i=0;i<10;i++){await page.locator('.scene01-options .opening-choice').first().click();await page.getByRole('button',{name:'Send',exact:true}).click();await page.clock.runFor(120000)}
+ await page.clock.runFor(210000)
+ for(let i=0;i<10;i++){await page.locator('.scene01-options .opening-choice').first().click();await page.getByRole('button',{name:'Send',exact:true}).click();await page.clock.runFor(210000)}
  await expect(page.locator('[aria-label="Unknown conversation"]')).toHaveCount(0)
  await page.getByRole('button',{name:'Back to inbox'}).click()
  await page.getByRole('button',{name:'Open Unknown conversation',exact:true}).click()
  await expect(page.getByRole('region',{name:'Unknown conversation'}).getByText("You're looking for Daniel Mercer.",{exact:true})).toHaveCount(1)
+ const unknown=page.getByRole('region',{name:'Unknown conversation'})
+ await page.clock.runFor(4000)
+ await expect(unknown.getByText('I think I found something you should see.',{exact:true})).toHaveCount(1)
+ for(let beat=0;beat<10;beat++){
+  if(beat===9){await unknown.getByRole('button',{name:'VIEW TRACE'}).click();await page.getByRole('button',{name:'DONE'}).click()}
+  await unknown.locator('.scene01-options .opening-choice').nth(beat===9?1:beat%3).click()
+  await unknown.getByRole('button',{name:'Send',exact:true}).click()
+  await page.clock.runFor(45000)
+ }
+ await expect(unknown.getByRole('button',{name:'INSTALL TRACE'})).toHaveCount(0)
+ await unknown.getByRole('button',{name:/I've thought about it/}).click()
+ await page.clock.runFor(45000)
+ await unknown.getByRole('button',{name:'INSTALL TRACE'}).click()
+ await page.clock.runFor(7000)
+ await page.getByRole('button',{name:'CONTINUE',exact:true}).click()
+ await unknown.getByRole('button',{name:"It's installed.",exact:true}).click()
+ await unknown.getByRole('button',{name:'Send',exact:true}).click()
+ await page.clock.runFor(45000)
+ await expect(unknown.getByText("I'm going to send you something now.",{exact:true})).toHaveCount(1)
 })
 test('cinematic conversation preserves typing and continues to Scene 5 after TRACE installation',async({page})=>{
  await page.setViewportSize({width:320,height:720})

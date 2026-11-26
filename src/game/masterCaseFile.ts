@@ -87,9 +87,9 @@ const historicalPhotoAssets: Record<string, string> = {
   [storyPhotos.lucasFriends.id]: '/media/chat/lucas-daniel-friends.png',
 }
 
-const openingStarId='TA-S01-V4-AFTER-05-3'
+const openingStarIds = ['TA-S01-V4-AFTER-05-3', 'TA-S01-V7-AFTER-06-2']
 export function investigationBoardAvailable(save:GameSave) {
-  return save.masterScene05?.packageStatus==='installed' || !!(save.prologue?.scene01?.masterScene01 && save.prologue.scene01.messages.some(line=>line.id===openingStarId))
+  return save.masterScene04?.traceInstalled === true || save.masterScene05?.packageStatus==='installed' || !!(save.prologue?.scene01?.masterScene01 && save.prologue.scene01.messages.some(line=>openingStarIds.includes(line.id)))
 }
 
 function discoveredEvidence(save: GameSave): CaseEvidence[] {
@@ -162,7 +162,7 @@ function discoveredEvidence(save: GameSave): CaseEvidence[] {
     const receipt = save.evidence[evidenceId]
     if (assessment && receipt) evidence.push({ id, title, description: assessment.finding, source: `Private assessment · ${assessmentLabel(assessment.outcome)}`, kind: 'finding', recordedAt: receipt.collectedAt })
   }
-  const firstStar=opening?.messages.find(line=>line.id===openingStarId)
+  const firstStar=opening?.messages.find(line=>openingStarIds.includes(line.id))
   if(firstStar)addStatement(firstStar,'Starred Contact','Sophie · private message about the shared-folder copy')
   const lucasAccount=save.lucasPhoto?.messages.find(line=>line.id==='TA-LUCAS-V3-B3-M2'||line.id==='TA-S08-LUCAS-PHOTO-INTRO')
   addStatement(lucasAccount,'Lucas’s account','Lucas · private message testimony')
@@ -209,7 +209,7 @@ export function selectMasterCaseFile(save: GameSave): MasterCaseFileView | undef
   const facts = [
     'Sophie Mercer says her brother Daniel stopped answering her messages and calls. His whereabouts are unknown.',
   ]
-  if (save.prologue?.scene01?.messages.some(line => line.id === 'TA-S01-AFTER-03-1'||line.id===openingStarId)) {
+  if (save.prologue?.scene01?.messages.some(line => line.id === 'TA-S01-AFTER-03-1'||openingStarIds.includes(line.id))) {
     facts.push('Sophie reported finding the player’s unnamed, starred number in a contact-export copy. Who marked the entry and why remain unknown.')
   }
   if (nodes.some(node => node.id === 'TA-S05-ARCHIVE-ACCEPTED')) facts.push('Unknown Sender provided an encrypted copy believed to contain Daniel’s phone data. Its source remains unverified.')

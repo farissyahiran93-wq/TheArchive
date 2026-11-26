@@ -1,3 +1,5 @@
+import { scene04V5 } from '../content/masterScene04V5'
+import { masterScene05Action } from './masterScene05'
 import { describe, expect, it } from 'vitest'
 import { cinematicBeats } from '../content/masterScene04Cinematic'
 import { masterScene04Action } from './masterScene04'
@@ -25,7 +27,7 @@ describe('cinematic Scene 4',()=>{
   expect(fresh.masterScene04?.revision).toBe('cinematic')
   expect(fresh.messages.some(m=>m.id==='TA-S04-SOPHIE-ELI-ENQUIRY')).toBe(false)
   const old={...fresh,masterScene04:{...fresh.masterScene04!,revision:undefined}}
-  expect(prepareReplay({save:old,capturedAt:200000},300000,4).masterScene04?.revision).toBe('cinematic')
+  expect(prepareReplay({save:old,capturedAt:200000},300000,4).masterScene04?.revision).toBe('v5')
   expect(old.masterScene04.revision).toBeUndefined()
  })
  for(let selected=0;selected<10;selected++)for(let option=0;option<3;option++)it(`decision ${selected+1} branch ${option+1} delivers in order`,()=>{
@@ -45,5 +47,28 @@ describe('cinematic Scene 4',()=>{
   if(selected===9&&option!==0){s=masterScene04Action(s,{type:'reconsider'},900000);expect(s.masterScene04?.messages.at(-1)?.sender).toBe('player');s=drain(s);expect(s.masterScene04?.complete).toBe(true)}
   expect(s.deliveredEvents).toContain('TA-S04-SCENE05-UNLOCKED')
   expect(s.evidence['TA-S04-ARCHIVE']).toBeUndefined()
+ })
+})
+
+describe('Scene 4 V5',()=>{
+ const opening=before()
+ for(const branch of [0,1,2])it(`delivers all V5 decisions for branch ${branch+1} after an explicit Send`,()=>{
+  let s=drain(masterScene04Action(masterScene04Action(opening,{type:'restart-v5'},200000),{type:'open'}))
+  expect(s.knowledge.characters.eli).toEqual(['TA-S04-SOPHIE-ELI-ENQUIRY'])
+  for(const beat of scene04V5){
+   const position=s.masterScene04!.messages.length
+   const draft=masterScene04Action(s,{type:'draft',index:branch})
+   expect(draft.knowledge).toEqual(s.knowledge)
+   s=drain(masterScene04Action(draft,{type:'send'},350000+position*10000))
+   expect(s.masterScene04!.messages.slice(position).map(line=>line.text)).toEqual([beat.choices[branch],...beat.replies[branch],...beat.common])
+  }
+  if(branch)s=drain(masterScene04Action(s,{type:'reconsider'},3000000))
+  expect(masterScene05Action(s,{type:'start'})).toBe(s)
+  expect(masterScene04Action(s,{type:'setup-trace'})).toBe(s)
+  s=masterScene04Action(s,{type:'begin-trace-install'},4000000)
+  s=masterScene04Action(s,{type:'setup-trace'},4010000)
+  expect(s.deliveredEvents).toContain('TA-S04-SCENE05-UNLOCKED')
+  s=masterScene05Action(s,{type:'start'},4010001)
+  expect(s.masterScene05).toMatchObject({installationAcknowledgment:true,archiveStatus:'unavailable',recovered:false})
  })
 })

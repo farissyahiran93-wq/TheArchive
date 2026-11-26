@@ -1,3 +1,4 @@
+import { compatibilityFixturesEnabled } from '../game/campaign'
 import { canStartLucasConversation } from '../game/lucasPhoto'
 import { groupTitle } from '../game/groupTitle'
 import { visibleUnknownMessages } from '../game/traceBridge'
@@ -159,7 +160,7 @@ export function Messenger({ onHome, initialThread = null, onThreadChange }: { on
   const accessAction=useGameStore(state=>state.accessAction)
   const comparisonComplete=save.chapter2Access?.story?.continuation?.completed.includes(11)
   useEffect(()=>{accessAction({type:'continuation-messages-open'})},[accessAction,comparisonComplete])
-  const devTools = import.meta.env.DEV && new URLSearchParams(window.location.search).has('devtools')
+  const devTools = compatibilityFixturesEnabled && new URLSearchParams(window.location.search).has('devtools')
   useEffect(() => { if (devTools) openFixture() }, [openFixture, devTools])
   const reunion=save.chapter2Access?.story
   if(threadOpen==='professional'&&save.chapter1?.byline)return <SourceInvestigation sceneNumber={7} messagesMode onHome={()=>setThreadOpen(null)}/>

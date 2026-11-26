@@ -1,0 +1,3712 @@
+GREYHAVEN — THE FIRST TRACE
+CHAPTER 1 · FULL CONVERSATION SCREENPLAY V6
+English dialogue · Authoring draft for game integration
+
+READING KEY
+A/B/C are alternatives. Deliver only the selected response after Send, then return to the shared lines. Bracketed directions are never player-facing text. Each labelled NPC line is its own bubble. Optional chats do not gate the main story.
+The supplied V6 dialogue is retained below. Approved base scenes and recorded call scripts are reproduced at the indicated splice points. New dialogue and continuity alternatives are marked in brackets.
+Each speaker knows only what was delivered to their thread or available to them as a group member at the time. Daniel is offline. Unknown appears as an anonymous contact. Audio transcripts are working references to the approved recordings. Audio and subtitle assets remain authoritative.
+
+════════════════════════════════════════════════════════════════════
+SCENE 01 — A MESSAGE FROM SOPHIE
+════════════════════════════════════════════════════════════════════
+
+Sophie: Hi. Sorry to message you out of nowhere.
+Sophie: I'm Sophie.
+Sophie: I know this is strange.
+Sophie: Could I ask you something?
+
+DECISION S01-C01 [Select, then Send]
+A. Sure. What's this about?
+B. Who are you trying to reach?
+C. Before I answer, how did you get this number?
+If A:
+Sophie: Thank you. I wasn't sure you'd answer.
+If B:
+Sophie: You, I think. I may have the wrong number.
+If C:
+Sophie: That's a fair question. I found it in some paperwork. I'll explain.
+
+Sophie: It's about my older brother.
+Sophie: His name is Daniel Mercer.
+Sophie: Does that name mean anything to you?  
+
+DECISION S01-C02 [Select, then Send]
+A. No, I don't think I know him.
+B. Daniel Mercer? That doesn't ring a bell.
+C. Who is Daniel, and why would I know him?
+If A:
+Sophie: Okay. Thank you for being honest.
+If B:
+Sophie: I thought it might not. I'm sorry to put you on the spot.
+If C:
+Sophie: He's my brother. I found your number among some records connected to him. I don't know why it's there.
+
+Sophie: A name might not mean much on its own.
+Sophie: Would you mind looking at a photo?
+[Sophie sends the approved birthday photograph.]
+Sophie: That's Daniel on the left. It was my birthday. Does his face look familiar?
+
+DECISION S01-C03 [Select, then Send]
+A. I'm sorry, Sophie. I don't recognise him.
+B. Is Daniel the one on the left? He doesn't look familiar.
+C. I don't know him, but that looks like a happy memory.
+If A:
+Sophie: Thank you for looking. I know it was a lot to ask.
+If B:
+Sophie: Yes. That's Daniel. Thank you for checking.
+If C:
+Sophie: It was. I nearly forgot how happy he looked that night.
+
+Sophie: He made some ridiculous joke right before that picture.
+Sophie: I wish I could remember exactly what he said.
+Sophie: No one close to him has heard from him in three days.  
+
+DECISION S01-C04 [Select, then Send]
+A. Three days? Has anyone heard from him at all?
+B. What do you mean, no one's heard from him?
+C. Is that why you're contacting strangers?
+If A:
+Sophie: Not anyone I've spoken to. I've asked the people closest to him.
+If B:
+Sophie: He stopped answering calls and messages. Then nobody knew where he'd gone.
+If C:
+Sophie: Yes. I know how desperate it must look.
+
+Sophie: At first I told myself he'd just lost his phone.
+Sophie: Then I kept telling myself that.
+Sophie: Now I don't know what to think.  
+
+DECISION S01-C05 [Select, then Send]
+A. How did you get my number, Sophie?
+B. Did Daniel give you my contact details?
+C. Why would his disappearance lead you to me?
+If A:
+Sophie: I found it in a saved contact export among the family files we could access.
+If B:
+Sophie: I can't say that he did. The number was in a saved contact export, but I don't know who added it.
+If C:
+Sophie: Your number was in a contact export among Daniel's family files. I thought I should at least ask.
+
+Sophie: Most of the entries had names.
+Sophie: Yours didn't.
+Sophie: Just a number, with a little star beside it.  
+
+DECISION S01-C06 [Select, then Send]
+A. A star? Do you know what it means?
+B. That doesn't prove Daniel knew me.
+C. Could someone else have put my number there?
+If A:
+Sophie: No. There's nothing beside it that explains what the star means.
+If B:
+Sophie: You're right. I shouldn't treat it as proof.
+If C:
+Sophie: Maybe. I have no way to tell who added it.
+
+Sophie: I stared at that entry for ages before deciding to message you.
+Sophie: I know this sounds strange. I just couldn't ignore it.
+
+DECISION S01-C07 [Select, then Send]
+A. You didn't bother me. I just want to understand why my number is there.
+B. Did Daniel actually save my number, or was it just in that file?
+C. I don't recognize Daniel, Sophie. I don't want to give you false hope.
+If A:
+Sophie: I wish I knew. I found it in a saved contact export in our family folder. That's all I can tell you.
+If B:
+Sophie: I don't know if he saved it himself. The file doesn't say who added that entry.
+If C:
+Sophie: I know. And I appreciate you being honest. I wasn't expecting you to have all the answers.
+
+Sophie: I keep wondering if I've overlooked something.
+Sophie: There are two other people trying to find him.
+Sophie: His fiancée, Maya. And his best friend, Lucas.
+Sophie: They've been asking questions too.
+
+DECISION S01-C08 [Select, then Send]
+A. Are Maya and Lucas looking for him too?
+B. Have they found anything I should know about?
+C. That must be difficult for all of you.
+If A:
+Sophie: Yes. We've all been trying to make sense of what happened.
+If B:
+Sophie: We've been comparing what we know, but there are still so many questions.
+If C:
+Sophie: It has been. We've been trying to support each other through it.
+
+Sophie: There's a group chat. Me, Daniel, Maya, Lucas, Noah, Ana and Eli.
+Sophie: We've had it for years. It's called Same Old Chaos.
+Sophie: Daniel's still in there. We haven't changed anything.
+Sophie: Would you be comfortable joining us?
+
+DECISION S01-C09 [Select, then Send]
+A. You can send me an invitation.
+B. I can take a look, if everyone is comfortable with it.
+C. I'd like to hear what Maya and Lucas have to say.
+If A:
+Sophie: Okay. You'll still get to choose whether to join.
+If B:
+Sophie: Okay. I'll send you the invitation so you can decide.
+If C:
+Sophie: Okay. I'll send you the invitation. It's up to you whether to join.
+
+Sophie: Thank you for hearing me out.
+Sophie: I didn't know whether anyone would.  
+[Same Old Chaos invitation shows all seven original members. Daniel is offline. JOIN GROUP enters the chat and adds the player as the eighth member.]
+
+════════════════════════════════════════════════════════════════════
+SCENE 02 — SAME OLD CHAOS
+════════════════════════════════════════════════════════════════════
+
+System: You joined Same Old Chaos.
+Sophie: Okay.
+Sophie: They're here.
+Noah: Who's here?
+Ana: The person you were telling us about?
+Sophie: Yeah.
+Noah: Ohhh.
+Noah: Well, hello there 👋
+Lucas: Sophie.
+Sophie: What?
+Lucas: Seriously?
+Noah: Can we at least say hi before the interrogation starts?
+Eli: Hi. I'm Eli.
+Eli: Ignore Noah. He's like this with everyone.
+Noah: Excuse me.
+Ana: He's not wrong.
+Maya: Hey.
+Maya: I'm Maya.
+Maya: Sorry. This is probably a strange way to meet everyone.
+[V6 social exchange. Insert before S02-C01.]
+Noah: Wait.
+
+Noah: We haven't actually introduced everyone.
+
+Ana: You introduced yourself as "hi, stranger."
+
+Noah: Which was friendly.
+
+Eli: By Noah's standards, extremely professional.
+
+Noah: Thank you.
+
+Noah: Finally, some appreciation.
+
+Sophie: 😂
+
+Maya: You'll get used to them.
+
+Maya: Eventually.
+
+Ana: That's optimistic.
+
+Noah: Anyway.
+
+Noah: I'm Noah. Officially the funniest person here.
+
+Ana: Officially according to Noah.
+
+Noah: Exactly.
+
+Eli: I'm Eli. Daniel and I work together.
+
+Eli: Usually, I'm the one reminding him that lunch exists.
+
+Sophie: He forgets at home too.
+
+Ana: I'm Ana, by the way.
+
+Ana: And unlike Noah, I have no official title.
+
+Lucas: Are we done?
+
+Noah: And that's Lucas.
+
+Noah: Our sunshine.
+
+Lucas: Noah.
+
+Noah: Okay, okay.
+
+Maya: Sorry about him.
+
+Noah: Which one of us?
+
+Maya: Both.
+
+DECISION S02-C01 [Select, then Send]
+A. Hi, everyone. Sophie invited me. I hope I'm not interrupting anything.
+B. I'm a little confused about why I'm here, to be honest.
+C. Looks like not everyone was expecting me.
+If A:
+Noah: See? Perfectly polite.
+Noah: We're off to a great start.
+Ana: Hi. Welcome.
+Lucas: That depends on what they're here for.
+If B:
+Eli: Fair enough.
+Eli: This is a lot to walk into without an explanation.
+Sophie: Sorry. I should've warned you.
+If C:
+Lucas: We weren't.
+Maya: Lucas.
+Lucas: What? It's true.
+Sophie: I told you I was going to contact them.
+Lucas: Contact them. Not bring them into our group.
+
+Sophie: Can we not fight about this already?
+Ana: Sophie, did everyone agree to the invitation?
+Sophie: I thought you guys would understand.
+Lucas: That's not an answer.
+Noah: Okay, but yelling at each other isn't helping.
+Eli: Maybe we should hear why Sophie invited them before deciding this was a terrible idea.
+Maya: Agreed.
+Sophie: Thank you.
+Sophie: I found something in Daniel's files.
+Sophie: A phone number.
+Sophie: And it belongs to the person I just added.
+Noah: Wait.
+Noah: Seriously?
+Ana: Daniel had their number?
+Sophie: It was in a contact export.
+Lucas: With no name.
+Sophie: Yes.
+Lucas: That's the part you keep leaving out.
+Maya: Sophie told me about it.
+Maya: But I don't understand what it means either.
+
+DECISION S02-C02 [Select, then Send]
+A. I've never met Daniel Mercer.
+B. I don't know how my number ended up in his contacts.
+C. I think there must be some kind of mistake.
+If A:
+Ana: You've never spoken to him?
+[Single reply. Select, then Send.]
+Player: No. Not that I'm aware of.
+Noah: Well, that's unexpected.
+Eli: It doesn't necessarily mean the entry is wrong. Just that we don't know why it's there.
+If B:
+Maya: Neither do we.
+Maya: That's what Sophie was hoping to understand.
+Lucas: And we're supposed to accept that nobody knows anything?
+Ana: Sometimes people genuinely don't know, Lucas.
+If C:
+Sophie: I thought that too.
+Sophie: But I checked the number more than once.
+Sophie: It's the one I used to message you.
+Eli: Then we know the number matches.
+Eli: Not why it was in the file.
+
+Noah: Okay, wait.
+Noah: Back up a second.
+Noah: What exactly is a contact export?
+Ana: A copy of somebody's saved contacts.
+Noah: Right.
+Noah: Why didn't we just say that?
+Eli: Because apparently we enjoy making simple things sound complicated.
+Noah: Thank you, Eli.
+Sophie: Daniel had a folder he shared with me.
+Sophie: Family stuff, mostly.
+Sophie: That's where I found the file.
+Maya: Was there anything else beside the number?
+Sophie: A star.
+Sophie: The number was marked with a star.
+Ana: Like a favourite contact?
+Sophie: Maybe?
+Sophie: I honestly don't know.
+Lucas: And nobody knows who marked it.
+Sophie: No.
+
+DECISION S02-C03 [Select, then Send]
+A. Could somebody else have added the star?
+B. Are you sure the export came from Daniel?
+C. Does the star actually mean anything?
+If A:
+Ana: That's possible.
+Ana: We don't know who made the copy.
+Lucas: Which is exactly why I'm uncomfortable with this.
+Eli: We should be careful about treating the mark as something Daniel deliberately added.
+If B:
+Sophie: I found it in the folder he shared with me.
+Sophie: That's all I can tell you for certain.
+Maya: So we know where Sophie found it.
+Maya: Not necessarily where it originated.
+If C:
+Noah: My phone has starred contacts.
+Noah: Half of them are restaurants.
+Ana: Noah.
+Noah: I'm making a point.
+Eli: A surprisingly reasonable one.
+Eli: The star could mean several things. We don't have enough to choose one.
+
+[Brief pause.]
+Maya: Can I ask something?
+Maya: Why would Daniel keep a number he didn't recognise?
+Sophie: I don't know.
+Maya: He normally remembered people.
+Maya: Even people he'd only met once.
+Noah: Yeah.
+Noah: He was annoyingly good at that.
+Ana: Maybe the number was related to his work.
+Eli: Could be.
+Eli: But I can't remember him mentioning it to me.
+Lucas: And now we can't ask him.
+[Brief pause.]
+Sophie: I've been trying to reach him every day.
+Sophie: Sometimes I leave messages even though I know he isn't answering.
+Maya: Sophie...
+Sophie: I know.
+Sophie: I just keep thinking maybe this time he'll pick up.
+
+DECISION S02-C04 [Select, then Send]
+A. When was the last time anyone actually heard from him?
+B. Was he acting differently before he disappeared?
+C. Have you told the police about the number?
+If A:
+Maya: We've been trying to put that together.
+Maya: But not every message tells us where he was.
+Lucas: And some of us remember things differently.
+Ana: Which is why we shouldn't pretend the timeline is settled.
+If B:
+Eli: He seemed distracted at work sometimes.
+Eli: But that isn't unusual when he's juggling several things.
+Maya: He was tired.
+Maya: I remember that much.
+Maya: I wish I'd asked what was keeping him up.
+If C:
+Sophie: I've been speaking to Detective Hayes.
+Sophie: I want to make sure she gets anything that might matter.
+Ana: That's probably the right thing to do.
+Lucas: Provided we don't start making claims we can't support.
+
+Noah: You know what I keep thinking about?
+Noah: That night at the restaurant.
+Ana: Oh, no.
+Maya: Which night?
+Noah: The one where Daniel insisted he knew how to order in Italian.
+Sophie: HAHAHA.
+Sophie: I forgot about that.
+Eli: He ordered the wrong thing, didn't he?
+Noah: He ordered enough food for six people.
+Ana: There were four of us.
+Noah: Exactly.
+Maya: And he refused to admit it was a mistake.
+Sophie: "It's called planning ahead."
+Noah: YES.
+Noah: That's what he said!
+Eli: Sounds like him.
+Eli: He once volunteered me to give a presentation before asking whether I was free.
+Ana: Was it a good presentation?
+Eli: It was after he helped me rewrite half of it.
+Eli: So, annoyingly, yes.
+Noah: Classic Daniel.
+Maya: He always thought he could fix everything.
+Maya: Even when nobody asked him to.
+[Brief pause.]
+Maya: Sorry.
+Maya: I didn't mean for that to sound sad.
+Sophie: You don't have to apologise.
+
+DECISION S02-C05 [Select, then Send]
+A. He sounds like someone who made people laugh without trying.
+B. You all seem to have a lot of good memories together.
+C. I can tell how much you miss him.
+If A:
+Noah: Oh, he absolutely tried.
+Noah: Some of his jokes were terrible.
+Ana: Most of them.
+Eli: He had a very specific talent for making bad jokes worse.
+Maya: I still laughed at them.
+If B:
+Sophie: We do.
+Sophie: That's probably why this is so hard.
+Ana: We've all known each other for years.
+Eli: Daniel was good at bringing people together.
+Eli: Including people who had absolutely nothing in common.
+If C:
+Maya: Every day.
+Maya: Sometimes I forget for a second.
+Maya: Then something reminds me he's not here.
+Noah: Yeah.
+Noah: I know what you mean.
+
+Ana: Sophie, can I ask about the contact file again?
+Sophie: Sure.
+Ana: Has anyone else seen the actual export?
+Sophie: Not the whole thing.
+Lucas: Good.
+Noah: What do you mean, good?
+Lucas: It has other people's information in it.
+Lucas: We shouldn't be passing it around.
+Eli: That's a fair concern.
+Eli: Especially if we don't know when the copy was made.
+Sophie: I wasn't going to post the whole thing here.
+Maya: Then don't.
+Maya: Not until you understand what you're looking at.
+Sophie: I know.
+Sophie: I just wanted everyone to know why I contacted someone outside the group.
+
+DECISION S02-C06 [Select, then Send]
+A. You don't have to share the file with everyone.
+B. It's probably better to keep other people's contact details private.
+C. Maybe we should first understand what the starred entry means.
+If A:
+Sophie: Thanks.
+Sophie: I don't want to make things worse.
+Maya: Nobody's asking you to.
+If B:
+Ana: I agree.
+Ana: There's no reason to expose everyone else's details.
+Eli: We can discuss a question without distributing an entire document.
+If C:
+Lucas: That's what I've been saying.
+Sophie: And I've been listening.
+Sophie: But understanding it isn't exactly easy.
+Noah: Can we acknowledge that both things can be true?
+
+Lucas: Look.
+Lucas: I'm not trying to be difficult.
+Ana: You've been doing a pretty convincing impression.
+Lucas: Ana, please.
+Lucas: Daniel is missing.
+Lucas: We have a number nobody can explain.
+Lucas: And now there's someone we've never met sitting in a private group.
+Sophie: I invited them because I was trying to find out whether they knew something.
+Lucas: I understand that.
+Lucas: But I don't know them.
+Eli: None of us does.
+Eli: That doesn't automatically make them a threat.
+Lucas: I didn't say they were a threat.
+Noah: You're kind of implying it.
+Lucas: I'm saying we need to be careful.
+Maya: We know, Lucas.
+
+DECISION S02-C07 [Select, then Send]
+A. You don't have to trust me. I understand.
+B. I'm not here to take advantage of anyone.
+C. I think you're being unfair to Sophie.
+If A:
+Lucas: Good.
+Lucas: Because I don't.
+Lucas: Not yet.
+Eli: Fair enough.
+Eli: Trust usually takes longer than one conversation.
+If B:
+Lucas: Then I hope that's true.
+Noah: Come on, man.
+Lucas: What?
+Noah: You could at least give them a chance.
+If C:
+Lucas: This isn't about Sophie.
+Sophie: It obviously is.
+Ana: Lucas, you're upset about the situation.
+Ana: Don't turn the player into the reason for it.
+
+Maya: Can everybody please stop?
+Maya: We're supposed to be helping each other.
+Lucas: That's what I thought.
+Sophie: What is that supposed to mean?
+Lucas: Nothing.
+Sophie: Lucas.
+Lucas: You keep making decisions for everyone.
+Sophie: Because if I don't do something, nothing happens!
+Noah: Okay.
+Noah: This is getting out of hand.
+Eli: Lucas, I get why you're worried.
+Eli: But we're all trying to figure this out.
+Lucas: And we're getting nowhere.
+Ana: Then we change how we're doing things.
+Lucas: That's easy to say.
+Maya: We are all scared.
+Maya: Do you think Sophie isn't scared?
+Lucas: I never said that.
+Sophie: You don't have to.
+Lucas: Sophie, that's not fair.
+Sophie: Neither is making me feel like everything I do is wrong!
+[Brief pause.]
+Noah: Guys...
+Noah: Please.
+
+DECISION S02-C08 [Select, then Send]
+A. I think everyone needs a moment. This isn't helping Daniel.
+B. Lucas is worried about protecting Daniel's privacy. That doesn't make him wrong.
+C. Sophie was trying to help. She shouldn't be blamed for that.
+If A:
+Ana: I agree.
+Maya: Me too.
+Lucas: Maybe that's exactly what we need.
+If B:
+Lucas: Thank you.
+Sophie: I never said his privacy didn't matter.
+Eli: I don't think anyone believes that, Sophie.
+If C:
+Sophie: Thank you.
+Lucas: I'm not blaming her for wanting to help.
+Lucas: I'm questioning how we're doing it.
+Maya: Then talk about that without tearing each other apart.
+
+Lucas: You know what?
+Lucas: I can't keep doing this.
+Noah: Doing what?
+Lucas: Every conversation turns into the same argument.
+Lucas: We talk about what Daniel might have done.
+Lucas: What he might have meant.
+Lucas: What someone else might know.
+Lucas: And we don't actually get any closer to finding him.
+Ana: We're trying.
+Lucas: I know.
+Lucas: But trying doesn't mean every decision is a good one.
+Sophie: So what do you want us to do?
+Lucas: I don't know anymore.
+Maya: Lucas...
+Lucas: I'm serious.
+Lucas: I need a break from this group.
+Noah: You don't have to leave.
+Lucas: Maybe not.
+Lucas: But I want to.
+Eli: Take some time if you need it.
+Eli: Nobody's asking you to stop caring about Daniel.
+Lucas: I know.
+Lucas: That's not what this is.
+
+DECISION S02-C09 [Select, then Send]
+A. Leaving the group doesn't mean you've stopped looking for Daniel.
+B. I'm sorry my being here has made things harder.
+C. I hope we can talk again when you're ready.
+If A:
+Lucas: Exactly.
+Lucas: Thank you for understanding that.
+If B:
+Lucas: This isn't entirely about you.
+Lucas: We've been arguing long before you got here.
+Lucas: Just... don't take everything you hear at face value.
+If C:
+Lucas: Maybe.
+Lucas: I just need some time.
+
+[Brief pause.]
+Lucas: For what it's worth...
+Lucas: I still want to find him.
+Lucas: More than anything.
+System: Lucas left the group.
+[Brief pause.]
+Sophie: ...
+Sophie: I didn't want that to happen.
+Maya: I know.
+Noah: He's upset.
+Noah: He'll come around.
+Ana: Maybe.
+Ana: But we shouldn't pretend this was just one argument.
+Eli: We've all been on edge for days.
+Eli: Lucas probably needs some space.
+Sophie: I feel awful.
+Maya: Sophie, please don't.
+Sophie: I asked someone for help.
+Sophie: And somehow I've managed to make everything worse.
+Noah: You didn't make Daniel disappear.
+Noah: You need to stop carrying everything like it's your fault.
+Ana: Noah's right.
+Eli: We're not going to solve anything by turning on each other.
+Maya: I don't want us to fall apart over this.
+[Brief pause.]
+Maya: Daniel wouldn't want that either.
+
+DECISION S02-C10 [Select, then Send]
+A. Maybe we should focus on what we actually know instead of guessing.
+B. I still want to help, but I won't pressure anyone into trusting me.
+C. If any of you finds something useful, you can always reach out to me.
+If A:
+Ana: That's a good place to start.
+Ana: Facts first. Questions after.
+Eli: Agreed.
+Eli: We can be careful without giving up.
+If B:
+Maya: Thank you.
+Maya: I appreciate that.
+Noah: For what it's worth, I think you've handled this pretty well.
+Eli: Same here.
+If C:
+Noah: Will do.
+Ana: I'll let you know if I come across anything relevant.
+Eli: Thanks.
+Eli: And sorry about the welcome you got.
+
+Sophie: Thanks, everyone.
+Sophie: I know this wasn't how any of us expected today to go.
+Noah: Understatement of the year.
+Ana: Noah.
+Noah: Sorry. Bad timing.
+Maya: I think I'm going to get some rest.
+Maya: I'll check in later.
+Sophie: Okay.
+Sophie: Love you.
+Maya: Love you too.
+Ana: Let me know if you need anything, Maya.
+Maya: I will.
+Eli: I should get going too.
+Eli: I've got a few things to finish.
+Noah: Actual work?
+Eli: Unfortunately.
+Noah: Tragic.
+Eli: Tell me about it.
+Ana: Night, you two.
+Noah: Night.
+Eli: Take care, everyone.
+[Brief pause.]
+[Brief pause.]
+[Private handoff. Notify the player without opening Sophie’s thread.]
+Sophie [DM]: Hey. Can we talk privately for a minute?
+
+════════════════════════════════════════════════════════════════════
+SCENE 03 — JUST BETWEEN US
+════════════════════════════════════════════════════════════════════
+
+Structure
+Four available private conversations:
+1. Sophie — Main narrative.
+2. Maya — Emotional introduction.
+3. Eli — Casual conversation.
+4. Noah — Friendly introduction.
+Sophie remains the main thread. Maya, Eli and Noah contact the player naturally during this scene. Their conversations can be completed independently.
+Thread A — Sophie
+Sophie: I'm sorry for how that went in the group.
+Sophie: I wanted to check on you before I put my phone down.
+
+DECISION S03-C01 [Select, then Send]
+A. I'm okay. Are you?
+B. I'm all right. That got tense quickly.
+C. I need a little time to process it.
+If A:
+Sophie: I've been better. Thank you for asking.
+If B:
+Sophie: It did. I didn't mean to put you in the middle of it.
+If C:
+Sophie: Of course. We can take this slowly.
+
+Sophie: I'm sorry about the group.
+Sophie: Maya and Lucas are worried about Daniel too. They just show it differently.
+Sophie: I should have talked to them before I invited you.
+
+DECISION S03-C02 [Select, then Send]
+A. You were trying to help your brother.
+B. Lucas seemed worried about privacy.
+C. I'd rather not be caught between you.
+If A:
+Sophie: I was. That doesn't mean I handled it perfectly.
+If B:
+Sophie: He was. He's protective of Daniel, and I understand why.
+If C:
+Sophie: That's fair. I won't ask you to take sides.
+
+Sophie: Daniel's my older brother. Somehow he still manages to make me feel like the younger one, even when he's the one who needs help.
+
+DECISION S03-C03 [Select, then Send]
+A. What was he like as an older brother?
+B. Did you two see each other often?
+C. You sound close.
+If A:
+Sophie: Protective, mostly. Annoying too, when we were kids.
+If B:
+Sophie: As often as we could manage. Sometimes it was just a quick meal.
+If C:
+Sophie: We are. We don't always agree, but he's my brother.
+
+Sophie: When I was younger, I once told him I was too old to need a lift home.
+Sophie: He said fine, and drove behind the bus anyway.
+Sophie: I was furious when I spotted him. He tried to pretend he just happened to be going the same way.
+Sophie: I didn't believe him for a second.
+
+DECISION S03-C04 [Select, then Send]
+A. That sounds like him looking out for you.
+B. Did he ever admit he followed the bus?
+C. I can see why that annoyed you.
+If A:
+Sophie: It was. I'd never have admitted that to him at the time.
+If B:
+Sophie: Years later. He still insisted it was a coincidence, then started laughing.
+If C:
+Sophie: Right? He could be thoughtful and impossible in exactly the same minute.
+
+Sophie: He'd remember the little things too. If I mentioned I had a difficult day coming up, he'd ask about it afterwards.
+Sophie: Lately I've been reaching for my phone to tell him things, and then remembering why he hasn't answered.
+
+DECISION S03-C05 [Select, then Send]
+A. How is Maya coping?
+B. Were Maya and Daniel doing all right?
+C. You don't have to speak for Maya.
+If A:
+Sophie: She's trying to keep going. I think the not knowing is exhausting her.
+If B:
+Sophie: They're engaged. Like anyone, they could disagree, but I can't tell you what was happening privately between them.
+If C:
+Sophie: Thank you. I can only tell you what she's chosen to tell me.
+
+Sophie: Maya's his fiancée. She's been there for him through a lot, and she cares about him deeply.
+Sophie: They had ordinary disagreements. I don't want to turn that into an explanation for him being missing.
+
+DECISION S03-C06 [Select, then Send]
+A. And Lucas?
+B. Did Daniel usually confide in Lucas?
+C. I can understand Lucas wanting to protect him.
+If A:
+Sophie: He's Daniel's best friend. They've known each other a long time.
+If B:
+Sophie: Sometimes. There are things Daniel told Lucas that he didn't tell me, and that's okay.
+If C:
+Sophie: So can I. I just wish we could have talked without hurting each other.
+
+Sophie: Lucas has always cared about giving Daniel space to decide what he wants to share.
+Sophie: His leaving the chat doesn't mean he's stopped looking for him.
+
+DECISION S03-C07 [Select, then Send]
+A. Did you notice anything different before Daniel disappeared?
+B. Was there something that made you worry?
+C. Only if you're comfortable: how had he seemed lately?
+If A:
+Sophie: He seemed distracted the last few times we spoke.
+If B:
+Sophie: He'd go quiet in the middle of a conversation, like his thoughts had gone somewhere else.
+If C:
+Sophie: I can talk about what I noticed. I just don't know what it meant.
+
+Sophie: I asked once if work was bothering him. He said he was tired and changed the subject.
+Sophie: Maybe he was only tired. I can't tell you what he was thinking.
+
+DECISION S03-C08 [Select, then Send]
+A. What was your last ordinary conversation with him?
+B. Do you remember what you talked about last?
+C. It's okay if you don't want to revisit it.
+If A:
+Sophie: We talked about dinner.
+If B:
+Sophie: Yes. It was something completely ordinary: dinner.
+If C:
+Sophie: I do want to remember it. We were talking about dinner.
+
+Sophie: He'd promised to bring dessert next time we saw each other.
+Sophie: I told him that didn't count if he bought the same biscuits he always does.
+Sophie: He said the biscuits were a family tradition. They aren't. He just likes them.
+[Approved photo: Sophie sends two packets of biscuits beside a mug.]
+Sophie: These are the biscuits I was talking about. He always bought the same ones.
+Sophie: I keep thinking about how normal it sounded. I didn't know it would be the last time we'd speak before he went missing.
+[V6 Sophie expansion before the closing exchange.]
+Sophie: Can I ask you something that's not about the file?
+Player choice S03-S01
+A. Of course.
+B. Depends what you're going to ask.
+C. A change of subject would be nice.
+
+A — Sophie: Okay, good.
+
+B — Sophie: Nothing terrible, I promise 😂
+
+C — Sophie: Yeah. I think I need that too.
+Common continuation
+Sophie: What do you think of everyone?
+
+Sophie: I know today wasn't exactly the best introduction.
+Player choice S03-S02
+A. Noah seems like fun.
+B. Maya seems really nice.
+C. Lucas didn't exactly make me feel welcome.
+
+A — Sophie:
+
+He is.
+
+Sometimes a little too much.
+
+But I don't think this group would survive without him.
+
+B — Sophie:
+
+She is.
+
+She's been part of our family for so long.
+
+I think Daniel would've been lost without her.
+
+C — Sophie:
+
+Yeah...
+
+I'm sorry about that.
+
+He's not usually like this.
+
+Well, not THIS bad.
+Common continuation
+Sophie: They all deal with things differently.
+
+Sophie: Noah makes jokes.
+
+Sophie: Ana disappears for a while and comes back when she's ready.
+
+Sophie: Eli usually tries to calm everyone down.
+
+Sophie: And Lucas...
+
+Sophie: Lucas gets angry when he's scared.
+
+Sophie: He just won't admit that's what it is.
+Player choice S03-S03
+A. And how do you deal with things?
+B. You're allowed to be scared too, Sophie.
+C. Sounds like you've known them forever.
+
+A — Sophie:
+
+Badly, apparently.
+
+I keep myself busy.
+
+If I stop, I start thinking too much.
+
+B — Sophie:
+
+I know.
+
+It's just...
+
+Everyone keeps asking how I'm doing.
+
+And I never know what to say.
+
+C — Sophie:
+
+Pretty much.
+
+Daniel introduced me to most of them.
+
+It feels strange being in that group without him talking.
+Common continuation
+Sophie: You know what I did this morning?
+
+Sophie: I bought two coffees.
+
+Sophie: Without even thinking.
+
+Sophie: One for me and one for Daniel.
+
+Sophie: I only realised when the woman handed them to me.
+Player choice S03-S04
+A. Habits are hard to break when you love someone.
+B. Did you end up drinking both?
+C. I'm sorry. That must have hurt.
+
+A — Sophie:
+
+Yeah.
+
+It's always the stupid little things that get me.
+
+B — Sophie:
+
+Obviously.
+
+And then I remembered why I never order his coffee for myself.
+
+It was disgusting.
+
+C — Sophie:
+
+It did.
+
+But I'm okay right now.
+
+Talking helps a little.
+Common continuation
+[V6 closing decision S03-S05 replaces the overlapping approved farewell choice. Preserve the approved penultimate decision and completion receipt.]
+
+DECISION S03-C09 [Select, then Send]
+A. You couldn't have known that.
+B. Thank you for telling me about him.
+C. Would it help if I gave you some space?
+If A:
+Sophie: I know. I have to keep reminding myself of that.
+If B:
+Sophie: Thank you for listening. I didn't want him to become just a name on a screen.
+If C:
+Sophie: I think I need that. Thank you for asking.
+
+Sophie: I'm getting tired, and I should try to rest for a while.
+Sophie: You don't have to do anything else for me tonight.
+Sophie: Anyway.
+
+Sophie: Thank you for sticking around today.
+
+Sophie: You really didn't have to.
+
+Sophie: I think I'm going to put my phone down for a while.
+Player choice S03-S05
+A. Take the time you need. We can talk later.
+B. Get some rest, Sophie.
+C. Message me whenever you feel like talking.
+
+A — Sophie: I will. Thank you for listening.
+
+B — Sophie: I'll try. Thank you.
+
+C — Sophie: That's really kind of you.
+
+Sophie: Goodbye.
+
+Preserve the existing Scene 3 completion event.
+
+Do not display "Later · Sophie is online".
+
+Thread B — Maya
+Deliver Maya's notification while the player is progressing through Sophie's conversation.
+
+Do not automatically switch the active thread.
+
+Maya: Hey.
+
+Maya: I hope you don't mind me messaging you separately.
+Player choice S03-M01
+A. Not at all. How are you?
+B. Of course not. What's up?
+C. Let me guess. Something about Daniel?
+
+A — Maya:
+
+I'm doing okay.
+
+Better than I was this morning, anyway.
+
+B — Maya:
+
+Nothing urgent.
+
+I just wanted to say something without everyone else commenting on it.
+
+C — Maya:
+
+Actually, no.
+
+Not everything has to be about him.
+
+Sorry. That sounded harsher than I meant.
+Common continuation
+Maya: I wanted to thank you for being patient with Sophie.
+
+Maya: She can be a little overwhelming sometimes.
+
+Maya: But she's got a good heart.
+Player choice S03-M02
+A. I think she's doing her best.
+B. You seem really protective of her.
+C. She wasn't nearly as intimidating as Lucas.
+
+A — Maya:
+
+She is.
+
+I wish she'd give herself more credit.
+
+B — Maya:
+
+I've known her for years.
+
+She's practically my little sister at this point.
+
+C — Maya:
+
+😂
+
+Lucas is actually quite funny when he's not trying to be everyone's bodyguard.
+Common continuation
+Maya: Sorry if I disappear for a second.
+
+Maya: I'm trying to make dinner.
+
+Maya: Apparently I can talk and cook, but not at the same time.
+Player choice S03-M03
+A. What are you making?
+B. Please don't burn the house down because of me.
+C. Are you a good cook?
+
+A — Maya:
+
+Rice, soup and a few sides.
+
+Nothing particularly exciting.
+
+B — Maya:
+
+That would be a very embarrassing way to end this conversation.
+
+C — Maya:
+
+I'd say yes.
+
+Daniel would probably tell you about the first time I tried making bread.
+
+Please don't ask Sophie about it.
+Common continuation
+Maya: Actually, wait.
+
+Maya: It looks better than I expected.
+
+[Maya sends her dinner selfie. /media/chat/v6/maya-dinner.webp]
+
+Maya: See?
+
+Maya: Completely edible.
+Player choice S03-M04
+A. That looks really good, actually.
+B. Now I'm hungry. Thanks a lot.
+C. I'm impressed. No visible smoke.
+
+A — Maya: Thank you 😊
+
+B — Maya: Sorry. I'd send you some if I could.
+
+C — Maya: I'll take that as a compliment.
+Common continuation
+Maya: I usually make more than this.
+
+Maya: Daniel could eat enough for two people.
+
+Maya: I still haven't worked out how to cook for just one.
+
+Brief pause.
+
+Maya: Anyway.
+
+Maya: I should eat before it gets cold.
+
+Maya: It was nice talking to you.
+Player choice S03-M05
+A. It was nice talking to you too.
+B. Enjoy your dinner, Maya.
+C. We should talk again sometime.
+
+[New V6 branch reactions.]
+A — Maya: I wasn't sure it would be. I'm glad I messaged.
+B — Maya: I will. And I'll put the phone down while it's still hot.
+C — Maya: I'd like that. Maybe when dinner isn't trying to get my attention.
+
+Maya: We will.
+
+End social thread.
+
+Do not deliver Maya's Last Check-In screenshot here. That remains reserved for Scene 8.
+
+Thread C — Eli
+Eli: Hi again.
+
+Eli: I realised we never really got a chance to talk properly.
+
+Eli: Group introductions aren't exactly our strong point.
+Player choice S03-E01
+A. I've noticed that.
+B. You seem like the normal one.
+C. I'm still trying to remember everyone's names.
+
+A — Eli: Believe it or not, that was fairly restrained for us.
+
+B — Eli: That's a dangerous assumption to make.
+
+C — Eli: Understandable. There will not be an exam.
+Common continuation
+Eli: I'm Eli, by the way.
+
+Eli: Daniel and I met through work.
+
+Eli: He introduced me to the others a while later.
+
+Eli: I've been trapped in that group chat ever since.
+Player choice S03-E02
+A. Trapped? That sounds dramatic.
+B. What do you do when you're not working?
+C. You and Daniel worked together for a long time?
+
+A — Eli:
+
+Have you met Noah?
+
+He sends videos at ridiculous hours.
+
+B — Eli:
+
+Sleep, ideally.
+
+Occasionally read something that isn't a work document.
+
+C — Eli:
+
+Long enough for him to know exactly how I take my coffee.
+
+Not long enough for him to stop stealing it.
+Common continuation
+Eli: Speaking of coffee...
+
+[Eli sends a selfie at her desk with paperwork and coffee. /media/chat/v6/eli-office.webp]
+
+Eli: My very exciting afternoon.
+
+Eli: Three coffees and somehow I'm still tired.
+Player choice S03-E03
+A. There's no such thing as too much coffee.
+B. You should probably drink some water.
+C. Tea is better anyway.
+
+A — Eli: Finally. Someone who understands.
+
+B — Eli: Sensible advice. Deeply inconvenient.
+
+C — Eli: We'll have to agree to disagree.
+Common continuation
+Eli: How about you?
+
+Eli: Having a normal day, apart from being dragged into our chaotic group?
+Player choice S03-E04
+A. It was normal until Sophie messaged me.
+B. I've had stranger days.
+C. I'm starting to enjoy talking to you all.
+
+A — Eli: That sounds about right.
+
+B — Eli: I'm not even going to ask.
+
+C — Eli: That's a relief. I thought we might have scared you off.
+Common continuation
+Eli: Anyway, I should get back to what I was doing.
+
+Eli: Just wanted to say hi properly.
+
+Eli: And if Noah offers to send you his playlist, don't encourage him.
+
+Eli: You'll never hear the end of it.
+
+End social thread.
+
+Eli must not hint that an anonymous message will arrive later.
+
+Do not reference TRACE, archive files or restricted records in this conversation.
+
+Thread D — Noah
+Noah: VERY important question.
+Player choice S03-N01
+A. Should I be worried?
+B. Go on.
+C. If this is another interrogation, I'm leaving.
+
+A — Noah: Absolutely not. Probably.
+
+B — Noah: Excellent.
+
+C — Noah: Wow. I've known you for five minutes and you already don't trust me.
+Common continuation
+Noah: Coffee or tea?
+Player choice S03-N02
+A. Coffee.
+B. Tea.
+C. Neither.
+
+A — Noah:
+
+YES.
+
+A person of culture.
+
+B — Noah:
+
+Okay.
+
+Nobody's perfect.
+
+C — Noah:
+
+...
+
+What do you survive on?
+Common continuation
+Noah: I'm currently waiting for a coffee that cost way more than it should.
+
+Noah: Greyhaven has a lot of nice cafés.
+
+Noah: Most of them think they're in central London.
+
+[Noah sends a close-up of his takeaway coffee, then a selfie with the cup. /media/chat/v6/noah-coffee.webp /media/chat/v6/noah-coffee-selfie.webp]
+
+Noah: Financially irresponsible.
+
+Noah: Spiritually necessary.
+Player choice S03-N03
+A. That's an excellent description of coffee.
+B. You could just make it at home.
+C. Is it at least good?
+
+A — Noah: I'm putting that on a T-shirt.
+
+B — Noah: Please stop attacking my lifestyle.
+
+C — Noah: I'll let you know when I can taste something other than regret.
+Common continuation
+Noah: Anyway.
+
+Noah: Sorry about the group earlier.
+
+Noah: We're not normally that intense.
+
+Noah: Actually, that's a lie.
+
+Noah: Just usually about something less depressing.
+Player choice S03-N04
+A. You seem like the one who keeps everyone laughing.
+B. I'm still trying to understand everyone.
+C. I don't mind. Everyone's dealing with a lot.
+
+A — Noah:
+
+Somebody has to.
+
+Doesn't always work, though.
+
+B — Noah:
+
+Good luck with that.
+
+I've known them for years and still haven't managed it.
+
+C — Noah:
+
+Yeah.
+
+Thanks for getting that.
+Common continuation
+Noah: Right. Coffee acquired.
+
+Noah: I'll catch you later.
+
+Noah: Try not to take Lucas too personally, okay?
+
+Noah: He's a good guy.
+
+Noah: Just having a really bad time.
+
+End Scene 3 social content.
+
+The main Scene 4 unlock is driven by Sophie's Goodbye. Optional conversations may remain open into later scenes.
+
+════════════════════════════════════════════════════════════════════
+SCENE 04 — THE UNKNOWN SENDER
+════════════════════════════════════════════════════════════════════
+
+Thread A — Unknown [Main. Sophie’s separately delivered enquiry supplies the contact provenance.]
+Unknown: You're looking for Daniel Mercer.
+Unknown: I think I found something you should see.
+
+DECISION S04-C01 [Select, then Send]
+A. Who is this?
+B. What did you find?
+C. How do you know I'm looking for Daniel?
+If A:
+Unknown: Someone who wants to find him.
+Unknown: You can call me whatever you like for now.
+If B:
+Unknown: A discrepancy in one of his records.
+Unknown: Something that shouldn't be there.
+If C:
+Unknown: I've been looking into some of Daniel's records.
+Unknown: One of them led me to your number.
+
+Unknown: Before I explain...
+Unknown: There's something I'd like to clear up.
+
+DECISION S04-C02 [Select, then Send]
+A. How did you get my number?
+B. What does my number have to do with Daniel?
+C. Why should I answer questions from a stranger?
+If A:
+Unknown: It appeared in a contact export connected to Daniel.
+Unknown: I've been comparing that export with an older copy.
+If B:
+Unknown: That's what I'm trying to establish.
+Unknown: There are two versions of a contact list.
+Unknown: They aren't identical.
+If C:
+Unknown: You shouldn't have to.
+Unknown: Let me explain what I found first.
+
+Unknown: I came across two copies of what appeared to be the same contact list.
+Unknown: Most of the entries matched.
+Unknown: But not all of them.
+Unknown: Your number appears in one copy.
+Unknown: I couldn't find the same entry in the other.
+
+DECISION S04-C03 [Select, then Send]
+A. Are you saying someone added my number?
+B. Could the other copy simply be older?
+C. How do I know these records are real?
+If A:
+Unknown: Possibly.
+Unknown: Or the copies were created differently.
+Unknown: I don't know enough to say which yet.
+If B:
+Unknown: That's possible.
+Unknown: But I haven't established exactly when both copies were created.
+If C:
+Unknown: You don't.
+Unknown: Not from a message I've sent you.
+Unknown: You'll need to see more than that.
+
+Unknown: There's another detail.
+Unknown: The number wasn't saved under a name.
+Unknown: It was marked with a star.
+
+DECISION S04-C04 [Select, then Send]
+A. I already know about the star.
+B. Do you know who marked it?
+C. Why is that important?
+If A:
+Unknown: Then I'll skip that part.
+Unknown: The question is why it appears in one copy and not the other.
+If B:
+Unknown: No.
+Unknown: That's one of the things I haven't been able to establish.
+If C:
+Unknown: On its own, it might not be.
+Unknown: But combined with the difference between the copies...
+Unknown: It gives us something worth looking into.
+
+Unknown: I've been trying to work out whether the number was connected to Daniel personally.
+Unknown: Or whether it came from somewhere else.
+Unknown: Have you ever had any connection to Greyhaven?
+
+DECISION S04-C05 [Select, then Send]
+A. Nothing that would connect me to Daniel.
+B. What kind of connection are you looking for?
+C. Why are you so interested in me?
+If A:
+Unknown: It doesn't necessarily have to involve Daniel directly.
+Unknown: A form. An enquiry. Something you've forgotten about.
+Unknown: There are other ways for a number to end up in a record.
+If B:
+Unknown: Anything ordinary.
+Unknown: A business enquiry. A public service. An online registration.
+Unknown: Something that wouldn't mean much to you at the time.
+If C:
+Unknown: I'm interested in the entry.
+Unknown: Your number happens to be part of it.
+Unknown: That doesn't mean I'm accusing you of anything.
+
+Unknown: There are too many possible explanations.
+Unknown: I'd rather not settle on one without something to support it.
+
+DECISION S04-C06 [Select, then Send]
+A. Did you know Daniel personally?
+B. Why won't you tell me who you are?
+C. Are you someone I've already spoken to?
+If A:
+Unknown: Yes.
+Unknown: I knew him before he disappeared.
+Unknown: I wish I'd paid more attention to certain things.
+If B:
+Unknown: I'd rather keep my name out of this for now.
+Unknown: I know that makes this harder for you.
+Unknown: I'm sorry.
+If C:
+Unknown: I'd rather not answer that.
+Unknown: You have every reason to find that suspicious.
+Unknown: But I'm not asking you to believe me without evidence.
+
+Unknown: I know how this looks.
+Unknown: A stranger messaging you about a missing person.
+Unknown: I'd have questions too.
+
+DECISION S04-C07 [Select, then Send]
+A. Why not take this to the police?
+B. Why are you investigating Daniel's disappearance?
+C. What exactly do you want from me?
+If A:
+Unknown: They need information they can act on.
+Unknown: Right now, I have more questions than answers.
+Unknown: That doesn't mean you should keep anything from them.
+If B:
+Unknown: Because something doesn't feel right.
+Unknown: And I can't just leave it alone.
+If C:
+Unknown: A fresh pair of eyes.
+Unknown: I've been staring at the same fragments for too long.
+Unknown: Maybe you'll notice something I haven't.
+
+Unknown: There might be another way to look into this.
+Unknown: Something more useful than exchanging theories over messages.
+
+DECISION S04-C08 [Select, then Send]
+A. What do you have in mind?
+B. Do you have something I can actually examine?
+C. I'm still not sure I can trust you.
+If A:
+Unknown: A recovery tool.
+Unknown: I've been using it to work with incomplete digital records.
+If B:
+Unknown: Yes.
+Unknown: But some of the data isn't readable in its current state.
+If C:
+Unknown: That's understandable.
+Unknown: I'm not asking you to take my word for anything.
+Unknown: I'd rather let you look for yourself.
+
+Unknown: It's called TRACE.
+Unknown: It was designed to recover fragments from damaged or encrypted archives.
+Unknown: Messages. Notes. Activity records.
+Unknown: Whatever can still be recovered.
+
+DECISION S04-C09 [Select, then Send]
+A. What exactly would TRACE recover?
+B. Did you develop TRACE yourself?
+C. You're asking me to install something from an anonymous number?
+If A:
+Unknown: Parts of a digital archive.
+Unknown: If the data is still there, TRACE might be able to reconstruct it.
+Unknown: Not everything, though.
+If B:
+Unknown: I've worked with it for a while.
+Unknown: Long enough to know its limitations.
+If C:
+Unknown: I know.
+Unknown: Not exactly a convincing sales pitch, is it?
+Unknown: You can look at what it does before you decide.
+
+Unknown: I have access to an encrypted archive associated with Daniel's phone.
+Unknown: I've only been able to make sense of parts of it.
+Unknown: If you're willing, we could work through the remaining data together.
+Unknown: TRACE comes first.
+Unknown: Then we can see whether the archive is recoverable.
+[TRACE — DATA RECOVERY INTERFACE. Status: Not connected. Recovery: 0%. Source: Not loaded. VIEW TRACE opens the preview only.]
+
+DECISION S04-C10 [Select, then Send]
+A. Okay. Send me TRACE.
+B. I need some time to think about this.
+C. I'm not comfortable installing something from you.
+If A:
+Unknown: Alright.
+Unknown: I'll make it available.
+Unknown: Let me know when it's ready.
+Unknown: Actually...
+Unknown: One more thing.
+Unknown: If something in the recovered data doesn't make sense, don't ignore it.
+Unknown: Even if everything around it looks normal.
+Unknown: Sometimes that's the part that matters.
+If B:
+Unknown: Fair enough.
+Unknown: Take your time.
+Unknown: I'll be here when you've decided.
+If C:
+Unknown: I understand.
+Unknown: I'd probably have my doubts too.
+Unknown: If you change your mind, you know how to reach me.
+
+[If deferred or declined, the player can explicitly Send: I've thought about it. Send me TRACE. Use S04-C10 A's response. INSTALL TRACE appears only after acceptance. No archive is delivered during the preview or install.]
+Add independent incoming messages from Lucas and Ana while this conversation is active.
+
+Do not interrupt the Unknown thread or automatically change applications.
+Thread B — Lucas makes contact
+Trigger after the player receives Unknown's first message and before or during the TRACE introduction.
+
+Lucas: Hey.
+
+Lucas: Got a minute?
+Player choice S04-L01
+A. I didn't expect to hear from you.
+B. Sure. Everything okay?
+C. Depends. Are you going to interrogate me again?
+
+A — Lucas: Yeah. I figured you might say that.
+
+B — Lucas: Nothing's happened. I just wanted to talk.
+
+C — Lucas: No. I probably deserved that, though.
+Common continuation
+Lucas: About earlier.
+
+Lucas: In the group.
+
+Lucas: I shouldn't have spoken to you like that.
+
+Lucas: You didn't do anything to deserve it.
+Player choice S04-L02
+A. I appreciate the apology.
+B. I understand why you were suspicious.
+C. You were pretty unfair to Sophie too.
+
+A — Lucas:
+
+Thanks.
+
+I'm not very good at this sort of thing.
+
+B — Lucas:
+
+I still think we need to be careful.
+
+But that doesn't mean I needed to be an idiot about it.
+
+C — Lucas:
+
+I know.
+
+I messaged her too.
+
+We're not exactly on speaking terms yet, but I'm trying.
+Common continuation
+Lucas: Daniel's my best friend.
+
+Lucas: He's been in my life for so long that I don't really know what it looks like without him.
+
+Lucas: We used to live a few streets apart.
+
+Lucas: Spent most of our childhood annoying each other's parents.
+Player choice S04-L03
+A. What kind of trouble did you get into?
+B. You sound like brothers.
+C. I can see why you're so protective of him.
+
+A — Lucas:
+
+Nothing criminal.
+
+Although there was an incident involving a shopping trolley.
+
+And a very angry neighbour.
+
+B — Lucas:
+
+Pretty much.
+
+We argued like brothers too.
+
+C — Lucas:
+
+Yeah.
+
+He's done the same for me more times than I can remember.
+Common continuation
+Lucas: Wait.
+
+Lucas: I've got a picture somewhere.
+
+Lucas briefly stops typing, searches his gallery and resumes.
+
+Lucas: Found it.
+
+Lucas sends the existing candid photograph of himself and Daniel.
+
+Lucas: This was supposed to be a productive afternoon.
+
+Lucas: We accomplished absolutely nothing.
+
+Lucas: Had a decent lunch, though.
+Player choice S04-L04
+A. You two look like you were having a good time.
+B. Which one of you was the bad influence?
+C. Thank you for showing me this.
+
+A — Lucas: We were. We usually did.
+
+B — Lucas: Him. Obviously. Don't ask Sophie.
+
+C — Lucas: No problem. I thought you should see him as a person, not just a name.
+Common continuation
+Lucas: I keep looking at old pictures lately.
+
+Lucas: It's strange.
+
+Lucas: You've probably seen more of his files than you have of him.
+
+Lucas: I don't like that.
+Player choice S04-L05
+A. I want to understand who he is, not just what happened.
+B. You're a good friend, Lucas.
+C. We don't have to talk about the investigation.
+
+A — Lucas: Good. He deserves that.
+
+B — Lucas: I don't know about that. But I try.
+
+C — Lucas: Honestly, that would be nice.
+Common continuation
+Lucas: Do you play games, by the way?
+Player choice S04-L06
+A. Quite a lot, actually.
+B. Occasionally.
+C. Not really my thing.
+
+A — Lucas:
+
+Daniel and I used to play together.
+
+He blamed the controller whenever he lost.
+
+B — Lucas:
+
+Probably healthier than the amount of time I used to spend on them.
+
+C — Lucas:
+
+Fair enough.
+
+You've saved yourself a considerable amount of unnecessary frustration.
+Common continuation
+Lucas: Anyway.
+
+Lucas: I'll leave you to whatever you were doing.
+
+Lucas: And...
+
+Lucas: Thanks for hearing me out.
+
+Lucas: I'm glad we talked.
+
+Lucas does not rejoin the group yet.
+
+Do not ask him to share Daniel's private messages.
+
+Do not reveal the second encrypted backup.
+
+Thread C — Ana's first private conversation
+Ana: Hi.
+
+Ana: It's Ana.
+
+Ana: The one who tried and failed to keep everyone civil earlier.
+Player choice S04-A01
+A. I think you did a pretty good job.
+B. You seemed like the sensible one.
+C. Somehow I don't think anyone could've stopped that argument.
+
+A — Ana: Generous assessment.
+
+B — Ana: Don't let Noah hear you say that.
+
+C — Ana: Probably true.
+Common continuation
+Ana: I'm heading home.
+
+Ana: Thought I'd say hello while I've got a few minutes.
+
+Ana: You're probably getting a lot of messages from people you barely know.
+Player choice S04-A02
+A. It's definitely been an interesting day.
+B. I don't mind talking to you.
+C. I'm beginning to lose track of my conversations.
+
+A — Ana: Interesting is one word for it.
+
+B — Ana: Good. I was hoping I wasn't adding to the chaos.
+
+C — Ana: Welcome to the group.
+Common continuation
+Ana: Do you like walking?
+Player choice S04-A03
+A. Yeah. Especially somewhere quiet.
+B. Depends on the weather.
+C. I'd rather stay home.
+
+A — Ana: Same. Everything feels less complicated when I'm outside.
+
+B — Ana: You'd struggle here. Greyhaven's weather has a personal grudge against everyone.
+
+C — Ana: Fair. A good sofa is a strong argument.
+Common continuation
+Ana: There's a place I usually stop on the way home.
+
+Ana: I'll show you next time I'm there.
+
+Ana: For now, I should probably pay attention to where I'm walking.
+
+Ana: Talk later?
+Player choice S04-A04
+A. Sure. Get home safely.
+B. Looking forward to the photo.
+C. Talk later, Ana.
+
+[New V6 branch reactions.]
+A — Ana: I will. It's a short walk from here.
+B — Ana: I'll try to catch it before the light goes.
+C — Ana: Talk later. Thanks for the company.
+
+Ana: 😊
+
+End this conversation segment.
+
+Ana will initiate her follow-up in Scene 5.
+
+════════════════════════════════════════════════════════════════════
+SCENE 05 — THE DIGITAL ARCHIVE
+════════════════════════════════════════════════════════════════════
+
+Thread A — Unknown and TRACE [Main]
+
+DECISION S05-C01 [Select, then Send]
+A. It's installed.
+
+Unknown: Good.
+Unknown: I'm going to send you something now.
+Unknown: It's encrypted.
+Unknown: Don't expect everything to be readable.
+Unknown: It's a copy of an encrypted archive from Daniel's phone.
+Unknown: Not the phone itself. And not a complete backup.
+Unknown: I've tried opening it. I haven't been able to get very far.
+
+DECISION S05-C02 [Select, then Send]
+A. Where did you get Daniel's archive?
+B. You've had this all along?
+C. What exactly is inside it?
+If A:
+Unknown: I got access to a copy after he disappeared. I can't verify every step it passed through before it reached me.
+If B:
+Unknown: I've been trying to make sense of it. Sending you a file I couldn't even read wasn't my first choice.
+If C:
+Unknown: I can't give you a complete list. That's part of the problem. The archive index is damaged.
+
+Unknown: There may still be messages, notes and activity records in there.
+Unknown: Enough to tell us something. Maybe.
+
+DECISION S05-C03 [Select, then Send]
+A. How do we know this really came from Daniel?
+B. What if someone changed the file?
+C. If it could help find him, we should try.
+If A:
+Unknown: We don't know for certain. Some details match what I know, but that isn't proof of authenticity.
+If B:
+Unknown: That's possible. Which is why I don't want either of us treating this as unquestionable evidence.
+If C:
+Unknown: I think so too. But wanting an answer doesn't make the data reliable.
+
+Unknown: TRACE will work on a local copy.
+Unknown: Accepting the transfer won't alter the original archive.
+Unknown: And you decide when to start recovery.
+Unknown: All right. I'm sending the file.
+Unknown: Look at the details before you decide.
+
+DECISION S05-C04 [Select, then Send]
+A. I want to check the file details first.
+B. All right. I'll consider accepting it.
+C. I don't know if I should take a file from you.
+If A:
+Unknown: Good. Check what TRACE can tell you. It won't tell us everything, but it's a start.
+If B:
+Unknown: Make that decision yourself. Don't let me talk you into it.
+If C:
+Unknown: Then don't accept it yet. The request can stay there while you think.
+
+Unknown: I'm not asking you to trust the sender.
+Unknown: I'm asking you to examine what we can verify.
+[Attachment: DNL_PHONE_ARCHIVE.arc. Show the transfer request once. The player chooses ACCEPT TRANSFER, then waits for the local import.]
+Unknown: Okay. You have the file.
+Unknown: That doesn't mean we can read it yet.
+
+DECISION S05-C05 [Select, then Send]
+A. Can TRACE recover Daniel's messages?
+B. What happens if the file is damaged?
+C. How much of the phone do you expect to recover?
+If A:
+Unknown: That's what I'm hoping for. Even one conversation could tell us where to look next.
+If B:
+Unknown: We might get fragments. Or nothing useful at all. Damaged doesn't always mean completely unreadable.
+If C:
+Unknown: I don't know. I wouldn't even give you a percentage until we've tried.
+
+Unknown: Whatever comes back, remember we're looking at a copy.
+Unknown: Missing information doesn't mean nothing happened.
+
+DECISION S05-C06 [Select, then Send]
+A. Let's start the recovery.
+B. Is there a risk of losing the data?
+C. Will I be able to see the results myself?
+If A:
+Unknown: Open the file in TRACE. You'll see the option to start.
+If B:
+Unknown: TRACE is working on the accepted local copy. It won't rewrite the original file.
+If C:
+Unknown: Yes. Whatever survives will appear in the recovered sections.
+
+Unknown: I'll stay here.
+Unknown: Tell me what happens.
+[Player opens TRACE and starts recovery. Stop at 20% and acknowledge OPEN RECOVERED DATA. Messages, Notes and partial activity remain available.]
+Unknown: Something happened?
+Unknown: You're back sooner than I expected.
+
+DECISION S05-C07 [Select, then Send]
+A. It stopped at twenty percent.
+B. Recovery failed. I couldn't get the whole archive.
+C. Why would it stop so early?
+If A:
+Unknown: Twenty percent? That's further than I got.
+If B:
+Unknown: Not completely. If you've got readable fragments, we still have something to work with.
+If C:
+Unknown: Could be damage, encryption or something missing from the copy. I can't tell you which.
+
+Unknown: I know it's frustrating.
+Unknown: But don't dismiss what survived.
+Unknown: What can you open?
+
+DECISION S05-C08 [Select, then Send]
+A. Messages, Notes and Activity Logs.
+B. Only three sections. The rest is locked.
+C. I can open some data, but I don't know what any of it means yet.
+If A:
+Unknown: That's good. Messages will tell us what Daniel was saying. Notes might tell us what he wasn't saying.
+If B:
+Unknown: Three sections are more than we had yesterday.
+If C:
+Unknown: That's fine. Read first. You don't have to solve anything immediately.
+
+Unknown: Don't look for a dramatic confession.
+Unknown: Look for things that don't quite fit.
+
+DECISION S05-C09 [Select, then Send]
+A. Should I start with his conversations?
+B. What if everything looks ordinary?
+C. Do you think Daniel knew he was in danger?
+If A:
+Unknown: That's where I'd start. Pay attention to what people were expecting him to do.
+If B:
+Unknown: Ordinary details can matter. Especially when someone's routine suddenly changes.
+If C:
+Unknown: I don't know. And I don't want to make you think we have proof of something we don't.
+
+Unknown: Read what survived.
+Unknown: Then we can compare it with what Sophie has already told you.
+
+DECISION S05-C10 [Select, then Send]
+A. I'll go through the recovered conversations.
+B. I want to find out what Daniel was hiding.
+C. I'll look through it. But I'm still not sure about you.
+If A:
+Unknown: Take your time. I want to know what stands out to you, not just what the file says.
+If B:
+Unknown: Then start with the people closest to him. They may have noticed things he never explained.
+If C:
+Unknown: Fair enough. You can question me and still examine the evidence.
+
+Unknown: Tell me when you've found something worth talking about.
+Unknown: I'll be here.
+During recovery, other private chats remain available.
+Thread B — Ana continues her conversation
+Ana: Remember that place I mentioned earlier?
+
+Ana: I'm here.
+
+[Ana sends a portrait of herself at Greyhaven's waterfront at dusk. /media/chat/v6/ana-waterfront.webp]
+
+Ana: Not particularly exciting.
+
+Ana: But I like it.
+Player choice S05-A01
+A. That's beautiful.
+B. Looks like a nice place to clear your head.
+C. Do you usually take photos down there?
+
+A — Ana: It looks even better when it's not freezing.
+
+B — Ana: Exactly why I come here.
+
+C — Ana: All the time. I take way too many photos.
+Common continuation
+Ana: I have about three thousand pictures on my phone.
+
+Ana: Half of them are the same waterfront.
+
+Ana: The other half are things I thought looked interesting for approximately ten seconds.
+Player choice S05-A02
+A. You sound like a photographer.
+B. That's basically my camera roll too.
+C. What's the strangest thing you've photographed?
+
+A — Ana: A very unprofessional one.
+
+B — Ana: Good. I'm not alone.
+
+C — Ana: A pigeon sitting on a sign that said "No Loitering". I was very pleased with myself.
+Common continuation
+Ana: What do you do when you need to switch off?
+Player choice S05-A03
+A. Listen to music.
+B. Watch something or play games.
+C. Go somewhere quiet.
+
+A — Ana: Good choice. Music makes almost anything more tolerable.
+
+B — Ana: Sensible. Occasionally ignoring the world is necessary.
+
+C — Ana: Then you'd probably like it here.
+Common continuation
+Ana: Anyway.
+
+Ana: It's getting cold.
+
+Ana: I think I've romanticised the evening enough.
+
+Ana: I'll message you again sometime.
+
+End social thread.
+
+The photograph remains in Ana's chat and the ordinary photo gallery.
+
+Do not automatically add it to TRACE or Investigation Board.
+Thread C — Noah's evening
+Noah: I have made a terrible decision.
+Player choice S05-N01
+A. What did you do?
+B. This sounds promising.
+C. Should I call someone?
+
+A — Noah: Ordered food.
+
+B — Noah: It really isn't.
+
+C — Noah: Only if they're bringing more food.
+Common continuation
+Noah: I thought I was ordering a meal for one.
+
+Noah: Apparently I ordered enough for a small family.
+
+[Noah sends a photo of his takeaway spread. /media/chat/v6/noah-takeaway.webp]
+
+Noah: Send help.
+Player choice S05-N02
+A. That looks like a good problem to have.
+B. Invite someone over.
+C. Finish it. I believe in you.
+
+A — Noah: You understand me.
+
+B — Noah: Ana would judge me. Eli would steal the best part.
+
+C — Noah: Finally, the moral support I needed.
+Common continuation
+Noah: Daniel used to do this all the time.
+
+Noah: Except he claimed it was intentional.
+
+Short pause.
+
+Noah: Sorry.
+
+Noah: Everything keeps reminding me of him.
+Player choice S05-N03
+A. You don't have to apologise for talking about him.
+B. He sounds a lot like you.
+C. We can talk about something else if you'd rather.
+
+A — Noah: Thanks. I appreciate that.
+
+B — Noah: I'm choosing to take that as a compliment.
+
+C — Noah: Yeah. Maybe for tonight.
+Common continuation
+Noah: Right.
+
+Noah: Time to do battle with this mountain of food.
+
+Noah: If I don't respond, assume I've fallen asleep.
+
+════════════════════════════════════════════════════════════════════
+SCENE 06 — THE MISSING HOUR
+════════════════════════════════════════════════════════════════════
+
+Main thread — Unknown
+[Recovered discussions are individually selectable. Remove completed topics. Activity Logs show the 19:00–20:00 gap. None of these texts authenticates who used the phone.]
+
+[Discuss: Maya's recovered dinner conversation.]
+
+DECISION S06-C01 [Select, then Send]
+A. Maya sent him a picture of the dinner she'd made.
+B. Daniel was supposed to have dinner with Maya that night.
+C. Everything looks normal until Daniel starts making excuses.
+If A:
+Unknown: She'd already cooked for him.
+Unknown: Looks like she was expecting a quiet evening together.
+If B:
+Unknown: So he had somewhere he was expected to be.
+Unknown: And someone who would notice if he didn't show up.
+If C:
+Unknown: That's what makes it interesting.
+Unknown: Nothing unusual about the dinner. It's his answer that stands out.
+
+Unknown: She asked when he'd be home.
+Unknown: He told her he was caught up with something.
+Unknown: That sounds harmless enough. Until you read what she said next.
+
+DECISION S06-C02 [Select, then Send]
+A. She said it was the third time that week.
+B. Daniel was hiding something from her.
+C. Maybe he really was busy with work.
+If A:
+Unknown: Three times in one week.
+Unknown: So this wasn't an isolated evening.
+If B:
+Unknown: Maybe. But we don't know what he was hiding, or whether it had anything to do with his disappearance.
+If C:
+Unknown: He could have been.
+Unknown: But Maya clearly thought something had changed.
+
+Unknown: Whatever had Daniel's attention, it was affecting his normal life.
+Unknown: Maya noticed it before he disappeared.
+Unknown: And she wasn't the only one.
+
+[Discuss: Sophie's recovered conversation.]
+
+DECISION S06-C03 [Select, then Send]
+A. Sophie asked if Daniel was okay.
+B. She seemed genuinely worried about him.
+C. Some of their conversation is missing.
+If A:
+Unknown: That's not usually a question you ask for no reason.
+Unknown: Something must have made her worry.
+If B:
+Unknown: She's his younger sister.
+Unknown: She probably noticed things other people wouldn't.
+If C:
+Unknown: Then we can't assume the surviving messages tell the whole story.
+Unknown: Whatever's missing could change the context.
+
+Unknown: He told her he was fine.
+Unknown: Maybe he believed it.
+Unknown: Or maybe he just didn't want her asking any more questions.
+
+DECISION S06-C04 [Select, then Send]
+A. Maybe he was trying to protect Sophie.
+B. He wasn't telling her the truth.
+C. I should ask Sophie what she remembers.
+If A:
+Unknown: That's possible.
+Unknown: People sometimes keep things to themselves because they think it protects someone they care about.
+If B:
+Unknown: Perhaps. But we still don't know what he was keeping from her.
+If C:
+Unknown: That's worth doing.
+Unknown: She might remember what was happening around the time of those messages.
+
+Unknown: For now, we know Sophie noticed a change.
+Unknown: Maya noticed it too.
+Unknown: Two people close to Daniel were worried before he disappeared.
+
+[Discuss: Lucas's recovered conversation.]
+
+DECISION S06-C05 [Select, then Send]
+A. Lucas offered to help Daniel with something.
+B. Daniel told Lucas 'not yet'.
+C. Lucas sounded like he already knew something was happening.
+If A:
+Unknown: Then Lucas must have had some reason to think Daniel needed help.
+If B:
+Unknown: Not yet.
+Unknown: That's a strange answer if there's nothing going on.
+If C:
+Unknown: Possibly.
+Unknown: At least there was something between them that didn't need explaining.
+
+Unknown: Daniel didn't tell Lucas to forget about it.
+Unknown: He didn't say there was no problem.
+Unknown: He said 'not yet'.
+
+DECISION S06-C06 [Select, then Send]
+A. Why wouldn't Daniel accept help from his best friend?
+B. Lucas might know more than he's telling us.
+C. We should ask Lucas about that conversation.
+If A:
+Unknown: Maybe he thought he could handle things himself.
+Unknown: Or maybe he didn't want Lucas getting involved.
+If B:
+Unknown: He might.
+Unknown: But we shouldn't confuse an offer to help with proof he knew everything.
+If C:
+Unknown: I agree.
+Unknown: Just make sure we ask about the conversation, not about a conclusion we've already decided on.
+
+Unknown: Lucas may be able to tell us what Daniel was dealing with.
+Unknown: But we have to let him answer that himself.
+Unknown: Keep this message. I think it's worth coming back to.
+
+[Discuss: June-related note.]
+
+DECISION S06-C07 [Select, then Send]
+A. There's a note telling Daniel to ask June about a copy.
+B. Do you know anyone called June?
+C. Most of Daniel's notes are ordinary. But this one mentions a copy.
+If A:
+Unknown: Ask June about a copy?
+Unknown: That's all that survived?
+If B:
+Unknown: June...
+Unknown: Does the note say anything else?
+If C:
+Unknown: A copy of what?
+Unknown: Did he write anything else?
+
+Unknown: Wait.
+Unknown: June Ellis?
+Unknown: Is that who the note is referring to?
+
+DECISION S06-C08 [Select, then Send]
+A. I never said Ellis. How did you know her last name?
+B. You know June Ellis?
+C. What aren't you telling me about Daniel?
+If A:
+Unknown: You're right. You didn't.
+Unknown: I should've explained why I recognized the name.
+If B:
+Unknown: I know the name.
+Unknown: Daniel mentioned her before he disappeared.
+If C:
+Unknown: Daniel had been asking questions about June Ellis.
+Unknown: That's why I recognized it.
+
+Unknown: He was trying to check something.
+Unknown: I knew her name came up. I didn't know this note was on his phone.
+Unknown: And I don't know what that copy refers to.
+Unknown: I should have told you I recognized the name.
+Unknown: But I didn't want to send you chasing a connection I couldn't confirm.
+Unknown: Keep that note.
+Unknown: If Daniel thought June could help him verify something, we need to find out what.
+Unknown: Just don't assume he ever got the copy.
+Unknown: We've gone through quite a lot.
+Unknown: Something still doesn't feel right.
+Unknown: Is there anything else that doesn't add up?
+Unknown: All right.
+Unknown: Let me know what you find.
+
+[Open Activity Logs and select DISCUSS WITH UNKNOWN to start this exchange.]
+
+DECISION S06-C09 [Select, then Send]
+A. There's a gap in Daniel's activity logs. Between the last file access and the backup.
+B. Something's wrong with the activity logs. There's a period TRACE can't account for.
+C. These timestamps don't line up. We don't know what happened between them.
+If A:
+If B:
+If C:
+
+Unknown: A gap?
+Unknown: Between which entries?
+Unknown: The last recorded file access and the backup?
+Unknown: That's strange.
+Unknown: It doesn't mean nothing happened during that time.
+Unknown: It means we don't have a record of what happened.
+
+DECISION S06-C10 [Select, then Send]
+A. Could something have been deleted?
+B. Could TRACE have missed that data?
+C. Or was the phone being used without leaving a record?
+If A:
+If B:
+If C:
+
+Unknown: Any of those could be possible.
+Unknown: But we don't have enough to say which.
+Unknown: What matters is that we have an entire stretch of time we can't account for.
+Unknown: And it happens right where Daniel's trail starts falling apart.
+Unknown: Keep that hour on the board.
+Unknown: Ask Sophie when you are ready. I will keep your timeline private.
+Thread B — Same Old Chaos social check-in
+Noah: Is everyone alive?
+
+Ana: Define alive.
+
+Noah: Conscious enough to answer messages.
+
+Eli: Barely.
+
+Noah: Excellent. Three of us.
+
+Sophie: I'm here.
+
+Maya: Me too.
+
+Noah: Five.
+
+Noah: That's practically a successful meeting.
+
+Ana: Please don't turn this into a meeting.
+Optional player reply S06-G01
+A. Attendance taken. Can we go home now?
+B. I'm here too.
+C. How's everyone doing?
+
+A — Noah: Meeting adjourned.
+
+B — Noah: SIX. Incredible scenes.
+
+C — Maya: Getting through the day. I think that's enough for now.
+Common continuation
+Eli: I'm making coffee.
+
+Ana: Again?
+
+Eli: I have no intention of discussing my habits with this group.
+
+Noah: Screenshotted.
+
+Eli: Delete that.
+
+Noah: No.
+
+Sophie: 😂
+
+Maya: It feels strange seeing the group like this.
+
+Sophie: Yeah.
+
+Natural silence.
+
+Ana: We're still here.
+
+Ana: Even if things are different right now.
+
+No member is added or removed.
+
+Lucas remains outside the group until Scene 7.
+Thread C — Eli checks in privately
+Eli: Hey.
+
+Eli: Surviving the group chat?
+Player choice S06-E01
+A. Barely. Noah is a lot.
+B. I think I'm getting used to everyone.
+C. It's actually nice having people to talk to.
+
+A — Eli: That's the usual experience.
+
+B — Eli: Give it another week. You'll regret saying that.
+
+C — Eli: Yeah. I feel the same way sometimes.
+Common continuation
+[Eli sends a café selfie with her coffee. /media/chat/v6/eli-cafe.webp]
+
+Eli: Finally escaped the office.
+
+Eli: I think I've earned this.
+Player choice S06-E02
+A. You should. Everyone needs a break.
+B. What's your idea of doing nothing?
+C. I hope tomorrow is better.
+
+A — Eli: That is precisely the plan.
+
+B — Eli: Something to eat. A film I won't finish. Falling asleep halfway through it.
+
+C — Eli: Me too.
+Common continuation
+Eli: Anyway.
+
+Eli: Thanks for being patient with everyone.
+
+Eli: It's good to have someone new around.
+
+Do not let Eli mention the Missing Hour unless the player explicitly shared it in the group.
+
+Unknown's technical discoveries are not automatically disclosed through Eli's public persona.
+
+════════════════════════════════════════════════════════════════════
+SCENE 07 — SOPHIE'S CALL
+════════════════════════════════════════════════════════════════════
+
+Part A — Sophie private messages
+After the Missing Hour discussion completes, Sophie sends a new message.
+
+Do not display artificial Later or presence banners.
+
+Sophie: Hey.
+
+Sophie: Are you around?
+Player choice S07-S01
+A. I'm here.
+B. What's happened?
+C. Is everything okay?
+
+[New V6 branch reactions.]
+A — Sophie: Thanks. I was hoping you were still up.
+B — Sophie: Nothing new with Daniel. It's the file again.
+C — Sophie: I'm all right. Just a bit shaken.
+
+
+Sophie: Yeah.
+
+Sophie: Well, sort of.
+
+Sophie: There's something I've been looking at again.
+
+Sophie: I think it'd be easier to explain over the phone.
+
+Sophie: Can I call you?
+
+Preserve the existing call interaction and approved audio.
+
+The player must send a reply before the incoming call becomes available.
+
+Keep the existing subtitles synchronized with the recording.
+
+Do not rewrite spoken lines without corresponding replacement audio.
+[Scene 7 recorded call. Manual Answer after the sent reply.]
+[Call clip 01]
+Sophie: Hey, it's Sophie. Have you got a minute? It's about the starred number Lucas brought up in the group. I know we already talked about it, but I went through Daniel's contact export again. There's something I missed.
+
+DECISION S07-CALL-01 [Select, then Send]
+A. Of course, Sophie. I'm listening. What did you notice?
+B. What made you look through the contact export again?
+C. We can talk about it, but let's keep the personal details private.
+
+[Call clip 02]
+Sophie: I kept thinking about how that conversation ended. Lucas was upset that I'd invited someone none of us knew, and I couldn't really explain why your number was there. So I went back to the file. This time, I opened the actual contact entry instead of just looking at the list.
+
+DECISION S07-CALL-02 [Select, then Send]
+A. That argument was difficult. I'm glad you took another look.
+B. What did you see when you opened the entry itself?
+C. Let's separate what the file shows from what anyone thinks it means.
+
+[Call clip 03]
+Sophie: There's a field under the number called Remarks. I didn't see it the first time because it only appears when you open the entry. Most of the contacts have nothing written there. But the starred one, it has something.
+
+DECISION S07-CALL-03 [Select, then Send]
+A. I can see why a note on that entry would bother you.
+B. What does the Remarks field actually contain?
+C. A field being filled in doesn't tell us who entered it.
+
+[Call clip 04]
+Sophie: The problem is, I can't read it properly. A few letters show up, then gaps, and these little square symbols. It's not even a complete sentence. I tried looking at it again, but I still can't make sense of it. I don't want to pretend I know what it says.
+
+DECISION S07-CALL-04 [Select, then Send]
+A. You don't have to figure out the damaged text on your own.
+B. Does the rest of the entry display correctly?
+C. We shouldn't guess at missing words or turn them into a warning.
+
+[Call clip 05]
+Sophie: The number itself is clear, though. I checked it against the one I used to message you, and it matches. We already knew about the star. That's what Lucas noticed. What's new is this damaged remark beside it. I just don't know if the two things mean anything together.
+
+DECISION S07-CALL-05 [Select, then Send]
+A. Finding my number there again must feel unsettling.
+B. Do you know where that particular copy came from?
+C. Please keep the number masked if you show anyone the entry.
+
+[Call clip 06]
+Sophie: I found this copy in the family folder Daniel shared with me, but I don't know who originally exported it, or whether anyone changed it afterward. The file shows some dates, but I don't know if they're from the original contacts or just from when someone copied it. I wish I could be more certain.
+
+DECISION S07-CALL-06 [Select, then Send]
+A. It's okay not to have all the answers, Sophie.
+B. We may need to compare the file with a more reliable source.
+C. Then we can't assume this is Daniel's untouched original.
+
+[Call clip 07]
+Sophie: Daniel used to make little notes for everything. Lists, reminders, even reminders to check his other reminders. I'd tease him about it, and he'd say, “There's a system, Soph. You just don't understand it.” I miss that. But just because he liked making notes doesn't prove he wrote this one.
+
+DECISION S07-CALL-07 [Select, then Send]
+A. I can hear how much you miss those moments with him.
+B. His habits are useful context, but they don't identify the writer.
+C. You're right. Familiar habits aren't proof of authorship.
+
+[Call clip 08]
+Sophie: There's something I want to say. When I first found your number, I thought maybe you were someone Daniel knew. I was so worried about him that I didn't stop to think how strange my message must have been for you. I'm sorry I put you in that position. And I do believe you when you say you didn't know my brother.
+
+DECISION S07-CALL-08 [Select, then Send]
+A. You were worried about your brother. I understand.
+B. Let's find out how the entry got into that copy.
+C. Thank you. I want to help, but I still need my privacy respected.
+
+[Call clip 09]
+Sophie: I haven't sent this whole file to the group. Maya has enough on her mind. And Lucas, well, you saw how that ended. He wasn't wrong to worry about privacy. There are other people's numbers in here, and I don't want to expose them just because I'm desperate for answers.
+
+DECISION S07-CALL-09 [Select, then Send]
+A. I know you don't want to upset anyone else.
+B. We can inspect the unusual entry without sharing the whole list.
+C. Agreed. Maya and Lucas don't need everyone else's contact details.
+
+[Call clip 10]
+Sophie: If you're comfortable, I can make the export available to you privately after this call. You could look at the starred entry yourself and see what the file actually shows. We can keep the other contacts masked in the viewer. And if you'd rather not look at it right now, that's okay too.
+
+DECISION S07-CALL-10 [Select, then Send]
+A. Yes. Make the limited copy available privately. I'll take a look.
+B. Send the copy privately, including any available file metadata. I'll inspect it carefully.
+C. I'd rather hold off for now. Please keep the file private until I ask for it.
+
+[Call clip 11]
+Sophie: I still have some of Daniel's old paper folders to go through. I haven't checked those properly yet. Whatever you decide, I won't share the whole contact list with the group. I'll keep the copy safe. You can look when you're ready, and if you notice anything, we can talk about it without jumping to conclusions. I'll keep looking through Daniel's things too. Maybe there's something we've both missed. Thank you for listening. Really. Talk soon. Bye.
+[Call ends.]
+
+Part B — After the call
+Sophie: Thank you.
+
+Sophie: I know that was a lot.
+
+Sophie: I'll send you the copy I was talking about.
+
+Attachment: Daniel_Contacts_Export.
+
+The player opens the attachment in its document viewer.
+
+The damaged section is visually corrupted.
+
+TRACE analysis is optional and applies only to the damaged fragment.
+
+Sophie: Did you manage to open it?
+Player choice S07-S02
+A. I can see the number, but the remarks are damaged.
+B. Some of it is readable. Not everything.
+C. I can open it, but I don't know what to make of the damaged part.
+
+[New V6 branch reactions.]
+A — Sophie: The number was the easy part for me too.
+B — Sophie: I can read most of the other entries.
+C — Sophie: You don't have to guess what it says.
+
+
+Sophie: Same here.
+
+Sophie: I wish the whole thing was readable.
+Common continuation
+Sophie: I've been thinking about the group too.
+
+Sophie: I spoke to Lucas earlier.
+
+Sophie: He apologised.
+
+Sophie: And I think we both said things we didn't mean.
+
+Sophie: I'm going to ask if he wants to come back.
+Player choice S07-S03
+A. I think that would be good for everyone.
+B. Hopefully things will be calmer this time.
+C. It's good that you two are talking again.
+
+[New V6 branch reactions.]
+A — Sophie: I hope so. I'd rather ask him than keep putting it off.
+B — Sophie: It might still be awkward for a while.
+C — Sophie: Me too. I'd forgotten how tiring it was not talking to him.
+
+
+Sophie: Yeah.
+
+Sophie: I miss having him around.
+
+Sophie: It doesn't feel right without him.
+
+Sophie: I'll ask him.
+
+Do not make Lucas's return dependent on the player's chosen response.
+
+Sophie initiates the invitation as an authored NPC decision.
+Part C — Back to Same Old Chaos
+Deliver a group notification.
+
+The player manually opens the group.
+
+Sophie: Guys?
+
+Noah: Present.
+
+Ana: What's up?
+
+Sophie: I spoke to Lucas.
+
+Maya: How did it go?
+
+Sophie: Better than I expected.
+
+Sophie: He said he doesn't mind coming back.
+
+Noah: WAIT.
+
+Noah: Our sunshine returns?
+
+Ana: Noah, behave.
+
+System: Sophie added Lucas to the group.
+
+Membership increases from 7 to 8.
+
+Lucas: Hi.
+
+Noah: HE LIVES.
+
+Lucas: Unfortunately for you.
+
+Noah: I've missed this.
+
+Eli: Welcome back.
+
+Maya: Glad you're here.
+
+Ana: Same.
+
+Sophie: ❤️
+Player choice S07-G01
+A. Welcome back, Lucas.
+B. Nice to see the group together again.
+C. Noah, try not to scare him off this time.
+
+A — Lucas: Thanks.
+
+B — Maya: Yeah. It feels a little more normal.
+
+C — Noah: I make no promises.
+Common continuation
+Lucas: Before anyone says anything...
+
+Lucas: Sorry about earlier.
+
+Lucas: All of you.
+
+Maya: It's okay.
+
+Lucas: I know I haven't made things easy.
+
+Ana: None of us has.
+
+Eli: Let's just start again.
+
+Noah: Group reset.
+
+Noah: Nobody gets banned for at least twenty-four hours.
+
+Lucas: I'm already reconsidering.
+
+Sophie: LUCAS 😂
+Part D — Group discussion about Contact Export
+Sophie: Okay.
+
+Sophie: There is something I wanted to talk about.
+
+Sophie: That contact export I found.
+
+Lucas: The one with the number?
+
+Sophie: Yeah.
+
+Sophie: I've sent a copy privately.
+
+Sophie: I'm not going to post the whole file here.
+
+Sophie: There are other people's contact details in it.
+
+Ana: Fair enough.
+
+Maya: We don't need to see all of that.
+
+Eli: What part are you worried about?
+
+Sophie: There's a damaged remark beside the starred entry.
+
+Sophie: I can't read it properly.
+
+Noah: Like a note someone left?
+
+Sophie: Possibly.
+
+Sophie: I don't know.
+Player choice S07-G02
+A. The number is visible. The damaged part doesn't tell us much yet.
+B. We don't know who created the entry or who marked it.
+C. The remark might matter, but we shouldn't guess what it says.
+
+A — Ana: Then that's as far as we can go for now.
+
+B — Lucas: Exactly. We need to keep those questions separate.
+
+C — Eli: Agreed. An unreadable line could say anything.
+Common continuation
+Maya: Wait.
+
+Maya: Speaking of old files...
+
+Maya: There was something I meant to show you all.
+
+Lucas: What is it?
+
+Maya: A message from Daniel.
+
+Maya: I didn't think much of it at the time.
+
+Maya: But I think it might be worth looking at again.
+
+End Scene 7.
+
+Scene 8 continues in the same group chat without forcing the player into Maya's private thread.
+
+════════════════════════════════════════════════════════════════════
+SCENE 08 — MAYA'S LAST CHECK-IN
+════════════════════════════════════════════════════════════════════
+
+Main conversation — Same Old Chaos
+Sophie: What did you find?
+
+Maya: I was looking through some old messages.
+
+Maya: Mostly ordinary things.
+
+Maya: Dinner plans. Work. Him forgetting to call me.
+
+Noah: Sounds about right.
+
+Maya: There was one conversation I kept thinking about.
+
+Maya: Daniel said something I didn't understand.
+
+Lucas: When?
+
+Maya: I don't remember the exact date.
+
+Maya: Before he disappeared.
+
+Maya: I've got a screenshot of part of it.
+Player choice S08-G01
+A. Would you mind showing us?
+B. What did he say?
+C. Did something about it stand out to you?
+
+A — Maya: Yeah. Give me a second.
+
+B — Maya: It was something about another copy.
+
+C — Maya: At the time, no. It only seemed strange when I read it again.
+Common continuation
+Maya: I'm only sharing this bit.
+
+Maya: The rest is personal.
+
+Sophie: Of course.
+
+Maya sends a screenshot into the group.
+Screenshot contents
+Daniel: Lucas checked in. He said there was another copy.
+
+Maya: Another copy of what?
+
+Daniel: I'll explain when I can.
+
+Displayed time on Daniel's relevant message: 21:14.
+
+Render as a realistic smartphone screenshot.
+
+Do not display "cropped above", "cropped below", forensic document headers or verification overlays.
+
+Do not invent a confirmed date.
+
+The player can open and zoom into the screenshot.
+Group continuation
+Noah: Another copy?
+
+Ana: Of what?
+
+Maya: That's exactly what I asked.
+
+Maya: He never explained.
+
+Sophie: Lucas?
+
+Lucas starts typing, pauses, then resumes.
+
+Lucas: I'm here.
+
+Sophie: Do you know what he meant?
+
+Lucas: I remember talking to him about something he'd been working on.
+
+Lucas: I don't remember him saying it like that.
+
+Ana: But you mentioned another copy?
+
+Lucas: Possibly.
+
+Lucas: I'd have to think about which conversation he meant.
+Player choice S08-G02
+A. Do you remember what you and Daniel were discussing?
+B. Was this related to his work?
+C. You don't have to answer immediately, Lucas.
+
+A — Lucas:
+
+We talked about a few things.
+
+I don't want to give you the wrong conversation just because it sounds similar.
+
+B — Lucas:
+
+It might have been.
+
+He'd been occupied with some records around that time.
+
+C — Lucas:
+
+Thanks.
+
+I just need a minute to think about it.
+Common continuation
+Noah: Could it have been something completely normal?
+
+Noah: A document? Something he'd backed up?
+
+Ana: It could.
+
+Ana: We don't know what the word "copy" refers to.
+
+Eli: And the screenshot only tells us what Daniel wrote to Maya.
+
+Eli: It doesn't tell us exactly what he and Lucas discussed.
+
+Lucas: Right.
+
+Lucas: That's what I'm trying to say.
+
+Sophie: So what do we do?
+Player choice S08-G03
+A. We keep it in mind and see if anything else mentions a copy.
+B. Lucas can tell us if he remembers something useful.
+C. We shouldn't assume this is connected to the contact export.
+
+A — Maya: That makes sense.
+
+B — Lucas: I will. I promise.
+
+C — Ana: Agreed. Two unanswered questions aren't necessarily the same question.
+Common continuation
+Maya: I wish I'd asked him again.
+
+Maya: Instead, I just let it go.
+
+Lucas: Maya.
+
+Lucas: You couldn't have known.
+
+Sophie: None of us could.
+
+Noah: Hey.
+
+Noah: We're not doing this thing where everyone blames themselves again.
+
+Eli: Noah's right.
+
+Maya: I know.
+
+Maya: It's just difficult sometimes.
+
+Ana: We're here.
+
+Maya: Thank you.
+Group social transition
+Noah: Completely unrelated question.
+
+Noah: Does anyone remember who borrowed my charger?
+
+Ana: Seriously?
+
+Noah: I would like my phone to survive this evening.
+
+Sophie: You left it at my place.
+
+Noah: I KNEW IT.
+
+Sophie: You literally asked me to keep it there.
+
+Noah: That sounds like something I would do.
+
+Lucas: Incredible detective work.
+
+Eli: Case closed.
+
+Maya: 😂
+Optional player reply S08-G04
+A. Finally. A mystery we've solved.
+B. Noah, you're going to need your own investigation board.
+C. I'm glad things are a little calmer now.
+
+A — Noah: My reputation is restored.
+
+B — Ana: Please don't encourage him.
+
+C — Sophie: Me too.
+
+This light moment must come after the emotional exchange has settled.
+
+Do not undermine Maya's grief with an immediate joke.
+Optional private conversation — Lucas
+Lucas: Hey.
+
+Lucas: Sorry if I seemed a little off in the group.
+Player choice S08-L01
+A. You don't have to apologise.
+B. Is something bothering you?
+C. Was it the message Maya shared?
+
+A — Lucas: Thanks. Still feels like I should explain.
+
+B — Lucas: Just thinking about a few things.
+
+C — Lucas: Partly, yeah.
+Common continuation
+Lucas: I know everyone wants answers.
+
+Lucas: So do I.
+
+Lucas: I just don't want to say something because I feel like I have to.
+
+Lucas: If I remember anything useful, I'll tell you.
+Player choice S08-L02
+A. Take your time.
+B. Just don't keep anything important from us.
+C. I appreciate you being honest about what you remember.
+
+A — Lucas: Thanks.
+
+B — Lucas: I won't give you guesses and call them answers.
+
+C — Lucas: I'm trying.
+Common continuation
+Lucas: Anyway.
+
+Lucas: I'm probably going to put something on and stop staring at my phone.
+
+Lucas: Talk later.
+
+No premature revelation of Lucas's second encrypted backup.
+
+The meaning of "another copy" remains unresolved.
+
+End Scene 8.
+
+════════════════════════════════════════════════════════════════════
+SCENE 09 — THE SECONDARY CARD
+════════════════════════════════════════════════════════════════════
+
+Thread A — Maya private messages
+This clue is shared privately with the player, not automatically posted in the group.
+
+Maya: Hey.
+
+Maya: Can I show you something else?
+Player choice S09-M01
+A. Of course.
+B. Did you find another message?
+C. What's up?
+
+A — Maya: Thanks.
+
+B — Maya: No. A photograph this time.
+
+C — Maya: Something I found in an old folder.
+Common continuation
+Maya: After we talked in the group, I went looking through some old photos.
+
+Maya: I wasn't searching for anything specific.
+
+Maya: I just thought maybe there was something I'd forgotten about.
+
+Maya: And I found this picture of a card.
+
+Maya: It's probably nothing.
+
+Maya: But I don't recognise the number on it.
+
+Maya sends the approved secondary reference-card photograph.
+
+Visible reference: GH-DSC-03-A.
+Player choice S09-M02
+A. GH-DSC-03-A. It looks like some kind of reference code.
+B. Where exactly did you find the photograph?
+C. Have you ever seen the actual card?
+
+A — Maya: That's what I thought. I just don't know what it refers to.
+
+B — Maya: In an old shared folder Daniel and I could access.
+
+C — Maya: No. Just the photograph.
+Common continuation
+Maya: I don't know who took it.
+
+Maya: Or why it was there.
+
+Maya: That's why I didn't want to put it straight into the group.
+
+Maya: I feel like we've confused everyone enough already.
+Player choice S09-M03
+A. We can look into the reference without jumping to conclusions.
+B. Could this be related to the other copy?
+C. Would you mind if I asked someone about the code?
+
+A — Maya:
+
+Yeah.
+
+That seems sensible.
+
+B — Maya:
+
+Maybe.
+
+But I don't want to assume they're connected just because I found them around the same time.
+
+C — Maya:
+
+The code is fine.
+
+I'd rather keep the rest of the folder private, though.
+Common continuation
+Maya: If you want to look it up, go ahead.
+
+Maya: Just don't send the whole photo around without asking me first.
+
+Maya: I've had enough of personal things ending up in places they shouldn't.
+
+Maya authorizes sharing the limited reference code.
+
+Do not automatically authorize sharing the complete image.
+Additional personal exchange
+Maya: You know, it's strange.
+
+Maya: We barely know each other.
+
+Maya: But somehow you're the person I've been talking to about all of this.
+Player choice S09-M04
+A. Sometimes it's easier to talk to someone outside everything.
+B. I'd like to think we're becoming friends.
+C. I'm just glad you feel comfortable talking to me.
+
+A — Maya: Maybe that's it. You don't have years of history with us.
+
+B — Maya: I think we are.
+
+C — Maya: I do. More than I expected.
+Common continuation
+Maya: Thank you.
+
+Maya: For being here, I mean.
+
+Maya: Not just for looking at the files.
+
+End Maya's required conversation.
+
+Thread B — Ana private check-in
+Ana: Random question.
+
+Ana: Did Noah ever send you his playlist?
+Player choice S09-A01
+A. Not yet. Should I be concerned?
+B. I'm beginning to hear a lot about this playlist.
+C. Is it really that bad?
+
+A — Ana: Very.
+
+B — Ana: We're all victims of it.
+
+C — Ana: It's three hours long and makes absolutely no sense.
+Common continuation
+Ana: He's been adding songs to it for years.
+
+Ana: Somehow it goes from sad acoustic music to something that sounds like a car alarm.
+
+Ana: And he insists the transitions are perfect.
+Player choice S09-A02
+A. Now I actually want to hear it.
+B. That sounds like my playlist too.
+C. Please keep me away from it.
+
+A — Ana: You'll regret that.
+
+B — Ana: Oh no. There are two of you.
+
+C — Ana: Finally, someone sensible.
+Common continuation
+Ana: Anyway.
+
+Ana: I hope you're doing okay.
+
+Ana: Getting involved with us probably wasn't how you planned to spend your time.
+
+Ana: Don't feel like you have to answer every message immediately.
+
+Ana: Some of us are capable of surviving without constant supervision.
+
+Ana: Some of us.
+
+Ana: Noah is still under review.
+
+End optional conversation.
+
+Thread C — Noah's playlist
+Noah: HELLO.
+
+Noah: I've decided we need to exchange music recommendations.
+Player choice S09-N01
+A. What are you listening to?
+B. I've been warned about your playlist.
+C. Depends. Do you have good taste?
+
+A — Noah: Finally, someone willing to ask the important questions.
+
+B — Noah: WHO HAS BEEN SPREADING LIES?
+
+C — Noah: Incredible taste. Unappreciated genius.
+Common continuation
+Noah: Okay, what's your usual thing?
+Player choice S09-N02
+A. Pop and upbeat music.
+B. Rock and alternative.
+C. Whatever fits my mood.
+
+A — Noah: Excellent. Music you can pretend you know all the words to.
+
+B — Noah: Respect. Strong choice.
+
+C — Noah: That is the most accurate description of my library.
+Common continuation
+Noah: Daniel and I used to argue about music all the time.
+
+Noah: We made a rule that whoever was driving got to choose.
+
+Noah: Terrible rule.
+
+Noah: He usually drove.
+
+Noah: Anyway. I'll spare you the playlist for now.
+
+Noah: Mostly because I need to remove the embarrassing songs.
+
+No licensed songs are played unless properly authorized.
+
+Keep the fictional playlist as text.
+
+Thread D — Eli's evening conversation
+Eli: Finally finished for the day.
+
+Eli: I think I've spent more time looking at screens than actual people.
+Player choice S09-E01
+A. Welcome to my world.
+B. You should switch your phone off for a while.
+C. Long day?
+
+A — Eli: Terrible club to be a member of.
+
+B — Eli: Very reasonable. Slightly ironic advice to receive through a phone.
+
+C — Eli: One of those days where the last hour somehow lasts three.
+Common continuation
+Eli: I'm debating between cooking something and ordering food.
+Player choice S09-E02
+A. Cook. Your future self will thank you.
+B. Order something. You've earned it.
+C. Ask Noah. He probably has leftovers.
+
+A — Eli: An excellent argument that I will probably ignore.
+
+B — Eli: Thank you for supporting my questionable decisions.
+
+C — Eli: He sent a photo earlier. I'm not sure anyone should get involved in that situation.
+
+Only use the final response if the Noah takeaway photo was independently shared with Eli or the group.
+
+Otherwise use: "Knowing Noah, that's probably a reasonable suggestion."
+Common continuation
+[Eli sends a selfie while cooking at home, with her hair tied back. /media/chat/v6/eli-cooking.webp]
+
+Eli: Decided to cook instead of ordering.
+
+Eli: Let's see how badly this goes. 😂
+
+Eli: Anyway, enough about my dinner dilemma.
+
+Eli: How are you finding everyone now?
+Player choice S09-E03
+A. I think I'm getting to know them.
+B. You're all surprisingly entertaining.
+C. I'm just hoping things work out.
+
+A — Eli: I'm glad.
+
+B — Eli: I choose to interpret that positively.
+
+C — Eli: Yeah. Me too.
+Common continuation
+Eli: Take care of yourself, okay?
+
+Eli: Good talking to you.
+
+Eli sends no cryptic follow-up.
+
+Do not immediately schedule Unknown's message as a reaction to Eli ending this conversation.
+
+Thread E — Discuss with Unknown
+Before Scene 10, open a consolidated clue discussion in the Unknown conversation.
+
+Unknown: How are things going?
+Player choice S09-U01
+A. I've found a few things that might be worth discussing.
+B. There are still more questions than answers.
+C. I think we need to go over what we know.
+
+Unknown: Alright.
+
+Unknown: Let's take them one at a time.
+
+Display the contextual dropdown: What would you like to discuss?
+
+Only show topics supported by the player's actual progress.
+
+Topic 1 — The starred number
+Player selects a reply and manually sends it.
+
+A. The export Sophie found contains my starred number.
+B. Sophie showed me the copy, but part of the remark is damaged.
+C. We still don't know who marked my number.
+
+Unknown: That's the part I haven't been able to explain either.
+
+Unknown: The number appears in one copy, but not the other.
+
+Unknown: We need to know more about where each version came from.
+
+Unknown: Until then, I wouldn't assume Daniel added it himself.
+
+Follow-up choices:
+
+A. Could somebody have deliberately placed my number there?
+B. Could the records just be incomplete?
+C. We'll need another source.
+
+Unknown: All possible.
+
+Unknown: Let's keep the question open for now.
+
+Mark the topic discussed.
+
+Topic 2 — The Missing Hour
+A. We still haven't explained the gap between 19:00 and 20:00.
+B. Do you think the activity gap was caused by the archive being damaged?
+C. Could something have happened during that hour?
+
+Unknown: The gap tells us what we don't have.
+
+Unknown: Not what happened.
+
+Unknown: It could be missing data, or a period when the phone wasn't recording activity.
+
+Unknown: There isn't enough recovered information to distinguish those yet.
+
+Follow-up choices:
+
+A. So we wait until more of the archive becomes recoverable?
+B. Could another source help explain the gap?
+C. I don't think we should ignore it.
+
+Unknown: We shouldn't.
+
+Unknown: But we also shouldn't fill an empty hour with a story we've invented.
+
+Mark the topic discussed.
+
+Topic 3 — Maya's screenshot
+A. Maya showed us a message where Daniel mentioned Lucas checking in.
+B. Daniel wrote something about another copy in a message to Maya.
+C. There's an old conversation that might be relevant.
+
+Unknown: What did it say?
+
+Display a limited disclosure choice.
+
+A. Daniel wrote that Lucas checked in and said there was another copy.
+B. I'd rather not share the exact wording yet.
+C. It refers to another copy, but we don't know what was copied.
+
+If A:
+
+Unknown: Interesting.
+
+Unknown: That tells us what Daniel wrote.
+
+Unknown: It doesn't establish what Lucas actually had.
+
+If B:
+
+Unknown: Understood.
+
+Unknown: Keep it private until you're comfortable sharing more.
+
+If C:
+
+Unknown: Then the word "copy" is the only useful part for now.
+
+Unknown: It could refer to several different things.
+
+Mark the topic discussed or deferred, depending on the player's choice.
+
+Do not automatically send Maya's image.
+
+Topic 4 — Lucas's account
+A. Lucas remembers talking to Daniel about some records.
+B. Lucas wasn't sure which conversation Daniel was referring to.
+C. I don't think Lucas is telling us everything.
+
+Unknown: He may know more.
+
+Unknown: Or he may genuinely be trying to remember.
+
+Unknown: Either way, we don't have enough to reach a conclusion about him.
+
+Follow-up choices:
+
+A. I'll give him some time.
+B. I think we should ask him again later.
+C. We'll see if the recovered archive mentions anything similar.
+
+Unknown: That seems reasonable.
+
+Do not reveal the second encrypted backup.
+
+Mark the topic discussed.
+
+Topic 5 — Secondary reference card
+A. Maya found a photograph with a reference code.
+B. Have you ever come across GH-DSC-03-A?
+C. I think we have something that could be searched for.
+
+Unknown: What's the reference?
+
+If the player has already sent the code, skip this repeated question and respond directly.
+
+Otherwise offer:
+
+A. GH-DSC-03-A.
+B. I'd like to look it up myself first.
+C. I'm not ready to share it yet.
+
+If A:
+
+Unknown: GH-DSC-03-A...
+
+Unknown: That looks like a catalogue reference.
+
+Unknown: Have you checked the public inventory?
+
+Player choices:
+
+A. Not yet.
+B. Where can I find it?
+C. I'll look into it.
+
+Unknown: There's a public records catalogue.
+
+Unknown: Try searching the exact reference.
+
+Unknown: We might at least find out what it's pointing to.
+
+If B:
+
+Unknown: Alright.
+
+Unknown: Let me know if you find anything useful.
+
+If C:
+
+Unknown: That's fine.
+
+Unknown: You don't have to send it to me.
+
+The player can access the approved public inventory route independently using the code obtained from Maya.
+
+Do not require disclosure to Unknown to continue.
+
+Closing the clue discussion
+After the player voluntarily finishes the discussion:
+
+Unknown: We have more to work with than we did earlier.
+
+Unknown: Still not enough to see the whole picture.
+Player choice S09-U02
+A. At least we're getting somewhere.
+B. I wish we knew what happened to Daniel.
+C. It feels like every answer leads to another question.
+
+A — Unknown: Slowly. But yes.
+
+B — Unknown: So do I.
+
+C — Unknown: Sometimes that's how it goes.
+Common continuation
+Unknown: Check the public inventory when you're ready.
+
+Unknown: I'll keep looking through what we've recovered.
+
+Unknown: Let me know if the reference leads anywhere.
+
+End Scene 9.
+
+════════════════════════════════════════════════════════════════════
+SCENE 10 — THE WARNING
+════════════════════════════════════════════════════════════════════
+
+Part A — Public inventory
+The player searches for GH-DSC-03-A using the approved public inventory interface.
+
+Preserve the established inventory record and its factual limitations.
+
+A reference match confirms a listing exists. It does not authenticate the photograph or establish a connection to Daniel's disappearance.
+
+Do not introduce new source-verification questionnaires.
+Part B — Unknown follow-up
+Unknown: Any luck with the reference?
+Player choice S10-U01
+A. The code appears in the public inventory.
+B. There's a matching reference, but it doesn't tell us everything.
+C. I found the listing. I'm still not sure what it means.
+
+[New V6 branch reactions.]
+A — Unknown: Then the reference is still in use in the catalogue.
+B — Unknown: That's what an index can tell us. The record itself is another matter.
+C — Unknown: You found what's there. You can leave the rest open.
+
+
+Unknown: A match is a start.
+
+Unknown: At least we know the reference points to something that exists in the catalogue.
+
+Unknown: We still need to find out why that photograph was in the folder.
+Player choice S10-U02
+A. Could Daniel have been looking for the associated records?
+B. Maybe the card and the other copy are connected.
+C. We need more information before we can say anything else.
+
+A — Unknown: Possibly. But we don't know that he took the photograph.
+
+B — Unknown: Possibly. There isn't a link we can establish yet.
+
+C — Unknown: Agreed.
+Common continuation
+Unknown: Keep the reference somewhere you can find it again.
+
+Unknown: We'll probably need it later.
+
+The Investigation Board updates automatically.
+
+No manual Save Finding action.
+
+Part C — Same Old Chaos: A quiet moment
+Noah: Anyone else still awake?
+
+Ana: Unfortunately.
+
+Lucas: Yep.
+
+Maya: Can't sleep.
+
+Eli: Same.
+
+Noah: Cool.
+
+Noah: Terrible sleeping habits all round.
+
+Lucas: Speak for yourself.
+
+Noah: You literally just admitted you're awake.
+
+Lucas: Good observation.
+
+Ana: Please don't start.
+Optional player reply S10-G01
+A. I thought I was the only one still awake.
+B. This group really does live up to its name.
+C. Maybe everyone should try getting some sleep.
+
+A — Noah: Welcome to the night shift.
+
+B — Ana: You have no idea.
+
+C — Lucas: Probably the smartest thing anyone's said tonight.
+Common continuation
+Maya: Does anyone have that old picture of us?
+
+Maya: From when we all went out together.
+
+Noah: Which one?
+
+Maya: The one where Sophie was trying to get everyone to look at the camera.
+
+Sophie: That was impossible.
+
+Lucas: Noah wouldn't stop moving.
+
+Noah: I was creating a dynamic composition.
+
+Ana: You were ruining the photograph.
+
+Eli: I remember that.
+
+Maya: Daniel wouldn't stop laughing.
+
+[Noah sends the old Same Old Chaos group photo. /media/chat/v6/same-old-chaos.webp]
+
+The photo contains the seven original members: Daniel, Sophie, Maya, Lucas, Noah, Ana and Eli.
+
+It is an older social photograph, not a new piece of investigative evidence.
+
+Noah: This one?
+
+Sophie: YES.
+
+Ana: Oh, God.
+
+Lucas: Why do I look like that?
+
+Eli: You always look like that.
+
+Lucas: Thanks.
+
+Maya: 😂
+Optional player reply S10-G02
+A. You all look really happy.
+B. I can definitely see why the group is called Same Old Chaos.
+C. That's a really nice photo.
+
+A — Maya: We were.
+
+B — Noah: A carefully earned reputation.
+
+C — Sophie: One of my favourites.
+Common continuation
+Maya: We'll have to take another one someday.
+
+Maya: When everyone's here.
+
+Lucas: Yeah.
+
+Noah: We will.
+
+Ana: ❤️
+
+Eli: Absolutely.
+
+Sophie stops responding.
+
+Allow this quiet emotional moment to settle.
+
+Part D — Sophie finds the warning
+Deliver a private message notification.
+
+Sophie: Hey.
+
+Sophie: Are you still awake?
+Player choice S10-S01
+A. Yeah. What's wrong?
+B. I'm here, Sophie.
+C. Couldn't sleep either?
+
+[New V6 branch reactions.]
+A — Sophie: I'm glad you're here.
+B — Sophie: Yes. I'm home. Give me a second.
+C — Sophie: I'm trying. I keep rereading the same line.
+
+
+Sophie: No.
+
+Sophie: I found something.
+
+Sophie: And I don't know what to do with it.
+
+Longer pause.
+
+Sophie: I was looking through some of Daniel's things.
+
+Sophie: His papers.
+
+Sophie: There's a card.
+
+Sophie: I think he wrote something on it.
+Player choice S10-S02
+A. What does it say?
+B. Can you show me?
+C. Sophie, are you okay?
+
+[New V6 branch reactions.]
+A — Sophie: I don't think I can just type it out.
+B — Sophie: Yes. It's right here in front of me.
+C — Sophie: I don't know. I need someone else to look at it.
+
+
+Sophie: Can I call you?
+
+Sophie: Please.
+
+Display the incoming call using the approved cinematic call interface.
+
+Preserve the existing final voice recording and subtitle sequence.
+
+Do not replace spoken dialogue without producing corresponding audio.
+
+[Scene 10 recorded call. Keep audio and subtitles paired.]
+[Recorded clip SOP10_VC_01.mp3]
+Sophie: Hey, it's Sophie. I'm sorry to call so suddenly. Are you somewhere you can talk? I... I found something in Daniel's things and I didn't want to put it in a message.
+
+DECISION S10-CALL-01 [Select, then Send]
+A. Of course, Sophie. I'm here. Tell me what happened.
+B. You found something? What exactly did you discover?
+C. Is everything okay? Are you somewhere safe?
+
+[Recorded clip SOP10_VC_02.mp3]
+Sophie: Remember those old paper folders I said I hadn't gone through properly? I went back to them this morning. Not the contact export. The actual papers Daniel left in our family folder. I think I overlooked something important.
+
+DECISION S10-CALL-02 [Select, then Send]
+A. I remember. Take your time; what did you find?
+B. Where in the family folder was it?
+C. We should keep the papers separate from the contact export.
+
+[Recorded clip SOP10_VC_03.mp3]
+Sophie: There was a small card tucked behind some old receipts. It wasn't labeled. It wasn't with his computer stuff. If I hadn't pulled everything out, I probably wouldn't have seen it at all.
+
+DECISION S10-CALL-03 [Select, then Send]
+A. You must have gone through so much to find it.
+B. What did the card look like when you found it?
+C. Could someone else have placed it among those receipts?
+
+[Recorded clip SOP10_VC_04.mp3]
+Sophie: There are a few words written on it. The handwriting looks like Daniel's, the way he makes his letters especially, but I can't prove he wrote it. I just know it looks painfully familiar.
+
+DECISION S10-CALL-04 [Select, then Send]
+A. I can hear how familiar it feels to you.
+B. What makes the handwriting look like Daniel's?
+C. It may resemble his writing, but we can't prove authorship yet.
+
+[Recorded clip SOP10_VC_05.mp3]
+Sophie: And there's a little star beside a phone number, the same sort of mark we talked about after Lucas questioned that contact in the group. I checked the digits against the export. I didn't want to believe what I was seeing.
+
+DECISION S10-CALL-05 [Select, then Send]
+A. I'm here with you, Sophie. What did you see?
+B. Did the number match the one in the export?
+C. Let's be careful about what a matching number can prove.
+
+[Recorded clip SOP10_VC_06.mp3]
+Sophie: I keep staring at this card, trying to find a less frightening explanation. Would you mind switching to video? I want you to see it for yourself. I can hold it up to the camera. You don't have to share anything back. Just please look at it.
+
+DECISION S10-CALL-06 [Select, then Send]
+A. Yes, Sophie. Turn on the camera. I'll take a look.
+B. Before we switch, are you sure you're comfortable showing me?
+C. I'd rather stay on audio for now.
+
+[Continue to the video clips only after explicit consent. Other choices stay on voice.]
+[Recorded clip SOP10_VD_01.mp3]
+Sophie: Hey, can you see me? Okay, sorry, my hands are shaking a little. I haven't shown this to anyone else yet.
+
+DECISION S10-CALL-07 [Select, then Send]
+A. I can see you. Take your time, Sophie.
+B. Yes. Is the card still in the folder?
+C. I can see you. Please only show what you're comfortable sharing.
+
+[Recorded clip SOP10_VD_02.mp3]
+Sophie: This is the paper folder I was talking about, and here, this is the card. Hang on, I'm turning the camera around. Can you see it clearly? I'll hold it still.
+
+DECISION S10-CALL-08 [Select, then Send]
+A. I can see it. There's no rush.
+B. Yes. Can you hold the card still for a moment?
+C. I can see it. Please keep any other private papers out of view.
+
+[Recorded clip SOP10_VD_03.mp3]
+Sophie: Look beside the star. That number? It's yours. It's the number I used when I first asked you about Daniel. I compared every digit. It matches the contact export. I don't understand how it got onto a card in his folder.
+
+DECISION S10-CALL-09 [Select, then Send]
+A. I understand why that frightened you.
+B. The number matches the export you showed me?
+C. A match matters, but it doesn't explain who wrote it there.
+
+[Recorded clip SOP10_VD_04.mp3]
+Sophie: There's writing underneath it. I nearly missed it because it's so faint. I'm going to bring the card closer. Please look at the words, not just the number. It says...
+
+DECISION S10-CALL-10 [Select, then Send]
+A. I'm here, Sophie. We can read it together.
+B. Can you bring the writing closer?
+C. Let's read only what we can actually make out.
+
+[Recorded clip SOP10_VD_05.mp3]
+Sophie: DO NOT CONTACT THE STARRED NUMBER. That's what it says, right there under your number.
+[Recorded clip SOP10_VD_06.mp3]
+Sophie: I found the export first. I thought that if your number was there, maybe you knew Daniel. Maybe you could help me find him. I had no idea this card was in the folder. He was warning someone not to contact that number. But… I already did.
+
+The critical reveal must be:
+
+DO NOT CONTACT THE STARRED NUMBER.
+
+The handwritten card is a separate physical artifact discovered by Sophie.
+
+It is not the secondary reference-card photograph Maya shared.
+
+Do not confirm who planted the player's number.
+
+Do not identify Eli as Unknown.
+
+Do not resolve Daniel's disappearance.
+
+End the chapter after the approved final call and reveal.
+
+No additional comedic conversation or routine social notifications after the warning.
+
+Display:
+
+CHAPTER 01 COMPLETE
+
+THE FIRST TRACE
+
+TRACE RECOVERY: 20%
+
+NEXT CHAPTER — THE OTHER COPY
+
+Do not unlock unfinished Chapter 2 gameplay.
+
+END OF CHAPTER 1.
+
+════════════════════════════════════════════════════════════════════
+CONTINUITY INSERTS AND ASSET PRODUCTION NOTES
+════════════════════════════════════════════════════════════════════
+
+[New dialogue · Scene 5, Ana reaches the waterfront before the player has answered her introduction.]
+Ana: I went down to the water earlier. I usually go there when I need a bit of quiet.
+Ana: I've got a picture from earlier. Thought you might like to see it.
+[Use this opening in place of “Remember that place I mentioned earlier?” if there is no completed introduction receipt. Resume at the waterfront exchange. If the photograph is unavailable, use the text-only version below.]
+
+[New dialogue · Scene 8, group recap for Lucas after he rejoins.]
+Sophie: Lucas, while you were out I told them about the starred entry. I kept the file in my private chat.
+Lucas: Thanks. That's all I needed to know about the export.
+Maya: What I'm about to show you is from my own chat with Daniel.
+[Deliver this only if Lucas has rejoined and the relevant recap was not already sent to him. Do not backfill the group receipts he missed.]
+
+[New dialogue · Scene 9, permission boundary.]
+Maya: You can tell Unknown the code if you think it would help.
+Maya: Just the code, please. I'd rather keep the photo here.
+[No disclosure is sent until the player selects it and presses Send. A reference lookup is available independently.]
+
+[Optional media availability and text-only fallbacks.]
+Maya dinner — use the casual selfie in Scene 3. If unavailable, Maya: "It actually looks edible. I might even make it again tomorrow."
+Lucas and Daniel — use the approved candid photo at media/chat/lucas-cafe-owner.png.
+Noah coffee — use both photos in Scene 3. Fallback, Noah: "It came in a cup small enough to make the price feel personal."
+Ana waterfront — use the dusk portrait in Scene 5. Fallback, Ana: "The water was so still you could see the railings reflected in it."
+Noah takeaway — use the takeaway spread in Scene 5. Fallback, Noah: "The chips came upside down. The bag is the only thing that ate well tonight."
+Noah playlist — keep the fictional playlist as text.
+Same Old Chaos — use the supplied photo of the seven original members in Scene 10. Fallback, Noah: "Remember trying to take one photo where all seven of us were looking at the camera?" and Ana: "I remember giving up."
+[Stage attachment responses that explicitly describe unavailable media only when that asset is delivered. Otherwise use a text-only branch with the same emotional intent. The nine V6 attachments are optional social photos. Keep them in their chat or ordinary photo gallery only. They do not enter TRACE or the Investigation Board, grant evidence or affect progression. Keep all dialogue in separate chat bubbles. If one of Eli's photos is unavailable, omit that attachment and keep her dialogue.]
+
+[Play these alternate choices when optional artwork is unavailable. All unlisted branches keep their existing text.]
+S03-M04 — Dinner described, with no photo delivered
+A. Sounds like it turned out pretty well.
+B. Now I'm hungry. Thanks a lot.
+C. Us talking while you cooked and nothing burned? Impressive.
+A — Maya: It did. I might even risk making it again.
+B — Maya: Sorry. I'd send you some if I could.
+C — Maya: I'll take that as a compliment.
+
+S05-A01 — Waterfront described, with no photo delivered
+A. That sounds beautiful.
+B. Sounds like a nice place to clear your head.
+C. Do you usually take photos down there?
+A — Ana: It is, especially when there isn't anyone else around.
+B — Ana: Exactly why I come here.
+C — Ana: All the time. Same railings, different light.
+
+S10-G02 — Group memory described, with no photo delivered
+A. It sounds like a good day.
+B. I can definitely see why the group is called Same Old Chaos.
+C. I'm glad you told me about that.
+A — Maya: It was. I hadn't thought about it in a while.
+B — Noah: A carefully earned reputation.
+C — Sophie: I am too. I'd almost forgotten that laugh.
+
+[When Ana's Scene 5 introduction variant runs without artwork, replace “Thought you might like to see it” and the image beat with the still-water description. In Scene 10's text-only version, replace the exchange from “This one?” through Maya's emoji. Resume at the shared continuation after the selected S10-G02 reply.]
+[Finale priority. After Sophie asks to call, quiet optional notifications. Finish the recorded warning and its closing line, then show chapter completion.]

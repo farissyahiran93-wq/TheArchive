@@ -17,3 +17,7 @@
 .scene01-chat .sophie-dinner-photo{display:block;max-width:min(70vw,270px);padding:0;border:0;border-radius:1rem;overflow:hidden;background:transparent;cursor:zoom-in}
 .scene01-chat .sophie-dinner-photo img{display:block;width:100%;height:auto;max-height:300px;object-fit:cover}
 .reduce-motion .opening-v4 .typing-dots i{animation:none}
+
+.canonical-invitation-members { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; list-style: none; padding: 0; }
+.canonical-invitation-members li { display: flex; align-items: center; gap: .35rem; min-width: 0; }
+.canonical-invitation-members .message-avatar { flex: 0 0 1.75rem; width: 1.75rem; height: 1.75rem; }

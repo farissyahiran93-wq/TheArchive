@@ -1,5 +1,7 @@
 # TheArchive — implementation roadmap and repository audit
 
+> For implemented Chapter 1 and the active campaign registry, see [Chapter 1 — The First Trace](CHAPTER_1_CANONICAL_FLOW.md). Earlier route names and workflow descriptions in this document are historical planning context.
+
 > **Canon lock update:** [resolved decisions, remaining assumptions and readiness](THEARCHIVE_CANON_LOCK_2026-11-05.md). Scene 1 is ready for a separately authorised dialogue/source packet and implementation; later scenes remain gated by their own approved sources, including the proposed Lucas backup. This review itself authorises no gameplay change or APK.
 
 Status: **MASTER PLANNING ONLY — 5 November 2026**. **SPOILER / DEVELOPER ONLY**. This is a future build plan, not a runtime implementation report. The supplied brief defines exactly five chapters of ten scenes; optional calls, evidence views, requests and conversations remain activities within those fifty scenes.

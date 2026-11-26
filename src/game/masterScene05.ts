@@ -1,3 +1,4 @@
+import { usesScene04Install } from './masterScene04'
 import { compareRecoveredFragments, masterFragments, masterScene05Beats, traceFirstScene05Beats } from '../content/masterScene05'
 import type { GameSave } from './types'
 import { npcDeliveryDelay } from './npcDelivery'
@@ -11,7 +12,7 @@ export interface MasterScene05 {
   version: 1; revision?:'trace-first'; conversationRevision?:'archive-v1'|'archive-v3'; beat: number; draft?: number; messages: {id:string; sender:'unknown'|'player'; text:string; at:number}[]; pending?:{id:string;text:string;dueAt:number;remaining?:string[]}; archiveStatus?:'unavailable'|'offered'|'deferred'|'declined'|'accepted'; archiveInspected?:boolean; archiveRisks?:boolean
   packageStatus:'conversation'|'offered'|'deferred'|'declined'|'installed'; inspected:boolean; risksRead:boolean
   opened:boolean; selected:boolean; recovered:boolean; read:string[]; saved:string[]; complete:boolean; traceView?:string; traceReturn?:'messages'|'notes'|'timeline'|'summary'|'board'
-  earlySetup?:boolean; examination?:'evidence'; observations?:string[]; comparison?:[string,string]
+  installationAcknowledgment?:true; earlySetup?:boolean; examination?:'evidence'; observations?:string[]; comparison?:[string,string]
   discussion?: DiscussionState
   directImport?: boolean; importStartedAt?: number; importComplete?: boolean
   recoveryAnimation?: { startedAt:number; percent:number; acknowledged:boolean }
@@ -24,6 +25,7 @@ export const canSaveFragmentFinding=(p:MasterScene05,id:string)=>p.recovered&&p.
 const readyToDiscuss=(p:MasterScene05)=>p.recovered&&(p.discussion? p.discussion.finished:p.saved.length>0)
 export const canReplyInMasterScene05=(p:MasterScene05)=>p.conversationRevision==='archive-v3'?!p.complete&&!p.pending&&p.beat<10&&(p.beat<4||p.archiveStatus==='accepted'&&!!p.importComplete)&&(p.beat<6||p.recovered&&!!p.recoveryAnimation?.acknowledged):p.conversationRevision==='archive-v1'?!p.complete&&!p.pending&&p.beat<8&&(p.beat<3||p.archiveStatus==='accepted'):!p.complete&&!p.pending&&(p.revision!=='trace-first'||p.archiveStatus==='accepted')&&(p.beat<8&&(p.packageStatus==='conversation'||p.earlySetup&&p.packageStatus==='installed')||p.beat>=8&&p.beat<10&&readyToDiscuss(p))
 export function masterScene05Beat(p:MasterScene05) {
+  if(p.installationAcknowledgment&&p.beat===0)return {choices:["It's installed."],replies:['Good.']}
   if(p.conversationRevision==='archive-v3'){const beat=scene05V3[p.beat];return beat?{choices:beat.choices,replies:beat.branches}:undefined}
   if(p.conversationRevision==='archive-v1'){
     const beat=archiveConversation[p.beat]
@@ -50,12 +52,12 @@ export const masterRecoveryUnits=(p:MasterScene05)=>p.recovered?(p.discussion?20
 export function masterScene05Action(s:GameSave,a:MasterScene05Action,now=Date.now()):GameSave {
   let p=s.masterScene05
   if(a.type==='start') {
-    if(p||!s.masterScene04?.complete||s.masterScene04.status!=='accepted'||s.masterScene04.revision==='cinematic'&&!s.masterScene04.traceInstalled)return s
+    if(p||!s.masterScene04?.complete||s.masterScene04.status!=='accepted'||usesScene04Install(s.masterScene04)&&!s.masterScene04.traceInstalled)return s
     const revised=usesScene04ToolPreview(s.masterScene04)
     const introduction=s.masterScene04.revision==='guarded-chat'
       ? "The viewer is called TRACE. Here's the encrypted copy I mentioned. I believe it contains Daniel's phone data. Its source hasn't been verified."
       : "You asked to continue. Here is an encrypted archive I believe contains Daniel's phone data. Its origin and contents have not been verified."
-    if(s.masterScene04.revision==='cinematic')return {...s,masterCaseFile:s.masterCaseFile??createMasterCaseFile(),masterScene05:{version:1,revision:'trace-first',conversationRevision:'archive-v3',discussion:newDiscussion(),earlySetup:true,examination:'evidence',archiveStatus:'unavailable',archiveInspected:false,archiveRisks:false,directImport:true,beat:0,messages:[],pending:{id:'TA-S05-V3-INTRO',text:scene05V3[0].intro[0],dueAt:now+1200,remaining:[...scene05V3[0].intro.slice(1)]},packageStatus:'installed',inspected:false,risksRead:false,opened:false,selected:false,recovered:false,read:[],saved:[],complete:false}}
+    if(usesScene04Install(s.masterScene04))return {...s,masterCaseFile:s.masterCaseFile??createMasterCaseFile(),masterScene05:{version:1,revision:'trace-first',conversationRevision:'archive-v3',discussion:newDiscussion(),earlySetup:true,examination:'evidence',archiveStatus:'unavailable',archiveInspected:false,archiveRisks:false,directImport:true,beat:0,messages:[],...(s.masterScene04.revision==='v5'?{installationAcknowledgment:true as const}:{pending:{id:'TA-S05-V3-INTRO',text:scene05V3[0].intro[0],dueAt:now+1200,remaining:[...scene05V3[0].intro.slice(1)]}}),packageStatus:'installed',inspected:false,risksRead:false,opened:false,selected:false,recovered:false,read:[],saved:[],complete:false}}
     return {...s,...(s.masterScene04.traceInstalled?{masterCaseFile:s.masterCaseFile??createMasterCaseFile()}:{}),masterScene05:{version:1,...(s.masterScene04.traceInstalled?{earlySetup:true}:{}),...(revised?{revision:'trace-first' as const,archiveStatus:'offered' as const,archiveInspected:false,archiveRisks:false}:{}),...(s.masterScene04.revision==='guarded-chat'?{examination:'evidence' as const}:{}),beat:0,messages:revised?[{id:'TA-S05-INTRO-1',sender:'unknown',text:introduction,at:now}]:[{id:'TA-S05-INTRO-1',sender:'unknown',text:'You have the archive now.',at:now},{id:'TA-S05-INTRO-2',sender:'unknown',text:"It's still encrypted. Having the file doesn't make its contents readable.",at:now}],packageStatus:s.masterScene04.traceInstalled?'installed':'conversation',inspected:false,risksRead:false,opened:false,selected:false,recovered:false,read:[],saved:[],complete:false}}
   }
   if(!p)return s
@@ -92,14 +94,15 @@ export function masterScene05Action(s:GameSave,a:MasterScene05Action,now=Date.no
    if(a.type==='archive-reconsider'&&!p.pending&&['deferred','declined'].includes(p.archiveStatus??''))return put({...p,archiveStatus:'offered'})
   }
   if(a.type==='import-tick'&&p.directImport&&p.importStartedAt!==undefined&&!p.importComplete&&now>=p.importStartedAt+4000){const lines=p.conversationRevision==='archive-v3'?scene05V3[4].intro:[];return put({...p,importComplete:true,...(lines.length?{pending:{id:'TA-S05-V3-IMPORT',text:lines[0],dueAt:now+1200,remaining:[...lines.slice(1)]}}:{})})}
-  if(a.type==='draft'&&canReplyInMasterScene05(p)&&Number.isInteger(a.index)&&a.index>=0&&a.index<3)return put({...p,draft:a.index})
+  if(a.type==='draft'&&canReplyInMasterScene05(p)&&Number.isInteger(a.index)&&a.index>=0&&a.index<(masterScene05Beat(p)?.choices.length??0))return put({...p,draft:a.index})
   if(a.type==='send'&&p.draft!==undefined&&canReplyInMasterScene05(p)){
     const n=p.beat,choice=p.draft,beat=masterScene05Beat(p)
     if(!beat)return s
     if(p.conversationRevision==='archive-v3'){
-      const script=scene05V3[n], lines=[script.branches[choice],...script.follow,...(n!==3&&n!==5&&n!==9?scene05V3[n+1].intro:[])]
+      const script=scene05V3[n], handoff=n===0&&p.installationAcknowledgment
+      const lines=handoff?['Good.', "I'm going to send you something now.", "It's encrypted.", "Don't expect everything to be readable.",...scene05V3[1].intro]:[script.branches[choice],...script.follow,...(n!==3&&n!==5&&n!==9?scene05V3[n+1].intro:[])]
       const [text,...remaining]=lines
-      return put({...p,beat:n+1,draft:undefined,messages:[...p.messages,{id:`TA-S05-V3-D${n+1}-P-${choice}`,sender:'player',text:script.choices[choice],at:now}],pending:{id:`TA-S05-V3-D${n+1}-U-${choice}`,text,dueAt:now+Math.min(5000,npcDeliveryDelay('eli',text,n)),remaining}})
+      return put({...p,beat:n+1,draft:undefined,messages:[...p.messages,{id:`TA-S05-V3-D${n+1}-P-${choice}`,sender:'player',text:beat.choices[choice],at:now}],pending:{id:`TA-S05-V3-D${n+1}-U-${choice}`,text,dueAt:now+Math.min(5000,npcDeliveryDelay('eli',text,n)),remaining}})
     }
     if(p.conversationRevision==='archive-v1'){
       const [text,...remaining]=archiveConversation[n].replies[choice]

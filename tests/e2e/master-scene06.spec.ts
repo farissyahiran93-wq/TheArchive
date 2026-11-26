@@ -58,5 +58,9 @@ test('Resuming an earlier timeline keeps its evidence and no longer requires the
  for(let i=0;i<2;i++){await expect(page.locator('.scene01-options .opening-choice')).toHaveCount(3);await page.locator('.scene01-options .opening-choice').first().click();await page.getByRole('button',{name:'Send',exact:true}).click()}
  await page.getByRole('button',{name:'Back to inbox'}).click()
  await page.getByRole('button',{name:'Open Sophie conversation'}).click()
+ await page.clock.runFor(30000)
+ await page.getByRole('button',{name:"Of course. What's wrong?",exact:true}).click()
+ await page.getByRole('button',{name:'Send',exact:true}).click()
+ await page.clock.runFor(30000)
  await expect(page.getByRole('button',{name:'Answer'})).toBeVisible()
 })

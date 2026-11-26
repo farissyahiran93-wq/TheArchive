@@ -1,4 +1,5 @@
 import { readMenuPreferences, writeMenuPreferences, type MenuPreferences } from '../game/menuPreferences'
+import { developmentToolsEnabled } from '../game/development'
 import { useEffect, useRef, useState } from 'react'
 import { ArrowLeft, Bell, Check, ChevronRight, Download, FileText, LockKeyhole, Moon, Music2, Phone, Home, RotateCcw, Search, Sun, Volume2, type LucideIcon } from 'lucide-react'
 import { apps, searchResults, type AppId } from '../content/phone'
@@ -125,7 +126,7 @@ function SettingsApp({ appearance, setAppearance, audio, setAudio, onMenu, onRes
   const [confirm, setConfirm] = useState(false)
   const [restarting, setRestarting] = useState(false)
   const cancel = useRef<HTMLButtonElement>(null)
-  const telemetry = import.meta.env.DEV && new URLSearchParams(window.location.search).has('devtools') ? readDevTelemetry() : null
+  const telemetry = developmentToolsEnabled && import.meta.env.DEV && new URLSearchParams(window.location.search).has('devtools') ? readDevTelemetry() : null
   useEffect(() => { if (confirm) cancel.current?.focus() }, [confirm])
   const restart = async () => {
     setRestarting(true)

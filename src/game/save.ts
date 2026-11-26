@@ -1,3 +1,4 @@
+import { canContinueCampaign, compatibilityFixturesEnabled } from './campaign'
 import { openDB } from 'idb'
 import { newGame, type GameSave } from './types'
 import { normalizeSave } from './engine'
@@ -127,6 +128,7 @@ export async function restoreHistoricalSave(key:string, current:GameSave):Promis
   const archived=await tx.store.get(key)
   if(archived===undefined){tx.abort();await tx.done.catch(()=>undefined);throw Error('Historical save unavailable')}
   const restored={...normalizeSave(archived),saveRevision:(current.saveRevision??0)+1}
+  if(!compatibilityFixturesEnabled&&!canContinueCampaign(restored)){tx.abort();await tx.done.catch(()=>undefined);throw Error('This archived save is available as a download.') }
   if(stored)await tx.store.put(stored,`${ARCHIVE_PREFIX}${Date.now()}:${crypto.randomUUID()}`)
   await tx.store.put(restored,KEY)
   await tx.done
