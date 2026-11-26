@@ -1,4 +1,5 @@
 import { canContinueCampaign, compatibilityFixturesEnabled, isLegacyOpeningFixture } from './campaign'
+import { developmentToolsEnabled } from './development'
 import { originAction } from './archiveOrigin'
 import { traceAction, type TraceAction } from './trace'
 import { sourceAction, type SourceAction, type SourceScene, readingSource } from './sourceInvestigation'
@@ -201,6 +202,7 @@ export const runtimeGeneration = () => sessionGeneration
 export async function flushGameWrites() { await writeQueue }
 /** Rewind the primary save atomically to an actual recorded scene entry. */
 export async function startSceneReplay(number: number): Promise<void> {
+  if (!developmentToolsEnabled) throw new Error('Scene replay is unavailable in this build.')
   if (restarting) throw new Error('Another save operation is active.')
   restarting=true
   suspendRuntime()

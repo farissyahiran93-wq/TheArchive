@@ -1,5 +1,6 @@
 import { masterChapterMetadata } from '../content/masterChapterMetadata'
 import type { GameSave } from './types'
+import { developmentToolsEnabled } from './development'
 
 const chapterOneCheckpointIds = [
   'OPEN-S01', 'ch01_sc02_uninvited_guest', 'ch01_sc03_just_between_us',
@@ -20,8 +21,8 @@ export const campaign = masterChapterMetadata.map(chapter => ({
 }))
 
 const mode = import.meta.env?.MODE
-export const compatibilityFixturesEnabled = mode === 'compatibility-qa' || mode === 'test'
-  || (typeof window === 'undefined' && typeof process !== 'undefined' && process.env.ARCHIVE_COMPATIBILITY_FIXTURES === '1')
+export const compatibilityFixturesEnabled = developmentToolsEnabled && (mode === 'compatibility-qa' || mode === 'test'
+  || (typeof window === 'undefined' && typeof process !== 'undefined' && process.env.ARCHIVE_COMPATIBILITY_FIXTURES === '1'))
 export const isLegacyOpeningFixture = () => compatibilityFixturesEnabled && typeof location !== 'undefined' && new URLSearchParams(location.search).has('legacyopening')
 
 /** Campaign identity is separate from dialogue revision. Older dialogue can resume in this campaign. */

@@ -1,3 +1,4 @@
+import { developmentToolsEnabled } from './game/development'
 import { canContinueCampaign, compatibilityFixturesEnabled, isLegacyOpeningFixture } from './game/campaign'
 import { useEffect, useState } from 'react'
 import { App as NativeApp } from '@capacitor/app'
@@ -39,7 +40,7 @@ export default function GameEntry() {
   // Reuse the existing recoverable-save screen, preserving its backup controls.
   if(recoveryRequired)return <><App/>{exitDialog}</>
   if(!ready)return <><div className="boot-message">Opening GREYHAVEN…</div>{exitDialog}</>
-  if(playing)return <><App key={session} onMenu={leave} onChapterSelect={()=>{suspendRuntime();setPage('chapters');setPlaying(false)}} startScene={startScene}/>{exitDialog}</>
+  if(playing)return <><App key={session} onMenu={leave} onChapterSelect={developmentToolsEnabled ? ()=>{suspendRuntime();setPage('chapters');setPlaying(false)} : undefined} startScene={startScene}/>{exitDialog}</>
   return <><MainMenu save={save} page={page} onPage={setPage} error={error||saveError||undefined} onContinue={enter} onBeginChapter2={()=>{if(!compatibilityFixturesEnabled)return;if(!useGameStore.getState().save.chapter2Access)useGameStore.getState().continueChapter2();enter()}} onRestore={async key=>useGameStore.getState().restoreHistorical(key)} onNewGame={async()=>{
     setError('');const ok=await useGameStore.getState().restartStory()
     if(ok){enter()}else setError(useGameStore.getState().saveError??'Could not start a new investigation.')

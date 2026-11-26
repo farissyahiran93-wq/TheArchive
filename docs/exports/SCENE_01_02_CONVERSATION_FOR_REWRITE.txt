@@ -1,0 +1,658 @@
+GREYHAVEN — THE FIRST TRACE
+CHAPTER 1 · FULL CONVERSATION SCREENPLAY V6
+English dialogue · Authoring draft for game integration
+
+READING KEY
+A/B/C are alternatives. Deliver only the selected response after Send, then return to the shared lines. Bracketed directions are never player-facing text. Each labelled NPC line is its own bubble. Optional chats do not gate the main story.
+The supplied V6 dialogue is retained below. Approved base scenes and recorded call scripts are reproduced at the indicated splice points. New dialogue and continuity alternatives are marked in brackets.
+Each speaker knows only what was delivered to their thread or available to them as a group member at the time. Daniel is offline. Unknown appears as an anonymous contact. Audio transcripts are working references to the approved recordings. Audio and subtitle assets remain authoritative.
+
+════════════════════════════════════════════════════════════════════
+SCENE 01 — A MESSAGE FROM SOPHIE
+════════════════════════════════════════════════════════════════════
+
+Sophie: Hi. Sorry to message you out of nowhere.
+Sophie: I'm Sophie.
+Sophie: I know this is strange.
+Sophie: Could I ask you something?
+
+DECISION S01-C01 [Select, then Send]
+A. Sure. What's this about?
+B. Who are you trying to reach?
+C. Before I answer, how did you get this number?
+If A:
+Sophie: Thank you. I wasn't sure you'd answer.
+If B:
+Sophie: You, I think. I may have the wrong number.
+If C:
+Sophie: That's a fair question. I found it in some paperwork. I'll explain.
+
+Sophie: It's about my older brother.
+Sophie: His name is Daniel Mercer.
+Sophie: Does that name mean anything to you?  
+
+DECISION S01-C02 [Select, then Send]
+A. No, I don't think I know him.
+B. Daniel Mercer? That doesn't ring a bell.
+C. Who is Daniel, and why would I know him?
+If A:
+Sophie: Okay. Thank you for being honest.
+If B:
+Sophie: I thought it might not. I'm sorry to put you on the spot.
+If C:
+Sophie: He's my brother. I found your number among some records connected to him. I don't know why it's there.
+
+Sophie: A name might not mean much on its own.
+Sophie: Would you mind looking at a photo?
+[Sophie sends the approved birthday photograph.]
+Sophie: That's Daniel on the left. It was my birthday. Does his face look familiar?
+
+DECISION S01-C03 [Select, then Send]
+A. I'm sorry, Sophie. I don't recognise him.
+B. Is Daniel the one on the left? He doesn't look familiar.
+C. I don't know him, but that looks like a happy memory.
+If A:
+Sophie: Thank you for looking. I know it was a lot to ask.
+If B:
+Sophie: Yes. That's Daniel. Thank you for checking.
+If C:
+Sophie: It was. I nearly forgot how happy he looked that night.
+
+Sophie: He made some ridiculous joke right before that picture.
+Sophie: I wish I could remember exactly what he said.
+Sophie: No one close to him has heard from him in three days.  
+
+DECISION S01-C04 [Select, then Send]
+A. Three days? Has anyone heard from him at all?
+B. What do you mean, no one's heard from him?
+C. Is that why you're contacting strangers?
+If A:
+Sophie: Not anyone I've spoken to. I've asked the people closest to him.
+If B:
+Sophie: He stopped answering calls and messages. Then nobody knew where he'd gone.
+If C:
+Sophie: Yes. I know how desperate it must look.
+
+Sophie: At first I told myself he'd just lost his phone.
+Sophie: Then I kept telling myself that.
+Sophie: Now I don't know what to think.  
+
+DECISION S01-C05 [Select, then Send]
+A. How did you get my number, Sophie?
+B. Did Daniel give you my contact details?
+C. Why would his disappearance lead you to me?
+If A:
+Sophie: I found it in a saved contact export among the family files we could access.
+If B:
+Sophie: I can't say that he did. The number was in a saved contact export, but I don't know who added it.
+If C:
+Sophie: Your number was in a contact export among Daniel's family files. I thought I should at least ask.
+
+Sophie: Most of the entries had names.
+Sophie: Yours didn't.
+Sophie: Just a number, with a little star beside it.  
+
+DECISION S01-C06 [Select, then Send]
+A. A star? Do you know what it means?
+B. That doesn't prove Daniel knew me.
+C. Could someone else have put my number there?
+If A:
+Sophie: No. There's nothing beside it that explains what the star means.
+If B:
+Sophie: You're right. I shouldn't treat it as proof.
+If C:
+Sophie: Maybe. I have no way to tell who added it.
+
+Sophie: I stared at that entry for ages before deciding to message you.
+Sophie: I know this sounds strange. I just couldn't ignore it.
+
+DECISION S01-C07 [Select, then Send]
+A. You didn't bother me. I just want to understand why my number is there.
+B. Did Daniel actually save my number, or was it just in that file?
+C. I don't recognize Daniel, Sophie. I don't want to give you false hope.
+If A:
+Sophie: I wish I knew. I found it in a saved contact export in our family folder. That's all I can tell you.
+If B:
+Sophie: I don't know if he saved it himself. The file doesn't say who added that entry.
+If C:
+Sophie: I know. And I appreciate you being honest. I wasn't expecting you to have all the answers.
+
+Sophie: I keep wondering if I've overlooked something.
+Sophie: There are two other people trying to find him.
+Sophie: His fiancée, Maya. And his best friend, Lucas.
+Sophie: They've been asking questions too.
+
+DECISION S01-C08 [Select, then Send]
+A. Are Maya and Lucas looking for him too?
+B. Have they found anything I should know about?
+C. That must be difficult for all of you.
+If A:
+Sophie: Yes. We've all been trying to make sense of what happened.
+If B:
+Sophie: We've been comparing what we know, but there are still so many questions.
+If C:
+Sophie: It has been. We've been trying to support each other through it.
+
+Sophie: There's a group chat. Me, Daniel, Maya, Lucas, Noah, Ana and Eli.
+Sophie: We've had it for years. It's called Same Old Chaos.
+Sophie: Daniel's still in there. We haven't changed anything.
+Sophie: Would you be comfortable joining us?
+
+DECISION S01-C09 [Select, then Send]
+A. You can send me an invitation.
+B. I can take a look, if everyone is comfortable with it.
+C. I'd like to hear what Maya and Lucas have to say.
+If A:
+Sophie: Okay. You'll still get to choose whether to join.
+If B:
+Sophie: Okay. I'll send you the invitation so you can decide.
+If C:
+Sophie: Okay. I'll send you the invitation. It's up to you whether to join.
+
+Sophie: Thank you for hearing me out.
+Sophie: I didn't know whether anyone would.  
+[Same Old Chaos invitation shows all seven original members. Daniel is offline. JOIN GROUP enters the chat and adds the player as the eighth member.]
+
+════════════════════════════════════════════════════════════════════
+SCENE 02 — SAME OLD CHAOS
+════════════════════════════════════════════════════════════════════
+
+System: You joined Same Old Chaos.
+Sophie: Okay.
+Sophie: They're here.
+Noah: Who's here?
+Ana: The person you were telling us about?
+Sophie: Yeah.
+Noah: Ohhh.
+Noah: Well, hello there 👋
+Lucas: Sophie.
+Sophie: What?
+Lucas: Seriously?
+Noah: Can we at least say hi before the interrogation starts?
+Eli: Hi. I'm Eli.
+Eli: Ignore Noah. He's like this with everyone.
+Noah: Excuse me.
+Ana: He's not wrong.
+Maya: Hey.
+Maya: I'm Maya.
+Maya: Sorry. This is probably a strange way to meet everyone.
+[V6 social exchange. Insert before S02-C01.]
+Noah: Wait.
+
+Noah: We haven't actually introduced everyone.
+
+Ana: You introduced yourself as "hi, stranger."
+
+Noah: Which was friendly.
+
+Eli: By Noah's standards, extremely professional.
+
+Noah: Thank you.
+
+Noah: Finally, some appreciation.
+
+Sophie: 😂
+
+Maya: You'll get used to them.
+
+Maya: Eventually.
+
+Ana: That's optimistic.
+
+Noah: Anyway.
+
+Noah: I'm Noah. Officially the funniest person here.
+
+Ana: Officially according to Noah.
+
+Noah: Exactly.
+
+Eli: I'm Eli. Daniel and I work together.
+
+Eli: Usually, I'm the one reminding him that lunch exists.
+
+Sophie: He forgets at home too.
+
+Ana: I'm Ana, by the way.
+
+Ana: And unlike Noah, I have no official title.
+
+Lucas: Are we done?
+
+Noah: And that's Lucas.
+
+Noah: Our sunshine.
+
+Lucas: Noah.
+
+Noah: Okay, okay.
+
+Maya: Sorry about him.
+
+Noah: Which one of us?
+
+Maya: Both.
+
+DECISION S02-C01 [Select, then Send]
+A. Hi, everyone. Sophie invited me. I hope I'm not interrupting anything.
+B. I'm a little confused about why I'm here, to be honest.
+C. Looks like not everyone was expecting me.
+If A:
+Noah: See? Perfectly polite.
+Noah: We're off to a great start.
+Ana: Hi. Welcome.
+Lucas: That depends on what they're here for.
+If B:
+Eli: Fair enough.
+Eli: This is a lot to walk into without an explanation.
+Sophie: Sorry. I should've warned you.
+If C:
+Lucas: We weren't.
+Maya: Lucas.
+Lucas: What? It's true.
+Sophie: I told you I was going to contact them.
+Lucas: Contact them. Not bring them into our group.
+
+Sophie: Can we not fight about this already?
+Ana: Sophie, did everyone agree to the invitation?
+Sophie: I thought you guys would understand.
+Lucas: That's not an answer.
+Noah: Okay, but yelling at each other isn't helping.
+Eli: Maybe we should hear why Sophie invited them before deciding this was a terrible idea.
+Maya: Agreed.
+Sophie: Thank you.
+Sophie: I found something in Daniel's files.
+Sophie: A phone number.
+Sophie: And it belongs to the person I just added.
+Noah: Wait.
+Noah: Seriously?
+Ana: Daniel had their number?
+Sophie: It was in a contact export.
+Lucas: With no name.
+Sophie: Yes.
+Lucas: That's the part you keep leaving out.
+Maya: Sophie told me about it.
+Maya: But I don't understand what it means either.
+
+DECISION S02-C02 [Select, then Send]
+A. I've never met Daniel Mercer.
+B. I don't know how my number ended up in his contacts.
+C. I think there must be some kind of mistake.
+If A:
+Ana: You've never spoken to him?
+[Single reply. Select, then Send.]
+Player: No. Not that I'm aware of.
+Noah: Well, that's unexpected.
+Eli: It doesn't necessarily mean the entry is wrong. Just that we don't know why it's there.
+If B:
+Maya: Neither do we.
+Maya: That's what Sophie was hoping to understand.
+Lucas: And we're supposed to accept that nobody knows anything?
+Ana: Sometimes people genuinely don't know, Lucas.
+If C:
+Sophie: I thought that too.
+Sophie: But I checked the number more than once.
+Sophie: It's the one I used to message you.
+Eli: Then we know the number matches.
+Eli: Not why it was in the file.
+
+Noah: Okay, wait.
+Noah: Back up a second.
+Noah: What exactly is a contact export?
+Ana: A copy of somebody's saved contacts.
+Noah: Right.
+Noah: Why didn't we just say that?
+Eli: Because apparently we enjoy making simple things sound complicated.
+Noah: Thank you, Eli.
+Sophie: Daniel had a folder he shared with me.
+Sophie: Family stuff, mostly.
+Sophie: That's where I found the file.
+Maya: Was there anything else beside the number?
+Sophie: A star.
+Sophie: The number was marked with a star.
+Ana: Like a favourite contact?
+Sophie: Maybe?
+Sophie: I honestly don't know.
+Lucas: And nobody knows who marked it.
+Sophie: No.
+
+DECISION S02-C03 [Select, then Send]
+A. Could somebody else have added the star?
+B. Are you sure the export came from Daniel?
+C. Does the star actually mean anything?
+If A:
+Ana: That's possible.
+Ana: We don't know who made the copy.
+Lucas: Which is exactly why I'm uncomfortable with this.
+Eli: We should be careful about treating the mark as something Daniel deliberately added.
+If B:
+Sophie: I found it in the folder he shared with me.
+Sophie: That's all I can tell you for certain.
+Maya: So we know where Sophie found it.
+Maya: Not necessarily where it originated.
+If C:
+Noah: My phone has starred contacts.
+Noah: Half of them are restaurants.
+Ana: Noah.
+Noah: I'm making a point.
+Eli: A surprisingly reasonable one.
+Eli: The star could mean several things. We don't have enough to choose one.
+
+[Brief pause.]
+Maya: Can I ask something?
+Maya: Why would Daniel keep a number he didn't recognise?
+Sophie: I don't know.
+Maya: He normally remembered people.
+Maya: Even people he'd only met once.
+Noah: Yeah.
+Noah: He was annoyingly good at that.
+Ana: Maybe the number was related to his work.
+Eli: Could be.
+Eli: But I can't remember him mentioning it to me.
+Lucas: And now we can't ask him.
+[Brief pause.]
+Sophie: I've been trying to reach him every day.
+Sophie: Sometimes I leave messages even though I know he isn't answering.
+Maya: Sophie...
+Sophie: I know.
+Sophie: I just keep thinking maybe this time he'll pick up.
+
+DECISION S02-C04 [Select, then Send]
+A. When was the last time anyone actually heard from him?
+B. Was he acting differently before he disappeared?
+C. Have you told the police about the number?
+If A:
+Maya: We've been trying to put that together.
+Maya: But not every message tells us where he was.
+Lucas: And some of us remember things differently.
+Ana: Which is why we shouldn't pretend the timeline is settled.
+If B:
+Eli: He seemed distracted at work sometimes.
+Eli: But that isn't unusual when he's juggling several things.
+Maya: He was tired.
+Maya: I remember that much.
+Maya: I wish I'd asked what was keeping him up.
+If C:
+Sophie: I've been speaking to Detective Hayes.
+Sophie: I want to make sure she gets anything that might matter.
+Ana: That's probably the right thing to do.
+Lucas: Provided we don't start making claims we can't support.
+
+Noah: You know what I keep thinking about?
+Noah: That night at the restaurant.
+Ana: Oh, no.
+Maya: Which night?
+Noah: The one where Daniel insisted he knew how to order in Italian.
+Sophie: HAHAHA.
+Sophie: I forgot about that.
+Eli: He ordered the wrong thing, didn't he?
+Noah: He ordered enough food for six people.
+Ana: There were four of us.
+Noah: Exactly.
+Maya: And he refused to admit it was a mistake.
+Sophie: "It's called planning ahead."
+Noah: YES.
+Noah: That's what he said!
+Eli: Sounds like him.
+Eli: He once volunteered me to give a presentation before asking whether I was free.
+Ana: Was it a good presentation?
+Eli: It was after he helped me rewrite half of it.
+Eli: So, annoyingly, yes.
+Noah: Classic Daniel.
+Maya: He always thought he could fix everything.
+Maya: Even when nobody asked him to.
+[Brief pause.]
+Maya: Sorry.
+Maya: I didn't mean for that to sound sad.
+Sophie: You don't have to apologise.
+
+DECISION S02-C05 [Select, then Send]
+A. He sounds like someone who made people laugh without trying.
+B. You all seem to have a lot of good memories together.
+C. I can tell how much you miss him.
+If A:
+Noah: Oh, he absolutely tried.
+Noah: Some of his jokes were terrible.
+Ana: Most of them.
+Eli: He had a very specific talent for making bad jokes worse.
+Maya: I still laughed at them.
+If B:
+Sophie: We do.
+Sophie: That's probably why this is so hard.
+Ana: We've all known each other for years.
+Eli: Daniel was good at bringing people together.
+Eli: Including people who had absolutely nothing in common.
+If C:
+Maya: Every day.
+Maya: Sometimes I forget for a second.
+Maya: Then something reminds me he's not here.
+Noah: Yeah.
+Noah: I know what you mean.
+
+Ana: Sophie, can I ask about the contact file again?
+Sophie: Sure.
+Ana: Has anyone else seen the actual export?
+Sophie: Not the whole thing.
+Lucas: Good.
+Noah: What do you mean, good?
+Lucas: It has other people's information in it.
+Lucas: We shouldn't be passing it around.
+Eli: That's a fair concern.
+Eli: Especially if we don't know when the copy was made.
+Sophie: I wasn't going to post the whole thing here.
+Maya: Then don't.
+Maya: Not until you understand what you're looking at.
+Sophie: I know.
+Sophie: I just wanted everyone to know why I contacted someone outside the group.
+
+DECISION S02-C06 [Select, then Send]
+A. You don't have to share the file with everyone.
+B. It's probably better to keep other people's contact details private.
+C. Maybe we should first understand what the starred entry means.
+If A:
+Sophie: Thanks.
+Sophie: I don't want to make things worse.
+Maya: Nobody's asking you to.
+If B:
+Ana: I agree.
+Ana: There's no reason to expose everyone else's details.
+Eli: We can discuss a question without distributing an entire document.
+If C:
+Lucas: That's what I've been saying.
+Sophie: And I've been listening.
+Sophie: But understanding it isn't exactly easy.
+Noah: Can we acknowledge that both things can be true?
+
+Lucas: Look.
+Lucas: I'm not trying to be difficult.
+Ana: You've been doing a pretty convincing impression.
+Lucas: Ana, please.
+Lucas: Daniel is missing.
+Lucas: We have a number nobody can explain.
+Lucas: And now there's someone we've never met sitting in a private group.
+Sophie: I invited them because I was trying to find out whether they knew something.
+Lucas: I understand that.
+Lucas: But I don't know them.
+Eli: None of us does.
+Eli: That doesn't automatically make them a threat.
+Lucas: I didn't say they were a threat.
+Noah: You're kind of implying it.
+Lucas: I'm saying we need to be careful.
+Maya: We know, Lucas.
+
+DECISION S02-C07 [Select, then Send]
+A. You don't have to trust me. I understand.
+B. I'm not here to take advantage of anyone.
+C. I think you're being unfair to Sophie.
+If A:
+Lucas: Good.
+Lucas: Because I don't.
+Lucas: Not yet.
+Eli: Fair enough.
+Eli: Trust usually takes longer than one conversation.
+If B:
+Lucas: Then I hope that's true.
+Noah: Come on, man.
+Lucas: What?
+Noah: You could at least give them a chance.
+If C:
+Lucas: This isn't about Sophie.
+Sophie: It obviously is.
+Ana: Lucas, you're upset about the situation.
+Ana: Don't turn the player into the reason for it.
+
+Maya: Can everybody please stop?
+Maya: We're supposed to be helping each other.
+Lucas: That's what I thought.
+Sophie: What is that supposed to mean?
+Lucas: Nothing.
+Sophie: Lucas.
+Lucas: You keep making decisions for everyone.
+Sophie: Because if I don't do something, nothing happens!
+Noah: Okay.
+Noah: This is getting out of hand.
+Eli: Lucas, I get why you're worried.
+Eli: But we're all trying to figure this out.
+Lucas: And we're getting nowhere.
+Ana: Then we change how we're doing things.
+Lucas: That's easy to say.
+Maya: We are all scared.
+Maya: Do you think Sophie isn't scared?
+Lucas: I never said that.
+Sophie: You don't have to.
+Lucas: Sophie, that's not fair.
+Sophie: Neither is making me feel like everything I do is wrong!
+[Brief pause.]
+Noah: Guys...
+Noah: Please.
+
+DECISION S02-C08 [Select, then Send]
+A. I think everyone needs a moment. This isn't helping Daniel.
+B. Lucas is worried about protecting Daniel's privacy. That doesn't make him wrong.
+C. Sophie was trying to help. She shouldn't be blamed for that.
+If A:
+Ana: I agree.
+Maya: Me too.
+Lucas: Maybe that's exactly what we need.
+If B:
+Lucas: Thank you.
+Sophie: I never said his privacy didn't matter.
+Eli: I don't think anyone believes that, Sophie.
+If C:
+Sophie: Thank you.
+Lucas: I'm not blaming her for wanting to help.
+Lucas: I'm questioning how we're doing it.
+Maya: Then talk about that without tearing each other apart.
+
+Lucas: You know what?
+Lucas: I can't keep doing this.
+Noah: Doing what?
+Lucas: Every conversation turns into the same argument.
+Lucas: We talk about what Daniel might have done.
+Lucas: What he might have meant.
+Lucas: What someone else might know.
+Lucas: And we don't actually get any closer to finding him.
+Ana: We're trying.
+Lucas: I know.
+Lucas: But trying doesn't mean every decision is a good one.
+Sophie: So what do you want us to do?
+Lucas: I don't know anymore.
+Maya: Lucas...
+Lucas: I'm serious.
+Lucas: I need a break from this group.
+Noah: You don't have to leave.
+Lucas: Maybe not.
+Lucas: But I want to.
+Eli: Take some time if you need it.
+Eli: Nobody's asking you to stop caring about Daniel.
+Lucas: I know.
+Lucas: That's not what this is.
+
+DECISION S02-C09 [Select, then Send]
+A. Leaving the group doesn't mean you've stopped looking for Daniel.
+B. I'm sorry my being here has made things harder.
+C. I hope we can talk again when you're ready.
+If A:
+Lucas: Exactly.
+Lucas: Thank you for understanding that.
+If B:
+Lucas: This isn't entirely about you.
+Lucas: We've been arguing long before you got here.
+Lucas: Just... don't take everything you hear at face value.
+If C:
+Lucas: Maybe.
+Lucas: I just need some time.
+
+[Brief pause.]
+Lucas: For what it's worth...
+Lucas: I still want to find him.
+Lucas: More than anything.
+System: Lucas left the group.
+[Brief pause.]
+Sophie: ...
+Sophie: I didn't want that to happen.
+Maya: I know.
+Noah: He's upset.
+Noah: He'll come around.
+Ana: Maybe.
+Ana: But we shouldn't pretend this was just one argument.
+Eli: We've all been on edge for days.
+Eli: Lucas probably needs some space.
+Sophie: I feel awful.
+Maya: Sophie, please don't.
+Sophie: I asked someone for help.
+Sophie: And somehow I've managed to make everything worse.
+Noah: You didn't make Daniel disappear.
+Noah: You need to stop carrying everything like it's your fault.
+Ana: Noah's right.
+Eli: We're not going to solve anything by turning on each other.
+Maya: I don't want us to fall apart over this.
+[Brief pause.]
+Maya: Daniel wouldn't want that either.
+
+DECISION S02-C10 [Select, then Send]
+A. Maybe we should focus on what we actually know instead of guessing.
+B. I still want to help, but I won't pressure anyone into trusting me.
+C. If any of you finds something useful, you can always reach out to me.
+If A:
+Ana: That's a good place to start.
+Ana: Facts first. Questions after.
+Eli: Agreed.
+Eli: We can be careful without giving up.
+If B:
+Maya: Thank you.
+Maya: I appreciate that.
+Noah: For what it's worth, I think you've handled this pretty well.
+Eli: Same here.
+If C:
+Noah: Will do.
+Ana: I'll let you know if I come across anything relevant.
+Eli: Thanks.
+Eli: And sorry about the welcome you got.
+
+Sophie: Thanks, everyone.
+Sophie: I know this wasn't how any of us expected today to go.
+Noah: Understatement of the year.
+Ana: Noah.
+Noah: Sorry. Bad timing.
+Maya: I think I'm going to get some rest.
+Maya: I'll check in later.
+Sophie: Okay.
+Sophie: Love you.
+Maya: Love you too.
+Ana: Let me know if you need anything, Maya.
+Maya: I will.
+Eli: I should get going too.
+Eli: I've got a few things to finish.
+Noah: Actual work?
+Eli: Unfortunately.
+Noah: Tragic.
+Eli: Tell me about it.
+Ana: Night, you two.
+Noah: Night.
+Eli: Take care, everyone.
+[Brief pause.]
+[Brief pause.]
+[Private handoff. Notify the player without opening Sophie’s thread.]
+Sophie [DM]: Hey. Can we talk privately for a minute?
+

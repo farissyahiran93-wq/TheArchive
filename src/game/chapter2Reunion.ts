@@ -3,6 +3,7 @@ import { continuationAction,continuationEvent,continuationGuard,continuationNext
 import { followupEntry, mayaLucasInterception, reunionG01, reunionNodes, scene09Reflection, spyUnknownEntry, spyUnknownPost, type Guard, type StoryOption, type StoryThread } from '../content/chapter2Reunion'
 import { eliLucasInterception } from '../content/reunionSource'
 import type { GameSave } from './types'
+import { playerDialogue } from './playerDialogue'
 import type { AccessMessage } from './chapter2Access'
 
 export type SpyId='eli-lucas'|'maya-lucas'
@@ -27,7 +28,7 @@ const delay=(text:string)=>Math.min(3300,Math.max(950,650+text.split(/\s+/).leng
 const blankSpy=(full:boolean):Interception=>({unlocked:true,viewed:false,complete:false,declined:false,index:0,phase:'gap',remaining:2000,messages:[],fullDisclosure:full})
 const isThread=(id:Active):id is StoryThread=>!['eli-lucas','maya-lucas'].includes(id)
 export function reunionGuard(s:GameSave,g:Guard){const c=s.chapter2Access!,r=c.story!;if(g.startsWith('next:'))return continuationGuard(s,g.slice(5));return g==='note'?c.viewed.includes('LIFE-N1'):g==='image'?c.viewed.includes('LIFE-PH5'):g==='clues'?c.viewed.includes('LIFE-N1')||c.viewed.includes('LIFE-PH5'):g==='full'?r.disclosure==='full':c.recovery?.readyAt!==undefined}
-export function storyText(s:GameSave,text:string){const scene=s.prologue?.scene01;const name=scene?.nameDisclosed&&s.knowledge.characters.maya.includes('OPEN-S01-PLAYER-CODENAME')?scene.disclosedName:undefined;return text==='[PLAYER_NAME]?'?(name?`${name}?`:'Are you there?'):text.replaceAll('[PLAYER_NAME]',name??'you')}
+export function storyText(s:GameSave,text:string){const scene=s.prologue?.scene01;const name=scene?.nameDisclosed&&s.knowledge.characters.maya.includes('OPEN-S01-PLAYER-CODENAME')?scene.disclosedName:undefined;if(scene?.masterScene01Revision===5&&name){const references:Record<string,string>={"I still don't know what their number means.":"I still don't know what [possessive] number means.","Neither do I. That doesn't make them responsible for it.":"Neither do I. That doesn't make [object] responsible for it."};text=playerDialogue(references[text]??text,{name,pronouns:s.player?.pronouns})}return text==='[PLAYER_NAME]?'?(name?`${name}?`:'Are you there?'):text.replaceAll('[PLAYER_NAME]',name??'you')}
 
 function enter(s:GameSave,thread:StoryThread,id:string,now:number):GameSave {
  let r=s.chapter2Access!.story!,node=reunionNodes[id]

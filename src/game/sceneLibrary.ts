@@ -100,7 +100,7 @@ export function prepareReplay(entry: NonNullable<GameSave['replayEntries']>[stri
   const scene = replay.prologue?.scene01
   // A deliberate Scene 1 restart starts the current script, while Continue
   // still resumes the exact historical graph and already-delivered text.
-  if (sceneNumber === 1 && scene?.masterScene01 && (scene.masterScene01Revision !== 4 || scene.masterScene02Revision !== 4)) {
+  if (sceneNumber === 1 && scene?.masterScene01 && (scene.masterScene01Revision !== 5 || scene.masterScene02Revision !== 4)) {
     const oldIds = new Set(scene.messages.map(line => line.id))
     const base: GameSave = { ...replay,
       deliveredEvents: replay.deliveredEvents.filter(id => !oldIds.has(id)),
@@ -112,13 +112,14 @@ export function prepareReplay(entry: NonNullable<GameSave['replayEntries']>[stri
   if (sceneNumber === 2 && scene?.masterScene01 && scene.invitation === 'joined') {
     const isGroupEvent = (id: string) => /^(TA|OPEN)-S02-/.test(id) || ['TA-S03-FIRST-MESSAGE','OPEN-S03-FIRST-MESSAGE','TA-S03-ACTIVATED','OPEN-S03-ACTIVATED'].includes(id)
     const base: GameSave = { ...replay,
+      player: { name: replay.player?.name || 'Alex', pronouns: replay.player?.pronouns ?? 'he/him' },
       choices: Object.fromEntries(Object.entries(replay.choices).filter(([id]) => !isGroupEvent(id))),
       knowledge:{player:replay.knowledge.player.filter(id=>!isGroupEvent(id)),characters:Object.fromEntries(Object.entries(replay.knowledge.characters).map(([actor,ids])=>[actor,ids.filter(id=>!isGroupEvent(id))])) as GameSave['knowledge']['characters']},
       deliveredEvents: replay.deliveredEvents.filter(id => !isGroupEvent(id)),
       notifications: replay.notifications.filter(item => !isGroupEvent(item.id)),
       messages: replay.messages.filter(item => !isGroupEvent(item.id)),
       prologue: { ...replay.prologue!, scene01: { ...scene,
-        masterScene02Revision: 4, groupScript: undefined, draft: undefined, groupNameDraft: undefined,
+        masterScene01Revision: 5, masterScene02Revision: 4, nameDisclosed: true, disclosedName: replay.player?.name || 'Alex', groupScript: undefined, draft: undefined, groupNameDraft: undefined,
         groupComplete: undefined, groupCompletedAt: undefined, lucasLeftGroup: undefined, privateHandoff: undefined,
         queue: [], groupMessages: [], groupReceipts: [],
       } },

@@ -1,0 +1,1060 @@
+GREYHAVEN — THE FIRST TRACE
+Chapter 1: Scene 1 & Scene 2 Opening — Revised Screenplay V7
+Saya cadangkan Scene 1 dibina seperti perbualan WhatsApp sebenar daripada seorang wanita yang sedang mencari abangnya, bukan seperti NPC yang memberikan misi kepada pemain.
+
+Sophie perlu kelihatan risau, teragak-agak, takut memberikan harapan palsu kepada dirinya sendiri, tetapi masih berusaha mencari Daniel. Pemain pula perlu tertanya-tanya mengapa nombor telefon mereka berada dalam fail seseorang yang tidak pernah mereka kenali.
+
+Berdasarkan screenplay V6 yang diberikan, saya kekalkan misteri contact export, tanda bintang, kehilangan Daniel selama tiga hari dan tujuh ahli asal kumpulan Same Old Chaos. Pasted text.txt
+
+
+Perubahan utama versi V7:
+- Sophie terus bertanyakan nama pemain pada permulaan perbualan.
+- Pemain memilih Mr. atau Ms. untuk menetapkan kata ganti nama sepanjang permainan.
+- Nama pemain digunakan secara natural oleh semua watak.
+- Sophie menunjukkan emosi melalui beberapa chat bubble pendek dan typing indicator.
+- Pemain mengetahui kehilangan Daniel secara berperingkat.
+- Sophie memberi amaran tentang keadaan ahli kumpulan sebelum terus menambah pemain.
+- Scene 2 bermula dengan Sophie memperkenalkan pemain menggunakan nama dan kata ganti nama yang betul.
+- Tiada lagi invitation card atau butang Join Group yang berasingan.
+
+SCENE 01 — A MESSAGE FROM SOPHIE
+
+
+
+
+
+
+
+
+
+
+Sophie Mercer
+● Online
+
+
+
+TodayHi
+
+
+Sorry, I know this is a bit random.
+
+
+I'm Sophie.
+
+
+Can I ask your name?
+
+
+Enter your name...
+
+
+
+
+Visual di atas hanya mock-up pembukaan chat. Gunakan portrait rasmi Sophie yang sedia ada dalam game.
+Opening — Getting to Know the Player
+[Sophie comes online. Typing indicator appears.]
+
+Sophie: Hi
+
+Sophie: Sorry, I know this is a bit random.
+
+Sophie: I'm Sophie.
+
+Sophie: Can I ask your name?
+
+[Player enters their preferred display name and manually presses Send.]
+
+Player: [PlayerName]
+
+Sophie: Hi, [PlayerName].
+
+Sophie: And sorry, one more thing.
+
+Sophie: Mr. or Ms.? I don't want to get it wrong.
+
+Mr.
+
+Ms.
+
+Mr. 
+
+
+Preview pilihan pemain — He / Him / His
+Player: [PlayerTitle]
+
+Sophie: Okay, thanks.
+
+Sophie: I wasn't even sure anyone would answer this number.
+
+[Short pause.]
+
+Sophie: I need to ask you something.
+
+Sophie: It's a little difficult to explain.
+
+Decision 01 — A Stranger's Message
+Player choices:
+
+A. Sure. What's going on?
+
+B. Do we know each other?
+
+C. How did you get my number?
+
+If A:
+
+Sophie: Thank you.
+
+Sophie: I promise I won't take up too much of your time.
+
+If B:
+
+Sophie: No, I don't think so.
+
+Sophie: At least, I don't recognise your name.
+
+If C:
+
+Sophie: I found it in a file.
+
+Sophie: I know how strange that sounds. Just give me a second to explain.
+
+Shared conversation:
+
+Sophie: It's about someone in my family.
+
+Sophie: My older brother.
+
+[Typing indicator appears, disappears briefly, then reappears.]
+
+Sophie: Daniel Mercer.
+
+Sophie: Does that name sound familiar to you?
+
+Decision 02 — Daniel Mercer
+Player choices:
+
+A. No, I don't think I know anyone by that name.
+
+B. Daniel Mercer? Who is he?
+
+C. I'm afraid that name doesn't ring a bell.
+
+If A:
+
+Sophie: Oh.
+
+Sophie: Okay.
+
+If B:
+
+Sophie: He's my brother.
+
+Sophie: I was hoping you might know him somehow.
+
+If C:
+
+Sophie: Right...
+
+Sophie: I was kind of hoping for a different answer.
+
+Shared conversation:
+
+Sophie: Maybe you've met him before and just don't remember his name?
+
+Sophie: Hang on.
+
+Sophie: Let me find a photo.
+
+[Short delay while Sophie searches for a photograph.]
+
+Sophie: Found one.
+
+[Sophie sends the existing approved birthday photograph.]
+
+Sophie: This was taken on my birthday.
+
+Sophie: I'm the one with the cake.
+
+Sophie: My brother's in the photo too.
+
+[Daniel is identifiable in the approved photograph without requiring the player to inspect a separate evidence module.]
+
+Sophie: Do you recognise him?
+
+Decision 03 — The Birthday Photograph
+Player choices:
+
+A. I'm sorry, Sophie. I don't recognise him.
+
+B. No. I'm pretty sure we've never met.
+
+C. I don't recognise him. Is something wrong?
+
+If A:
+
+Sophie: It's okay.
+
+Sophie: Thanks for looking.
+
+If B:
+
+Sophie: I see.
+
+Sophie: That's what I was afraid you'd say.
+
+If C:
+
+Sophie: Yeah.
+
+Sophie: Something's wrong.
+
+Shared conversation:
+
+Sophie: He almost dropped my birthday cake that night, actually.
+
+Sophie: Then he tried to convince everyone it was part of the surprise 😂
+
+[Pause.]
+
+Sophie: Sorry.
+
+Sophie: I haven't looked at that picture in a while.
+
+[Longer pause. Typing indicator.]
+
+Sophie: Daniel's missing.
+
+Sophie: It's been three days.
+
+[Subtle background ambience transition.]
+
+Decision 04 — Three Days
+Player choices:
+
+A. Missing? What happened?
+
+B. Three days? Have you contacted the police?
+
+C. I'm so sorry. When did you last hear from him?
+
+If A:
+
+Sophie: I wish I knew.
+
+Sophie: He stopped answering his phone.
+
+Sophie: Nobody knows where he is.
+
+If B:
+
+Sophie: Yes.
+
+Sophie: There's a detective looking into it.
+
+Sophie: But we still don't know where he is.
+
+If C:
+
+Sophie: Three days ago.
+
+Sophie: I didn't think much of it at the time.
+
+Sophie: I wish I'd called him again.
+
+Shared conversation:
+
+Sophie: At first I thought his phone had died.
+
+Sophie: Then I thought maybe he just needed some time alone.
+
+Sophie: But Daniel wouldn't disappear without telling anyone.
+
+Sophie: Not like this.
+
+[Pause.]
+
+Sophie: I've been checking my phone every morning before I even get out of bed.
+
+Sophie: Just hoping there's something from him.
+
+Sophie: A missed call. A message. Anything.
+
+Sophie: Sorry.
+
+Sophie: You don't even know me and I'm telling you all this.
+
+Decision 05 — Why Me?
+Player choices:
+
+A. It's okay. But why did you contact me?
+
+B. What does Daniel's disappearance have to do with my number?
+
+C. Did your brother mention me before he disappeared?
+
+If A:
+
+Sophie: That's the part I can't explain.
+
+If B:
+
+Sophie: I don't know yet.
+
+Sophie: That's why I needed to talk to you.
+
+If C:
+
+Sophie: No. Not that I remember.
+
+Sophie: That's what's bothering me.
+
+Shared conversation:
+
+Sophie: Daniel and I have a shared folder.
+
+Sophie: Mostly family pictures, documents and things like that.
+
+Sophie: I started going through it after he disappeared.
+
+Sophie: I don't even know what I expected to find.
+
+Sophie: But there was a file with a list of phone numbers.
+
+Sophie: A contact export, I think it's called.
+
+Sophie: Your number was in it.
+
+[Pause.]
+
+Sophie: Except yours was a little different.
+
+Decision 06 — The Starred Number
+Player choices:
+
+A. Different? How?
+
+B. Are you sure it was my number?
+
+C. What was written next to it?
+
+If A:
+
+Sophie: Almost everyone else had a name next to their number.
+
+Sophie: Yours didn't.
+
+If B:
+
+Sophie: I checked it more than once before messaging you.
+
+Sophie: It's definitely this number.
+
+If C:
+
+Sophie: There wasn't a name.
+
+Sophie: Nothing that told me who you were.
+
+Shared conversation:
+
+Sophie: Just your number.
+
+Sophie: And a little star beside it.
+
+[Pause of approximately two seconds.]
+
+Sophie: I don't know what it means.
+
+Sophie: I've been trying to figure it out since I found it.
+
+Sophie: That's why I asked your name before anything else.
+
+Sophie: I thought maybe I'd recognise it.
+
+Sophie: But I don't.
+
+Decision 07 — An Unanswered Question
+Player choices:
+
+A. Could someone else have added my number?
+
+B. Maybe it's just a coincidence.
+
+C. Why would my number be marked with a star?
+
+If A:
+
+Sophie: Maybe.
+
+Sophie: I don't know who made the file.
+
+Sophie: I can't even tell you if Daniel put your number there himself.
+
+If B:
+
+Sophie: I've thought about that too.
+
+Sophie: Part of me hopes it is.
+
+Sophie: But I couldn't just ignore it.
+
+If C:
+
+Sophie: I've asked myself that so many times.
+
+Sophie: I thought you might be able to tell me.
+
+Shared conversation:
+
+Sophie: I know you're probably wondering why some stranger is dragging you into all this.
+
+Sophie: And I wouldn't blame you.
+
+Sophie: I just...
+
+[Typing indicator briefly disappears.]
+
+Sophie: I really want my brother back.
+
+[Pause.]
+
+Sophie: I don't know what else to do.
+
+Decision 08 — The Other People
+Player choices:
+
+A. Maybe we can figure this out together.
+
+B. Who else knows about the file?
+
+C. I don't have any answers, but I'm willing to listen.
+
+If A:
+
+Sophie: You'd actually do that?
+
+Sophie: Thank you, [PlayerName].
+
+If B:
+
+Sophie: I've told a few people about the number.
+
+Sophie: But nobody knows who it belongs to.
+
+If C:
+
+Sophie: That's more than I expected when I messaged you.
+
+Sophie: Thank you.
+
+Shared conversation:
+
+Sophie: There are a few other people looking for Daniel.
+
+Sophie: His fiancée, Maya.
+
+Sophie: His best friend, Lucas.
+
+Sophie: And some of our friends.
+
+Sophie: We have this old group chat.
+
+Sophie: It's called Same Old Chaos.
+
+Sophie: Stupid name, I know 😂
+
+Sophie: We've had it for years.
+
+Sophie: Daniel's still in it.
+
+[Pause.]
+
+Sophie: I haven't been able to bring myself to change anything.
+
+Sophie: Maybe you should talk to them.
+
+Sophie: They might remember something I don't.
+
+Decision 09 — Before You Join
+Sophie: But before I add you...
+
+Sophie: I should probably warn you about something.
+
+Sophie: Everyone's been a bit on edge lately.
+
+Sophie: Maya barely sleeps.
+
+Sophie: Lucas doesn't really trust anyone he doesn't know right now.
+
+Sophie: Especially someone whose number just turned up in Daniel's files.
+
+Sophie: I told them I was going to contact you.
+
+Sophie: I haven't told everyone I'm bringing you into the group, though.
+
+Sophie: So... this might be a little awkward.
+
+Sophie: Just don't take it personally if Lucas starts asking questions, okay?
+
+Player choices:
+
+A. It's okay. Add me. I'd like to help.
+
+B. I understand. I probably wouldn't trust me either.
+
+C. Go ahead. I want to know why my number was in that file.
+
+If A:
+
+Sophie: Thank you.
+
+Sophie: Seriously.
+
+If B:
+
+Sophie: He's not a bad person.
+
+Sophie: He's just scared.
+
+Sophie: We all are.
+
+If C:
+
+Sophie: Yeah.
+
+Sophie: I think we both deserve an answer.
+
+Shared conversation:
+
+Sophie: Okay.
+
+Sophie: I'll introduce you.
+
+Sophie: Give me a second.
+
+[Sophie stops typing.]
+
+[Short pause.]
+Same Old Chaos
+New group message
+
+now
+Sophie added you to Same Old Chaos.
+8 members · Daniel is offline
+
+[Scene 1 completes. Group membership is saved. Scene 2 opens automatically. No invitation card or separate confirmation button.]
+
+SCENE 02 — SAME OLD CHAOS
+Opening — The Uninvited Guest
+Bahagian ini perlu memberikan perasaan bahawa pemain baru sahaja memasuki kumpulan kawan yang sudah mengenali satu sama lain bertahun-tahun. Mereka mempunyai personaliti, hubungan dan sejarah tersendiri.
+
+
+
+
+
+
+
+
+
+
+Same Old Chaos
+8 members
+
+
+
+Sophie added youSophie
+Hey guys
+
+
+Sophie
+This is Alex.
+
+
+Sophie
+He's the person I told you about earlier.
+
+
+Noah
+Ohhh, the mystery number?
+
+
+Sophie
+Yeah.
+
+
+Noah
+Hey Alex 👋
+
+
+Lucas
+Sophie. Can we talk?
+
+
+
+
+
+
+
+
+
+Mock-up menggunakan nama Alex. Kata ganti nama mengikuti pilihan Mr./Ms. dalam preview sebelumnya.Full opening conversation
+System: Sophie added [PlayerName].
+
+Sophie: Hey guys
+
+Sophie: This is [PlayerName].
+
+Sophie: [Subject]'s the person I told you about earlier.
+
+Noah: Ohhh, the mystery number?
+
+Sophie: Yeah.
+
+Noah: Hey [PlayerName] 👋
+
+Ana: Hi!
+
+Eli: Hey, welcome.
+
+[Brief pause.]
+
+Lucas: Sophie.
+
+Lucas: Can we talk?
+
+Sophie: About what?
+
+Lucas: You actually added [object]?
+
+Sophie: I told you I was going to message [object].
+
+Lucas: Yeah. Message [object].
+
+Lucas: Not add [object] to our group.
+
+Noah: Well, this is going great.
+
+Ana: Noah.
+
+Noah: What?
+
+Noah: I'm just saying we could at least introduce ourselves first.
+
+Maya: Hey, [PlayerName].
+
+Maya: I'm Maya.
+
+Maya: Sorry about all this.
+
+Maya: I'm Daniel's fiancée.
+
+Sophie: I already told [object] about you.
+
+Maya: Oh, okay.
+
+Noah: Did you tell [object] about me too?
+
+Sophie: No 😂
+
+Noah: Wow.
+
+Noah: Unbelievable.
+
+Ana: You'll survive.
+
+Noah: Anyway, I'm Noah.
+
+Noah: The friendly one.
+
+Ana: According to Noah.
+
+Eli: Very reliable source.
+
+Noah: Thank you, Eli.
+
+Eli: That wasn't a compliment.
+
+Ana: I'm Ana, by the way.
+
+Ana: Please don't judge us based on the last thirty seconds.
+
+Eli: And I'm Eli. I work with Daniel.
+
+Eli: Usually I'm the one reminding him to eat lunch.
+
+Sophie: He forgets at home too.
+
+[Short pause.]
+
+Noah: And the ray of sunshine over there is Lucas.
+
+Lucas: Not now, Noah.
+
+Noah: Okay.
+
+Noah: Sorry.
+
+[Pause.]
+
+Sophie: Lucas, please.
+
+Sophie: [PlayerName] said [subject]'d help.
+
+Lucas: Help with what?
+
+Lucas: What does [subject] actually know about Daniel?
+
+Decision S02-C01 — First Impressions
+Player choices:
+
+A. Hi, everyone. Sophie told me what's happening. I'm sorry about Daniel.
+
+B. Hi. I'm still trying to understand how I'm connected to all this.
+
+C. I get the feeling I wasn't supposed to be here.
+
+If A:
+
+Maya: Thank you, [PlayerName].
+
+Ana: And sorry about the welcome.
+
+Noah: We're usually slightly less dysfunctional.
+
+Lucas: Can we get back to why [subject]'s here?
+
+If B:
+
+Eli: That's fair.
+
+Eli: I think we're all trying to work that out.
+
+Sophie: I thought it would be easier if we talked together.
+
+Lucas: We'll see.
+
+If C:
+
+Lucas: You weren't.
+
+Maya: Lucas!
+
+Lucas: What? I'm not going to lie to [object].
+
+Sophie: I asked [object] to come here.
+
+Sophie: If you're angry, be angry at me.
+
+Ana: Can we not do this right now?
+
+Shared conversation:
+
+Maya: Sophie, can you explain what happened?
+
+Maya: Did [subject] recognise Daniel?
+
+Sophie: No.
+
+Sophie: I showed [object] a picture too.
+
+Noah: Wait.
+
+Noah: So [subject] doesn't know Daniel at all?
+
+Sophie: Apparently not.
+
+Lucas: Then why are we doing this?
+
+Sophie: Because I found [possessive] number in Daniel's files!
+
+[Pause.]
+
+Sophie: I don't know why it's there.
+
+Sophie: And neither does [PlayerName].
+
+Ana: Okay.
+
+Ana: Let's just hear [object] out.
+
+Eli: Finding a number isn't the same as knowing why it's there.
+
+Eli: We should probably start with that.
+
+Maya: [PlayerName]?
+
+Maya: Can I ask you something?
+
+Maya: Are you absolutely sure you've never met Daniel?
+
+Maya: Even briefly?
+
+[Enable existing Scene 2 Decision S02-C02. Continue the remaining V6 storyline with the updated dialogue variables.]
+
+3. Dynamic Player Identity System
+Sistem ini perlu digunakan pada keseluruhan game, bukan hanya Scene 1 dan Scene 2. Semua NPC termasuk Unknown Sender, Sophie, Maya, Lucas, Noah, Ana, Eli dan Detective Hayes perlu menggunakan kata ganti nama yang konsisten apabila merujuk kepada pemain.
+Variable	Mr.	Ms.
+playerTitle	Mr.	Ms.
+subject	he	she
+Subject	He	She
+object	him	her
+possessive	his	her
+Possessive	His	Her
+possessivePronoun	his	hers
+reflexive	himself	herself
+subjectIs	he's	she's
+SubjectIs	He's	She's
+
+Interactive dialogue preview
+Player name
+
+Mr.Ms.
+
+
+SophieHi guys, this is Alex.
+
+
+SophieHe's the person I told you about earlier.
+
+
+LucasYou actually added him?
+
+
+MayaDid he recognise Daniel?
+
+
+SophieNo. I showed him a picture too.
+
+
+EliDo we know why Daniel had his number?
+
+
+NoahCan we at least give him a chance?
+
+
+
+Jangan gunakan global find-and-replace untuk perkataan they, them dan their, kerana perkataan tersebut masih diperlukan apabila NPC merujuk kepada beberapa orang. Gunakan dynamic variables hanya apabila NPC merujuk kepada pemain secara individu.
+
+Contoh pembetulan untuk baki Scene 2:
+Original dialogue	Revised dialogue
+They're here.	[PlayerName]'s here.
+Daniel had their number?	Daniel had [possessive] number?
+Contact them.	Contact [object].
+I don't know them.	I don't know [object].
+That doesn't automatically make them a threat.	That doesn't automatically make [object] a threat.
+I didn't say they were a threat.	I didn't say [subject] was a threat.
+You could at least give them a chance.	You could at least give [object] a chance.
+Don't turn the player into the reason for it.	Don't take it out on [PlayerName].
+
+Ayat seperti "the player" tidak sepatutnya muncul dalam perbualan NPC kerana ia memecahkan immersion.
+
+4. Implementation Prompt for Codex
+THEARCHIVE — CHAPTER 1 SCENE 1 & SCENE 2 IMMERSION REWORK V7
+Act as a senior narrative game developer, interactive fiction writer, UX designer and QA engineer.
+
+Implement the supplied revised V7 screenplay for Chapter 1 Scene 1 and the opening of Scene 2.
+1. Player Identity Onboarding
+- Integrate player identity collection naturally into Sophie's opening private conversation.
+- Sophie must introduce herself and immediately ask for the player's name.
+- Allow the player to enter a preferred display name and manually press Send.
+- Sophie must subsequently ask whether to address the player as Mr. or Ms.
+- Present two selectable responses: Mr. and Ms.
+- Require manual Send after selection.
+- Do not use a separate character creation screen.
+- Store the player's display name, title and corresponding pronoun profile persistently.
+- Prevent empty names and safely render user-entered text.
+- Do not repeatedly ask for identity information in later scenes.
+2. Dynamic Pronoun System
+Implement a centralised player dialogue interpolation system.
+
+Mr. profile:
+- Subject: he
+- Object: him
+- Possessive adjective: his
+- Possessive pronoun: his
+- Reflexive: himself
+Ms. profile:
+- Subject: she
+- Object: her
+- Possessive adjective: her
+- Possessive pronoun: hers
+- Reflexive: herself
+Support sentence-start capitalization, contractions and correct grammatical agreement.
+
+Apply the identity system across all player-directed and player-referencing NPC dialogue throughout the game.
+
+Audit all existing dialogue for singular they/them/their references to the player. Replace them contextually using the new variables.
+
+Do not replace legitimate plural pronouns or references to other characters.
+
+Never display unresolved dialogue placeholders or developer terminology such as "the player" in NPC messages.
+3. Scene 1 Narrative Rework
+Replace the existing Scene 1 conversation with the approved V7 screenplay.
+
+Preserve all nine narrative decision points, each containing three selectable responses.
+
+Identity onboarding is separate from these nine narrative decisions.
+
+Maintain the following narrative progression:
+
+Name and title → Daniel Mercer → Birthday photograph → Missing for three days → Contact export → Starred number → Emotional connection → Other friends → Group warning → Direct group addition.
+
+Sophie must feel like a worried younger sister rather than an exposition-driven NPC.
+
+Preserve the established mystery:
+- The player does not recognise Daniel.
+- The player number appears without a name in a saved contact export.
+- The number is marked with a star.
+- Sophie does not know who added the number or what the star means.
+- Daniel has been missing for three days.
+Do not prematurely reveal future evidence, the origin of the number, Unknown Sender's identity or later plot twists.
+
+Use the existing approved birthday photograph and official character assets.
+4. Direct Group Addition
+Remove the existing group invitation card and separate Join Group button from the Scene 1 finale.
+
+Sophie must warn the player about the group's emotional state, particularly Lucas's distrust of strangers.
+
+The player's final dialogue choice provides consent to join.
+
+After Sophie sends her final messages:
+1. Save Scene 1 completion.
+2. Add the player to Same Old Chaos.
+3. Display the group addition system event.
+4. Automatically open the group conversation.
+5. Begin Scene 2.
+The seven original group members are Sophie, Daniel, Maya, Lucas, Noah, Ana and Eli.
+
+Daniel remains offline. The player becomes the eighth member.
+
+Prevent duplicate group membership or repeated system messages after reloading.
+5. Scene 2 Opening
+Replace the original opening conversation and S02-C01 with the supplied V7 screenplay.
+
+Sophie must personally introduce the player using the saved display name and correct pronouns.
+
+Remove repeated character introductions and unnecessary exposition.
+
+Maintain distinctive character personalities:
+- Sophie: worried, hopeful and emotionally vulnerable.
+- Maya: exhausted, concerned and polite.
+- Lucas: protective, suspicious and frustrated.
+- Noah: humorous, friendly and occasionally insensitive without intending harm.
+- Ana: grounded, observant and socially aware.
+- Eli: calm, analytical and helpful, without revealing his hidden identity.
+Ensure the revised opening connects seamlessly to S02-C02 and the remaining existing Scene 2 storyline.
+
+Audit the remaining Scene 2 dialogue for continuity, knowledge boundaries and dynamic pronouns.
+
+Preserve Lucas's later departure from the group and Sophie's private-message transition into Scene 3.
+6. Chat Presentation
+- Use realistic typing indicator bubbles.
+- Never display textual "Sophie is typing" announcements inside the conversation.
+- Calculate typing duration according to message length.
+- Deliver consecutive NPC messages as distinct chat bubbles.
+- Add natural pauses before important emotional revelations.
+- Allow only the selected player response to appear after manual Send.
+- Hide decision controls while an NPC response sequence is still running.
+- Avoid fixed or excessive delays.
+- Prevent overlapping dialogue sequences and duplicate messages after resume.
+- Do not introduce additional evidence inspection or checklist gating.
+7. Save System and Scene Replay
+Persist player identity, conversation branches, message progress and group membership.
+
+New games must begin with the new identity onboarding.
+
+Existing saves should retain their progress.
+
+For legacy saves without an identity profile, collect only missing information through a non-disruptive identity setup before rendering pronoun-dependent dialogue.
+
+Playing directly from Scene 2 or a later scene must also initialise any missing player identity.
+
+Respect the existing replay and save-slot overwrite behaviour.
+8. Acceptance Testing
+Verify the following:
+- Mr. player path renders he/him/his correctly.
+- Ms. player path renders she/her/her correctly.
+- Custom display names appear throughout conversations.
+- All 27 Scene 1 narrative response options function correctly.
+- All Scene 1 branches reach the intended finale.
+- Sophie adds the player directly without an invitation card.
+- Same Old Chaos contains eight members after the transition.
+- Daniel remains offline.
+- Scene 2 introduces the player correctly.
+- S02-C01 transitions correctly into S02-C02.
+- Existing Scene 2 choices remain functional.
+- No duplicate introductions, messages or group membership.
+- Reloading preserves identity and dialogue progress.
+- Restarting scenes respects existing save behaviour.
+- No unresolved placeholders appear in player-facing content.
+- Later scenes and the existing TRACE recovery progression remain unaffected.
+Run the relevant unit, integration and end-to-end tests.
+
+Report the modified files, migration strategy, test results, remaining defects and release-readiness status.
+
+Do not report implementation as complete unless the actual implementation and acceptance tests have been verified.
+
+
+
+
+
+5. Penilaian screenplay
+Target Narrative Quality10/10
+Greyhaven — Screenplay V7
+
+
+Natural human conversation
+
+10/10
+
+
+
+Emotional storytelling
+
+10/10
+
+
+
+Mystery and suspense
+
+10/10
+
+
+
+Player personalization
+
+10/10
+
+
+
+Character personalities
+
+10/10
+
+
+
+Scene continuity
+
+10/10
+
+
+
+Player immersion
+
+10/10
+
+
+
+Sasaran reka bentuk, bukan keputusan playtest sebenar.
+Kekuatan terbesar versi ini ialah terdapat dua hook yang berbeza.
+
+Scene 1 — Mystery Hook: Mengapa nombor telefon pemain berada dalam fail Daniel sedangkan mereka tidak pernah berjumpa?
+
+Scene 2 — Psychological Hook: Mengapa Lucas begitu tidak selesa apabila pemain memasuki kumpulan tersebut? Adakah dia sekadar mahu melindungi Daniel, atau ada sesuatu yang dia tidak mahu pemain ketahui?
+
+Sophie memberikan emotional attachment, misteri Daniel memberikan curiosity, manakala Lucas memberikan interpersonal conflict.
+
+Saya sengaja mengekalkan sembilan decision points asal Scene 1, dengan dua interaksi identiti tambahan. Saya juga tidak menyatakan kedudukan Daniel dalam gambar hari lahir bagi mengelakkan percanggahan dengan aset sebenar.
+
+Status: Screenplay dan implementation prompt siap. Kod repository belum diubah atau diuji. Penilaian sebenar 10/10 perlu disahkan melalui playtest selepas implementasi, khususnya pacing chat, typing indicator dan transisi automatik antara kedua-dua scene.

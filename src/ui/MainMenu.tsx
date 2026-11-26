@@ -1,4 +1,5 @@
 import { campaign, canContinueCampaign, compatibilityFixturesEnabled } from '../game/campaign'
+import { developmentToolsEnabled } from '../game/development'
 import { downloadBackup } from '../game/save'
 import { useEffect, useRef, useState } from 'react'
 import { ArrowLeft, ChevronRight, Fingerprint, FolderOpen, LockKeyhole, Play, Plus, Settings, ShieldCheck } from 'lucide-react'
@@ -89,7 +90,7 @@ export function MainMenu({ save, page, onPage, onContinue, onBeginChapter2, onNe
           <button className="menu-action menu-continue" disabled={!visited || !canContinue || busy} onClick={onContinue}><Play size={19}/><span><strong>CONTINUE GAME</strong><small>{visited?(canContinue?resumeLabel(save):'Archived campaign · start a new investigation'):'No saved investigation yet'}</small></span><ChevronRight size={16}/></button>
           {visited&&!canContinue&&<button className="menu-action" onClick={()=>void downloadBackup(save)}>DOWNLOAD SAVE BACKUP</button>}
           <button className="menu-action" disabled={busy} onClick={()=>visited?setConfirming(true):void start()}><Plus size={20}/><span><strong>NEW GAME</strong></span><ChevronRight size={16}/></button>
-          <button className="menu-action" onClick={()=>onPage('chapters')}><FolderOpen size={19}/><span><strong>CHAPTERS &amp; SCENES</strong></span><ChevronRight size={16}/></button>
+          {developmentToolsEnabled && <button className="menu-action" onClick={()=>onPage('chapters')}><FolderOpen size={19}/><span><strong>CHAPTERS &amp; SCENES</strong></span><ChevronRight size={16}/></button>}
           <button className="menu-action" onClick={()=>onPage('settings')}><Settings size={19}/><span><strong>SETTINGS</strong></span><ChevronRight size={16}/></button>
           <footer className="menu-footer"><span>GREYHAVEN</span><span>LOCAL SAVE · PRIVATE DEVICE</span></footer>
         </div>
